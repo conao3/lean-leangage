@@ -5,7 +5,7 @@
 use std::hint::black_box;
 use std::time::Instant;
 
-use leanharbor::memory::{Core, MemoryEngine};
+use leanharbor::memory::MemoryEngine;
 use leanharbor::{Engine, Kernel};
 use leanharbor_calculator::{Calculator, kernel};
 
@@ -34,6 +34,19 @@ fn handwritten(
         }),
     }
     Ok(value)
+}
+
+fn run(
+    snap: &mut <Calculator as Kernel>::Snapshot,
+    actor: &kernel::Principal,
+    cmd: &kernel::Command,
+) -> Result<kernel::Reply, kernel::Error> {
+    Calculator::lend(snap, |view| {
+        match Calculator::transition(actor, &view, cmd) {
+            Ok((ws, reply)) => (Calculator::apply(view, ws), Ok(reply)),
+            Err(e) => (view, Err(e)),
+        }
+    })
 }
 
 fn commands(users: u64, count: usize) -> Vec<(kernel::Principal, kernel::Command)> {
@@ -105,33 +118,22 @@ fn main() {
 
         let mut snap = Calculator::init();
         for (actor, cmd) in &seed {
-            let (ws, _) = Calculator::transition(actor, &snap, cmd).expect("set is accepted");
-            snap = Calculator::apply(snap, ws);
+            run(&mut snap, actor, cmd).expect("set is accepted");
         }
         let start = Instant::now();
         for (actor, cmd) in &cmds {
-            if let Ok((ws, reply)) = Calculator::transition(actor, &snap, cmd) {
-                black_box(reply);
-                snap = Calculator::apply(snap, ws);
-            }
+            let _ = black_box(run(&mut snap, actor, cmd));
         }
         per_op("generated kernel, Lean values", users, count, start);
 
         let start = Instant::now();
-        for (actor, cmd) in &cmds {
-            let _ = black_box(Calculator::transition(actor, &snap, cmd));
-        }
+        Calculator::lend(&mut snap, |view| {
+            for (actor, cmd) in &cmds {
+                let _ = black_box(Calculator::transition(actor, &view, cmd));
+            }
+            (view, ())
+        });
         per_op("  transition alone", users, count, start);
-
-        let mut core = Core::<Calculator>::new();
-        for (actor, cmd) in &seed {
-            let _ = core.execute(actor, cmd, None);
-        }
-        let start = Instant::now();
-        for (actor, cmd) in &cmds {
-            let _ = black_box(core.execute(actor, cmd, None));
-        }
-        per_op("memory engine core", users, count, start);
 
         let engine = MemoryEngine::<Calculator>::new();
         let runtime = tokio::runtime::Builder::new_current_thread()
@@ -145,7 +147,7 @@ fn main() {
             for (actor, cmd) in &cmds {
                 let _ = black_box(engine.execute(actor.clone(), cmd.clone(), None).await);
             }
-            per_op("memory engine, one caller at a time", users, count, start);
+            per_op("memory engine", users, count, start);
         });
 
         let mut plain = Vec::new();

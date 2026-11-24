@@ -40,14 +40,14 @@ wheels = [
 
 [[package]]
 name = "leanfran"
-version = "0.9.0"
+version = "0.10.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/1d/87/4825629f722fdf577ceeb23b7f24aa2eb29443887789776f9bec90831f5b/leanfran-0.9.0.tar.gz", hash = "sha256:972ca6645794bf8109deabae7d67b9778b89b59d01bfe9cbaa5ae0adb6861e34", size = 46916, upload-time = "2026-11-24T06:18:45.007Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d2/c4/63af9fee84161c0b12f68e46cf09fff7657ae15125871f0134556790a03f/leanfran-0.10.0.tar.gz", hash = "sha256:efb1f3355f87b8089b03e6b56a1a595c3fac2498952f3f85ce7bcc6f0ac44981", size = 46917, upload-time = "2026-11-24T19:21:54.855Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7c/b6/2291872b82784dd45dc4a40b84d212e82306c8dc8d272dcc390278dc2dd7/leanfran-0.9.0-py3-none-any.whl", hash = "sha256:8b8a929850a1d8d724217cf566ed68fd86d25876aab38cc9cdd9a8a10ad62e75", size = 55808, upload-time = "2026-11-24T06:18:43.67Z" },
+    { url = "https://files.pythonhosted.org/packages/ad/ad/4d4bd3ab7c3ceb1001bc4848e7f95601fe267a62aa1f00d36b77e60e2e62/leanfran-0.10.0-py3-none-any.whl", hash = "sha256:87590fd93fd80920c687f10654a36074c2d8a4f647200ae70ed07cf018df7a9b", size = 55819, upload-time = "2026-11-24T19:21:53.848Z" },
 ]
 
 [[package]]
@@ -65,7 +65,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "leanfran", specifier = "==0.9.0" }]
+requires-dist = [{ name = "leanfran", specifier = "==0.10.0" }]
 
 [package.metadata.requires-dev]
 dev = [

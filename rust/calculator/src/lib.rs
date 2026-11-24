@@ -4,7 +4,7 @@
 pub mod generated;
 
 use axum::http::StatusCode;
-use leanfran::Local;
+use leanfran::{Local, Owned};
 use leanharbor::Kernel;
 use leanharbor::http::Api;
 use serde::Deserialize;
@@ -16,18 +16,26 @@ pub struct Calculator;
 
 impl Kernel for Calculator {
     type Principal = kernel::Principal;
-    type Snapshot = Local<kernel::Snapshot>;
+    type Snapshot = Owned<kernel::Snapshot>;
+    type View = Local<kernel::Snapshot>;
     type Command = kernel::Command;
     type WriteSet = Option<kernel::Memory>;
     type Reply = kernel::Reply;
     type Error = kernel::Error;
 
-    fn init() -> Local<kernel::Snapshot> {
-        kernel::local::init()
+    fn init() -> Owned<kernel::Snapshot> {
+        Owned::new(kernel::init())
     }
 
     fn tenant(actor: &kernel::Principal) -> u64 {
         kernel::tenant(actor.clone())
+    }
+
+    fn lend<R>(
+        snap: &mut Owned<kernel::Snapshot>,
+        f: impl FnOnce(Local<kernel::Snapshot>) -> (Local<kernel::Snapshot>, R),
+    ) -> R {
+        snap.with(f)
     }
 
     fn transition(

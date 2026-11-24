@@ -92,7 +92,7 @@ Trusted, with no theorem:
 | | Trusted |
 |---|---|
 | Translation | leanfran's Rust and Python backends and their runtimes, rustc, CPython, Lean's kernel |
-| Engine | the memory engine: one command at a time per process, on one thread in Rust and under one lock in Python; replies stored per idempotency key |
+| Engine | the memory engine: one command at a time per process, under one lock; replies stored per idempotency key |
 | Authentication | the token format and its parser, HMAC-SHA256, the secret and its storage, the system clock |
 | Wire format | JSON decoding of commands and encoding of replies and refusals (`Api`) |
 | HTTP | axum, hyper and tokio (Rust); `http.server` (Python) |
@@ -109,28 +109,26 @@ One command (`transition`, then `apply`), measured with `make bench` on an Intel
 | | 1 user in the tenant | 100 users | 1,000 users | 10,000 users |
 |---|---|---|---|---|
 | Rust, generated kernel, snapshot as a Rust value | 213 ns | 3.9 µs | | 722 µs |
-| Rust, generated kernel, snapshot as a Lean value | 116 ns | 0.35 µs | | 50 µs |
-| Rust, memory engine, called on its thread | 174 ns | 0.40 µs | | 44 µs |
-| Rust, memory engine, one caller at a time | 7.4 µs | 7.7 µs | | 57 µs |
+| Rust, generated kernel, snapshot as a Lean value | 115 ns | 0.38 µs | | 53 µs |
+| Rust, memory engine | 156 ns | 0.42 µs | | 50 µs |
 | Rust, the same logic by hand (not proved) | 10 ns | 44 ns | | 2.7 µs |
 | Python, memory engine | 30 µs | 63 µs | 421 µs | |
 
 A generated function that takes a Rust or Python value converts it to Lean's representation on
 every call, and its result back. Both engines therefore keep each tenant's snapshot as a Lean
-value that one thread owns (`leanfran::Local<Snapshot>`, `leanfran.Local`) and convert only the
+value with one owner (`leanfran::Owned<Snapshot>`, `leanfran.Local`) and convert only the
 principal, the command and the reply; `apply` receives the only reference to the snapshot and
 Lean updates it in place.
 
-`Local` cannot move between threads, so the Rust memory engine runs on a thread of its own and
-receives commands over a channel. A caller that waits for each reply before sending the next
-pays about 7 µs per command for that hand-over; callers that arrive together share it. Over
-HTTP on the same machine, with `oha` against the Rust server and a tenant of one user, one
-connection gets 17,800 `get` and 16,400 `apply` replies per second, and 64 connections get
-123,000 and 108,000.
+The Rust memory engine keeps the snapshots under one lock and runs each command on the thread
+that calls it: an `Owned` moves between threads with its lock, and lends the snapshot to one
+command at a time. A test (`rust/calculator/tests/in_place.rs`) sends commands from several
+threads, some of them refused, and checks that the snapshot is still the kind of Lean object
+that is updated in place.
 
-What remains against the hand-written logic (17 times for one user, 9 times for 100, 16 times
-for 10,000, called on the engine's thread) is the allocation of the small Lean objects of each
-call, and the `List` the kernel keeps its users in: finding a user walks the list.
+What remains against the hand-written logic (16 times for one user, 10 times for 100, 19 times
+for 10,000) is the allocation of the small Lean objects of each call, and the `List` the kernel
+keeps its users in: finding a user walks the list.
 
 ## Layout
 

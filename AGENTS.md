@@ -22,9 +22,12 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
 - The shells own input and output: HTTP, tokens, JSON, the engine. They call generated
   functions and make no decision about a command themselves.
 - The contract uses `Except` for refusals. The engines keep each tenant's snapshot as a Lean
-  value owned by one thread and call the generated functions that take one (`kernel::local::apply`
-  in Rust, `kernel.apply.local` in Python). `apply` must receive the only reference to the
-  snapshot (a move in Rust, `take()` in Python), or Lean copies instead of updating in place.
+  value with one owner (`leanfran::Owned` in Rust, lent as a `Local` by `Kernel::lend`;
+  `leanfran.Local` in Python) and call the generated functions that take one
+  (`kernel::local::apply` in Rust, `kernel.apply.local` in Python). `apply` must receive the only
+  reference to the snapshot (a move in Rust, `take()` in Python), and no `Local` may leave the
+  closure of `lend`, or Lean copies instead of updating in place.
+  `rust/calculator/tests/in_place.rs` checks it.
 - Generated files (`rust/calculator/src/generated/`, `python/src/leanharbor_calculator/kernel.py`)
   are committed and never edited. Run `make generate` after changing `lean/`.
 - When a function is added to a generated module, add a theorem about it and list it in
@@ -51,4 +54,4 @@ All commands run inside `nix develop`.
 
 - Commit messages, comments and documents are in English.
 - The leanfran compilers come from the flake input pinned to a release commit; the crate and
-  the PyPI package are pinned to the same version (`=0.9.0`, `==0.9.0`).
+  the PyPI package are pinned to the same version (`=0.10.0`, `==0.10.0`).

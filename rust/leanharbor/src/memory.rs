@@ -1,10 +1,7 @@
 //! An engine that keeps every tenant's snapshot in this process.
 
 use std::collections::HashMap;
-use std::sync::mpsc;
-use std::thread;
-
-use tokio::sync::oneshot;
+use std::sync::Mutex;
 
 use crate::{Engine, EngineError, Executed, Idempotency, Kernel};
 
@@ -16,8 +13,8 @@ struct Stored<R> {
     reply: R,
 }
 
-/// Every tenant's snapshot and the stored replies, used from one thread.
-pub struct Core<K: Kernel> {
+/// Every tenant's snapshot and the stored replies.
+struct Core<K: Kernel> {
     tenants: HashMap<u64, K::Snapshot>,
     replies: HashMap<Slot, Stored<K::Reply>>,
 }
@@ -32,26 +29,15 @@ impl<K: Kernel> Default for Core<K> {
 }
 
 impl<K: Kernel> Core<K> {
-    pub fn new() -> Self {
-        Self::default()
-    }
-
     fn run(&mut self, actor: &K::Principal, cmd: &K::Command) -> Result<K::Reply, K::Error> {
-        let tenant = K::tenant(actor);
-        let snap = self.tenants.remove(&tenant).unwrap_or_else(K::init);
-        match K::transition(actor, &snap, cmd) {
-            Ok((ws, reply)) => {
-                self.tenants.insert(tenant, K::apply(snap, ws));
-                Ok(reply)
-            }
-            Err(e) => {
-                self.tenants.insert(tenant, snap);
-                Err(e)
-            }
-        }
+        let snap = self.tenants.entry(K::tenant(actor)).or_insert_with(K::init);
+        K::lend(snap, |view| match K::transition(actor, &view, cmd) {
+            Ok((ws, reply)) => (K::apply(view, ws), Ok(reply)),
+            Err(e) => (view, Err(e)),
+        })
     }
 
-    pub fn execute(
+    fn execute(
         &mut self,
         actor: &K::Principal,
         cmd: &K::Command,
@@ -80,36 +66,32 @@ impl<K: Kernel> Core<K> {
     }
 }
 
-struct Job<K: Kernel> {
-    actor: K::Principal,
-    cmd: K::Command,
-    idempotency: Option<Idempotency>,
-    done: oneshot::Sender<Executed<K>>,
-}
-
-/// A [`Core`] on a thread of its own; commands reach it one at a time over a channel.
+/// One lock around every tenant's snapshot: commands run one at a time, on the caller's thread.
 pub struct MemoryEngine<K: Kernel> {
-    jobs: mpsc::Sender<Job<K>>,
+    core: Mutex<Core<K>>,
 }
 
 impl<K: Kernel> Default for MemoryEngine<K> {
     fn default() -> Self {
-        let (jobs, queue) = mpsc::channel::<Job<K>>();
-        thread::spawn(move || {
-            let mut core = Core::<K>::new();
-            for job in queue {
-                let _ = job
-                    .done
-                    .send(core.execute(&job.actor, &job.cmd, job.idempotency));
-            }
-        });
-        Self { jobs }
+        Self {
+            core: Mutex::new(Core::default()),
+        }
     }
 }
 
 impl<K: Kernel> MemoryEngine<K> {
     pub fn new() -> Self {
         Self::default()
+    }
+
+    /// Shows `f` the tenant's snapshot; `None` before the tenant's first command.
+    pub fn inspect<R>(&self, tenant: u64, f: impl FnOnce(&K::View) -> R) -> Option<R> {
+        let mut core = self.core.lock().ok()?;
+        let snap = core.tenants.get_mut(&tenant)?;
+        Some(K::lend(snap, |view| {
+            let seen = f(&view);
+            (view, seen)
+        }))
     }
 }
 
@@ -120,16 +102,9 @@ impl<K: Kernel> Engine<K> for MemoryEngine<K> {
         cmd: K::Command,
         idempotency: Option<Idempotency>,
     ) -> Executed<K> {
-        let (done, result) = oneshot::channel();
-        let job = Job {
-            actor,
-            cmd,
-            idempotency,
-            done,
-        };
-        if self.jobs.send(job).is_err() {
-            return Err(EngineError::Stopped);
+        match self.core.lock() {
+            Ok(mut core) => core.execute(&actor, &cmd, idempotency),
+            Err(_) => Err(EngineError::Stopped),
         }
-        result.await.unwrap_or(Err(EngineError::Stopped))
     }
 }

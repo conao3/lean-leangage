@@ -9,9 +9,11 @@ pub mod token;
 /// Lean.
 pub trait Kernel: 'static {
     type Principal: Send + 'static;
-    /// One tenant's state. An engine keeps it on one thread, so it may be a value of Lean's that
-    /// cannot move between threads.
-    type Snapshot;
+    /// One tenant's state as an engine stores it. It has one owner and moves between threads.
+    type Snapshot: Send + 'static;
+    /// A stored snapshot while one command runs on it. It may be a value of Lean's that stays on
+    /// one thread.
+    type View;
     type Command: Send + 'static;
     type WriteSet;
     type Reply: Send + Clone + 'static;
@@ -22,12 +24,14 @@ pub trait Kernel: 'static {
     fn init() -> Self::Snapshot;
     /// The only tenant the principal may read or write.
     fn tenant(actor: &Self::Principal) -> u64;
+    /// Lends the stored snapshot to `f` and stores the view that `f` returns.
+    fn lend<R>(snap: &mut Self::Snapshot, f: impl FnOnce(Self::View) -> (Self::View, R)) -> R;
     fn transition(
         actor: &Self::Principal,
-        snap: &Self::Snapshot,
+        snap: &Self::View,
         cmd: &Self::Command,
     ) -> Result<(Self::WriteSet, Self::Reply), Self::Error>;
-    fn apply(snap: Self::Snapshot, ws: Self::WriteSet) -> Self::Snapshot;
+    fn apply(snap: Self::View, ws: Self::WriteSet) -> Self::View;
 }
 
 /// Why a request did not reach the kernel's decision.
@@ -35,7 +39,7 @@ pub trait Kernel: 'static {
 pub enum EngineError {
     /// The idempotency key was used before with another command.
     IdempotencyConflict,
-    /// The engine no longer runs commands.
+    /// The engine no longer runs commands: a command panicked while it held the snapshots.
     Stopped,
 }
 
