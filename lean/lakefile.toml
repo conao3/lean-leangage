@@ -1,0 +1,12 @@
+name = "leanharbor"
+defaultTargets = ["Leanharbor", "Calculator"]
+
+[[lean_lib]]
+name = "Leanharbor"
+
+[[lean_lib]]
+name = "Calculator"
+
+[[lean_exe]]
+name = "calculator-oracle"
+root = "CalculatorOracle"

@@ -1,0 +1,6 @@
+/result
+/rust/target
+/python/.venv
+__pycache__
+.pytest_cache
+.ruff_cache

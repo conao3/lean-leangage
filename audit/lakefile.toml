@@ -1,0 +1,14 @@
+name = "audit"
+defaultTargets = ["Audit"]
+
+[[require]]
+name = "leanharbor"
+path = "../lean"
+
+[[require]]
+name = "assay"
+git = "https://github.com/conao3/lean-leanassay"
+rev = "ff0a0e76ca99801f59722d8b92571b91f7214f5f"
+
+[[lean_lib]]
+name = "Audit"

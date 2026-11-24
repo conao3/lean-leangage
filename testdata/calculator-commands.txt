@@ -1,0 +1,5000 @@
+1 1 set 11180146354563557663
+2 2 apply div 11775040235757456454
+2 1 get
+2 5 apply add 18446744073709551614
+2 2 apply mul 4880556849563768177
+2 5 set 3
+2 1 set 7
+3 4 apply div 94
+3 5 apply sub 24
+1 1 apply div 24
+3 1 apply sub 49
+2 1 apply add 96
+2 5 set 9223372036854775808
+1 5 apply div 5972336745977335361
+2 4 apply mul 74
+1 1 set 10103799886145626279
+1 4 get
+3 1 apply add 7
+1 3 apply mul 49
+1 4 apply sub 99
+2 2 apply mul 2
+2 1 apply mul 84
+3 1 set 4355449427899966830
+3 4 set 18446744073709551615
+1 1 apply add 61
+2 5 apply sub 7
+3 5 apply sub 18446744073709551615
+1 3 set 9223372036854775807
+3 2 apply add 5
+3 3 get
+1 5 get
+2 4 apply sub 14638685883619037610
+1 2 apply sub 45
+2 5 get
+3 2 apply sub 9223372036854775808
+3 4 apply mul 95
+3 2 apply div 18446744073709551614
+3 3 set 25
+3 3 get
+1 4 apply mul 51
+2 5 apply mul 47
+3 1 apply sub 10
+2 3 apply mul 82
+2 1 apply sub 66
+3 5 get
+1 4 set 4
+3 5 apply div 90
+3 1 apply div 4415411320867821565
+1 3 apply sub 12
+3 4 set 18446744073709551615
+3 1 apply mul 9223372036854775808
+2 5 apply sub 3956221461641713368
+2 2 apply add 37
+2 4 apply mul 45
+1 1 apply sub 59
+3 2 apply mul 48
+2 1 apply mul 54
+1 3 apply mul 20
+3 3 set 14516020262473050677
+1 1 set 19
+2 2 apply add 87
+2 4 apply add 31
+1 3 apply div 20
+1 1 apply mul 9223372036854775807
+3 5 apply add 48
+2 5 apply add 0
+1 1 apply div 9223372036854775808
+3 1 apply sub 30
+1 1 set 98
+2 5 apply sub 3
+1 5 apply div 33
+3 1 get
+3 5 set 91
+1 3 set 91
+2 1 apply div 4294967296
+3 1 set 18446744073709551615
+2 5 apply add 44
+2 4 apply sub 9223372036854775807
+3 4 apply add 9
+1 3 get
+3 2 apply div 16
+1 5 set 66
+1 3 get
+1 1 apply sub 1177835287164430977
+2 2 set 67
+1 4 get
+3 2 get
+3 2 set 14525650176468034618
+2 2 apply div 0
+1 5 apply mul 10
+2 3 set 3843514737657675765
+2 4 apply sub 71
+3 2 set 14268816516150522275
+2 4 get
+3 4 set 406693416828807049
+3 3 set 3
+2 2 get
+1 4 set 14361667810297910262
+1 5 apply sub 10210799614819893753
+3 5 apply add 20
+2 4 set 44
+1 5 apply div 14
+2 3 set 18446744073709551614
+2 1 apply mul 93
+1 3 apply mul 17435158530564231698
+2 1 get
+2 4 get
+1 1 set 15
+1 1 apply mul 18446744073709551615
+2 2 get
+1 2 set 76
+3 5 apply mul 32
+2 2 apply div 7
+2 3 apply div 3
+3 1 apply div 84
+2 1 get
+3 1 get
+3 3 set 11827390841694196594
+2 4 get
+2 1 apply add 4294967296
+2 3 set 75
+3 5 set 9223372036854775807
+3 3 apply mul 59
+2 3 apply div 10741396495985980778
+1 4 get
+3 1 apply sub 11
+3 4 apply sub 18446744073709551615
+2 5 get
+3 4 apply add 16036324515045742269
+3 2 apply div 9223372036854775807
+1 5 set 7
+3 5 apply div 16004661111867018290
+2 5 set 14388692696565375857
+1 1 apply div 61
+2 5 set 41
+2 4 apply add 4
+1 2 get
+1 4 apply add 16836619344180182257
+2 5 apply sub 97
+1 4 apply add 3
+1 3 set 12
+1 5 set 70
+2 1 apply add 41
+3 4 apply mul 78
+1 1 set 14
+1 2 apply div 7
+2 5 get
+2 1 apply mul 15468788740055790279
+3 1 apply add 35
+3 2 apply add 9223372036854775807
+1 4 apply mul 1861632169738164560
+1 4 apply div 9223372036854775807
+1 1 get
+3 1 apply add 13
+2 3 set 9223372036854775807
+1 5 get
+3 4 get
+3 5 get
+1 3 apply sub 1350721362601043753
+1 5 apply sub 56
+1 5 apply sub 2
+1 1 apply sub 8
+3 3 get
+3 3 set 17056765916459575062
+3 4 get
+2 2 apply mul 55
+1 5 get
+2 3 apply sub 5
+2 3 get
+1 1 set 13826591284481693719
+3 3 get
+3 3 apply sub 3
+1 4 apply div 36
+1 3 get
+3 5 get
+3 5 get
+2 4 apply add 27
+2 4 get
+2 1 apply sub 12
+3 3 set 29
+1 3 apply mul 67
+2 3 get
+2 3 apply add 33
+2 4 set 93
+3 4 apply div 16589102872925645221
+1 1 apply mul 1
+1 2 set 28
+3 3 apply div 4294967296
+1 1 apply mul 55
+3 5 get
+2 4 apply add 53
+3 2 set 13142091666052703863
+2 5 apply div 9380162835078845351
+2 1 get
+2 3 set 46
+3 3 apply add 43
+3 3 get
+3 3 get
+1 3 apply add 8
+1 4 get
+2 5 get
+3 2 get
+2 3 get
+1 2 apply mul 1
+1 5 apply add 1098816850348065485
+1 5 apply div 99
+3 4 get
+1 3 get
+3 4 set 73
+2 1 apply add 43
+3 2 set 67
+2 5 apply div 72
+1 5 apply sub 4999848026453153213
+3 4 set 11495040883985927488
+1 2 get
+3 4 apply div 16920146877714971326
+2 3 apply div 8449195097390256614
+1 1 get
+3 1 set 22
+1 4 apply sub 76
+2 5 apply div 61
+3 5 get
+3 1 get
+1 3 set 49
+1 2 apply add 42
+3 3 set 9223372036854775808
+1 1 set 6386280253695822785
+3 5 apply div 13
+3 3 set 92
+1 4 get
+3 4 apply div 48
+1 5 apply sub 2643515732976102214
+1 5 apply add 23
+3 3 set 68
+2 5 apply div 7537677415143598888
+3 2 get
+1 3 apply add 48
+2 2 set 7
+2 4 apply add 96
+3 3 set 9223372036854775808
+1 3 get
+1 1 set 9223372036854775808
+1 2 set 18333617992088252369
+1 3 apply sub 13490501845048927699
+3 5 apply sub 2705715230433592090
+2 5 get
+3 4 apply add 34
+1 2 apply sub 9223372036854775807
+1 3 get
+1 1 get
+2 3 apply mul 9223372036854775808
+1 4 get
+1 1 apply div 14615088869485524575
+1 2 set 3
+3 2 apply div 82
+1 4 apply add 12
+3 4 apply add 4294967296
+3 5 apply div 43
+2 5 apply mul 1
+1 5 apply div 701916216600984899
+3 5 set 81
+2 1 apply sub 29
+3 1 get
+2 2 apply sub 15715079293954083678
+2 3 set 23
+2 5 get
+3 1 set 13
+2 4 set 11
+3 5 apply sub 14381380922980019941
+2 3 apply mul 69
+3 4 apply mul 37
+2 2 apply mul 97
+1 5 apply div 9223372036854775807
+1 1 apply add 46
+1 3 set 18446744073709551615
+3 4 apply mul 89
+2 4 get
+2 4 apply add 18446744073709551615
+2 1 set 30
+1 3 get
+1 1 apply mul 3653663889359258454
+3 5 set 32
+1 4 apply div 7
+3 1 get
+3 2 apply sub 10263965780159835443
+3 5 apply sub 79
+3 5 apply sub 3
+2 4 apply mul 59
+3 3 set 84
+2 2 apply div 4294967296
+2 1 apply mul 3
+1 2 set 71
+3 5 apply div 0
+3 2 apply add 18446744073709551614
+3 2 apply sub 2
+1 1 set 1
+2 5 apply div 3
+3 1 apply div 4294967296
+1 1 set 0
+1 2 set 9223372036854775808
+2 3 set 12
+1 2 apply sub 80
+2 3 apply sub 6842816937669504355
+3 4 set 9699735532224690472
+1 4 apply add 18078413555764944100
+1 3 set 85
+3 5 apply mul 67
+2 1 apply div 4873779588348765113
+1 2 set 92
+1 3 apply div 9
+3 3 apply add 35
+3 1 apply mul 9621469943868616321
+1 5 apply mul 9223372036854775808
+1 4 apply add 3889075476670602918
+3 4 apply div 16732690792929162381
+2 5 get
+3 1 apply add 20
+1 4 set 9223372036854775807
+2 5 set 1
+3 3 apply add 27
+3 4 apply sub 75
+2 3 apply div 88
+2 3 get
+1 5 set 19
+1 5 set 1
+2 1 set 10
+1 5 apply sub 53
+3 5 get
+3 2 apply div 88
+3 4 apply mul 68
+3 1 set 10527719050317344692
+3 2 apply mul 89
+1 2 apply add 69
+3 1 get
+2 1 apply mul 74
+2 1 get
+3 3 apply sub 7362055779959579779
+3 1 apply add 13463638536382716884
+2 4 set 2407607906529880892
+1 4 apply sub 22
+2 3 apply add 75
+2 1 apply add 4
+3 1 set 83
+2 1 get
+3 2 apply div 16016956090922654196
+2 4 set 77
+1 4 apply sub 21
+1 3 apply sub 26
+2 4 set 14952792492448747755
+2 5 apply sub 85
+3 1 get
+1 2 apply mul 31
+2 3 set 75
+2 1 set 1
+2 5 get
+2 4 set 6
+1 4 apply mul 96
+3 4 apply div 38
+3 2 set 10
+2 2 set 12
+3 4 get
+2 4 set 71
+2 3 get
+1 5 apply add 66
+2 1 get
+1 2 apply add 61
+2 2 set 9569121045712729870
+1 2 get
+2 3 get
+2 4 apply mul 1
+1 3 set 4996517316446546454
+3 4 set 18446744073709551615
+2 3 get
+2 2 apply mul 9223372036854775808
+3 3 apply sub 4294967296
+1 1 apply mul 44
+1 1 apply div 52
+2 5 apply sub 5
+2 4 get
+3 2 apply mul 38
+3 3 apply add 1
+1 5 apply sub 17
+3 5 apply div 13173441285145765915
+1 3 set 10185006059707385896
+2 5 set 3981041609419507727
+3 1 set 53
+3 1 set 80
+2 4 apply sub 82
+2 1 set 10354174358950042640
+2 4 apply mul 45
+2 4 apply add 7
+1 5 apply add 98
+3 2 set 18446744073709551614
+2 5 get
+1 3 get
+2 3 set 51
+3 1 get
+2 4 apply add 8927983467326433744
+3 3 get
+2 4 apply mul 54
+3 1 get
+1 1 set 63
+2 3 apply add 65
+1 2 get
+1 5 apply sub 72
+2 2 get
+1 1 get
+1 1 apply sub 11
+2 3 apply mul 32
+1 1 apply add 41
+2 1 apply div 18446744073709551615
+3 2 apply div 18446744073709551615
+1 4 get
+1 3 set 2
+1 3 apply mul 3
+1 1 apply div 13
+1 4 apply mul 14
+2 2 set 15917739205092897439
+3 3 apply div 18446744073709551615
+2 2 apply mul 9223372036854775808
+3 4 get
+3 1 apply add 19
+1 5 apply sub 9223372036854775807
+1 4 apply mul 1
+2 5 set 8896862794860097804
+1 5 set 3
+1 2 set 77
+2 5 set 9223372036854775808
+3 3 apply add 27
+1 4 set 12
+3 4 set 744364042707194670
+2 4 apply add 12535589948081480082
+2 2 apply mul 23
+3 2 get
+2 2 set 21
+2 5 set 89
+1 1 apply div 8790395450970594626
+2 1 get
+1 5 set 81
+1 5 get
+2 2 get
+1 2 get
+3 5 set 67
+1 2 get
+1 1 get
+3 1 apply mul 62
+3 3 apply div 1
+3 3 apply mul 4294967296
+2 5 apply add 18446744073709551614
+2 4 apply sub 51
+3 2 apply mul 56
+2 4 apply add 93
+3 2 set 28
+1 4 get
+2 3 set 12189359966286241055
+3 2 set 33
+1 1 apply div 18446744073709551614
+2 2 set 9223372036854775807
+3 1 set 18446744073709551614
+2 1 get
+2 4 set 33
+2 3 apply sub 18446744073709551614
+3 2 get
+1 4 get
+1 5 apply sub 15385414207528153754
+1 2 apply div 7476128595309249749
+1 4 get
+1 1 get
+3 2 apply div 12442042122412166139
+2 2 apply sub 9
+1 5 apply div 1
+1 5 set 82
+2 1 set 62
+3 5 apply sub 88
+2 2 set 10943464330765370679
+3 4 set 31
+1 1 set 13271725485784547553
+2 2 set 18446744073709551615
+2 2 apply sub 13595780366417795020
+3 4 apply mul 62
+1 3 set 15934897366067489530
+3 1 apply add 76
+3 5 set 58
+1 4 apply add 94
+2 5 apply add 10321061423077637644
+1 5 apply mul 63
+1 5 get
+2 3 set 15575512465838538871
+2 2 get
+2 4 apply mul 75
+3 3 set 29
+2 2 apply div 4294967296
+2 5 get
+1 4 apply add 53
+2 2 apply sub 9223372036854775807
+3 3 set 89
+2 5 set 1
+3 1 apply div 67
+2 5 apply add 6853204473178173275
+3 5 apply mul 22
+2 4 apply sub 59
+3 1 get
+1 1 apply mul 43
+3 5 set 73
+1 4 get
+2 1 apply sub 11072657193649465890
+2 5 apply sub 2
+1 4 apply mul 53
+2 1 apply sub 28
+1 5 set 4294967296
+2 5 get
+1 1 get
+1 5 apply div 63
+3 5 apply mul 2485104007123503026
+1 2 get
+1 5 set 18446744073709551615
+1 3 apply sub 91
+2 1 get
+3 2 set 79
+1 5 apply add 18446744073709551614
+2 4 apply mul 17
+1 5 get
+2 2 apply add 72
+2 4 apply mul 76
+3 4 get
+3 3 apply div 99
+1 2 apply sub 16516078159108106718
+3 3 get
+2 3 apply sub 48
+3 1 set 37
+3 2 apply sub 0
+2 5 get
+1 1 set 12913553886830103801
+1 4 apply add 3
+2 1 apply div 74
+2 1 set 53
+1 4 set 18446744073709551615
+3 5 apply mul 50
+3 1 get
+1 2 apply sub 34
+2 1 apply div 51
+3 4 set 6
+2 4 get
+1 1 get
+1 1 apply div 7
+2 5 get
+3 5 apply add 4294967296
+3 2 get
+3 1 set 5054981722190637587
+2 3 get
+3 2 get
+3 2 get
+3 1 set 5256132523900782793
+3 4 get
+2 4 get
+1 3 get
+2 2 set 26
+3 5 get
+2 5 set 80
+3 5 set 12127700072471658853
+1 2 apply add 2691027927760385639
+3 4 apply add 8532457978475284419
+3 1 apply mul 70
+3 5 set 9223372036854775808
+3 2 get
+2 2 apply sub 18446744073709551615
+1 2 apply sub 2983084755347521161
+1 4 apply add 21
+3 5 set 12772093421906886296
+1 1 apply sub 681941092538043118
+1 4 apply mul 9223372036854775808
+1 5 set 14933407517116317373
+1 2 apply sub 43
+1 4 apply div 0
+3 3 apply add 69
+3 4 apply sub 26
+1 5 get
+2 1 apply add 18446744073709551614
+3 4 apply div 38
+3 4 apply div 1
+2 3 get
+1 1 set 25
+2 3 apply add 18381494658660711725
+2 1 set 64
+1 1 get
+2 2 apply add 80
+2 3 apply mul 4351863765240324389
+3 2 apply add 16
+2 2 apply sub 17201826662733257447
+1 1 apply mul 51
+2 1 set 61
+2 4 apply mul 87
+2 2 set 89
+1 1 set 25
+2 1 apply sub 1
+1 5 apply add 98
+3 1 get
+3 2 set 11031897970396569477
+1 3 set 65
+1 5 set 9223372036854775807
+3 2 apply add 2822469953678234849
+2 1 apply div 17503139228722840481
+1 4 set 1
+1 1 apply add 94
+2 5 set 18446744073709551614
+3 3 get
+1 2 apply div 93
+2 3 apply sub 4470299079760841998
+3 4 get
+1 4 apply add 3
+3 5 apply mul 15
+2 2 set 79
+1 4 set 86
+3 1 apply sub 78
+1 2 apply mul 85
+1 1 set 178154717658921350
+3 3 apply sub 29
+1 1 apply sub 9818172427906723884
+3 2 set 2733562329763344744
+2 5 apply mul 4294967296
+2 5 set 44
+1 3 set 12866763351041411177
+1 1 set 5764581945786570891
+1 1 get
+2 5 apply add 60
+3 3 apply sub 28
+2 4 get
+3 4 apply sub 40
+1 2 apply mul 64
+3 1 apply div 44
+1 2 apply div 34
+3 1 apply add 93
+1 4 apply add 4294967296
+1 1 get
+2 3 set 29
+1 4 apply add 3485108854898398928
+1 5 apply add 6
+3 2 set 48
+1 1 apply add 13736301860322350127
+3 1 get
+1 2 get
+1 1 apply sub 53
+3 5 set 43
+1 4 apply sub 67
+3 2 set 0
+1 3 apply add 23
+2 3 apply div 93
+2 4 apply div 8912927621870598060
+2 3 set 44
+2 1 get
+2 4 set 15
+2 5 apply sub 49
+1 3 apply div 83
+1 1 apply div 4294967296
+3 4 apply mul 46
+1 2 set 2
+1 4 apply div 43
+3 3 apply mul 0
+1 4 apply add 79
+3 2 apply sub 9223372036854775808
+2 4 apply add 3
+3 3 apply mul 75
+3 5 apply mul 4
+2 5 set 37
+2 1 get
+2 4 apply div 6200067119247897823
+3 1 apply mul 3659754832584177416
+1 2 apply mul 80
+3 3 apply div 54
+3 4 set 4
+3 2 get
+1 2 apply sub 43
+1 2 set 72
+1 1 set 28
+3 5 apply sub 14401218130917202806
+2 3 set 44
+1 5 set 85
+3 5 apply mul 20
+1 3 apply add 5423563787639804508
+2 5 apply add 65
+2 1 set 96
+2 3 apply sub 2167172047861541719
+2 3 apply sub 56
+2 4 apply sub 7
+3 5 set 79
+2 2 get
+3 5 apply mul 34
+1 2 apply div 18446744073709551615
+3 4 apply div 17
+3 5 get
+2 3 apply sub 5443547615659029809
+1 5 apply sub 2
+3 4 set 3
+1 4 apply sub 91
+2 2 apply add 67
+2 3 apply add 47
+1 4 set 20
+3 2 set 1
+1 5 apply mul 21
+3 2 apply add 8763654858530300607
+3 5 set 11472067217613651052
+1 1 get
+3 3 set 85
+2 1 get
+1 5 set 73
+2 5 set 4294967296
+1 3 apply sub 311067936178385222
+3 1 apply add 46
+2 4 set 60
+2 2 get
+1 5 apply mul 19
+3 3 get
+1 2 get
+3 1 apply mul 15674827538252678165
+2 1 apply sub 18
+3 3 apply add 9223372036854775807
+2 3 apply div 2235159222515862675
+3 3 apply add 0
+2 2 set 67
+3 5 set 6020773122659289620
+3 4 set 97
+1 5 apply sub 3
+1 3 get
+2 4 get
+2 4 apply add 3
+2 2 set 7
+2 1 set 9
+3 3 apply sub 0
+2 3 apply sub 64
+3 2 set 4294967296
+2 5 set 7
+1 4 set 14662292759389260826
+2 2 get
+3 3 get
+1 3 set 97
+3 2 set 9223372036854775807
+3 1 apply div 2
+3 2 set 11767237105341036662
+1 5 apply add 12649223846728777726
+1 1 set 18446744073709551615
+3 3 get
+1 3 set 66
+1 4 apply div 26
+2 4 set 68
+3 4 apply mul 2156695055066632394
+2 3 set 92
+1 4 get
+3 3 set 18446744073709551615
+1 2 set 94
+1 2 get
+3 1 apply sub 36
+1 5 set 18446744073709551615
+1 3 set 3028261861404155231
+1 4 apply mul 20
+2 4 get
+3 1 apply add 69
+2 2 apply div 88
+3 5 set 11454674148971090442
+3 2 set 4
+1 4 apply add 18446744073709551614
+3 4 apply mul 570985122758964051
+2 1 apply mul 8
+2 4 apply add 0
+3 4 set 2769664459899799381
+3 2 apply sub 33
+1 3 apply mul 3
+2 2 get
+1 3 set 72
+1 5 apply div 44
+1 3 set 41
+3 2 get
+1 5 set 5204674119378963553
+3 2 apply add 0
+2 1 apply mul 16987063262081137817
+3 3 set 18446744073709551614
+1 2 set 94
+1 2 set 95
+3 4 apply add 81
+2 3 set 4294967296
+2 2 apply add 14068299811988696268
+3 2 apply mul 7
+1 2 apply sub 70
+2 5 set 14359429564604134477
+2 3 set 2
+3 1 set 65
+3 3 set 1
+1 2 apply div 18446744073709551614
+2 4 set 66
+3 3 apply sub 15
+3 4 get
+1 2 apply add 83
+3 3 set 17387984488997153153
+2 5 apply mul 7294607041565473350
+3 3 apply sub 5917909148365413922
+3 2 set 2
+1 5 apply div 9302552390716208056
+2 5 set 1
+2 4 set 78
+3 5 set 12562108347146156081
+3 4 apply mul 2
+1 5 set 18446744073709551614
+2 5 get
+2 1 get
+1 4 get
+2 5 set 4294967296
+1 5 apply mul 21
+1 4 apply div 3
+3 5 set 18446744073709551615
+2 4 set 6377741346812914985
+3 1 get
+3 5 apply add 52
+2 4 set 2148305443526016010
+1 5 apply add 14266241328840988554
+2 2 get
+2 5 apply div 98
+3 1 apply div 9387442628434484154
+1 3 apply div 18446744073709551614
+1 2 set 64
+3 3 apply add 4294967296
+2 2 apply div 1872841568574538619
+1 3 get
+1 4 get
+1 4 apply div 41
+2 1 get
+1 3 apply add 3455116548418589839
+1 4 apply add 3
+1 3 get
+3 1 get
+1 2 set 5290303751722811443
+2 2 get
+2 4 set 34
+1 2 apply mul 75
+2 3 apply sub 9675289107000324078
+2 5 get
+1 5 set 11657603334778567225
+2 1 apply sub 28
+3 1 apply add 2100541927803359798
+1 3 set 15283880546848981779
+3 2 set 24
+2 1 apply add 8089843781246404074
+1 2 get
+3 4 set 12
+1 3 set 56
+2 5 apply div 39
+2 3 apply sub 9223372036854775808
+3 3 apply div 33
+2 1 apply add 10754710424515732939
+3 4 apply sub 634909223763375263
+2 5 apply sub 67
+1 5 get
+2 1 get
+1 4 apply add 1
+1 1 get
+2 1 apply mul 6
+1 4 set 95
+3 3 apply sub 67
+1 1 apply mul 76
+3 2 apply sub 42
+1 3 set 20
+2 2 set 16907979327688687292
+3 2 apply add 32
+1 1 get
+1 1 get
+2 4 apply add 7
+1 2 get
+3 1 set 7
+1 2 apply sub 21
+2 2 get
+3 2 apply div 9223372036854775807
+2 3 set 0
+1 4 apply div 79
+3 2 apply add 68
+3 5 set 622733303748314037
+3 5 set 91
+1 1 set 6578789119018579478
+1 3 set 6938619204863344019
+2 5 apply div 2783826298408986806
+3 2 get
+3 2 get
+2 2 apply div 14515078005053447370
+1 3 get
+3 5 apply add 7
+2 2 apply add 10211842773696690745
+2 2 apply div 12705973391606367431
+2 2 get
+2 4 apply div 20
+1 4 apply div 2052244625249860410
+3 1 apply sub 13280965610155495732
+3 1 apply mul 35
+3 2 set 0
+3 3 apply div 4294967296
+2 4 get
+2 4 set 2
+3 5 apply add 35
+2 3 apply mul 3
+1 2 apply add 7
+1 3 set 9223372036854775807
+2 4 apply sub 4294967296
+2 5 apply mul 60
+3 1 get
+3 1 apply mul 31
+3 2 get
+1 5 get
+1 1 get
+3 3 apply add 1283576108792432039
+2 2 set 10
+1 1 get
+2 2 apply add 83
+1 3 set 94
+1 3 apply div 4233349175316045603
+3 3 apply div 1
+2 2 set 27
+1 5 set 21
+1 5 set 15492212988293638328
+3 1 set 6
+1 2 apply sub 80
+2 2 get
+1 4 apply div 5417831101253640699
+2 1 apply add 57
+3 2 apply div 30
+2 1 set 4340407419161131901
+1 3 get
+3 3 apply mul 4294967296
+2 3 apply sub 54
+2 4 get
+3 5 set 66
+1 4 set 5281281889972274062
+1 5 apply mul 177858469436799331
+2 4 apply div 63
+3 1 set 9223372036854775808
+1 4 apply add 24
+1 1 get
+1 3 set 9956109728537898658
+1 1 apply div 6825191547917614649
+2 1 set 7018569232874889153
+3 1 apply sub 30
+2 1 apply mul 0
+1 2 get
+2 5 set 17463847564211011983
+1 5 get
+1 5 apply add 13972883453046737073
+3 2 apply add 3
+3 5 apply sub 9223372036854775807
+2 5 set 37
+3 4 apply add 73
+1 1 apply div 9223372036854775808
+2 3 apply div 18446744073709551615
+2 5 apply sub 9223372036854775808
+1 3 apply div 1161653985711487592
+3 4 get
+2 5 apply div 9223372036854775807
+1 3 set 67
+2 5 set 2
+3 4 set 90
+2 2 apply add 18446744073709551614
+3 3 apply add 24
+3 5 apply add 92
+2 1 apply mul 11
+3 1 apply sub 59
+3 4 get
+3 3 get
+2 1 apply mul 92
+1 4 apply div 21
+1 3 set 16
+1 3 set 6356998191748962868
+1 4 get
+2 2 get
+3 1 apply sub 1
+1 1 apply div 6148916250007936459
+2 5 set 13
+2 5 apply mul 94
+1 5 apply mul 3
+1 3 apply mul 18446744073709551614
+1 1 get
+3 4 apply div 73
+3 3 apply mul 4294967296
+3 4 apply add 71
+1 3 apply mul 57
+1 4 apply add 0
+2 5 set 16000813636050603404
+3 1 get
+2 1 get
+3 5 apply sub 47
+2 1 apply sub 65
+3 1 apply mul 13922619680966145050
+3 1 apply sub 4294967296
+2 2 get
+2 2 set 0
+2 2 apply mul 17249019662188947598
+1 1 apply add 69
+2 1 apply mul 1
+1 1 set 97
+1 1 set 9223372036854775807
+3 3 set 59
+1 3 apply add 9223372036854775807
+1 5 get
+3 1 set 7
+1 5 set 11443689215403227088
+2 3 set 75
+2 1 apply div 12335428652114354206
+3 2 apply div 16668708897895451411
+3 4 set 12942279927419529352
+2 3 apply sub 8658911762037287994
+1 5 apply mul 10986579384627903126
+2 3 get
+2 2 set 40
+3 3 apply div 4158120207820401386
+2 4 apply sub 9223372036854775807
+3 2 apply mul 89
+1 1 apply mul 12
+3 3 set 47
+3 4 get
+1 5 apply div 934272736435495309
+1 5 apply div 2
+1 4 get
+2 5 set 11359000758546979505
+3 3 apply add 77
+1 4 set 60
+2 5 set 61
+1 5 set 3
+3 4 get
+3 1 apply div 13080044100078791420
+1 2 apply add 55
+3 4 set 97
+1 5 get
+2 1 apply add 64
+3 3 get
+2 1 get
+1 5 set 61
+1 1 apply add 58
+3 1 set 12623781451240493000
+2 2 apply mul 6
+2 1 apply sub 0
+3 5 apply div 64
+3 3 set 74
+1 5 apply div 2623638834864115328
+1 4 set 6069309036747932244
+3 2 set 92
+3 1 set 57
+2 5 get
+3 3 set 2
+2 1 apply div 2
+2 3 apply sub 7
+3 1 apply mul 86
+3 5 get
+3 4 apply mul 12
+1 2 get
+3 3 set 5063869968353448071
+3 3 set 47
+1 3 set 9223372036854775807
+2 1 apply div 33
+1 5 apply div 18446744073709551615
+3 1 get
+3 4 set 16
+3 5 apply div 8
+2 3 get
+1 2 set 23
+3 4 set 83
+3 3 apply sub 18446744073709551614
+3 2 set 9708820940527018526
+2 2 get
+3 5 apply div 663980347401838900
+2 2 get
+1 4 set 19
+1 5 get
+1 2 get
+3 4 apply mul 72
+3 4 set 7
+3 5 get
+2 3 apply mul 81
+1 1 apply add 1
+2 3 apply div 77
+1 4 set 0
+3 2 apply div 17674209628271328766
+1 2 set 10
+3 5 set 29
+1 3 apply mul 10694794335562868703
+1 3 get
+3 5 apply add 53
+1 1 set 72
+1 5 set 2
+2 2 get
+1 3 apply div 7270304415148317085
+1 2 apply mul 50
+1 1 get
+2 3 get
+1 3 set 50
+1 1 get
+3 4 set 3643735929917623006
+1 4 get
+1 3 apply mul 0
+3 4 set 16992608628227236358
+1 1 apply sub 11
+1 5 set 41
+1 5 get
+3 3 apply div 6073069545209720464
+3 3 set 14161597876751558018
+2 5 set 64
+1 3 apply add 5
+2 3 set 77
+2 1 get
+3 3 apply sub 91
+1 1 set 7142131703863282879
+2 2 apply add 2364913893775201657
+3 2 apply mul 1
+3 5 set 4071913039440630185
+2 4 apply div 94
+2 3 set 92
+2 5 apply add 4760704148982961000
+2 2 get
+2 4 apply sub 17620863652677243444
+3 4 apply sub 57
+2 3 get
+2 3 set 42
+1 2 apply mul 9223372036854775807
+2 1 apply mul 9
+2 1 set 95
+1 2 set 4682074397133029511
+1 4 apply sub 9223372036854775808
+1 1 apply add 9014793295227152957
+2 4 set 17642687954395695383
+2 3 apply add 12699379469994026429
+1 4 apply add 6678814465453650308
+3 1 apply sub 78
+1 3 set 37
+1 5 apply div 4294967296
+3 2 apply add 96
+2 4 get
+2 1 apply add 64
+2 4 apply sub 3
+2 4 apply sub 1257600118213748233
+1 1 apply mul 67
+1 5 get
+2 1 get
+1 5 apply mul 7726630760750272639
+1 2 set 84
+1 5 set 52
+1 3 apply div 67
+3 1 apply div 10137953090993539402
+2 5 get
+2 4 get
+1 1 set 15358017563036863576
+2 1 apply sub 1
+3 3 apply mul 94
+2 1 set 16
+2 5 get
+1 3 set 2583895462705367261
+3 2 get
+2 4 get
+1 4 get
+1 2 set 52
+3 2 set 1688831570986640590
+1 2 set 6723523091943035871
+1 3 set 29
+1 4 apply div 2
+1 5 set 1103258521963826915
+1 1 set 73
+2 1 set 2
+1 1 set 1930938031042439440
+2 4 apply div 44
+3 5 set 61
+2 3 set 32
+1 2 get
+3 2 get
+2 5 set 60
+3 3 apply add 1
+3 1 apply div 17795365912643072879
+2 4 get
+1 3 set 25
+1 2 set 3
+2 5 apply div 4766432271521947969
+3 4 get
+2 3 set 18446744073709551615
+1 2 get
+1 1 set 0
+2 4 get
+2 2 set 42
+1 4 apply div 15623197445124208439
+1 3 apply add 6862198404695693401
+2 5 set 11556590213612262769
+1 3 get
+1 1 apply sub 51
+2 2 get
+3 2 apply mul 2
+2 4 apply mul 65
+1 3 apply sub 9223372036854775807
+3 2 get
+1 3 apply div 12236976920154462373
+3 3 apply mul 7
+2 2 apply div 29
+2 4 apply mul 86
+2 3 apply mul 37
+1 2 set 74
+3 5 set 18446744073709551615
+2 3 get
+1 4 get
+3 5 apply div 219162268009512532
+3 5 set 99
+3 5 set 90
+1 5 get
+1 3 get
+2 2 set 16304822704395281250
+2 2 set 10565961032476468827
+2 5 apply mul 3
+2 3 get
+1 2 set 32
+3 3 apply add 3
+1 4 apply add 97
+2 1 apply sub 69
+1 4 get
+1 2 apply div 22
+2 2 apply sub 87
+1 2 set 3538785423223089456
+2 1 get
+2 2 apply div 2
+1 1 apply add 1
+2 5 apply add 4457408778102676045
+2 5 set 1
+1 3 apply mul 52
+2 4 set 39
+2 2 apply add 18446744073709551615
+3 5 set 13908029712779275711
+3 4 apply sub 57
+3 4 set 1
+2 4 set 4
+3 4 apply mul 3249643186114336362
+1 1 apply mul 86
+3 1 apply sub 14
+3 1 get
+2 5 apply div 64
+1 4 get
+2 2 set 50
+1 4 get
+2 3 get
+1 3 set 6055261413338665850
+3 2 apply add 1
+2 2 get
+3 3 apply mul 1
+2 1 apply add 60
+3 3 apply add 89
+2 2 apply mul 7
+2 3 set 16474628741914684988
+3 5 apply mul 40
+2 1 apply sub 15
+1 5 set 18446744073709551614
+2 3 set 10187084745045298480
+1 3 get
+2 3 apply div 18446744073709551614
+3 2 set 74
+3 4 apply add 57
+2 2 set 76
+1 1 get
+3 4 get
+1 5 set 29
+1 2 set 0
+3 4 set 51
+2 2 apply mul 58
+1 4 get
+1 1 apply mul 18446744073709551614
+3 5 set 4
+3 2 get
+3 2 get
+3 2 get
+1 1 apply sub 7878473348470345789
+2 3 set 33
+3 3 set 5
+2 2 apply mul 2692146457497637949
+1 2 apply mul 59
+2 1 set 12838712409735403218
+1 3 set 0
+2 4 apply mul 15636978277836249390
+1 1 set 2
+2 5 apply add 9223372036854775808
+2 3 set 15607291156157100565
+1 5 apply add 65
+3 1 set 9223372036854775807
+3 3 set 17825644655130264639
+2 4 get
+2 3 get
+2 1 apply sub 98
+1 4 get
+3 1 apply div 9223372036854775807
+2 5 apply mul 18446744073709551615
+1 2 set 40
+3 1 apply mul 81
+3 1 apply add 7
+2 3 set 18446744073709551615
+2 1 apply add 9223372036854775808
+1 3 apply div 18446744073709551615
+2 5 get
+2 3 set 9223372036854775807
+1 1 get
+2 4 set 11
+1 3 apply add 5159914138938310402
+2 5 apply add 33
+1 4 set 16735402440867477010
+2 2 get
+3 4 apply mul 7
+2 1 get
+1 1 set 46
+1 4 set 6
+3 2 apply div 9223372036854775808
+2 2 apply add 27
+3 3 set 50
+3 4 apply div 18446744073709551615
+2 1 apply mul 1
+3 2 set 10167403234495726872
+3 3 apply div 4294967296
+3 2 set 16435012995824587782
+3 2 apply add 67
+1 5 set 16143713859145342135
+2 4 apply mul 9223372036854775807
+3 5 set 9612540125102922221
+1 5 set 75
+2 5 get
+2 1 set 3
+1 5 apply sub 7
+1 3 get
+2 2 get
+3 1 apply add 0
+1 3 apply mul 2867415429164311864
+3 5 apply mul 9223372036854775808
+2 5 get
+1 1 apply div 29
+2 5 set 48
+3 4 apply sub 95
+1 2 apply add 44
+3 4 set 89
+3 5 apply mul 74
+1 1 set 96
+2 3 set 12933958221950395177
+1 5 apply add 3149772605547132563
+2 3 apply mul 9223372036854775808
+3 1 get
+3 3 get
+2 1 apply div 70
+1 4 set 2496964993684060418
+2 2 apply div 6396202513563896236
+1 4 get
+3 1 get
+1 2 apply mul 12
+3 5 set 60
+3 5 apply div 61
+1 3 apply add 0
+2 4 apply mul 82
+1 5 set 1
+1 2 set 62
+1 4 set 35
+2 2 set 87
+2 1 apply add 36
+2 1 apply add 9223372036854775807
+3 4 apply add 98
+2 1 set 40
+2 4 apply div 59
+3 5 set 3
+2 4 apply sub 21
+2 1 apply sub 9223372036854775808
+1 5 apply mul 39
+2 1 get
+3 2 set 18446744073709551614
+2 4 apply mul 50
+1 3 apply sub 6529333955952172229
+3 4 set 1
+2 2 apply div 69
+2 3 get
+3 5 set 90
+3 5 apply sub 6920725606676981744
+2 4 set 14733052155128105041
+1 4 apply sub 18446744073709551615
+3 4 apply div 11592200496452870905
+1 1 apply mul 30
+3 5 apply sub 83
+1 5 apply div 34
+2 4 apply div 14152497957768110799
+3 5 apply add 18446744073709551615
+1 1 apply sub 4294967296
+1 2 apply sub 1756977580379610796
+3 1 set 1
+3 5 set 3
+3 1 set 1
+1 5 apply add 7
+1 1 get
+1 5 apply div 8347560283842546638
+1 4 apply mul 7
+3 3 apply add 18446744073709551614
+1 2 set 17
+3 5 set 93
+2 5 apply div 2
+3 1 get
+2 2 get
+1 3 get
+2 1 apply add 0
+3 1 set 75
+2 4 get
+3 4 apply add 91
+2 2 get
+2 4 apply sub 43
+3 5 set 58
+1 3 set 2505928052962312666
+1 3 set 20
+3 1 apply add 0
+2 1 apply div 9552731095125137294
+1 1 get
+3 1 apply add 18446744073709551615
+2 5 get
+1 4 apply add 6398170810475668959
+3 1 get
+3 5 apply sub 47
+2 1 set 45
+1 4 apply add 9223372036854775808
+3 1 set 9124726189867742133
+3 1 apply sub 15730403403111577571
+2 2 set 1231149700619694601
+1 5 apply add 28
+1 3 apply add 80
+3 3 set 45
+2 4 get
+3 4 apply div 85
+1 1 set 3648453991051174188
+1 3 apply mul 76
+1 2 get
+3 5 set 13160823801525390617
+3 1 set 2
+2 3 apply mul 14896951038232000864
+1 3 get
+2 3 get
+1 5 get
+2 5 apply add 18446744073709551615
+2 4 apply sub 2221135058762821683
+2 3 set 6747818166240193810
+1 5 set 0
+2 1 set 2005187029736856905
+2 4 set 14105281316622302912
+1 2 apply div 1
+3 4 set 3
+3 5 set 83
+2 3 get
+2 1 apply mul 9223372036854775807
+2 4 get
+2 4 apply add 15
+2 5 set 49
+3 3 get
+2 5 apply div 4294967296
+3 3 get
+3 2 apply div 75
+1 1 get
+3 1 apply div 7
+2 2 apply add 2
+1 1 apply add 56
+1 3 apply div 33
+1 1 set 50
+3 3 apply div 4677693030016616481
+2 4 apply mul 16
+1 1 apply add 78
+2 1 set 4294967296
+3 5 get
+2 3 set 10
+3 4 apply mul 9223372036854775807
+3 4 apply mul 11
+3 2 apply add 0
+2 3 set 10321438300606335370
+3 5 apply sub 7813848268914947252
+1 1 get
+3 4 set 17
+3 5 apply div 52
+1 3 apply sub 13599044708111333931
+2 3 apply mul 1
+2 5 apply div 10953059953352232648
+1 4 get
+1 1 apply div 4715141234823364274
+1 4 set 16114598625976452119
+1 3 apply sub 0
+1 5 apply div 21
+3 1 apply div 14388133154152609741
+2 3 apply add 9223372036854775807
+2 1 set 15162137591364198605
+2 3 set 48
+1 5 apply sub 1
+2 4 set 17310782820132225747
+3 4 set 25
+3 3 apply sub 18446744073709551614
+3 5 apply mul 6
+1 4 apply add 26
+1 4 get
+2 1 apply add 0
+1 2 get
+3 4 set 49
+2 3 set 0
+3 4 apply mul 25
+2 3 set 18446744073709551615
+2 2 apply sub 76
+2 4 apply mul 9223372036854775808
+3 2 set 87
+3 3 apply sub 10100036328264603745
+1 1 apply add 3239077356785126213
+3 2 get
+1 4 apply sub 70
+2 4 apply sub 16180325365144643171
+2 4 apply sub 18074721896073228136
+3 5 get
+1 1 apply mul 5
+1 2 set 16111551804406529239
+2 5 get
+1 5 get
+2 2 get
+3 4 apply sub 9223372036854775807
+2 2 apply add 58
+2 4 apply sub 90
+3 3 get
+2 2 apply div 9223372036854775808
+3 4 apply add 48
+1 1 get
+2 3 apply div 98
+2 2 get
+2 4 apply sub 63
+1 4 apply mul 54
+3 3 apply div 72
+3 4 set 69
+2 5 apply add 0
+2 1 apply add 4327719910732587962
+2 1 apply sub 18446744073709551615
+1 4 get
+1 5 apply mul 0
+1 4 set 76
+3 3 set 28
+3 5 apply mul 3
+1 2 apply sub 73
+2 1 set 23
+2 2 get
+3 3 apply mul 84
+3 3 set 76
+1 3 set 8
+2 5 set 88
+3 1 set 2488871138160985643
+2 4 get
+2 4 apply div 15387697869503144185
+2 1 set 73
+1 4 apply add 78
+3 2 get
+2 2 apply mul 10774629193283976970
+2 5 apply div 87
+2 2 set 79
+3 5 apply sub 63
+3 5 get
+3 4 set 11594245776599685952
+3 5 set 3
+3 1 apply mul 95
+3 5 set 7
+3 2 apply mul 26
+2 1 apply mul 14654439101517437699
+2 1 get
+3 2 set 6673700966920178542
+3 4 apply sub 9223372036854775808
+1 1 set 3506579557262551786
+1 2 apply add 5641082543578149082
+1 1 apply add 8
+3 3 apply sub 33
+2 1 set 7
+2 1 set 5
+1 4 apply sub 44
+1 5 get
+2 3 set 4487285758716169133
+2 1 set 0
+2 5 set 39
+3 4 get
+3 4 apply mul 55
+1 2 apply sub 17776236062340782558
+2 1 set 15545055454399515415
+2 1 apply mul 2
+3 4 get
+1 2 set 93
+2 5 apply mul 2736327094046606435
+3 1 get
+3 2 get
+2 3 set 0
+2 2 set 1
+1 2 apply add 86
+1 5 set 8212171543371476199
+3 3 get
+3 2 get
+3 4 apply add 72
+3 5 set 53
+3 1 apply sub 1
+3 5 set 42
+1 3 set 2511825437445105822
+2 2 set 284731930332341235
+2 1 apply sub 62
+3 4 apply div 4357297297139540817
+2 2 get
+2 3 apply add 76
+1 3 set 9223372036854775807
+2 4 apply mul 4294967296
+2 2 set 37
+2 4 get
+2 2 set 1246116007527016642
+3 4 apply mul 8502518119734981715
+2 5 get
+2 1 apply sub 5
+2 1 apply div 33
+1 3 set 5
+2 3 get
+1 1 apply mul 5
+1 3 set 0
+3 1 apply sub 9223372036854775807
+1 3 set 0
+3 2 set 8421818213447667130
+3 2 apply add 26
+3 1 get
+1 5 set 1
+3 5 set 19
+1 4 apply sub 66
+3 4 apply div 70
+3 2 apply sub 6
+2 4 apply add 8982136783537333070
+2 3 apply sub 95
+3 1 set 9069864738727145658
+2 3 apply add 16
+3 1 apply sub 8
+2 3 set 1
+1 2 apply mul 0
+3 4 apply sub 9223372036854775807
+2 1 set 93
+1 3 apply add 61
+3 4 set 4294967296
+3 2 apply sub 0
+1 4 apply div 44
+2 1 set 98
+3 5 get
+2 5 apply mul 88
+1 4 apply div 37
+1 5 apply div 94
+2 4 apply mul 9223372036854775808
+2 4 set 83
+1 3 apply add 11
+2 2 set 9
+1 2 apply add 70
+2 2 apply sub 1625603532972462102
+2 1 apply mul 65
+2 1 apply sub 81
+2 4 apply sub 1
+1 1 set 9223372036854775808
+2 2 get
+3 2 apply add 57
+1 1 get
+2 1 apply sub 98
+2 3 get
+1 4 apply add 18
+1 4 apply div 1
+2 2 get
+2 3 apply div 80
+1 5 get
+3 5 apply div 8071424012690167220
+1 2 apply sub 1
+3 1 get
+2 5 apply mul 2
+2 4 get
+3 4 set 4944882573762838354
+1 5 get
+2 5 apply div 6410443424700037150
+2 4 apply mul 59
+1 4 apply add 75
+2 2 apply sub 2
+2 5 apply div 5684850012232969313
+2 4 apply sub 2774358540085179922
+2 1 apply mul 671489753830546946
+1 1 set 9736254314054220338
+3 2 apply mul 91
+1 3 set 74
+2 1 get
+2 5 apply div 15539152092912648471
+2 3 get
+1 3 set 60
+3 1 apply mul 73
+3 2 set 18446744073709551614
+2 2 set 1883127278891978007
+3 5 apply sub 6876899551336483476
+2 2 set 90
+2 5 apply sub 2
+2 1 apply mul 5058497880904894992
+2 5 get
+2 1 apply add 8
+1 2 apply add 88
+1 5 apply div 51
+3 5 apply sub 7
+1 5 set 0
+1 2 get
+1 3 apply sub 2
+3 4 apply add 8903637088120689384
+3 3 apply mul 73
+3 4 set 39
+2 5 apply sub 57
+3 4 set 9223372036854775808
+3 3 apply sub 14400187065003587061
+2 3 apply div 696662691319121898
+1 5 get
+1 4 apply sub 62
+1 1 apply div 68
+3 1 set 4
+2 1 set 5765980270309486340
+1 4 set 6481645461337205278
+2 4 apply mul 62
+2 4 apply sub 80
+1 1 set 9223372036854775807
+2 1 apply mul 83
+1 1 apply sub 13
+2 5 apply mul 4302943467733460358
+3 5 apply add 61
+3 4 get
+2 2 apply div 16650415432176735806
+3 1 get
+2 2 get
+1 4 apply sub 9223372036854775808
+1 3 apply sub 155539806181548204
+3 4 apply div 55
+2 4 apply sub 4294967296
+2 5 set 8
+1 5 set 68
+2 4 get
+1 1 get
+3 1 set 57
+2 3 get
+1 2 apply sub 46
+1 4 set 9418614777399755232
+1 1 apply mul 99
+2 1 get
+2 4 apply add 13866628774528941142
+1 1 apply div 63
+2 1 set 2
+3 4 set 2
+3 2 apply sub 12
+3 1 get
+2 2 apply sub 59
+1 4 set 83
+1 1 get
+1 3 apply div 99
+2 3 apply div 15956214279598923301
+2 4 apply mul 25
+3 4 apply add 18446744073709551615
+2 1 apply add 18446744073709551615
+1 3 get
+3 1 set 7
+2 4 get
+2 5 apply sub 9223372036854775807
+1 3 apply div 1345218731894532703
+2 3 apply div 18446744073709551614
+1 3 apply add 7
+2 4 set 1
+3 2 set 7495408463550520303
+3 5 apply mul 1
+2 5 set 66
+3 3 get
+2 3 set 18
+2 2 apply sub 90
+2 3 apply sub 9223372036854775807
+1 4 set 4294967296
+2 3 set 1366535323452119238
+1 4 set 71
+1 3 apply sub 7
+2 4 set 7
+2 2 get
+2 1 get
+2 4 apply add 5783359394330999761
+2 3 set 4294967296
+3 1 set 2915834974403573448
+3 5 apply mul 9223372036854775808
+1 4 get
+3 3 apply div 17
+2 4 apply sub 53
+3 3 get
+1 1 get
+1 4 set 18446744073709551614
+1 4 set 88
+2 4 set 123538049677452698
+2 2 set 96
+2 3 apply sub 3193111379378638870
+3 4 set 75
+1 3 apply div 20
+3 2 apply add 88
+2 4 get
+2 5 set 73
+3 4 set 19
+3 2 apply mul 18025912238184117523
+1 3 get
+1 2 get
+2 2 apply add 30
+1 3 get
+1 4 get
+1 3 get
+1 1 apply div 42
+2 5 get
+1 2 apply div 52
+3 5 get
+3 3 apply div 39
+3 4 apply mul 9223372036854775808
+2 4 apply sub 7
+3 1 apply div 52
+2 1 apply mul 25
+1 1 set 3768697939837535202
+2 5 apply mul 72
+2 5 set 10439501734557027939
+3 1 set 55
+2 2 get
+1 4 apply sub 7225124245463045640
+2 1 apply div 10918790849668745647
+1 4 apply div 30
+2 1 apply sub 9223372036854775808
+1 5 apply add 18446744073709551615
+2 5 set 10365937569482006172
+3 1 get
+2 1 get
+3 5 apply sub 95
+2 3 set 43
+1 3 apply add 14738992310807452758
+1 2 apply sub 18446744073709551615
+1 1 apply sub 93
+3 4 set 10
+2 1 set 23
+3 4 set 85
+1 4 apply div 10327771122009171987
+1 3 apply mul 3
+2 5 set 5435861073842140319
+1 1 set 99
+3 2 get
+3 2 get
+3 3 get
+3 1 apply mul 22
+3 1 get
+2 1 set 7970682078487934271
+3 3 set 11449430692431755252
+3 2 set 9
+1 2 get
+1 2 apply div 5
+1 3 apply div 5828933426224646435
+1 4 apply div 41
+3 3 apply add 9223372036854775807
+2 4 apply add 3740904361669440830
+3 5 set 5096926871425999921
+3 3 set 6564632140129502636
+2 5 get
+1 5 set 10822766477617486789
+1 4 set 53
+1 1 set 79
+1 2 set 67
+2 2 set 17807065863950240800
+2 3 get
+1 3 set 23
+2 1 get
+3 2 set 86
+2 1 apply sub 18446744073709551615
+1 3 apply sub 78
+1 4 set 1487781905895899551
+2 1 set 14017528535090441866
+3 1 get
+3 2 get
+1 2 apply sub 32
+3 2 get
+2 3 apply add 18446744073709551615
+2 2 apply div 44
+1 4 set 25
+3 2 get
+3 2 set 95
+3 4 get
+1 2 set 38
+1 5 apply mul 17
+1 1 apply add 18446744073709551615
+1 2 set 93
+1 3 apply add 73
+2 3 set 41
+2 2 apply div 56
+1 1 apply mul 14911391705693036742
+1 3 set 46
+3 5 set 18
+3 4 apply add 3264657081846618970
+3 1 set 41
+3 5 get
+3 4 apply add 36
+1 5 apply sub 11
+1 3 set 33
+2 2 apply div 8
+3 4 set 10389220161266501631
+3 2 set 49
+2 4 apply sub 17543639992984502741
+3 4 set 77
+2 4 apply add 6826794415482515378
+3 5 apply sub 30
+1 3 set 23
+2 1 set 56
+2 3 get
+3 2 get
+1 3 apply div 126643134837641939
+1 4 apply div 15
+2 5 set 22
+3 3 set 2285773487222199249
+2 2 set 28
+1 5 set 10
+1 5 apply div 0
+3 5 set 34
+1 2 set 83
+3 2 set 35
+1 2 apply add 71
+2 1 apply mul 1
+3 5 apply div 26
+3 1 apply div 0
+2 5 apply div 4
+2 1 set 4294967296
+3 3 set 90
+3 5 apply mul 1
+3 3 get
+2 1 get
+1 4 set 43
+1 3 get
+3 2 apply add 18446744073709551614
+3 5 apply mul 3
+1 4 apply sub 69
+2 5 apply sub 9
+3 2 apply div 55
+1 1 set 9223372036854775808
+3 4 get
+2 4 set 6335198021553959378
+3 4 get
+2 1 apply mul 9223372036854775808
+1 5 apply mul 3287388141598717230
+2 3 apply add 7504840939814581709
+2 4 set 50
+2 5 set 77
+2 1 apply add 15095289369587521099
+1 3 apply sub 5586733051450215793
+1 2 set 60
+3 2 set 88
+3 2 apply add 38
+2 3 set 1
+2 4 get
+3 4 apply sub 69
+2 2 set 0
+2 1 set 7500109136101695022
+3 4 set 56
+3 5 get
+1 4 apply add 4294967296
+1 5 get
+1 5 apply mul 4294967296
+1 1 apply sub 72
+2 5 apply mul 18446744073709551615
+1 2 apply sub 34
+3 1 apply mul 7
+3 1 set 40
+1 3 apply div 49
+3 1 apply div 51
+2 1 apply div 13580350670941867013
+2 4 get
+3 3 set 97
+1 5 set 1121567001282780218
+2 5 apply div 98
+2 5 apply add 2357969476634054741
+2 2 set 65
+1 2 set 97
+1 2 get
+1 2 apply sub 56
+2 5 apply add 86
+1 4 set 69
+1 3 get
+2 1 get
+3 2 apply div 52
+2 2 apply add 15348328852658420338
+3 3 set 4747149383561398764
+1 5 apply mul 22
+2 1 set 0
+3 5 apply div 45
+2 5 apply sub 4294967296
+3 3 set 9223372036854775807
+1 4 apply div 88
+2 1 apply add 49
+3 3 set 2303178167121178157
+3 2 set 1
+2 1 apply div 1
+2 1 apply mul 9223372036854775808
+2 5 set 48
+3 3 set 7411269543956341509
+1 4 apply add 15081021833236977217
+1 2 set 18446744073709551615
+1 1 set 1
+3 1 get
+3 4 get
+3 3 apply sub 72
+3 4 get
+2 5 apply mul 44
+3 1 apply mul 97
+3 4 apply sub 18446744073709551615
+3 1 set 10952052824902742930
+1 3 get
+1 2 apply add 13
+3 4 set 18446744073709551615
+2 4 apply mul 1
+2 3 apply div 55
+1 3 set 2
+3 3 set 15270837808417704645
+2 4 apply add 1
+2 4 set 56
+3 5 set 18446744073709551614
+1 4 apply div 7988251788543129374
+2 4 get
+2 1 apply add 54
+3 5 apply div 5
+2 1 set 23
+2 1 set 17427951448049643135
+2 2 apply mul 12
+3 2 apply div 25
+2 2 apply mul 18446744073709551614
+3 3 apply div 18446744073709551615
+2 2 get
+2 4 apply add 63
+1 5 set 6114837074283227609
+1 4 apply sub 18446744073709551614
+3 1 get
+3 1 apply div 75
+1 3 apply mul 16654504826441190354
+2 1 apply div 18446744073709551614
+2 5 get
+1 4 apply add 41
+1 4 apply mul 605599214227633152
+1 4 apply sub 3602488337516676425
+1 5 apply add 10438527047863420083
+1 3 apply div 0
+2 2 apply sub 3
+1 2 set 34
+1 5 apply mul 13934206018476122858
+3 5 apply add 17815553435895775947
+2 4 apply sub 1218506095443786085
+1 4 apply mul 95
+3 2 set 67
+2 1 apply add 12511271790031793502
+1 5 apply div 13036907201586691792
+2 3 apply div 0
+1 3 set 56
+1 1 get
+3 3 get
+3 5 set 4294967296
+2 1 apply mul 77
+2 3 apply sub 54
+2 1 apply mul 69
+3 1 get
+2 2 apply mul 5528949994281810188
+2 3 apply mul 61
+3 2 apply div 898479633539247182
+2 4 apply mul 18446744073709551615
+3 2 apply sub 8217780598974878680
+3 5 apply div 12
+1 2 apply sub 17
+1 1 get
+1 3 set 1
+1 4 apply sub 93
+3 1 set 0
+1 5 apply sub 59
+1 4 apply mul 8782176903679522409
+2 4 set 73
+2 4 apply add 42
+2 4 apply div 9223372036854775808
+3 1 apply add 18446744073709551615
+1 4 apply sub 52
+1 5 apply sub 95
+2 2 set 18110948284212773689
+2 4 apply div 9146202396498935019
+2 1 get
+3 3 apply add 34
+2 5 apply sub 9223372036854775808
+2 2 apply add 21
+1 1 apply sub 18
+3 5 apply mul 60
+2 4 set 8725387275605514100
+2 5 set 4
+3 3 set 11601481590582415393
+3 2 get
+3 1 apply div 18446744073709551615
+3 5 apply add 93
+2 5 set 86
+2 4 apply div 6107350059071990301
+2 1 apply mul 18446744073709551615
+1 1 apply div 13
+3 4 set 4345929383353656114
+1 1 get
+3 3 apply add 58
+3 4 apply div 4294967296
+1 5 apply div 3527215250723564511
+1 5 get
+2 3 apply div 96
+2 1 set 23
+3 2 set 83
+1 3 set 14
+2 5 apply div 10350610727427839194
+3 3 set 48
+2 2 apply sub 74
+2 1 apply mul 13974452386529942151
+2 5 get
+2 5 apply add 3
+3 2 get
+3 4 apply sub 20
+2 3 set 2
+3 3 apply add 2
+3 5 set 3
+1 5 apply div 56
+3 4 apply add 7126559181178603740
+1 2 apply sub 8573966385350232996
+1 3 apply mul 1
+1 3 apply add 1
+1 4 get
+3 3 set 54
+1 2 set 79
+3 2 set 13809030024536498610
+2 4 set 16
+3 1 apply add 4294967296
+2 2 apply mul 56
+1 2 get
+2 2 set 13789522304632363051
+2 2 apply div 21
+3 1 set 11
+2 5 apply mul 47
+1 5 set 7
+3 1 set 7488988326723607985
+1 4 set 9223372036854775808
+2 3 apply div 4765356778938555270
+1 2 apply sub 11
+2 1 apply add 52
+1 2 apply mul 64
+1 1 apply mul 37
+1 2 apply mul 4076744277131075738
+3 1 apply sub 76
+2 4 get
+2 2 get
+3 4 apply div 59
+1 5 apply add 10489261105549504499
+3 4 set 25
+1 1 apply sub 80
+2 3 apply mul 18446744073709551615
+3 5 apply add 40
+3 1 set 3143209805041965236
+2 5 set 67
+3 3 set 56
+3 2 apply div 93
+1 1 apply mul 2048757355445098542
+2 3 get
+3 5 apply mul 49
+2 5 apply sub 11711134339579853620
+1 2 apply add 28
+2 2 apply sub 9223372036854775808
+1 3 get
+1 3 apply div 1
+3 4 apply mul 87
+3 2 get
+2 3 apply add 3
+2 5 set 84
+2 2 set 30
+2 1 set 1
+2 5 apply mul 88
+1 4 apply div 9223372036854775808
+2 3 apply mul 16129827403569090210
+1 3 set 72
+3 3 set 0
+2 5 set 61
+1 2 apply mul 1
+3 1 set 99
+3 2 apply div 14
+2 5 get
+2 4 apply mul 0
+2 5 apply div 3
+1 4 get
+2 1 set 26
+1 4 apply add 97
+3 3 get
+1 2 apply mul 22
+1 4 apply add 32
+2 4 set 2891033474252353611
+3 1 apply sub 41
+3 5 set 10599557597064495734
+2 2 apply sub 97
+1 2 apply add 4294967296
+2 1 apply mul 64
+1 3 set 4294967296
+1 3 apply div 56
+2 5 apply mul 0
+2 1 get
+1 4 get
+2 1 set 87
+1 4 get
+3 3 set 9223372036854775807
+1 2 apply mul 2
+1 3 apply div 13556324363252761392
+1 2 apply sub 40
+3 4 apply add 27
+2 1 apply add 9223372036854775808
+3 1 set 46
+3 5 set 18446744073709551615
+2 4 apply add 67
+1 3 apply add 27
+3 3 apply mul 4294967296
+3 2 get
+3 2 apply sub 67
+1 2 apply sub 81
+3 3 get
+3 4 set 1252130634231150502
+2 5 get
+1 1 apply div 5538235997752669440
+1 1 set 18446744073709551614
+3 4 set 12
+1 2 set 0
+3 4 apply div 5
+2 2 get
+3 2 get
+2 1 get
+3 4 apply add 88
+2 1 set 9223372036854775807
+2 4 get
+2 1 apply mul 90
+3 4 set 15418362673022877617
+3 3 get
+3 2 set 6382982313527720306
+1 4 apply mul 8688092625594822117
+3 4 apply div 82
+2 3 set 88
+1 4 apply mul 271914626057641672
+3 4 apply add 9223372036854775807
+3 3 apply div 22
+2 3 apply mul 14626513291102989803
+2 4 apply add 12988494939386886992
+1 3 apply div 9223372036854775808
+2 5 apply add 11
+1 4 get
+3 2 set 44
+1 3 apply sub 2
+3 2 apply mul 18446744073709551615
+2 1 apply add 12957289360462888824
+1 4 set 24
+3 4 set 1822497152780584777
+1 3 apply sub 3
+2 2 apply div 14147985903882270010
+2 2 apply sub 1065325215336082190
+2 2 apply sub 4
+2 4 apply add 7
+3 1 get
+1 5 set 15586651534402385753
+2 1 apply add 44
+1 4 set 2
+3 4 apply sub 77
+2 1 apply mul 57
+2 4 apply div 6986960171408031152
+3 4 apply sub 23
+2 3 apply sub 45
+3 4 set 12
+1 3 apply sub 8243029283360228156
+2 5 get
+2 3 set 37
+3 3 apply mul 98
+2 1 apply sub 35
+3 5 set 13
+2 2 set 75
+1 3 set 10016670413790826356
+3 1 apply add 18446744073709551614
+2 2 set 9223372036854775808
+3 2 set 36
+3 1 set 4297771472307437269
+3 1 apply div 0
+1 1 apply sub 1
+2 3 apply sub 13256780953891828187
+3 1 apply add 98
+2 3 apply sub 6435139920873555651
+1 3 set 72
+3 2 get
+2 5 apply sub 46
+2 1 apply mul 9223372036854775808
+3 4 apply mul 5484721233723643621
+3 4 set 29
+3 4 set 65
+3 3 set 1
+1 1 apply mul 64
+3 1 apply div 1
+3 2 set 9223372036854775808
+3 3 apply mul 0
+3 1 apply sub 23
+1 3 set 69
+3 4 set 24
+3 5 apply mul 9223372036854775808
+3 1 set 14
+3 2 set 98
+1 1 get
+1 1 get
+3 5 set 6728176856549017899
+2 1 set 35
+2 5 get
+2 3 set 97
+3 3 set 8
+1 3 apply add 31
+2 4 apply sub 2609287286443477822
+1 2 apply add 6229793348964081199
+3 2 apply div 18446744073709551615
+1 4 get
+3 3 apply div 6
+1 4 set 38
+2 5 apply mul 19
+2 5 set 95
+1 3 get
+1 1 get
+1 2 get
+2 4 get
+3 3 apply div 0
+2 2 apply mul 91
+2 4 get
+2 1 get
+1 1 apply mul 13
+1 1 set 97
+1 4 set 56
+2 4 get
+1 4 apply mul 28
+2 5 set 32
+3 5 get
+3 2 apply div 18446744073709551614
+2 4 apply mul 2
+1 5 apply sub 40
+1 3 set 32
+2 2 set 92
+3 3 get
+1 2 apply mul 9223372036854775808
+3 5 get
+1 3 apply mul 1
+3 4 set 9223372036854775808
+2 2 get
+3 5 set 3
+3 1 apply div 11316532036918645932
+2 3 apply sub 7002891273419647459
+2 5 set 61
+2 4 apply div 71
+3 1 set 2684508585958911506
+2 1 get
+2 3 apply mul 11
+3 2 set 61
+1 3 apply mul 41
+3 3 apply mul 9223372036854775808
+2 3 apply sub 0
+2 5 apply add 3
+3 1 set 18266868514849758030
+2 5 apply sub 26
+2 3 set 38
+3 3 apply div 2
+1 4 set 72
+2 1 apply sub 30
+2 3 set 78
+3 5 set 71
+2 4 get
+2 1 apply add 29
+2 4 set 14
+2 4 set 61
+1 2 set 30
+2 4 set 3
+3 1 apply div 7014305060214146919
+1 4 apply mul 9223372036854775808
+1 5 apply div 1
+1 5 get
+1 3 get
+1 3 get
+3 5 apply sub 91
+1 2 apply sub 18446744073709551614
+1 4 apply div 7373633688201687710
+3 4 set 37
+1 1 apply div 18446744073709551614
+3 5 set 11806295102371011292
+2 4 get
+3 4 get
+2 5 apply mul 18446744073709551615
+2 4 get
+1 5 apply add 18446744073709551615
+1 4 apply div 16860387670664809887
+3 4 get
+1 5 apply add 3677731169459463527
+1 1 set 99
+2 1 set 89
+3 3 apply add 30
+1 2 apply sub 4
+1 2 apply mul 21
+2 3 set 2
+2 5 get
+3 3 apply add 59
+1 5 apply div 13
+1 3 set 4294967296
+3 3 get
+1 5 set 3
+1 5 apply add 3
+2 3 set 93
+1 3 apply div 9223372036854775808
+3 2 get
+2 2 apply sub 18446744073709551614
+3 3 apply add 0
+3 1 get
+2 5 get
+1 3 apply div 1
+1 2 apply add 69
+3 2 set 2306698891288055362
+2 5 apply sub 2
+1 1 apply sub 3298443936265591898
+3 5 apply div 1
+1 3 set 10362273050403653876
+2 2 set 18269456830339368587
+2 2 apply mul 14042158720026755101
+1 2 apply sub 15
+1 3 apply div 5507774060495541309
+1 3 apply add 17787540375055976845
+3 2 apply div 15
+2 2 set 2
+3 3 apply sub 7
+3 2 get
+3 1 set 71
+1 3 set 79
+2 1 apply sub 2661451547779351474
+1 2 apply add 2
+2 1 apply add 3
+2 1 apply div 1134800606828133315
+3 1 get
+3 2 apply add 11378511260871210427
+3 4 set 88
+3 5 set 27
+2 3 apply mul 0
+1 4 apply div 92
+3 1 set 24
+3 1 apply div 14
+1 4 get
+2 1 apply mul 18446744073709551614
+1 5 apply div 72
+2 4 apply div 50
+2 1 apply mul 9223372036854775808
+3 5 set 17
+2 3 apply sub 29
+1 2 set 75
+1 3 set 18446744073709551615
+2 4 apply div 3
+1 4 get
+1 2 get
+2 5 apply sub 15397547552507269134
+1 5 get
+2 3 apply mul 18446744073709551615
+2 5 apply mul 6122657361305523885
+3 5 apply add 11603409370873664872
+1 4 apply div 45
+3 2 set 9223372036854775807
+3 2 set 90
+1 3 apply add 47
+2 3 apply div 4294967296
+3 2 apply mul 18446744073709551614
+3 5 set 61
+1 1 apply add 11
+3 1 get
+2 2 apply div 3
+2 2 set 18446744073709551615
+2 2 get
+1 2 set 14141264083276836141
+1 3 apply add 83
+3 2 apply mul 14428343748441065945
+1 5 apply add 97
+3 3 apply add 1
+2 3 apply sub 18446744073709551614
+2 4 apply add 44
+1 3 set 42
+3 5 apply add 9223372036854775808
+1 1 apply div 10468308100470886588
+1 4 apply div 14
+3 2 get
+3 5 set 14478820053548046716
+1 5 set 14877594623534581029
+3 4 get
+1 4 apply add 3
+1 2 get
+1 4 apply add 27
+1 4 set 17105245672129696171
+3 5 apply mul 45
+1 3 apply add 12253655138665434579
+1 4 set 35
+1 5 set 30
+1 5 apply sub 80
+2 5 get
+3 1 apply div 72
+3 5 apply div 15
+3 5 set 4294967296
+2 3 set 17018971977446553440
+2 5 set 20
+3 1 set 58
+2 4 set 15
+2 4 set 95
+1 4 set 9
+3 1 get
+2 1 get
+2 5 apply add 42
+2 3 apply add 60
+1 2 set 18446744073709551614
+2 1 apply div 1936957179290405378
+2 2 get
+1 4 set 6
+3 2 set 33
+3 2 apply mul 4294967296
+1 1 set 7191572549229167432
+2 3 set 42
+2 2 get
+3 4 apply add 12979769357575235314
+3 5 apply sub 5359498345293638420
+3 2 set 18446744073709551615
+1 1 set 2
+1 2 apply add 79
+1 2 apply div 84
+3 5 apply div 1327178901915864907
+3 3 set 1
+3 4 apply add 83
+2 5 apply div 9702061771462430289
+1 2 set 14574167775512381085
+1 5 set 0
+3 1 set 1427998880334907758
+3 5 apply mul 56
+2 5 get
+3 3 apply mul 3
+2 4 apply add 43
+3 4 apply mul 16582838002852990634
+3 2 set 68
+3 5 apply div 5951485106215717534
+1 3 set 4542768280422894521
+3 1 apply mul 96
+2 3 set 15442186017484983769
+3 5 set 9
+1 4 get
+3 2 get
+3 5 apply div 3
+2 4 apply div 22
+2 2 get
+3 4 set 96
+3 3 apply mul 27
+3 3 get
+3 2 set 61
+3 4 apply add 3846900626286415551
+2 3 set 12
+2 3 apply div 9223372036854775807
+3 5 apply add 9432261205184835588
+2 1 apply sub 6269723333860969984
+2 5 apply mul 98
+2 1 get
+3 5 apply add 83
+2 1 apply div 58
+2 3 set 2361376326193108279
+1 1 apply mul 18446744073709551615
+2 5 apply mul 56
+1 2 apply sub 11
+2 4 set 47
+2 4 set 0
+1 2 get
+1 2 set 4294967296
+1 3 set 14806806515696356693
+3 4 apply add 71
+1 1 apply div 96
+2 2 apply sub 8439752147267911518
+2 5 apply add 3
+1 2 apply sub 60
+3 3 apply sub 9
+1 1 set 9223372036854775807
+2 2 apply mul 31
+3 2 apply mul 9632184026024806480
+1 2 set 74
+3 3 apply add 8
+1 4 get
+1 5 apply sub 14089225586170986976
+3 2 get
+2 1 apply sub 56
+3 5 set 11789386244759992193
+2 4 get
+2 4 apply mul 1124480494295692045
+1 1 apply div 99
+2 3 apply sub 4294967296
+3 2 get
+2 5 apply mul 18
+2 5 apply sub 13
+3 1 apply sub 23
+1 1 apply sub 2229284985083366492
+1 3 apply add 90
+1 4 apply div 14438122934412608601
+2 1 set 18446744073709551615
+1 5 apply div 13449886297286345978
+2 5 get
+3 5 get
+2 3 apply sub 1
+2 1 set 9935162018745393080
+2 1 set 3341490490529692395
+3 1 apply add 122562788814048679
+3 2 apply sub 97
+2 3 apply sub 17575094173391717662
+1 1 get
+1 5 apply mul 33
+2 2 set 16
+2 1 set 99
+1 5 apply add 5
+1 1 apply mul 7571909357304350050
+2 4 set 17719515745698081115
+2 3 get
+2 2 apply mul 18446744073709551614
+2 1 apply sub 27
+2 4 apply div 51
+3 4 apply mul 29
+3 4 apply mul 0
+2 4 apply div 60
+2 5 set 4294967296
+3 1 get
+1 2 apply add 3
+2 1 apply add 3
+2 2 apply div 3291285526131220104
+1 3 apply mul 37
+1 2 apply div 1
+2 4 apply div 15364260611947061481
+3 4 apply div 1163801420952617491
+1 1 apply add 53
+3 2 apply mul 0
+2 5 get
+3 3 apply sub 5350260926467326431
+2 1 apply div 98
+1 2 set 13713692510147330028
+3 4 apply add 9223372036854775808
+2 5 apply div 84
+2 1 get
+3 3 apply sub 10353005647963402066
+1 4 apply add 15926624017461219064
+1 2 apply sub 7658735554032668866
+2 3 get
+1 2 set 65
+2 1 apply add 22
+1 1 get
+3 1 get
+2 4 apply mul 3538858177755322822
+3 1 set 0
+2 5 set 18446744073709551615
+1 4 apply add 5
+1 4 set 1887648311862649174
+3 4 set 95
+1 2 apply div 9223372036854775808
+3 4 get
+1 4 apply add 7
+3 1 set 7920895227107197135
+2 3 get
+2 5 set 23
+1 5 apply sub 18446744073709551615
+2 1 set 85
+3 1 get
+3 1 get
+2 1 apply add 38
+1 1 set 9223372036854775807
+2 1 apply div 47
+1 1 apply mul 5864603408972938202
+2 2 set 7
+1 5 apply div 7
+2 1 apply mul 73
+2 1 apply div 3
+3 2 apply add 11480742708737492844
+2 4 apply mul 36
+2 3 set 13
+1 4 get
+1 4 set 18446744073709551614
+3 2 set 82
+3 3 apply mul 43
+1 4 apply add 30
+3 1 apply mul 84
+1 4 get
+1 3 set 51
+3 3 apply div 945934126597529909
+2 4 apply mul 2
+2 2 set 3
+2 1 set 32
+1 3 apply sub 0
+2 2 get
+3 5 apply sub 53
+2 2 set 1
+2 5 set 9223372036854775807
+1 5 apply div 50
+2 4 get
+1 1 apply sub 7527493569354310970
+1 5 apply sub 80
+2 2 set 1409492302448550163
+1 5 apply mul 3
+3 5 apply sub 41
+1 4 apply sub 46
+3 5 apply sub 2
+2 3 apply sub 73
+3 3 get
+3 1 apply mul 18446744073709551615
+2 5 set 16451548980747003983
+3 4 get
+2 3 get
+3 4 apply sub 1
+3 4 apply mul 88
+2 5 set 0
+2 3 apply add 7
+3 2 set 9657466942591610008
+2 3 get
+3 2 get
+1 5 apply sub 15340143053113284814
+1 1 set 1245723175053803795
+2 2 apply mul 59
+2 1 set 48
+2 2 apply sub 2
+3 2 set 10
+3 3 apply add 3
+3 4 apply sub 64
+1 4 set 4441676493592757734
+3 5 apply add 83
+3 1 set 54
+2 2 apply mul 2588287142737207197
+2 3 set 86
+3 5 apply add 1
+1 1 apply mul 10823316109534134412
+1 4 apply sub 9
+2 4 set 78
+1 1 apply sub 11005649221636226123
+1 2 apply div 60
+2 3 apply mul 18446744073709551614
+3 2 apply div 17
+3 5 get
+1 1 apply add 9583186328308842838
+1 2 set 3
+3 3 apply div 3
+2 4 apply sub 41
+3 5 set 5782004276325809178
+3 2 apply div 1184009725839269868
+1 3 get
+1 3 apply add 9541281584326826824
+2 3 set 1
+1 4 apply sub 58
+2 4 set 4493931720542947528
+1 2 apply div 9899743893027900871
+3 5 set 46
+3 5 set 18
+3 3 apply add 4294967296
+2 1 apply mul 0
+2 3 apply sub 18446744073709551615
+1 5 get
+3 2 get
+1 2 set 6315724760910857730
+1 5 get
+3 3 apply sub 83
+2 2 apply sub 89
+3 1 apply div 10445005907050010844
+3 3 apply div 18446744073709551615
+3 2 apply mul 31
+3 3 apply mul 0
+2 4 set 2
+3 2 apply mul 75
+3 1 get
+1 1 apply add 94
+3 5 set 9223372036854775807
+2 5 apply mul 36
+2 1 apply mul 21
+1 1 apply sub 1223737731550634827
+3 5 apply add 66
+1 4 apply div 9223372036854775807
+3 3 set 18446744073709551615
+2 3 set 18446744073709551614
+2 3 get
+3 3 apply sub 11546177893906318651
+1 1 set 46
+2 1 apply sub 42
+1 4 set 86
+2 1 get
+3 1 apply add 97
+1 1 get
+3 3 apply mul 15160609870057591081
+2 3 set 1
+1 3 apply div 2
+2 4 apply div 81
+3 4 get
+3 4 set 27
+2 4 set 12349946289180094660
+1 2 get
+3 4 set 1
+2 1 apply add 5
+3 2 apply sub 99
+3 1 get
+3 4 get
+1 3 get
+3 2 apply mul 0
+3 1 apply sub 4294967296
+3 4 get
+2 5 apply sub 1995300658810124904
+2 2 apply add 17238262020362240127
+1 1 set 38
+3 1 set 88
+2 3 get
+3 5 get
+2 5 apply mul 12775784491542081951
+3 1 apply div 93
+2 3 set 2785177625141671916
+3 1 apply div 9223372036854775807
+2 5 apply div 39
+3 4 set 9223372036854775807
+1 2 apply mul 65
+1 1 apply add 91
+2 1 set 32
+2 4 apply add 7
+1 5 get
+3 5 apply add 13565441192278630247
+1 4 apply div 61
+2 2 set 50
+1 1 set 97
+3 4 get
+2 2 apply mul 44
+1 4 apply mul 2
+2 3 set 1
+1 5 apply sub 17947509579363141117
+3 3 apply add 69
+2 2 apply div 2324942786093472171
+2 3 apply add 7
+1 4 set 4339226823060723968
+2 2 apply mul 9223372036854775808
+1 1 apply div 7452243214848651055
+3 5 set 4700592140067025376
+1 1 apply div 18
+1 1 apply div 48
+1 1 set 9046814622872978260
+2 5 get
+3 3 apply div 61
+2 1 set 3732691727066768943
+3 4 get
+2 4 apply sub 92
+1 5 apply div 99
+3 3 set 6636639488518304092
+3 5 apply add 32
+1 4 set 39
+2 3 apply sub 18446744073709551614
+2 1 set 78
+1 2 get
+2 5 set 15235605779251237780
+3 5 apply add 96
+2 5 get
+2 1 apply mul 9
+3 5 get
+3 1 apply div 7894236072156872651
+3 5 apply sub 9478299215680384812
+1 1 set 0
+2 3 apply add 38
+2 4 apply div 31
+1 3 get
+3 4 set 10
+2 4 apply sub 58
+2 4 apply mul 18100206816875061418
+1 5 get
+1 5 apply mul 9432661513657379274
+1 2 set 71
+1 4 get
+2 2 apply add 80
+2 4 apply sub 30
+3 2 set 1974017116266897766
+2 1 apply add 18446744073709551614
+1 2 get
+1 2 get
+1 4 apply mul 9223372036854775807
+1 5 set 18446744073709551615
+1 3 apply mul 4294967296
+2 3 apply add 32
+1 2 apply sub 73
+3 4 get
+1 3 set 11
+3 2 get
+2 3 set 18446744073709551614
+1 5 set 16
+3 4 set 66
+3 5 get
+2 1 get
+2 2 set 2
+3 2 apply mul 12003895581867503881
+1 5 apply mul 99
+1 2 apply add 65
+1 4 apply add 12
+2 5 apply mul 41
+3 2 set 92
+1 5 apply div 55
+2 2 apply mul 13
+1 3 set 2055585014906136015
+3 4 set 24
+3 3 apply div 96
+1 2 get
+1 4 get
+2 5 set 8117475488688623720
+3 3 get
+3 1 apply add 0
+2 4 apply mul 12478844508806376616
+3 1 apply div 12
+1 2 set 5
+2 4 get
+2 1 set 67
+2 1 apply sub 5
+1 5 apply add 7971718624912367370
+3 5 get
+1 5 apply add 62
+1 5 set 9252956118709731778
+2 2 apply mul 75
+2 5 apply sub 23
+1 4 set 16395629313476772666
+3 5 get
+2 1 apply sub 8433373041227009379
+2 2 apply add 2
+3 3 apply sub 72
+3 4 set 28
+2 3 set 4
+3 4 set 50
+2 5 set 1
+1 1 apply div 77
+1 5 get
+1 4 apply div 15
+3 2 set 9223372036854775807
+2 3 set 89
+1 1 apply sub 18446744073709551614
+3 4 set 1
+1 2 apply add 50
+1 4 apply div 85
+3 2 apply div 56
+1 5 apply add 0
+2 5 get
+3 2 set 3
+2 4 apply sub 51
+3 3 apply mul 62
+1 2 set 46
+3 2 apply mul 4294967296
+1 1 set 6873508163369308697
+1 1 apply mul 3365956400290733702
+1 1 apply add 39
+2 3 get
+2 5 set 21
+1 3 apply div 18446744073709551615
+1 3 apply mul 34
+1 4 get
+3 3 apply add 83
+3 5 apply mul 89
+3 3 set 86
+2 4 apply add 99
+1 4 get
+1 5 set 46
+3 3 apply div 20
+2 3 get
+3 4 apply mul 94
+2 2 apply div 8078102741175346407
+1 5 apply sub 1
+1 4 apply div 87
+2 2 apply sub 24
+3 3 set 6
+2 2 apply sub 14317947691200793636
+1 2 get
+3 4 set 8
+1 1 set 47
+2 1 set 10125693490086040406
+1 3 apply div 62
+2 5 apply mul 14810837824394508533
+2 1 get
+1 2 apply mul 69
+3 2 apply mul 1
+3 1 set 9223372036854775807
+2 4 apply mul 63
+1 1 apply mul 3
+3 2 set 8
+2 1 apply mul 9223372036854775807
+3 2 apply mul 47
+3 2 apply add 6541251015646002739
+1 4 apply add 86
+3 4 set 9505718190719314141
+2 1 apply sub 51
+2 1 apply sub 3
+1 3 apply sub 3
+3 3 apply sub 7
+1 1 set 94
+2 1 get
+1 4 get
+1 4 apply mul 16710791962702412127
+1 1 apply add 2
+2 5 set 88
+1 4 get
+2 4 apply add 77
+3 2 get
+3 1 get
+2 2 get
+2 5 apply sub 12471559361791124287
+3 2 apply div 18446744073709551614
+3 2 apply mul 26
+1 3 get
+1 5 apply div 82
+2 3 apply div 76
+1 3 apply mul 13785106992930524061
+1 3 apply sub 5097389315927659130
+1 3 get
+1 2 apply div 15894954950435855172
+2 4 apply mul 69
+2 5 apply mul 13884658354994452821
+3 2 apply sub 6481472909208789572
+1 1 apply add 27
+3 5 apply sub 10255981293328304561
+3 2 get
+2 5 apply sub 18446744073709551615
+1 4 apply div 31
+3 5 set 33
+2 3 get
+3 5 apply add 17462796123525482740
+3 5 apply sub 2
+2 5 set 16250819956045677241
+3 5 apply add 61
+1 1 set 7
+2 1 get
+3 1 get
+3 5 apply add 7
+3 4 set 4294967296
+2 5 apply sub 3
+1 3 get
+1 4 set 0
+2 3 apply add 53
+3 4 set 4294967296
+1 2 set 97
+3 5 apply mul 39
+3 4 set 49
+3 2 apply div 546386364943038783
+1 3 set 72
+1 2 apply sub 23
+2 5 get
+1 5 set 90
+2 4 set 17017784558047860194
+3 4 apply mul 28
+1 4 apply add 9223372036854775807
+1 5 set 73
+3 5 apply mul 9
+3 2 get
+2 4 apply add 9223372036854775808
+3 3 apply mul 8470759642269275500
+3 1 get
+3 4 set 79
+1 5 get
+1 2 apply div 88
+3 1 apply div 3054601302480603267
+1 1 apply mul 63
+2 4 apply add 3
+3 4 set 9223372036854775808
+3 3 apply sub 16
+1 3 set 59
+3 5 set 4294967296
+3 2 set 18446744073709551615
+1 4 apply add 4611035607131662489
+2 2 apply mul 7
+1 2 set 5732960018000370857
+3 3 apply div 9937838607277879595
+2 2 apply add 1244806474622688138
+1 3 apply add 8934696676521343714
+2 5 apply div 1714721857216414783
+2 3 set 75
+1 2 set 2
+2 1 set 51
+1 3 apply sub 79
+2 5 set 64
+3 5 apply div 9223372036854775807
+1 3 apply add 80
+2 3 apply mul 78
+2 5 set 92
+1 3 apply div 7
+2 4 apply add 2
+3 3 set 13
+2 1 apply sub 14359761234761847816
+2 3 set 0
+2 2 get
+1 2 apply add 18
+3 1 apply div 40
+1 2 apply div 13
+3 3 apply add 80
+1 1 set 0
+1 5 apply sub 9223372036854775808
+3 2 set 17297242669803126597
+1 5 apply div 10518579676695245379
+3 4 apply mul 7740610172506370737
+2 1 apply add 36
+2 2 apply div 85
+2 1 apply div 17
+1 4 apply mul 37
+2 1 get
+1 2 set 4294967296
+3 3 get
+2 1 set 64
+2 5 apply sub 33
+1 5 set 92
+3 4 apply add 49
+2 3 get
+2 4 apply mul 42
+2 3 set 42
+3 5 apply sub 3553008829772672073
+3 1 set 9223372036854775807
+2 2 get
+2 2 get
+3 3 set 3
+1 1 set 17749443673421121374
+3 1 apply mul 46
+3 1 apply mul 16456744756900605797
+3 4 apply mul 49
+3 1 apply div 1
+1 4 apply add 8386941701314073966
+3 5 set 18446744073709551615
+2 2 set 50
+2 4 apply sub 26
+2 5 set 18446744073709551614
+2 5 set 4357861492525077079
+1 5 apply mul 15546380586065378536
+3 4 set 51
+1 3 apply mul 3264908327857323912
+3 2 apply div 1
+2 2 apply sub 0
+3 1 set 5829430254827590477
+1 3 apply mul 2106744874589675751
+2 2 set 3
+1 2 set 9223372036854775808
+3 3 apply add 3
+1 4 apply sub 69
+1 2 apply div 10300199822054894319
+2 4 set 52
+1 3 set 9223372036854775808
+1 3 set 21
+3 1 apply add 9223372036854775807
+2 2 apply sub 29
+3 2 set 2
+3 1 get
+1 5 set 23
+2 5 apply mul 13194414068041415706
+2 5 get
+2 3 apply add 49
+2 2 get
+1 5 apply add 65
+1 2 apply sub 9223372036854775808
+1 4 apply add 43
+3 5 apply add 9223372036854775808
+3 2 apply mul 3
+3 1 get
+2 3 get
+3 4 apply add 61
+2 1 apply mul 4294967296
+3 5 get
+3 5 apply add 3787430486446336851
+2 4 get
+1 5 set 3
+3 1 apply div 11018311512174328780
+1 2 apply mul 40
+3 5 apply div 16776835095894216949
+1 2 apply sub 15
+1 4 get
+3 4 set 19
+1 3 apply mul 70
+1 3 apply add 1969922215742519134
+2 2 apply div 15
+2 5 get
+2 5 apply sub 2
+1 1 set 1
+2 1 apply add 11
+2 2 set 92
+3 1 apply mul 13470556475192572508
+2 2 get
+3 3 apply add 69
+3 1 apply add 5267328351357492132
+1 1 get
+3 3 apply sub 44
+1 3 apply sub 10461011183057656971
+2 3 apply sub 63
+3 1 apply add 2
+3 1 apply add 1336500790241524568
+1 3 apply sub 56
+2 5 apply sub 93
+1 1 set 8773877480077547154
+1 5 apply mul 3422658013866101433
+3 4 apply sub 58
+3 3 set 81
+3 1 set 18446744073709551614
+3 3 set 12351970252446847701
+1 5 apply mul 16431432506584047816
+2 2 set 4294967296
+3 4 set 0
+1 1 apply sub 15387557791721969068
+2 4 get
+2 3 apply div 16914939644071624329
+3 3 apply mul 9358284534522911565
+2 4 apply mul 6
+3 1 get
+2 5 apply sub 7
+2 3 get
+1 1 apply add 4294967296
+3 3 get
+3 2 apply sub 4
+3 1 apply add 6326715598320252894
+2 2 apply sub 22
+3 4 apply mul 14
+3 2 set 58
+1 4 set 1
+2 2 apply sub 8059731195056768324
+2 1 apply sub 18446744073709551615
+1 5 get
+1 2 apply mul 4294967296
+1 3 get
+1 5 get
+3 4 apply div 80
+3 1 apply add 16477489352058440324
+1 5 apply sub 57
+3 5 set 86
+1 2 get
+2 3 apply add 1436029466784225125
+2 1 apply mul 4
+3 1 get
+1 2 get
+2 4 set 63
+2 3 set 9300426409144103535
+1 3 set 16991310978342148861
+1 4 get
+3 4 apply mul 3
+2 5 get
+2 5 apply sub 71
+1 3 apply add 16698875376054156644
+1 1 apply sub 7
+2 2 get
+2 2 set 15544256138504116712
+2 1 apply sub 1
+3 1 apply mul 93
+2 4 apply mul 2
+2 5 get
+3 4 set 65
+1 1 set 30
+1 1 get
+1 4 set 78
+1 2 apply sub 464618275036245428
+1 3 get
+3 3 get
+1 3 apply div 9223372036854775807
+2 1 set 16915507279880973746
+1 5 apply div 18446744073709551615
+1 3 apply sub 89
+2 5 apply div 7
+1 5 apply mul 2
+3 5 get
+2 2 get
+1 4 apply div 14106774527177581253
+2 5 apply div 37
+1 1 apply div 2491913785846539725
+2 5 apply mul 10
+2 2 get
+2 2 apply div 1
+1 2 apply div 4294967296
+3 5 get
+2 4 set 72
+3 4 get
+3 2 get
+3 1 apply sub 5098553105986975818
+2 5 apply mul 76
+2 5 apply add 452646694406348796
+1 2 apply div 4139863425027524906
+2 5 apply add 7
+2 4 apply add 18446744073709551614
+1 4 apply mul 30
+3 1 get
+3 5 get
+3 2 apply div 9223372036854775807
+2 5 set 10128371139557218976
+2 3 apply sub 85
+2 1 apply div 1
+2 5 set 29
+3 1 set 14
+2 5 set 16603414499875926883
+3 4 get
+3 4 get
+3 4 apply sub 12
+1 2 get
+1 3 get
+1 1 apply div 3422030046962639357
+3 1 get
+2 4 get
+1 2 set 3642968295580271540
+3 1 apply sub 2
+1 1 set 7
+1 1 apply sub 29
+2 5 apply mul 40
+2 5 get
+3 2 apply div 31
+1 4 apply add 15045941436366257846
+1 5 apply div 86
+1 5 apply mul 87
+1 4 apply mul 19
+1 3 apply mul 90
+2 4 apply add 10572947942413757319
+3 5 set 32
+3 1 set 11403148232106506837
+2 4 apply mul 7
+2 3 get
+1 5 apply add 2
+3 3 set 18446744073709551614
+2 5 apply sub 10
+1 1 apply mul 9223372036854775808
+3 5 apply div 16
+1 2 get
+3 5 apply div 50
+1 5 apply mul 18446744073709551615
+3 2 get
+3 1 apply mul 9978882403937855878
+1 4 apply add 55
+2 3 apply add 1
+3 4 apply add 96
+3 3 apply div 18446744073709551614
+1 3 apply mul 45
+3 4 get
+2 1 apply div 71
+3 3 apply div 79
+3 4 set 10
+3 3 apply mul 83
+1 1 apply sub 13659267787743393875
+1 2 get
+3 2 get
+1 2 set 44
+2 5 apply div 74
+3 1 get
+3 4 set 4
+2 1 apply mul 75
+3 4 get
+2 1 set 9743463802558909242
+3 3 apply mul 24
+2 3 set 7
+1 5 set 7
+2 5 get
+3 4 apply mul 64
+2 5 set 45
+2 3 get
+1 4 set 2
+2 2 apply mul 30
+1 1 set 78
+2 1 apply add 2
+1 2 get
+2 1 apply div 96
+1 3 set 90
+1 2 apply div 7
+2 1 get
+2 3 apply sub 18446744073709551615
+3 1 set 3
+2 1 get
+2 2 get
+1 1 apply mul 97
+2 2 set 11001974446959418743
+1 3 apply add 2216594303831820193
+1 1 apply div 73
+1 2 set 8774289465832064615
+2 5 apply div 53
+2 5 apply mul 85
+1 1 get
+3 5 set 0
+2 2 apply div 82
+2 4 apply add 2205388054744561029
+1 2 apply mul 11423363725806817200
+1 1 apply div 3
+2 4 get
+2 1 set 47
+2 1 apply div 18446744073709551614
+2 2 set 11779100993808360387
+3 4 get
+2 3 apply add 1
+2 4 apply sub 18446744073709551614
+2 4 get
+1 2 apply sub 2
+3 2 get
+3 1 apply div 49
+2 5 apply div 0
+3 2 set 4294967296
+1 4 set 43
+3 2 set 4294967296
+1 2 set 84
+1 4 get
+2 3 set 9538266148499910064
+1 3 set 72
+2 2 get
+3 1 apply sub 93
+2 2 set 9
+3 1 get
+1 3 apply div 12833756915961787075
+2 1 apply mul 18446744073709551614
+1 4 set 9223372036854775808
+2 3 apply add 90
+2 2 apply mul 6937142268157880801
+1 2 apply add 1
+1 1 apply sub 18446744073709551615
+2 2 apply div 37
+1 5 set 73
+3 5 get
+3 4 get
+2 3 get
+3 2 apply div 9
+1 2 apply div 4095616787539735907
+3 5 apply mul 99
+1 1 apply div 18446744073709551614
+3 4 set 2
+2 2 set 92
+1 3 get
+2 3 apply add 9223372036854775808
+3 1 get
+2 5 get
+1 1 apply div 9223372036854775807
+2 5 apply div 3
+1 3 set 34
+1 5 set 2
+2 5 set 16359288505594402772
+3 1 set 8969893288522503510
+1 1 apply div 10627363637149552260
+2 5 apply mul 0
+2 1 set 87
+1 3 set 46
+3 5 set 841968971473410613
+2 4 get
+2 2 set 99
+1 2 apply sub 92
+2 3 get
+1 3 set 6012030860619124806
+1 5 set 7
+1 3 set 34
+1 5 apply mul 4294967296
+2 2 apply div 89
+1 5 get
+1 1 get
+2 3 apply add 44
+2 2 set 9223372036854775807
+3 2 set 23
+3 5 get
+2 4 apply sub 5881432396938571228
+3 4 apply div 4294967296
+2 4 set 6350566228542222644
+1 5 get
+3 1 set 0
+2 5 apply sub 516377385601522459
+1 1 apply mul 1
+3 5 get
+1 4 apply sub 9223372036854775807
+2 2 set 10680920245522673001
+1 4 set 0
+1 1 apply sub 65
+3 5 get
+3 3 apply sub 81
+1 5 apply div 91
+1 4 apply add 47
+2 2 apply div 1982029747986946869
+2 3 set 3
+1 2 set 15392390007746480866
+3 4 set 81
+1 2 apply add 88
+2 1 get
+3 5 apply div 9818857890897089677
+3 1 set 85
+1 1 get
+3 5 get
+1 1 apply add 52
+1 4 set 55
+2 4 set 12
+3 5 apply mul 13896547828867666058
+2 3 get
+2 3 set 70
+2 4 apply mul 43
+2 4 apply div 9223372036854775807
+3 4 apply add 98
+3 3 apply sub 9
+1 3 apply mul 3559651101839831506
+1 2 apply add 18446744073709551614
+2 2 set 565781420337083115
+1 3 apply add 44
+3 2 get
+1 5 set 19
+1 3 get
+3 4 apply add 9223372036854775808
+3 4 apply add 3147895061244014504
+3 2 set 92
+1 1 apply div 4294967296
+3 1 set 75
+2 2 set 96
+1 4 apply sub 15
+3 2 apply div 18
+3 2 set 5
+3 1 apply add 6542794758250035213
+3 3 apply add 8
+3 4 set 0
+2 2 get
+3 5 apply sub 78
+3 5 set 18
+2 4 set 1
+1 3 get
+1 3 apply sub 28
+2 1 apply add 3
+3 5 get
+3 1 apply mul 85
+3 3 set 49
+1 3 apply add 0
+3 3 apply div 3
+1 3 apply add 0
+1 2 apply mul 2
+3 1 get
+2 4 apply sub 4294967296
+1 1 set 3
+1 1 apply div 18446744073709551615
+3 1 apply div 67
+3 1 set 9223372036854775807
+3 2 set 18446744073709551614
+2 1 apply mul 14085230431366898923
+1 1 get
+3 3 apply add 9223372036854775807
+2 1 apply add 86
+2 1 apply add 9223372036854775807
+3 1 apply mul 1
+2 2 apply add 4294967296
+3 3 set 22
+3 4 get
+2 1 get
+2 1 apply add 10687420325927840162
+3 1 apply div 18446744073709551615
+1 4 set 59
+1 1 apply div 51
+3 1 get
+3 5 apply sub 17462722454802404061
+3 5 apply div 1933844085796931227
+3 3 set 9223372036854775807
+2 4 set 11722917187019041299
+2 5 apply div 20
+1 1 set 18446744073709551614
+1 2 set 88
+1 3 set 83
+1 4 apply div 1
+1 2 apply div 19
+2 5 apply mul 4
+3 4 apply mul 9223372036854775808
+2 3 set 2
+1 1 set 63
+2 1 set 0
+3 3 apply sub 50
+1 3 apply mul 44
+2 5 set 18446744073709551615
+1 3 apply sub 47
+2 5 get
+3 3 set 95
+3 3 apply sub 43
+1 1 apply mul 4294967296
+3 2 apply sub 9189245662940321702
+1 2 apply add 1015849452203078240
+3 5 set 2
+2 2 apply add 19
+3 2 apply sub 9223372036854775808
+3 4 apply sub 84
+2 1 get
+1 1 apply div 18446744073709551615
+1 3 get
+1 2 set 9223372036854775808
+1 2 apply mul 71
+3 3 apply mul 84
+3 4 apply sub 87
+2 3 apply div 7934587410006037561
+3 1 set 1924003962403320225
+2 4 get
+3 3 apply add 68
+2 2 apply sub 54
+2 1 set 2516246451900859477
+2 4 apply sub 46
+3 5 apply div 9223372036854775807
+1 5 apply mul 98
+3 4 apply add 8954241357685421932
+2 1 set 93
+3 5 apply sub 14
+2 2 apply mul 1
+2 5 apply add 57
+2 3 set 6322649717751817717
+3 1 apply sub 77
+1 5 apply mul 70
+1 3 set 75
+2 3 get
+1 2 apply sub 97
+1 5 set 14003537215163304962
+1 1 apply div 4294967296
+2 3 set 1
+2 4 apply mul 1132186628291952544
+1 2 get
+1 3 set 65
+2 3 set 9223372036854775807
+2 5 apply sub 53
+3 1 apply div 605274370939094416
+2 5 get
+1 2 get
+1 2 apply add 7
+1 2 apply div 2333820331623849299
+3 4 apply sub 9223372036854775808
+2 5 apply add 11
+1 1 apply mul 14474553666512592517
+2 4 apply div 18446744073709551615
+2 1 apply add 4294967296
+3 1 get
+1 5 get
+1 5 set 1
+2 3 get
+2 3 apply add 3
+3 3 apply div 53
+1 5 apply add 7
+2 2 apply div 14331163552745106979
+2 3 apply div 40
+3 1 set 0
+2 4 set 8755146474248553014
+3 1 apply mul 99
+1 3 get
+1 1 set 3
+3 2 set 3
+1 3 apply sub 85
+2 5 get
+2 1 apply div 24
+3 1 apply add 0
+2 2 apply sub 16849752552334427363
+1 4 get
+2 2 apply mul 8833607874974256147
+1 5 apply div 1586509148435957252
+1 4 apply add 9223372036854775807
+1 5 get
+1 5 apply add 89
+3 2 apply mul 27
+3 4 get
+2 1 apply div 96
+1 5 set 60
+3 4 apply div 37
+1 5 set 88
+3 4 set 53
+3 1 apply mul 35
+3 3 apply div 5798526181646263094
+3 2 set 86
+2 1 apply add 52
+1 2 apply mul 1887437942878814493
+3 4 apply div 12729016961331301697
+1 1 set 90
+3 3 apply div 90
+1 3 apply div 9223372036854775808
+3 1 apply add 10406152236717870455
+2 4 get
+2 2 apply mul 4119512125684258447
+1 2 set 7271317603389823669
+1 2 apply add 24
+1 3 get
+3 4 apply mul 14870180520226509444
+1 1 apply sub 2
+3 5 apply div 9377443041802727385
+1 1 set 95
+2 1 set 78
+1 3 apply add 98
+2 5 apply sub 19
+2 1 get
+3 2 set 23
+2 5 set 9223372036854775807
+2 3 apply div 3
+1 1 set 90
+2 1 set 17013674421918144639
+1 5 apply add 0
+2 2 set 1
+1 1 get
+3 1 apply add 34
+1 1 apply mul 7
+2 2 get
+1 1 apply mul 5199840880913848973
+1 4 apply add 94
+2 2 get
+1 2 apply add 82
+3 4 get
+1 5 apply sub 13499570645246792273
+1 5 apply div 4294967296
+1 4 apply mul 30
+1 3 apply add 33
+1 4 set 50
+3 2 get
+1 2 set 7
+1 1 set 14792383745778056526
+1 3 apply div 9654706418365986756
+3 1 get
+2 3 apply add 3
+3 2 apply mul 9536430775340926918
+3 1 set 44
+1 5 apply add 73
+2 5 set 16
+3 2 set 68
+3 3 apply mul 8971616931736444521
+2 3 apply sub 43
+1 5 set 30
+1 5 apply mul 46
+3 3 set 14
+2 4 apply add 4773251126559997800
+2 1 apply mul 13321214479449096256
+3 5 get
+3 5 get
+3 1 apply div 73
+2 1 apply div 79
+2 2 set 6837527525563964231
+2 4 apply mul 97
+2 3 apply add 68
+3 5 set 4
+3 5 apply mul 99
+2 1 get
+2 4 set 11
+2 2 apply div 65
+2 5 apply sub 11408745758931442547
+2 2 set 47
+1 4 apply add 18446744073709551615
+3 3 set 35
+2 2 set 1
+2 1 get
+3 4 get
+1 1 apply add 75
+3 3 apply div 2017769735489153566
+3 1 get
+3 3 get
+2 3 get
+1 5 get
+3 3 apply sub 8646385387924426395
+1 3 set 33
+3 4 set 93
+3 2 set 9223372036854775807
+1 5 apply mul 18446744073709551614
+3 2 set 43
+2 4 apply add 35
+3 5 apply mul 9223372036854775807
+3 4 apply div 9223372036854775808
+2 3 get
+3 3 apply add 10267705784475647741
+2 3 apply mul 94
+2 2 apply add 14832353568336911311
+3 4 apply add 87
+2 1 apply add 44
+3 4 apply div 7
+1 3 apply sub 2589027857540218611
+2 4 get
+3 4 get
+2 1 get
+1 3 get
+1 1 get
+2 1 get
+3 3 apply add 20
+3 5 apply add 18446744073709551614
+2 3 apply add 46
+1 2 apply sub 9388380864887273562
+2 3 apply sub 7
+2 2 apply mul 7
+2 3 apply div 16072074166366791860
+2 2 set 7449142650969799157
+3 4 apply sub 15371608023886925671
+1 3 apply mul 65
+2 5 set 9223372036854775808
+2 4 set 6710722635403466380
+3 1 get
+2 4 apply sub 59
+3 5 apply sub 84
+1 2 apply mul 2
+1 2 get
+1 3 set 6790007691595439536
+1 4 apply add 80
+3 1 apply sub 82
+1 5 set 72
+2 3 apply sub 14453014254682169683
+2 4 get
+1 2 set 16
+3 1 set 1
+1 2 get
+1 5 set 12
+2 4 apply mul 4294967296
+3 5 get
+3 1 get
+1 5 apply add 26
+1 1 apply mul 17271514900225385202
+3 5 set 73
+2 1 apply mul 3
+2 1 get
+2 4 apply div 18446744073709551614
+2 3 apply mul 6362853756415078729
+1 5 get
+1 5 apply sub 81
+3 3 apply div 51
+3 1 apply add 53
+2 2 apply mul 52
+3 3 set 9277357557436078128
+3 3 set 63
+1 3 set 92
+3 2 apply add 41
+1 2 apply add 18
+3 5 set 29
+1 1 set 7884013210166347639
+3 4 apply mul 11
+1 2 get
+1 1 apply sub 15908188720928182629
+3 1 apply div 15
+1 5 get
+1 3 apply add 76
+1 5 get
+2 5 apply sub 82
+1 4 apply add 26
+2 1 get
+1 2 get
+2 4 apply sub 9223372036854775808
+3 5 set 97
+1 3 get
+1 2 apply add 76
+3 4 get
+1 3 apply div 3
+1 5 apply mul 2
+2 5 set 15765539807720327666
+1 4 apply mul 941349064113216427
+1 4 apply mul 75
+1 2 apply sub 21
+2 5 set 49
+2 4 apply add 11608703293751828691
+3 5 apply add 74
+2 4 apply add 79
+3 3 apply div 15
+1 4 apply div 68
+1 5 apply add 0
+1 4 get
+1 2 apply mul 10803138052391155217
+1 4 set 5401490043575853262
+3 5 apply add 30
+1 1 set 11
+2 1 apply add 16551214861175333289
+3 2 get
+2 5 set 13239881862259311978
+3 4 set 6
+1 2 set 4
+3 3 set 15713839435238800842
+3 4 apply add 39
+1 5 apply div 16
+1 4 apply mul 2
+2 3 apply sub 17
+1 4 set 65
+1 4 apply div 67
+3 4 apply div 1
+3 1 set 38
+2 4 apply mul 25
+1 5 get
+2 5 get
+1 1 apply sub 59
+1 5 get
+3 1 apply sub 88
+1 1 apply sub 12074666646485083245
+1 1 set 1652010137298971003
+3 1 apply add 9223372036854775808
+1 3 apply div 97
+2 4 set 15
+3 3 apply mul 9223372036854775808
+2 5 set 15509824203620621410
+2 3 apply add 52
+2 1 apply mul 7
+2 5 get
+1 4 set 4
+2 5 set 17508068805835538273
+2 5 set 90
+2 3 apply mul 5901773510425108312
+3 1 apply add 45
+3 3 get
+1 2 get
+3 2 apply sub 89
+2 1 set 14737557785304315286
+2 4 apply add 2
+3 3 get
+3 4 apply add 3
+3 4 set 11373464306847752667
+3 2 set 2
+2 5 set 38
+3 2 get
+3 3 get
+1 3 apply add 9223372036854775808
+2 5 set 4294967296
+2 3 apply mul 9223372036854775807
+2 3 set 42
+2 4 apply mul 10752906064823387733
+3 2 set 7053580211861756253
+2 5 get
+2 4 apply add 18446744073709551614
+3 2 get
+1 1 set 13878165624459106191
+2 2 apply sub 24
+1 3 set 7
+2 2 apply sub 0
+2 5 apply add 69
+1 3 get
+1 2 set 4910935423354804586
+1 5 apply div 7
+3 4 get
+1 2 set 16567389844389218266
+3 1 apply div 17006144219215053792
+2 1 set 66
+2 5 apply add 0
+3 2 apply sub 7
+3 4 apply add 9223372036854775808
+2 3 apply mul 1
+1 5 apply sub 60
+1 2 set 98
+3 5 get
+3 1 apply mul 9223372036854775807
+1 3 get
+2 4 set 5305412862781543164
+1 4 set 3
+1 3 apply add 64
+1 5 apply div 64
+3 1 apply sub 83
+3 1 set 76
+3 3 apply add 2124979117869922894
+1 3 apply mul 876397830790670928
+1 2 set 14936701925540582934
+2 4 set 1659599191732370040
+1 1 set 11058080325051849328
+1 2 set 41
+1 1 set 1761213681145022778
+3 4 get
+3 5 set 11736375530383948391
+3 3 apply add 8437260067663119487
+2 3 apply div 9
+1 5 apply div 10150043412183583493
+1 4 apply mul 4294967296
+1 2 apply add 78
+3 4 set 3565463146155820958
+2 2 apply mul 2
+1 4 apply add 1116045252901161622
+3 1 set 9223372036854775807
+3 4 apply div 67
+3 1 apply mul 8106120816021551893
+2 5 apply div 84
+3 4 set 4294967296
+2 4 apply div 9886569910321774797
+2 4 apply div 5653210419486810756
+1 2 set 7
+1 1 get
+3 1 apply div 12189314294189848495
+2 1 set 93
+2 1 apply sub 13959043522922048277
+3 1 apply sub 13318013449451177959
+3 2 set 2
+2 3 apply add 64
+3 3 set 24
+3 2 apply mul 71
+1 1 apply mul 4714083048423691428
+1 1 apply mul 0
+3 1 apply mul 12836796026710540660
+1 4 get
+1 5 get
+2 4 get
+3 3 apply div 5423472297031702383
+1 4 apply mul 91
+1 1 apply mul 37
+3 3 set 3
+2 4 apply sub 74
+1 2 apply add 1
+3 5 get
+1 5 apply sub 1
+1 4 set 3646598695958303117
+2 3 get
+2 1 apply sub 3
+2 4 apply mul 9223372036854775808
+2 5 apply mul 3801163495368909009
+2 1 get
+1 4 set 0
+2 4 apply mul 1
+3 1 apply mul 51
+2 4 apply add 9223372036854775807
+1 3 get
+3 1 apply add 26
+3 5 apply add 58
+1 1 apply div 9223372036854775808
+3 3 get
+2 3 apply mul 78
+3 4 apply div 10606687262885304676
+3 5 apply mul 28
+2 4 apply mul 87
+1 2 set 4294967296
+1 4 set 10497028343218667123
+1 3 get
+1 2 set 18446744073709551615
+3 2 apply add 4294967296
+3 5 apply mul 72
+1 4 set 14866667282697449812
+3 2 apply add 16
+1 3 apply div 36
+3 1 apply div 1
+2 1 set 18446744073709551615
+3 2 apply div 29
+3 3 set 51
+1 1 set 30
+3 1 apply add 15
+2 1 set 78
+2 2 set 53
+3 3 apply mul 1
+2 1 apply add 3850561906875382401
+1 1 apply mul 3944075567806410353
+2 2 apply add 29
+3 3 apply mul 2
+3 2 apply sub 1737995830151411769
+3 3 set 85
+1 4 get
+2 3 set 3597902224691799386
+3 4 apply mul 94
+1 2 apply sub 18446744073709551614
+1 5 get
+3 3 get
+1 5 get
+2 2 apply sub 24
+2 2 apply add 3
+1 4 set 5339908653261510128
+3 1 get
+1 1 apply sub 32
+1 1 set 1
+3 5 apply add 36
+3 4 apply mul 1971978174236039365
+2 2 apply mul 9223372036854775807
+1 3 apply add 33
+3 3 get
+3 3 apply mul 10761290420143682923
+2 4 apply sub 70
+2 1 get
+2 2 set 18
+1 5 get
+1 5 set 9223372036854775808
+1 3 set 10464897456091764935
+3 5 set 93
+1 2 apply div 1
+1 5 apply div 3044265775223185407
+3 1 set 4531158645474855177
+3 4 apply sub 22
+1 1 apply div 2
+1 5 set 11251676904452448724
+3 3 apply add 3
+2 5 apply add 37
+1 2 apply sub 81
+1 2 set 36
+3 3 apply mul 56
+1 3 apply sub 82
+3 5 get
+1 3 set 18446744073709551614
+2 3 apply mul 12432761290108537056
+3 3 set 1
+1 5 set 52
+2 3 set 8477573640010129642
+1 3 apply mul 97
+3 4 set 1
+2 3 set 3982250327490263310
+1 5 apply sub 0
+1 4 apply add 12158335868498405303
+2 2 apply sub 83
+2 2 set 16
+2 4 get
+2 1 apply add 8
+2 2 apply div 57
+2 4 set 54
+2 1 apply mul 9111234933886893002
+2 1 set 7
+3 1 get
+2 3 set 9223372036854775808
+1 1 get
+2 1 apply add 9223372036854775807
+1 5 apply sub 7670543021597492692
+1 2 set 16505072165601376750
+3 4 set 2
+3 5 set 1
+1 4 set 7050591572306370728
+3 1 get
+3 1 set 20
+3 4 get
+3 3 set 8386309416147599486
+1 3 set 15254644071796049051
+2 5 set 5587172713869775858
+3 3 apply mul 12708842648192965942
+2 4 set 0
+2 1 apply mul 40
+2 2 set 2
+2 1 get
+1 5 apply add 33
+2 2 set 29
+3 1 apply sub 3
+2 3 get
+3 1 get
+2 1 apply div 4547625732462907349
+1 2 get
+1 1 set 47
+1 2 apply div 17
+2 4 apply div 155496491357855849
+2 3 apply div 88
+3 1 apply div 11957218012054650920
+1 1 get
+3 2 get
+3 2 get
+3 1 set 95
+1 2 apply sub 17
+1 4 apply div 0
+1 2 set 54
+2 4 get
+2 4 apply div 63
+3 5 set 65
+1 1 set 40
+3 3 apply sub 18446744073709551614
+1 1 set 2
+1 3 apply div 37
+3 2 get
+2 4 apply div 12444934410822813464
+3 1 apply sub 66
+1 1 apply sub 53
+2 4 apply add 98
+2 1 apply mul 49
+2 5 set 1
+1 3 apply div 17753521142533795436
+3 3 apply sub 7260364338094496428
+1 2 get
+3 1 set 3
+1 4 set 3
+2 4 get
+3 1 apply div 17176420289472971290
+3 3 get
+1 3 apply div 686028163943614389
+3 2 set 86
+3 5 apply div 72
+3 3 get
+1 5 set 9344865920041227058
+3 2 apply add 0
+2 4 apply sub 90
+2 1 set 11871253428336158863
+3 1 set 63
+3 2 apply add 9223372036854775808
+2 3 apply mul 2
+1 2 apply sub 15
+2 4 set 11
+1 1 apply mul 54
+2 2 set 18446744073709551614
+2 1 set 914761766552999445
+3 5 get
+3 2 apply div 3
+1 3 apply sub 1
+1 2 apply mul 9223372036854775807
+2 1 set 3
+2 1 apply add 25
+3 4 apply add 16012995917142387880
+2 2 get
+1 4 apply add 17686948463858447572
+1 4 apply mul 55
+2 1 apply sub 10114424952080451981
+3 1 apply add 9223372036854775808
+2 5 set 97
+3 2 apply div 18308200813755829173
+1 3 get
+1 2 apply div 7
+2 4 get
+3 2 apply sub 1
+3 4 set 94
+2 4 get
+2 3 apply add 3
+2 1 set 7
+2 5 apply add 13235784803037695761
+1 3 apply add 6662190541007401498
+1 1 get
+3 4 get
+2 3 apply add 8791574644016455254
+3 2 apply sub 7148523778590650480
+3 4 apply sub 4294967296
+3 1 apply add 17
+3 2 apply mul 6077700278676504593
+1 5 apply add 7410125536797244284
+1 1 set 18446744073709551614
+3 4 apply mul 1
+1 4 apply add 3614568016933704488
+1 1 apply mul 94
+1 5 apply div 4294967296
+1 5 apply div 48
+3 2 apply add 11544026812852163210
+3 3 set 89
+1 4 set 58
+2 2 set 18446744073709551615
+3 1 set 16
+3 1 apply div 9223372036854775807
+1 3 set 41
+1 1 get
+1 4 set 78
+3 1 set 21
+3 4 apply div 7
+2 1 get
+2 4 get
+1 2 set 40
+3 2 set 68
+1 4 set 80
+3 4 set 32
+3 4 apply mul 1
+2 4 apply sub 13835863530709866888
+3 1 set 1400260732256097180
+3 5 apply sub 93
+1 4 apply div 16
+1 1 set 93
+3 1 set 34
+1 3 apply mul 98
+1 4 apply div 18446744073709551615
+3 2 apply div 60
+1 1 set 74
+2 1 apply div 8
+2 4 apply mul 11417433309220226449
+3 5 set 40
+2 4 set 49
+1 4 get
+2 1 apply sub 8224948757064802137
+1 1 apply div 18446744073709551615
+1 5 get
+1 1 apply div 12414798605778488675
+3 1 set 7696245146542185990
+1 2 get
+1 3 apply add 6859944029112811164
+1 2 apply sub 56
+1 5 apply add 1
+1 4 set 64
+2 2 apply mul 2
+3 3 set 54
+1 3 get
+1 3 apply sub 1
+1 3 apply sub 70
+3 2 apply sub 88
+1 5 apply add 55
+1 1 set 850865410476370829
+1 1 set 3075136040015440355
+3 2 set 14
+2 4 apply add 1
+1 2 get
+2 5 apply div 18446744073709551614
+2 5 apply div 7948855425717955735
+1 3 apply add 1
+1 3 set 44
+3 4 apply mul 77
+3 2 get
+2 4 apply div 7
+2 3 apply sub 63
+2 1 set 9056946535747621189
+3 4 set 9223372036854775807
+2 3 get
+1 1 get
+2 3 apply sub 6
+2 1 apply div 64
+3 1 apply div 12857776288270915166
+1 5 set 15
+3 1 apply sub 1244592622995477104
+2 4 apply div 34
+3 5 apply sub 4
+1 4 set 0
+2 3 apply div 62
+2 1 apply add 48
+1 2 set 9223372036854775807
+3 3 apply mul 18446744073709551615
+2 2 apply div 6936310211397941039
+1 5 apply mul 18446744073709551614
+2 1 apply sub 9223372036854775807
+1 2 get
+2 5 apply div 18446744073709551614
+3 5 apply div 7
+1 1 set 9223372036854775807
+1 1 apply sub 2825777935358336398
+1 2 set 22
+2 4 apply sub 33
+3 2 get
+3 1 set 90
+1 1 apply sub 95
+1 5 set 82
+1 1 set 96
+3 5 apply mul 8546086799412788974
+2 3 apply mul 9223372036854775807
+2 3 get
+3 1 apply mul 0
+3 3 set 10757410397472504479
+3 1 apply mul 58
+3 5 set 12607296735839203251
+3 5 apply sub 2
+2 3 apply div 83
+1 2 apply div 18446744073709551615
+3 1 get
+3 1 set 60
+2 4 set 55
+3 3 get
+1 4 apply mul 53
+2 5 get
+3 5 apply mul 22
+1 3 apply sub 91
+3 1 apply mul 732638651771973886
+3 1 set 7
+2 1 apply add 27
+1 2 get
+1 4 set 0
+3 5 get
+2 4 apply add 12021625787798130031
+1 3 apply sub 2
+1 3 set 19
+1 1 get
+2 3 apply div 7470169126019858989
+1 1 set 18446744073709551615
+2 1 apply mul 63
+1 5 apply div 49
+3 2 set 98
+1 4 set 82
+2 5 get
+2 4 set 9213322342591879333
+2 2 get
+3 2 set 52
+3 2 set 14096466075488248295
+3 5 apply div 17039294287373099998
+3 2 apply sub 89
+3 5 apply mul 739897112801254445
+1 4 get
+1 4 set 17421806005602529315
+2 4 get
+2 4 set 18446744073709551615
+1 2 apply mul 33
+2 3 set 18446744073709551614
+2 2 apply mul 4249611474230470556
+3 3 apply sub 15110947564350416600
+2 1 apply mul 3
+1 2 apply sub 87
+3 3 set 18446744073709551615
+2 5 apply mul 67
+3 3 set 3
+1 2 set 1693942821348413107
+2 2 apply div 15797894898576479626
+1 1 set 18446744073709551615
+3 3 apply div 1609603688839015842
+1 5 apply mul 42
+1 3 apply mul 5007210347750504312
+3 1 apply sub 9223372036854775808
+1 1 apply mul 92
+1 4 get
+1 2 set 34
+2 1 set 44
+1 3 apply sub 9223372036854775808
+1 2 apply add 6335141022173516191
+1 5 set 4451151839052039001
+2 1 apply add 50
+3 3 get
+2 2 apply sub 18446744073709551614
+2 1 get
+1 3 apply mul 6
+3 5 apply div 9223372036854775808
+2 4 apply div 42
+1 1 apply add 758082551810913067
+2 1 set 9223372036854775808
+3 5 set 48
+2 4 get
+1 4 apply sub 6
+1 3 set 18446744073709551614
+3 5 apply add 24
+2 4 apply sub 15240517518683008097
+1 4 apply mul 3
+1 5 set 73
+2 2 apply mul 3021929357749695095
+1 2 apply mul 59
+1 3 apply sub 2
+3 4 apply mul 9223372036854775808
+1 4 set 88
+2 3 apply div 50
+3 4 set 56
+2 5 set 18446744073709551615
+1 5 apply div 61
+2 5 apply sub 85
+2 1 apply div 2
+1 5 set 98
+2 2 get
+1 2 set 7
+3 1 apply div 48
+2 3 set 9223372036854775807
+2 3 apply add 82
+1 2 set 4069095920409140603
+1 4 apply add 28
+1 5 get
+3 2 set 60
+2 3 get
+3 4 set 15669734127303578153
+1 1 apply sub 15745278180422020990
+3 4 set 77
+1 4 apply sub 7168527638417077563
+2 5 set 36
+2 5 set 2417274484218033949
+2 3 apply div 17
+1 5 get
+1 5 set 67
+2 2 apply div 42
+3 3 apply add 1
+3 1 get
+3 2 apply add 72
+3 5 apply div 4294967296
+1 3 get
+2 4 set 6
+3 2 apply mul 10020817432061740954
+2 4 get
+1 5 apply sub 51
+3 3 get
+3 4 apply div 79
+3 2 apply sub 4294967296
+1 2 get
+1 4 apply add 21
+3 5 apply add 7
+3 3 set 0
+2 5 apply div 13
+1 1 get
+2 3 apply sub 68
+2 2 set 14
+2 5 set 72
+3 5 set 24
+1 1 apply mul 81
+3 2 apply add 17062536470683693727
+3 3 get
+2 5 set 18
+3 4 apply sub 13963478126645654125
+2 5 apply sub 7037697174427265439
+2 1 get
+3 2 apply sub 13503261137262920191
+3 3 set 78
+3 2 apply div 1
+3 4 set 83
+2 1 set 9223372036854775807
+2 2 set 18446744073709551614
+1 3 apply sub 86
+2 3 apply mul 8928512191102191308
+2 5 set 29
+3 4 get
+3 2 apply sub 51
+2 2 apply sub 0
+2 5 apply add 18446744073709551615
+3 5 apply sub 1504909608258826169
+1 4 set 9223372036854775807
+3 4 get
+2 5 apply sub 18446744073709551614
+1 2 apply mul 5798833277488591013
+3 5 apply sub 12491378820282312221
+3 1 get
+3 5 set 27
+3 3 apply sub 44
+2 3 apply mul 3
+1 4 apply sub 0
+3 4 apply add 1
+1 1 set 37
+3 4 apply div 0
+2 5 apply mul 11583471243232456327
+2 5 apply mul 4294967296
+1 5 apply mul 29
+1 3 apply sub 4747648353231400945
+3 5 set 44
+2 3 set 14660548635599603271
+2 2 apply add 37
+1 1 apply mul 2392241038632598896
+1 1 get
+1 5 apply mul 9223372036854775808
+1 5 apply div 2
+2 4 set 21
+1 1 apply sub 9288839887396067009
+1 1 get
+1 1 apply div 1
+2 5 apply div 18400767740813466262
+1 5 get
+3 3 set 1
+3 3 set 76
+3 4 apply sub 3
+1 2 apply div 2806539062600483183
+1 4 set 1
+3 1 apply div 62
+1 5 apply add 65
+2 1 apply div 98
+1 5 get
+2 5 apply add 5402820467468998497
+1 1 apply sub 5
+3 4 get
+3 4 apply div 4
+1 4 apply mul 10
+3 2 apply mul 18446744073709551614
+3 1 apply div 31
+2 4 set 3
+3 5 apply sub 9223372036854775807
+3 1 get
+3 3 apply div 49
+2 3 set 1
+2 3 apply mul 9223372036854775807
+1 1 apply sub 52
+1 4 get
+1 4 apply add 1
+2 2 apply mul 52
+2 1 get
+3 5 apply sub 42
+3 4 set 18446744073709551615
+1 2 apply add 18352465631599362634
+1 5 set 2
+1 2 set 56
+1 2 set 18446744073709551615
+1 2 apply mul 5305711744635907883
+1 4 apply div 81
+1 1 apply add 51
+3 1 apply div 93
+3 1 apply add 8864027168362419382
+3 3 apply div 3
+1 1 get
+1 1 set 97
+1 5 apply add 35
+1 1 apply mul 2735147430337888638
+3 5 set 4536808418907713082
+2 4 set 9223372036854775808
+1 3 get
+2 5 apply add 2
+1 4 set 2
+3 3 set 79
+3 1 set 9884788005690952231
+3 1 apply sub 14267974674040511614
+1 1 apply sub 26
+3 1 apply sub 15
+3 4 set 7309510756830028347
+2 2 set 24
+1 5 set 5094503078442466441
+2 3 apply div 24
+1 4 apply add 71
+2 3 set 18446744073709551615
+1 5 apply add 18446744073709551614
+3 2 get
+1 1 set 18446744073709551615
+1 3 apply div 1
+2 2 apply div 71
+3 2 set 4294967296
+2 4 set 8532839763548922817
+1 3 apply mul 92
+2 3 get
+2 1 apply div 9223372036854775808
+2 4 get
+2 3 apply sub 2
+3 2 get
+2 1 apply mul 16134742244034670786
+2 4 get
+1 1 apply div 2
+3 1 apply mul 54
+3 4 apply sub 20
+3 3 apply mul 50
+2 1 apply add 97
+2 5 apply sub 0
+1 5 set 85
+3 5 apply sub 4294967296
+2 2 apply add 11775429087729249141
+3 3 apply add 41
+3 5 set 11211493485456436691
+1 1 get
+3 3 apply mul 52
+1 5 get
+1 4 set 8757450394440566499
+1 4 apply sub 42
+3 4 set 14
+2 4 set 81
+2 3 apply sub 18446744073709551614
+3 4 apply mul 4229309314589272892
+2 1 apply div 27
+1 2 set 64
+2 1 apply div 10378269079738493740
+1 3 set 1
+1 2 apply sub 4
+3 2 set 9251545155150247947
+2 2 apply mul 25
+1 4 get
+3 2 set 0
+2 3 apply mul 62
+2 3 set 15800172048708470273
+3 1 set 12319011706957284307
+3 3 apply mul 0
+2 5 set 5407262437839274217
+1 3 get
+3 3 apply add 4875608172492962215
+1 5 get
+3 3 apply mul 16
+2 1 set 29
+2 2 get
+2 3 get
+2 4 get
+1 4 get
+3 3 apply add 11
+3 2 apply div 95
+1 2 set 65
+3 4 apply div 33
+3 3 apply add 9223372036854775808
+2 1 set 37
+3 2 get
+2 3 set 97
+3 5 apply div 5344115727144941064
+1 2 set 12252597419767202729
+3 2 apply mul 10324095332798774685
+3 1 set 0
+3 3 apply div 9223372036854775807
+1 1 get
+2 4 get
+1 1 apply add 63
+1 4 apply mul 7
+1 3 set 9223372036854775808
+1 3 set 18446744073709551614
+3 4 apply add 18
+1 5 set 11984388911644603836
+1 2 apply add 12
+3 4 apply div 13304208052031705130
+1 1 set 3
+1 5 apply sub 9223372036854775808
+1 4 apply mul 27
+1 2 set 65
+2 5 get
+2 2 set 11
+2 3 apply mul 23
+3 2 apply add 6510859442540468350
+3 1 set 8
+2 3 get
+3 4 get
+2 4 apply mul 54
+1 1 apply mul 15
+3 3 apply mul 2
+2 1 get
+2 2 apply add 9223372036854775807
+3 4 get
+1 4 apply div 13
+2 1 set 18446744073709551615
+1 2 set 16
+2 2 apply add 20
+1 3 set 17073427454897090833
+1 2 get
+3 5 get
+1 1 apply add 14
+3 4 set 81
+3 5 set 1
+2 3 get
+3 4 apply add 3
+3 5 set 21
+1 3 apply add 51
+1 5 apply mul 79
+1 1 apply mul 9223372036854775808
+1 2 apply sub 28
+3 5 set 2058262748029338861
+3 4 get
+3 1 apply mul 7
+2 3 apply add 29
+2 4 set 91
+3 2 set 39
+3 1 get
+1 2 set 7
+3 2 apply div 3665957156486844344
+3 2 set 65
+1 2 apply div 72
+2 4 get
+2 5 set 25
+1 5 apply add 52
+1 4 set 40
+2 4 set 18446744073709551614
+2 2 apply mul 75
+1 3 get
+2 2 apply sub 8800760478042309708
+2 1 set 11537096680873434236
+2 2 set 48
+2 2 get
+3 4 set 7
+1 1 set 58
+3 4 set 91
+3 1 set 8517749337679721756
+3 2 get
+1 1 apply sub 18
+3 3 set 39
+1 3 set 7
+2 1 get
+2 2 apply mul 0
+3 2 get
+3 5 set 22
+3 4 apply add 37
+2 2 apply mul 0
+3 2 set 29
+3 3 apply sub 8912677043215059130
+2 2 apply sub 2
+2 1 set 9
+3 1 set 73
+3 3 apply div 2
+1 3 set 14512320150189189961
+3 2 apply add 6666940802420324277
+3 2 set 16
+3 2 get
+3 2 get
+2 5 set 86
+2 3 apply sub 50
+1 4 set 96
+2 5 set 17110437306929113188
+2 1 apply div 9223372036854775807
+3 5 get
+1 2 get
+1 3 get
+3 5 set 76
+3 1 set 24
+2 2 apply mul 55
+3 4 set 46
+3 4 apply sub 1
+2 5 get
+1 5 get
+2 1 get
+3 4 get
+2 2 apply add 34
+2 3 get
+1 2 apply sub 9223372036854775808
+1 2 apply div 0
+2 1 get
+2 3 get
+3 2 apply mul 85
+2 5 apply mul 2
+1 5 apply mul 4294967296
+2 3 get
+2 4 apply add 7679875640916270792
+3 5 apply add 75
+1 5 apply div 14588682705638828485
+3 2 apply sub 18446744073709551615
+3 3 apply add 7864875219259047152
+2 5 apply mul 69
+3 3 apply div 7
+3 1 apply sub 10
+3 2 set 9223372036854775808
+1 2 set 15288361653677970631
+2 1 apply mul 1894858377588205976
+3 4 get
+3 1 set 7
+1 5 get
+3 5 set 20
+1 5 set 69
+1 2 apply mul 18446744073709551614
+3 4 set 9223372036854775808
+2 3 apply sub 65
+3 5 apply sub 18164865683510966130
+1 3 get
+1 2 set 44
+2 2 apply mul 0
+1 3 apply div 16370802047823946882
+3 3 set 31
+2 2 apply sub 59
+1 4 set 12
+1 1 apply sub 67
+3 4 set 70
+2 4 apply add 92
+1 1 apply div 4294967296
+3 2 get
+1 3 apply sub 73
+1 3 apply add 17243874538137604747
+2 2 set 13916988388805522395
+2 4 set 39
+2 5 apply mul 95
+2 1 apply add 56
+3 5 apply add 11869144633030677878
+1 3 set 83
+2 3 set 90
+3 2 apply add 22
+1 1 set 14902925244679486383
+3 4 set 88
+3 1 set 7
+1 2 apply sub 57
+3 5 get
+1 1 set 21
+1 2 get
+1 5 apply div 27
+3 2 apply div 4866316728054825365
+2 5 set 66
+2 1 set 21
+3 3 apply sub 42
+1 3 apply add 38
+3 1 set 63
+2 4 apply div 2
+2 2 set 1797135804171811953
+1 1 apply mul 9223372036854775807
+1 5 apply mul 27
+3 2 get
+3 4 apply mul 2631810771887357540
+3 5 set 10469585195956074606
+1 2 apply sub 1996763745247571465
+1 1 apply div 42
+1 4 apply sub 38
+1 2 apply sub 15177681565725783372
+1 4 apply add 4294967296
+1 3 apply mul 15082905034076414815
+1 1 get
+3 5 set 19
+3 4 get
+1 4 apply div 15852386922105732806
+2 1 set 39
+3 5 apply mul 77
+3 1 apply mul 42
+1 2 apply mul 18446744073709551614
+3 3 apply sub 48
+3 2 apply div 9223372036854775807
+3 5 apply div 10374177445227987967
+3 2 set 15458477729161623318
+1 3 apply div 83
+1 1 apply mul 9440765822183460816
+1 4 apply add 56
+2 2 get
+2 1 apply div 81
+2 3 get
+1 3 set 13682951189095465388
+3 3 apply mul 5748506953429772357
+2 1 set 64
+1 4 get
+3 2 apply div 6
+1 4 apply div 51
+3 1 apply div 11463297238937340841
+1 1 apply div 80
+1 1 set 93
+1 4 apply sub 84
+2 4 get
+1 3 apply add 19
+1 1 get
+2 1 set 86
+2 1 apply div 6749714657754449120
+2 5 apply div 15904763250110615707
+2 3 set 96
+1 4 apply add 28
+3 2 get
+1 5 apply sub 61
+3 4 set 4294967296
+1 1 apply sub 16
+2 3 set 41
+3 4 get
+3 2 apply add 0
+1 4 get
+2 2 apply add 92
+2 5 apply add 1770030997053494675
+3 3 get
+3 2 set 562130427724252190
+3 3 get
+1 5 get
+1 5 get
+1 5 apply sub 9223372036854775808
+3 4 apply add 9223372036854775808
+2 2 set 16990821226832912731
+1 5 get
+1 5 set 57
+2 5 get
+3 5 apply add 0
+1 3 apply sub 34
+3 5 apply sub 5526824720281845013
+1 5 apply add 11150414026868632413
+3 3 apply mul 74
+2 2 set 99
+3 1 set 8991736445051234819
+3 4 apply mul 63
+3 3 apply sub 2
+2 2 set 84
+3 4 set 1
+1 5 set 61
+3 4 apply mul 0
+1 1 apply div 9223372036854775807
+3 5 set 89
+3 5 apply sub 49
+1 4 set 54
+2 5 set 3667430426777726687
+1 3 apply div 7
+1 5 apply mul 35
+2 2 get
+1 2 apply sub 98
+1 4 get
+1 4 apply sub 56
+3 5 apply add 90
+2 2 apply sub 8
+3 3 get
+1 3 set 99
+2 2 apply mul 2
+3 3 apply div 7
+3 4 apply sub 0
+3 4 apply mul 15085800835735627115
+2 5 set 9389454181517900322
+3 4 apply add 23
+3 5 apply sub 9025611745712745648
+2 5 set 54
+1 3 set 3
+2 5 set 5
+2 5 apply add 18446744073709551614
+3 5 set 9223372036854775808
+1 2 get
+2 4 apply div 9269095357413114968
+1 4 set 88
+1 1 apply mul 12189180955332032607
+3 5 apply add 11806205684875084801
+2 1 set 63
+1 5 get
+1 4 set 4370477264546016873
+3 5 set 22
+3 2 get
+3 1 apply mul 8405118928571905083
+2 3 apply add 18
+3 3 apply sub 7824523199089925198
+1 1 set 24
+2 5 set 12
+2 3 get
+1 5 set 12964278480578368860
+2 2 apply add 65
+2 1 apply sub 4
+3 3 apply add 12
+1 3 apply div 76
+1 5 set 62
+2 1 set 24
+3 3 set 65
+3 4 apply div 10320099195518199884
+3 1 get
+3 4 apply sub 6429303689776872969
+1 3 set 52
+2 2 set 4910982975269315993
+1 2 apply div 0
+1 2 get
+3 1 get
+3 4 get
+1 4 set 39
+2 4 apply mul 18
+1 1 set 6
+3 4 apply add 4294967296
+3 4 set 59
+2 5 apply div 84
+1 2 apply div 4294967296
+1 5 apply div 17368863621699796301
+1 5 set 7
+2 1 get
+2 1 set 90
+1 3 set 1
+1 3 apply add 14782343335231516069
+1 4 set 37
+2 5 apply div 4345528514703864439
+2 5 apply add 22
+3 1 apply sub 5
+2 2 apply add 27
+1 1 set 91
+1 3 apply mul 4294967296
+1 5 apply add 4294967296
+3 5 apply sub 89
+1 1 get
+2 3 get
+3 2 set 13
+3 3 apply mul 16714905002332720892
+3 4 set 39
+2 3 set 43
+1 5 get
+2 1 get
+3 3 apply add 2342862520712063688
+1 5 set 13470201744373871988
+2 2 apply sub 2
+3 3 set 18446744073709551614
+3 5 apply mul 10
+2 3 apply mul 0
+3 4 set 4294967296
+3 3 apply mul 61
+2 1 get
+2 1 set 3831081900579628084
+3 3 set 56
+1 5 set 12776513249661171485
+2 3 get
+1 4 set 338838041677174795
+1 4 apply add 28
+2 2 apply mul 4294967296
+3 4 set 79
+3 4 apply mul 92
+1 4 set 1429129090000979802
+1 4 get
+3 2 apply div 9223372036854775808
+3 5 apply sub 43
+2 5 set 92
+1 4 set 34
+1 5 apply mul 72
+3 2 apply mul 76
+3 4 apply div 48
+1 5 apply mul 6342318473303721941
+1 2 set 77
+2 1 apply sub 50
+2 5 apply add 17098379500770158844
+3 5 apply div 14590701662894652815
+3 5 apply sub 8187162424503150174
+2 4 apply mul 18446744073709551614
+1 1 apply sub 2742128595058111087
+3 5 apply add 3
+1 1 set 13993354101086835165
+1 1 apply mul 58
+3 2 apply sub 24
+2 3 set 9223372036854775807
+3 1 apply sub 1355974679725758100
+2 1 set 9223372036854775808
+2 2 apply mul 87
+3 4 apply add 78
+3 5 apply add 17925163342953124859
+1 4 get
+1 3 apply div 48
+2 3 get
+2 4 apply add 9223372036854775807
+3 5 set 0
+3 1 apply sub 4294967296
+2 1 apply add 18446744073709551614
+1 5 apply add 1
+2 3 get
+3 1 apply mul 64
+3 2 get
+2 1 get
+3 5 apply mul 48
+1 4 set 5935880831996923485
+3 5 apply mul 91
+3 5 apply div 4294967296
+1 3 apply mul 77
+3 3 apply add 3
+1 1 set 97
+3 3 get
+2 1 apply sub 29
+2 4 set 51
+1 2 set 29
+1 3 set 730885234484165920
+2 5 apply sub 4294967296
+3 4 get
+2 2 apply sub 18446744073709551614
+3 1 apply div 0
+1 1 apply sub 9223372036854775808
+3 4 apply add 9223372036854775807
+2 3 get
+3 3 apply div 86
+2 5 get
+3 5 get
+2 2 set 10
+1 2 apply mul 81
+1 3 set 71
+2 4 apply mul 2
+2 3 apply div 3
+2 5 set 10197838376682591723
+1 5 set 15
+3 5 apply mul 2

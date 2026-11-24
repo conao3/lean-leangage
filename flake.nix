@@ -1,0 +1,82 @@
+{
+  description = "Leanharbor: web services whose core is a kernel proved in Lean";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    leanfran = {
+      url = "github:conao3/lean-leanfran/16fa39a4bd8747ca4313b5e9120d42b7b650fb39";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+  outputs =
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "x86_64-linux"
+        "aarch64-darwin"
+      ];
+      imports = [ inputs.treefmt-nix.flakeModule ];
+      perSystem =
+        { pkgs, system, ... }:
+        let
+          leanfran = inputs.leanfran.packages.${system};
+        in
+        {
+          treefmt = {
+            projectRootFile = "flake.nix";
+            programs.nixfmt.enable = true;
+            programs.rustfmt = {
+              enable = true;
+              edition = "2024";
+            };
+            programs.ruff-check.enable = true;
+            programs.ruff-format.enable = true;
+            settings.global.excludes = [
+              "rust/calculator/src/generated/*"
+              "python/src/leanharbor_calculator/kernel.py"
+            ];
+          };
+          devShells.default = pkgs.mkShell {
+            packages = [
+              pkgs.cargo
+              pkgs.clippy
+              pkgs.gcc
+              pkgs.git
+              pkgs.gnumake
+              pkgs.lean4
+              pkgs.python314
+              pkgs.rust-analyzer
+              pkgs.rustc
+              pkgs.rustfmt
+              pkgs.uv
+              leanfran.rust-compiler
+              leanfran.python
+            ];
+            UV_PYTHON_DOWNLOADS = "never";
+          };
+          packages.default = pkgs.rustPlatform.buildRustPackage {
+            pname = "leanharbor-calculator";
+            version = "0.1.0";
+            src = ./.;
+            cargoRoot = "rust";
+            buildAndTestSubdir = "rust";
+            cargoLock.lockFile = ./rust/Cargo.lock;
+            cargoBuildFlags = [
+              "--package"
+              "leanharbor-calculator"
+              "--bin"
+              "leanharbor-calculator"
+            ];
+            doCheck = false;
+            meta = {
+              mainProgram = "leanharbor-calculator";
+              license = pkgs.lib.licenses.asl20;
+            };
+          };
+        };
+    };
+}
