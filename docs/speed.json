@@ -1,15 +1,15 @@
 {
   "machine": "cloud VM, 4 virtual CPUs (Intel Xeon, 2.10 GHz), 16 GB of memory",
   "engine_ns_per_command": {
-    "Rust, generated kernel, snapshot as a Rust value": {"1": [257, 209, 182], "100": [5928, 5690, 5655], "10000": [644281, 787253, 657915]},
-    "Rust, generated kernel, snapshot as a Lean value": {"1": [137, 201, 115], "100": [947, 942, 664], "10000": [103052, 89384, 105391]},
-    "Rust, memory engine": {"1": [151, 240, 188], "100": [1123, 975, 688], "10000": [91116, 75498, 99685]},
-    "Rust, the same logic by hand (not proved)": {"1": [15, 15, 15], "100": [59, 48, 49], "10000": [2671, 1812, 3386]},
-    "Go, memory engine": {"1": [3675, 3427, 3797], "100": [10723, 10796, 11495], "10000": [1570948, 1731914, 1574460]},
-    "Python, memory engine": {"1": [35782, 32200, 31150], "100": [77830, 65478, 50379], "1000": [552642, 539504, 380925]}
+    "Rust, generated kernel, snapshot as a Rust value": {"1": [280, 201, 207], "100": [4602, 4344, 4410], "1000": [51661, 51640, 53725], "10000": [658576, 698400, 691093]},
+    "Rust, generated kernel, snapshot as a Lean value": {"1": [178, 116, 158], "100": [654, 656, 662], "1000": [8129, 8793, 8309], "10000": [87647, 89051, 88033]},
+    "Rust, memory engine": {"1": [157, 196, 148], "100": [692, 739, 696], "1000": [7230, 7390, 7453], "10000": [76283, 78532, 75275]},
+    "Rust, the same logic by hand (not proved)": {"1": [12, 12, 14], "100": [56, 53, 53], "1000": [292, 293, 313], "10000": [3641, 3456, 3127]},
+    "Go, memory engine": {"1": [3173, 3139, 3455], "100": [10157, 9513, 9975], "1000": [78379, 77690, 85079], "10000": [1572660, 1624032, 1679321]},
+    "Python, memory engine": {"1": [26341, 24264, 26896], "100": [56393, 51179, 50007], "1000": [338857, 344647, 318336], "10000": [3928302, 3533075, 3890783]}
   },
   "http_replies_per_second": {
-    "Rust server": {"get, 1 connection": [16008.5, 17030.5], "apply, 1 connection": [15287.8, 16102.0], "get, 64 connections": [116673.2, 115412.1], "apply, 64 connections": [116663.7, 120193.0]},
-    "Go server": {"get, 1 connection": [10483.0, 11486.2], "apply, 1 connection": [9447.3, 9104.0], "get, 64 connections": [60230.9, 65652.5], "apply, 64 connections": [55614.1, 50212.4]}
+    "Rust server": {"get, 1 connection": [16715.3, 17543.6], "apply, 1 connection": [17594.0, 17851.7], "get, 64 connections": [128266.1, 132204.1], "apply, 64 connections": [122916.5, 129951.6]},
+    "Go server": {"get, 1 connection": [10801.4, 12360.1], "apply, 1 connection": [10511.1, 11327.4], "get, 64 connections": [68120.1, 65402.5], "apply, 64 connections": [58893.2, 56701.1]}
   }
 }

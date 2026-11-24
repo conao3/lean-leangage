@@ -24,7 +24,7 @@ def rate(value: float) -> str:
         return f"{value / 1e6:.3g} M"
     if value >= 1e4:
         return f"{round(value, -2):,.0f}"
-    return f"{float(f'{value:.2g}'):,.0f}"
+    return f"{float(f'{value:.3g}'):,.0f}"
 
 
 def chart(

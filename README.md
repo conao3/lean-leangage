@@ -114,19 +114,19 @@ number is a rate, so higher is better. The runs are in [`docs/speed.json`](docs/
 `tools/speed-charts.py` draws the charts and prints the tables from it.
 
 Commands per second through `transition` and `apply`, with the programs of `make bench`. Each
-cell is the inverse of the median time of three runs; the runs of one cell differ by up to 1.9
+cell is the inverse of the median time of three runs; the runs of one cell differ by up to 1.5
 times. M is a million.
 
 ![Commands per second by the number of users in the tenant](docs/speed-engine.svg)
 
 | Commands per second | 1 user | 100 users | 1,000 users | 10,000 users |
 |---|---:|---:|---:|---:|
-| Rust, generated kernel, snapshot as a Rust value | 4.78 M | 175,700 |  | 1,500 |
-| Rust, generated kernel, snapshot as a Lean value | 7.3 M | 1.06 M |  | 9,700 |
-| Rust, memory engine | 5.32 M | 1.03 M |  | 11,000 |
-| Rust, the same logic by hand (not proved) | 66.7 M | 20.4 M |  | 374,400 |
-| Go, memory engine | 272,100 | 92,600 |  | 640 |
-| Python, memory engine | 31,100 | 15,300 | 1,900 |  |
+| Rust, generated kernel, snapshot as a Rust value | 4.83 M | 226,800 | 19,400 | 1,450 |
+| Rust, generated kernel, snapshot as a Lean value | 6.33 M | 1.52 M | 120,400 | 11,400 |
+| Rust, memory engine | 6.37 M | 1.44 M | 135,300 | 13,100 |
+| Rust, the same logic by hand (not proved) | 83.3 M | 18.9 M | 3.41 M | 289,400 |
+| Go, memory engine | 315,200 | 100,300 | 12,800 | 616 |
+| Python, memory engine | 38,000 | 19,500 | 2,950 | 257 |
 
 Replies per second over HTTP on the same VM, with `oha` for 8 seconds against a tenant of one
 user. Each cell is the mean of two runs, and every reply had status 200.
@@ -135,8 +135,8 @@ user. Each cell is the mean of two runs, and every reply had status 200.
 
 | Replies per second | get, 1 connection | apply, 1 connection | get, 64 connections | apply, 64 connections |
 |---|---:|---:|---:|---:|
-| Rust server | 16,500 | 15,700 | 116,000 | 118,400 |
-| Go server | 11,000 | 9,300 | 62,900 | 52,900 |
+| Rust server | 17,100 | 17,700 | 130,200 | 126,400 |
+| Go server | 11,600 | 10,900 | 66,800 | 57,800 |
 
 A generated function that takes a Rust, Python or Go value converts it to Lean's representation on
 every call, and its result back. The engines therefore keep each tenant's snapshot as a Lean
@@ -150,10 +150,10 @@ command at a time. A test (`rust/calculator/tests/in_place.rs`) sends commands f
 threads, some of them refused, and checks that the snapshot is still the kind of Lean object
 that is updated in place.
 
-The hand-written logic runs 13 times as many commands as the Rust memory engine for one user,
-20 times for 100 and 34 times for 10,000. The difference is the allocation of the small Lean
-objects of each call, and the `List` the kernel keeps its users in: finding a user walks the
-list.
+The hand-written logic runs 13 times as many commands as the Rust memory engine for one user
+and for 100, 25 times for 1,000 and 22 times for 10,000. The difference is the allocation of the
+small Lean objects of each call, and the `List` the kernel keeps its users in: finding a user
+walks the list.
 
 The Go memory engine holds the snapshot in a `leanfran.Value` and hands it to `apply` with
 `Take()`. A test (`go/calculator/in_place_test.go`) checks that a command of the last of 1,000
