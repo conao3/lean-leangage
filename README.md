@@ -69,16 +69,19 @@ $ curl -s -H "Authorization: Bearer $TOKEN" -d '{"cmd":"set","value":6}' 127.0.0
 
 Proved in Lean, about the definitions that are generated and run:
 
-- the five theorems above, for the calculator kernel;
+- the five theorems above, for the calculator kernel. The Rust shell calls `transition`. The
+  Python backend of leanfran 0.7.0 cannot return `Except` from a public function, so the Python
+  shell calls `step`, which returns the same result as an inductive type; `step_eq` states that
+  it is `transition`;
 - `Leanharbor.Kernel.Run.inv`: a property that holds for the initial snapshot and is kept by
   every accepted command holds in every snapshot a tenant can reach.
 
 Checked by `make check`, not proved:
 
 - **The theorems constrain the kernel.** [leanassay](https://github.com/conao3/lean-leanassay)
-  breaks `transition`, `apply` and `compute` in 60 small ways and runs the theorems on each
-  broken version: 48 are rejected, 5 behave the same on every input tried, 7 do not compile, and
-  none satisfies every theorem while changing an output.
+  breaks `transition`, `apply`, `compute` and `step` in 65 small ways and runs the theorems on
+  each broken version: 51 are rejected, 5 behave the same on every input tried, 9 do not
+  compile, and none satisfies every theorem while changing an output.
 - **The generated code computes what Lean computes.** 5,000 commands (698 refusals, values up
   to 2^64 − 1) run through the generated Rust and the generated Python give the same output as
   the kernel compiled natively by Lean.
@@ -109,15 +112,19 @@ engine, measured with `make bench` on an Intel Core i5-8400:
 
 | | 1 user in the tenant | 100 users | 1,000 users | 10,000 users |
 |---|---|---|---|---|
-| Rust, generated kernel | 262 ns | 15.8 µs | | 1.54 ms |
-| Rust, memory engine | 323 ns | 15.6 µs | | 1.55 ms |
-| Rust, the same logic by hand (not proved) | 10 ns | 38 ns | | 2.1 µs |
+| Rust, generated kernel | 260 ns | 15.1 µs | | 1.52 ms |
+| Rust, memory engine | 321 ns | 15.3 µs | | 1.53 ms |
+| Rust, the same logic by hand (not proved) | 9 ns | 43 ns | | 2.7 µs |
 | Python, memory engine | 44 µs | 837 µs | 8.9 ms | |
 
-The cost grows with the tenant because each call converts the whole snapshot between the host
-language's values and Lean's: about 155 ns per row in Rust. Over HTTP on the same machine, with
-`oha` using 64 connections against the Rust server, a tenant of one user serves 81,000 `get`
-and 71,000 `apply` requests per second.
+The generated kernel is 29 times slower than the hand-written logic for a tenant of one user and
+350 times slower for a tenant of 100. Nearly all of that is conversion: each public function
+converts its arguments from the host language's values to Lean's and its result back, and a
+command converts the whole snapshot once in `transition` and once each way in `apply`. For 100
+users, converting the snapshot to Lean and back takes 7.5 µs (75 ns per row), half of the
+15.1 µs; cloning it takes 64 ns. Over HTTP on the same machine, with `oha` using 64 connections
+against the Rust server, a tenant of one user serves 81,000 `get` and 71,000 `apply` requests
+per second.
 
 ## Layout
 

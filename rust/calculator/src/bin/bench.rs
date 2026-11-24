@@ -70,7 +70,7 @@ fn commands(users: u64, count: usize) -> Vec<(kernel::Principal, kernel::Command
 
 fn per_op(label: &str, users: u64, count: usize, start: Instant) {
     let nanos = start.elapsed().as_nanos() as f64 / count as f64;
-    println!("{label:<34} users={users:<6} {nanos:>10.0} ns/command");
+    println!("{label:<36} users={users:<6} {nanos:>10.0} ns/command");
 }
 
 fn main() {
@@ -99,6 +99,24 @@ fn main() {
             }
         }
         per_op("generated transition + apply", users, count, start);
+
+        let start = Instant::now();
+        for _ in 0..count {
+            black_box(snap.clone());
+        }
+        per_op("  clone the snapshot", users, count, start);
+
+        let start = Instant::now();
+        for _ in 0..count {
+            snap = kernel::apply(snap, None);
+        }
+        per_op("  convert to Lean and back", users, count, start);
+
+        let start = Instant::now();
+        for (actor, _) in &cmds {
+            black_box(kernel::memory_of(snap.memories.clone(), actor.user));
+        }
+        per_op("  clone, convert, scan (memory_of)", users, count, start);
 
         let engine = MemoryEngine::<Calculator>::new();
         for (actor, cmd) in &seed {
