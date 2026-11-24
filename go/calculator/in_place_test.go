@@ -8,21 +8,29 @@ import (
 )
 
 // The engine gives `apply` the only reference to a tenant's snapshot, so Lean rewrites the row
-// of the last user of a large tenant without copying the rows before it. The runtime allocates
-// twice per row for the call it makes there; a copied list would add a third allocation per
-// row.
+// of the last user of a large tenant without copying the rows before it: a command allocates
+// less than `apply` on a borrowed snapshot of the same size, which allocates one new row for
+// every row.
 func TestSnapshotIsUpdatedInPlace(t *testing.T) {
 	const users = 1000
 	engine := NewEngine()
+	rows := make([]kernel.Memory, users)
 	for user := range uint64(users) {
 		_, _, _ = engine.Execute(kernel.Principal{Org: 1, User: user}, kernel.CommandSet{Value: 1}, nil)
+		rows[user] = kernel.Memory{User: user, Value: 1}
 	}
 	last := kernel.Principal{Org: 1, User: users - 1}
-	allocs := testing.AllocsPerRun(100, func() {
+	inPlace := testing.AllocsPerRun(100, func() {
 		_, _, _ = engine.Execute(last, kernel.CommandSet{Value: 2}, nil)
 	})
-	if allocs > users*5/2 {
-		t.Fatalf("%v allocations for one command in a tenant of %d users", allocs, users)
+	shared := must(kernel.NewSnapshotValue(kernel.Snapshot{Memories: rows}))
+	defer shared.Close()
+	copied := testing.AllocsPerRun(100, func() {
+		ws := must(kernel.NewOptionMemoryValue(&kernel.Memory{User: users - 1, Value: 2}))
+		must(kernel.ApplyValue(shared.Borrow(), ws.Take())).Close()
+	})
+	if inPlace+users/2 > copied {
+		t.Fatalf("%v allocations for one command, %v for a copy of %d rows", inPlace, copied, users)
 	}
 }
 

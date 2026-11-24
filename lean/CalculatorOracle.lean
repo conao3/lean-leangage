@@ -3,8 +3,8 @@ import Calculator.Kernel
 /-!
 Runs the calculator kernel natively on commands read from standard input, one per line
 (`<org> <user> set <n>`, `<org> <user> apply <add|sub|mul|div> <n>`, `<org> <user> get`), keeping
-one snapshot per org, and prints one line per command. The generated Rust and Python are checked
-against this output.
+one snapshot per org, and prints one line per command. The generated Rust, Python and Go are
+checked against this output.
 -/
 
 open Calculator.Kernel

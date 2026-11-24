@@ -120,7 +120,7 @@ One command (`transition`, then `apply`), measured with `make bench` on an Intel
 | Python, memory engine | 30 µs | 63 µs | 421 µs | |
 | Go, memory engine | 2.3 µs | 6.6 µs | | 1.0 ms |
 
-A generated function that takes a Rust or Python value converts it to Lean's representation on
+A generated function that takes a Rust, Python or Go value converts it to Lean's representation on
 every call, and its result back. The engines therefore keep each tenant's snapshot as a Lean
 value with one owner (`leanfran::Owned<Snapshot>`, `leanfran.Local`, `leanfran.Value[Snapshot]`)
 and convert only the principal, the command and the reply; `apply` receives the only reference
@@ -140,8 +140,9 @@ The Go memory engine holds the snapshot in a `leanfran.Value` and hands it to `a
 `Take()`. A test (`go/calculator/in_place_test.go`) checks that a command of the last of 1,000
 users does not copy the rows before it. The time is spent in leanfran's Go runtime: about half
 of a command in a tenant of one user is the registration and release of the finalizers of the
-handles it creates (up to five per command), and generated code allocates twice for each call
-that is not a tail call, which `upsert` makes once per row it walks.
+handles it creates (up to five per command), and a call that goes through the runtime's
+trampoline (`rt.Run`) allocates twice. `upsert` makes one such call per row it walks: a command
+of the last of 1,000 users allocates 2,015 times.
 
 ## Layout
 

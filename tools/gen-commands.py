@@ -1,4 +1,4 @@
-"""Writes the command list that the Lean oracle, the Rust shell and the Python shell all run.
+"""Writes the command list that the Lean oracle and the Rust, Python and Go shells all run.
 
 Deterministic: the same seed and count give the same file.
 """
