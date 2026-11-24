@@ -61,6 +61,7 @@ def serve(
 ) -> ThreadingHTTPServer:
     class Handler(BaseHTTPRequestHandler):
         protocol_version = "HTTP/1.1"
+        wbufsize = -1
 
         def _send(self, status: int, text: bytes, content_type: str) -> None:
             self.send_response(status)
