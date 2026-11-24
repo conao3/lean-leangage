@@ -26,7 +26,7 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
 - The contract uses `Except` for refusals. The engines keep each tenant's snapshot as a Lean
   value with one owner (`leanfran::Owned` in Rust, lent as a `Local` by `Kernel::lend`;
   `leanfran.Local` in Python; `leanfran.Value` in Go) and call the generated functions that take
-  one (`kernel::local::apply` in Rust, `kernel.apply.local` in Python, `kernel.ApplyValue` in Go).
+  one (`kernel::local::apply` in Rust, `kernel.apply.local` in Python, `kernel.Handle.Apply` in Go).
   `apply` must receive the only reference to the snapshot (a move in Rust, `take()` in Python,
   `Take()` in Go), and no `Local` may leave the closure of `lend`, or Lean copies instead of
   updating in place. `rust/calculator/tests/in_place.rs` and `go/calculator/in_place_test.go`
@@ -63,5 +63,5 @@ All commands run inside `nix develop`.
 
 - Commit messages, comments and documents are in English.
 - The leanfran compilers come from the flake input pinned to a release commit; the crate, the
-  PyPI package and the Go module are pinned to the same version (`=0.10.0`, `==0.10.0`,
-  `v0.10.0`).
+  PyPI package and the Go module are pinned to the same version (`=0.11.0`, `==0.11.0`,
+  `v0.11.0`).

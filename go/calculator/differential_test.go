@@ -28,7 +28,9 @@ func parse(t *testing.T, line string) (kernel.Principal, kernel.Command) {
 	case len(words) == 4 && words[2] == "set":
 		return actor, kernel.CommandSet{Value: number(words[3])}
 	case len(words) == 5 && words[2] == "apply":
-		return actor, kernel.CommandApply{Op: kernel.Op(words[3]), Arg: number(words[4])}
+		if op, ok := OpNamed(words[3]); ok {
+			return actor, kernel.CommandApply{Op: op, Arg: number(words[4])}
+		}
 	case len(words) == 3 && words[2] == "get":
 		return actor, kernel.CommandGet{}
 	}
@@ -72,7 +74,7 @@ func TestGeneratedGoAgreesWithLean(t *testing.T) {
 		if refusal != nil {
 			ours = "error " + ErrorName(*refusal)
 		} else {
-			ours = fmt.Sprintf("ok %d", reply.(kernel.ReplyValue).V)
+			ours = fmt.Sprintf("ok %d", reply.V)
 		}
 		if ours != want[i] {
 			t.Fatalf("line %d: %s: got %s, want %s", i+1, line, ours, want[i])

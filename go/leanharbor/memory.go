@@ -75,6 +75,19 @@ func (e *MemoryEngine[Principal, Snapshot, Command, WriteSet, Reply, Error]) exe
 	return reply, refusal, nil
 }
 
+// Inspect shows f the tenant's snapshot; it reports false before the tenant's first command.
+func (e *MemoryEngine[Principal, Snapshot, Command, WriteSet, Reply, Error]) Inspect(
+	tenant uint64, f func(Snapshot),
+) bool {
+	e.mu.Lock()
+	defer e.mu.Unlock()
+	snap, ok := e.tenants[tenant]
+	if ok {
+		f(snap)
+	}
+	return ok
+}
+
 func (e *MemoryEngine[Principal, Snapshot, Command, WriteSet, Reply, Error]) Execute(
 	actor Principal, cmd Command, idempotency *Idempotency,
 ) (Reply, *Error, error) {

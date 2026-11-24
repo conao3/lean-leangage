@@ -29,9 +29,9 @@ func commands(users uint64, count int) []request {
 		case 0:
 			out[i].cmd = kernel.CommandSet{Value: next() % 1000}
 		case 1:
-			out[i].cmd = kernel.CommandApply{Op: kernel.OpAdd, Arg: next() % 1000}
+			out[i].cmd = kernel.CommandApply{Op: kernel.OpAdd(), Arg: next() % 1000}
 		case 2:
-			out[i].cmd = kernel.CommandApply{Op: kernel.OpDiv, Arg: 1 + next()%9}
+			out[i].cmd = kernel.CommandApply{Op: kernel.OpDiv(), Arg: 1 + next()%9}
 		default:
 			out[i].cmd = kernel.CommandGet{}
 		}

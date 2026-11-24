@@ -197,17 +197,17 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1795548046,
-        "narHash": "sha256-UAUiCBCLRUaGuUUt7hTHj+MYHwf3owe/boMxq6WYmDE=",
+        "lastModified": 1795562299,
+        "narHash": "sha256-TlddM0W8Nx0YFvz0ArT/8FIDFJKeRT3WzA8NlgkA+PY=",
         "owner": "conao3",
         "repo": "lean-leanfran",
-        "rev": "f841ce4ce95dcb507aee43666d1f99691b9d7c00",
+        "rev": "2f50b0093ad9e7712bbcde17cb4fdbf3e217714e",
         "type": "github"
       },
       "original": {
         "owner": "conao3",
         "repo": "lean-leanfran",
-        "rev": "f841ce4ce95dcb507aee43666d1f99691b9d7c00",
+        "rev": "2f50b0093ad9e7712bbcde17cb4fdbf3e217714e",
         "type": "github"
       }
     },

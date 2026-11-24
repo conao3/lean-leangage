@@ -191,12 +191,8 @@ small Lean objects of each call, and the `List` the kernel keeps its users in: f
 walks the list.
 
 The Go memory engine holds the snapshot in a `leanfran.Value` and hands it to `apply` with
-`Take()`. A test (`go/calculator/in_place_test.go`) checks that a command of the last of 1,000
-users does not copy the rows before it. The time is spent in leanfran's Go runtime: about half
-of a command in a tenant of one user is the registration and release of the finalizers of the
-handles it creates (up to five per command), and a call that goes through the runtime's
-trampoline (`rt.Run`) allocates twice. `upsert` makes one such call per row it walks: a command
-of the last of 1,000 users allocates 2,015 times.
+`Take()`. A test (`go/calculator/in_place_test.go`) sends commands from several goroutines, some
+of them refused, and checks that the snapshot still has one reference (`IsExclusive`).
 
 ## Layout
 

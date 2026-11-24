@@ -39,32 +39,32 @@ func must[T any](value T, err error) T {
 }
 
 func (Calculator) Init() Snapshot {
-	return must(kernel.InitValue())
+	return kernel.Handle.Init()
 }
 
 func (Calculator) Tenant(actor kernel.Principal) uint64 {
-	return must(kernel.Tenant(actor))
+	return kernel.Tenant(actor)
 }
 
 func (Calculator) Transition(
 	actor kernel.Principal, snap Snapshot, cmd kernel.Command,
 ) (WriteSet, kernel.Reply, *kernel.Error) {
-	who := must(kernel.NewPrincipalValue(actor))
-	what := must(kernel.NewCommandValue(cmd))
-	ws, reply, err := kernel.TransitionValue(who.Take(), snap.Borrow(), what.Take())
+	who := kernel.Value.NewPrincipal(actor)
+	what := must(kernel.Value.NewCommand(cmd))
+	ws, reply, err := kernel.Handle.Transition(who.Take(), snap.Borrow(), what.Take())
 	var refusal *leanfran.ExceptError[kernel.Error]
 	if errors.As(err, &refusal) {
-		return WriteSet{}, nil, &refusal.Value
+		return WriteSet{}, kernel.Reply{}, &refusal.Value
 	}
 	if err != nil {
 		panic(err)
 	}
 	defer reply.Close()
-	return ws, kernel.ReadReplyValue(reply), nil
+	return ws, kernel.Value.ReadReply(reply), nil
 }
 
 func (Calculator) Apply(snap Snapshot, ws WriteSet) Snapshot {
-	return must(kernel.ApplyValue(snap.Take(), ws.Take()))
+	return kernel.Handle.Apply(snap.Take(), ws.Take())
 }
 
 func (Calculator) Principal(tenant, user uint64) kernel.Principal {
@@ -88,6 +88,21 @@ func only(fields map[string]json.RawMessage, names ...string) bool {
 	return len(fields) == len(names)+1
 }
 
+// OpNamed is the operation with the given name on the wire.
+func OpNamed(name string) (kernel.Op, bool) {
+	switch name {
+	case "add":
+		return kernel.OpAdd(), true
+	case "sub":
+		return kernel.OpSub(), true
+	case "mul":
+		return kernel.OpMul(), true
+	case "div":
+		return kernel.OpDiv(), true
+	}
+	return kernel.Op{}, false
+}
+
 func (Calculator) DecodeCommand(body []byte) (kernel.Command, error) {
 	var fields map[string]json.RawMessage
 	if err := json.Unmarshal(body, &fields); err != nil || fields == nil {
@@ -108,10 +123,9 @@ func (Calculator) DecodeCommand(body []byte) (kernel.Command, error) {
 		if err := json.Unmarshal(fields["op"], &op); err != nil {
 			return nil, errors.New("not a calculator command")
 		}
-		switch kernel.Op(op) {
-		case kernel.OpAdd, kernel.OpSub, kernel.OpMul, kernel.OpDiv:
+		if found, ok := OpNamed(op); ok {
 			arg, err := number(fields, "arg")
-			return kernel.CommandApply{Op: kernel.Op(op), Arg: arg}, err
+			return kernel.CommandApply{Op: found, Arg: arg}, err
 		}
 	case name == "get" && only(fields):
 		return kernel.CommandGet{}, nil
@@ -120,20 +134,20 @@ func (Calculator) DecodeCommand(body []byte) (kernel.Command, error) {
 }
 
 func (Calculator) EncodeReply(reply kernel.Reply) any {
-	return map[string]uint64{"value": reply.(kernel.ReplyValue).V}
+	return map[string]uint64{"value": reply.V}
 }
 
 // ErrorName is the name of a refusal on the wire.
 func ErrorName(refusal kernel.Error) string {
 	switch refusal {
-	case kernel.ErrorOverflow:
+	case kernel.ErrorOverflow():
 		return "overflow"
-	case kernel.ErrorUnderflow:
+	case kernel.ErrorUnderflow():
 		return "underflow"
-	case kernel.ErrorDivByZero:
+	case kernel.ErrorDivByZero():
 		return "division_by_zero"
 	}
-	panic(fmt.Sprintf("unknown refusal %q", string(refusal)))
+	panic(fmt.Sprintf("unknown refusal %v", refusal))
 }
 
 func (Calculator) EncodeError(refusal kernel.Error) (int, any) {
