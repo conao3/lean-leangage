@@ -1,15 +1,308 @@
 {
-  "machine": "cloud VM, 4 virtual CPUs (Intel Xeon, 2.10 GHz), 16 GB of memory",
+  "machine": "4 CPUs (Intel(R) Xeon(R) Processor @ 2.10GHz), 16 GB of memory",
+  "versions": {
+    "rustc": "rustc 1.97.0 (2d8144b78 2026-07-07)",
+    "go": "go version go1.26.0 linux/amd64",
+    "uv": "uv 0.11.32 (x86_64-unknown-linux-gnu)",
+    "oha": "oha 1.17.0",
+    "python": "Python 3.13.18"
+  },
   "engine_ns_per_command": {
-    "Rust, generated kernel, snapshot as a Rust value": {"1": [280, 201, 207], "100": [4602, 4344, 4410], "1000": [51661, 51640, 53725], "10000": [658576, 698400, 691093]},
-    "Rust, generated kernel, snapshot as a Lean value": {"1": [178, 116, 158], "100": [654, 656, 662], "1000": [8129, 8793, 8309], "10000": [87647, 89051, 88033]},
-    "Rust, memory engine": {"1": [157, 196, 148], "100": [692, 739, 696], "1000": [7230, 7390, 7453], "10000": [76283, 78532, 75275]},
-    "Rust, the same logic by hand (not proved)": {"1": [12, 12, 14], "100": [56, 53, 53], "1000": [292, 293, 313], "10000": [3641, 3456, 3127]},
-    "Go, memory engine": {"1": [3173, 3139, 3455], "100": [10157, 9513, 9975], "1000": [78379, 77690, 85079], "10000": [1572660, 1624032, 1679321]},
-    "Python, memory engine": {"1": [26341, 24264, 26896], "100": [56393, 51179, 50007], "1000": [338857, 344647, 318336], "10000": [3928302, 3533075, 3890783]}
+    "Rust, generated kernel, snapshot as a Rust value": {
+      "1": [
+        196,
+        186,
+        196
+      ],
+      "100": [
+        4449,
+        4371,
+        4784
+      ],
+      "1000": [
+        51559,
+        51281,
+        50989
+      ],
+      "10000": [
+        662803,
+        654589,
+        654654
+      ]
+    },
+    "Rust, generated kernel, snapshot as a Lean value": {
+      "1": [
+        119,
+        117,
+        119
+      ],
+      "100": [
+        678,
+        653,
+        650
+      ],
+      "1000": [
+        8105,
+        8236,
+        8449
+      ],
+      "10000": [
+        97257,
+        88488,
+        87579
+      ]
+    },
+    "Rust, memory engine": {
+      "1": [
+        145,
+        146,
+        143
+      ],
+      "100": [
+        732,
+        685,
+        810
+      ],
+      "1000": [
+        7017,
+        7499,
+        7115
+      ],
+      "10000": [
+        76482,
+        74986,
+        75107
+      ]
+    },
+    "Rust, the same logic by hand (not proved)": {
+      "1": [
+        14,
+        12,
+        12
+      ],
+      "100": [
+        49,
+        54,
+        50
+      ],
+      "1000": [
+        301,
+        365,
+        317
+      ],
+      "10000": [
+        3448,
+        3395,
+        3372
+      ]
+    },
+    "Go, memory engine": {
+      "1": [
+        3276,
+        3149,
+        2946
+      ],
+      "100": [
+        9132,
+        8627,
+        8455
+      ],
+      "1000": [
+        66554,
+        68083,
+        68541
+      ],
+      "10000": [
+        1482895,
+        1509234,
+        1414045
+      ]
+    },
+    "Python, memory engine": {
+      "1": [
+        23133,
+        23362,
+        23393
+      ],
+      "100": [
+        49824,
+        49462,
+        50342
+      ],
+      "1000": [
+        316322,
+        370906,
+        319034
+      ],
+      "10000": [
+        3802426,
+        3422214,
+        3471093
+      ]
+    }
   },
   "http_replies_per_second": {
-    "Rust server": {"get, 1 connection": [16715.3, 17543.6], "apply, 1 connection": [17594.0, 17851.7], "get, 64 connections": [128266.1, 132204.1], "apply, 64 connections": [122916.5, 129951.6]},
-    "Go server": {"get, 1 connection": [10801.4, 12360.1], "apply, 1 connection": [10511.1, 11327.4], "get, 64 connections": [68120.1, 65402.5], "apply, 64 connections": [58893.2, 56701.1]}
+    "leanharbor, Rust (axum)": {
+      "get, 1 connection": [
+        18924.7772,
+        19111.6071
+      ],
+      "apply, 1 connection": [
+        18757.0714,
+        18499.6603
+      ],
+      "get, 64 connections": [
+        138796.7804,
+        140357.2003
+      ],
+      "apply, 64 connections": [
+        132537.4997,
+        132177.463
+      ]
+    },
+    "axum, no kernel": {
+      "get, 1 connection": [
+        20038.2939,
+        19692.9999
+      ],
+      "apply, 1 connection": [
+        19452.7811,
+        19430.3399
+      ],
+      "get, 64 connections": [
+        152365.6668,
+        161933.3536
+      ],
+      "apply, 64 connections": [
+        146862.7469,
+        155025.6053
+      ]
+    },
+    "actix-web, no kernel": {
+      "get, 1 connection": [
+        20124.9615,
+        20202.1672
+      ],
+      "apply, 1 connection": [
+        19889.624,
+        19576.9711
+      ],
+      "get, 64 connections": [
+        196687.3689,
+        197245.7999
+      ],
+      "apply, 64 connections": [
+        197620.5802,
+        199051.243
+      ]
+    },
+    "leanharbor, Go (net/http)": {
+      "get, 1 connection": [
+        12331.8009,
+        12716.9753
+      ],
+      "apply, 1 connection": [
+        11136.8686,
+        11829.3283
+      ],
+      "get, 64 connections": [
+        69431.7421,
+        70066.7143
+      ],
+      "apply, 64 connections": [
+        61263.057,
+        61018.4012
+      ]
+    },
+    "net/http, no kernel": {
+      "get, 1 connection": [
+        14750.228,
+        14506.5673
+      ],
+      "apply, 1 connection": [
+        15004.4951,
+        14891.0479
+      ],
+      "get, 64 connections": [
+        98052.3009,
+        96898.0008
+      ],
+      "apply, 64 connections": [
+        91086.4928,
+        90741.8932
+      ]
+    },
+    "gin, no kernel": {
+      "get, 1 connection": [
+        14375.2598,
+        15074.7244
+      ],
+      "apply, 1 connection": [
+        14338.6513,
+        14935.6303
+      ],
+      "get, 64 connections": [
+        86940.4237,
+        89500.6714
+      ],
+      "apply, 64 connections": [
+        84984.817,
+        85878.0938
+      ]
+    },
+    "leanharbor, Python (http.server)": {
+      "get, 1 connection": [
+        6003.247,
+        5893.577
+      ],
+      "apply, 1 connection": [
+        5351.6061,
+        5460.0874
+      ],
+      "get, 64 connections": [
+        3689.4435,
+        3877.9155
+      ],
+      "apply, 64 connections": [
+        3196.2162,
+        3211.4521
+      ]
+    },
+    "FastAPI on uvicorn, 4 processes, no kernel": {
+      "get, 1 connection": [
+        6154.9094,
+        6022.4219
+      ],
+      "apply, 1 connection": [
+        6336.5732,
+        6037.1688
+      ],
+      "get, 64 connections": [
+        24083.2866,
+        25171.8607
+      ],
+      "apply, 64 connections": [
+        24253.6001,
+        23555.0359
+      ]
+    },
+    "Flask on gunicorn, 4 processes, no kernel": {
+      "get, 1 connection": [
+        2614.8412,
+        2543.5612
+      ],
+      "apply, 1 connection": [
+        2665.7311,
+        2521.2757
+      ],
+      "get, 64 connections": [
+        8508.8455,
+        8466.9308
+      ],
+      "apply, 64 connections": [
+        8540.6784,
+        7993.3577
+      ]
+    }
   }
 }

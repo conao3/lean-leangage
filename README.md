@@ -109,34 +109,69 @@ generation and tenant isolation, and proved authorization guards are designed an
 
 ## Speed
 
-Measured on a cloud VM with 4 virtual CPUs (Intel Xeon, 2.10 GHz) and 16 GB of memory. Every
-number is a rate, so higher is better. The runs are in [`docs/speed.json`](docs/speed.json), and
-`tools/speed-charts.py` draws the charts and prints the tables from it.
+Measured on a cloud VM with 4 virtual CPUs (Intel Xeon, 2.10 GHz) and 16 GB of memory by
+`tools/measure.py`, which runs every measurement alone and writes the runs to
+[`docs/speed.json`](docs/speed.json). `tools/speed-charts.py` draws the charts and prints the
+tables from that file. Every number is a rate, so higher is better.
 
-Commands per second through `transition` and `apply`, with the programs of `make bench`. Each
-cell is the inverse of the median time of three runs; the runs of one cell differ by up to 1.5
-times. M is a million.
+### One command through the kernel
+
+Commands per second through `transition` and `apply`. Each cell is the inverse of the median
+time of three runs; the runs of one cell differ by up to 1.2 times. M is a million.
 
 ![Commands per second by the number of users in the tenant](docs/speed-engine.svg)
 
 | Commands per second | 1 user | 100 users | 1,000 users | 10,000 users |
 |---|---:|---:|---:|---:|
-| Rust, generated kernel, snapshot as a Rust value | 4.83 M | 226,800 | 19,400 | 1,450 |
-| Rust, generated kernel, snapshot as a Lean value | 6.33 M | 1.52 M | 120,400 | 11,400 |
-| Rust, memory engine | 6.37 M | 1.44 M | 135,300 | 13,100 |
-| Rust, the same logic by hand (not proved) | 83.3 M | 18.9 M | 3.41 M | 289,400 |
-| Go, memory engine | 315,200 | 100,300 | 12,800 | 616 |
-| Python, memory engine | 38,000 | 19,500 | 2,950 | 257 |
+| Rust, generated kernel, snapshot as a Rust value | 5.1 M | 224,800 | 19,500 | 1,530 |
+| Rust, generated kernel, snapshot as a Lean value | 8.4 M | 1.53 M | 121,400 | 11,300 |
+| Rust, memory engine | 6.9 M | 1.37 M | 140,500 | 13,300 |
+| Rust, the same logic by hand (not proved) | 83.3 M | 20 M | 3.15 M | 294,600 |
+| Go, memory engine | 317,600 | 115,900 | 14,700 | 674 |
+| Python, memory engine | 42,800 | 20,100 | 3,130 | 288 |
 
-Replies per second over HTTP on the same VM, with `oha` for 8 seconds against a tenant of one
-user. Each cell is the mean of two runs, and every reply had status 200.
+### Over HTTP, next to servers without a kernel
 
-![Replies per second over HTTP](docs/speed-http.svg)
+Replies per second to `POST /rpc` on the same VM, with `oha` for 8 seconds against a tenant of
+one user. Each cell is the mean of two runs, and every reply had status 200. The load generator
+runs on the same four CPUs as the server.
 
-| Replies per second | get, 1 connection | apply, 1 connection | get, 64 connections | apply, 64 connections |
+The servers marked "no kernel" ([`bench/`](bench)) are the usual servers of each language doing
+the least a JSON endpoint does: they decode the JSON body and reply with a JSON value. They check
+no token, hold no state and call no kernel, so the difference from a leanharbor row is what the
+token check, the engine and the generated kernel cost.
+
+![Replies per second over HTTP, Rust](docs/speed-http-rust.svg)
+
+| Replies per second, Rust | get, 1 connection | apply, 1 connection | get, 64 connections | apply, 64 connections |
 |---|---:|---:|---:|---:|
-| Rust server | 17,100 | 17,700 | 130,200 | 126,400 |
-| Go server | 11,600 | 10,900 | 66,800 | 57,800 |
+| leanharbor, Rust (axum) | 19,000 | 18,600 | 139,600 | 132,400 |
+| axum, no kernel | 19,900 | 19,400 | 157,100 | 150,900 |
+| actix-web, no kernel | 20,200 | 19,700 | 197,000 | 198,300 |
+
+![Replies per second over HTTP, Go](docs/speed-http-go.svg)
+
+| Replies per second, Go | get, 1 connection | apply, 1 connection | get, 64 connections | apply, 64 connections |
+|---|---:|---:|---:|---:|
+| leanharbor, Go (net/http) | 12,500 | 11,500 | 69,700 | 61,100 |
+| net/http, no kernel | 14,600 | 14,900 | 97,500 | 90,900 |
+| gin, no kernel | 14,700 | 14,600 | 88,200 | 85,400 |
+
+![Replies per second over HTTP, Python](docs/speed-http-python.svg)
+
+| Replies per second, Python | get, 1 connection | apply, 1 connection | get, 64 connections | apply, 64 connections |
+|---|---:|---:|---:|---:|
+| leanharbor, Python (http.server) | 5,950 | 5,410 | 3,780 | 3,200 |
+| FastAPI on uvicorn, 4 processes, no kernel | 6,090 | 6,190 | 24,600 | 23,900 |
+| Flask on gunicorn, 4 processes, no kernel | 2,580 | 2,590 | 8,490 | 8,270 |
+
+- The Rust shell runs on axum and gives 95% of the replies of axum without a kernel on one
+  connection and 89% on 64.
+- The Go shell runs on `net/http` and gives 86% of the replies of `net/http` without a kernel on
+  one connection and 71% on 64.
+- The Python shell is one process on `http.server`, with one lock around the engine. On one
+  connection it gives as many replies as FastAPI. On 64 connections it gives fewer than on one,
+  while FastAPI and Flask spread the connections over four processes.
 
 A generated function that takes a Rust, Python or Go value converts it to Lean's representation on
 every call, and its result back. The engines therefore keep each tenant's snapshot as a Lean
@@ -150,8 +185,8 @@ command at a time. A test (`rust/calculator/tests/in_place.rs`) sends commands f
 threads, some of them refused, and checks that the snapshot is still the kind of Lean object
 that is updated in place.
 
-The hand-written logic runs 13 times as many commands as the Rust memory engine for one user
-and for 100, 25 times for 1,000 and 22 times for 10,000. The difference is the allocation of the
+The hand-written logic runs 12 times as many commands as the Rust memory engine for one user,
+15 times for 100, and 22 times for 1,000 and for 10,000. The difference is the allocation of the
 small Lean objects of each call, and the `List` the kernel keeps its users in: finding a user
 walks the list.
 
@@ -174,6 +209,8 @@ of the last of 1,000 users allocates 2,015 times.
 | [`python/`](python) | the Python shell (`leanharbor`) and the calculator (`leanharbor_calculator`, with the generated `kernel.py`) |
 | [`go/leanharbor`](go/leanharbor) | the Go shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc` |
 | [`go/calculator`](go/calculator) | the generated kernel (`kernel/`), the server and the benchmark (`cmd/`), the differential test |
+| [`bench/`](bench) | servers without a kernel (axum, actix-web, `net/http`, gin, FastAPI, Flask) for the HTTP comparison |
+| [`docs/`](docs) | the measured runs (`speed.json`) and the charts drawn from them |
 | [`testdata/`](testdata) | the command list of the differential tests (`tools/gen-commands.py`) |
 
 ## Development

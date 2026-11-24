@@ -146,15 +146,21 @@ def main() -> None:
             True,
         )
     )
-    (DOCS / "speed-http.svg").write_text(
-        chart("POST /rpc over HTTP", "Replies per second", cases, http, False)
-    )
-    sys.stdout.write(
-        table("Commands per second", users, engine)
-        + "\n\n"
-        + table("Replies per second", cases, http)
-        + "\n"
-    )
+    tables = [table("Commands per second", users, engine)]
+    names = list(http)
+    for index, language in enumerate(["Rust", "Go", "Python"]):
+        servers = {name: http[name] for name in names[3 * index : 3 * index + 3]}
+        (DOCS / f"speed-http-{language.lower()}.svg").write_text(
+            chart(
+                f"POST /rpc over HTTP, {language}",
+                "Replies per second",
+                cases,
+                servers,
+                False,
+            )
+        )
+        tables.append(table(f"Replies per second, {language}", cases, servers))
+    sys.stdout.write("\n\n".join(tables) + "\n")
 
 
 if __name__ == "__main__":
