@@ -21,9 +21,9 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   and specifications go in a module beside it (`Calculator.Proofs`).
 - The shells own input and output: HTTP, tokens, JSON, the engine. They call generated
   functions and make no decision about a command themselves.
-- The contract uses `Except` for refusals. The Python backend of leanfran 0.7.0 cannot return
-  `Except` from a public function, so the calculator also exports `step`, the same function with
-  the inductive type `Outcome`.
+- The contract uses `Except` for refusals. The engines keep each tenant's snapshot as a Lean
+  value and call the generated functions that take one (`kernel::lean::apply` in Rust,
+  `kernel.apply.lean` in Python).
 - Generated files (`rust/calculator/src/generated/`, `python/src/leanharbor_calculator/kernel.py`)
   are committed and never edited. Run `make generate` after changing `lean/`.
 - When a function is added to a generated module, add a theorem about it and list it in
@@ -50,4 +50,4 @@ All commands run inside `nix develop`.
 
 - Commit messages, comments and documents are in English.
 - The leanfran compilers come from the flake input pinned to a release commit; the crate and
-  the PyPI package are pinned to the same version (`=0.7.0`, `==0.7.0`).
+  the PyPI package are pinned to the same version (`=0.8.0`, `==0.8.0`).

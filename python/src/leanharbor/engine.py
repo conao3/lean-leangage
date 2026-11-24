@@ -10,12 +10,12 @@ from typing import Any
 class Kernel:
     """The contract of `Leanharbor.Kernel`, filled with functions generated from Lean.
 
-    `step` returns the writes and the reply of an accepted command, or raises `Refused`.
+    `transition` returns the writes and the reply of an accepted command, or raises `Refused`.
     """
 
     init: Callable[[], Any]
     tenant: Callable[[Any], int]
-    step: Callable[[Any, Any, Any], tuple[Any, Any]]
+    transition: Callable[[Any, Any, Any], tuple[Any, Any]]
     apply: Callable[[Any, Any], Any]
 
 
@@ -43,7 +43,7 @@ class MemoryEngine:
     def _run(self, actor: Any, cmd: Any) -> Any:
         tenant = self.kernel.tenant(actor)
         snap = self._tenants[tenant] if tenant in self._tenants else self.kernel.init()
-        writes, reply = self.kernel.step(actor, snap, cmd)
+        writes, reply = self.kernel.transition(actor, snap, cmd)
         self._tenants[tenant] = self.kernel.apply(snap, writes)
         return reply
 

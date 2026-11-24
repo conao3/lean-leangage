@@ -3,6 +3,7 @@
 from http import HTTPStatus
 from typing import Any
 
+from leanfran import Err, Lean
 from leanharbor import Api, Kernel, Refused
 
 from leanharbor_calculator import kernel
@@ -14,16 +15,21 @@ _ERRORS = {
 }
 
 
-def _step(
-    actor: kernel.Principal, snap: kernel.Snapshot, cmd: kernel.Command
-) -> tuple[Any, kernel.Reply]:
-    outcome = kernel.step(actor, snap, cmd)
-    if isinstance(outcome, kernel.Outcome_refused):
-        raise Refused(outcome.error)
-    return outcome.write, outcome.reply
+def _transition(
+    actor: kernel.Principal, snap: Lean[kernel.Snapshot], cmd: kernel.Command
+) -> tuple[kernel.Memory | None, kernel.Reply]:
+    result = kernel.transition.lean(actor, snap, cmd).get()
+    if isinstance(result, Err):
+        raise Refused(result.error)
+    return result.value
 
 
-KERNEL = Kernel(init=kernel.init, tenant=kernel.tenant, step=_step, apply=kernel.apply)
+KERNEL = Kernel(
+    init=kernel.init.lean,
+    tenant=kernel.tenant,
+    transition=_transition,
+    apply=kernel.apply.lean,
+)
 
 
 def _number(body: dict[str, Any], name: str) -> int:

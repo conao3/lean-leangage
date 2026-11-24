@@ -1,5 +1,6 @@
-//! Times one command through the generated kernel and through the memory engine, for tenants
-//! of several sizes, next to the same logic written by hand in Rust.
+//! Times one command through the generated kernel, with the snapshot as a Rust value and as a
+//! Lean value, and through the memory engine, for tenants of several sizes, next to the same
+//! logic written by hand in Rust.
 
 use std::hint::black_box;
 use std::time::Instant;
@@ -86,7 +87,23 @@ fn main() {
             .collect();
         let cmds = commands(users, count);
 
-        let mut snap = kernel::init();
+        let mut values = kernel::init();
+        for (actor, cmd) in &seed {
+            let (ws, _) = kernel::transition(actor.clone(), values.clone(), cmd.clone())
+                .expect("set is accepted");
+            values = kernel::apply(values, ws);
+        }
+        let start = Instant::now();
+        for (actor, cmd) in &cmds {
+            if let Ok((ws, reply)) = kernel::transition(actor.clone(), values.clone(), cmd.clone())
+            {
+                black_box(reply);
+                values = kernel::apply(values, ws);
+            }
+        }
+        per_op("generated kernel, Rust values", users, count, start);
+
+        let mut snap = Calculator::init();
         for (actor, cmd) in &seed {
             let (ws, _) = Calculator::transition(actor, &snap, cmd).expect("set is accepted");
             snap = Calculator::apply(snap, ws);
@@ -98,25 +115,13 @@ fn main() {
                 snap = Calculator::apply(snap, ws);
             }
         }
-        per_op("generated transition + apply", users, count, start);
+        per_op("generated kernel, Lean values", users, count, start);
 
         let start = Instant::now();
-        for _ in 0..count {
-            black_box(snap.clone());
+        for (actor, cmd) in &cmds {
+            let _ = black_box(Calculator::transition(actor, &snap, cmd));
         }
-        per_op("  clone the snapshot", users, count, start);
-
-        let start = Instant::now();
-        for _ in 0..count {
-            snap = kernel::apply(snap, None);
-        }
-        per_op("  convert to Lean and back", users, count, start);
-
-        let start = Instant::now();
-        for (actor, _) in &cmds {
-            black_box(kernel::memory_of(snap.memories.clone(), actor.user));
-        }
-        per_op("  clone, convert, scan (memory_of)", users, count, start);
+        per_op("  transition alone", users, count, start);
 
         let engine = MemoryEngine::<Calculator>::new();
         for (actor, cmd) in &seed {

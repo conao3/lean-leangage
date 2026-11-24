@@ -74,15 +74,4 @@ def readOnly : Command → Bool
   | .get => true
   | _ => false
 
-/-- `transition` with the result as a plain inductive type, for backends whose public functions
-cannot return `Except`. -/
-inductive Outcome where
-  | accepted (write : Option Memory) (reply : Reply)
-  | refused (error : Error)
-
-def step (actor : Principal) (snap : Snapshot) (cmd : Command) : Outcome :=
-  match transition actor snap cmd with
-  | .ok (w, r) => .accepted w r
-  | .error e => .refused e
-
 end Calculator.Kernel

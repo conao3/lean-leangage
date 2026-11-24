@@ -197,17 +197,17 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1795333442,
-        "narHash": "sha256-dAwAHmmfPjY8XJ4br0bSWQyMxo68yRClj4WwR71eCoU=",
+        "lastModified": 1795493984,
+        "narHash": "sha256-4bNBKq3yLJKWWWd1zMGD9QGKEyEPg1qV/TdbnF28xzA=",
         "owner": "conao3",
         "repo": "lean-leanfran",
-        "rev": "16fa39a4bd8747ca4313b5e9120d42b7b650fb39",
+        "rev": "207c8a2fd85ce6745812709bc70d7eca88a20805",
         "type": "github"
       },
       "original": {
         "owner": "conao3",
         "repo": "lean-leanfran",
-        "rev": "16fa39a4bd8747ca4313b5e9120d42b7b650fb39",
+        "rev": "207c8a2fd85ce6745812709bc70d7eca88a20805",
         "type": "github"
       }
     },
@@ -418,11 +418,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1791885023,
-        "narHash": "sha256-C3alQ2MEt0zVrUSho5NUDo3jmhbff72++bfwoqT9Omo=",
+        "lastModified": 1795173499,
+        "narHash": "sha256-J8IYl3oEdctyvBgWr+/L01MY5Xm0TU4WXwZDccN5jjk=",
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "rev": "0d6d739a833ba9a9c93034862e4a7b061a062a1c",
+        "rev": "a0a97e31a897a3537eea5c49df4f8adaa83b3b37",
         "type": "github"
       },
       "original": {

@@ -174,10 +174,4 @@ theorem transition_spec (a : Principal) (s : Snapshot) (c : Command) :
     cases compute op (memoryOf s.memories a.user) arg <;> rfl
   | get => rfl
 
-/-- `step` is `transition`, written with `Outcome`. -/
-theorem step_eq (a : Principal) (s : Snapshot) (c : Command) :
-    step a s c = match transition a s c with
-      | .ok (w, r) => .accepted w r
-      | .error e => .refused e := rfl
-
 end Calculator.Kernel
