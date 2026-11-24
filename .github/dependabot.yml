@@ -21,6 +21,27 @@ updates:
     groups:
       minor-and-patch:
         update-types: [minor, patch]
+  - package-ecosystem: cargo
+    directory: /bench/rust
+    schedule:
+      interval: weekly
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+  - package-ecosystem: gomod
+    directory: /bench/go
+    schedule:
+      interval: weekly
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+  - package-ecosystem: uv
+    directory: /bench/python
+    schedule:
+      interval: weekly
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
   - package-ecosystem: github-actions
     directory: /
     schedule:
