@@ -11,7 +11,17 @@ import sys
 from pathlib import Path
 
 DOCS = Path(__file__).resolve().parent.parent / "docs"
-COLORS = ["#4477aa", "#ee6677", "#228833", "#ccbb44", "#66ccee", "#aa3377"]
+COLORS = [
+    "#4477aa",
+    "#ee6677",
+    "#228833",
+    "#ccbb44",
+    "#66ccee",
+    "#aa3377",
+    "#bbbbbb",
+    "#ee7733",
+    "#009988",
+]
 STYLE = (
     "text{font-family:system-ui,sans-serif;font-size:12px;fill:#24292f}"
     ".title{font-size:14px;font-weight:600}.grid{stroke:#d0d7de}.axis{fill:#57606a}"
