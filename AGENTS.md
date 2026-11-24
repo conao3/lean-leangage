@@ -49,6 +49,9 @@ All commands run inside `nix develop`.
   regeneration with `git diff --exit-code`, `cargo clippy -- -D warnings`, `cargo test`,
   `uv run pytest`, `go vet`, `go test -race`.
 - `make generate`, `make format`, `make bench`.
+- The README's Speed section shows rates (higher is better) with a chart for each table. After a
+  measurement, put the runs in `docs/speed.json`, run `python3 tools/speed-charts.py`, and paste
+  the tables it prints into the README.
 - The differential tests read the oracle's path from `LEANHARBOR_CALCULATOR_ORACLE`; the
   Makefile sets it.
 - The servers read `LEANHARBOR_SECRET` and `LEANHARBOR_LISTEN`; `LEANHARBOR_ISSUE=<org>:<user>`

@@ -109,26 +109,34 @@ generation and tenant isolation, and proved authorization guards are designed an
 
 ## Speed
 
-One command (`transition`, then `apply`), measured with the programs of `make bench` on a cloud
-VM with 4 virtual CPUs (Intel Xeon, 2.10 GHz) and 16 GB of memory. Each cell is the median of
-three runs; the runs of one cell differ by up to 1.9 times.
+Measured on a cloud VM with 4 virtual CPUs (Intel Xeon, 2.10 GHz) and 16 GB of memory. Every
+number is a rate, so higher is better. The runs are in [`docs/speed.json`](docs/speed.json), and
+`tools/speed-charts.py` draws the charts and prints the tables from it.
 
-| | 1 user in the tenant | 100 users | 1,000 users | 10,000 users |
-|---|---|---|---|---|
-| Rust, generated kernel, snapshot as a Rust value | 209 ns | 5.7 µs | | 658 µs |
-| Rust, generated kernel, snapshot as a Lean value | 137 ns | 0.94 µs | | 103 µs |
-| Rust, memory engine | 188 ns | 0.98 µs | | 91 µs |
-| Rust, the same logic by hand (not proved) | 15 ns | 49 ns | | 2.7 µs |
-| Python, memory engine | 32 µs | 65 µs | 540 µs | |
-| Go, memory engine | 3.7 µs | 10.8 µs | | 1.6 ms |
+Commands per second through `transition` and `apply`, with the programs of `make bench`. Each
+cell is the inverse of the median time of three runs; the runs of one cell differ by up to 1.9
+times. M is a million.
 
-Over HTTP on the same VM, with `oha` for 8 seconds against a tenant of one user (two runs each,
-every reply with status 200):
+![Commands per second by the number of users in the tenant](docs/speed-engine.svg)
 
-| Replies per second | `get`, 1 connection | `apply`, 1 connection | `get`, 64 connections | `apply`, 64 connections |
-|---|---|---|---|---|
-| Rust server | 16,000 and 17,000 | 15,300 and 16,100 | 116,700 and 115,400 | 116,700 and 120,200 |
-| Go server | 10,500 and 11,500 | 9,400 and 9,100 | 60,200 and 65,700 | 55,600 and 50,200 |
+| Commands per second | 1 user | 100 users | 1,000 users | 10,000 users |
+|---|---:|---:|---:|---:|
+| Rust, generated kernel, snapshot as a Rust value | 4.78 M | 175,700 |  | 1,500 |
+| Rust, generated kernel, snapshot as a Lean value | 7.3 M | 1.06 M |  | 9,700 |
+| Rust, memory engine | 5.32 M | 1.03 M |  | 11,000 |
+| Rust, the same logic by hand (not proved) | 66.7 M | 20.4 M |  | 374,400 |
+| Go, memory engine | 272,100 | 92,600 |  | 640 |
+| Python, memory engine | 31,100 | 15,300 | 1,900 |  |
+
+Replies per second over HTTP on the same VM, with `oha` for 8 seconds against a tenant of one
+user. Each cell is the mean of two runs, and every reply had status 200.
+
+![Replies per second over HTTP](docs/speed-http.svg)
+
+| Replies per second | get, 1 connection | apply, 1 connection | get, 64 connections | apply, 64 connections |
+|---|---:|---:|---:|---:|
+| Rust server | 16,500 | 15,700 | 116,000 | 118,400 |
+| Go server | 11,000 | 9,300 | 62,900 | 52,900 |
 
 A generated function that takes a Rust, Python or Go value converts it to Lean's representation on
 every call, and its result back. The engines therefore keep each tenant's snapshot as a Lean
@@ -142,9 +150,10 @@ command at a time. A test (`rust/calculator/tests/in_place.rs`) sends commands f
 threads, some of them refused, and checks that the snapshot is still the kind of Lean object
 that is updated in place.
 
-What remains against the hand-written logic (13 times for one user, 20 times for 100, 34 times
-for 10,000) is the allocation of the small Lean objects of each call, and the `List` the kernel
-keeps its users in: finding a user walks the list.
+The hand-written logic runs 13 times as many commands as the Rust memory engine for one user,
+20 times for 100 and 34 times for 10,000. The difference is the allocation of the small Lean
+objects of each call, and the `List` the kernel keeps its users in: finding a user walks the
+list.
 
 The Go memory engine holds the snapshot in a `leanfran.Value` and hands it to `apply` with
 `Take()`. A test (`go/calculator/in_place_test.go`) checks that a command of the last of 1,000
