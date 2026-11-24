@@ -28,6 +28,7 @@
         {
           treefmt = {
             projectRootFile = "flake.nix";
+            programs.gofmt.enable = true;
             programs.nixfmt.enable = true;
             programs.rustfmt = {
               enable = true;
@@ -38,6 +39,7 @@
             settings.global.excludes = [
               "rust/calculator/src/generated/*"
               "python/src/leanharbor_calculator/kernel.py"
+              "go/calculator/kernel/*"
             ];
           };
           devShells.default = pkgs.mkShell {
@@ -47,6 +49,7 @@
               pkgs.gcc
               pkgs.git
               pkgs.gnumake
+              pkgs.go
               pkgs.lean4
               pkgs.python314
               pkgs.rust-analyzer
@@ -55,6 +58,7 @@
               pkgs.uv
               leanfran.rust-compiler
               leanfran.python
+              leanfran.go
             ];
             UV_PYTHON_DOWNLOADS = "never";
           };
