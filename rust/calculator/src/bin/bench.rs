@@ -88,7 +88,7 @@ fn per_op(label: &str, users: u64, count: usize, start: Instant) {
 }
 
 fn main() {
-    for users in [1_u64, 100, 10_000] {
+    for users in [1_u64, 100, 1_000, 10_000] {
         let count = if users == 10_000 { 2_000 } else { 200_000 };
         let seed: Vec<_> = (0..users)
             .map(|user| {

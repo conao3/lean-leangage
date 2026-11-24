@@ -34,7 +34,7 @@ def commands(users: int, count: int) -> list[tuple[kernel.Principal, kernel.Comm
 
 
 def main() -> None:
-    for users, count in [(1, 20_000), (100, 2_000), (1_000, 200)]:
+    for users, count in [(1, 20_000), (100, 2_000), (1_000, 200), (10_000, 100)]:
         engine = MemoryEngine(KERNEL)
         for user in range(users):
             engine.execute(
