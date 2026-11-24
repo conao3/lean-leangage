@@ -109,16 +109,26 @@ generation and tenant isolation, and proved authorization guards are designed an
 
 ## Speed
 
-One command (`transition`, then `apply`), measured with `make bench` on an Intel Core i5-8400:
+One command (`transition`, then `apply`), measured with the programs of `make bench` on a cloud
+VM with 4 virtual CPUs (Intel Xeon, 2.10 GHz) and 16 GB of memory. Each cell is the median of
+three runs; the runs of one cell differ by up to 1.9 times.
 
 | | 1 user in the tenant | 100 users | 1,000 users | 10,000 users |
 |---|---|---|---|---|
-| Rust, generated kernel, snapshot as a Rust value | 213 ns | 3.9 µs | | 722 µs |
-| Rust, generated kernel, snapshot as a Lean value | 115 ns | 0.38 µs | | 53 µs |
-| Rust, memory engine | 156 ns | 0.42 µs | | 50 µs |
-| Rust, the same logic by hand (not proved) | 10 ns | 44 ns | | 2.7 µs |
-| Python, memory engine | 30 µs | 63 µs | 421 µs | |
-| Go, memory engine | 2.3 µs | 6.6 µs | | 1.0 ms |
+| Rust, generated kernel, snapshot as a Rust value | 209 ns | 5.7 µs | | 658 µs |
+| Rust, generated kernel, snapshot as a Lean value | 137 ns | 0.94 µs | | 103 µs |
+| Rust, memory engine | 188 ns | 0.98 µs | | 91 µs |
+| Rust, the same logic by hand (not proved) | 15 ns | 49 ns | | 2.7 µs |
+| Python, memory engine | 32 µs | 65 µs | 540 µs | |
+| Go, memory engine | 3.7 µs | 10.8 µs | | 1.6 ms |
+
+Over HTTP on the same VM, with `oha` for 8 seconds against a tenant of one user (two runs each,
+every reply with status 200):
+
+| Replies per second | `get`, 1 connection | `apply`, 1 connection | `get`, 64 connections | `apply`, 64 connections |
+|---|---|---|---|---|
+| Rust server | 16,000 and 17,000 | 15,300 and 16,100 | 116,700 and 115,400 | 116,700 and 120,200 |
+| Go server | 10,500 and 11,500 | 9,400 and 9,100 | 60,200 and 65,700 | 55,600 and 50,200 |
 
 A generated function that takes a Rust, Python or Go value converts it to Lean's representation on
 every call, and its result back. The engines therefore keep each tenant's snapshot as a Lean
@@ -132,7 +142,7 @@ command at a time. A test (`rust/calculator/tests/in_place.rs`) sends commands f
 threads, some of them refused, and checks that the snapshot is still the kind of Lean object
 that is updated in place.
 
-What remains against the hand-written logic (16 times for one user, 10 times for 100, 19 times
+What remains against the hand-written logic (13 times for one user, 20 times for 100, 34 times
 for 10,000) is the allocation of the small Lean objects of each call, and the `List` the kernel
 keeps its users in: finding a user walks the list.
 
