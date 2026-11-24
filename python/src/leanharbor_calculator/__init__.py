@@ -3,7 +3,7 @@
 from http import HTTPStatus
 from typing import Any
 
-from leanfran import Err, Lean
+from leanfran import Err, Local
 from leanharbor import Api, Kernel, Refused
 
 from leanharbor_calculator import kernel
@@ -16,19 +16,19 @@ _ERRORS = {
 
 
 def _transition(
-    actor: kernel.Principal, snap: Lean[kernel.Snapshot], cmd: kernel.Command
+    actor: kernel.Principal, snap: Local, cmd: kernel.Command
 ) -> tuple[kernel.Memory | None, kernel.Reply]:
-    result = kernel.transition.lean(actor, snap, cmd).get()
+    result = kernel.transition.local(actor, snap, cmd).get()
     if isinstance(result, Err):
         raise Refused(result.error)
     return result.value
 
 
 KERNEL = Kernel(
-    init=kernel.init.lean,
+    init=kernel.init.local,
     tenant=kernel.tenant,
     transition=_transition,
-    apply=kernel.apply.lean,
+    apply=lambda snap, write: kernel.apply.local(snap.take(), write),
 )
 
 

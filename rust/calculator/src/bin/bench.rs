@@ -5,7 +5,7 @@
 use std::hint::black_box;
 use std::time::Instant;
 
-use leanharbor::memory::MemoryEngine;
+use leanharbor::memory::{Core, MemoryEngine};
 use leanharbor::{Engine, Kernel};
 use leanharbor_calculator::{Calculator, kernel};
 
@@ -123,15 +123,30 @@ fn main() {
         }
         per_op("  transition alone", users, count, start);
 
-        let engine = MemoryEngine::<Calculator>::new();
+        let mut core = Core::<Calculator>::new();
         for (actor, cmd) in &seed {
-            let _ = engine.execute(actor, cmd);
+            let _ = core.execute(actor, cmd, None);
         }
         let start = Instant::now();
         for (actor, cmd) in &cmds {
-            let _ = black_box(engine.execute(actor, cmd));
+            let _ = black_box(core.execute(actor, cmd, None));
         }
-        per_op("memory engine execute", users, count, start);
+        per_op("memory engine core", users, count, start);
+
+        let engine = MemoryEngine::<Calculator>::new();
+        let runtime = tokio::runtime::Builder::new_current_thread()
+            .build()
+            .expect("a runtime");
+        runtime.block_on(async {
+            for (actor, cmd) in &seed {
+                let _ = engine.execute(actor.clone(), cmd.clone(), None).await;
+            }
+            let start = Instant::now();
+            for (actor, cmd) in &cmds {
+                let _ = black_box(engine.execute(actor.clone(), cmd.clone(), None).await);
+            }
+            per_op("memory engine, one caller at a time", users, count, start);
+        });
 
         let mut plain = Vec::new();
         for (actor, cmd) in &seed {

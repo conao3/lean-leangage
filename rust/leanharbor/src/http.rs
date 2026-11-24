@@ -7,6 +7,7 @@
 //! | body is not a command | 400 | `{"error": ...}` |
 //! | refused by the kernel | chosen by [`Api::encode_error`] | chosen by [`Api::encode_error`] |
 //! | idempotency key reused for another command | 422 | `{"error":"idempotency key reused"}` |
+//! | the engine has stopped | 503 | `{"error":"engine stopped"}` |
 
 use std::marker::PhantomData;
 use std::sync::Arc;
@@ -21,7 +22,7 @@ use axum::response::{IntoResponse, Response};
 use axum::routing::post;
 use serde_json::{Value, json};
 
-use crate::{Engine, EngineError, Kernel, token};
+use crate::{Engine, EngineError, Idempotency, Kernel, token};
 
 /// How a kernel's commands, replies and refusals appear on the wire, and who a token's holder
 /// is. Trusted: no theorem covers it.
@@ -91,17 +92,15 @@ async fn rpc<K: Kernel, A: Api<K>, E: Engine<K>>(
         Ok(cmd) => cmd,
         Err(message) => return error(StatusCode::BAD_REQUEST, &message),
     };
-    let key = headers.get("idempotency-key").and_then(|v| v.to_str().ok());
-    let executed = match key {
-        Some(key) => app.engine.execute_idempotent(
-            &actor,
-            &A::scope(&actor),
-            key,
-            &A::fingerprint(&cmd),
-            &cmd,
-        ),
-        None => app.engine.execute(&actor, &cmd),
-    };
+    let idempotency = headers
+        .get("idempotency-key")
+        .and_then(|v| v.to_str().ok())
+        .map(|key| Idempotency {
+            scope: A::scope(&actor),
+            key: key.to_owned(),
+            fingerprint: A::fingerprint(&cmd),
+        });
+    let executed = app.engine.execute(actor, cmd, idempotency).await;
     match executed {
         Ok(Ok(r)) => reply(StatusCode::OK, A::encode_reply(&r)),
         Ok(Err(e)) => {
@@ -111,6 +110,7 @@ async fn rpc<K: Kernel, A: Api<K>, E: Engine<K>>(
         Err(EngineError::IdempotencyConflict) => {
             error(StatusCode::UNPROCESSABLE_ENTITY, "idempotency key reused")
         }
+        Err(EngineError::Stopped) => error(StatusCode::SERVICE_UNAVAILABLE, "engine stopped"),
     }
 }
 

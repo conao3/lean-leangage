@@ -54,13 +54,14 @@ fn oracle() -> String {
     String::from_utf8(output.stdout).expect("utf-8")
 }
 
-#[test]
-fn generated_rust_agrees_with_lean() {
+#[tokio::test]
+async fn generated_rust_agrees_with_lean() {
     let engine = MemoryEngine::<Calculator>::new();
     let mut ours = String::new();
     for line in COMMANDS.lines() {
         let (actor, cmd) = parse(line);
-        match engine.execute(&actor, &cmd).expect("no engine error") {
+        let executed = engine.execute(actor, cmd, None).await;
+        match executed.expect("no engine error") {
             Ok(reply) => ours.push_str(&format!("ok {}\n", reply.v)),
             Err(kernel::Error::Overflow) => ours.push_str("error overflow\n"),
             Err(kernel::Error::Underflow) => ours.push_str("error underflow\n"),

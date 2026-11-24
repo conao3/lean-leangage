@@ -4,7 +4,7 @@
 pub mod generated;
 
 use axum::http::StatusCode;
-use leanfran::Lean;
+use leanfran::Local;
 use leanharbor::Kernel;
 use leanharbor::http::Api;
 use serde::Deserialize;
@@ -16,14 +16,14 @@ pub struct Calculator;
 
 impl Kernel for Calculator {
     type Principal = kernel::Principal;
-    type Snapshot = Lean<kernel::Snapshot>;
+    type Snapshot = Local<kernel::Snapshot>;
     type Command = kernel::Command;
     type WriteSet = Option<kernel::Memory>;
     type Reply = kernel::Reply;
     type Error = kernel::Error;
 
-    fn init() -> Lean<kernel::Snapshot> {
-        kernel::lean::init()
+    fn init() -> Local<kernel::Snapshot> {
+        kernel::local::init()
     }
 
     fn tenant(actor: &kernel::Principal) -> u64 {
@@ -32,14 +32,14 @@ impl Kernel for Calculator {
 
     fn transition(
         actor: &kernel::Principal,
-        snap: &Lean<kernel::Snapshot>,
+        snap: &Local<kernel::Snapshot>,
         cmd: &kernel::Command,
     ) -> Result<(Option<kernel::Memory>, kernel::Reply), kernel::Error> {
-        kernel::lean::transition(actor.clone(), snap, cmd.clone()).get()
+        kernel::local::transition(actor.clone(), snap, cmd.clone()).get()
     }
 
-    fn apply(snap: Lean<kernel::Snapshot>, ws: Option<kernel::Memory>) -> Lean<kernel::Snapshot> {
-        kernel::lean::apply(snap, ws)
+    fn apply(snap: Local<kernel::Snapshot>, ws: Option<kernel::Memory>) -> Local<kernel::Snapshot> {
+        kernel::local::apply(snap, ws)
     }
 }
 
