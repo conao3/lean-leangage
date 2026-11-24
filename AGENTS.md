@@ -13,6 +13,8 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   (`Audit/Axioms.lean`).
 - `rust/`: Cargo workspace, edition 2024. `leanharbor` is the shell, `calculator` the example.
 - `python/`: uv project. `leanharbor` is the shell, `leanharbor_calculator` the example.
+- `go/`: Go module `github.com/conao3/lean-leanharbor/go`. `leanharbor` is the shell,
+  `calculator` the example, with the server and the benchmark under `calculator/cmd/`.
 
 ## Lean and the host languages
 
@@ -23,13 +25,15 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   functions and make no decision about a command themselves.
 - The contract uses `Except` for refusals. The engines keep each tenant's snapshot as a Lean
   value with one owner (`leanfran::Owned` in Rust, lent as a `Local` by `Kernel::lend`;
-  `leanfran.Local` in Python) and call the generated functions that take one
-  (`kernel::local::apply` in Rust, `kernel.apply.local` in Python). `apply` must receive the only
-  reference to the snapshot (a move in Rust, `take()` in Python), and no `Local` may leave the
-  closure of `lend`, or Lean copies instead of updating in place.
-  `rust/calculator/tests/in_place.rs` checks it.
-- Generated files (`rust/calculator/src/generated/`, `python/src/leanharbor_calculator/kernel.py`)
-  are committed and never edited. Run `make generate` after changing `lean/`.
+  `leanfran.Local` in Python; `leanfran.Value` in Go) and call the generated functions that take
+  one (`kernel::local::apply` in Rust, `kernel.apply.local` in Python, `kernel.ApplyValue` in Go).
+  `apply` must receive the only reference to the snapshot (a move in Rust, `take()` in Python,
+  `Take()` in Go), and no `Local` may leave the closure of `lend`, or Lean copies instead of
+  updating in place. `rust/calculator/tests/in_place.rs` and `go/calculator/in_place_test.go`
+  check it.
+- Generated files (`rust/calculator/src/generated/`, `python/src/leanharbor_calculator/kernel.py`,
+  `go/calculator/kernel/`) are committed and never edited. Run `make generate` after changing
+  `lean/`.
 - When a function is added to a generated module, add a theorem about it and list it in
   `audit/Audit/Calculator.lean` in the same change. Theorems whose hypothesis fixes the result
   of the function (`transition a s c = .ok …`) cannot be run by leanassay; state the runnable
@@ -43,7 +47,7 @@ All commands run inside `nix develop`.
 
 - `make check`: `nix fmt -- --ci`, `lake -d lean build --wfail`, `lake -d audit build --wfail`,
   regeneration with `git diff --exit-code`, `cargo clippy -- -D warnings`, `cargo test`,
-  `uv run pytest`.
+  `uv run pytest`, `go vet`, `go test -race`.
 - `make generate`, `make format`, `make bench`.
 - The differential tests read the oracle's path from `LEANHARBOR_CALCULATOR_ORACLE`; the
   Makefile sets it.
@@ -53,5 +57,6 @@ All commands run inside `nix develop`.
 ## Conventions
 
 - Commit messages, comments and documents are in English.
-- The leanfran compilers come from the flake input pinned to a release commit; the crate and
-  the PyPI package are pinned to the same version (`=0.10.0`, `==0.10.0`).
+- The leanfran compilers come from the flake input pinned to a release commit; the crate, the
+  PyPI package and the Go module are pinned to the same version (`=0.10.0`, `==0.10.0`,
+  `v0.10.0`).
