@@ -573,12 +573,12 @@ time of three runs; the runs of one cell differ by up to 1.3 times. M is a milli
 
 | Commands per second | 1 user | 100 users | 1,000 users | 10,000 users |
 |---|---:|---:|---:|---:|
-| Rust, generated kernel, snapshot as a Rust value | 8.13 M | 92,700 | 7,960 | 540 |
-| Rust, generated kernel, snapshot as a Lean value | 9.17 M | 5.65 M | 3.08 M | 3.82 M |
-| Rust, memory engine | 7.3 M | 4.93 M | 3.89 M | 3.19 M |
-| Rust, a HashMap by hand (not proved) | 28.6 M | 32.3 M | 31.2 M | 35.7 M |
-| Go, memory engine | 637,800 | 541,100 | 425,500 | 328,500 |
-| Python, memory engine | 47,400 | 34,100 | 29,800 | 27,500 |
+| Rust, generated kernel, snapshot as a Rust value | 8.47 M | 97,700 | 8,720 | 449 |
+| Rust, generated kernel, snapshot as a Lean value | 9.35 M | 6.25 M | 5.49 M | 3.68 M |
+| Rust, memory engine | 7.3 M | 5.32 M | 4.65 M | 3.21 M |
+| Rust, a HashMap by hand (not proved) | 35.7 M | 34.5 M | 34.5 M | 37 M |
+| Go, memory engine | 648,500 | 613,900 | 514,900 | 390,200 |
+| Python, memory engine | 48,200 | 33,600 | 32,400 | 27,800 |
 
 ### Over HTTP, next to servers without a kernel
 
@@ -596,35 +596,34 @@ token check, the engine and the generated kernel cost.
 
 | Replies per second, Rust | get, 1 connection | apply, 1 connection | get, 64 connections | apply, 64 connections |
 |---|---:|---:|---:|---:|
-| leanharbor, Rust (axum) | 17,500 | 17,300 | 137,300 | 135,900 |
-| axum, no kernel | 19,300 | 18,500 | 137,900 | 146,700 |
-| actix-web, no kernel | 18,700 | 18,700 | 168,100 | 151,900 |
+| leanharbor, Rust (axum) | 17,200 | 16,800 | 129,700 | 117,100 |
+| axum, no kernel | 17,800 | 17,900 | 144,100 | 137,500 |
+| actix-web, no kernel | 18,100 | 18,100 | 190,700 | 190,500 |
 
 ![Replies per second over HTTP, Go](docs/speed-http-go.svg)
 
 | Replies per second, Go | get, 1 connection | apply, 1 connection | get, 64 connections | apply, 64 connections |
 |---|---:|---:|---:|---:|
-| leanharbor, Go (net/http) | 11,900 | 10,700 | 65,200 | 58,300 |
-| net/http, no kernel | 13,000 | 12,200 | 86,800 | 86,600 |
-| gin, no kernel | 11,800 | 12,500 | 80,000 | 75,900 |
+| leanharbor, Go (net/http) | 11,000 | 10,300 | 64,100 | 57,000 |
+| net/http, no kernel | 12,000 | 11,300 | 88,600 | 86,400 |
+| gin, no kernel | 11,500 | 11,400 | 75,800 | 69,700 |
 
 ![Replies per second over HTTP, Python](docs/speed-http-python.svg)
 
 | Replies per second, Python | get, 1 connection | apply, 1 connection | get, 64 connections | apply, 64 connections |
 |---|---:|---:|---:|---:|
-| leanharbor, Python (http.server) | 4,800 | 4,270 | 2,950 | 2,620 |
-| FastAPI on uvicorn, 4 processes, no kernel | 5,730 | 5,480 | 21,600 | 22,600 |
-| Flask on gunicorn, 4 processes, no kernel | 2,560 | 2,520 | 7,940 | 7,880 |
+| leanharbor, Python (http.server) | 5,900 | 5,220 | 2,940 | 2,680 |
+| FastAPI on uvicorn, 4 processes, no kernel | 5,790 | 5,910 | 23,900 | 24,300 |
+| Flask on gunicorn, 4 processes, no kernel | 2,540 | 2,400 | 7,040 | 6,950 |
 
-- The Rust shell runs on axum and gives 91% of the replies of axum without a kernel on one
-  connection and 99% on 64.
+- The Rust shell runs on axum and gives 97% of the replies of axum without a kernel on one
+  connection and 90% on 64.
 - The Go shell runs on `net/http` and gives 92% of the replies of `net/http` without a kernel on
-  one connection and 75% on 64.
+  one connection and 72% on 64.
 - The Python shell is one process on `http.server`, with one lock around the engine. On one
-  connection it gives 84% of the replies of FastAPI. On 64 connections it gives fewer than on
-  one, while FastAPI and Flask spread the connections over four processes.
-- Every body is written by the generated JSON writer, which takes and returns Lean lists of
-  bytes.
+  connection it gives as many replies as FastAPI. On 64 connections it gives fewer than on one,
+  while FastAPI and Flask spread the connections over four processes.
+- Every body is written by the generated JSON writer.
 
 A generated function that takes a Rust, Python or Go value converts it to Lean's representation on
 every call, and its result back. The engines therefore keep each tenant's snapshot as a Lean
@@ -638,8 +637,8 @@ command at a time. A test (`rust/calculator/tests/in_place.rs`) sends commands f
 threads, some of them refused, and checks that the snapshot is still the kind of Lean object
 that is updated in place.
 
-The row written by hand keeps the numbers in a `HashMap` and has no proof. It runs 4 times as
-many commands as the Rust memory engine for one user, 7 times for 100, 8 times for 1,000 and 11
+The row written by hand keeps the numbers in a `HashMap` and has no proof. It runs 5 times as
+many commands as the Rust memory engine for one user, 6 times for 100, 7 times for 1,000 and 12
 times for 10,000. The difference is the allocation of the small Lean objects of each call and the
 walk down the trie.
 
@@ -664,7 +663,12 @@ command reads all the rows of its tenant in one `SERIALIZABLE` transaction, so t
 the number of users. Each cell is the inverse of the median time of three runs, each on a new
 database. The memory engine's row is the one of the table above.
 
-<!-- docs/speed-postgres.svg and the table "Commands per second, PostgreSQL" that tools/speed-charts.py prints -->
+![Commands per second through the PostgreSQL engine](docs/speed-postgres.svg)
+
+| Commands per second, PostgreSQL | 1 user | 100 users | 1,000 users | 10,000 users |
+|---|---:|---:|---:|---:|
+| Rust, PostgreSQL engine | 968 | 844 | 362 | 64 |
+| Rust, memory engine | 7.3 M | 5.32 M | 4.65 M | 3.21 M |
 
 Replies per second to `POST /rpc`, as above, from the Rust calculator server with
 `LEANHARBOR_DATABASE_URL` and from a server without a kernel on axum and tokio-postgres
@@ -678,7 +682,17 @@ tenant, runs the kernel and sends the generated statements, and takes the tenant
 around each write, so its writes to one tenant wait for each other instead of failing and
 retrying.
 
-<!-- docs/speed-http-postgres.svg and the table "Replies per second, PostgreSQL" that tools/speed-charts.py prints -->
+![Replies per second over HTTP, stored in PostgreSQL](docs/speed-http-postgres.svg)
+
+| Replies per second, PostgreSQL | get, 1 connection | apply, 1 connection | get, 64 connections | apply, 64 connections |
+|---|---:|---:|---:|---:|
+| leanharbor, Rust (axum), PostgreSQL engine | 3,560 | 683 | 18,300 | 735 |
+| axum and tokio-postgres, no kernel | 3,980 | 1,110 | 20,200 | 1,060 |
+
+- The leanharbor server gives 89% of the replies of the server without a kernel to `get` on one
+  connection and 91% on 64, and 62% and 69% to `apply`.
+- A commit that writes waits for the log to reach the disk, so `apply` gives about 700 replies per
+  second on either server, on one connection and on 64: all the requests write to one tenant.
 
 ## Layout
 
