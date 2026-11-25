@@ -16,6 +16,9 @@ type Kernel[Principal, Snapshot, Command, WriteSet, Reply, Error any] interface 
 	Transition(actor Principal, snap Snapshot, cmd Command) (WriteSet, Reply, *Error)
 	// Apply consumes the snapshot and the writes and returns the next snapshot.
 	Apply(snap Snapshot, ws WriteSet) Snapshot
+	// Scoped runs one command's calls: run gets a kernel whose temporary values are released
+	// together when run returns.
+	Scoped(run func(Kernel[Principal, Snapshot, Command, WriteSet, Reply, Error]))
 }
 
 // Why a request did not reach the kernel's decision.

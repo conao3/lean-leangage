@@ -22,7 +22,9 @@ type Snapshot = leanfran.Value[kernel.Snapshot]
 type WriteSet = leanfran.Value[leanfran.OptionType[kernel.Memory]]
 
 // Calculator implements the kernel contract and the wire format of the calculator.
-type Calculator struct{}
+type Calculator struct {
+	scope *leanfran.ValueScope
+}
 
 // Engine is the memory engine of the calculator.
 type Engine = leanharbor.MemoryEngine[kernel.Principal, Snapshot, kernel.Command, WriteSet, kernel.Reply, kernel.Error]
@@ -46,12 +48,19 @@ func (Calculator) Tenant(actor kernel.Principal) uint64 {
 	return kernel.Tenant(actor)
 }
 
-func (Calculator) Transition(
+func (Calculator) Scoped(run func(leanharbor.Kernel[kernel.Principal, Snapshot, kernel.Command, WriteSet, kernel.Reply, kernel.Error])) {
+	leanfran.WithValues(func(scope *leanfran.ValueScope) {
+		run(Calculator{scope})
+	})
+}
+
+func (c Calculator) Transition(
 	actor kernel.Principal, snap Snapshot, cmd kernel.Command,
 ) (WriteSet, kernel.Reply, *kernel.Error) {
-	who := kernel.Value.NewPrincipal(actor)
-	what := must(kernel.Value.NewCommand(cmd))
-	ws, reply, err := kernel.Handle.Transition(who.Take(), snap.Borrow(), what.Take())
+	values, handle := kernel.Value.In(c.scope), kernel.Handle.In(c.scope)
+	who := values.NewPrincipal(actor)
+	what := must(values.NewCommand(cmd))
+	ws, reply, err := handle.Transition(who.Take(), snap.Borrow(), what.Take())
 	var refusal *leanfran.ExceptError[kernel.Error]
 	if errors.As(err, &refusal) {
 		return WriteSet{}, kernel.Reply{}, &refusal.Value
@@ -59,12 +68,12 @@ func (Calculator) Transition(
 	if err != nil {
 		panic(err)
 	}
-	defer reply.Close()
-	return ws, kernel.Value.ReadReply(reply), nil
+	defer reply.CloseIn(c.scope)
+	return ws, values.ReadReply(reply), nil
 }
 
-func (Calculator) Apply(snap Snapshot, ws WriteSet) Snapshot {
-	return kernel.Handle.Apply(snap.Take(), ws.Take())
+func (c Calculator) Apply(snap Snapshot, ws WriteSet) Snapshot {
+	return kernel.Handle.In(c.scope).Apply(snap.Take(), ws.Take())
 }
 
 func (Calculator) Principal(tenant, user uint64) kernel.Principal {

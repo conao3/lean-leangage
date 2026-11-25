@@ -25,6 +25,8 @@ func (counter) Transition(_ who, snap int, cmd int) (int, int, *string) {
 
 func (counter) Apply(snap int, ws int) int { return snap + ws }
 
+func (c counter) Scoped(run func(Kernel[who, int, int, int, int, string])) { run(c) }
+
 func key(scope, key string, fingerprint string) *Idempotency {
 	return &Idempotency{Scope: scope, Key: key, Fingerprint: []byte(fingerprint)}
 }

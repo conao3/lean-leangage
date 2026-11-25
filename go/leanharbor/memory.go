@@ -44,12 +44,16 @@ func (e *MemoryEngine[Principal, Snapshot, Command, WriteSet, Reply, Error]) run
 		snap = e.kernel.Init()
 		e.tenants[tenant] = snap
 	}
-	ws, reply, refusal := e.kernel.Transition(actor, snap, cmd)
-	if refusal != nil {
-		return reply, refusal
-	}
-	e.tenants[tenant] = e.kernel.Apply(snap, ws)
-	return reply, nil
+	var reply Reply
+	var refusal *Error
+	e.kernel.Scoped(func(kernel Kernel[Principal, Snapshot, Command, WriteSet, Reply, Error]) {
+		var ws WriteSet
+		ws, reply, refusal = kernel.Transition(actor, snap, cmd)
+		if refusal == nil {
+			e.tenants[tenant] = kernel.Apply(snap, ws)
+		}
+	})
+	return reply, refusal
 }
 
 func (e *MemoryEngine[Principal, Snapshot, Command, WriteSet, Reply, Error]) execute(
