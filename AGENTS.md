@@ -84,9 +84,11 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   text of the generated `render` for a kernel's tables, with the values as parameters; their own
   statements are the constants of `rust/leanharbor-pg/src/lib.rs`,
   `python/src/leanharbor/pg/__init__.py` and `go/leanharbor/pg/pg.go` (transaction control,
-  advisory locks, `leanharbor_idempotency`; the last two of the same text in the three, and the
-  transaction control of the same text in Rust and Go, so that the servers share a database; a
-  change to one is made to the others) and the role statements of `lockdown`. The Python engine
+  advisory locks, `leanharbor_idempotency`, `leanharbor_version`; the last three of the same text
+  in the three, and the transaction control of the same text in Rust and Go, so that the servers
+  share a database; a change to one is made to the others) and the role statements of
+  `lockdown`. A transaction that writes a tenant's rows advances the tenant's row of
+  `leanharbor_version` in the same transaction. The Python engine
   runs statements through psycopg's `RawCursor`, which sends the text unchanged, and the
   constants without parameters with `prepare=False`, so that COMMIT stays a simple query.
 - The contract uses `Except` for refusals. The memory engines keep each tenant's snapshot as a Lean
@@ -95,7 +97,8 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   one (`kernel::local::apply` in Rust, `kernel.apply.local` in Python, `kernel.Handle.Apply` in Go).
   `apply` must receive the only reference to the snapshot (a move in Rust, `take()` in Python,
   `Take()` in Go), and no `Local` may leave the closure of `lend`, or Lean copies instead of
-  updating in place. `rust/calculator/tests/in_place.rs` and `go/calculator/in_place_test.go`
+  updating in place. The PostgreSQL engines keep the snapshots they remember the same way, and an
+  attempt takes its tenant's snapshot out of the cache, so that it holds the only reference. `rust/calculator/tests/in_place.rs` and `go/calculator/in_place_test.go`
   check it.
 - In Go, every handle belongs to a `leanfran.Region`, and the calls of one region run one at a
   time. The memory engine gives each tenant a region and a lock, the PostgreSQL engine each

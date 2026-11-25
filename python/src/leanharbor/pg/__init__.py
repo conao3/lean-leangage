@@ -510,7 +510,7 @@ class PgEngine:
     ) -> "PgEngine":
         """Opens a pool of up to `size` connections to `url` and creates the tables that do not
         exist, with the generated `create` of each of `storage.tables()` and the framework's
-        table."""
+        tables."""
         tables = storage.tables()
         if not sql.valid(tables):
             raise Broken("the tables are not valid")
@@ -772,7 +772,7 @@ def _role(name: str) -> str:
 
 def lockdown(storage: Storage, admin_url: str, owner: str, engine_role: str) -> None:
     """Run by an administrator of the database: creates the tables of `storage` and the
-    framework's table, makes `owner` own them, and lets `engine_role` read and write their rows
+    framework's tables, makes `owner` own them, and lets `engine_role` read and write their rows
     and nothing else: it cannot alter, drop or truncate them. `owner` is created without the
     right to log in if it does not exist. `engine_role` must exist and may not be a superuser; it
     gets `USAGE` and `CREATE` on the schema, so that the engine's `CREATE TABLE IF NOT EXISTS` at

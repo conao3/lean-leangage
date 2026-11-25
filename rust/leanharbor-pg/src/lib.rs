@@ -436,7 +436,7 @@ pub struct PgEngine<K: Kernel> {
 
 impl<K: Storage> PgEngine<K> {
     /// Opens a pool of up to `size` connections to `url` and creates the tables that do not
-    /// exist, with the generated `create` of each of `K::tables()` and the framework's table.
+    /// exist, with the generated `create` of each of `K::tables()` and the framework's tables.
     pub async fn connect(url: &str, size: usize, config: Config) -> Result<Self, EngineError> {
         let tables = K::tables();
         if !sql::valid(tables.clone()) {
@@ -836,7 +836,7 @@ fn role(name: &str) -> Result<&str, EngineError> {
 }
 
 /// Run by an administrator of the database: creates the tables of `K` and the framework's
-/// table, makes `owner` own them, and lets `engine_role` read and write their rows and nothing
+/// tables, makes `owner` own them, and lets `engine_role` read and write their rows and nothing
 /// else: it cannot alter, drop or truncate them. `owner` is created without the right to log
 /// in if it does not exist. `engine_role` must exist and may not be a superuser; it gets
 /// `USAGE` and `CREATE` on the schema, so that the engine's `CREATE TABLE IF NOT EXISTS` at start

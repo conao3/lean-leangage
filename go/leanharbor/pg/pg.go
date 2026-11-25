@@ -485,7 +485,7 @@ func valid(tables []sql.Tab) bool {
 	return err == nil && ok
 }
 
-// create runs the generated Create of each table and the framework's table under the schema's
+// create runs the generated Create of each table and the framework's tables under the schema's
 // lock.
 func create(conn *pgx.Conn, tables []sql.Tab) error {
 	if _, err := conn.Exec(background, schemaLock); err != nil {
@@ -520,7 +520,7 @@ func create(conn *pgx.Conn, tables []sql.Tab) error {
 }
 
 // Connect opens a pool of up to size connections to url and creates the tables that do not
-// exist, with the generated Create of each of storage.Tables() and the framework's table. url
+// exist, with the generated Create of each of storage.Tables() and the framework's tables. url
 // is a connection string pgx reads, with the PG* environment variables as its defaults.
 func Connect[Principal, Snapshot, Command, WriteSet, Reply, Error any](
 	storage leanharbor.Storage[Principal, Snapshot, Command, WriteSet, Reply, Error],
@@ -1034,7 +1034,7 @@ func role(name string) error {
 }
 
 // Lockdown is run by an administrator of the database: it creates the tables and the
-// framework's table, makes owner own them, and lets engineRole read and write their rows and
+// framework's tables, makes owner own them, and lets engineRole read and write their rows and
 // nothing else: it cannot alter, drop or truncate them. owner is created without the right to
 // log in if it does not exist. engineRole must exist and may not be a superuser; it gets USAGE
 // and CREATE on the schema, so that the engine's CREATE TABLE IF NOT EXISTS at start finds the
