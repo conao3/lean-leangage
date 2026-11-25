@@ -385,9 +385,9 @@ Checked by `make check`, not proved:
   `fun w => w.toList`; the calculator lists no invariant. For the notes,
   `#obligations Notes.Kernel.kernel invariant Notes.Kernel.Keyed` finds `read_only_sound` with the
   write list `fun ws => ws` and `keyed_invariant` (no two members share a user id and no two notes
-  an id). The PostgreSQL engine relies on `ReadOnlySound`: it runs a command that `readOnly`
-  marks, sent without an idempotency key, in a read-only transaction, and fails it if its write
-  set stores a row (item 6 of its contract). The memory engines run every command the same way.
+  an id). The PostgreSQL engines rely on `ReadOnlySound`: they run a command that `readOnly`
+  marks, sent without an idempotency key, in a read-only transaction, and fail it if its write set
+  stores a row (item 6 of their contract). The memory engines run every command the same way.
   `make check` also builds the files in [`audit/fail/`](audit/fail), a kernel without the
   theorem, with a theorem that has one more hypothesis, with a listed invariant that no theorem
   states, and with an invariant left as a hole, and requires each to fail with the check's error;
