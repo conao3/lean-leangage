@@ -269,6 +269,1227 @@ return x_3;
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_encodeReply(mut x_1: u64) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+x_2 = l_Calculator_Kernel_replyToks(x_1);
+x_3 = l_Leanharbor_Json_write(x_2);
+rt::lean_dec(x_2);
+return x_3;
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_replyToks(mut x_1: u64) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+x_2 = rt::lean_box(7);
+x_3 = l_Calculator_Kernel_replyToks___closed__5();
+x_4 = rt::lean_alloc_ctor(2, 0, 0 * core::mem::size_of::<usize>() as u32 + 8);
+rt::lean_ctor_set_uint64(x_4, 0 * core::mem::size_of::<usize>() as u32 + 0, x_1);
+x_5 = l_Calculator_Kernel_replyToks___closed__6();
+x_6 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_6, 0, x_4); rt::lean_ctor_set(x_6, 1, x_5);
+x_7 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_7, 0, x_3); rt::lean_ctor_set(x_7, 1, x_6);
+x_8 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_8, 0, x_2); rt::lean_ctor_set(x_8, 1, x_7);
+return x_8;
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_replyToks___closed__5_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_replyToks___closed__4();
+x_2 = rt::lean_alloc_ctor(4, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_2, 0, x_1);
+return x_2;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_replyToks___closed__5() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_replyToks___closed__5_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_replyToks___closed__4_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_replyToks___closed__3();
+x_2 = 118u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_replyToks___closed__4() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_replyToks___closed__4_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_replyToks___closed__3_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_replyToks___closed__2();
+x_2 = 97u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_replyToks___closed__3() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_replyToks___closed__3_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_replyToks___closed__2_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_replyToks___closed__1();
+x_2 = 108u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_replyToks___closed__2() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_replyToks___closed__2_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_replyToks___closed__1_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_replyToks___closed__0();
+x_2 = 117u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_replyToks___closed__1() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_replyToks___closed__1_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_replyToks___closed__0_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = 101u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_replyToks___closed__0() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_replyToks___closed__0_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_replyToks___closed__6_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = rt::lean_box(8);
+x_3 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_3, 0, x_2); rt::lean_ctor_set(x_3, 1, x_1);
+return x_3;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_replyToks___closed__6() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_replyToks___closed__6_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_write(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: u8 = 0;
+let mut x_4: Obj = rt::lean_box(0);
+x_2 = rt::lean_box(0);
+x_3 = 0u8;
+x_4 = l_Leanharbor_Json_writeFrom(x_2, x_3, x_1);
+return x_4;
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_writeFrom(mut x_1: Obj, mut x_2: u8, mut x_3: Obj) -> Obj {
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_12: u8 = 0;
+let mut x_13: Obj = rt::lean_box(0);
+let mut x_15: Obj = rt::lean_box(0);
+let mut x_16: u8 = 0;
+let mut x_17: Obj = rt::lean_box(0);
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+match rt::lean_obj_tag(x_3) {
+0 => {
+x_4 = l_List_reverse___redArg(x_1);
+return x_4;
+}
+1 => {
+x_5 = rt::lean_ctor_get(x_3, 0);
+x_6 = rt::lean_ctor_get(x_3, 1);
+match x_2 as u32 {
+0 => {
+{ }
+__blk = 2; continue 'body;
+}
+1 => {
+x_16 = l_Leanharbor_Json_isClose(x_5);
+match x_16 as u32 {
+0 => {
+x_17 = l_Leanharbor_Json_writeFrom___closed__0();
+{ let t_0 = x_17; x_8 = t_0; }
+__blk = 1; continue 'body;
+}
+1 => {
+{ }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_9 = l_Leanharbor_Json_tokBytes(x_5);
+rt::lean_inc(x_8);
+x_10 = l_List_appendTR___redArg(x_8, x_9);
+x_11 = l_List_reverseAux___redArg(x_10, x_1);
+x_12 = l_Leanharbor_Json_endsValue(x_5);
+{ let t_0 = x_11; let t_1 = x_12; let t_2 = x_6; x_1 = t_0; x_2 = t_1; x_3 = t_2; }
+__blk = 0; continue 'body;
+}
+2 => {
+x_15 = rt::lean_box(0);
+{ let t_0 = x_15; x_8 = t_0; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_List_reverse___redArg(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+x_2 = rt::lean_box(0);
+x_3 = l_List_reverseAux___redArg(x_1, x_2);
+return x_3;
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_List_reverseAux___redArg(mut x_1: Obj, mut x_2: Obj) -> Obj {
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: u8 = 0;
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_12: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+match rt::lean_obj_tag(x_1) {
+0 => {
+return x_2;
+}
+1 => {
+x_3 = rt::lean_ctor_get(x_1, 0);
+x_4 = rt::lean_ctor_get(x_1, 1);
+x_12 = (!rt::lean_is_exclusive(x_1)) as u8;
+match x_12 as u32 {
+0 => {
+{ let t_0 = x_1; let t_1 = x_12; x_6 = t_0; x_7 = t_1; }
+__blk = 1; continue 'body;
+}
+1 => {
+rt::lean_inc(x_4);
+rt::lean_inc(x_3);
+rt::lean_dec(x_1);
+{ let t_0 = rt::lean_box(0); let t_1 = x_12; x_6 = t_0; x_7 = t_1; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+match x_7 as u32 {
+0 => {
+rt::lean_ctor_set(x_6, 1, x_2);
+{ let t_0 = x_6; x_9 = t_0; }
+__blk = 2; continue 'body;
+}
+1 => {
+x_11 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_11, 0, x_3); rt::lean_ctor_set(x_11, 1, x_2);
+{ let t_0 = x_11; x_9 = t_0; }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+{ let t_0 = x_4; let t_1 = x_9; x_1 = t_0; x_2 = t_1; }
+__blk = 0; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_tokBytes(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: u8 = 0;
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: u64 = 0;
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: u8 = 0;
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_13: Obj = rt::lean_box(0);
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: Obj = rt::lean_box(0);
+let mut x_16: Obj = rt::lean_box(0);
+let mut x_17: u8 = 0;
+let mut x_18: Obj = rt::lean_box(0);
+let mut x_19: Obj = rt::lean_box(0);
+let mut x_20: Obj = rt::lean_box(0);
+let mut x_21: Obj = rt::lean_box(0);
+let mut x_22: Obj = rt::lean_box(0);
+let mut x_23: Obj = rt::lean_box(0);
+let mut x_24: Obj = rt::lean_box(0);
+let mut x_25: Obj = rt::lean_box(0);
+let mut x_26: Obj = rt::lean_box(0);
+match rt::lean_obj_tag(x_1) {
+0 => {
+x_2 = l_Leanharbor_Json_tokBytes___closed__3();
+return x_2;
+}
+1 => {
+x_3 = rt::lean_ctor_get_uint8(x_1, 0 * core::mem::size_of::<usize>() as u32 + 0);
+match x_3 as u32 {
+0 => {
+x_4 = l_Leanharbor_Json_tokBytes___closed__8();
+return x_4;
+}
+1 => {
+x_5 = l_Leanharbor_Json_tokBytes___closed__11();
+return x_5;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+x_6 = rt::lean_ctor_get_uint64(x_1, 0 * core::mem::size_of::<usize>() as u32 + 0);
+x_7 = rt::lean_uint64_to_nat(x_6);
+x_8 = l_Leanharbor_Token_decimal(x_7);
+rt::lean_dec(x_7);
+return x_8;
+}
+3 => {
+x_9 = rt::lean_ctor_get(x_1, 0);
+x_10 = 34u8;
+x_11 = l_Leanharbor_Json_escape(x_9);
+x_12 = rt::lean_box(x_10 as usize);
+x_13 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_13, 0, x_12); rt::lean_ctor_set(x_13, 1, x_11);
+x_14 = l_Leanharbor_Json_escapeByte___closed__2();
+x_15 = l_List_appendTR___redArg(x_13, x_14);
+return x_15;
+}
+4 => {
+x_16 = rt::lean_ctor_get(x_1, 0);
+x_17 = 34u8;
+x_18 = l_Leanharbor_Json_escape(x_16);
+x_19 = rt::lean_box(x_17 as usize);
+x_20 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_20, 0, x_19); rt::lean_ctor_set(x_20, 1, x_18);
+x_21 = l_Leanharbor_Json_tokBytes___closed__13();
+x_22 = l_List_appendTR___redArg(x_20, x_21);
+return x_22;
+}
+5 => {
+x_23 = l_Leanharbor_Json_tokBytes___closed__14();
+return x_23;
+}
+6 => {
+x_24 = l_Leanharbor_Json_tokBytes___closed__15();
+return x_24;
+}
+7 => {
+x_25 = l_Leanharbor_Json_tokBytes___closed__16();
+return x_25;
+}
+8 => {
+x_26 = l_Leanharbor_Json_tokBytes___closed__17();
+return x_26;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_tokBytes___closed__3_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Leanharbor_Json_tokBytes___closed__2();
+x_2 = 110u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__3() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_tokBytes___closed__3_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_tokBytes___closed__2_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Leanharbor_Json_tokBytes___closed__1();
+x_2 = 117u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__2() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_tokBytes___closed__2_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_tokBytes___closed__1_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Leanharbor_Json_tokBytes___closed__0();
+x_2 = 108u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__1() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_tokBytes___closed__1_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_tokBytes___closed__0_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = 108u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__0() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_tokBytes___closed__0_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_tokBytes___closed__8_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Leanharbor_Json_tokBytes___closed__7();
+x_2 = 102u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__8() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_tokBytes___closed__8_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_tokBytes___closed__7_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Leanharbor_Json_tokBytes___closed__6();
+x_2 = 97u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__7() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_tokBytes___closed__7_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_tokBytes___closed__6_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Leanharbor_Json_tokBytes___closed__5();
+x_2 = 108u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__6() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_tokBytes___closed__6_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_tokBytes___closed__5_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Leanharbor_Json_tokBytes___closed__4();
+x_2 = 115u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__5() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_tokBytes___closed__5_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_tokBytes___closed__4_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = 101u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__4() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_tokBytes___closed__4_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_tokBytes___closed__11_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Leanharbor_Json_tokBytes___closed__10();
+x_2 = 116u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__11() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_tokBytes___closed__11_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_tokBytes___closed__10_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Leanharbor_Json_tokBytes___closed__9();
+x_2 = 114u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__10() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_tokBytes___closed__10_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_tokBytes___closed__9_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Leanharbor_Json_tokBytes___closed__4();
+x_2 = 117u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__9() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_tokBytes___closed__9_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Token_decimal(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: u8 = 0;
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: u8 = 0;
+let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_13: Obj = rt::lean_box(0);
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: Obj = rt::lean_box(0);
+let mut x_16: u8 = 0;
+let mut x_17: Obj = rt::lean_box(0);
+let mut x_18: Obj = rt::lean_box(0);
+let mut x_19: Obj = rt::lean_box(0);
+x_2 = rt::lean_unsigned_to_nat(10u32);
+x_3 = rt::lean_nat_dec_lt(x_1, x_2);
+match x_3 as u32 {
+0 => {
+x_4 = rt::lean_nat_div(x_1, x_2);
+x_5 = l_Leanharbor_Token_decimal(x_4);
+rt::lean_dec(x_4);
+x_6 = rt::lean_nat_mod(x_1, x_2);
+x_7 = rt::lean_unsigned_to_nat(48u32);
+x_8 = rt::lean_nat_add(x_6, x_7);
+rt::lean_dec(x_6);
+x_9 = rt::lean_uint8_of_nat(x_8);
+rt::lean_dec(x_8);
+x_10 = rt::lean_box(0);
+x_11 = rt::lean_box(x_9 as usize);
+x_12 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_12, 0, x_11); rt::lean_ctor_set(x_12, 1, x_10);
+x_13 = l_List_appendTR___redArg(x_5, x_12);
+return x_13;
+}
+1 => {
+x_14 = rt::lean_unsigned_to_nat(48u32);
+x_15 = rt::lean_nat_add(x_1, x_14);
+x_16 = rt::lean_uint8_of_nat(x_15);
+rt::lean_dec(x_15);
+x_17 = rt::lean_box(0);
+x_18 = rt::lean_box(x_16 as usize);
+x_19 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_19, 0, x_18); rt::lean_ctor_set(x_19, 1, x_17);
+return x_19;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+
+
+
+
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_List_appendTR___redArg(mut x_1: Obj, mut x_2: Obj) -> Obj {
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_3 = l_List_reverse___redArg(x_1);
+x_4 = l_List_reverseAux___redArg(x_3, x_2);
+return x_4;
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_escape(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+x_2 = l_Leanharbor_Json_escape___closed__0();
+x_3 = l___private_Init_Data_List_Impl_0__List_flatMapTR_go___at___00Leanharbor_Json_escape_spec__0(x_1, x_2);
+return x_3;
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_escape___closed__0_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: Obj = rt::lean_box(0);
+x_1 = rt::lean_unsigned_to_nat(0u32);
+x_2 = rt::lean_mk_empty_array_with_capacity(x_1);
+return x_2;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_escape___closed__0() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_escape___closed__0_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l___private_Init_Data_List_Impl_0__List_flatMapTR_go___at___00Leanharbor_Json_escape_spec__0(mut x_1: Obj, mut x_2: Obj) -> Obj {
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: u8 = 0;
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+match rt::lean_obj_tag(x_1) {
+0 => {
+x_3 = rt::lean_array_to_list(x_2);
+return x_3;
+}
+1 => {
+x_4 = rt::lean_ctor_get(x_1, 0);
+x_5 = rt::lean_ctor_get(x_1, 1);
+x_6 = rt::lean_unbox(x_4) as u8;
+x_7 = l_Leanharbor_Json_escapeByte(x_6);
+x_8 = l_List_foldl___at___00Array_appendList_spec__0___redArg(x_2, x_7);
+{ let t_0 = x_5; let t_1 = x_8; x_1 = t_0; x_2 = t_1; }
+__blk = 0; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_escapeByte(mut x_1: u8) -> Obj {
+let mut x_2: u8 = 0;
+let mut x_3: u8 = 0;
+let mut x_4: u8 = 0;
+let mut x_5: u8 = 0;
+let mut x_6: u8 = 0;
+let mut x_7: u8 = 0;
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: u8 = 0;
+let mut x_12: u8 = 0;
+let mut x_13: Obj = rt::lean_box(0);
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: Obj = rt::lean_box(0);
+let mut x_16: Obj = rt::lean_box(0);
+let mut x_17: u8 = 0;
+let mut x_18: Obj = rt::lean_box(0);
+let mut x_19: u8 = 0;
+let mut x_20: Obj = rt::lean_box(0);
+let mut x_21: Obj = rt::lean_box(0);
+let mut x_22: Obj = rt::lean_box(0);
+let mut x_23: Obj = rt::lean_box(0);
+let mut x_24: Obj = rt::lean_box(0);
+let mut x_25: Obj = rt::lean_box(0);
+let mut x_26: Obj = rt::lean_box(0);
+let mut x_27: Obj = rt::lean_box(0);
+let mut x_28: Obj = rt::lean_box(0);
+let mut x_29: Obj = rt::lean_box(0);
+let mut x_30: Obj = rt::lean_box(0);
+let mut x_31: Obj = rt::lean_box(0);
+let mut x_32: Obj = rt::lean_box(0);
+let mut x_33: Obj = rt::lean_box(0);
+let mut x_34: Obj = rt::lean_box(0);
+x_2 = 34u8;
+x_3 = rt::lean_uint8_dec_eq(x_1, x_2);
+match x_3 as u32 {
+0 => {
+x_4 = 92u8;
+x_5 = rt::lean_uint8_dec_eq(x_1, x_4);
+match x_5 as u32 {
+0 => {
+x_6 = 32u8;
+x_7 = rt::lean_uint8_dec_lt(x_1, x_6);
+match x_7 as u32 {
+0 => {
+x_8 = rt::lean_box(0);
+x_9 = rt::lean_box(x_1 as usize);
+x_10 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_10, 0, x_9); rt::lean_ctor_set(x_10, 1, x_8);
+return x_10;
+}
+1 => {
+x_11 = 117u8;
+x_12 = 48u8;
+x_13 = rt::lean_uint8_to_nat(x_1);
+x_14 = rt::lean_unsigned_to_nat(16u32);
+x_15 = rt::lean_unsigned_to_nat(4u32);
+x_16 = rt::lean_nat_shiftr(x_13, x_15);
+x_17 = l_Leanharbor_Token_hexDigit(x_16);
+rt::lean_dec(x_16);
+x_18 = rt::lean_nat_mod(x_13, x_14);
+x_19 = l_Leanharbor_Token_hexDigit(x_18);
+rt::lean_dec(x_18);
+x_20 = rt::lean_box(0);
+x_21 = rt::lean_box(x_19 as usize);
+x_22 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_22, 0, x_21); rt::lean_ctor_set(x_22, 1, x_20);
+x_23 = rt::lean_box(x_17 as usize);
+x_24 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_24, 0, x_23); rt::lean_ctor_set(x_24, 1, x_22);
+x_25 = rt::lean_box(x_12 as usize);
+x_26 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_26, 0, x_25); rt::lean_ctor_set(x_26, 1, x_24);
+x_27 = rt::lean_box(x_12 as usize);
+x_28 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_28, 0, x_27); rt::lean_ctor_set(x_28, 1, x_26);
+x_29 = rt::lean_box(x_11 as usize);
+x_30 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_30, 0, x_29); rt::lean_ctor_set(x_30, 1, x_28);
+x_31 = rt::lean_box(x_4 as usize);
+x_32 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_32, 0, x_31); rt::lean_ctor_set(x_32, 1, x_30);
+return x_32;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_33 = l_Leanharbor_Json_escapeByte___closed__1();
+return x_33;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_34 = l_Leanharbor_Json_escapeByte___closed__3();
+return x_34;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+
+
+
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Token_hexDigit(mut x_1: Obj) -> u8 {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: u8 = 0;
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: u8 = 0;
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: u8 = 0;
+x_2 = rt::lean_unsigned_to_nat(10u32);
+x_3 = rt::lean_nat_dec_lt(x_1, x_2);
+match x_3 as u32 {
+0 => {
+x_4 = rt::lean_unsigned_to_nat(87u32);
+x_5 = rt::lean_nat_add(x_1, x_4);
+x_6 = rt::lean_uint8_of_nat(x_5);
+rt::lean_dec(x_5);
+return x_6;
+}
+1 => {
+x_7 = rt::lean_unsigned_to_nat(48u32);
+x_8 = rt::lean_nat_add(x_1, x_7);
+x_9 = rt::lean_uint8_of_nat(x_8);
+rt::lean_dec(x_8);
+return x_9;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_escapeByte___closed__1_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Leanharbor_Json_escapeByte___closed__0();
+x_2 = 92u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__1() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_escapeByte___closed__1_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_escapeByte___closed__0_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = 92u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__0() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_escapeByte___closed__0_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_escapeByte___closed__3_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Leanharbor_Json_escapeByte___closed__2();
+x_2 = 92u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__3() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_escapeByte___closed__3_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_escapeByte___closed__2_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = 34u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__2() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_escapeByte___closed__2_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_List_foldl___at___00Array_appendList_spec__0___redArg(mut x_1: Obj, mut x_2: Obj) -> Obj {
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: Obj = rt::lean_box(0);
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+match rt::lean_obj_tag(x_2) {
+0 => {
+return x_1;
+}
+1 => {
+x_3 = rt::lean_ctor_get(x_2, 0);
+rt::lean_inc(x_3);
+x_4 = rt::lean_ctor_get(x_2, 1);
+rt::lean_inc(x_4);
+rt::lean_dec_ref(x_2);
+x_5 = rt::lean_array_push(x_1, x_3);
+{ let t_0 = x_5; let t_1 = x_4; x_1 = t_0; x_2 = t_1; }
+__blk = 0; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_tokBytes___closed__13_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Leanharbor_Json_tokBytes___closed__12();
+x_2 = 34u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__13() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_tokBytes___closed__13_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_tokBytes___closed__12_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = 58u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__12() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_tokBytes___closed__12_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_tokBytes___closed__14_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = 91u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__14() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_tokBytes___closed__14_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_tokBytes___closed__15_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = 93u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__15() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_tokBytes___closed__15_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_tokBytes___closed__16_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = 123u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__16() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_tokBytes___closed__16_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_tokBytes___closed__17_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = 125u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__17() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_tokBytes___closed__17_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_endsValue(mut x_1: Obj) -> u8 {
+let mut x_2: u8 = 0;
+let mut x_3: u8 = 0;
+let mut x_4: u8 = 0;
+let mut x_5: u8 = 0;
+let mut x_6: u8 = 0;
+let mut x_7: u8 = 0;
+let mut x_8: u8 = 0;
+match rt::lean_obj_tag(x_1) {
+1 => {
+x_2 = 1u8;
+return x_2;
+}
+2 => {
+x_3 = 1u8;
+return x_3;
+}
+3 => {
+x_4 = 1u8;
+return x_4;
+}
+4 => {
+x_5 = 0u8;
+return x_5;
+}
+5 => {
+x_6 = 0u8;
+return x_6;
+}
+7 => {
+x_7 = 0u8;
+return x_7;
+}
+_ => {
+x_8 = 1u8;
+return x_8;
+}
+}
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_isClose(mut x_1: Obj) -> u8 {
+let mut x_2: u8 = 0;
+let mut x_3: u8 = 0;
+let mut x_4: u8 = 0;
+match rt::lean_obj_tag(x_1) {
+6 => {
+x_2 = 1u8;
+return x_2;
+}
+8 => {
+x_3 = 1u8;
+return x_3;
+}
+_ => {
+x_4 = 0u8;
+return x_4;
+}
+}
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_writeFrom___closed__0_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = 44u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_writeFrom___closed__0() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_writeFrom___closed__0_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Calculator_Kernel_memoryOf(mut x_1: Obj, mut x_2: u64) -> u64 {
 let mut x_3: u64 = 0;
 let mut x_4: u64 = 0;
@@ -351,6 +1572,705 @@ pub(crate) unsafe fn l_Calculator_Kernel_init() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
   let v = l_Calculator_Kernel_init_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorToks(mut x_1: u8) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+x_2 = rt::lean_box(7);
+x_3 = l_Calculator_Kernel_errorToks___closed__5();
+x_4 = l_Calculator_Kernel_errorName(x_1);
+x_5 = rt::lean_alloc_ctor(3, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_5, 0, x_4);
+x_6 = l_Calculator_Kernel_replyToks___closed__6();
+x_7 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_7, 0, x_5); rt::lean_ctor_set(x_7, 1, x_6);
+x_8 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_8, 0, x_3); rt::lean_ctor_set(x_8, 1, x_7);
+x_9 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_9, 0, x_2); rt::lean_ctor_set(x_9, 1, x_8);
+return x_9;
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorToks___closed__5_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorToks___closed__4();
+x_2 = rt::lean_alloc_ctor(4, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_2, 0, x_1);
+return x_2;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorToks___closed__5() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorToks___closed__5_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorToks___closed__4_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorToks___closed__3();
+x_2 = 101u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorToks___closed__4() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorToks___closed__4_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorToks___closed__3_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorToks___closed__2();
+x_2 = 114u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorToks___closed__3() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorToks___closed__3_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorToks___closed__2_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorToks___closed__1();
+x_2 = 114u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorToks___closed__2() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorToks___closed__2_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorToks___closed__1_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorToks___closed__0();
+x_2 = 111u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorToks___closed__1() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorToks___closed__1_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorToks___closed__0_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = 114u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorToks___closed__0() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorToks___closed__0_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName(mut x_1: u8) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+match x_1 as u32 {
+0 => {
+x_2 = l_Calculator_Kernel_errorName___closed__7();
+return x_2;
+}
+1 => {
+x_3 = l_Calculator_Kernel_errorName___closed__10();
+return x_3;
+}
+2 => {
+x_4 = l_Calculator_Kernel_errorName___closed__26();
+return x_4;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__7_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__6();
+x_2 = 111u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__7() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__7_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__6_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__5();
+x_2 = 118u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__6() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__6_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__5_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__4();
+x_2 = 101u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__5() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__5_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__4_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__3();
+x_2 = 114u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__4() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__4_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__3_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__2();
+x_2 = 102u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__3() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__3_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__2_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__1();
+x_2 = 108u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__2() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__2_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__1_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__0();
+x_2 = 111u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__1() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__1_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__0_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = 119u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__0() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__0_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__10_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__9();
+x_2 = 117u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__10() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__10_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__9_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__8();
+x_2 = 110u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__9() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__9_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__8_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__5();
+x_2 = 100u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__8() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__8_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__26_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__25();
+x_2 = 100u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__26() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__26_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__25_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__24();
+x_2 = 105u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__25() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__25_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__24_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__23();
+x_2 = 118u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__24() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__24_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__23_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__22();
+x_2 = 105u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__23() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__23_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__22_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__21();
+x_2 = 115u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__22() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__22_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__21_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__20();
+x_2 = 105u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__21() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__21_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__20_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__19();
+x_2 = 111u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__20() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__20_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__19_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__18();
+x_2 = 110u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__19() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__19_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__18_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__17();
+x_2 = 95u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__18() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__18_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__17_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__16();
+x_2 = 98u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__17() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__17_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__16_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__15();
+x_2 = 121u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__16() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__16_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__15_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__14();
+x_2 = 95u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__15() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__15_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__14_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__13();
+x_2 = 122u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__14() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__14_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__13_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__12();
+x_2 = 101u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__13() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__13_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__12_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_errorName___closed__11();
+x_2 = 114u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__12() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__12_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorName___closed__11_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = 111u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__11() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorName___closed__11_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
@@ -690,6 +2610,16 @@ pub(crate) unsafe fn l_Calculator_Kernel_compute___closed__2() -> Obj {
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_encodeError(mut x_1: u8) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+x_2 = l_Calculator_Kernel_errorToks(x_1);
+x_3 = l_Leanharbor_Json_write(x_2);
+rt::lean_dec(x_2);
+return x_3;
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Calculator_Kernel_tenant(mut x_1: Obj) -> u64 {
 let mut x_2: u64 = 0;
 x_2 = rt::lean_ctor_get_uint64(x_1, 0 * core::mem::size_of::<usize>() as u32 + 0);
@@ -869,6 +2799,34 @@ unsafe impl rt::IntoLean<Command> for Command {
     }
 }
 
+#[doc = "Lean type `Calculator.Kernel.Reply` (module `Calculator.Kernel`)."]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct Reply { pub v: u64 }
+impl rt::ToLean for Reply {
+    unsafe fn to_lean(self) -> Obj {
+        rt::ToLean::to_lean(self.v)
+    }
+}
+impl rt::FromLean for Reply {
+    unsafe fn from_lean(o: Obj) -> Self {
+        Reply { v: <u64 as rt::FromLean>::from_lean(o) }
+    }
+}
+unsafe impl rt::LeanRepr for Reply {
+    type Value = Reply;
+    unsafe fn to_obj(value: Reply) -> Obj {
+        rt::ToLean::to_lean(value)
+    }
+    unsafe fn from_obj(o: Obj) -> Reply {
+        <Reply as rt::FromLean>::from_lean(o)
+    }
+}
+unsafe impl rt::IntoLean<Reply> for Reply {
+    unsafe fn into_obj(self) -> Obj {
+        rt::ToLean::to_lean(self)
+    }
+}
+
 #[doc = "Lean type `Calculator.Kernel.Snapshot` (module `Calculator.Kernel`)."]
 #[derive(Debug, Clone, PartialEq)]
 pub struct Snapshot { pub memories: Memories }
@@ -892,34 +2850,6 @@ unsafe impl rt::LeanRepr for Snapshot {
     }
 }
 unsafe impl rt::IntoLean<Snapshot> for Snapshot {
-    unsafe fn into_obj(self) -> Obj {
-        rt::ToLean::to_lean(self)
-    }
-}
-
-#[doc = "Lean type `Calculator.Kernel.Principal` (module `Calculator.Kernel`)."]
-#[derive(Debug, Clone, PartialEq)]
-pub struct Principal { pub org: u64, pub user: u64 }
-impl rt::ToLean for Principal {
-    unsafe fn to_lean(self) -> Obj {
-        let Principal { org: f0, user: f1 } = self; { let o = rt::lean_alloc_ctor(0, 0, 0 * core::mem::size_of::<usize>() as u32 + 16); rt::lean_ctor_set_uint64(o, 0 * core::mem::size_of::<usize>() as u32 + 0, f0); rt::lean_ctor_set_uint64(o, 0 * core::mem::size_of::<usize>() as u32 + 8, f1); o }
-    }
-}
-impl rt::FromLean for Principal {
-    unsafe fn from_lean(o: Obj) -> Self {
-        Principal { org: rt::lean_ctor_get_uint64(o, 0 * core::mem::size_of::<usize>() as u32 + 0), user: rt::lean_ctor_get_uint64(o, 0 * core::mem::size_of::<usize>() as u32 + 8) }
-    }
-}
-unsafe impl rt::LeanRepr for Principal {
-    type Value = Principal;
-    unsafe fn to_obj(value: Principal) -> Obj {
-        rt::ToLean::to_lean(value)
-    }
-    unsafe fn from_obj(o: Obj) -> Principal {
-        <Principal as rt::FromLean>::from_lean(o)
-    }
-}
-unsafe impl rt::IntoLean<Principal> for Principal {
     unsafe fn into_obj(self) -> Obj {
         rt::ToLean::to_lean(self)
     }
@@ -968,29 +2898,88 @@ unsafe impl rt::IntoLean<Error> for Error {
     }
 }
 
-#[doc = "Lean type `Calculator.Kernel.Reply` (module `Calculator.Kernel`)."]
+#[doc = "Lean type `Leanharbor.Json.Tok` (module `Leanharbor.Json`)."]
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
-pub struct Reply { pub v: u64 }
-impl rt::ToLean for Reply {
+pub enum LeanharborJsonTok {
+    Null,
+    Bool{ b: bool },
+    Num{ n: u64 },
+    Str{ s: Vec<u8> },
+    Key{ s: Vec<u8> },
+    ArrOpen,
+    ArrClose,
+    ObjOpen,
+    ObjClose,
+}
+impl rt::ToLean for LeanharborJsonTok {
     unsafe fn to_lean(self) -> Obj {
-        rt::ToLean::to_lean(self.v)
+        match self {
+            LeanharborJsonTok::Null => rt::lean_box(0),
+            LeanharborJsonTok::Bool { b: f0 } => { let o = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 1); rt::lean_ctor_set_uint8(o, 0 * core::mem::size_of::<usize>() as u32 + 0, (f0) as u8); o },
+            LeanharborJsonTok::Num { n: f0 } => { let o = rt::lean_alloc_ctor(2, 0, 0 * core::mem::size_of::<usize>() as u32 + 8); rt::lean_ctor_set_uint64(o, 0 * core::mem::size_of::<usize>() as u32 + 0, f0); o },
+            LeanharborJsonTok::Str { s: f0 } => { let o = rt::lean_alloc_ctor(3, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(o, 0, rt::list_to_lean(f0, |v0| rt::ToLean::to_lean(v0))); o },
+            LeanharborJsonTok::Key { s: f0 } => { let o = rt::lean_alloc_ctor(4, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(o, 0, rt::list_to_lean(f0, |v0| rt::ToLean::to_lean(v0))); o },
+            LeanharborJsonTok::ArrOpen => rt::lean_box(5),
+            LeanharborJsonTok::ArrClose => rt::lean_box(6),
+            LeanharborJsonTok::ObjOpen => rt::lean_box(7),
+            LeanharborJsonTok::ObjClose => rt::lean_box(8),
+        }
     }
 }
-impl rt::FromLean for Reply {
+impl rt::FromLean for LeanharborJsonTok {
     unsafe fn from_lean(o: Obj) -> Self {
-        Reply { v: <u64 as rt::FromLean>::from_lean(o) }
+        match rt::lean_obj_tag(o) {
+            0 => LeanharborJsonTok::Null,
+            1 => LeanharborJsonTok::Bool { b: (rt::lean_ctor_get_uint8(o, 0 * core::mem::size_of::<usize>() as u32 + 0)) != 0 },
+            2 => LeanharborJsonTok::Num { n: rt::lean_ctor_get_uint64(o, 0 * core::mem::size_of::<usize>() as u32 + 0) },
+            3 => LeanharborJsonTok::Str { s: rt::list_from_lean(rt::lean_ctor_get(o, 0), |v0| <u8 as rt::FromLean>::from_lean(v0)) },
+            4 => LeanharborJsonTok::Key { s: rt::list_from_lean(rt::lean_ctor_get(o, 0), |v0| <u8 as rt::FromLean>::from_lean(v0)) },
+            5 => LeanharborJsonTok::ArrOpen,
+            6 => LeanharborJsonTok::ArrClose,
+            7 => LeanharborJsonTok::ObjOpen,
+            8 => LeanharborJsonTok::ObjClose,
+            _ => unreachable!(),
+        }
     }
 }
-unsafe impl rt::LeanRepr for Reply {
-    type Value = Reply;
-    unsafe fn to_obj(value: Reply) -> Obj {
+unsafe impl rt::LeanRepr for LeanharborJsonTok {
+    type Value = LeanharborJsonTok;
+    unsafe fn to_obj(value: LeanharborJsonTok) -> Obj {
         rt::ToLean::to_lean(value)
     }
-    unsafe fn from_obj(o: Obj) -> Reply {
-        <Reply as rt::FromLean>::from_lean(o)
+    unsafe fn from_obj(o: Obj) -> LeanharborJsonTok {
+        <LeanharborJsonTok as rt::FromLean>::from_lean(o)
     }
 }
-unsafe impl rt::IntoLean<Reply> for Reply {
+unsafe impl rt::IntoLean<LeanharborJsonTok> for LeanharborJsonTok {
+    unsafe fn into_obj(self) -> Obj {
+        rt::ToLean::to_lean(self)
+    }
+}
+
+#[doc = "Lean type `Calculator.Kernel.Principal` (module `Calculator.Kernel`)."]
+#[derive(Debug, Clone, PartialEq)]
+pub struct Principal { pub org: u64, pub user: u64 }
+impl rt::ToLean for Principal {
+    unsafe fn to_lean(self) -> Obj {
+        let Principal { org: f0, user: f1 } = self; { let o = rt::lean_alloc_ctor(0, 0, 0 * core::mem::size_of::<usize>() as u32 + 16); rt::lean_ctor_set_uint64(o, 0 * core::mem::size_of::<usize>() as u32 + 0, f0); rt::lean_ctor_set_uint64(o, 0 * core::mem::size_of::<usize>() as u32 + 8, f1); o }
+    }
+}
+impl rt::FromLean for Principal {
+    unsafe fn from_lean(o: Obj) -> Self {
+        Principal { org: rt::lean_ctor_get_uint64(o, 0 * core::mem::size_of::<usize>() as u32 + 0), user: rt::lean_ctor_get_uint64(o, 0 * core::mem::size_of::<usize>() as u32 + 8) }
+    }
+}
+unsafe impl rt::LeanRepr for Principal {
+    type Value = Principal;
+    unsafe fn to_obj(value: Principal) -> Obj {
+        rt::ToLean::to_lean(value)
+    }
+    unsafe fn from_obj(o: Obj) -> Principal {
+        <Principal as rt::FromLean>::from_lean(o)
+    }
+}
+unsafe impl rt::IntoLean<Principal> for Principal {
     unsafe fn into_obj(self) -> Obj {
         rt::ToLean::to_lean(self)
     }
@@ -1019,6 +3008,18 @@ pub fn read_only(arg0: Command) -> bool {
     }
 }
 
+#[doc = "Lean: `Calculator.Kernel.encodeReply : Calculator.Kernel.Reply → List UInt8` (module `Calculator.Kernel`)."]
+#[::leanfran::exported("Calculator.Kernel.encodeReply")]
+pub fn encode_reply(r: Reply) -> Vec<u8> {
+    unsafe {
+        let __a0: u64 = (r).v;
+        let __r: Obj = l_Calculator_Kernel_encodeReply(__a0);
+        let __v = rt::list_from_lean(__r, |v0| <u8 as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
 #[doc = "Lean: `Calculator.Kernel.memoryOf : Calculator.Kernel.Memories → UInt64 → UInt64` (module `Calculator.Kernel`)."]
 #[::leanfran::exported("Calculator.Kernel.memoryOf")]
 pub fn memory_of(arg0: Memories, arg1: u64) -> u64 {
@@ -1039,6 +3040,18 @@ pub fn init() -> Snapshot {
     }
 }
 
+#[doc = "Lean: `Calculator.Kernel.errorToks : Calculator.Kernel.Error → List Leanharbor.Json.Tok` (module `Calculator.Kernel`)."]
+#[::leanfran::exported("Calculator.Kernel.errorToks")]
+pub fn error_toks(e: Error) -> Vec<LeanharborJsonTok> {
+    unsafe {
+        let __a0: u8 = (e) as u8;
+        let __r: Obj = l_Calculator_Kernel_errorToks(__a0);
+        let __v = rt::list_from_lean(__r, |v0| <LeanharborJsonTok as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
 #[doc = "Lean: `Calculator.Kernel.transition : Calculator.Kernel.Principal →\n  Calculator.Kernel.Snapshot →\n    Calculator.Kernel.Command →\n      Except Calculator.Kernel.Error (Option Calculator.Kernel.Memory × Calculator.Kernel.Reply)` (module `Calculator.Kernel`)."]
 #[::leanfran::exported("Calculator.Kernel.transition")]
 pub fn transition(actor: Principal, snap: Snapshot, cmd: Command) -> Result<(Option<Memory>, Reply), Error> {
@@ -1053,6 +3066,18 @@ pub fn transition(actor: Principal, snap: Snapshot, cmd: Command) -> Result<(Opt
     }
 }
 
+#[doc = "Lean: `Calculator.Kernel.encodeError : Calculator.Kernel.Error → List UInt8` (module `Calculator.Kernel`)."]
+#[::leanfran::exported("Calculator.Kernel.encodeError")]
+pub fn encode_error(e: Error) -> Vec<u8> {
+    unsafe {
+        let __a0: u8 = (e) as u8;
+        let __r: Obj = l_Calculator_Kernel_encodeError(__a0);
+        let __v = rt::list_from_lean(__r, |v0| <u8 as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
 #[doc = "Lean: `Calculator.Kernel.compute : Calculator.Kernel.Op → UInt64 → UInt64 → Except Calculator.Kernel.Error UInt64` (module `Calculator.Kernel`)."]
 #[::leanfran::exported("Calculator.Kernel.compute")]
 pub fn compute(op: Op, a: u64, b: u64) -> Result<u64, Error> {
@@ -1062,6 +3087,18 @@ pub fn compute(op: Op, a: u64, b: u64) -> Result<u64, Error> {
         let __a2: u64 = b;
         let __r: Obj = l_Calculator_Kernel_compute(__a0, __a1, __a2);
         let __v = rt::except_from_lean(__r, |v0| <Error as rt::FromLean>::from_lean(v0), |v0| <u64 as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
+#[doc = "Lean: `Calculator.Kernel.errorName : Calculator.Kernel.Error → List UInt8` (module `Calculator.Kernel`)."]
+#[::leanfran::exported("Calculator.Kernel.errorName")]
+pub fn error_name(arg0: Error) -> Vec<u8> {
+    unsafe {
+        let __a0: u8 = (arg0) as u8;
+        let __r: Obj = l_Calculator_Kernel_errorName(__a0);
+        let __v = rt::list_from_lean(__r, |v0| <u8 as rt::FromLean>::from_lean(v0));
         rt::lean_dec(__r);
         __v
     }
@@ -1106,6 +3143,18 @@ pub fn tenant(actor: Principal) -> u64 {
     }
 }
 
+#[doc = "Lean: `Calculator.Kernel.replyToks : Calculator.Kernel.Reply → List Leanharbor.Json.Tok` (module `Calculator.Kernel`)."]
+#[::leanfran::exported("Calculator.Kernel.replyToks")]
+pub fn reply_toks(arg0: Reply) -> Vec<LeanharborJsonTok> {
+    unsafe {
+        let __a0: u64 = (arg0).v;
+        let __r: Obj = l_Calculator_Kernel_replyToks(__a0);
+        let __v = rt::list_from_lean(__r, |v0| <LeanharborJsonTok as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
 #[doc = "Lean: `Calculator.Kernel.apply : Calculator.Kernel.Snapshot → Option Calculator.Kernel.Memory → Calculator.Kernel.Snapshot` (module `Calculator.Kernel`)."]
 #[::leanfran::exported("Calculator.Kernel.apply")]
 pub fn apply(snap: Snapshot, w: Option<Memory>) -> Snapshot {
@@ -1140,6 +3189,14 @@ pub mod lean {
             rt::lean_dec(__a0); rt::Lean::from_owned(rt::lean_box(__r as usize))
         }
     }
+    #[doc = "`encode_reply` on handles. Lean: `Calculator.Kernel.encodeReply : Calculator.Kernel.Reply → List UInt8` (module `Calculator.Kernel`)."]
+    pub fn encode_reply(r: impl rt::IntoLean<Reply>) -> rt::Lean<rt::List<u8>> {
+        unsafe {
+            let __a0: u64 = { let o = rt::IntoLean::<Reply>::into_obj(r); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
+            let __r: Obj = l_Calculator_Kernel_encodeReply(__a0);
+            rt::Lean::from_owned(__r)
+        }
+    }
     #[doc = "`memory_of` on handles. Lean: `Calculator.Kernel.memoryOf : Calculator.Kernel.Memories → UInt64 → UInt64` (module `Calculator.Kernel`)."]
     pub fn memory_of(arg0: impl rt::IntoLean<Memories>, arg1: impl rt::IntoLean<u64>) -> rt::Lean<u64> {
         unsafe {
@@ -1157,6 +3214,14 @@ pub mod lean {
             rt::Lean::from_owned(__r)
         }
     }
+    #[doc = "`error_toks` on handles. Lean: `Calculator.Kernel.errorToks : Calculator.Kernel.Error → List Leanharbor.Json.Tok` (module `Calculator.Kernel`)."]
+    pub fn error_toks(e: impl rt::IntoLean<Error>) -> rt::Lean<rt::List<LeanharborJsonTok>> {
+        unsafe {
+            let __a0: u8 = { let o = rt::IntoLean::<Error>::into_obj(e); let v = rt::lean_unbox(o) as u8; rt::lean_dec(o); v };
+            let __r: Obj = l_Calculator_Kernel_errorToks(__a0);
+            rt::Lean::from_owned(__r)
+        }
+    }
     #[doc = "`transition` on handles. Lean: `Calculator.Kernel.transition : Calculator.Kernel.Principal →\n  Calculator.Kernel.Snapshot →\n    Calculator.Kernel.Command →\n      Except Calculator.Kernel.Error (Option Calculator.Kernel.Memory × Calculator.Kernel.Reply)` (module `Calculator.Kernel`)."]
     pub fn transition(actor: impl rt::IntoLean<Principal>, snap: impl rt::IntoLean<Snapshot>, cmd: impl rt::IntoLean<Command>) -> rt::Lean<Result<(Option<Memory>, Reply), Error>> {
         unsafe {
@@ -1167,6 +3232,14 @@ pub mod lean {
             rt::lean_dec(__a1); rt::lean_dec(__a2); rt::Lean::from_owned(__r)
         }
     }
+    #[doc = "`encode_error` on handles. Lean: `Calculator.Kernel.encodeError : Calculator.Kernel.Error → List UInt8` (module `Calculator.Kernel`)."]
+    pub fn encode_error(e: impl rt::IntoLean<Error>) -> rt::Lean<rt::List<u8>> {
+        unsafe {
+            let __a0: u8 = { let o = rt::IntoLean::<Error>::into_obj(e); let v = rt::lean_unbox(o) as u8; rt::lean_dec(o); v };
+            let __r: Obj = l_Calculator_Kernel_encodeError(__a0);
+            rt::Lean::from_owned(__r)
+        }
+    }
     #[doc = "`compute` on handles. Lean: `Calculator.Kernel.compute : Calculator.Kernel.Op → UInt64 → UInt64 → Except Calculator.Kernel.Error UInt64` (module `Calculator.Kernel`)."]
     pub fn compute(op: impl rt::IntoLean<Op>, a: impl rt::IntoLean<u64>, b: impl rt::IntoLean<u64>) -> rt::Lean<Result<u64, Error>> {
         unsafe {
@@ -1174,6 +3247,14 @@ pub mod lean {
             let __a1: u64 = { let o = rt::IntoLean::<u64>::into_obj(a); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
             let __a2: u64 = { let o = rt::IntoLean::<u64>::into_obj(b); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
             let __r: Obj = l_Calculator_Kernel_compute(__a0, __a1, __a2);
+            rt::Lean::from_owned(__r)
+        }
+    }
+    #[doc = "`error_name` on handles. Lean: `Calculator.Kernel.errorName : Calculator.Kernel.Error → List UInt8` (module `Calculator.Kernel`)."]
+    pub fn error_name(arg0: impl rt::IntoLean<Error>) -> rt::Lean<rt::List<u8>> {
+        unsafe {
+            let __a0: u8 = { let o = rt::IntoLean::<Error>::into_obj(arg0); let v = rt::lean_unbox(o) as u8; rt::lean_dec(o); v };
+            let __r: Obj = l_Calculator_Kernel_errorName(__a0);
             rt::Lean::from_owned(__r)
         }
     }
@@ -1204,6 +3285,14 @@ pub mod lean {
             let __a0: Obj = rt::IntoLean::<Principal>::into_obj(actor);
             let __r: u64 = l_Calculator_Kernel_tenant(__a0);
             rt::lean_dec(__a0); rt::Lean::from_owned(rt::lean_box_uint64(__r))
+        }
+    }
+    #[doc = "`reply_toks` on handles. Lean: `Calculator.Kernel.replyToks : Calculator.Kernel.Reply → List Leanharbor.Json.Tok` (module `Calculator.Kernel`)."]
+    pub fn reply_toks(arg0: impl rt::IntoLean<Reply>) -> rt::Lean<rt::List<LeanharborJsonTok>> {
+        unsafe {
+            let __a0: u64 = { let o = rt::IntoLean::<Reply>::into_obj(arg0); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
+            let __r: Obj = l_Calculator_Kernel_replyToks(__a0);
+            rt::Lean::from_owned(__r)
         }
     }
     #[doc = "`apply` on handles. Lean: `Calculator.Kernel.apply : Calculator.Kernel.Snapshot → Option Calculator.Kernel.Memory → Calculator.Kernel.Snapshot` (module `Calculator.Kernel`)."]
@@ -1238,6 +3327,14 @@ pub mod local {
             rt::lean_dec(__a0); rt::Local::from_owned(rt::lean_box(__r as usize))
         }
     }
+    #[doc = "`encode_reply` on handles. Lean: `Calculator.Kernel.encodeReply : Calculator.Kernel.Reply → List UInt8` (module `Calculator.Kernel`)."]
+    pub fn encode_reply(r: impl rt::IntoLean<Reply>) -> rt::Local<rt::List<u8>> {
+        unsafe {
+            let __a0: u64 = { let o = rt::IntoLean::<Reply>::into_obj(r); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
+            let __r: Obj = l_Calculator_Kernel_encodeReply(__a0);
+            rt::Local::from_owned(__r)
+        }
+    }
     #[doc = "`memory_of` on handles. Lean: `Calculator.Kernel.memoryOf : Calculator.Kernel.Memories → UInt64 → UInt64` (module `Calculator.Kernel`)."]
     pub fn memory_of(arg0: impl rt::IntoLean<Memories>, arg1: impl rt::IntoLean<u64>) -> rt::Local<u64> {
         unsafe {
@@ -1255,6 +3352,14 @@ pub mod local {
             rt::Local::from_owned(__r)
         }
     }
+    #[doc = "`error_toks` on handles. Lean: `Calculator.Kernel.errorToks : Calculator.Kernel.Error → List Leanharbor.Json.Tok` (module `Calculator.Kernel`)."]
+    pub fn error_toks(e: impl rt::IntoLean<Error>) -> rt::Local<rt::List<LeanharborJsonTok>> {
+        unsafe {
+            let __a0: u8 = { let o = rt::IntoLean::<Error>::into_obj(e); let v = rt::lean_unbox(o) as u8; rt::lean_dec(o); v };
+            let __r: Obj = l_Calculator_Kernel_errorToks(__a0);
+            rt::Local::from_owned(__r)
+        }
+    }
     #[doc = "`transition` on handles. Lean: `Calculator.Kernel.transition : Calculator.Kernel.Principal →\n  Calculator.Kernel.Snapshot →\n    Calculator.Kernel.Command →\n      Except Calculator.Kernel.Error (Option Calculator.Kernel.Memory × Calculator.Kernel.Reply)` (module `Calculator.Kernel`)."]
     pub fn transition(actor: impl rt::IntoLean<Principal>, snap: impl rt::IntoLean<Snapshot>, cmd: impl rt::IntoLean<Command>) -> rt::Local<Result<(Option<Memory>, Reply), Error>> {
         unsafe {
@@ -1265,6 +3370,14 @@ pub mod local {
             rt::lean_dec(__a1); rt::lean_dec(__a2); rt::Local::from_owned(__r)
         }
     }
+    #[doc = "`encode_error` on handles. Lean: `Calculator.Kernel.encodeError : Calculator.Kernel.Error → List UInt8` (module `Calculator.Kernel`)."]
+    pub fn encode_error(e: impl rt::IntoLean<Error>) -> rt::Local<rt::List<u8>> {
+        unsafe {
+            let __a0: u8 = { let o = rt::IntoLean::<Error>::into_obj(e); let v = rt::lean_unbox(o) as u8; rt::lean_dec(o); v };
+            let __r: Obj = l_Calculator_Kernel_encodeError(__a0);
+            rt::Local::from_owned(__r)
+        }
+    }
     #[doc = "`compute` on handles. Lean: `Calculator.Kernel.compute : Calculator.Kernel.Op → UInt64 → UInt64 → Except Calculator.Kernel.Error UInt64` (module `Calculator.Kernel`)."]
     pub fn compute(op: impl rt::IntoLean<Op>, a: impl rt::IntoLean<u64>, b: impl rt::IntoLean<u64>) -> rt::Local<Result<u64, Error>> {
         unsafe {
@@ -1272,6 +3385,14 @@ pub mod local {
             let __a1: u64 = { let o = rt::IntoLean::<u64>::into_obj(a); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
             let __a2: u64 = { let o = rt::IntoLean::<u64>::into_obj(b); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
             let __r: Obj = l_Calculator_Kernel_compute(__a0, __a1, __a2);
+            rt::Local::from_owned(__r)
+        }
+    }
+    #[doc = "`error_name` on handles. Lean: `Calculator.Kernel.errorName : Calculator.Kernel.Error → List UInt8` (module `Calculator.Kernel`)."]
+    pub fn error_name(arg0: impl rt::IntoLean<Error>) -> rt::Local<rt::List<u8>> {
+        unsafe {
+            let __a0: u8 = { let o = rt::IntoLean::<Error>::into_obj(arg0); let v = rt::lean_unbox(o) as u8; rt::lean_dec(o); v };
+            let __r: Obj = l_Calculator_Kernel_errorName(__a0);
             rt::Local::from_owned(__r)
         }
     }
@@ -1302,6 +3423,14 @@ pub mod local {
             let __a0: Obj = rt::IntoLean::<Principal>::into_obj(actor);
             let __r: u64 = l_Calculator_Kernel_tenant(__a0);
             rt::lean_dec(__a0); rt::Local::from_owned(rt::lean_box_uint64(__r))
+        }
+    }
+    #[doc = "`reply_toks` on handles. Lean: `Calculator.Kernel.replyToks : Calculator.Kernel.Reply → List Leanharbor.Json.Tok` (module `Calculator.Kernel`)."]
+    pub fn reply_toks(arg0: impl rt::IntoLean<Reply>) -> rt::Local<rt::List<LeanharborJsonTok>> {
+        unsafe {
+            let __a0: u64 = { let o = rt::IntoLean::<Reply>::into_obj(arg0); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
+            let __r: Obj = l_Calculator_Kernel_replyToks(__a0);
+            rt::Local::from_owned(__r)
         }
     }
     #[doc = "`apply` on handles. Lean: `Calculator.Kernel.apply : Calculator.Kernel.Snapshot → Option Calculator.Kernel.Memory → Calculator.Kernel.Snapshot` (module `Calculator.Kernel`)."]

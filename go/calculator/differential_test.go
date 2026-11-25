@@ -72,7 +72,7 @@ func TestGeneratedGoAgreesWithLean(t *testing.T) {
 		}
 		ours := ""
 		if refusal != nil {
-			ours = "error " + ErrorName(*refusal)
+			ours = "error " + string(kernel.ErrorName(*refusal))
 		} else {
 			ours = fmt.Sprintf("ok %d", reply.V)
 		}

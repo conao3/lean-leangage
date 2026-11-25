@@ -8,6 +8,9 @@
 //! | refused by the kernel | chosen by [`Api::encode_error`] | chosen by [`Api::encode_error`] |
 //! | idempotency key reused for another command | 422 | `{"error":"idempotency key reused"}` |
 //! | the engine has stopped | 503 | `{"error":"engine stopped"}` |
+//!
+//! The `{"error": ...}` bodies are written by [`crate::json_format::write`], the JSON writer
+//! generated from `lean/Leanharbor/Json.lean`.
 
 use std::marker::PhantomData;
 use std::sync::Arc;
@@ -20,17 +23,19 @@ use axum::http::header::{AUTHORIZATION, CONTENT_TYPE};
 use axum::http::{HeaderMap, StatusCode};
 use axum::response::{IntoResponse, Response};
 use axum::routing::post;
-use serde_json::{Value, json};
+use serde_json::Value;
 
+use crate::json_format::{self, Tok};
 use crate::{Engine, EngineError, Idempotency, Kernel, token};
 
 /// How a kernel's commands, replies and refusals appear on the wire, and who a token's holder
-/// is. Trusted: no theorem covers it.
+/// is. Trusted: no theorem covers it. `encode_reply` and `encode_error` return the bytes of the
+/// body.
 pub trait Api<K: Kernel>: Send + Sync + 'static {
     fn principal(tenant: u64, user: u64) -> K::Principal;
     fn decode_command(body: Value) -> Result<K::Command, String>;
-    fn encode_reply(reply: &K::Reply) -> Value;
-    fn encode_error(error: &K::Error) -> (StatusCode, Value);
+    fn encode_reply(reply: &K::Reply) -> Vec<u8>;
+    fn encode_error(error: &K::Error) -> (StatusCode, Vec<u8>);
     /// Identifies the command under an idempotency key.
     fn fingerprint(cmd: &K::Command) -> Vec<u8>;
     /// Separates the idempotency keys of principals of one tenant.
@@ -43,17 +48,22 @@ struct App<K: Kernel, A, E> {
     marker: PhantomData<fn() -> (K, A)>,
 }
 
-fn reply(status: StatusCode, body: Value) -> Response {
-    (
-        status,
-        [(CONTENT_TYPE, "application/json")],
-        body.to_string(),
-    )
-        .into_response()
+fn reply(status: StatusCode, body: Vec<u8>) -> Response {
+    (status, [(CONTENT_TYPE, "application/json")], body).into_response()
 }
 
 fn error(status: StatusCode, message: &str) -> Response {
-    reply(status, json!({ "error": message }))
+    let body = json_format::write(vec![
+        Tok::ObjOpen,
+        Tok::Key {
+            s: b"error".to_vec(),
+        },
+        Tok::Str {
+            s: message.as_bytes().to_vec(),
+        },
+        Tok::ObjClose,
+    ]);
+    reply(status, body)
 }
 
 fn authenticate(
