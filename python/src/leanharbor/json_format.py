@@ -24,12 +24,436 @@ from leanfran.runtime import (  # noqa: F401
     lean_nat_div,
     lean_nat_mod,
     lean_nat_shiftr,
+    lean_string_get_byte_fast,
+    lean_string_utf8_byte_size,
     lean_uint64_to_nat,
     lean_uint8_dec_eq,
+    lean_uint8_dec_le,
     lean_uint8_dec_lt,
     lean_uint8_of_nat,
     lean_uint8_to_nat,
 )
+
+def l_Leanharbor_Json_writeArrayFrom(x_1, x_2, x_3):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_3)
+            if __t == 0:
+                return x_1
+            elif __t == 1:
+                x_4 = x_3.objs[0]
+                x_5 = x_3.objs[1]
+                __t = x_2
+                if __t == 0:
+                    x_7 = x_1
+                    __blk = 1
+                    continue
+                elif __t == 1:
+                    x_11 = l_Leanharbor_Json_StrTok_isClose(x_4)
+                    __t = x_11
+                    if __t == 0:
+                        x_12 = 44
+                        x_13 = x_12
+                        x_14 = lean_array_push(x_1, x_13)
+                        x_7 = x_14
+                        __blk = 1
+                        continue
+                    elif __t == 1:
+                        x_7 = x_1
+                        __blk = 1
+                        continue
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_8 = l_Leanharbor_Json_pushTok(x_7, x_4)
+            x_9 = l_Leanharbor_Json_StrTok_endsValue(x_4)
+            x_1, x_2, x_3 = x_8, x_9, x_5
+            __blk = 0
+            continue
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leanharbor_Json_pushTok(x_1, x_2):
+    __t = lean_obj_tag(x_2)
+    if __t == 0:
+        x_3 = 110
+        x_4 = x_3
+        x_5 = lean_array_push(x_1, x_4)
+        x_6 = 117
+        x_7 = x_6
+        x_8 = lean_array_push(x_5, x_7)
+        x_9 = 108
+        x_10 = x_9
+        x_11 = lean_array_push(x_8, x_10)
+        x_12 = x_9
+        x_13 = lean_array_push(x_11, x_12)
+        return x_13
+    elif __t == 1:
+        x_14 = x_2.sc[0]
+        __t = x_14
+        if __t == 0:
+            x_15 = 102
+            x_16 = x_15
+            x_17 = lean_array_push(x_1, x_16)
+            x_18 = 97
+            x_19 = x_18
+            x_20 = lean_array_push(x_17, x_19)
+            x_21 = 108
+            x_22 = x_21
+            x_23 = lean_array_push(x_20, x_22)
+            x_24 = 115
+            x_25 = x_24
+            x_26 = lean_array_push(x_23, x_25)
+            x_27 = 101
+            x_28 = x_27
+            x_29 = lean_array_push(x_26, x_28)
+            return x_29
+        elif __t == 1:
+            x_30 = 116
+            x_31 = x_30
+            x_32 = lean_array_push(x_1, x_31)
+            x_33 = 114
+            x_34 = x_33
+            x_35 = lean_array_push(x_32, x_34)
+            x_36 = 117
+            x_37 = x_36
+            x_38 = lean_array_push(x_35, x_37)
+            x_39 = 101
+            x_40 = x_39
+            x_41 = lean_array_push(x_38, x_40)
+            return x_41
+        else:
+            lean_internal_panic_unreachable()
+    elif __t == 2:
+        x_42 = x_2.sc[0]
+        x_43 = lean_uint64_to_nat(x_42)
+        x_44 = l_Leanharbor_Json_pushDecimal(x_1, x_43)
+        lean_dec(x_43)
+        return x_44
+    elif __t == 3:
+        x_45 = x_2.objs[0]
+        x_46 = 0
+        x_47 = 34
+        x_48 = x_47
+        x_49 = lean_array_push(x_1, x_48)
+        x_50 = l_Leanharbor_Json_pushEscaped(x_45, x_46, x_49)
+        x_51 = x_47
+        x_52 = lean_array_push(x_50, x_51)
+        return x_52
+    elif __t == 4:
+        x_53 = x_2.objs[0]
+        x_54 = 0
+        x_55 = 34
+        x_56 = x_55
+        x_57 = lean_array_push(x_1, x_56)
+        x_58 = l_Leanharbor_Json_pushEscaped(x_53, x_54, x_57)
+        x_59 = x_55
+        x_60 = lean_array_push(x_58, x_59)
+        x_61 = 58
+        x_62 = x_61
+        x_63 = lean_array_push(x_60, x_62)
+        return x_63
+    elif __t == 5:
+        x_64 = 91
+        x_65 = x_64
+        x_66 = lean_array_push(x_1, x_65)
+        return x_66
+    elif __t == 6:
+        x_67 = 93
+        x_68 = x_67
+        x_69 = lean_array_push(x_1, x_68)
+        return x_69
+    elif __t == 7:
+        x_70 = 123
+        x_71 = x_70
+        x_72 = lean_array_push(x_1, x_71)
+        return x_72
+    elif __t == 8:
+        x_73 = 125
+        x_74 = x_73
+        x_75 = lean_array_push(x_1, x_74)
+        return x_75
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Leanharbor_Json_pushDecimal(x_1, x_2):
+    x_3 = 10
+    x_4 = lean_nat_dec_lt(x_2, x_3)
+    __t = x_4
+    if __t == 0:
+        x_5 = lean_nat_div(x_2, x_3)
+        x_6 = l_Leanharbor_Json_pushDecimal(x_1, x_5)
+        lean_dec(x_5)
+        x_7 = lean_nat_mod(x_2, x_3)
+        x_8 = 48
+        x_9 = lean_nat_add(x_7, x_8)
+        lean_dec(x_7)
+        x_10 = lean_uint8_of_nat(x_9)
+        lean_dec(x_9)
+        x_11 = x_10
+        x_12 = lean_array_push(x_6, x_11)
+        return x_12
+    elif __t == 1:
+        x_13 = 48
+        x_14 = lean_nat_add(x_2, x_13)
+        x_15 = lean_uint8_of_nat(x_14)
+        lean_dec(x_14)
+        x_16 = x_15
+        x_17 = lean_array_push(x_1, x_16)
+        return x_17
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Leanharbor_Json_pushEscaped(x_1, x_2, x_3):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_4 = lean_string_utf8_byte_size(x_1)
+            x_5 = lean_nat_dec_lt(x_2, x_4)
+            __t = x_5
+            if __t == 0:
+                lean_dec(x_2)
+                return x_3
+            elif __t == 1:
+                x_6 = 1
+                x_7 = lean_nat_add(x_2, x_6)
+                x_8 = lean_string_get_byte_fast(x_1, x_2)
+                x_9 = l_Leanharbor_Json_pushEscapedByte(x_3, x_8)
+                x_1, x_2, x_3 = x_1, x_7, x_9
+                __blk = 0
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leanharbor_Json_pushEscapedByte(x_1, x_2):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_3 = 32
+            x_77 = lean_uint8_dec_le(x_3, x_2)
+            __t = x_77
+            if __t == 0:
+                __blk = 1
+                continue
+            elif __t == 1:
+                x_78 = 34
+                x_79 = lean_uint8_dec_eq(x_2, x_78)
+                __t = x_79
+                if __t == 0:
+                    __t = x_77
+                    if __t == 0:
+                        __blk = 1
+                        continue
+                    elif __t == 1:
+                        x_80 = 92
+                        x_81 = lean_uint8_dec_eq(x_2, x_80)
+                        __t = x_81
+                        if __t == 0:
+                            x_82 = x_2
+                            x_83 = lean_array_push(x_1, x_82)
+                            return x_83
+                        elif __t == 1:
+                            __blk = 1
+                            continue
+                        else:
+                            lean_internal_panic_unreachable()
+                    else:
+                        lean_internal_panic_unreachable()
+                elif __t == 1:
+                    __blk = 1
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_5 = 34
+            x_6 = lean_uint8_dec_eq(x_2, x_5)
+            __t = x_6
+            if __t == 0:
+                x_7 = 92
+                x_8 = lean_uint8_dec_eq(x_2, x_7)
+                __t = x_8
+                if __t == 0:
+                    x_9 = 8
+                    x_10 = lean_uint8_dec_eq(x_2, x_9)
+                    __t = x_10
+                    if __t == 0:
+                        x_11 = 12
+                        x_12 = lean_uint8_dec_eq(x_2, x_11)
+                        __t = x_12
+                        if __t == 0:
+                            x_13 = 10
+                            x_14 = lean_uint8_dec_eq(x_2, x_13)
+                            __t = x_14
+                            if __t == 0:
+                                x_15 = 13
+                                x_16 = lean_uint8_dec_eq(x_2, x_15)
+                                __t = x_16
+                                if __t == 0:
+                                    x_17 = 9
+                                    x_18 = lean_uint8_dec_eq(x_2, x_17)
+                                    __t = x_18
+                                    if __t == 0:
+                                        x_19 = lean_uint8_dec_lt(x_2, x_3)
+                                        __t = x_19
+                                        if __t == 0:
+                                            x_20 = x_2
+                                            x_21 = lean_array_push(x_1, x_20)
+                                            return x_21
+                                        elif __t == 1:
+                                            x_22 = x_7
+                                            x_23 = lean_array_push(x_1, x_22)
+                                            x_24 = 117
+                                            x_25 = x_24
+                                            x_26 = lean_array_push(x_23, x_25)
+                                            x_27 = 48
+                                            x_28 = x_27
+                                            x_29 = lean_array_push(x_26, x_28)
+                                            x_30 = x_27
+                                            x_31 = lean_array_push(x_29, x_30)
+                                            x_32 = lean_uint8_to_nat(x_2)
+                                            x_33 = 16
+                                            x_34 = 4
+                                            x_35 = lean_nat_shiftr(x_32, x_34)
+                                            x_36 = l_Leanharbor_Token_hexDigit(x_35)
+                                            lean_dec(x_35)
+                                            x_37 = x_36
+                                            x_38 = lean_array_push(x_31, x_37)
+                                            x_39 = lean_nat_mod(x_32, x_33)
+                                            x_40 = l_Leanharbor_Token_hexDigit(x_39)
+                                            lean_dec(x_39)
+                                            x_41 = x_40
+                                            x_42 = lean_array_push(x_38, x_41)
+                                            return x_42
+                                        else:
+                                            lean_internal_panic_unreachable()
+                                    elif __t == 1:
+                                        x_43 = x_7
+                                        x_44 = lean_array_push(x_1, x_43)
+                                        x_45 = 116
+                                        x_46 = x_45
+                                        x_47 = lean_array_push(x_44, x_46)
+                                        return x_47
+                                    else:
+                                        lean_internal_panic_unreachable()
+                                elif __t == 1:
+                                    x_48 = x_7
+                                    x_49 = lean_array_push(x_1, x_48)
+                                    x_50 = 114
+                                    x_51 = x_50
+                                    x_52 = lean_array_push(x_49, x_51)
+                                    return x_52
+                                else:
+                                    lean_internal_panic_unreachable()
+                            elif __t == 1:
+                                x_53 = x_7
+                                x_54 = lean_array_push(x_1, x_53)
+                                x_55 = 110
+                                x_56 = x_55
+                                x_57 = lean_array_push(x_54, x_56)
+                                return x_57
+                            else:
+                                lean_internal_panic_unreachable()
+                        elif __t == 1:
+                            x_58 = x_7
+                            x_59 = lean_array_push(x_1, x_58)
+                            x_60 = 102
+                            x_61 = x_60
+                            x_62 = lean_array_push(x_59, x_61)
+                            return x_62
+                        else:
+                            lean_internal_panic_unreachable()
+                    elif __t == 1:
+                        x_63 = x_7
+                        x_64 = lean_array_push(x_1, x_63)
+                        x_65 = 98
+                        x_66 = x_65
+                        x_67 = lean_array_push(x_64, x_66)
+                        return x_67
+                    else:
+                        lean_internal_panic_unreachable()
+                elif __t == 1:
+                    x_68 = x_7
+                    x_69 = lean_array_push(x_1, x_68)
+                    x_70 = x_7
+                    x_71 = lean_array_push(x_69, x_70)
+                    return x_71
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 1:
+                x_72 = 92
+                x_73 = x_72
+                x_74 = lean_array_push(x_1, x_73)
+                x_75 = x_5
+                x_76 = lean_array_push(x_74, x_75)
+                return x_76
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leanharbor_Token_hexDigit(x_1):
+    x_2 = 10
+    x_3 = lean_nat_dec_lt(x_1, x_2)
+    __t = x_3
+    if __t == 0:
+        x_4 = 87
+        x_5 = lean_nat_add(x_1, x_4)
+        x_6 = lean_uint8_of_nat(x_5)
+        lean_dec(x_5)
+        return x_6
+    elif __t == 1:
+        x_7 = 48
+        x_8 = lean_nat_add(x_1, x_7)
+        x_9 = lean_uint8_of_nat(x_8)
+        lean_dec(x_8)
+        return x_9
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Leanharbor_Json_StrTok_endsValue(x_1):
+    __t = lean_obj_tag(x_1)
+    if __t == 1:
+        x_2 = 1
+        return x_2
+    elif __t == 2:
+        x_3 = 1
+        return x_3
+    elif __t == 3:
+        x_4 = 1
+        return x_4
+    elif __t == 4:
+        x_5 = 0
+        return x_5
+    elif __t == 5:
+        x_6 = 0
+        return x_6
+    elif __t == 7:
+        x_7 = 0
+        return x_7
+    else:
+        x_8 = 1
+        return x_8
+
+def l_Leanharbor_Json_StrTok_isClose(x_1):
+    __t = lean_obj_tag(x_1)
+    if __t == 6:
+        x_2 = 1
+        return x_2
+    elif __t == 8:
+        x_3 = 1
+        return x_3
+    else:
+        x_4 = 0
+        return x_4
 
 def l_Leanharbor_Json_escapeByte(x_1):
     x_2 = 34
@@ -129,25 +553,6 @@ def l_Leanharbor_Json_escapeByte(x_1):
     elif __t == 1:
         x_49 = l_Leanharbor_Json_escapeByte___closed__13()
         return x_49
-    else:
-        lean_internal_panic_unreachable()
-
-def l_Leanharbor_Token_hexDigit(x_1):
-    x_2 = 10
-    x_3 = lean_nat_dec_lt(x_1, x_2)
-    __t = x_3
-    if __t == 0:
-        x_4 = 87
-        x_5 = lean_nat_add(x_1, x_4)
-        x_6 = lean_uint8_of_nat(x_5)
-        lean_dec(x_5)
-        return x_6
-    elif __t == 1:
-        x_7 = 48
-        x_8 = lean_nat_add(x_1, x_7)
-        x_9 = lean_uint8_of_nat(x_8)
-        lean_dec(x_8)
-        return x_9
     else:
         lean_internal_panic_unreachable()
 
@@ -875,6 +1280,13 @@ def l_Leanharbor_Json_writeFrom___closed__0():
         c.append(lean_mark_persistent(l_Leanharbor_Json_writeFrom___closed__0__init()))
     return c[0]
 
+def l_Leanharbor_Json_writeArray(x_1):
+    x_2 = 64
+    x_3 = lean_mk_empty_array_with_capacity(x_2)
+    x_4 = 0
+    x_5 = l_Leanharbor_Json_writeArrayFrom(x_3, x_4, x_1)
+    return x_5
+
 
 # Public types and functions
 
@@ -885,6 +1297,48 @@ from annotated_types import Ge, Gt, Le, Lt, MaxLen, MinLen  # noqa: E402
 from leanfran import marshal as _m  # noqa: E402
 from leanfran.marshal import Err, Lean, Local, Ok  # noqa: E402
 from leanfran.types import Char, Int8, Int16, Int32, Int64, Nat, UInt8, UInt16, UInt32, UInt64  # noqa: E402
+
+
+class StrTok(_m.LeanInductive):
+    "Lean `Leanharbor.Json.StrTok`."
+
+class StrTok_null(_m.LeanModel, StrTok):
+    pass
+
+
+class StrTok_bool(_m.LeanModel, StrTok):
+    b: "bool"
+
+
+class StrTok_num(_m.LeanModel, StrTok):
+    n: "UInt64"
+
+
+class StrTok_str(_m.LeanModel, StrTok):
+    s: "str"
+
+
+class StrTok_key(_m.LeanModel, StrTok):
+    s: "str"
+
+
+class StrTok_arrOpen(_m.LeanModel, StrTok):
+    pass
+
+
+class StrTok_arrClose(_m.LeanModel, StrTok):
+    pass
+
+
+class StrTok_objOpen(_m.LeanModel, StrTok):
+    pass
+
+
+class StrTok_objClose(_m.LeanModel, StrTok):
+    pass
+
+
+_m.register_inductive(StrTok, [(StrTok_null, _m.CtorInfo("null", 0, 0, True, [], [], False)), (StrTok_bool, _m.CtorInfo("bool", 1, 0, False, [_m.FieldInfo("b", _m.Scalar(0), _m.BOOL)], [], False)), (StrTok_num, _m.CtorInfo("num", 2, 0, False, [_m.FieldInfo("n", _m.Scalar(0), _m.UIntD(64))], [], False)), (StrTok_str, _m.CtorInfo("str", 3, 1, False, [_m.FieldInfo("s", _m.Obj(0), _m.STRING)], [], False)), (StrTok_key, _m.CtorInfo("key", 4, 1, False, [_m.FieldInfo("s", _m.Obj(0), _m.STRING)], [], False)), (StrTok_arrOpen, _m.CtorInfo("arrOpen", 5, 0, True, [], [], False)), (StrTok_arrClose, _m.CtorInfo("arrClose", 6, 0, True, [], [], False)), (StrTok_objOpen, _m.CtorInfo("objOpen", 7, 0, True, [], [], False)), (StrTok_objClose, _m.CtorInfo("objClose", 8, 0, True, [], [], False))])
 
 
 class Tok(_m.LeanInductive):
@@ -929,181 +1383,394 @@ class Tok_objClose(_m.LeanModel, Tok):
 _m.register_inductive(Tok, [(Tok_null, _m.CtorInfo("null", 0, 0, True, [], [], False)), (Tok_bool, _m.CtorInfo("bool", 1, 0, False, [_m.FieldInfo("b", _m.Scalar(0), _m.BOOL)], [], False)), (Tok_num, _m.CtorInfo("num", 2, 0, False, [_m.FieldInfo("n", _m.Scalar(0), _m.UIntD(64))], [], False)), (Tok_str, _m.CtorInfo("str", 3, 1, False, [_m.FieldInfo("s", _m.Obj(0), _m.ListD(_m.UIntD(8)))], [], False)), (Tok_key, _m.CtorInfo("key", 4, 1, False, [_m.FieldInfo("s", _m.Obj(0), _m.ListD(_m.UIntD(8)))], [], False)), (Tok_arrOpen, _m.CtorInfo("arrOpen", 5, 0, True, [], [], False)), (Tok_arrClose, _m.CtorInfo("arrClose", 6, 0, True, [], [], False)), (Tok_objOpen, _m.CtorInfo("objOpen", 7, 0, True, [], [], False)), (Tok_objClose, _m.CtorInfo("objClose", 8, 0, True, [], [], False))])
 
 
-_D0 = _m.UIntD(8)
-_D1 = _m.LeanType(_D0, "UInt8")
-_D2 = _m.ListD(_m.UIntD(8))
-_D3 = _m.LeanType(_D2, "list[UInt8]")
-_D4 = _m.ListD(_m.NamedD(globals(), "Tok"))
-_D5 = _m.LeanType(_D4, "list[Tok]")
-_D6 = _m.NamedD(globals(), "Tok")
-_D7 = _m.LeanType(_D6, "Tok")
-_D8 = _m.BOOL
-_D9 = _m.LeanType(_D8, "bool")
+_D0 = _m.ArrayD(_m.UIntD(8))
+_D1 = _m.LeanType(_D0, "list[UInt8]")
+_D2 = _m.BOOL
+_D3 = _m.LeanType(_D2, "bool")
+_D4 = _m.ListD(_m.NamedD(globals(), "StrTok"))
+_D5 = _m.LeanType(_D4, "list[StrTok]")
+_D6 = _m.NamedD(globals(), "StrTok")
+_D7 = _m.LeanType(_D6, "StrTok")
+_D8 = _m.STRING
+_D9 = _m.LeanType(_D8, "str")
+_D10 = _m.NAT
+_D11 = _m.LeanType(_D10, "Nat")
+_D12 = _m.UIntD(8)
+_D13 = _m.LeanType(_D12, "UInt8")
+_D14 = _m.ListD(_m.UIntD(8))
+_D15 = _m.LeanType(_D14, "list[UInt8]")
+_D16 = _m.ListD(_m.NamedD(globals(), "Tok"))
+_D17 = _m.LeanType(_D16, "list[Tok]")
+_D18 = _m.NamedD(globals(), "Tok")
+_D19 = _m.LeanType(_D18, "Tok")
 
 
+def _pub_writeArrayFrom(acc: "list[UInt8]", afterValue: "bool", arg2: "list[StrTok]") -> "list[UInt8]":
+    "Lean `Leanharbor.Json.writeArrayFrom`."
+    __a0 = _m.to_lean(_D0, acc, "acc")
+    __a1 = _m.to_lean(_D2, afterValue, "afterValue")
+    __a2 = _m.to_lean(_D4, arg2, "arg2")
+    return _m.to_py(_D0, l_Leanharbor_Json_writeArrayFrom(__a0, __a1, __a2))
+
+
+def _pub_writeArrayFrom__lean(acc: "list[UInt8] | Lean[list[UInt8]]", afterValue: "bool | Lean[bool]", arg2: "list[StrTok] | Lean[list[StrTok]]") -> "Lean[list[UInt8]]":
+    "Lean `Leanharbor.Json.writeArrayFrom`, on handles."
+    __a0 = _m.lean_arg(_D1, acc, "acc")
+    __a1 = _m.lean_arg(_D3, afterValue, "afterValue")
+    __a2 = _m.lean_arg(_D5, arg2, "arg2")
+    _m.give(acc, afterValue, arg2)
+    return _m.handle(_D1, l_Leanharbor_Json_writeArrayFrom(__a0, __a1, __a2))
+
+
+def _pub_writeArrayFrom__local(acc: "list[UInt8] | Lean[list[UInt8]] | Local[list[UInt8]]", afterValue: "bool | Lean[bool] | Local[bool]", arg2: "list[StrTok] | Lean[list[StrTok]] | Local[list[StrTok]]") -> "Local[list[UInt8]]":
+    "Lean `Leanharbor.Json.writeArrayFrom`, on local handles."
+    __a0 = _m.local_arg(_D1, acc, "acc", True)
+    __a1 = _m.local_arg(_D3, afterValue, "afterValue", True)
+    __a2 = _m.local_arg(_D5, arg2, "arg2", False)
+    _m.give(acc, afterValue, arg2)
+    __r = l_Leanharbor_Json_writeArrayFrom(__a0, __a1, __a2)
+    _m.local_done(arg2, __a2)
+    return _m.local_handle(_D1, __r)
+
+
+_m.attach(globals(), ["writeArrayFrom"], _pub_writeArrayFrom, "Leanharbor.Json.writeArrayFrom", _pub_writeArrayFrom__lean, {"acc": _D1, "afterValue": _D3, "arg2": _D5}, _D1, _pub_writeArrayFrom__local)
+def _pub_StrTok_isClose(arg0: "StrTok") -> "bool":
+    "Lean `Leanharbor.Json.StrTok.isClose`."
+    __a0 = _m.to_lean(_D6, arg0, "arg0")
+    return _m.to_py(_D2, l_Leanharbor_Json_StrTok_isClose(__a0))
+
+
+def _pub_StrTok_isClose__lean(arg0: "StrTok | Lean[StrTok]") -> "Lean[bool]":
+    "Lean `Leanharbor.Json.StrTok.isClose`, on handles."
+    __a0 = _m.lean_arg(_D7, arg0, "arg0")
+    _m.give(arg0)
+    return _m.handle(_D3, l_Leanharbor_Json_StrTok_isClose(__a0))
+
+
+def _pub_StrTok_isClose__local(arg0: "StrTok | Lean[StrTok] | Local[StrTok]") -> "Local[bool]":
+    "Lean `Leanharbor.Json.StrTok.isClose`, on local handles."
+    __a0 = _m.local_arg(_D7, arg0, "arg0", False)
+    _m.give(arg0)
+    __r = l_Leanharbor_Json_StrTok_isClose(__a0)
+    _m.local_done(arg0, __a0)
+    return _m.local_handle(_D3, __r)
+
+
+_m.attach(globals(), ["StrTok", "isClose"], _pub_StrTok_isClose, "Leanharbor.Json.StrTok.isClose", _pub_StrTok_isClose__lean, {"arg0": _D7}, _D3, _pub_StrTok_isClose__local)
+def _pub_pushEscaped(s: "str", i: "Nat", acc: "list[UInt8]") -> "list[UInt8]":
+    "Lean `Leanharbor.Json.pushEscaped`."
+    __a0 = _m.to_lean(_D8, s, "s")
+    __a1 = _m.to_lean(_D10, i, "i")
+    __a2 = _m.to_lean(_D0, acc, "acc")
+    return _m.to_py(_D0, l_Leanharbor_Json_pushEscaped(__a0, __a1, __a2))
+
+
+def _pub_pushEscaped__lean(s: "str | Lean[str]", i: "Nat | Lean[Nat]", acc: "list[UInt8] | Lean[list[UInt8]]") -> "Lean[list[UInt8]]":
+    "Lean `Leanharbor.Json.pushEscaped`, on handles."
+    __a0 = _m.lean_arg(_D9, s, "s")
+    __a1 = _m.lean_arg(_D11, i, "i")
+    __a2 = _m.lean_arg(_D1, acc, "acc")
+    _m.give(s, i, acc)
+    return _m.handle(_D1, l_Leanharbor_Json_pushEscaped(__a0, __a1, __a2))
+
+
+def _pub_pushEscaped__local(s: "str | Lean[str] | Local[str]", i: "Nat | Lean[Nat] | Local[Nat]", acc: "list[UInt8] | Lean[list[UInt8]] | Local[list[UInt8]]") -> "Local[list[UInt8]]":
+    "Lean `Leanharbor.Json.pushEscaped`, on local handles."
+    __a0 = _m.local_arg(_D9, s, "s", False)
+    __a1 = _m.local_arg(_D11, i, "i", True)
+    __a2 = _m.local_arg(_D1, acc, "acc", True)
+    _m.give(s, i, acc)
+    __r = l_Leanharbor_Json_pushEscaped(__a0, __a1, __a2)
+    _m.local_done(s, __a0)
+    return _m.local_handle(_D1, __r)
+
+
+_m.attach(globals(), ["pushEscaped"], _pub_pushEscaped, "Leanharbor.Json.pushEscaped", _pub_pushEscaped__lean, {"s": _D9, "i": _D11, "acc": _D1}, _D1, _pub_pushEscaped__local)
 def _pub_escapeByte(c: "UInt8") -> "list[UInt8]":
     "Lean `Leanharbor.Json.escapeByte`."
-    __a0 = _m.to_lean(_D0, c, "c")
-    return _m.to_py(_D2, l_Leanharbor_Json_escapeByte(__a0))
+    __a0 = _m.to_lean(_D12, c, "c")
+    return _m.to_py(_D14, l_Leanharbor_Json_escapeByte(__a0))
 
 
 def _pub_escapeByte__lean(c: "UInt8 | Lean[UInt8]") -> "Lean[list[UInt8]]":
     "Lean `Leanharbor.Json.escapeByte`, on handles."
-    __a0 = _m.lean_arg(_D1, c, "c")
+    __a0 = _m.lean_arg(_D13, c, "c")
     _m.give(c)
-    return _m.handle(_D3, l_Leanharbor_Json_escapeByte(__a0))
+    return _m.handle(_D15, l_Leanharbor_Json_escapeByte(__a0))
 
 
 def _pub_escapeByte__local(c: "UInt8 | Lean[UInt8] | Local[UInt8]") -> "Local[list[UInt8]]":
     "Lean `Leanharbor.Json.escapeByte`, on local handles."
-    __a0 = _m.local_arg(_D1, c, "c", True)
+    __a0 = _m.local_arg(_D13, c, "c", True)
     _m.give(c)
-    return _m.local_handle(_D3, l_Leanharbor_Json_escapeByte(__a0))
+    return _m.local_handle(_D15, l_Leanharbor_Json_escapeByte(__a0))
 
 
-_m.attach(globals(), ["escapeByte"], _pub_escapeByte, "Leanharbor.Json.escapeByte", _pub_escapeByte__lean, {"c": _D1}, _D3, _pub_escapeByte__local)
+_m.attach(globals(), ["escapeByte"], _pub_escapeByte, "Leanharbor.Json.escapeByte", _pub_escapeByte__lean, {"c": _D13}, _D15, _pub_escapeByte__local)
 def _pub_write(ts: "list[Tok]") -> "list[UInt8]":
     "Lean `Leanharbor.Json.write`."
-    __a0 = _m.to_lean(_D4, ts, "ts")
-    return _m.to_py(_D2, l_Leanharbor_Json_write(__a0))
+    __a0 = _m.to_lean(_D16, ts, "ts")
+    return _m.to_py(_D14, l_Leanharbor_Json_write(__a0))
 
 
 def _pub_write__lean(ts: "list[Tok] | Lean[list[Tok]]") -> "Lean[list[UInt8]]":
     "Lean `Leanharbor.Json.write`, on handles."
-    __a0 = _m.lean_arg(_D5, ts, "ts")
+    __a0 = _m.lean_arg(_D17, ts, "ts")
     _m.give(ts)
-    return _m.handle(_D3, l_Leanharbor_Json_write(__a0))
+    return _m.handle(_D15, l_Leanharbor_Json_write(__a0))
 
 
 def _pub_write__local(ts: "list[Tok] | Lean[list[Tok]] | Local[list[Tok]]") -> "Local[list[UInt8]]":
     "Lean `Leanharbor.Json.write`, on local handles."
-    __a0 = _m.local_arg(_D5, ts, "ts", False)
+    __a0 = _m.local_arg(_D17, ts, "ts", False)
     _m.give(ts)
     __r = l_Leanharbor_Json_write(__a0)
     _m.local_done(ts, __a0)
-    return _m.local_handle(_D3, __r)
+    return _m.local_handle(_D15, __r)
 
 
-_m.attach(globals(), ["write"], _pub_write, "Leanharbor.Json.write", _pub_write__lean, {"ts": _D5}, _D3, _pub_write__local)
+_m.attach(globals(), ["write"], _pub_write, "Leanharbor.Json.write", _pub_write__lean, {"ts": _D17}, _D15, _pub_write__local)
 def _pub_escape(s: "list[UInt8]") -> "list[UInt8]":
     "Lean `Leanharbor.Json.escape`."
-    __a0 = _m.to_lean(_D2, s, "s")
-    return _m.to_py(_D2, l_Leanharbor_Json_escape(__a0))
+    __a0 = _m.to_lean(_D14, s, "s")
+    return _m.to_py(_D14, l_Leanharbor_Json_escape(__a0))
 
 
 def _pub_escape__lean(s: "list[UInt8] | Lean[list[UInt8]]") -> "Lean[list[UInt8]]":
     "Lean `Leanharbor.Json.escape`, on handles."
-    __a0 = _m.lean_arg(_D3, s, "s")
+    __a0 = _m.lean_arg(_D15, s, "s")
     _m.give(s)
-    return _m.handle(_D3, l_Leanharbor_Json_escape(__a0))
+    return _m.handle(_D15, l_Leanharbor_Json_escape(__a0))
 
 
 def _pub_escape__local(s: "list[UInt8] | Lean[list[UInt8]] | Local[list[UInt8]]") -> "Local[list[UInt8]]":
     "Lean `Leanharbor.Json.escape`, on local handles."
-    __a0 = _m.local_arg(_D3, s, "s", False)
+    __a0 = _m.local_arg(_D15, s, "s", False)
     _m.give(s)
     __r = l_Leanharbor_Json_escape(__a0)
     _m.local_done(s, __a0)
-    return _m.local_handle(_D3, __r)
+    return _m.local_handle(_D15, __r)
 
 
-_m.attach(globals(), ["escape"], _pub_escape, "Leanharbor.Json.escape", _pub_escape__lean, {"s": _D3}, _D3, _pub_escape__local)
+_m.attach(globals(), ["escape"], _pub_escape, "Leanharbor.Json.escape", _pub_escape__lean, {"s": _D15}, _D15, _pub_escape__local)
 def _pub_tokBytes(arg0: "Tok") -> "list[UInt8]":
     "Lean `Leanharbor.Json.tokBytes`."
-    __a0 = _m.to_lean(_D6, arg0, "arg0")
-    return _m.to_py(_D2, l_Leanharbor_Json_tokBytes(__a0))
+    __a0 = _m.to_lean(_D18, arg0, "arg0")
+    return _m.to_py(_D14, l_Leanharbor_Json_tokBytes(__a0))
 
 
 def _pub_tokBytes__lean(arg0: "Tok | Lean[Tok]") -> "Lean[list[UInt8]]":
     "Lean `Leanharbor.Json.tokBytes`, on handles."
-    __a0 = _m.lean_arg(_D7, arg0, "arg0")
+    __a0 = _m.lean_arg(_D19, arg0, "arg0")
     _m.give(arg0)
-    return _m.handle(_D3, l_Leanharbor_Json_tokBytes(__a0))
+    return _m.handle(_D15, l_Leanharbor_Json_tokBytes(__a0))
 
 
 def _pub_tokBytes__local(arg0: "Tok | Lean[Tok] | Local[Tok]") -> "Local[list[UInt8]]":
     "Lean `Leanharbor.Json.tokBytes`, on local handles."
-    __a0 = _m.local_arg(_D7, arg0, "arg0", False)
+    __a0 = _m.local_arg(_D19, arg0, "arg0", False)
     _m.give(arg0)
     __r = l_Leanharbor_Json_tokBytes(__a0)
     _m.local_done(arg0, __a0)
-    return _m.local_handle(_D3, __r)
+    return _m.local_handle(_D15, __r)
 
 
-_m.attach(globals(), ["tokBytes"], _pub_tokBytes, "Leanharbor.Json.tokBytes", _pub_tokBytes__lean, {"arg0": _D7}, _D3, _pub_tokBytes__local)
+_m.attach(globals(), ["tokBytes"], _pub_tokBytes, "Leanharbor.Json.tokBytes", _pub_tokBytes__lean, {"arg0": _D19}, _D15, _pub_tokBytes__local)
+def _pub_pushTok(acc: "list[UInt8]", arg1: "StrTok") -> "list[UInt8]":
+    "Lean `Leanharbor.Json.pushTok`."
+    __a0 = _m.to_lean(_D0, acc, "acc")
+    __a1 = _m.to_lean(_D6, arg1, "arg1")
+    return _m.to_py(_D0, l_Leanharbor_Json_pushTok(__a0, __a1))
+
+
+def _pub_pushTok__lean(acc: "list[UInt8] | Lean[list[UInt8]]", arg1: "StrTok | Lean[StrTok]") -> "Lean[list[UInt8]]":
+    "Lean `Leanharbor.Json.pushTok`, on handles."
+    __a0 = _m.lean_arg(_D1, acc, "acc")
+    __a1 = _m.lean_arg(_D7, arg1, "arg1")
+    _m.give(acc, arg1)
+    return _m.handle(_D1, l_Leanharbor_Json_pushTok(__a0, __a1))
+
+
+def _pub_pushTok__local(acc: "list[UInt8] | Lean[list[UInt8]] | Local[list[UInt8]]", arg1: "StrTok | Lean[StrTok] | Local[StrTok]") -> "Local[list[UInt8]]":
+    "Lean `Leanharbor.Json.pushTok`, on local handles."
+    __a0 = _m.local_arg(_D1, acc, "acc", True)
+    __a1 = _m.local_arg(_D7, arg1, "arg1", False)
+    _m.give(acc, arg1)
+    __r = l_Leanharbor_Json_pushTok(__a0, __a1)
+    _m.local_done(arg1, __a1)
+    return _m.local_handle(_D1, __r)
+
+
+_m.attach(globals(), ["pushTok"], _pub_pushTok, "Leanharbor.Json.pushTok", _pub_pushTok__lean, {"acc": _D1, "arg1": _D7}, _D1, _pub_pushTok__local)
+def _pub_writeArray(ts: "list[StrTok]") -> "list[UInt8]":
+    "Lean `Leanharbor.Json.writeArray`."
+    __a0 = _m.to_lean(_D4, ts, "ts")
+    return _m.to_py(_D0, l_Leanharbor_Json_writeArray(__a0))
+
+
+def _pub_writeArray__lean(ts: "list[StrTok] | Lean[list[StrTok]]") -> "Lean[list[UInt8]]":
+    "Lean `Leanharbor.Json.writeArray`, on handles."
+    __a0 = _m.lean_arg(_D5, ts, "ts")
+    _m.give(ts)
+    return _m.handle(_D1, l_Leanharbor_Json_writeArray(__a0))
+
+
+def _pub_writeArray__local(ts: "list[StrTok] | Lean[list[StrTok]] | Local[list[StrTok]]") -> "Local[list[UInt8]]":
+    "Lean `Leanharbor.Json.writeArray`, on local handles."
+    __a0 = _m.local_arg(_D5, ts, "ts", False)
+    _m.give(ts)
+    __r = l_Leanharbor_Json_writeArray(__a0)
+    _m.local_done(ts, __a0)
+    return _m.local_handle(_D1, __r)
+
+
+_m.attach(globals(), ["writeArray"], _pub_writeArray, "Leanharbor.Json.writeArray", _pub_writeArray__lean, {"ts": _D5}, _D1, _pub_writeArray__local)
 def _pub_endsValue(arg0: "Tok") -> "bool":
     "Lean `Leanharbor.Json.endsValue`."
-    __a0 = _m.to_lean(_D6, arg0, "arg0")
-    return _m.to_py(_D8, l_Leanharbor_Json_endsValue(__a0))
+    __a0 = _m.to_lean(_D18, arg0, "arg0")
+    return _m.to_py(_D2, l_Leanharbor_Json_endsValue(__a0))
 
 
 def _pub_endsValue__lean(arg0: "Tok | Lean[Tok]") -> "Lean[bool]":
     "Lean `Leanharbor.Json.endsValue`, on handles."
-    __a0 = _m.lean_arg(_D7, arg0, "arg0")
+    __a0 = _m.lean_arg(_D19, arg0, "arg0")
     _m.give(arg0)
-    return _m.handle(_D9, l_Leanharbor_Json_endsValue(__a0))
+    return _m.handle(_D3, l_Leanharbor_Json_endsValue(__a0))
 
 
 def _pub_endsValue__local(arg0: "Tok | Lean[Tok] | Local[Tok]") -> "Local[bool]":
     "Lean `Leanharbor.Json.endsValue`, on local handles."
-    __a0 = _m.local_arg(_D7, arg0, "arg0", False)
+    __a0 = _m.local_arg(_D19, arg0, "arg0", False)
     _m.give(arg0)
     __r = l_Leanharbor_Json_endsValue(__a0)
     _m.local_done(arg0, __a0)
-    return _m.local_handle(_D9, __r)
+    return _m.local_handle(_D3, __r)
 
 
-_m.attach(globals(), ["endsValue"], _pub_endsValue, "Leanharbor.Json.endsValue", _pub_endsValue__lean, {"arg0": _D7}, _D9, _pub_endsValue__local)
+_m.attach(globals(), ["endsValue"], _pub_endsValue, "Leanharbor.Json.endsValue", _pub_endsValue__lean, {"arg0": _D19}, _D3, _pub_endsValue__local)
 def _pub_writeFrom(acc: "list[UInt8]", afterValue: "bool", arg2: "list[Tok]") -> "list[UInt8]":
     "Lean `Leanharbor.Json.writeFrom`."
-    __a0 = _m.to_lean(_D2, acc, "acc")
-    __a1 = _m.to_lean(_D8, afterValue, "afterValue")
-    __a2 = _m.to_lean(_D4, arg2, "arg2")
-    return _m.to_py(_D2, l_Leanharbor_Json_writeFrom(__a0, __a1, __a2))
+    __a0 = _m.to_lean(_D14, acc, "acc")
+    __a1 = _m.to_lean(_D2, afterValue, "afterValue")
+    __a2 = _m.to_lean(_D16, arg2, "arg2")
+    return _m.to_py(_D14, l_Leanharbor_Json_writeFrom(__a0, __a1, __a2))
 
 
 def _pub_writeFrom__lean(acc: "list[UInt8] | Lean[list[UInt8]]", afterValue: "bool | Lean[bool]", arg2: "list[Tok] | Lean[list[Tok]]") -> "Lean[list[UInt8]]":
     "Lean `Leanharbor.Json.writeFrom`, on handles."
-    __a0 = _m.lean_arg(_D3, acc, "acc")
-    __a1 = _m.lean_arg(_D9, afterValue, "afterValue")
-    __a2 = _m.lean_arg(_D5, arg2, "arg2")
+    __a0 = _m.lean_arg(_D15, acc, "acc")
+    __a1 = _m.lean_arg(_D3, afterValue, "afterValue")
+    __a2 = _m.lean_arg(_D17, arg2, "arg2")
     _m.give(acc, afterValue, arg2)
-    return _m.handle(_D3, l_Leanharbor_Json_writeFrom(__a0, __a1, __a2))
+    return _m.handle(_D15, l_Leanharbor_Json_writeFrom(__a0, __a1, __a2))
 
 
 def _pub_writeFrom__local(acc: "list[UInt8] | Lean[list[UInt8]] | Local[list[UInt8]]", afterValue: "bool | Lean[bool] | Local[bool]", arg2: "list[Tok] | Lean[list[Tok]] | Local[list[Tok]]") -> "Local[list[UInt8]]":
     "Lean `Leanharbor.Json.writeFrom`, on local handles."
-    __a0 = _m.local_arg(_D3, acc, "acc", True)
-    __a1 = _m.local_arg(_D9, afterValue, "afterValue", True)
-    __a2 = _m.local_arg(_D5, arg2, "arg2", False)
+    __a0 = _m.local_arg(_D15, acc, "acc", True)
+    __a1 = _m.local_arg(_D3, afterValue, "afterValue", True)
+    __a2 = _m.local_arg(_D17, arg2, "arg2", False)
     _m.give(acc, afterValue, arg2)
     __r = l_Leanharbor_Json_writeFrom(__a0, __a1, __a2)
     _m.local_done(arg2, __a2)
-    return _m.local_handle(_D3, __r)
+    return _m.local_handle(_D15, __r)
 
 
-_m.attach(globals(), ["writeFrom"], _pub_writeFrom, "Leanharbor.Json.writeFrom", _pub_writeFrom__lean, {"acc": _D3, "afterValue": _D9, "arg2": _D5}, _D3, _pub_writeFrom__local)
+_m.attach(globals(), ["writeFrom"], _pub_writeFrom, "Leanharbor.Json.writeFrom", _pub_writeFrom__lean, {"acc": _D15, "afterValue": _D3, "arg2": _D17}, _D15, _pub_writeFrom__local)
+def _pub_pushDecimal(acc: "list[UInt8]", n: "Nat") -> "list[UInt8]":
+    "Lean `Leanharbor.Json.pushDecimal`."
+    __a0 = _m.to_lean(_D0, acc, "acc")
+    __a1 = _m.to_lean(_D10, n, "n")
+    return _m.to_py(_D0, l_Leanharbor_Json_pushDecimal(__a0, __a1))
+
+
+def _pub_pushDecimal__lean(acc: "list[UInt8] | Lean[list[UInt8]]", n: "Nat | Lean[Nat]") -> "Lean[list[UInt8]]":
+    "Lean `Leanharbor.Json.pushDecimal`, on handles."
+    __a0 = _m.lean_arg(_D1, acc, "acc")
+    __a1 = _m.lean_arg(_D11, n, "n")
+    _m.give(acc, n)
+    return _m.handle(_D1, l_Leanharbor_Json_pushDecimal(__a0, __a1))
+
+
+def _pub_pushDecimal__local(acc: "list[UInt8] | Lean[list[UInt8]] | Local[list[UInt8]]", n: "Nat | Lean[Nat] | Local[Nat]") -> "Local[list[UInt8]]":
+    "Lean `Leanharbor.Json.pushDecimal`, on local handles."
+    __a0 = _m.local_arg(_D1, acc, "acc", True)
+    __a1 = _m.local_arg(_D11, n, "n", False)
+    _m.give(acc, n)
+    __r = l_Leanharbor_Json_pushDecimal(__a0, __a1)
+    _m.local_done(n, __a1)
+    return _m.local_handle(_D1, __r)
+
+
+_m.attach(globals(), ["pushDecimal"], _pub_pushDecimal, "Leanharbor.Json.pushDecimal", _pub_pushDecimal__lean, {"acc": _D1, "n": _D11}, _D1, _pub_pushDecimal__local)
+def _pub_pushEscapedByte(acc: "list[UInt8]", c: "UInt8") -> "list[UInt8]":
+    "Lean `Leanharbor.Json.pushEscapedByte`."
+    __a0 = _m.to_lean(_D0, acc, "acc")
+    __a1 = _m.to_lean(_D12, c, "c")
+    return _m.to_py(_D0, l_Leanharbor_Json_pushEscapedByte(__a0, __a1))
+
+
+def _pub_pushEscapedByte__lean(acc: "list[UInt8] | Lean[list[UInt8]]", c: "UInt8 | Lean[UInt8]") -> "Lean[list[UInt8]]":
+    "Lean `Leanharbor.Json.pushEscapedByte`, on handles."
+    __a0 = _m.lean_arg(_D1, acc, "acc")
+    __a1 = _m.lean_arg(_D13, c, "c")
+    _m.give(acc, c)
+    return _m.handle(_D1, l_Leanharbor_Json_pushEscapedByte(__a0, __a1))
+
+
+def _pub_pushEscapedByte__local(acc: "list[UInt8] | Lean[list[UInt8]] | Local[list[UInt8]]", c: "UInt8 | Lean[UInt8] | Local[UInt8]") -> "Local[list[UInt8]]":
+    "Lean `Leanharbor.Json.pushEscapedByte`, on local handles."
+    __a0 = _m.local_arg(_D1, acc, "acc", True)
+    __a1 = _m.local_arg(_D13, c, "c", True)
+    _m.give(acc, c)
+    return _m.local_handle(_D1, l_Leanharbor_Json_pushEscapedByte(__a0, __a1))
+
+
+_m.attach(globals(), ["pushEscapedByte"], _pub_pushEscapedByte, "Leanharbor.Json.pushEscapedByte", _pub_pushEscapedByte__lean, {"acc": _D1, "c": _D13}, _D1, _pub_pushEscapedByte__local)
 def _pub_isClose(arg0: "Tok") -> "bool":
     "Lean `Leanharbor.Json.isClose`."
-    __a0 = _m.to_lean(_D6, arg0, "arg0")
-    return _m.to_py(_D8, l_Leanharbor_Json_isClose(__a0))
+    __a0 = _m.to_lean(_D18, arg0, "arg0")
+    return _m.to_py(_D2, l_Leanharbor_Json_isClose(__a0))
 
 
 def _pub_isClose__lean(arg0: "Tok | Lean[Tok]") -> "Lean[bool]":
     "Lean `Leanharbor.Json.isClose`, on handles."
-    __a0 = _m.lean_arg(_D7, arg0, "arg0")
+    __a0 = _m.lean_arg(_D19, arg0, "arg0")
     _m.give(arg0)
-    return _m.handle(_D9, l_Leanharbor_Json_isClose(__a0))
+    return _m.handle(_D3, l_Leanharbor_Json_isClose(__a0))
 
 
 def _pub_isClose__local(arg0: "Tok | Lean[Tok] | Local[Tok]") -> "Local[bool]":
     "Lean `Leanharbor.Json.isClose`, on local handles."
-    __a0 = _m.local_arg(_D7, arg0, "arg0", False)
+    __a0 = _m.local_arg(_D19, arg0, "arg0", False)
     _m.give(arg0)
     __r = l_Leanharbor_Json_isClose(__a0)
     _m.local_done(arg0, __a0)
-    return _m.local_handle(_D9, __r)
+    return _m.local_handle(_D3, __r)
 
 
-_m.attach(globals(), ["isClose"], _pub_isClose, "Leanharbor.Json.isClose", _pub_isClose__lean, {"arg0": _D7}, _D9, _pub_isClose__local)
+_m.attach(globals(), ["isClose"], _pub_isClose, "Leanharbor.Json.isClose", _pub_isClose__lean, {"arg0": _D19}, _D3, _pub_isClose__local)
+def _pub_StrTok_endsValue(arg0: "StrTok") -> "bool":
+    "Lean `Leanharbor.Json.StrTok.endsValue`."
+    __a0 = _m.to_lean(_D6, arg0, "arg0")
+    return _m.to_py(_D2, l_Leanharbor_Json_StrTok_endsValue(__a0))
+
+
+def _pub_StrTok_endsValue__lean(arg0: "StrTok | Lean[StrTok]") -> "Lean[bool]":
+    "Lean `Leanharbor.Json.StrTok.endsValue`, on handles."
+    __a0 = _m.lean_arg(_D7, arg0, "arg0")
+    _m.give(arg0)
+    return _m.handle(_D3, l_Leanharbor_Json_StrTok_endsValue(__a0))
+
+
+def _pub_StrTok_endsValue__local(arg0: "StrTok | Lean[StrTok] | Local[StrTok]") -> "Local[bool]":
+    "Lean `Leanharbor.Json.StrTok.endsValue`, on local handles."
+    __a0 = _m.local_arg(_D7, arg0, "arg0", False)
+    _m.give(arg0)
+    __r = l_Leanharbor_Json_StrTok_endsValue(__a0)
+    _m.local_done(arg0, __a0)
+    return _m.local_handle(_D3, __r)
+
+
+_m.attach(globals(), ["StrTok", "endsValue"], _pub_StrTok_endsValue, "Leanharbor.Json.StrTok.endsValue", _pub_StrTok_endsValue__lean, {"arg0": _D7}, _D3, _pub_StrTok_endsValue__local)
 _m.finish(globals())

@@ -1348,6 +1348,54 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Token_dotFrom(mut x_1: Obj, mut x_2: Obj) -> Obj {
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: u8 = 0;
+let mut x_5: u8 = 0;
+let mut x_6: u8 = 0;
+let mut x_7: u8 = 0;
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: Obj = rt::lean_box(0);
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+x_3 = rt::lean_string_utf8_byte_size(x_1);
+x_4 = rt::lean_nat_dec_lt(x_2, x_3);
+match x_4 as u32 {
+0 => {
+rt::lean_dec(x_2);
+return x_3;
+}
+1 => {
+rt::lean_inc(x_2);
+x_5 = rt::lean_string_get_byte_fast(x_1, x_2);
+x_6 = 46u8;
+x_7 = rt::lean_uint8_dec_eq(x_5, x_6);
+match x_7 as u32 {
+0 => {
+x_8 = rt::lean_unsigned_to_nat(1u32);
+x_9 = rt::lean_nat_add(x_2, x_8);
+rt::lean_dec(x_2);
+{ let t_0 = x_1; let t_1 = x_9; x_1 = t_0; x_2 = t_1; }
+__blk = 0; continue 'body;
+}
+1 => {
+return x_2;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Leanharbor_Token_hexByte(mut x_1: u8) -> Obj {
 let mut x_2: Obj = rt::lean_box(0);
 let mut x_3: Obj = rt::lean_box(0);
@@ -1509,6 +1557,146 @@ pub(crate) unsafe fn l_Leanharbor_Token_encodePayload___closed__0() -> Obj {
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Token_copyBytes(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj) -> Obj {
+let mut x_5: u8 = 0;
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: u8 = 0;
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_11: u8 = 0;
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_13: Obj = rt::lean_box(0);
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: u8 = 0;
+let mut x_16: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+x_5 = rt::lean_nat_dec_lt(x_2, x_3);
+match x_5 as u32 {
+0 => {
+rt::lean_dec(x_2);
+return x_4;
+}
+1 => {
+x_6 = rt::lean_string_utf8_byte_size(x_1);
+x_7 = rt::lean_nat_dec_lt(x_2, x_6);
+match x_7 as u32 {
+0 => {
+rt::lean_dec(x_2);
+return x_4;
+}
+1 => {
+x_8 = rt::lean_unsigned_to_nat(1u32);
+x_9 = rt::lean_nat_add(x_2, x_8);
+match x_7 as u32 {
+0 => {
+rt::lean_dec(x_2);
+x_15 = 0u8;
+{ let t_0 = x_15; x_11 = t_0; }
+__blk = 1; continue 'body;
+}
+1 => {
+x_16 = rt::lean_string_get_byte_fast(x_1, x_2);
+{ let t_0 = x_16; x_11 = t_0; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_12 = rt::lean_box(x_11 as usize);
+x_13 = rt::lean_array_push(x_4, x_12);
+{ let t_0 = x_1; let t_1 = x_9; let t_2 = x_3; let t_3 = x_13; x_1 = t_0; x_2 = t_1; x_3 = t_2; x_4 = t_3; }
+__blk = 0; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Token_digitsFrom(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj) -> Obj {
+let mut x_5: u8 = 0;
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: u8 = 0;
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_13: u8 = 0;
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: Obj = rt::lean_box(0);
+let mut x_16: Obj = rt::lean_box(0);
+let mut x_17: Obj = rt::lean_box(0);
+let mut x_18: Obj = rt::lean_box(0);
+let mut x_19: u8 = 0;
+let mut x_20: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+x_5 = rt::lean_nat_dec_lt(x_2, x_3);
+match x_5 as u32 {
+0 => {
+rt::lean_dec(x_2);
+return x_4;
+}
+1 => {
+x_6 = rt::lean_string_utf8_byte_size(x_1);
+x_7 = rt::lean_nat_dec_lt(x_2, x_6);
+match x_7 as u32 {
+0 => {
+rt::lean_dec(x_2);
+return x_4;
+}
+1 => {
+x_8 = rt::lean_unsigned_to_nat(1u32);
+x_9 = rt::lean_nat_add(x_2, x_8);
+x_10 = rt::lean_unsigned_to_nat(10u32);
+x_11 = rt::lean_nat_mul(x_4, x_10);
+rt::lean_dec(x_4);
+match x_7 as u32 {
+0 => {
+rt::lean_dec(x_2);
+x_19 = 0u8;
+{ let t_0 = x_19; x_13 = t_0; }
+__blk = 1; continue 'body;
+}
+1 => {
+x_20 = rt::lean_string_get_byte_fast(x_1, x_2);
+{ let t_0 = x_20; x_13 = t_0; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_14 = rt::lean_uint8_to_nat(x_13);
+x_15 = rt::lean_unsigned_to_nat(48u32);
+x_16 = rt::lean_nat_sub(x_14, x_15);
+x_17 = rt::lean_nat_add(x_11, x_16);
+rt::lean_dec(x_16);
+rt::lean_dec(x_11);
+{ let t_0 = x_1; let t_1 = x_9; let t_2 = x_3; let t_3 = x_17; x_1 = t_0; x_2 = t_1; x_3 = t_2; x_4 = t_3; }
+__blk = 0; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Leanharbor_Token_join(mut x_1: Obj, mut x_2: Obj) -> Obj {
 let mut x_3: u8 = 0;
 let mut x_4: Obj = rt::lean_box(0);
@@ -1606,6 +1794,977 @@ _ => rt::lean_internal_panic_unreachable(),
 } }
 }
 
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Token_numberAt(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj) -> Obj {
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: u8 = 0;
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: u64 = 0;
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_12: u8 = 0;
+let mut x_13: Obj = rt::lean_box(0);
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: Obj = rt::lean_box(0);
+x_4 = rt::lean_nat_sub(x_3, x_2);
+x_5 = rt::lean_unsigned_to_nat(20u32);
+x_6 = rt::lean_nat_dec_le(x_4, x_5);
+rt::lean_dec(x_4);
+match x_6 as u32 {
+0 => {
+rt::lean_dec(x_3);
+rt::lean_dec(x_2);
+x_7 = rt::lean_box(0);
+return x_7;
+}
+1 => {
+x_8 = rt::lean_unsigned_to_nat(0u32);
+rt::lean_inc(x_2);
+x_9 = l_Leanharbor_Token_digitsFrom(x_1, x_2, x_3, x_8);
+x_10 = rt::lean_uint64_of_nat(x_9);
+rt::lean_dec(x_9);
+x_11 = rt::lean_uint64_to_nat(x_10);
+x_12 = l_Leanharbor_Token_isDecimal(x_11, x_1, x_2, x_3);
+match x_12 as u32 {
+0 => {
+x_13 = rt::lean_box(0);
+return x_13;
+}
+1 => {
+x_14 = rt::lean_box_uint64(x_10);
+x_15 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_15, 0, x_14);
+return x_15;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Token_isDecimal(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj) -> u8 {
+let mut x_6: u8 = 0;
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: u8 = 0;
+let mut x_10: u8 = 0;
+let mut x_11: u8 = 0;
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_13: u8 = 0;
+let mut x_15: u8 = 0;
+let mut x_16: Obj = rt::lean_box(0);
+let mut x_17: Obj = rt::lean_box(0);
+let mut x_18: Obj = rt::lean_box(0);
+let mut x_19: u8 = 0;
+let mut x_20: u8 = 0;
+let mut x_21: Obj = rt::lean_box(0);
+let mut x_22: Obj = rt::lean_box(0);
+let mut x_23: Obj = rt::lean_box(0);
+let mut x_24: u8 = 0;
+let mut x_25: Obj = rt::lean_box(0);
+let mut x_26: Obj = rt::lean_box(0);
+let mut x_27: Obj = rt::lean_box(0);
+let mut x_28: u8 = 0;
+let mut x_29: u8 = 0;
+let mut x_30: u8 = 0;
+let mut x_31: Obj = rt::lean_box(0);
+let mut x_32: Obj = rt::lean_box(0);
+let mut x_33: u8 = 0;
+let mut x_34: Obj = rt::lean_box(0);
+let mut x_35: u8 = 0;
+let mut x_36: u8 = 0;
+let mut x_37: u8 = 0;
+let mut x_38: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+x_11 = rt::lean_nat_dec_le(x_4, x_3);
+match x_11 as u32 {
+0 => {
+x_12 = rt::lean_unsigned_to_nat(10u32);
+x_13 = rt::lean_nat_dec_lt(x_1, x_12);
+match x_13 as u32 {
+0 => {
+x_25 = rt::lean_unsigned_to_nat(1u32);
+x_26 = rt::lean_nat_sub(x_4, x_25);
+x_27 = rt::lean_string_utf8_byte_size(x_2);
+x_28 = rt::lean_nat_dec_lt(x_26, x_27);
+match x_28 as u32 {
+0 => {
+rt::lean_dec(x_26);
+x_29 = 0u8;
+{ let t_0 = x_29; x_15 = t_0; }
+__blk = 2; continue 'body;
+}
+1 => {
+x_30 = rt::lean_string_get_byte_fast(x_2, x_26);
+{ let t_0 = x_30; x_15 = t_0; }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_31 = rt::lean_unsigned_to_nat(1u32);
+x_32 = rt::lean_nat_add(x_3, x_31);
+x_33 = rt::lean_nat_dec_eq(x_4, x_32);
+rt::lean_dec(x_32);
+rt::lean_dec(x_4);
+match x_33 as u32 {
+0 => {
+rt::lean_dec(x_3);
+rt::lean_dec(x_1);
+return x_11;
+}
+1 => {
+x_34 = rt::lean_string_utf8_byte_size(x_2);
+x_35 = rt::lean_nat_dec_lt(x_3, x_34);
+match x_35 as u32 {
+0 => {
+rt::lean_dec(x_3);
+x_36 = 0u8;
+{ let t_0 = x_36; x_6 = t_0; }
+__blk = 1; continue 'body;
+}
+1 => {
+x_37 = rt::lean_string_get_byte_fast(x_2, x_3);
+{ let t_0 = x_37; x_6 = t_0; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+rt::lean_dec(x_4);
+rt::lean_dec(x_3);
+rt::lean_dec(x_1);
+x_38 = 0u8;
+return x_38;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_7 = rt::lean_unsigned_to_nat(48u32);
+x_8 = rt::lean_nat_add(x_1, x_7);
+rt::lean_dec(x_1);
+x_9 = rt::lean_uint8_of_nat(x_8);
+rt::lean_dec(x_8);
+x_10 = rt::lean_uint8_dec_eq(x_6, x_9);
+return x_10;
+}
+2 => {
+x_16 = rt::lean_nat_mod(x_1, x_12);
+x_17 = rt::lean_unsigned_to_nat(48u32);
+x_18 = rt::lean_nat_add(x_16, x_17);
+rt::lean_dec(x_16);
+x_19 = rt::lean_uint8_of_nat(x_18);
+rt::lean_dec(x_18);
+x_20 = rt::lean_uint8_dec_eq(x_15, x_19);
+match x_20 as u32 {
+0 => {
+rt::lean_dec(x_4);
+rt::lean_dec(x_3);
+rt::lean_dec(x_1);
+return x_13;
+}
+1 => {
+x_21 = rt::lean_nat_div(x_1, x_12);
+rt::lean_dec(x_1);
+x_22 = rt::lean_unsigned_to_nat(1u32);
+x_23 = rt::lean_nat_sub(x_4, x_22);
+rt::lean_dec(x_4);
+{ let t_0 = x_21; let t_1 = x_2; let t_2 = x_3; let t_3 = x_23; x_1 = t_0; x_2 = t_1; x_3 = t_2; x_4 = t_3; }
+__blk = 0; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Token_byteAt(mut x_1: Obj, mut x_2: Obj) -> u8 {
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: u8 = 0;
+let mut x_5: u8 = 0;
+let mut x_6: u8 = 0;
+x_3 = rt::lean_string_utf8_byte_size(x_1);
+x_4 = rt::lean_nat_dec_lt(x_2, x_3);
+match x_4 as u32 {
+0 => {
+rt::lean_dec(x_2);
+x_5 = 0u8;
+return x_5;
+}
+1 => {
+x_6 = rt::lean_string_get_byte_fast(x_1, x_2);
+return x_6;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Token_unhexAt(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj) -> Obj {
+let mut x_6: u8 = 0;
+let mut x_7: u8 = 0;
+let mut x_8: u8 = 0;
+let mut x_9: u8 = 0;
+let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: u8 = 0;
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_13: Obj = rt::lean_box(0);
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: u8 = 0;
+let mut x_16: u8 = 0;
+let mut x_17: u8 = 0;
+let mut x_18: Obj = rt::lean_box(0);
+let mut x_19: Obj = rt::lean_box(0);
+let mut x_20: Obj = rt::lean_box(0);
+let mut x_22: u8 = 0;
+let mut x_23: u8 = 0;
+let mut x_24: u8 = 0;
+let mut x_25: u8 = 0;
+let mut x_26: u8 = 0;
+let mut x_27: u8 = 0;
+let mut x_28: u8 = 0;
+let mut x_29: u8 = 0;
+let mut x_30: u8 = 0;
+let mut x_31: u8 = 0;
+let mut x_33: u8 = 0;
+let mut x_34: u8 = 0;
+let mut x_35: u8 = 0;
+let mut x_36: u8 = 0;
+let mut x_37: u8 = 0;
+let mut x_38: u8 = 0;
+let mut x_39: u8 = 0;
+let mut x_40: u8 = 0;
+let mut x_41: Obj = rt::lean_box(0);
+let mut x_42: Obj = rt::lean_box(0);
+let mut x_43: Obj = rt::lean_box(0);
+let mut x_45: u8 = 0;
+let mut x_46: Obj = rt::lean_box(0);
+let mut x_47: u8 = 0;
+let mut x_48: u8 = 0;
+let mut x_49: u8 = 0;
+let mut x_51: u8 = 0;
+let mut x_52: u8 = 0;
+let mut x_53: u8 = 0;
+let mut x_54: u8 = 0;
+let mut x_55: u8 = 0;
+let mut x_56: u8 = 0;
+let mut x_57: u8 = 0;
+let mut x_58: u8 = 0;
+let mut x_59: u8 = 0;
+let mut x_61: u8 = 0;
+let mut x_62: u8 = 0;
+let mut x_63: u8 = 0;
+let mut x_64: u8 = 0;
+let mut x_65: u8 = 0;
+let mut x_66: u8 = 0;
+let mut x_67: u8 = 0;
+let mut x_68: Obj = rt::lean_box(0);
+let mut x_69: Obj = rt::lean_box(0);
+let mut x_70: u8 = 0;
+let mut x_71: u8 = 0;
+let mut x_72: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+x_40 = rt::lean_nat_dec_lt(x_2, x_3);
+match x_40 as u32 {
+0 => {
+rt::lean_dec(x_2);
+x_41 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_41, 0, x_4);
+return x_41;
+}
+1 => {
+x_42 = rt::lean_unsigned_to_nat(1u32);
+x_43 = rt::lean_nat_add(x_2, x_42);
+x_67 = rt::lean_nat_dec_lt(x_43, x_3);
+match x_67 as u32 {
+0 => {
+rt::lean_dec(x_43);
+rt::lean_dec_ref(x_4);
+rt::lean_dec(x_2);
+x_68 = rt::lean_box(0);
+return x_68;
+}
+1 => {
+x_69 = rt::lean_string_utf8_byte_size(x_1);
+x_70 = rt::lean_nat_dec_lt(x_2, x_69);
+match x_70 as u32 {
+0 => {
+x_71 = 0u8;
+{ let t_0 = x_71; x_61 = t_0; }
+__blk = 6; continue 'body;
+}
+1 => {
+rt::lean_inc(x_2);
+x_72 = rt::lean_string_get_byte_fast(x_1, x_2);
+{ let t_0 = x_72; x_61 = t_0; }
+__blk = 6; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_8 = 16u8;
+x_9 = rt::lean_uint8_dec_lt(x_6, x_8);
+match x_9 as u32 {
+0 => {
+rt::lean_dec_ref(x_4);
+rt::lean_dec(x_2);
+x_10 = rt::lean_box(0);
+return x_10;
+}
+1 => {
+x_11 = rt::lean_uint8_dec_lt(x_7, x_8);
+match x_11 as u32 {
+0 => {
+rt::lean_dec_ref(x_4);
+rt::lean_dec(x_2);
+x_12 = rt::lean_box(0);
+return x_12;
+}
+1 => {
+x_13 = rt::lean_unsigned_to_nat(2u32);
+x_14 = rt::lean_nat_add(x_2, x_13);
+rt::lean_dec(x_2);
+x_15 = 4u8;
+x_16 = rt::lean_uint8_shift_left(x_6, x_15);
+x_17 = rt::lean_uint8_add(x_16, x_7);
+x_18 = rt::lean_box(x_17 as usize);
+x_19 = rt::lean_array_push(x_4, x_18);
+{ let t_0 = x_1; let t_1 = x_14; let t_2 = x_3; let t_3 = x_19; x_1 = t_0; x_2 = t_1; x_3 = t_2; x_4 = t_3; }
+__blk = 0; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+x_24 = 97u8;
+x_25 = rt::lean_uint8_dec_le(x_24, x_22);
+match x_25 as u32 {
+0 => {
+x_26 = 16u8;
+{ let t_0 = x_23; let t_1 = x_26; x_6 = t_0; x_7 = t_1; }
+__blk = 1; continue 'body;
+}
+1 => {
+x_27 = 102u8;
+x_28 = rt::lean_uint8_dec_le(x_22, x_27);
+match x_28 as u32 {
+0 => {
+x_29 = 16u8;
+{ let t_0 = x_23; let t_1 = x_29; x_6 = t_0; x_7 = t_1; }
+__blk = 1; continue 'body;
+}
+1 => {
+x_30 = 87u8;
+x_31 = rt::lean_uint8_sub(x_22, x_30);
+{ let t_0 = x_23; let t_1 = x_31; x_6 = t_0; x_7 = t_1; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+3 => {
+x_35 = 48u8;
+x_36 = rt::lean_uint8_dec_le(x_35, x_34);
+match x_36 as u32 {
+0 => {
+{ let t_0 = x_34; let t_1 = x_33; x_22 = t_0; x_23 = t_1; }
+__blk = 2; continue 'body;
+}
+1 => {
+x_37 = 57u8;
+x_38 = rt::lean_uint8_dec_le(x_34, x_37);
+match x_38 as u32 {
+0 => {
+{ let t_0 = x_34; let t_1 = x_33; x_22 = t_0; x_23 = t_1; }
+__blk = 2; continue 'body;
+}
+1 => {
+x_39 = rt::lean_uint8_sub(x_34, x_35);
+{ let t_0 = x_33; let t_1 = x_39; x_6 = t_0; x_7 = t_1; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+4 => {
+x_46 = rt::lean_string_utf8_byte_size(x_1);
+x_47 = rt::lean_nat_dec_lt(x_43, x_46);
+match x_47 as u32 {
+0 => {
+rt::lean_dec(x_43);
+x_48 = 0u8;
+{ let t_0 = x_45; let t_1 = x_48; x_33 = t_0; x_34 = t_1; }
+__blk = 3; continue 'body;
+}
+1 => {
+x_49 = rt::lean_string_get_byte_fast(x_1, x_43);
+{ let t_0 = x_45; let t_1 = x_49; x_33 = t_0; x_34 = t_1; }
+__blk = 3; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+5 => {
+x_52 = 97u8;
+x_53 = rt::lean_uint8_dec_le(x_52, x_51);
+match x_53 as u32 {
+0 => {
+x_54 = 16u8;
+{ let t_0 = x_54; x_45 = t_0; }
+__blk = 4; continue 'body;
+}
+1 => {
+x_55 = 102u8;
+x_56 = rt::lean_uint8_dec_le(x_51, x_55);
+match x_56 as u32 {
+0 => {
+x_57 = 16u8;
+{ let t_0 = x_57; x_45 = t_0; }
+__blk = 4; continue 'body;
+}
+1 => {
+x_58 = 87u8;
+x_59 = rt::lean_uint8_sub(x_51, x_58);
+{ let t_0 = x_59; x_45 = t_0; }
+__blk = 4; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+6 => {
+x_62 = 48u8;
+x_63 = rt::lean_uint8_dec_le(x_62, x_61);
+match x_63 as u32 {
+0 => {
+{ let t_0 = x_61; x_51 = t_0; }
+__blk = 5; continue 'body;
+}
+1 => {
+x_64 = 57u8;
+x_65 = rt::lean_uint8_dec_le(x_61, x_64);
+match x_65 as u32 {
+0 => {
+{ let t_0 = x_61; x_51 = t_0; }
+__blk = 5; continue 'body;
+}
+1 => {
+x_66 = rt::lean_uint8_sub(x_61, x_62);
+{ let t_0 = x_66; x_45 = t_0; }
+__blk = 4; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+
+
+
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Token_hexNibble(mut x_1: u8) -> u8 {
+let mut x_3: u8 = 0;
+let mut x_4: u8 = 0;
+let mut x_5: u8 = 0;
+let mut x_6: u8 = 0;
+let mut x_7: u8 = 0;
+let mut x_8: u8 = 0;
+let mut x_9: u8 = 0;
+let mut x_10: u8 = 0;
+let mut x_11: u8 = 0;
+let mut x_12: u8 = 0;
+let mut x_13: u8 = 0;
+let mut x_14: u8 = 0;
+let mut x_15: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+x_11 = 48u8;
+x_12 = rt::lean_uint8_dec_le(x_11, x_1);
+match x_12 as u32 {
+0 => {
+{ }
+__blk = 1; continue 'body;
+}
+1 => {
+x_13 = 57u8;
+x_14 = rt::lean_uint8_dec_le(x_1, x_13);
+match x_14 as u32 {
+0 => {
+{ }
+__blk = 1; continue 'body;
+}
+1 => {
+x_15 = rt::lean_uint8_sub(x_1, x_11);
+return x_15;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_3 = 97u8;
+x_4 = rt::lean_uint8_dec_le(x_3, x_1);
+match x_4 as u32 {
+0 => {
+x_5 = 16u8;
+return x_5;
+}
+1 => {
+x_6 = 102u8;
+x_7 = rt::lean_uint8_dec_le(x_1, x_6);
+match x_7 as u32 {
+0 => {
+x_8 = 16u8;
+return x_8;
+}
+1 => {
+x_9 = 87u8;
+x_10 = rt::lean_uint8_sub(x_1, x_9);
+return x_10;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Token_parseString(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: u8 = 0;
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: u8 = 0;
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_13: Obj = rt::lean_box(0);
+let mut x_14: u8 = 0;
+let mut x_15: Obj = rt::lean_box(0);
+let mut x_16: Obj = rt::lean_box(0);
+let mut x_17: Obj = rt::lean_box(0);
+let mut x_19: u8 = 0;
+let mut x_20: u8 = 0;
+let mut x_21: u8 = 0;
+let mut x_22: Obj = rt::lean_box(0);
+let mut x_23: Obj = rt::lean_box(0);
+let mut x_24: Obj = rt::lean_box(0);
+let mut x_25: Obj = rt::lean_box(0);
+let mut x_26: Obj = rt::lean_box(0);
+let mut x_27: Obj = rt::lean_box(0);
+let mut x_28: Obj = rt::lean_box(0);
+let mut x_29: Obj = rt::lean_box(0);
+let mut x_30: Obj = rt::lean_box(0);
+let mut x_31: Obj = rt::lean_box(0);
+let mut x_32: Obj = rt::lean_box(0);
+let mut x_33: Obj = rt::lean_box(0);
+let mut x_35: Obj = rt::lean_box(0);
+let mut x_36: u8 = 0;
+let mut x_37: Obj = rt::lean_box(0);
+let mut x_38: Obj = rt::lean_box(0);
+let mut x_39: u8 = 0;
+let mut x_40: Obj = rt::lean_box(0);
+let mut x_41: Obj = rt::lean_box(0);
+let mut x_42: Obj = rt::lean_box(0);
+let mut x_43: Obj = rt::lean_box(0);
+let mut x_44: Obj = rt::lean_box(0);
+let mut x_45: Obj = rt::lean_box(0);
+let mut x_46: Obj = rt::lean_box(0);
+let mut x_47: Obj = rt::lean_box(0);
+let mut x_48: Obj = rt::lean_box(0);
+let mut x_49: Obj = rt::lean_box(0);
+let mut x_50: u64 = 0;
+let mut x_51: u64 = 0;
+let mut x_52: u64 = 0;
+let mut x_54: Obj = rt::lean_box(0);
+let mut x_55: Obj = rt::lean_box(0);
+let mut x_56: u8 = 0;
+let mut x_57: Obj = rt::lean_box(0);
+let mut x_58: Obj = rt::lean_box(0);
+let mut x_59: Obj = rt::lean_box(0);
+let mut x_60: Obj = rt::lean_box(0);
+let mut x_62: u8 = 0;
+let mut x_63: u8 = 0;
+let mut x_64: u8 = 0;
+let mut x_65: Obj = rt::lean_box(0);
+let mut x_66: u8 = 0;
+let mut x_67: u8 = 0;
+let mut x_68: u8 = 0;
+let mut x_69: u8 = 0;
+let mut x_70: Obj = rt::lean_box(0);
+let mut x_71: Obj = rt::lean_box(0);
+let mut x_72: u8 = 0;
+let mut x_73: Obj = rt::lean_box(0);
+let mut x_74: u8 = 0;
+let mut x_75: u8 = 0;
+let mut x_76: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+x_2 = rt::lean_string_utf8_byte_size(x_1);
+x_3 = rt::lean_unsigned_to_nat(0u32);
+x_4 = l_Leanharbor_Token_dotFrom(x_1, x_3);
+x_5 = rt::lean_nat_dec_lt(x_4, x_2);
+match x_5 as u32 {
+0 => {
+rt::lean_dec(x_4);
+x_6 = rt::lean_box(0);
+return x_6;
+}
+1 => {
+x_7 = rt::lean_unsigned_to_nat(1u32);
+x_8 = rt::lean_nat_add(x_4, x_7);
+rt::lean_inc(x_8);
+x_9 = l_Leanharbor_Token_dotFrom(x_1, x_8);
+x_10 = rt::lean_nat_dec_lt(x_9, x_2);
+match x_10 as u32 {
+0 => {
+rt::lean_dec(x_9);
+rt::lean_dec(x_8);
+rt::lean_dec(x_4);
+x_11 = rt::lean_box(0);
+return x_11;
+}
+1 => {
+x_12 = rt::lean_nat_add(x_9, x_7);
+rt::lean_inc(x_12);
+x_13 = l_Leanharbor_Token_dotFrom(x_1, x_12);
+x_14 = rt::lean_nat_dec_lt(x_13, x_2);
+match x_14 as u32 {
+0 => {
+rt::lean_dec(x_13);
+rt::lean_dec(x_12);
+rt::lean_dec(x_9);
+rt::lean_dec(x_8);
+rt::lean_dec(x_4);
+x_15 = rt::lean_box(0);
+return x_15;
+}
+1 => {
+x_16 = rt::lean_nat_add(x_13, x_7);
+rt::lean_inc(x_16);
+x_17 = l_Leanharbor_Token_dotFrom(x_1, x_16);
+x_69 = rt::lean_nat_dec_lt(x_17, x_2);
+match x_69 as u32 {
+0 => {
+rt::lean_dec(x_17);
+rt::lean_dec(x_16);
+rt::lean_dec(x_13);
+rt::lean_dec(x_12);
+rt::lean_dec(x_9);
+rt::lean_dec(x_8);
+rt::lean_dec(x_4);
+x_70 = rt::lean_box(0);
+return x_70;
+}
+1 => {
+x_71 = rt::lean_unsigned_to_nat(2u32);
+x_72 = rt::lean_nat_dec_eq(x_4, x_71);
+match x_72 as u32 {
+0 => {
+rt::lean_dec(x_17);
+rt::lean_dec(x_16);
+rt::lean_dec(x_13);
+rt::lean_dec(x_12);
+rt::lean_dec(x_9);
+rt::lean_dec(x_8);
+rt::lean_dec(x_4);
+x_73 = rt::lean_box(0);
+return x_73;
+}
+1 => {
+x_74 = rt::lean_nat_dec_lt(x_3, x_2);
+match x_74 as u32 {
+0 => {
+x_75 = 0u8;
+{ let t_0 = x_75; x_62 = t_0; }
+__blk = 4; continue 'body;
+}
+1 => {
+x_76 = rt::lean_string_get_byte_fast(x_1, x_3);
+{ let t_0 = x_76; x_62 = t_0; }
+__blk = 4; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_20 = 49u8;
+x_21 = rt::lean_uint8_dec_eq(x_19, x_20);
+match x_21 as u32 {
+0 => {
+rt::lean_dec(x_17);
+rt::lean_dec(x_16);
+rt::lean_dec(x_13);
+rt::lean_dec(x_12);
+rt::lean_dec(x_9);
+rt::lean_dec(x_8);
+rt::lean_dec(x_4);
+x_22 = rt::lean_box(0);
+return x_22;
+}
+1 => {
+rt::lean_inc(x_9);
+rt::lean_inc(x_8);
+x_23 = l_Leanharbor_Token_numberAt(x_1, x_8, x_9);
+match rt::lean_obj_tag(x_23) {
+1 => {
+x_24 = rt::lean_ctor_get(x_23, 0);
+rt::lean_inc(x_24);
+rt::lean_dec_ref(x_23);
+rt::lean_inc(x_13);
+rt::lean_inc(x_12);
+x_25 = l_Leanharbor_Token_numberAt(x_1, x_12, x_13);
+match rt::lean_obj_tag(x_25) {
+1 => {
+x_26 = rt::lean_ctor_get(x_25, 0);
+rt::lean_inc(x_26);
+rt::lean_dec_ref(x_25);
+rt::lean_inc(x_17);
+rt::lean_inc(x_16);
+x_27 = l_Leanharbor_Token_numberAt(x_1, x_16, x_17);
+match rt::lean_obj_tag(x_27) {
+1 => {
+x_28 = rt::lean_ctor_get(x_27, 0);
+rt::lean_inc(x_28);
+rt::lean_dec_ref(x_27);
+x_29 = rt::lean_nat_add(x_17, x_7);
+x_30 = rt::lean_unsigned_to_nat(32u32);
+x_31 = rt::lean_mk_empty_array_with_capacity(x_30);
+x_32 = l_Leanharbor_Token_unhexAt(x_1, x_29, x_2, x_31);
+match rt::lean_obj_tag(x_32) {
+1 => {
+x_33 = rt::lean_ctor_get(x_32, 0);
+x_56 = (!rt::lean_is_exclusive(x_32)) as u8;
+match x_56 as u32 {
+0 => {
+{ let t_0 = x_32; let t_1 = x_56; x_35 = t_0; x_36 = t_1; }
+__blk = 2; continue 'body;
+}
+1 => {
+rt::lean_inc(x_33);
+rt::lean_dec(x_32);
+{ let t_0 = rt::lean_box(0); let t_1 = x_56; x_35 = t_0; x_36 = t_1; }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => {
+rt::lean_dec(x_32);
+rt::lean_dec(x_28);
+rt::lean_dec(x_26);
+rt::lean_dec(x_24);
+rt::lean_dec(x_17);
+rt::lean_dec(x_16);
+rt::lean_dec(x_13);
+rt::lean_dec(x_12);
+rt::lean_dec(x_9);
+rt::lean_dec(x_8);
+rt::lean_dec(x_4);
+x_57 = rt::lean_box(0);
+return x_57;
+}
+}
+}
+_ => {
+rt::lean_dec(x_27);
+rt::lean_dec(x_26);
+rt::lean_dec(x_24);
+rt::lean_dec(x_17);
+rt::lean_dec(x_16);
+rt::lean_dec(x_13);
+rt::lean_dec(x_12);
+rt::lean_dec(x_9);
+rt::lean_dec(x_8);
+rt::lean_dec(x_4);
+x_58 = rt::lean_box(0);
+return x_58;
+}
+}
+}
+_ => {
+rt::lean_dec(x_25);
+rt::lean_dec(x_24);
+rt::lean_dec(x_17);
+rt::lean_dec(x_16);
+rt::lean_dec(x_13);
+rt::lean_dec(x_12);
+rt::lean_dec(x_9);
+rt::lean_dec(x_8);
+rt::lean_dec(x_4);
+x_59 = rt::lean_box(0);
+return x_59;
+}
+}
+}
+_ => {
+rt::lean_dec(x_23);
+rt::lean_dec(x_17);
+rt::lean_dec(x_16);
+rt::lean_dec(x_13);
+rt::lean_dec(x_12);
+rt::lean_dec(x_9);
+rt::lean_dec(x_8);
+rt::lean_dec(x_4);
+x_60 = rt::lean_box(0);
+return x_60;
+}
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+x_37 = rt::lean_mk_empty_array_with_capacity(x_17);
+x_38 = l_Leanharbor_Token_copyBytes(x_1, x_3, x_4, x_37);
+rt::lean_dec(x_4);
+x_39 = 46u8;
+x_40 = rt::lean_box(x_39 as usize);
+x_41 = rt::lean_array_push(x_38, x_40);
+x_42 = l_Leanharbor_Token_copyBytes(x_1, x_8, x_9, x_41);
+rt::lean_dec(x_9);
+x_43 = rt::lean_box(x_39 as usize);
+x_44 = rt::lean_array_push(x_42, x_43);
+x_45 = l_Leanharbor_Token_copyBytes(x_1, x_12, x_13, x_44);
+rt::lean_dec(x_13);
+x_46 = rt::lean_box(x_39 as usize);
+x_47 = rt::lean_array_push(x_45, x_46);
+x_48 = l_Leanharbor_Token_copyBytes(x_1, x_16, x_17, x_47);
+rt::lean_dec(x_17);
+x_49 = rt::lean_alloc_ctor(0, 2, 0 * core::mem::size_of::<usize>() as u32 + 24); rt::lean_ctor_set(x_49, 0, x_48); rt::lean_ctor_set(x_49, 1, x_33);
+x_50 = rt::lean_unbox_uint64(x_24);
+rt::lean_dec(x_24);
+rt::lean_ctor_set_uint64(x_49, 2 * core::mem::size_of::<usize>() as u32 + 0, x_50);
+x_51 = rt::lean_unbox_uint64(x_26);
+rt::lean_dec(x_26);
+rt::lean_ctor_set_uint64(x_49, 2 * core::mem::size_of::<usize>() as u32 + 8, x_51);
+x_52 = rt::lean_unbox_uint64(x_28);
+rt::lean_dec(x_28);
+rt::lean_ctor_set_uint64(x_49, 2 * core::mem::size_of::<usize>() as u32 + 16, x_52);
+match x_36 as u32 {
+0 => {
+rt::lean_ctor_set(x_35, 0, x_49);
+{ let t_0 = x_35; x_54 = t_0; }
+__blk = 3; continue 'body;
+}
+1 => {
+x_55 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_55, 0, x_49);
+{ let t_0 = x_55; x_54 = t_0; }
+__blk = 3; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+3 => {
+return x_54;
+}
+4 => {
+x_63 = 118u8;
+x_64 = rt::lean_uint8_dec_eq(x_62, x_63);
+match x_64 as u32 {
+0 => {
+rt::lean_dec(x_17);
+rt::lean_dec(x_16);
+rt::lean_dec(x_13);
+rt::lean_dec(x_12);
+rt::lean_dec(x_9);
+rt::lean_dec(x_8);
+rt::lean_dec(x_4);
+x_65 = rt::lean_box(0);
+return x_65;
+}
+1 => {
+x_66 = rt::lean_nat_dec_lt(x_7, x_2);
+match x_66 as u32 {
+0 => {
+x_67 = 0u8;
+{ let t_0 = x_67; x_19 = t_0; }
+__blk = 1; continue 'body;
+}
+1 => {
+x_68 = rt::lean_string_get_byte_fast(x_1, x_7);
+{ let t_0 = x_68; x_19 = t_0; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
 
 
 #[doc = "Lean type `Leanharbor.Token.Parsed` (module `Leanharbor.Token`)."]
@@ -1636,6 +2795,34 @@ unsafe impl rt::IntoLean<Parsed> for Parsed {
     }
 }
 
+#[doc = "Lean type `Leanharbor.Token.ParsedArray` (module `Leanharbor.Token`)."]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct ParsedArray { pub tenant: u64, pub user: u64, pub exp: u64, pub payload: Vec<u8>, pub sig: Vec<u8> }
+impl rt::ToLean for ParsedArray {
+    unsafe fn to_lean(self) -> Obj {
+        let ParsedArray { tenant: f0, user: f1, exp: f2, payload: f3, sig: f4 } = self; { let o = rt::lean_alloc_ctor(0, 2, 0 * core::mem::size_of::<usize>() as u32 + 24); rt::lean_ctor_set_uint64(o, 2 * core::mem::size_of::<usize>() as u32 + 0, f0); rt::lean_ctor_set_uint64(o, 2 * core::mem::size_of::<usize>() as u32 + 8, f1); rt::lean_ctor_set_uint64(o, 2 * core::mem::size_of::<usize>() as u32 + 16, f2); rt::lean_ctor_set(o, 0, rt::array_to_lean(f3, |v0| rt::ToLean::to_lean(v0))); rt::lean_ctor_set(o, 1, rt::array_to_lean(f4, |v0| rt::ToLean::to_lean(v0))); o }
+    }
+}
+impl rt::FromLean for ParsedArray {
+    unsafe fn from_lean(o: Obj) -> Self {
+        ParsedArray { tenant: rt::lean_ctor_get_uint64(o, 2 * core::mem::size_of::<usize>() as u32 + 0), user: rt::lean_ctor_get_uint64(o, 2 * core::mem::size_of::<usize>() as u32 + 8), exp: rt::lean_ctor_get_uint64(o, 2 * core::mem::size_of::<usize>() as u32 + 16), payload: rt::array_from_lean(rt::lean_ctor_get(o, 0), |v0| <u8 as rt::FromLean>::from_lean(v0)), sig: rt::array_from_lean(rt::lean_ctor_get(o, 1), |v0| <u8 as rt::FromLean>::from_lean(v0)) }
+    }
+}
+unsafe impl rt::LeanRepr for ParsedArray {
+    type Value = ParsedArray;
+    unsafe fn to_obj(value: ParsedArray) -> Obj {
+        rt::ToLean::to_lean(value)
+    }
+    unsafe fn from_obj(o: Obj) -> ParsedArray {
+        <ParsedArray as rt::FromLean>::from_lean(o)
+    }
+}
+unsafe impl rt::IntoLean<ParsedArray> for ParsedArray {
+    unsafe fn into_obj(self) -> Obj {
+        rt::ToLean::to_lean(self)
+    }
+}
+
 #[doc = "Lean: `Leanharbor.Token.parse : List UInt8 → Option Leanharbor.Token.Parsed` (module `Leanharbor.Token`)."]
 #[::leanfran::exported("Leanharbor.Token.parse")]
 pub fn parse(tok: Vec<u8>) -> Option<Parsed> {
@@ -1643,6 +2830,19 @@ pub fn parse(tok: Vec<u8>) -> Option<Parsed> {
         let __a0: Obj = rt::list_to_lean(tok, |v0| rt::ToLean::to_lean(v0));
         let __r: Obj = l_Leanharbor_Token_parse(__a0);
         let __v = rt::option_from_lean(__r, |v0| <Parsed as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
+#[doc = "Lean: `Leanharbor.Token.dotFrom : String → Nat → Nat` (module `Leanharbor.Token`)."]
+#[::leanfran::exported("Leanharbor.Token.dotFrom")]
+pub fn dot_from(s: impl AsRef<str>, i: rt::Nat) -> rt::Nat {
+    unsafe {
+        let __a0: Obj = rt::ToLean::to_lean(s.as_ref());
+        let __a1: Obj = rt::ToLean::to_lean(i);
+        let __r: Obj = l_Leanharbor_Token_dotFrom(__a0, __a1);
+        rt::lean_dec(__a0); let __v = <rt::Nat as rt::FromLean>::from_lean(__r);
         rt::lean_dec(__r);
         __v
     }
@@ -1686,6 +2886,21 @@ pub fn encode_payload(tenant: u64, user: u64, exp: u64) -> Vec<u8> {
     }
 }
 
+#[doc = "Lean: `Leanharbor.Token.copyBytes : String → Nat → Nat → Array UInt8 → Array UInt8` (module `Leanharbor.Token`)."]
+#[::leanfran::exported("Leanharbor.Token.copyBytes")]
+pub fn copy_bytes(s: impl AsRef<str>, i: rt::Nat, j: rt::Nat, acc: Vec<u8>) -> Vec<u8> {
+    unsafe {
+        let __a0: Obj = rt::ToLean::to_lean(s.as_ref());
+        let __a1: Obj = rt::ToLean::to_lean(i);
+        let __a2: Obj = rt::ToLean::to_lean(j);
+        let __a3: Obj = rt::array_to_lean(acc, |v0| rt::ToLean::to_lean(v0));
+        let __r: Obj = l_Leanharbor_Token_copyBytes(__a0, __a1, __a2, __a3);
+        rt::lean_dec(__a0); rt::lean_dec(__a2); let __v = rt::array_from_lean(__r, |v0| <u8 as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
 #[doc = "Lean: `Leanharbor.Token.digitsValue : List UInt8 → Nat` (module `Leanharbor.Token`)."]
 #[::leanfran::exported("Leanharbor.Token.digitsValue")]
 pub fn digits_value(l: Vec<u8>) -> rt::Nat {
@@ -1693,6 +2908,21 @@ pub fn digits_value(l: Vec<u8>) -> rt::Nat {
         let __a0: Obj = rt::list_to_lean(l, |v0| rt::ToLean::to_lean(v0));
         let __r: Obj = l_Leanharbor_Token_digitsValue(__a0);
         rt::lean_dec(__a0); let __v = <rt::Nat as rt::FromLean>::from_lean(__r);
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
+#[doc = "Lean: `Leanharbor.Token.digitsFrom : String → Nat → Nat → Nat → Nat` (module `Leanharbor.Token`)."]
+#[::leanfran::exported("Leanharbor.Token.digitsFrom")]
+pub fn digits_from(s: impl AsRef<str>, i: rt::Nat, j: rt::Nat, acc: rt::Nat) -> rt::Nat {
+    unsafe {
+        let __a0: Obj = rt::ToLean::to_lean(s.as_ref());
+        let __a1: Obj = rt::ToLean::to_lean(i);
+        let __a2: Obj = rt::ToLean::to_lean(j);
+        let __a3: Obj = rt::ToLean::to_lean(acc);
+        let __r: Obj = l_Leanharbor_Token_digitsFrom(__a0, __a1, __a2, __a3);
+        rt::lean_dec(__a0); rt::lean_dec(__a2); let __v = <rt::Nat as rt::FromLean>::from_lean(__r);
         rt::lean_dec(__r);
         __v
     }
@@ -1724,6 +2954,46 @@ pub fn join(payload: Vec<u8>, sig: Vec<u8>) -> Vec<u8> {
     }
 }
 
+#[doc = "Lean: `Leanharbor.Token.numberAt : String → Nat → Nat → Option UInt64` (module `Leanharbor.Token`)."]
+#[::leanfran::exported("Leanharbor.Token.numberAt")]
+pub fn number_at(s: impl AsRef<str>, i: rt::Nat, j: rt::Nat) -> Option<u64> {
+    unsafe {
+        let __a0: Obj = rt::ToLean::to_lean(s.as_ref());
+        let __a1: Obj = rt::ToLean::to_lean(i);
+        let __a2: Obj = rt::ToLean::to_lean(j);
+        let __r: Obj = l_Leanharbor_Token_numberAt(__a0, __a1, __a2);
+        rt::lean_dec(__a0); let __v = rt::option_from_lean(__r, |v0| <u64 as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
+#[doc = "Lean: `Leanharbor.Token.byteAt : String → Nat → UInt8` (module `Leanharbor.Token`)."]
+#[::leanfran::exported("Leanharbor.Token.byteAt")]
+pub fn byte_at(s: impl AsRef<str>, i: rt::Nat) -> u8 {
+    unsafe {
+        let __a0: Obj = rt::ToLean::to_lean(s.as_ref());
+        let __a1: Obj = rt::ToLean::to_lean(i);
+        let __r: u8 = l_Leanharbor_Token_byteAt(__a0, __a1);
+        rt::lean_dec(__a0); __r
+    }
+}
+
+#[doc = "Lean: `Leanharbor.Token.unhexAt : String → Nat → Nat → Array UInt8 → Option (Array UInt8)` (module `Leanharbor.Token`)."]
+#[::leanfran::exported("Leanharbor.Token.unhexAt")]
+pub fn unhex_at(s: impl AsRef<str>, i: rt::Nat, j: rt::Nat, acc: Vec<u8>) -> Option<Vec<u8>> {
+    unsafe {
+        let __a0: Obj = rt::ToLean::to_lean(s.as_ref());
+        let __a1: Obj = rt::ToLean::to_lean(i);
+        let __a2: Obj = rt::ToLean::to_lean(j);
+        let __a3: Obj = rt::array_to_lean(acc, |v0| rt::ToLean::to_lean(v0));
+        let __r: Obj = l_Leanharbor_Token_unhexAt(__a0, __a1, __a2, __a3);
+        rt::lean_dec(__a0); rt::lean_dec(__a2); let __v = rt::option_from_lean(__r, |v0| rt::array_from_lean(v0, |v1| <u8 as rt::FromLean>::from_lean(v1)));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
 #[doc = "Lean: `Leanharbor.Token.hexValue : UInt8 → Nat` (module `Leanharbor.Token`)."]
 #[::leanfran::exported("Leanharbor.Token.hexValue")]
 pub fn hex_value(c: u8) -> rt::Nat {
@@ -1748,6 +3018,16 @@ pub fn number(l: Vec<u8>) -> Option<u64> {
     }
 }
 
+#[doc = "Lean: `Leanharbor.Token.hexNibble : UInt8 → UInt8` (module `Leanharbor.Token`)."]
+#[::leanfran::exported("Leanharbor.Token.hexNibble")]
+pub fn hex_nibble(c: u8) -> u8 {
+    unsafe {
+        let __a0: u8 = c;
+        let __r: u8 = l_Leanharbor_Token_hexNibble(__a0);
+        __r
+    }
+}
+
 #[doc = "Lean: `Leanharbor.Token.splitDot : List UInt8 → List UInt8 → List UInt8 × Option (List UInt8)` (module `Leanharbor.Token`)."]
 #[::leanfran::exported("Leanharbor.Token.splitDot")]
 pub fn split_dot(acc: Vec<u8>, arg1: Vec<u8>) -> (Vec<u8>, Option<Vec<u8>>) {
@@ -1758,6 +3038,31 @@ pub fn split_dot(acc: Vec<u8>, arg1: Vec<u8>) -> (Vec<u8>, Option<Vec<u8>>) {
         let __v = rt::prod_from_lean(__r, |v0| rt::list_from_lean(v0, |v1| <u8 as rt::FromLean>::from_lean(v1)), |v0| rt::option_from_lean(v0, |v1| rt::list_from_lean(v1, |v2| <u8 as rt::FromLean>::from_lean(v2))));
         rt::lean_dec(__r);
         __v
+    }
+}
+
+#[doc = "Lean: `Leanharbor.Token.parseString : String → Option Leanharbor.Token.ParsedArray` (module `Leanharbor.Token`)."]
+#[::leanfran::exported("Leanharbor.Token.parseString")]
+pub fn parse_string(tok: impl AsRef<str>) -> Option<ParsedArray> {
+    unsafe {
+        let __a0: Obj = rt::ToLean::to_lean(tok.as_ref());
+        let __r: Obj = l_Leanharbor_Token_parseString(__a0);
+        rt::lean_dec(__a0); let __v = rt::option_from_lean(__r, |v0| <ParsedArray as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
+#[doc = "Lean: `Leanharbor.Token.isDecimal : Nat → String → Nat → Nat → Bool` (module `Leanharbor.Token`)."]
+#[::leanfran::exported("Leanharbor.Token.isDecimal")]
+pub fn is_decimal(n: rt::Nat, s: impl AsRef<str>, i: rt::Nat, j: rt::Nat) -> bool {
+    unsafe {
+        let __a0: Obj = rt::ToLean::to_lean(n);
+        let __a1: Obj = rt::ToLean::to_lean(s.as_ref());
+        let __a2: Obj = rt::ToLean::to_lean(i);
+        let __a3: Obj = rt::ToLean::to_lean(j);
+        let __r: u8 = l_Leanharbor_Token_isDecimal(__a0, __a1, __a2, __a3);
+        rt::lean_dec(__a1); (__r) != 0
     }
 }
 
@@ -1781,6 +3086,15 @@ pub mod lean {
             let __a0: Obj = rt::IntoLean::<rt::List<u8>>::into_obj(tok);
             let __r: Obj = l_Leanharbor_Token_parse(__a0);
             rt::Lean::from_owned(__r)
+        }
+    }
+    #[doc = "`dot_from` on handles. Lean: `Leanharbor.Token.dotFrom : String → Nat → Nat` (module `Leanharbor.Token`)."]
+    pub fn dot_from(s: impl rt::IntoLean<String>, i: impl rt::IntoLean<rt::Nat>) -> rt::Lean<rt::Nat> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(s);
+            let __a1: Obj = rt::IntoLean::<rt::Nat>::into_obj(i);
+            let __r: Obj = l_Leanharbor_Token_dotFrom(__a0, __a1);
+            rt::lean_dec(__a0); rt::Lean::from_owned(__r)
         }
     }
     #[doc = "`hex_byte` on handles. Lean: `Leanharbor.Token.hexByte : UInt8 → List UInt8` (module `Leanharbor.Token`)."]
@@ -1809,12 +3123,34 @@ pub mod lean {
             rt::Lean::from_owned(__r)
         }
     }
+    #[doc = "`copy_bytes` on handles. Lean: `Leanharbor.Token.copyBytes : String → Nat → Nat → Array UInt8 → Array UInt8` (module `Leanharbor.Token`)."]
+    pub fn copy_bytes(s: impl rt::IntoLean<String>, i: impl rt::IntoLean<rt::Nat>, j: impl rt::IntoLean<rt::Nat>, acc: impl rt::IntoLean<rt::Array<u8>>) -> rt::Lean<rt::Array<u8>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(s);
+            let __a1: Obj = rt::IntoLean::<rt::Nat>::into_obj(i);
+            let __a2: Obj = rt::IntoLean::<rt::Nat>::into_obj(j);
+            let __a3: Obj = rt::IntoLean::<rt::Array<u8>>::into_obj(acc);
+            let __r: Obj = l_Leanharbor_Token_copyBytes(__a0, __a1, __a2, __a3);
+            rt::lean_dec(__a0); rt::lean_dec(__a2); rt::Lean::from_owned(__r)
+        }
+    }
     #[doc = "`digits_value` on handles. Lean: `Leanharbor.Token.digitsValue : List UInt8 → Nat` (module `Leanharbor.Token`)."]
     pub fn digits_value(l: impl rt::IntoLean<rt::List<u8>>) -> rt::Lean<rt::Nat> {
         unsafe {
             let __a0: Obj = rt::IntoLean::<rt::List<u8>>::into_obj(l);
             let __r: Obj = l_Leanharbor_Token_digitsValue(__a0);
             rt::lean_dec(__a0); rt::Lean::from_owned(__r)
+        }
+    }
+    #[doc = "`digits_from` on handles. Lean: `Leanharbor.Token.digitsFrom : String → Nat → Nat → Nat → Nat` (module `Leanharbor.Token`)."]
+    pub fn digits_from(s: impl rt::IntoLean<String>, i: impl rt::IntoLean<rt::Nat>, j: impl rt::IntoLean<rt::Nat>, acc: impl rt::IntoLean<rt::Nat>) -> rt::Lean<rt::Nat> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(s);
+            let __a1: Obj = rt::IntoLean::<rt::Nat>::into_obj(i);
+            let __a2: Obj = rt::IntoLean::<rt::Nat>::into_obj(j);
+            let __a3: Obj = rt::IntoLean::<rt::Nat>::into_obj(acc);
+            let __r: Obj = l_Leanharbor_Token_digitsFrom(__a0, __a1, __a2, __a3);
+            rt::lean_dec(__a0); rt::lean_dec(__a2); rt::Lean::from_owned(__r)
         }
     }
     #[doc = "`unhex` on handles. Lean: `Leanharbor.Token.unhex : List UInt8 → List UInt8 → Option (List UInt8)` (module `Leanharbor.Token`)."]
@@ -1835,6 +3171,36 @@ pub mod lean {
             rt::lean_dec(__a1); rt::Lean::from_owned(__r)
         }
     }
+    #[doc = "`number_at` on handles. Lean: `Leanharbor.Token.numberAt : String → Nat → Nat → Option UInt64` (module `Leanharbor.Token`)."]
+    pub fn number_at(s: impl rt::IntoLean<String>, i: impl rt::IntoLean<rt::Nat>, j: impl rt::IntoLean<rt::Nat>) -> rt::Lean<Option<u64>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(s);
+            let __a1: Obj = rt::IntoLean::<rt::Nat>::into_obj(i);
+            let __a2: Obj = rt::IntoLean::<rt::Nat>::into_obj(j);
+            let __r: Obj = l_Leanharbor_Token_numberAt(__a0, __a1, __a2);
+            rt::lean_dec(__a0); rt::Lean::from_owned(__r)
+        }
+    }
+    #[doc = "`byte_at` on handles. Lean: `Leanharbor.Token.byteAt : String → Nat → UInt8` (module `Leanharbor.Token`)."]
+    pub fn byte_at(s: impl rt::IntoLean<String>, i: impl rt::IntoLean<rt::Nat>) -> rt::Lean<u8> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(s);
+            let __a1: Obj = rt::IntoLean::<rt::Nat>::into_obj(i);
+            let __r: u8 = l_Leanharbor_Token_byteAt(__a0, __a1);
+            rt::lean_dec(__a0); rt::Lean::from_owned(rt::lean_box(__r as usize))
+        }
+    }
+    #[doc = "`unhex_at` on handles. Lean: `Leanharbor.Token.unhexAt : String → Nat → Nat → Array UInt8 → Option (Array UInt8)` (module `Leanharbor.Token`)."]
+    pub fn unhex_at(s: impl rt::IntoLean<String>, i: impl rt::IntoLean<rt::Nat>, j: impl rt::IntoLean<rt::Nat>, acc: impl rt::IntoLean<rt::Array<u8>>) -> rt::Lean<Option<rt::Array<u8>>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(s);
+            let __a1: Obj = rt::IntoLean::<rt::Nat>::into_obj(i);
+            let __a2: Obj = rt::IntoLean::<rt::Nat>::into_obj(j);
+            let __a3: Obj = rt::IntoLean::<rt::Array<u8>>::into_obj(acc);
+            let __r: Obj = l_Leanharbor_Token_unhexAt(__a0, __a1, __a2, __a3);
+            rt::lean_dec(__a0); rt::lean_dec(__a2); rt::Lean::from_owned(__r)
+        }
+    }
     #[doc = "`hex_value` on handles. Lean: `Leanharbor.Token.hexValue : UInt8 → Nat` (module `Leanharbor.Token`)."]
     pub fn hex_value(c: impl rt::IntoLean<u8>) -> rt::Lean<rt::Nat> {
         unsafe {
@@ -1851,6 +3217,14 @@ pub mod lean {
             rt::lean_dec(__a0); rt::Lean::from_owned(__r)
         }
     }
+    #[doc = "`hex_nibble` on handles. Lean: `Leanharbor.Token.hexNibble : UInt8 → UInt8` (module `Leanharbor.Token`)."]
+    pub fn hex_nibble(c: impl rt::IntoLean<u8>) -> rt::Lean<u8> {
+        unsafe {
+            let __a0: u8 = { let o = rt::IntoLean::<u8>::into_obj(c); let v = rt::lean_unbox(o) as u8; rt::lean_dec(o); v };
+            let __r: u8 = l_Leanharbor_Token_hexNibble(__a0);
+            rt::Lean::from_owned(rt::lean_box(__r as usize))
+        }
+    }
     #[doc = "`split_dot` on handles. Lean: `Leanharbor.Token.splitDot : List UInt8 → List UInt8 → List UInt8 × Option (List UInt8)` (module `Leanharbor.Token`)."]
     pub fn split_dot(acc: impl rt::IntoLean<rt::List<u8>>, arg1: impl rt::IntoLean<rt::List<u8>>) -> rt::Lean<(rt::List<u8>, Option<rt::List<u8>>)> {
         unsafe {
@@ -1858,6 +3232,25 @@ pub mod lean {
             let __a1: Obj = rt::IntoLean::<rt::List<u8>>::into_obj(arg1);
             let __r: Obj = l_Leanharbor_Token_splitDot(__a0, __a1);
             rt::Lean::from_owned(__r)
+        }
+    }
+    #[doc = "`parse_string` on handles. Lean: `Leanharbor.Token.parseString : String → Option Leanharbor.Token.ParsedArray` (module `Leanharbor.Token`)."]
+    pub fn parse_string(tok: impl rt::IntoLean<String>) -> rt::Lean<Option<ParsedArray>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(tok);
+            let __r: Obj = l_Leanharbor_Token_parseString(__a0);
+            rt::lean_dec(__a0); rt::Lean::from_owned(__r)
+        }
+    }
+    #[doc = "`is_decimal` on handles. Lean: `Leanharbor.Token.isDecimal : Nat → String → Nat → Nat → Bool` (module `Leanharbor.Token`)."]
+    pub fn is_decimal(n: impl rt::IntoLean<rt::Nat>, s: impl rt::IntoLean<String>, i: impl rt::IntoLean<rt::Nat>, j: impl rt::IntoLean<rt::Nat>) -> rt::Lean<bool> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<rt::Nat>::into_obj(n);
+            let __a1: Obj = rt::IntoLean::<String>::into_obj(s);
+            let __a2: Obj = rt::IntoLean::<rt::Nat>::into_obj(i);
+            let __a3: Obj = rt::IntoLean::<rt::Nat>::into_obj(j);
+            let __r: u8 = l_Leanharbor_Token_isDecimal(__a0, __a1, __a2, __a3);
+            rt::lean_dec(__a1); rt::Lean::from_owned(rt::lean_box(__r as usize))
         }
     }
     #[doc = "`hex_digit` on handles. Lean: `Leanharbor.Token.hexDigit : Nat → UInt8` (module `Leanharbor.Token`)."]
@@ -1880,6 +3273,15 @@ pub mod local {
             let __a0: Obj = rt::IntoLean::<rt::List<u8>>::into_obj(tok);
             let __r: Obj = l_Leanharbor_Token_parse(__a0);
             rt::Local::from_owned(__r)
+        }
+    }
+    #[doc = "`dot_from` on handles. Lean: `Leanharbor.Token.dotFrom : String → Nat → Nat` (module `Leanharbor.Token`)."]
+    pub fn dot_from(s: impl rt::IntoLean<String>, i: impl rt::IntoLean<rt::Nat>) -> rt::Local<rt::Nat> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(s);
+            let __a1: Obj = rt::IntoLean::<rt::Nat>::into_obj(i);
+            let __r: Obj = l_Leanharbor_Token_dotFrom(__a0, __a1);
+            rt::lean_dec(__a0); rt::Local::from_owned(__r)
         }
     }
     #[doc = "`hex_byte` on handles. Lean: `Leanharbor.Token.hexByte : UInt8 → List UInt8` (module `Leanharbor.Token`)."]
@@ -1908,12 +3310,34 @@ pub mod local {
             rt::Local::from_owned(__r)
         }
     }
+    #[doc = "`copy_bytes` on handles. Lean: `Leanharbor.Token.copyBytes : String → Nat → Nat → Array UInt8 → Array UInt8` (module `Leanharbor.Token`)."]
+    pub fn copy_bytes(s: impl rt::IntoLean<String>, i: impl rt::IntoLean<rt::Nat>, j: impl rt::IntoLean<rt::Nat>, acc: impl rt::IntoLean<rt::Array<u8>>) -> rt::Local<rt::Array<u8>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(s);
+            let __a1: Obj = rt::IntoLean::<rt::Nat>::into_obj(i);
+            let __a2: Obj = rt::IntoLean::<rt::Nat>::into_obj(j);
+            let __a3: Obj = rt::IntoLean::<rt::Array<u8>>::into_obj(acc);
+            let __r: Obj = l_Leanharbor_Token_copyBytes(__a0, __a1, __a2, __a3);
+            rt::lean_dec(__a0); rt::lean_dec(__a2); rt::Local::from_owned(__r)
+        }
+    }
     #[doc = "`digits_value` on handles. Lean: `Leanharbor.Token.digitsValue : List UInt8 → Nat` (module `Leanharbor.Token`)."]
     pub fn digits_value(l: impl rt::IntoLean<rt::List<u8>>) -> rt::Local<rt::Nat> {
         unsafe {
             let __a0: Obj = rt::IntoLean::<rt::List<u8>>::into_obj(l);
             let __r: Obj = l_Leanharbor_Token_digitsValue(__a0);
             rt::lean_dec(__a0); rt::Local::from_owned(__r)
+        }
+    }
+    #[doc = "`digits_from` on handles. Lean: `Leanharbor.Token.digitsFrom : String → Nat → Nat → Nat → Nat` (module `Leanharbor.Token`)."]
+    pub fn digits_from(s: impl rt::IntoLean<String>, i: impl rt::IntoLean<rt::Nat>, j: impl rt::IntoLean<rt::Nat>, acc: impl rt::IntoLean<rt::Nat>) -> rt::Local<rt::Nat> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(s);
+            let __a1: Obj = rt::IntoLean::<rt::Nat>::into_obj(i);
+            let __a2: Obj = rt::IntoLean::<rt::Nat>::into_obj(j);
+            let __a3: Obj = rt::IntoLean::<rt::Nat>::into_obj(acc);
+            let __r: Obj = l_Leanharbor_Token_digitsFrom(__a0, __a1, __a2, __a3);
+            rt::lean_dec(__a0); rt::lean_dec(__a2); rt::Local::from_owned(__r)
         }
     }
     #[doc = "`unhex` on handles. Lean: `Leanharbor.Token.unhex : List UInt8 → List UInt8 → Option (List UInt8)` (module `Leanharbor.Token`)."]
@@ -1934,6 +3358,36 @@ pub mod local {
             rt::lean_dec(__a1); rt::Local::from_owned(__r)
         }
     }
+    #[doc = "`number_at` on handles. Lean: `Leanharbor.Token.numberAt : String → Nat → Nat → Option UInt64` (module `Leanharbor.Token`)."]
+    pub fn number_at(s: impl rt::IntoLean<String>, i: impl rt::IntoLean<rt::Nat>, j: impl rt::IntoLean<rt::Nat>) -> rt::Local<Option<u64>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(s);
+            let __a1: Obj = rt::IntoLean::<rt::Nat>::into_obj(i);
+            let __a2: Obj = rt::IntoLean::<rt::Nat>::into_obj(j);
+            let __r: Obj = l_Leanharbor_Token_numberAt(__a0, __a1, __a2);
+            rt::lean_dec(__a0); rt::Local::from_owned(__r)
+        }
+    }
+    #[doc = "`byte_at` on handles. Lean: `Leanharbor.Token.byteAt : String → Nat → UInt8` (module `Leanharbor.Token`)."]
+    pub fn byte_at(s: impl rt::IntoLean<String>, i: impl rt::IntoLean<rt::Nat>) -> rt::Local<u8> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(s);
+            let __a1: Obj = rt::IntoLean::<rt::Nat>::into_obj(i);
+            let __r: u8 = l_Leanharbor_Token_byteAt(__a0, __a1);
+            rt::lean_dec(__a0); rt::Local::from_owned(rt::lean_box(__r as usize))
+        }
+    }
+    #[doc = "`unhex_at` on handles. Lean: `Leanharbor.Token.unhexAt : String → Nat → Nat → Array UInt8 → Option (Array UInt8)` (module `Leanharbor.Token`)."]
+    pub fn unhex_at(s: impl rt::IntoLean<String>, i: impl rt::IntoLean<rt::Nat>, j: impl rt::IntoLean<rt::Nat>, acc: impl rt::IntoLean<rt::Array<u8>>) -> rt::Local<Option<rt::Array<u8>>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(s);
+            let __a1: Obj = rt::IntoLean::<rt::Nat>::into_obj(i);
+            let __a2: Obj = rt::IntoLean::<rt::Nat>::into_obj(j);
+            let __a3: Obj = rt::IntoLean::<rt::Array<u8>>::into_obj(acc);
+            let __r: Obj = l_Leanharbor_Token_unhexAt(__a0, __a1, __a2, __a3);
+            rt::lean_dec(__a0); rt::lean_dec(__a2); rt::Local::from_owned(__r)
+        }
+    }
     #[doc = "`hex_value` on handles. Lean: `Leanharbor.Token.hexValue : UInt8 → Nat` (module `Leanharbor.Token`)."]
     pub fn hex_value(c: impl rt::IntoLean<u8>) -> rt::Local<rt::Nat> {
         unsafe {
@@ -1950,6 +3404,14 @@ pub mod local {
             rt::lean_dec(__a0); rt::Local::from_owned(__r)
         }
     }
+    #[doc = "`hex_nibble` on handles. Lean: `Leanharbor.Token.hexNibble : UInt8 → UInt8` (module `Leanharbor.Token`)."]
+    pub fn hex_nibble(c: impl rt::IntoLean<u8>) -> rt::Local<u8> {
+        unsafe {
+            let __a0: u8 = { let o = rt::IntoLean::<u8>::into_obj(c); let v = rt::lean_unbox(o) as u8; rt::lean_dec(o); v };
+            let __r: u8 = l_Leanharbor_Token_hexNibble(__a0);
+            rt::Local::from_owned(rt::lean_box(__r as usize))
+        }
+    }
     #[doc = "`split_dot` on handles. Lean: `Leanharbor.Token.splitDot : List UInt8 → List UInt8 → List UInt8 × Option (List UInt8)` (module `Leanharbor.Token`)."]
     pub fn split_dot(acc: impl rt::IntoLean<rt::List<u8>>, arg1: impl rt::IntoLean<rt::List<u8>>) -> rt::Local<(rt::List<u8>, Option<rt::List<u8>>)> {
         unsafe {
@@ -1957,6 +3419,25 @@ pub mod local {
             let __a1: Obj = rt::IntoLean::<rt::List<u8>>::into_obj(arg1);
             let __r: Obj = l_Leanharbor_Token_splitDot(__a0, __a1);
             rt::Local::from_owned(__r)
+        }
+    }
+    #[doc = "`parse_string` on handles. Lean: `Leanharbor.Token.parseString : String → Option Leanharbor.Token.ParsedArray` (module `Leanharbor.Token`)."]
+    pub fn parse_string(tok: impl rt::IntoLean<String>) -> rt::Local<Option<ParsedArray>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(tok);
+            let __r: Obj = l_Leanharbor_Token_parseString(__a0);
+            rt::lean_dec(__a0); rt::Local::from_owned(__r)
+        }
+    }
+    #[doc = "`is_decimal` on handles. Lean: `Leanharbor.Token.isDecimal : Nat → String → Nat → Nat → Bool` (module `Leanharbor.Token`)."]
+    pub fn is_decimal(n: impl rt::IntoLean<rt::Nat>, s: impl rt::IntoLean<String>, i: impl rt::IntoLean<rt::Nat>, j: impl rt::IntoLean<rt::Nat>) -> rt::Local<bool> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<rt::Nat>::into_obj(n);
+            let __a1: Obj = rt::IntoLean::<String>::into_obj(s);
+            let __a2: Obj = rt::IntoLean::<rt::Nat>::into_obj(i);
+            let __a3: Obj = rt::IntoLean::<rt::Nat>::into_obj(j);
+            let __r: u8 = l_Leanharbor_Token_isDecimal(__a0, __a1, __a2, __a3);
+            rt::lean_dec(__a1); rt::Local::from_owned(rt::lean_box(__r as usize))
         }
     }
     #[doc = "`hex_digit` on handles. Lean: `Leanharbor.Token.hexDigit : Nat → UInt8` (module `Leanharbor.Token`)."]

@@ -19,8 +19,14 @@ Mathlib; the five control bytes that JSON has a short escape for are written wit
   at that quote, whatever follows. So no byte of `s` ends the string early.
 - `escape_no_control`: `escape s` has no byte below 0x20.
 
+- `writeArray_spec`: `writeArray`, which the shells call, writes into an array the bytes that
+  `write` writes for the tokens its tokens over strings stand for (`StrTok.toTok`, the bytes of
+  each string). `writeArray_value` is `write_value` for it.
+
 `escapeByte_spec`, `escape_spec`, `tokBytes_spec`, `isClose_spec`, `endsValue_spec` and
-`writeFrom_spec` restate the generated functions in other terms.
+`writeFrom_spec` restate the generated functions in other terms, as `pushEscapedByte_spec`,
+`pushEscaped_spec`, `pushDecimal_spec`, `pushTok_spec` and `writeArrayFrom_spec` do for the
+functions into an array.
 -/
 
 namespace Leanharbor.Json
@@ -363,5 +369,108 @@ theorem escape_no_control (s : List UInt8) : ∀ c ∈ escape s, 32 ≤ c.toNat 
   obtain ⟨x, -, hx⟩ := hc
   have h : ∀ n, n < 256 → ∀ c ∈ escByte n.toUInt8, 32 ≤ c.toNat := by decide +kernel
   exact h x.toNat x.toNat_lt c (by simpa using hx)
+
+/-! ## Into an array -/
+
+open Leanharbor.Token (bytesOf length_bytesOf getUTF8Byte_eq)
+
+/-- The token over lists that a token over strings stands for. -/
+def StrTok.toTok : StrTok → Tok
+  | .null => .null
+  | .bool b => .bool b
+  | .num n => .num n
+  | .str s => .str (bytesOf s)
+  | .key s => .key (bytesOf s)
+  | .arrOpen => .arrOpen
+  | .arrClose => .arrClose
+  | .objOpen => .objOpen
+  | .objClose => .objClose
+
+theorem pushEscapedByte_spec (acc : Array UInt8) (c : UInt8) :
+    (pushEscapedByte acc c).toList = acc.toList ++ escapeByte c := by
+  unfold pushEscapedByte escapeByte
+  by_cases h : 32 ≤ c ∧ c ≠ 34 ∧ c ≠ 92
+  · have h1 : c ≠ 34 := h.2.1
+    have h2 : c ≠ 92 := h.2.2
+    have h3 : ¬c < 32 := by have := h.1; simp [UInt8.le_iff_toNat_le, UInt8.lt_iff_toNat_lt] at *; omega
+    have h4 : c ≠ 8 := by intro e; subst e; exact h3 (by decide)
+    have h5 : c ≠ 12 := by intro e; subst e; exact h3 (by decide)
+    have h6 : c ≠ 10 := by intro e; subst e; exact h3 (by decide)
+    have h7 : c ≠ 13 := by intro e; subst e; exact h3 (by decide)
+    have h8 : c ≠ 9 := by intro e; subst e; exact h3 (by decide)
+    simp [h.1, h1, h2, h3, h4, h5, h6, h7, h8]
+  · have hf : (decide (32 ≤ c) && decide (c ≠ 34) && decide (c ≠ 92)) = false := by
+      simp only [Bool.and_eq_false_iff, decide_eq_false_iff_not]
+      by_cases a : 32 ≤ c <;> by_cases b : c ≠ 34 <;> simp_all
+    simp only [hf, Bool.false_eq_true, ite_false]
+    split <;> try simp
+    split <;> try simp
+    split <;> try simp
+    split <;> try simp
+    split <;> try simp
+    split <;> try simp
+    split <;> try simp
+    split
+    · simp
+    · rename_i a1 a2 a3 a4 a5 a6 a7 a8
+      exfalso
+      apply h
+      refine ⟨?_, a1, a2⟩
+      simp [UInt8.le_iff_toNat_le, UInt8.lt_iff_toNat_lt] at a8 ⊢
+      omega
+
+theorem pushEscaped_spec (s : String) (i : Nat) (acc : Array UInt8) :
+    (pushEscaped s i acc).toList = acc.toList ++ escape ((bytesOf s).drop i) := by
+  induction i, acc using pushEscaped.induct s with
+  | case1 i acc h ih =>
+    rw [pushEscaped, dite_eq_left h, ih, pushEscapedByte_spec, getUTF8Byte_eq]
+    conv => rhs; rw [List.drop_eq_getElem_cons (i := i) (by rw [length_bytesOf]; exact h)]
+    simp only [escape, List.flatMap_cons, List.append_assoc]
+  | case2 i acc h =>
+    rw [pushEscaped, dite_eq_right h, List.drop_eq_nil_of_le (by rw [length_bytesOf]; omega)]
+    simp [escape]
+
+theorem pushDecimal_spec (acc : Array UInt8) (n : Nat) :
+    (pushDecimal acc n).toList = acc.toList ++ Token.decimal n := by
+  induction n using Nat.strongRecOn with
+  | ind n ih =>
+    rw [pushDecimal]
+    by_cases h : n < 10
+    · simp [h, Token.decimal_lt h]
+    · simp [h, ih (n / 10) (by omega), Token.decimal_ge h]
+
+theorem pushTok_spec (acc : Array UInt8) (t : StrTok) :
+    (pushTok acc t).toList = acc.toList ++ tokBytes t.toTok := by
+  cases t with
+  | bool b => cases b <;> simp [pushTok, StrTok.toTok, tokBytes]
+  | num n => simp [pushTok, StrTok.toTok, tokBytes, pushDecimal_spec]
+  | str s => simp [pushTok, StrTok.toTok, tokBytes, pushEscaped_spec]
+  | key s => simp [pushTok, StrTok.toTok, tokBytes, pushEscaped_spec]
+  | _ => simp [pushTok, StrTok.toTok, tokBytes]
+
+theorem StrTok.isClose_toTok (t : StrTok) : t.isClose = Json.isClose t.toTok := by
+  cases t <;> rfl
+
+theorem StrTok.endsValue_toTok (t : StrTok) : t.endsValue = Json.endsValue t.toTok := by
+  cases t <;> rfl
+
+theorem writeArrayFrom_spec (acc : Array UInt8) (a : Bool) (ts : List StrTok) :
+    (writeArrayFrom acc a ts).toList = writeFrom acc.toList.reverse a (ts.map StrTok.toTok) := by
+  induction ts generalizing acc a with
+  | nil => simp [writeArrayFrom, writeFrom]
+  | cons t ts ih =>
+    rw [writeArrayFrom, ih, List.map_cons, writeFrom, pushTok_spec, StrTok.isClose_toTok,
+      StrTok.endsValue_toTok, List.reverseAux_eq]
+    congr 1
+    split <;> simp
+
+/-- `writeArray` writes what `write` writes. -/
+theorem writeArray_spec (ts : List StrTok) : (writeArray ts).toList = write (ts.map StrTok.toTok) := by
+  simp [writeArray, write, writeArrayFrom_spec, Array.emptyWithCapacity_eq]
+
+/-- `writeArray` of tokens that stand for the tokens of a JSON value prints the value. -/
+theorem writeArray_value {ts : List StrTok} {v : Value} (h : ts.map StrTok.toTok = v.toks) :
+    (writeArray ts).toList = v.print := by
+  rw [writeArray_spec, h, write_value]
 
 end Leanharbor.Json

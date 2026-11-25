@@ -16,9 +16,15 @@ decimals are proved without Mathlib.
 - `encodePayload_injective`: a payload determines the tenant, the user and the expiry, so a
   signature over it binds one reading.
 
+- `parseString_spec`: `parseString`, which the shells call, reads a `String` and gives what
+  `parse` gives for its bytes. `parseString_sound`, `parseString_canon` and `parseString_join`
+  restate `parse_sound`, `parse_canon` and `parse_join` for it.
+
 `splitDot_spec`, `digitsValue_spec`, `hexDigit_spec`, `hexValue_spec`, `join_spec`, the facts
 about `decimal`, and `number_decimal`, `number_sound`, `unhex_hex` and `unhex_sound` restate the
-generated functions in other terms.
+generated functions in other terms, as `splitDot_dotFrom`, `digitsFrom_spec`, `isDecimal_spec`,
+`numberAt_spec`, `hexNibble_toNat`, `unhexAt_spec`, `copyBytes_spec` and `byteAt_of_lt` do for the
+functions over strings.
 -/
 
 namespace Leanharbor.Token
@@ -361,5 +367,390 @@ theorem encodePayload_injective {t u e t' u' e' : UInt64}
   rw [h, parse_join] at h1
   simp only [Option.some.injEq, Parsed.mk.injEq] at h1
   exact ⟨h1.1.symm, h1.2.1.symm, h1.2.2.1.symm⟩
+
+/-! ## Over the bytes of a string -/
+
+/-- The bytes of a string. -/
+def bytesOf (s : String) : List UInt8 := s.toByteArray.data.toList
+
+/-- The bytes of `l` from `i` to `j`. -/
+def slice (l : List UInt8) (i j : Nat) : List UInt8 := (l.drop i).take (j - i)
+
+/-- `ParsedArray` with lists. -/
+def ParsedArray.toParsed (p : ParsedArray) : Parsed :=
+  ⟨p.tenant, p.user, p.exp, p.payload.toList, p.sig.toList⟩
+
+theorem length_bytesOf (s : String) : (bytesOf s).length = s.utf8ByteSize := by
+  simp only [bytesOf, Array.length_toList]
+  rfl
+
+theorem byteAt_of_lt {s : String} {i : Nat} (h : i < (bytesOf s).length) :
+    byteAt s i = (bytesOf s)[i] := by
+  have h' : i < s.utf8ByteSize := length_bytesOf s ▸ h
+  simp [byteAt, h', String.getUTF8Byte_eq_getElem, ByteArray.getElem_eq_getElem_data, bytesOf]
+
+/-- `byteAt` reads the bytes of the string, and 0 past them. -/
+theorem byteAt_spec (s : String) (i : Nat) : byteAt s i = (bytesOf s).getD i 0 := by
+  by_cases h : i < (bytesOf s).length
+  · rw [byteAt_of_lt h, List.getD_eq_getElem?_getD, List.getElem?_eq_getElem h]
+    rfl
+  · have h' : ¬i < s.utf8ByteSize := length_bytesOf s ▸ h
+    rw [byteAt, dite_eq_right h', List.getD_eq_getElem?_getD, List.getElem?_eq_none (by omega)]
+    rfl
+
+theorem getUTF8Byte_eq {s : String} {i : Nat} (h : i < s.utf8ByteSize) :
+    s.getUTF8Byte ⟨i⟩ h = (bytesOf s)[i]'(length_bytesOf s ▸ h) := by
+  simp [String.getUTF8Byte_eq_getElem, ByteArray.getElem_eq_getElem_data, bytesOf]
+
+theorem slice_self (l : List UInt8) (i : Nat) : slice l i i = [] := by
+  simp [slice]
+
+theorem slice_of_le {l : List UInt8} {i j : Nat} (h : j ≤ i) : slice l i j = [] := by
+  simp [slice, show j - i = 0 by omega]
+
+theorem slice_cons {l : List UInt8} {i j : Nat} (hij : i < j) (hj : j ≤ l.length) :
+    slice l i j = l[i]'(by omega) :: slice l (i + 1) j := by
+  simp only [slice]
+  rw [List.drop_eq_getElem_cons (by omega), show j - i = (j - (i + 1)) + 1 by omega,
+    List.take_succ_cons]
+
+theorem slice_snoc {l : List UInt8} {i j : Nat} (hij : i < j) (hj : j ≤ l.length) :
+    slice l i j = slice l i (j - 1) ++ [l[j - 1]'(by omega)] := by
+  simp only [slice]
+  rw [show j - i = (j - 1 - i) + 1 by omega, List.take_add_one]
+  simp [List.getElem?_drop, show i + (j - 1 - i) = j - 1 by omega, List.getElem?_eq_getElem (show j - 1 < l.length by omega)]
+
+theorem length_slice {l : List UInt8} {i j : Nat} (hj : j ≤ l.length) :
+    (slice l i j).length = j - i := by
+  simp [slice]; omega
+
+theorem dotFrom_le (s : String) (i : Nat) : dotFrom s i ≤ s.utf8ByteSize := by
+  induction i using dotFrom.induct s with
+  | case1 i h hb => rw [dotFrom]; simp [h, hb]; omega
+  | case2 i h hb ih => rw [dotFrom]; simp [h, hb, ih]
+  | case3 i h => rw [dotFrom]; simp [h]
+
+theorem le_dotFrom (s : String) {i : Nat} (hi : i ≤ s.utf8ByteSize) : i ≤ dotFrom s i := by
+  induction i using dotFrom.induct s with
+  | case1 i h hb => rw [dotFrom]; simp [h, hb]
+  | case2 i h hb ih => rw [dotFrom]; simp [h, hb]; have := ih (by omega); omega
+  | case3 i h => rw [dotFrom]; simp [h]; omega
+
+/-- `dotFrom` finds the dot that `splitDot` stops at. -/
+theorem splitDot_dotFrom (s : String) (acc : List UInt8) {i : Nat} (hi : i ≤ s.utf8ByteSize) :
+    splitDot acc ((bytesOf s).drop i) =
+      (acc.reverse ++ slice (bytesOf s) i (dotFrom s i),
+        if dotFrom s i < s.utf8ByteSize then some ((bytesOf s).drop (dotFrom s i + 1)) else none) := by
+  induction i using dotFrom.induct s generalizing acc with
+  | case1 i h hb =>
+    rw [dotFrom]
+    simp only [h, hb, dite_true, ite_true]
+    rw [List.drop_eq_getElem_cons (by rw [length_bytesOf]; exact h), splitDot]
+    rw [getUTF8Byte_eq] at hb
+    simp [hb, slice_self]
+  | case2 i h hb ih =>
+    have hk := le_dotFrom s (show i + 1 ≤ s.utf8ByteSize by omega)
+    have hl := length_bytesOf s
+    rw [dotFrom]
+    simp only [h, hb, dite_true, ite_false]
+    rw [List.drop_eq_getElem_cons (by omega), splitDot]
+    rw [getUTF8Byte_eq] at hb
+    simp only [hb, ite_false, ih _ (by omega)]
+    rw [slice_cons (show i < dotFrom s (i + 1) by omega) (by rw [hl]; exact dotFrom_le s _)]
+    simp
+  | case3 i h =>
+    have hi' : i = s.utf8ByteSize := by omega
+    subst hi'
+    have hd : (bytesOf s).drop s.utf8ByteSize = [] := by
+      rw [← length_bytesOf, List.drop_length]
+    rw [dotFrom, hd]
+    simp [splitDot, slice_self]
+
+theorem digitsFrom_spec (s : String) {i j : Nat} (acc : Nat) (hj : j ≤ s.utf8ByteSize) :
+    digitsFrom s i j acc =
+      (slice (bytesOf s) i j).foldl (fun acc c => acc * 10 + (c.toNat - 48)) acc := by
+  induction i, acc using digitsFrom.induct s j with
+  | case1 i acc h ih =>
+    have hl := length_bytesOf s
+    rw [digitsFrom, ite_eq_left h, ih, slice_cons h.1 (by omega), List.foldl_cons,
+      byteAt_of_lt (by omega)]
+  | case2 i acc h =>
+    rw [digitsFrom, ite_eq_right h, slice_of_le (by omega)]
+    rfl
+
+theorem isDecimal_spec (n : Nat) (s : String) {i j : Nat} (hj : j ≤ s.utf8ByteSize) :
+    isDecimal n s i j = true ↔ decimal n = slice (bytesOf s) i j := by
+  have hl := length_bytesOf s
+  induction n, j using isDecimal.induct i with
+  | case1 n j h =>
+    rw [isDecimal, ite_eq_left h, slice_of_le h]
+    simp [decimal_ne_nil]
+  | case2 n j h hn =>
+    rw [isDecimal, ite_eq_right h, ite_eq_left hn, decimal_lt hn, slice_cons (by omega) (by omega),
+      byteAt_of_lt (by omega)]
+    simp only [Bool.and_eq_true, decide_eq_true_eq, List.cons.injEq]
+    constructor
+    · rintro ⟨rfl, h2⟩
+      exact ⟨h2.symm, (slice_self _ _).symm⟩
+    · rintro ⟨h1, h2⟩
+      have := length_slice (l := bytesOf s) (i := i + 1) (j := j) (by omega)
+      rw [← h2] at this
+      exact ⟨by simp at this; omega, h1.symm⟩
+  | case3 n j h hn ih =>
+    rw [isDecimal, ite_eq_right h, ite_eq_right hn, decimal_ge hn, slice_snoc (by omega) (by omega),
+      byteAt_of_lt (by omega)]
+    simp only [Bool.and_eq_true, decide_eq_true_eq]
+    have ih' := ih (show j - 1 ≤ s.utf8ByteSize by omega)
+    constructor
+    · rintro ⟨h1, h2⟩
+      rw [ih'.mp h2, h1]
+    · intro h'
+      obtain ⟨h1, h2⟩ := List.append_inj' h' rfl
+      exact ⟨by simpa using h2.symm, ih'.mpr h1⟩
+
+theorem numberAt_spec (s : String) {i j : Nat} (hj : j ≤ s.utf8ByteSize) :
+    numberAt s i j = number (slice (bytesOf s) i j) := by
+  have hl := length_bytesOf s
+  have hd : digitsFrom s i j 0 = digitsValue (slice (bytesOf s) i j) := by
+    rw [digitsFrom_spec s 0 hj]; rfl
+  have hb : ∀ x : Nat, isDecimal x s i j = (decimal x == slice (bytesOf s) i j) := by
+    intro x
+    rw [Bool.eq_iff_iff, isDecimal_spec x s hj, beq_iff_eq]
+  simp only [numberAt, number, hd, hb, length_slice (show j ≤ (bytesOf s).length by omega)]
+
+theorem hexNibble_toNat_all : ∀ n, n < 256 → (hexNibble n.toUInt8).toNat = hexValue n.toUInt8 := by
+  set_option maxRecDepth 100000 in decide
+
+theorem hexNibble_toNat (c : UInt8) : (hexNibble c).toNat = hexValue c := by
+  simpa using hexNibble_toNat_all c.toNat c.toNat_lt
+
+theorem hexNibble_lt (c : UInt8) : hexNibble c < 16 ↔ hexValue c < 16 := by
+  rw [UInt8.lt_iff_toNat_lt, hexNibble_toNat]
+  rfl
+
+theorem hexNibble_pair {a b : UInt8} (ha : hexValue a < 16) (hb : hexValue b < 16) :
+    hexNibble a * 16 + hexNibble b = (hexValue a * 16 + hexValue b).toUInt8 := by
+  apply UInt8.toNat_inj.mp
+  rw [toNat_toUInt8 (by omega), UInt8.toNat_add, UInt8.toNat_mul, hexNibble_toNat, hexNibble_toNat]
+  simp
+  omega
+
+theorem unhexAt_spec (s : String) {i j : Nat} (acc : Array UInt8) (hj : j ≤ s.utf8ByteSize) :
+    (unhexAt s i j acc).map Array.toList = unhex acc.toList.reverse (slice (bytesOf s) i j) := by
+  have hl := length_bytesOf s
+  induction i, acc using unhexAt.induct s j with
+  | case1 i acc h1 h2 a b hab ih =>
+    rw [unhexAt, ite_eq_left h1, ite_eq_left h2]
+    simp only [a, b] at hab ih ⊢
+    have hab' := hab
+    simp only [Bool.and_eq_true, decide_eq_true_eq, hexNibble_lt] at hab'
+    rw [byteAt_of_lt (by omega), byteAt_of_lt (by omega)] at hab'
+    rw [ite_eq_left hab, ih, slice_cons h1 (by omega), slice_cons h2 (by omega), unhex,
+      ite_eq_left (by simp [hab'.1, hab'.2]), byteAt_of_lt (by omega), byteAt_of_lt (by omega),
+      hexNibble_pair hab'.1 hab'.2, Array.toList_push]
+    simp
+  | case2 i acc h1 h2 a b hab =>
+    rw [unhexAt, ite_eq_left h1, ite_eq_left h2]
+    simp only [a, b] at hab ⊢
+    have hab' := hab
+    simp only [Bool.and_eq_true, decide_eq_true_eq, hexNibble_lt] at hab'
+    rw [byteAt_of_lt (by omega), byteAt_of_lt (by omega)] at hab'
+    rw [ite_eq_right hab, slice_cons h1 (by omega), slice_cons h2 (by omega), unhex,
+      ite_eq_right (by simpa using hab')]
+    rfl
+  | case3 i acc h1 h2 =>
+    rw [unhexAt, ite_eq_left h1, ite_eq_right h2, slice_cons h1 (by omega), slice_of_le (by omega)]
+    simp [unhex]
+  | case4 i acc h1 =>
+    rw [unhexAt, ite_eq_right h1, slice_of_le (by omega)]
+    simp [unhex]
+
+theorem copyBytes_spec (s : String) {i j : Nat} (acc : Array UInt8) (hj : j ≤ s.utf8ByteSize) :
+    (copyBytes s i j acc).toList = acc.toList ++ slice (bytesOf s) i j := by
+  have hl := length_bytesOf s
+  induction i, acc using copyBytes.induct s j with
+  | case1 i acc h ih =>
+    rw [copyBytes, ite_eq_left h, ih, slice_cons h.1 (by omega), Array.toList_push,
+      byteAt_of_lt (by omega)]
+    simp
+  | case2 i acc h =>
+    rw [copyBytes, ite_eq_right h, slice_of_le (by omega)]
+    simp
+
+theorem dotFrom_dot (s : String) {i : Nat} (h : dotFrom s i < s.utf8ByteSize) :
+    (bytesOf s)[dotFrom s i]'(by rw [length_bytesOf]; exact h) = 46 := by
+  induction i using dotFrom.induct s with
+  | case1 i hi hb =>
+    have e : dotFrom s i = i := by rw [dotFrom]; simp [hi, hb]
+    simp only [e] at h ⊢
+    rw [getUTF8Byte_eq] at hb
+    exact hb
+  | case2 i hi hb ih =>
+    have e : dotFrom s i = dotFrom s (i + 1) := by rw [dotFrom]; simp [hi, hb]
+    simp only [e] at h ⊢
+    exact ih h
+  | case3 i hi =>
+    have e : dotFrom s i = s.utf8ByteSize := by rw [dotFrom]; simp [hi]
+    simp [e] at h
+
+theorem slice_v1 (s : String) {d : Nat} (hd : d ≤ s.utf8ByteSize) :
+    slice (bytesOf s) 0 d = [118, 49] ↔ (d = 2 ∧ byteAt s 0 = 118 ∧ byteAt s 1 = 49) := by
+  have hl := length_bytesOf s
+  constructor
+  · intro h
+    have hlen := length_slice (l := bytesOf s) (i := 0) (j := d) (by omega)
+    rw [h] at hlen
+    simp at hlen
+    subst hlen
+    rw [slice_cons (by omega) (by omega), slice_cons (by omega) (by omega)] at h
+    simp only [List.cons.injEq] at h
+    rw [byteAt_of_lt (by omega), byteAt_of_lt (by omega)]
+    exact ⟨rfl, h.1, h.2.1⟩
+  · rintro ⟨rfl, h0, h1⟩
+    rw [byteAt_of_lt (by omega)] at h0
+    rw [byteAt_of_lt (by omega)] at h1
+    rw [slice_cons (by omega) (by omega), slice_cons (by omega) (by omega), slice_self, h0, h1]
+
+theorem unhex_dot {acc l : List UInt8} (h : 46 ∈ l) : unhex acc l = none := by
+  cases hu : unhex acc l with
+  | none => rfl
+  | some r =>
+    obtain ⟨sig, _, rfl⟩ := unhex_some hu
+    exact absurd h (dot_not_mem_hex sig)
+
+theorem mem_slice {l : List UInt8} {i j k : Nat} (hik : i ≤ k) (hkj : k < j) (hj : j ≤ l.length) :
+    l[k]'(by omega) ∈ slice l i j := by
+  rw [slice, List.mem_iff_getElem]
+  refine ⟨k - i, by simp; omega, ?_⟩
+  simp only [List.getElem_take, List.getElem_drop]
+  congr 1
+  omega
+
+theorem parseString_spec (s : String) : (parseString s).map ParsedArray.toParsed = parse (bytesOf s) := by
+  have hl := length_bytesOf s
+  have split (i : Nat) (hi : i ≤ s.utf8ByteSize) := splitDot_dotFrom s [] hi
+  have e0 := split 0 (Nat.zero_le _)
+  simp only [List.drop_zero, List.reverse_nil, List.nil_append] at e0
+  unfold parseString parse
+  dsimp only
+  generalize hd0 : dotFrom s 0 = d0 at e0 ⊢
+  have le0 : d0 ≤ s.utf8ByteSize := hd0 ▸ dotFrom_le s 0
+  rw [e0]
+  by_cases h0 : d0 < s.utf8ByteSize
+  case neg => simp [h0]
+  have e1 := split (d0 + 1) (by omega)
+  simp only [List.reverse_nil, List.nil_append] at e1
+  generalize hd1 : dotFrom s (d0 + 1) = d1 at e1 ⊢
+  have le1 : d0 + 1 ≤ d1 := hd1 ▸ le_dotFrom s (by omega)
+  simp only [h0, ite_true, e1]
+  by_cases h1 : d1 < s.utf8ByteSize
+  case neg => simp [h1]
+  have e2 := split (d1 + 1) (by omega)
+  simp only [List.reverse_nil, List.nil_append] at e2
+  generalize hd2 : dotFrom s (d1 + 1) = d2 at e2 ⊢
+  have le2 : d1 + 1 ≤ d2 := hd2 ▸ le_dotFrom s (by omega)
+  simp only [h1, ite_true, e2]
+  by_cases h2 : d2 < s.utf8ByteSize
+  case neg => simp [h2]
+  have e3 := split (d2 + 1) (by omega)
+  simp only [List.reverse_nil, List.nil_append] at e3
+  generalize hd3 : dotFrom s (d2 + 1) = d3 at e3 ⊢
+  have le3 : d2 + 1 ≤ d3 := hd3 ▸ le_dotFrom s (by omega)
+  simp only [h2, ite_true, e3]
+  by_cases h3 : d3 < s.utf8ByteSize
+  case neg => simp [h3]
+  have e4 := split (d3 + 1) (by omega)
+  simp only [List.reverse_nil, List.nil_append] at e4
+  have hu := unhexAt_spec s (i := d3 + 1) (Array.emptyWithCapacity 32) (Nat.le_refl _)
+  simp only [Array.emptyWithCapacity_eq, List.reverse_nil] at hu
+  have le4 : d3 + 1 ≤ dotFrom s (d3 + 1) := le_dotFrom s (by omega)
+  simp only [h3, ite_true, e4]
+  by_cases h4 : dotFrom s (d3 + 1) < s.utf8ByteSize
+  · have hnone : unhexAt s (d3 + 1) s.utf8ByteSize (Array.emptyWithCapacity 32) = none := by
+      have hd := mem_slice (l := bytesOf s) le4 h4 (by omega)
+      rw [dotFrom_dot s h4] at hd
+      rw [unhex_dot hd] at hu
+      simpa using hu
+    simp only [h4, ite_true, Array.emptyWithCapacity_eq] at hnone ⊢
+    simp only [decide_true, Bool.and_self, ite_true, hnone]
+    split
+    · split <;> simp_all
+    · rfl
+  have he4 : dotFrom s (d3 + 1) = s.utf8ByteSize := by have := dotFrom_le s (d3 + 1); omega
+  simp only [ite_false, he4, Nat.lt_irrefl]
+  simp only [slice_v1 s le0]
+  simp only [decide_true, Bool.and_self, ite_true]
+  by_cases hv : d0 = 2 ∧ byteAt s 0 = 118 ∧ byteAt s 1 = 49
+  case neg =>
+    have hv' : ¬((decide (d0 = 2) && decide (byteAt s 0 = 118) && decide (byteAt s 1 = 49)) = true) := by
+      simp only [Bool.and_eq_true, decide_eq_true_eq]
+      exact fun ⟨⟨a, b⟩, c⟩ => hv ⟨a, b, c⟩
+    simp only [ite_eq_right hv', ite_eq_right hv, Option.map_none]
+  have hv' : (decide (d0 = 2) && decide (byteAt s 0 = 118) && decide (byteAt s 1 = 49)) = true := by
+    simp only [Bool.and_eq_true, decide_eq_true_eq]
+    exact ⟨⟨hv.1, hv.2.1⟩, hv.2.2⟩
+  simp only [ite_eq_left hv', ite_eq_left hv]
+  rw [numberAt_spec s (by omega), numberAt_spec s (by omega), numberAt_spec s (by omega)]
+  simp only [Array.emptyWithCapacity_eq] at hu ⊢
+  have c0 := copyBytes_spec s (i := 0) #[] (show d0 ≤ s.utf8ByteSize by omega)
+  have c1 := copyBytes_spec s (i := d0 + 1) ((copyBytes s 0 d0 #[]).push 46)
+    (show d1 ≤ s.utf8ByteSize by omega)
+  have c2 := copyBytes_spec s (i := d1 + 1)
+    ((copyBytes s (d0 + 1) d1 ((copyBytes s 0 d0 #[]).push 46)).push 46) (show d2 ≤ s.utf8ByteSize by omega)
+  have c3 := copyBytes_spec s (i := d2 + 1)
+    ((copyBytes s (d1 + 1) d2 ((copyBytes s (d0 + 1) d1 ((copyBytes s 0 d0 #[]).push 46)).push 46)).push 46)
+    (show d3 ≤ s.utf8ByteSize by omega)
+  generalize number (slice (bytesOf s) (d0 + 1) d1) = n1
+  generalize number (slice (bytesOf s) (d1 + 1) d2) = n2
+  generalize number (slice (bytesOf s) (d2 + 1) d3) = n3
+  cases hU : unhexAt s (d3 + 1) s.utf8ByteSize #[] with
+  | none =>
+    rw [hU] at hu
+    simp only [Option.map_none] at hu
+    rw [← hu]
+    rcases n1 with _ | t <;> rcases n2 with _ | u <;> rcases n3 with _ | e <;> rfl
+  | some sig =>
+    rw [hU] at hu
+    simp only [Option.map_some] at hu
+    rw [← hu]
+    rcases n1 with _ | t <;> rcases n2 with _ | u <;> rcases n3 with _ | e <;> try rfl
+    simp only [Option.map_some, ParsedArray.toParsed, c3, Array.toList_push, c2, c1, c0]
+    simp
+
+/-- A token that `parseString` accepts is `join` of its payload and its signature, and the payload
+is `encodePayload` of its fields. -/
+theorem parseString_sound (s : String) :
+    match parseString s with
+    | some p => p.payload.toList = encodePayload p.tenant p.user p.exp ∧
+        bytesOf s = join p.payload.toList p.sig.toList
+    | none => True := by
+  cases h : parseString s with
+  | none => trivial
+  | some p =>
+    have hp := parseString_spec s
+    rw [h, Option.map_some] at hp
+    exact parse_canon hp.symm
+
+theorem parseString_canon {s : String} {p : ParsedArray} (h : parseString s = some p) :
+    p.payload.toList = encodePayload p.tenant p.user p.exp ∧
+      bytesOf s = join p.payload.toList p.sig.toList := by
+  have := parseString_sound s
+  rw [h] at this
+  exact this
+
+/-- Parsing the string of an issued token gives back exactly what was signed. -/
+theorem parseString_join {s : String} (t u e : UInt64) (sig : List UInt8)
+    (h : bytesOf s = join (encodePayload t u e) sig) :
+    parseString s = some ⟨t, u, e, (encodePayload t u e).toArray, sig.toArray⟩ := by
+  have hp := parseString_spec s
+  rw [h, parse_join] at hp
+  cases hs : parseString s with
+  | none => rw [hs] at hp; cases hp
+  | some p =>
+    rw [hs, Option.map_some, Option.some.injEq] at hp
+    cases p
+    simp only [ParsedArray.toParsed, Parsed.mk.injEq] at hp
+    obtain ⟨rfl, rfl, rfl, hpl, hsl⟩ := hp
+    rw [← hpl, ← hsl]
 
 end Leanharbor.Token

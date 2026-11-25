@@ -250,8 +250,12 @@ Proved in Lean, about the definitions that are generated and run:
     hold; that the two are the same tree is not proved;
   - `stored_commit`: every commit goes through: the `SELECT` returns rows, they load, and every
     write set compiles and runs;
-- for the token functions `Leanharbor.Token` (`encodePayload`, `join`, `parse`), which the three
-  servers call to issue and to read every bearer token:
+- for the token functions `Leanharbor.Token` (`encodePayload`, `join`, `parseString`), which the
+  three servers call to issue and to read every bearer token:
+  - `parseString_spec`: `parseString`, which reads a token as a `String` and returns its fields
+    with the bytes in arrays, returns what `parse` returns for the bytes of the string. So the
+    theorems about `parse` below hold for what the servers run, and `parseString_join`,
+    `parseString_sound` and `parseString_canon` state them for `parseString`;
   - `parse_join`: parsing the token that `join` makes of `encodePayload t u e` and any signature
     gives back `t`, `u`, `e`, that payload and that signature;
   - `parse_sound`, `parse_canon`: a token that `parse` accepts is `join` of its payload and its
@@ -261,11 +265,16 @@ Proved in Lean, about the definitions that are generated and run:
     before the last dot;
   - `encodePayload_injective`: a payload determines the tenant, the user and the expiry, so a
     signature over it binds one reading;
-  - `splitDot_spec`, `hexValue_spec`, `join_spec`, `value_decimal`, `number_decimal` and the
-    others in `Leanharbor.Token.Proofs`: the generated helpers equal definitions written another
-    way, or read back what they write.
-- for the JSON writer `Leanharbor.Json` (`escape`, `write`), which writes every JSON body that
-  the three servers send:
+  - `splitDot_spec`, `hexValue_spec`, `join_spec`, `value_decimal`, `number_decimal`,
+    `splitDot_dotFrom`, `numberAt_spec`, `unhexAt_spec` and the others in
+    `Leanharbor.Token.Proofs`: the generated helpers equal definitions written another way, or
+    read back what they write.
+- for the JSON writer `Leanharbor.Json` (`escape`, `write`, `writeArray`), which writes every
+  JSON body that the three servers send:
+  - `writeArray_spec`: `writeArray`, which takes tokens whose strings are `String`s and writes
+    into an array, writes the bytes that `write` writes for the same tokens with the bytes of
+    each string. So the theorems about `write` below hold for what the servers run, and
+    `writeArray_value` states `write_value` for `writeArray`;
   - `write_value`: `write` of the tokens of a JSON value is `Value.print` of the value, a printer
     over the tree: `null`, `true`, `false`, numbers in decimal, quoted strings, and arrays and
     objects with their elements and members separated by commas;
@@ -276,14 +285,17 @@ Proved in Lean, about the definitions that are generated and run:
     bytes after that quote, whatever they are. So no byte of a string ends it early or changes
     what it reads as;
   - `escape_no_control`: an escaped string has no byte below 0x20;
-  - `escapeByte_spec`, `tokBytes_spec`, `writeFrom_spec`, `decimal_spec` and the others in
-    `Leanharbor.Json.Proofs`: the generated helpers equal definitions written another way.
-- for the calculator's bodies (`encodeReply`, `encodeError` in `Calculator.Kernel`), which the
-  three servers send for every accepted and refused command: `encodeReply_spec` and
-  `encodeError_spec` say that they are `Value.print` of `{"value": v}` and of
-  `{"error": name}`, with the names `overflow`, `underflow` and `division_by_zero`. The shells'
-  own bodies (401, 400, a reused idempotency key, a stopped engine) are `write` of the tokens of
-  `{"error": message}`, which each shell builds from the message.
+  - `escapeByte_spec`, `tokBytes_spec`, `writeFrom_spec`, `decimal_spec`, `pushEscaped_spec`,
+    `pushTok_spec` and the others in `Leanharbor.Json.Proofs`: the generated helpers equal
+    definitions written another way.
+- for the calculator's bodies (`encodeReplyArray`, `encodeErrorArray` in `Calculator.Kernel`),
+  which the three servers send for every accepted and refused command: `encodeReplyArray_spec`
+  and `encodeErrorArray_spec` say that they are `Value.print` of `{"value": v}` and of
+  `{"error": name}`, with the names `overflow`, `underflow` and `division_by_zero`, as
+  `encodeReply_spec` and `encodeError_spec` say of `encodeReply` and `encodeError`. The shells'
+  own bodies (401, 400, a reused idempotency key, a stopped engine) are the tokens of
+  `{"error": message}`, which each shell builds from the message, written by `writeArray` in
+  Rust and Python and by `write` in Go, whose messages need not be UTF-8.
 
 Checked by `make check`, not proved:
 
@@ -336,10 +348,13 @@ Checked by `make check`, not proved:
   Go as in the compiler compiled natively by Lean. 3,000 token lines (985 issued tokens, 845
   accepted and 1,170 rejected ones: edited bytes, leading zeros, signs, numbers of 2^64 and more,
   uppercase hexadecimal, missing and extra fields) give the same fields and bytes in the generated
-  Rust, Python and Go as in the token functions compiled natively by Lean. 3,000 token lists
-  (1,627 of them JSON documents; 4,903 strings and keys, of which 1,505 hold control bytes, 257 a
-  `"`, 265 a `\`, 2,992 bytes above 0x7f and 1,436 bytes that are not UTF-8) give the same bytes
-  in the generated Rust, Python and Go as in the writer compiled natively by Lean. The
+  Rust, Python and Go as in the token functions compiled natively by Lean, and the 1,916 tokens
+  to read that are UTF-8 give the same through `parseString` (Go's `ParseString` refuses the
+  others). 3,000 token lists (1,627 of them JSON documents; 4,903 strings and keys, of which 1,505
+  hold control bytes, 257 a `"`, 265 a `\`, 2,992 bytes above 0x7f and 1,436 bytes that are not
+  UTF-8) give the same bytes in the generated Rust, Python and Go as in the writer compiled
+  natively by Lean, and the 2,107 lists whose strings are UTF-8 give the same through
+  `writeArray`. The
   calculator's table functions are generated and compiled, and no differential test runs them.
 - **The Rust notes server answers the guard's refusals with 403.** `rust/notes/tests/http.rs`
   sends denied writes, a read of a note the caller may not see (404) and a bad body (422).
@@ -356,7 +371,7 @@ holds for each of them:
 | Translation | leanfran's Rust, Python and Go backends and their runtimes, rustc, CPython, the Go compiler, Lean's kernel |
 | Engine | the memory engine: one command at a time per process, under one lock; replies stored per idempotency key |
 | Authentication | HMAC-SHA256 and the constant-time comparison of tags, the secret and its storage, the system clock and the expiry check, reading the token from the `Authorization` header, the table of accepted tokens (a token accepted once is recognised by its exact bytes and only its expiry is checked again) |
-| Wire format | JSON decoding of commands (`Api`); that the shells send the bytes of `encodeReply` and `encodeError` as the body; the tokens each shell builds for its own `{"error": ...}` bodies |
+| Wire format | JSON decoding of commands (`Api`); that the shells send the bytes of `encodeReplyArray` and `encodeErrorArray` as the body; the tokens each shell builds for its own `{"error": ...}` bodies |
 | HTTP | axum, hyper and tokio (Rust); `http.server` (Python); `net/http` (Go) |
 | Call site | that a shell runs the notes' `transition`. `handle`, the kernel without the guard, is generated and public too, and the guard's theorems say nothing about a caller of `handle` |
 | SQL | that PostgreSQL reads the text as `lexName_quote`'s lexer reads a quoted name; that PostgreSQL, sent `render q` with its parameters, fails or does to the tables what `run` says, and that a `SELECT` returns the rows `selected` says in some order (`ORDER BY` is not modeled); that values compare as Lean values do (text character by character, bytes byte by byte); that the tables were made by `create` of the same schema, since `CREATE TABLE IF NOT EXISTS` keeps a table of that name as it is |

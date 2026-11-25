@@ -62,6 +62,28 @@ instance (priority := high) tokenArbitraryBytes : Arbitrary (List UInt8) where
        let n := (← Gen.choose Nat 0 8 (Nat.zero_le _)).val
        (List.range n).mapM fun _ => (Arbitrary.arbitrary : Gen UInt8))]
 
+/-- Tokens and tokens with one character replaced, inserted or removed, as strings, some with
+characters of two and three bytes. -/
+def stringEdit (cs : List Char) : Gen (List Char) := do
+  let i := (← Gen.choose Nat 0 cs.length (Nat.zero_le _)).val
+  let c ← Gen.elements ['.', '0', '1', '9', 'a', 'f', 'g', 'v', '+', 'é', '€'] (by decide)
+  Gen.elements [cs.take i ++ c :: cs.drop (i + 1), cs.take i ++ c :: cs.drop i, cs.take i ++ cs.drop (i + 1)]
+    (by simp)
+
+instance (priority := high) tokenArbitraryString : Arbitrary String where
+  arbitrary := Gen.frequency (pure "")
+    [(4, tokenText),
+     (4, return String.ofList (← stringEdit (← tokenText).toList)),
+     (1, Gen.elements ["", ".", "....", "v1", "é.€", "v1.0.0.0.", "v1.0.0.0.0"] (by decide))]
+
+instance (priority := high) tokenArbitraryArray : Arbitrary (Array UInt8) where
+  arbitrary := return (← (Arbitrary.arbitrary : Gen (List UInt8))).toArray
+
+instance (priority := high) tokenSampleableString : SampleableExt String := SampleableExt.selfContained
+
+instance (priority := high) tokenSampleableArray : SampleableExt (Array UInt8) :=
+  SampleableExt.selfContained
+
 instance (priority := high) tokenSampleableNat : SampleableExt Nat := SampleableExt.selfContained
 
 instance (priority := high) tokenSampleableUInt8 : SampleableExt UInt8 := SampleableExt.selfContained
@@ -89,3 +111,23 @@ instance (priority := high) tokenSampleableBytes : SampleableExt (List UInt8) :=
 
 #assay Leanharbor.Token.encodePayload Leanharbor.Token.parse
   using Leanharbor.Token.parse_join Leanharbor.Token.parse_sound
+
+#assay Leanharbor.Token.byteAt using Leanharbor.Token.byteAt_spec
+
+#assay Leanharbor.Token.dotFrom
+  using Leanharbor.Token.splitDot_dotFrom Leanharbor.Token.dotFrom_le Leanharbor.Token.dotFrom_dot
+
+#assay Leanharbor.Token.digitsFrom using Leanharbor.Token.digitsFrom_spec
+
+#assay Leanharbor.Token.isDecimal using Leanharbor.Token.isDecimal_spec
+
+#assay Leanharbor.Token.numberAt using Leanharbor.Token.numberAt_spec
+
+#assay Leanharbor.Token.hexNibble using Leanharbor.Token.hexNibble_toNat
+
+#assay Leanharbor.Token.unhexAt using Leanharbor.Token.unhexAt_spec
+
+#assay Leanharbor.Token.copyBytes using Leanharbor.Token.copyBytes_spec
+
+#assay Leanharbor.Token.parseString
+  using Leanharbor.Token.parseString_spec Leanharbor.Token.parseString_sound

@@ -45,12 +45,28 @@ func EncodeError(a0 Error) []uint8 {
 	return _lfCodec3.FromLean(_lfResult)
 }
 
+func EncodeErrorArray(a0 Error) []uint8 {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	v0 := _lfCodecError.ToLean(a0)
+	_lfResult := l_Calculator_Kernel_encodeErrorArray(uint8(rt.Lean_unbox(v0)))
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec5.FromLean(_lfResult)
+}
+
 func EncodeReply(a0 Reply) []uint8 {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	v0 := _lfCodecReply.ToLean(a0)
 	_lfResult := l_Calculator_Kernel_encodeReply(rt.Lean_unbox(v0))
 	defer rt.Lean_dec(_lfResult)
 	return _lfCodec3.FromLean(_lfResult)
+}
+
+func EncodeReplyArray(a0 Reply) []uint8 {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	v0 := _lfCodecReply.ToLean(a0)
+	_lfResult := l_Calculator_Kernel_encodeReplyArray(rt.Lean_unbox(v0))
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec5.FromLean(_lfResult)
 }
 
 func ErrorName(a0 Error) []uint8 {
@@ -61,12 +77,20 @@ func ErrorName(a0 Error) []uint8 {
 	return _lfCodec3.FromLean(_lfResult)
 }
 
+func ErrorString(a0 Error) string {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	v0 := _lfCodecError.ToLean(a0)
+	_lfResult := l_Calculator_Kernel_errorString(uint8(rt.Lean_unbox(v0)))
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec6.FromLean(_lfResult)
+}
+
 func ErrorToks(a0 Error) []LeanharborJsonTok {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	v0 := _lfCodecError.ToLean(a0)
 	_lfResult := l_Calculator_Kernel_errorToks(uint8(rt.Lean_unbox(v0)))
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec5.FromLean(_lfResult)
+	return _lfCodec7.FromLean(_lfResult)
 }
 
 func Init() Snapshot {
@@ -121,7 +145,7 @@ func ReplyToks(a0 Reply) []LeanharborJsonTok {
 	v0 := _lfCodecReply.ToLean(a0)
 	_lfResult := l_Calculator_Kernel_replyToks(rt.Lean_unbox(v0))
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec5.FromLean(_lfResult)
+	return _lfCodec7.FromLean(_lfResult)
 }
 
 func Store(a0 uint64, a1 uint64, a2 Memories) (Memories, error) {
@@ -168,7 +192,7 @@ func Transition(a0 Principal, a1 Snapshot, a2 Command) (leanfran.Pair[*Memory, R
 		err := &leanfran.ExceptError[Error]{Value: _lfCodecError.FromLean(rt.Lean_ctor_get(_lfResult, 0))}
 		return leanfran.Zero[leanfran.Pair[*Memory, Reply]](), err
 	}
-	return _lfCodec6.FromLean(rt.Lean_ctor_get(_lfResult, 0)), nil
+	return _lfCodec8.FromLean(rt.Lean_ctor_get(_lfResult, 0)), nil
 }
 
 func Upsert(a0 Memory, a1 Memories) (Memories, error) {
@@ -248,6 +272,20 @@ func (api lfScopedHandle) EncodeError(a0 leanfran.ValueInput[Error]) leanfran.Va
 	return leanfran.WrapValueIn[leanfran.ListType[uint8]](scope, raw)
 }
 
+func (lfHandle) EncodeErrorArray(a0 leanfran.ValueInput[Error]) leanfran.Value[leanfran.ArrayType[uint8]] {
+	return lfScopedHandle{}.EncodeErrorArray(a0)
+}
+
+func (api lfScopedHandle) EncodeErrorArray(a0 leanfran.ValueInput[Error]) leanfran.Value[leanfran.ArrayType[uint8]] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [1]leanfran.ValueUse{a0.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	raw := l_Calculator_Kernel_encodeErrorArray(uint8(rt.Lean_unbox(inputs[0].Lean())))
+	return leanfran.WrapValueIn[leanfran.ArrayType[uint8]](scope, raw)
+}
+
 func (lfHandle) EncodeReply(a0 leanfran.ValueInput[Reply]) leanfran.Value[leanfran.ListType[uint8]] {
 	return lfScopedHandle{}.EncodeReply(a0)
 }
@@ -262,6 +300,20 @@ func (api lfScopedHandle) EncodeReply(a0 leanfran.ValueInput[Reply]) leanfran.Va
 	return leanfran.WrapValueIn[leanfran.ListType[uint8]](scope, raw)
 }
 
+func (lfHandle) EncodeReplyArray(a0 leanfran.ValueInput[Reply]) leanfran.Value[leanfran.ArrayType[uint8]] {
+	return lfScopedHandle{}.EncodeReplyArray(a0)
+}
+
+func (api lfScopedHandle) EncodeReplyArray(a0 leanfran.ValueInput[Reply]) leanfran.Value[leanfran.ArrayType[uint8]] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [1]leanfran.ValueUse{a0.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	raw := l_Calculator_Kernel_encodeReplyArray(rt.Lean_unbox(inputs[0].Lean()))
+	return leanfran.WrapValueIn[leanfran.ArrayType[uint8]](scope, raw)
+}
+
 func (lfHandle) ErrorName(a0 leanfran.ValueInput[Error]) leanfran.Value[leanfran.ListType[uint8]] {
 	return lfScopedHandle{}.ErrorName(a0)
 }
@@ -274,6 +326,20 @@ func (api lfScopedHandle) ErrorName(a0 leanfran.ValueInput[Error]) leanfran.Valu
 	leanfran.AcquireValueInputs(inputs[:])
 	raw := l_Calculator_Kernel_errorName(uint8(rt.Lean_unbox(inputs[0].Lean())))
 	return leanfran.WrapValueIn[leanfran.ListType[uint8]](scope, raw)
+}
+
+func (lfHandle) ErrorString(a0 leanfran.ValueInput[Error]) leanfran.Value[string] {
+	return lfScopedHandle{}.ErrorString(a0)
+}
+
+func (api lfScopedHandle) ErrorString(a0 leanfran.ValueInput[Error]) leanfran.Value[string] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [1]leanfran.ValueUse{a0.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	raw := l_Calculator_Kernel_errorString(uint8(rt.Lean_unbox(inputs[0].Lean())))
+	return leanfran.WrapValueIn[string](scope, raw)
 }
 
 func (lfHandle) ErrorToks(a0 leanfran.ValueInput[Error]) leanfran.Value[leanfran.ListType[LeanharborJsonTok]] {

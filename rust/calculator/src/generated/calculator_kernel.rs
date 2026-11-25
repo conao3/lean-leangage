@@ -1831,6 +1831,70 @@ _ => rt::lean_internal_panic_unreachable(),
 } }
 }
 
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorString(mut x_1: u8) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+match x_1 as u32 {
+0 => {
+x_2 = l_Calculator_Kernel_errorString___closed__0();
+return x_2;
+}
+1 => {
+x_3 = l_Calculator_Kernel_errorString___closed__1();
+return x_3;
+}
+2 => {
+x_4 = l_Calculator_Kernel_errorString___closed__2();
+return x_4;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorString___closed__0_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("overflow", 8, 8);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorString___closed__0() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorString___closed__0_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorString___closed__1_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("underflow", 9, 9);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorString___closed__1() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorString___closed__1_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_errorString___closed__2_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("division_by_zero", 16, 16);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_errorString___closed__2() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_errorString___closed__2_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
 unsafe fn l_Calculator_Kernel_init_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
@@ -2545,6 +2609,763 @@ pub(crate) unsafe fn l_Calculator_Kernel_errorName___closed__11() -> Obj {
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_encodeErrorArray(mut x_1: u8) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: Obj = rt::lean_box(0);
+x_2 = rt::lean_box(7);
+x_3 = l_Calculator_Kernel_encodeErrorArray___closed__1();
+x_4 = l_Calculator_Kernel_errorString(x_1);
+x_5 = rt::lean_alloc_ctor(3, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_5, 0, x_4);
+x_6 = l_Calculator_Kernel_encodeReplyArray___closed__1();
+x_7 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_7, 0, x_5); rt::lean_ctor_set(x_7, 1, x_6);
+x_8 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_8, 0, x_3); rt::lean_ctor_set(x_8, 1, x_7);
+x_9 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_9, 0, x_2); rt::lean_ctor_set(x_9, 1, x_8);
+x_10 = l_Leanharbor_Json_writeArray(x_9);
+rt::lean_dec_ref(x_9);
+return x_10;
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_encodeErrorArray___closed__1_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_encodeErrorArray___closed__0();
+x_2 = rt::lean_alloc_ctor(4, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_2, 0, x_1);
+return x_2;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_encodeErrorArray___closed__1() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_encodeErrorArray___closed__1_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_encodeErrorArray___closed__0_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("error", 5, 5);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_encodeErrorArray___closed__0() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_encodeErrorArray___closed__0_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_encodeReplyArray___closed__1_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = rt::lean_box(8);
+x_3 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_3, 0, x_2); rt::lean_ctor_set(x_3, 1, x_1);
+return x_3;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_encodeReplyArray___closed__1() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_encodeReplyArray___closed__1_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_writeArray(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: u8 = 0;
+let mut x_5: Obj = rt::lean_box(0);
+x_2 = rt::lean_unsigned_to_nat(64u32);
+x_3 = rt::lean_mk_empty_array_with_capacity(x_2);
+x_4 = 0u8;
+x_5 = l_Leanharbor_Json_writeArrayFrom(x_3, x_4, x_1);
+return x_5;
+}
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_writeArrayFrom(mut x_1: Obj, mut x_2: u8, mut x_3: Obj) -> Obj {
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: u8 = 0;
+let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: u8 = 0;
+let mut x_12: u8 = 0;
+let mut x_13: Obj = rt::lean_box(0);
+let mut x_14: Obj = rt::lean_box(0);
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+match rt::lean_obj_tag(x_3) {
+0 => {
+return x_1;
+}
+1 => {
+x_4 = rt::lean_ctor_get(x_3, 0);
+x_5 = rt::lean_ctor_get(x_3, 1);
+match x_2 as u32 {
+0 => {
+{ let t_0 = x_1; x_7 = t_0; }
+__blk = 1; continue 'body;
+}
+1 => {
+x_11 = l_Leanharbor_Json_StrTok_isClose(x_4);
+match x_11 as u32 {
+0 => {
+x_12 = 44u8;
+x_13 = rt::lean_box(x_12 as usize);
+x_14 = rt::lean_array_push(x_1, x_13);
+{ let t_0 = x_14; x_7 = t_0; }
+__blk = 1; continue 'body;
+}
+1 => {
+{ let t_0 = x_1; x_7 = t_0; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_8 = l_Leanharbor_Json_pushTok(x_7, x_4);
+x_9 = l_Leanharbor_Json_StrTok_endsValue(x_4);
+{ let t_0 = x_8; let t_1 = x_9; let t_2 = x_5; x_1 = t_0; x_2 = t_1; x_3 = t_2; }
+__blk = 0; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_pushTok(mut x_1: Obj, mut x_2: Obj) -> Obj {
+let mut x_3: u8 = 0;
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: u8 = 0;
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: u8 = 0;
+let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_13: Obj = rt::lean_box(0);
+let mut x_14: u8 = 0;
+let mut x_15: u8 = 0;
+let mut x_16: Obj = rt::lean_box(0);
+let mut x_17: Obj = rt::lean_box(0);
+let mut x_18: u8 = 0;
+let mut x_19: Obj = rt::lean_box(0);
+let mut x_20: Obj = rt::lean_box(0);
+let mut x_21: u8 = 0;
+let mut x_22: Obj = rt::lean_box(0);
+let mut x_23: Obj = rt::lean_box(0);
+let mut x_24: u8 = 0;
+let mut x_25: Obj = rt::lean_box(0);
+let mut x_26: Obj = rt::lean_box(0);
+let mut x_27: u8 = 0;
+let mut x_28: Obj = rt::lean_box(0);
+let mut x_29: Obj = rt::lean_box(0);
+let mut x_30: u8 = 0;
+let mut x_31: Obj = rt::lean_box(0);
+let mut x_32: Obj = rt::lean_box(0);
+let mut x_33: u8 = 0;
+let mut x_34: Obj = rt::lean_box(0);
+let mut x_35: Obj = rt::lean_box(0);
+let mut x_36: u8 = 0;
+let mut x_37: Obj = rt::lean_box(0);
+let mut x_38: Obj = rt::lean_box(0);
+let mut x_39: u8 = 0;
+let mut x_40: Obj = rt::lean_box(0);
+let mut x_41: Obj = rt::lean_box(0);
+let mut x_42: u64 = 0;
+let mut x_43: Obj = rt::lean_box(0);
+let mut x_44: Obj = rt::lean_box(0);
+let mut x_45: Obj = rt::lean_box(0);
+let mut x_46: Obj = rt::lean_box(0);
+let mut x_47: u8 = 0;
+let mut x_48: Obj = rt::lean_box(0);
+let mut x_49: Obj = rt::lean_box(0);
+let mut x_50: Obj = rt::lean_box(0);
+let mut x_51: Obj = rt::lean_box(0);
+let mut x_52: Obj = rt::lean_box(0);
+let mut x_53: Obj = rt::lean_box(0);
+let mut x_54: Obj = rt::lean_box(0);
+let mut x_55: u8 = 0;
+let mut x_56: Obj = rt::lean_box(0);
+let mut x_57: Obj = rt::lean_box(0);
+let mut x_58: Obj = rt::lean_box(0);
+let mut x_59: Obj = rt::lean_box(0);
+let mut x_60: Obj = rt::lean_box(0);
+let mut x_61: u8 = 0;
+let mut x_62: Obj = rt::lean_box(0);
+let mut x_63: Obj = rt::lean_box(0);
+let mut x_64: u8 = 0;
+let mut x_65: Obj = rt::lean_box(0);
+let mut x_66: Obj = rt::lean_box(0);
+let mut x_67: u8 = 0;
+let mut x_68: Obj = rt::lean_box(0);
+let mut x_69: Obj = rt::lean_box(0);
+let mut x_70: u8 = 0;
+let mut x_71: Obj = rt::lean_box(0);
+let mut x_72: Obj = rt::lean_box(0);
+let mut x_73: u8 = 0;
+let mut x_74: Obj = rt::lean_box(0);
+let mut x_75: Obj = rt::lean_box(0);
+match rt::lean_obj_tag(x_2) {
+0 => {
+x_3 = 110u8;
+x_4 = rt::lean_box(x_3 as usize);
+x_5 = rt::lean_array_push(x_1, x_4);
+x_6 = 117u8;
+x_7 = rt::lean_box(x_6 as usize);
+x_8 = rt::lean_array_push(x_5, x_7);
+x_9 = 108u8;
+x_10 = rt::lean_box(x_9 as usize);
+x_11 = rt::lean_array_push(x_8, x_10);
+x_12 = rt::lean_box(x_9 as usize);
+x_13 = rt::lean_array_push(x_11, x_12);
+return x_13;
+}
+1 => {
+x_14 = rt::lean_ctor_get_uint8(x_2, 0 * core::mem::size_of::<usize>() as u32 + 0);
+match x_14 as u32 {
+0 => {
+x_15 = 102u8;
+x_16 = rt::lean_box(x_15 as usize);
+x_17 = rt::lean_array_push(x_1, x_16);
+x_18 = 97u8;
+x_19 = rt::lean_box(x_18 as usize);
+x_20 = rt::lean_array_push(x_17, x_19);
+x_21 = 108u8;
+x_22 = rt::lean_box(x_21 as usize);
+x_23 = rt::lean_array_push(x_20, x_22);
+x_24 = 115u8;
+x_25 = rt::lean_box(x_24 as usize);
+x_26 = rt::lean_array_push(x_23, x_25);
+x_27 = 101u8;
+x_28 = rt::lean_box(x_27 as usize);
+x_29 = rt::lean_array_push(x_26, x_28);
+return x_29;
+}
+1 => {
+x_30 = 116u8;
+x_31 = rt::lean_box(x_30 as usize);
+x_32 = rt::lean_array_push(x_1, x_31);
+x_33 = 114u8;
+x_34 = rt::lean_box(x_33 as usize);
+x_35 = rt::lean_array_push(x_32, x_34);
+x_36 = 117u8;
+x_37 = rt::lean_box(x_36 as usize);
+x_38 = rt::lean_array_push(x_35, x_37);
+x_39 = 101u8;
+x_40 = rt::lean_box(x_39 as usize);
+x_41 = rt::lean_array_push(x_38, x_40);
+return x_41;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+x_42 = rt::lean_ctor_get_uint64(x_2, 0 * core::mem::size_of::<usize>() as u32 + 0);
+x_43 = rt::lean_uint64_to_nat(x_42);
+x_44 = l_Leanharbor_Json_pushDecimal(x_1, x_43);
+rt::lean_dec(x_43);
+return x_44;
+}
+3 => {
+x_45 = rt::lean_ctor_get(x_2, 0);
+x_46 = rt::lean_unsigned_to_nat(0u32);
+x_47 = 34u8;
+x_48 = rt::lean_box(x_47 as usize);
+x_49 = rt::lean_array_push(x_1, x_48);
+x_50 = l_Leanharbor_Json_pushEscaped(x_45, x_46, x_49);
+x_51 = rt::lean_box(x_47 as usize);
+x_52 = rt::lean_array_push(x_50, x_51);
+return x_52;
+}
+4 => {
+x_53 = rt::lean_ctor_get(x_2, 0);
+x_54 = rt::lean_unsigned_to_nat(0u32);
+x_55 = 34u8;
+x_56 = rt::lean_box(x_55 as usize);
+x_57 = rt::lean_array_push(x_1, x_56);
+x_58 = l_Leanharbor_Json_pushEscaped(x_53, x_54, x_57);
+x_59 = rt::lean_box(x_55 as usize);
+x_60 = rt::lean_array_push(x_58, x_59);
+x_61 = 58u8;
+x_62 = rt::lean_box(x_61 as usize);
+x_63 = rt::lean_array_push(x_60, x_62);
+return x_63;
+}
+5 => {
+x_64 = 91u8;
+x_65 = rt::lean_box(x_64 as usize);
+x_66 = rt::lean_array_push(x_1, x_65);
+return x_66;
+}
+6 => {
+x_67 = 93u8;
+x_68 = rt::lean_box(x_67 as usize);
+x_69 = rt::lean_array_push(x_1, x_68);
+return x_69;
+}
+7 => {
+x_70 = 123u8;
+x_71 = rt::lean_box(x_70 as usize);
+x_72 = rt::lean_array_push(x_1, x_71);
+return x_72;
+}
+8 => {
+x_73 = 125u8;
+x_74 = rt::lean_box(x_73 as usize);
+x_75 = rt::lean_array_push(x_1, x_74);
+return x_75;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_pushDecimal(mut x_1: Obj, mut x_2: Obj) -> Obj {
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: u8 = 0;
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: u8 = 0;
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_13: Obj = rt::lean_box(0);
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: u8 = 0;
+let mut x_16: Obj = rt::lean_box(0);
+let mut x_17: Obj = rt::lean_box(0);
+x_3 = rt::lean_unsigned_to_nat(10u32);
+x_4 = rt::lean_nat_dec_lt(x_2, x_3);
+match x_4 as u32 {
+0 => {
+x_5 = rt::lean_nat_div(x_2, x_3);
+x_6 = l_Leanharbor_Json_pushDecimal(x_1, x_5);
+rt::lean_dec(x_5);
+x_7 = rt::lean_nat_mod(x_2, x_3);
+x_8 = rt::lean_unsigned_to_nat(48u32);
+x_9 = rt::lean_nat_add(x_7, x_8);
+rt::lean_dec(x_7);
+x_10 = rt::lean_uint8_of_nat(x_9);
+rt::lean_dec(x_9);
+x_11 = rt::lean_box(x_10 as usize);
+x_12 = rt::lean_array_push(x_6, x_11);
+return x_12;
+}
+1 => {
+x_13 = rt::lean_unsigned_to_nat(48u32);
+x_14 = rt::lean_nat_add(x_2, x_13);
+x_15 = rt::lean_uint8_of_nat(x_14);
+rt::lean_dec(x_14);
+x_16 = rt::lean_box(x_15 as usize);
+x_17 = rt::lean_array_push(x_1, x_16);
+return x_17;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_pushEscaped(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj) -> Obj {
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: u8 = 0;
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: u8 = 0;
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: Obj = rt::lean_box(0);
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+x_4 = rt::lean_string_utf8_byte_size(x_1);
+x_5 = rt::lean_nat_dec_lt(x_2, x_4);
+match x_5 as u32 {
+0 => {
+rt::lean_dec(x_2);
+return x_3;
+}
+1 => {
+x_6 = rt::lean_unsigned_to_nat(1u32);
+x_7 = rt::lean_nat_add(x_2, x_6);
+x_8 = rt::lean_string_get_byte_fast(x_1, x_2);
+x_9 = l_Leanharbor_Json_pushEscapedByte(x_3, x_8);
+{ let t_0 = x_1; let t_1 = x_7; let t_2 = x_9; x_1 = t_0; x_2 = t_1; x_3 = t_2; }
+__blk = 0; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_pushEscapedByte(mut x_1: Obj, mut x_2: u8) -> Obj {
+let mut x_3: u8 = 0;
+let mut x_5: u8 = 0;
+let mut x_6: u8 = 0;
+let mut x_7: u8 = 0;
+let mut x_8: u8 = 0;
+let mut x_9: u8 = 0;
+let mut x_10: u8 = 0;
+let mut x_11: u8 = 0;
+let mut x_12: u8 = 0;
+let mut x_13: u8 = 0;
+let mut x_14: u8 = 0;
+let mut x_15: u8 = 0;
+let mut x_16: u8 = 0;
+let mut x_17: u8 = 0;
+let mut x_18: u8 = 0;
+let mut x_19: u8 = 0;
+let mut x_20: Obj = rt::lean_box(0);
+let mut x_21: Obj = rt::lean_box(0);
+let mut x_22: Obj = rt::lean_box(0);
+let mut x_23: Obj = rt::lean_box(0);
+let mut x_24: u8 = 0;
+let mut x_25: Obj = rt::lean_box(0);
+let mut x_26: Obj = rt::lean_box(0);
+let mut x_27: u8 = 0;
+let mut x_28: Obj = rt::lean_box(0);
+let mut x_29: Obj = rt::lean_box(0);
+let mut x_30: Obj = rt::lean_box(0);
+let mut x_31: Obj = rt::lean_box(0);
+let mut x_32: Obj = rt::lean_box(0);
+let mut x_33: Obj = rt::lean_box(0);
+let mut x_34: Obj = rt::lean_box(0);
+let mut x_35: Obj = rt::lean_box(0);
+let mut x_36: u8 = 0;
+let mut x_37: Obj = rt::lean_box(0);
+let mut x_38: Obj = rt::lean_box(0);
+let mut x_39: Obj = rt::lean_box(0);
+let mut x_40: u8 = 0;
+let mut x_41: Obj = rt::lean_box(0);
+let mut x_42: Obj = rt::lean_box(0);
+let mut x_43: Obj = rt::lean_box(0);
+let mut x_44: Obj = rt::lean_box(0);
+let mut x_45: u8 = 0;
+let mut x_46: Obj = rt::lean_box(0);
+let mut x_47: Obj = rt::lean_box(0);
+let mut x_48: Obj = rt::lean_box(0);
+let mut x_49: Obj = rt::lean_box(0);
+let mut x_50: u8 = 0;
+let mut x_51: Obj = rt::lean_box(0);
+let mut x_52: Obj = rt::lean_box(0);
+let mut x_53: Obj = rt::lean_box(0);
+let mut x_54: Obj = rt::lean_box(0);
+let mut x_55: u8 = 0;
+let mut x_56: Obj = rt::lean_box(0);
+let mut x_57: Obj = rt::lean_box(0);
+let mut x_58: Obj = rt::lean_box(0);
+let mut x_59: Obj = rt::lean_box(0);
+let mut x_60: u8 = 0;
+let mut x_61: Obj = rt::lean_box(0);
+let mut x_62: Obj = rt::lean_box(0);
+let mut x_63: Obj = rt::lean_box(0);
+let mut x_64: Obj = rt::lean_box(0);
+let mut x_65: u8 = 0;
+let mut x_66: Obj = rt::lean_box(0);
+let mut x_67: Obj = rt::lean_box(0);
+let mut x_68: Obj = rt::lean_box(0);
+let mut x_69: Obj = rt::lean_box(0);
+let mut x_70: Obj = rt::lean_box(0);
+let mut x_71: Obj = rt::lean_box(0);
+let mut x_72: u8 = 0;
+let mut x_73: Obj = rt::lean_box(0);
+let mut x_74: Obj = rt::lean_box(0);
+let mut x_75: Obj = rt::lean_box(0);
+let mut x_76: Obj = rt::lean_box(0);
+let mut x_77: u8 = 0;
+let mut x_78: u8 = 0;
+let mut x_79: u8 = 0;
+let mut x_80: u8 = 0;
+let mut x_81: u8 = 0;
+let mut x_82: Obj = rt::lean_box(0);
+let mut x_83: Obj = rt::lean_box(0);
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+x_3 = 32u8;
+x_77 = rt::lean_uint8_dec_le(x_3, x_2);
+match x_77 as u32 {
+0 => {
+{ }
+__blk = 1; continue 'body;
+}
+1 => {
+x_78 = 34u8;
+x_79 = rt::lean_uint8_dec_eq(x_2, x_78);
+match x_79 as u32 {
+0 => {
+match x_77 as u32 {
+0 => {
+{ }
+__blk = 1; continue 'body;
+}
+1 => {
+x_80 = 92u8;
+x_81 = rt::lean_uint8_dec_eq(x_2, x_80);
+match x_81 as u32 {
+0 => {
+x_82 = rt::lean_box(x_2 as usize);
+x_83 = rt::lean_array_push(x_1, x_82);
+return x_83;
+}
+1 => {
+{ }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+{ }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_5 = 34u8;
+x_6 = rt::lean_uint8_dec_eq(x_2, x_5);
+match x_6 as u32 {
+0 => {
+x_7 = 92u8;
+x_8 = rt::lean_uint8_dec_eq(x_2, x_7);
+match x_8 as u32 {
+0 => {
+x_9 = 8u8;
+x_10 = rt::lean_uint8_dec_eq(x_2, x_9);
+match x_10 as u32 {
+0 => {
+x_11 = 12u8;
+x_12 = rt::lean_uint8_dec_eq(x_2, x_11);
+match x_12 as u32 {
+0 => {
+x_13 = 10u8;
+x_14 = rt::lean_uint8_dec_eq(x_2, x_13);
+match x_14 as u32 {
+0 => {
+x_15 = 13u8;
+x_16 = rt::lean_uint8_dec_eq(x_2, x_15);
+match x_16 as u32 {
+0 => {
+x_17 = 9u8;
+x_18 = rt::lean_uint8_dec_eq(x_2, x_17);
+match x_18 as u32 {
+0 => {
+x_19 = rt::lean_uint8_dec_lt(x_2, x_3);
+match x_19 as u32 {
+0 => {
+x_20 = rt::lean_box(x_2 as usize);
+x_21 = rt::lean_array_push(x_1, x_20);
+return x_21;
+}
+1 => {
+x_22 = rt::lean_box(x_7 as usize);
+x_23 = rt::lean_array_push(x_1, x_22);
+x_24 = 117u8;
+x_25 = rt::lean_box(x_24 as usize);
+x_26 = rt::lean_array_push(x_23, x_25);
+x_27 = 48u8;
+x_28 = rt::lean_box(x_27 as usize);
+x_29 = rt::lean_array_push(x_26, x_28);
+x_30 = rt::lean_box(x_27 as usize);
+x_31 = rt::lean_array_push(x_29, x_30);
+x_32 = rt::lean_uint8_to_nat(x_2);
+x_33 = rt::lean_unsigned_to_nat(16u32);
+x_34 = rt::lean_unsigned_to_nat(4u32);
+x_35 = rt::lean_nat_shiftr(x_32, x_34);
+x_36 = l_Leanharbor_Token_hexDigit(x_35);
+rt::lean_dec(x_35);
+x_37 = rt::lean_box(x_36 as usize);
+x_38 = rt::lean_array_push(x_31, x_37);
+x_39 = rt::lean_nat_mod(x_32, x_33);
+x_40 = l_Leanharbor_Token_hexDigit(x_39);
+rt::lean_dec(x_39);
+x_41 = rt::lean_box(x_40 as usize);
+x_42 = rt::lean_array_push(x_38, x_41);
+return x_42;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_43 = rt::lean_box(x_7 as usize);
+x_44 = rt::lean_array_push(x_1, x_43);
+x_45 = 116u8;
+x_46 = rt::lean_box(x_45 as usize);
+x_47 = rt::lean_array_push(x_44, x_46);
+return x_47;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_48 = rt::lean_box(x_7 as usize);
+x_49 = rt::lean_array_push(x_1, x_48);
+x_50 = 114u8;
+x_51 = rt::lean_box(x_50 as usize);
+x_52 = rt::lean_array_push(x_49, x_51);
+return x_52;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_53 = rt::lean_box(x_7 as usize);
+x_54 = rt::lean_array_push(x_1, x_53);
+x_55 = 110u8;
+x_56 = rt::lean_box(x_55 as usize);
+x_57 = rt::lean_array_push(x_54, x_56);
+return x_57;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_58 = rt::lean_box(x_7 as usize);
+x_59 = rt::lean_array_push(x_1, x_58);
+x_60 = 102u8;
+x_61 = rt::lean_box(x_60 as usize);
+x_62 = rt::lean_array_push(x_59, x_61);
+return x_62;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_63 = rt::lean_box(x_7 as usize);
+x_64 = rt::lean_array_push(x_1, x_63);
+x_65 = 98u8;
+x_66 = rt::lean_box(x_65 as usize);
+x_67 = rt::lean_array_push(x_64, x_66);
+return x_67;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_68 = rt::lean_box(x_7 as usize);
+x_69 = rt::lean_array_push(x_1, x_68);
+x_70 = rt::lean_box(x_7 as usize);
+x_71 = rt::lean_array_push(x_69, x_70);
+return x_71;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_72 = 92u8;
+x_73 = rt::lean_box(x_72 as usize);
+x_74 = rt::lean_array_push(x_1, x_73);
+x_75 = rt::lean_box(x_5 as usize);
+x_76 = rt::lean_array_push(x_74, x_75);
+return x_76;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_StrTok_endsValue(mut x_1: Obj) -> u8 {
+let mut x_2: u8 = 0;
+let mut x_3: u8 = 0;
+let mut x_4: u8 = 0;
+let mut x_5: u8 = 0;
+let mut x_6: u8 = 0;
+let mut x_7: u8 = 0;
+let mut x_8: u8 = 0;
+match rt::lean_obj_tag(x_1) {
+1 => {
+x_2 = 1u8;
+return x_2;
+}
+2 => {
+x_3 = 1u8;
+return x_3;
+}
+3 => {
+x_4 = 1u8;
+return x_4;
+}
+4 => {
+x_5 = 0u8;
+return x_5;
+}
+5 => {
+x_6 = 0u8;
+return x_6;
+}
+7 => {
+x_7 = 0u8;
+return x_7;
+}
+_ => {
+x_8 = 1u8;
+return x_8;
+}
+}
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_StrTok_isClose(mut x_1: Obj) -> u8 {
+let mut x_2: u8 = 0;
+let mut x_3: u8 = 0;
+let mut x_4: u8 = 0;
+match rt::lean_obj_tag(x_1) {
+6 => {
+x_2 = 1u8;
+return x_2;
+}
+8 => {
+x_3 = 1u8;
+return x_3;
+}
+_ => {
+x_4 = 0u8;
+return x_4;
+}
+}
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Calculator_Kernel_transition(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj) -> Obj {
 let mut x_5: u64 = 0;
 let mut x_6: u64 = 0;
@@ -2913,6 +3734,59 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 }
 
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_encodeReplyArray(mut x_1: u64) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+x_2 = rt::lean_box(7);
+x_3 = l_Calculator_Kernel_encodeReplyArray___closed__0();
+x_4 = rt::lean_alloc_ctor(2, 0, 0 * core::mem::size_of::<usize>() as u32 + 8);
+rt::lean_ctor_set_uint64(x_4, 0 * core::mem::size_of::<usize>() as u32 + 0, x_1);
+x_5 = l_Calculator_Kernel_encodeReplyArray___closed__1();
+x_6 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_6, 0, x_4); rt::lean_ctor_set(x_6, 1, x_5);
+x_7 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_7, 0, x_3); rt::lean_ctor_set(x_7, 1, x_6);
+x_8 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_8, 0, x_2); rt::lean_ctor_set(x_8, 1, x_7);
+x_9 = l_Leanharbor_Json_writeArray(x_8);
+rt::lean_dec_ref(x_8);
+return x_9;
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_encodeReplyArray___closed__0_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Kernel_instReprMemory_repr___redArg___closed__10();
+x_2 = rt::lean_alloc_ctor(4, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_2, 0, x_1);
+return x_2;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_encodeReplyArray___closed__0() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_encodeReplyArray___closed__0_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Kernel_instReprMemory_repr___redArg___closed__10_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("value", 5, 5);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_instReprMemory_repr___redArg___closed__10() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Kernel_instReprMemory_repr___redArg___closed__10_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
 
 #[doc = "Lean type `Calculator.Kernel.Memory` (module `Calculator.Kernel`)."]
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -3097,34 +3971,6 @@ unsafe impl rt::IntoLean<Reply> for Reply {
     }
 }
 
-#[doc = "Lean type `Calculator.Kernel.Snapshot` (module `Calculator.Kernel`)."]
-#[derive(Debug, Clone, PartialEq)]
-pub struct Snapshot { pub memories: Memories }
-impl rt::ToLean for Snapshot {
-    unsafe fn to_lean(self) -> Obj {
-        rt::ToLean::to_lean(self.memories)
-    }
-}
-impl rt::FromLean for Snapshot {
-    unsafe fn from_lean(o: Obj) -> Self {
-        Snapshot { memories: <Memories as rt::FromLean>::from_lean(o) }
-    }
-}
-unsafe impl rt::LeanRepr for Snapshot {
-    type Value = Snapshot;
-    unsafe fn to_obj(value: Snapshot) -> Obj {
-        rt::ToLean::to_lean(value)
-    }
-    unsafe fn from_obj(o: Obj) -> Snapshot {
-        <Snapshot as rt::FromLean>::from_lean(o)
-    }
-}
-unsafe impl rt::IntoLean<Snapshot> for Snapshot {
-    unsafe fn into_obj(self) -> Obj {
-        rt::ToLean::to_lean(self)
-    }
-}
-
 #[doc = "Lean type `Calculator.Kernel.Error` (module `Calculator.Kernel`)."]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Error {
@@ -3163,6 +4009,34 @@ unsafe impl rt::LeanRepr for Error {
     }
 }
 unsafe impl rt::IntoLean<Error> for Error {
+    unsafe fn into_obj(self) -> Obj {
+        rt::ToLean::to_lean(self)
+    }
+}
+
+#[doc = "Lean type `Calculator.Kernel.Snapshot` (module `Calculator.Kernel`)."]
+#[derive(Debug, Clone, PartialEq)]
+pub struct Snapshot { pub memories: Memories }
+impl rt::ToLean for Snapshot {
+    unsafe fn to_lean(self) -> Obj {
+        rt::ToLean::to_lean(self.memories)
+    }
+}
+impl rt::FromLean for Snapshot {
+    unsafe fn from_lean(o: Obj) -> Self {
+        Snapshot { memories: <Memories as rt::FromLean>::from_lean(o) }
+    }
+}
+unsafe impl rt::LeanRepr for Snapshot {
+    type Value = Snapshot;
+    unsafe fn to_obj(value: Snapshot) -> Obj {
+        rt::ToLean::to_lean(value)
+    }
+    unsafe fn from_obj(o: Obj) -> Snapshot {
+        <Snapshot as rt::FromLean>::from_lean(o)
+    }
+}
+unsafe impl rt::IntoLean<Snapshot> for Snapshot {
     unsafe fn into_obj(self) -> Obj {
         rt::ToLean::to_lean(self)
     }
@@ -3301,6 +4175,18 @@ pub fn memory_of(arg0: Memories, arg1: u64) -> u64 {
     }
 }
 
+#[doc = "Lean: `Calculator.Kernel.errorString : Calculator.Kernel.Error → String` (module `Calculator.Kernel`)."]
+#[::leanfran::exported("Calculator.Kernel.errorString")]
+pub fn error_string(arg0: Error) -> String {
+    unsafe {
+        let __a0: u8 = (arg0) as u8;
+        let __r: Obj = l_Calculator_Kernel_errorString(__a0);
+        let __v = <String as rt::FromLean>::from_lean(__r);
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
 #[doc = "Lean: `Calculator.Kernel.init : Calculator.Kernel.Snapshot` (module `Calculator.Kernel`)."]
 #[::leanfran::exported("Calculator.Kernel.init")]
 pub fn init() -> Snapshot {
@@ -3317,6 +4203,18 @@ pub fn error_toks(e: Error) -> Vec<LeanharborJsonTok> {
         let __a0: u8 = (e) as u8;
         let __r: Obj = l_Calculator_Kernel_errorToks(__a0);
         let __v = rt::list_from_lean(__r, |v0| <LeanharborJsonTok as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
+#[doc = "Lean: `Calculator.Kernel.encodeErrorArray : Calculator.Kernel.Error → Array UInt8` (module `Calculator.Kernel`)."]
+#[::leanfran::exported("Calculator.Kernel.encodeErrorArray")]
+pub fn encode_error_array(e: Error) -> Vec<u8> {
+    unsafe {
+        let __a0: u8 = (e) as u8;
+        let __r: Obj = l_Calculator_Kernel_encodeErrorArray(__a0);
+        let __v = rt::array_from_lean(__r, |v0| <u8 as rt::FromLean>::from_lean(v0));
         rt::lean_dec(__r);
         __v
     }
@@ -3438,6 +4336,18 @@ pub fn apply(snap: Snapshot, w: Option<Memory>) -> Snapshot {
     }
 }
 
+#[doc = "Lean: `Calculator.Kernel.encodeReplyArray : Calculator.Kernel.Reply → Array UInt8` (module `Calculator.Kernel`)."]
+#[::leanfran::exported("Calculator.Kernel.encodeReplyArray")]
+pub fn encode_reply_array(arg0: Reply) -> Vec<u8> {
+    unsafe {
+        let __a0: u64 = (arg0).v;
+        let __r: Obj = l_Calculator_Kernel_encodeReplyArray(__a0);
+        let __v = rt::array_from_lean(__r, |v0| <u8 as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
 #[doc = "The public functions on handles: an argument is a Rust value or a handle (`&Lean<L>`, `Lean<L>`, `&Local<L>`, `Local<L>`), and the result is a `Lean<L>` that keeps the Lean value without converting it and can be shared between threads."]
 #[allow(unused_imports, clippy::all)]
 pub mod lean {
@@ -3476,6 +4386,14 @@ pub mod lean {
             rt::lean_dec(__a0); rt::Lean::from_owned(rt::lean_box_uint64(__r))
         }
     }
+    #[doc = "`error_string` on handles. Lean: `Calculator.Kernel.errorString : Calculator.Kernel.Error → String` (module `Calculator.Kernel`)."]
+    pub fn error_string(arg0: impl rt::IntoLean<Error>) -> rt::Lean<String> {
+        unsafe {
+            let __a0: u8 = { let o = rt::IntoLean::<Error>::into_obj(arg0); let v = rt::lean_unbox(o) as u8; rt::lean_dec(o); v };
+            let __r: Obj = l_Calculator_Kernel_errorString(__a0);
+            rt::Lean::from_owned(__r)
+        }
+    }
     #[doc = "`init` on handles. Lean: `Calculator.Kernel.init : Calculator.Kernel.Snapshot` (module `Calculator.Kernel`)."]
     pub fn init() -> rt::Lean<Snapshot> {
         unsafe {
@@ -3489,6 +4407,14 @@ pub mod lean {
         unsafe {
             let __a0: u8 = { let o = rt::IntoLean::<Error>::into_obj(e); let v = rt::lean_unbox(o) as u8; rt::lean_dec(o); v };
             let __r: Obj = l_Calculator_Kernel_errorToks(__a0);
+            rt::Lean::from_owned(__r)
+        }
+    }
+    #[doc = "`encode_error_array` on handles. Lean: `Calculator.Kernel.encodeErrorArray : Calculator.Kernel.Error → Array UInt8` (module `Calculator.Kernel`)."]
+    pub fn encode_error_array(e: impl rt::IntoLean<Error>) -> rt::Lean<rt::Array<u8>> {
+        unsafe {
+            let __a0: u8 = { let o = rt::IntoLean::<Error>::into_obj(e); let v = rt::lean_unbox(o) as u8; rt::lean_dec(o); v };
+            let __r: Obj = l_Calculator_Kernel_encodeErrorArray(__a0);
             rt::Lean::from_owned(__r)
         }
     }
@@ -3574,6 +4500,14 @@ pub mod lean {
             rt::lean_dec(__a1); rt::Lean::from_owned(__r)
         }
     }
+    #[doc = "`encode_reply_array` on handles. Lean: `Calculator.Kernel.encodeReplyArray : Calculator.Kernel.Reply → Array UInt8` (module `Calculator.Kernel`)."]
+    pub fn encode_reply_array(arg0: impl rt::IntoLean<Reply>) -> rt::Lean<rt::Array<u8>> {
+        unsafe {
+            let __a0: u64 = { let o = rt::IntoLean::<Reply>::into_obj(arg0); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
+            let __r: Obj = l_Calculator_Kernel_encodeReplyArray(__a0);
+            rt::Lean::from_owned(__r)
+        }
+    }
 }
 
 #[doc = "The public functions on handles of one thread: like the module `lean`, with a `Local<L>` as the result. A value whose only handle is passed by value is updated in place."]
@@ -3614,6 +4548,14 @@ pub mod local {
             rt::lean_dec(__a0); rt::Local::from_owned(rt::lean_box_uint64(__r))
         }
     }
+    #[doc = "`error_string` on handles. Lean: `Calculator.Kernel.errorString : Calculator.Kernel.Error → String` (module `Calculator.Kernel`)."]
+    pub fn error_string(arg0: impl rt::IntoLean<Error>) -> rt::Local<String> {
+        unsafe {
+            let __a0: u8 = { let o = rt::IntoLean::<Error>::into_obj(arg0); let v = rt::lean_unbox(o) as u8; rt::lean_dec(o); v };
+            let __r: Obj = l_Calculator_Kernel_errorString(__a0);
+            rt::Local::from_owned(__r)
+        }
+    }
     #[doc = "`init` on handles. Lean: `Calculator.Kernel.init : Calculator.Kernel.Snapshot` (module `Calculator.Kernel`)."]
     pub fn init() -> rt::Local<Snapshot> {
         unsafe {
@@ -3627,6 +4569,14 @@ pub mod local {
         unsafe {
             let __a0: u8 = { let o = rt::IntoLean::<Error>::into_obj(e); let v = rt::lean_unbox(o) as u8; rt::lean_dec(o); v };
             let __r: Obj = l_Calculator_Kernel_errorToks(__a0);
+            rt::Local::from_owned(__r)
+        }
+    }
+    #[doc = "`encode_error_array` on handles. Lean: `Calculator.Kernel.encodeErrorArray : Calculator.Kernel.Error → Array UInt8` (module `Calculator.Kernel`)."]
+    pub fn encode_error_array(e: impl rt::IntoLean<Error>) -> rt::Local<rt::Array<u8>> {
+        unsafe {
+            let __a0: u8 = { let o = rt::IntoLean::<Error>::into_obj(e); let v = rt::lean_unbox(o) as u8; rt::lean_dec(o); v };
+            let __r: Obj = l_Calculator_Kernel_encodeErrorArray(__a0);
             rt::Local::from_owned(__r)
         }
     }
@@ -3710,6 +4660,14 @@ pub mod local {
             let __a1: Obj = rt::IntoLean::<Option<Memory>>::into_obj(w);
             let __r: Obj = l_Calculator_Kernel_apply(__a0, __a1);
             rt::lean_dec(__a1); rt::Local::from_owned(__r)
+        }
+    }
+    #[doc = "`encode_reply_array` on handles. Lean: `Calculator.Kernel.encodeReplyArray : Calculator.Kernel.Reply → Array UInt8` (module `Calculator.Kernel`)."]
+    pub fn encode_reply_array(arg0: impl rt::IntoLean<Reply>) -> rt::Local<rt::Array<u8>> {
+        unsafe {
+            let __a0: u64 = { let o = rt::IntoLean::<Reply>::into_obj(arg0); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
+            let __r: Obj = l_Calculator_Kernel_encodeReplyArray(__a0);
+            rt::Local::from_owned(__r)
         }
     }
 }

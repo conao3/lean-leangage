@@ -45,11 +45,12 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   `python/src/leanharbor_calculator/store.py` and `go/calculator/store/`. Each shell holds
   the token format generated from `Leanharbor.Token` (`leanharbor::token_format`,
   `python/src/leanharbor/token_format.py`, `go/leanharbor/token/`), and its `token` module calls
-  `encodePayload`, `join` and `parse` and computes and compares the HMAC and checks the expiry.
-  Each shell holds the JSON writer generated from `Leanharbor.Json` (`leanharbor::json_format`,
-  `python/src/leanharbor/json_format.py`, `go/leanharbor/jsonformat/`) and writes its own
-  `{"error": ...}` bodies with it; the calculator's replies and refusals are the bytes of the
-  generated `encodeReply` and `encodeError`.
+  `encodePayload`, `join` and `parseString` and computes and compares the HMAC and checks the
+  expiry. Each shell holds the JSON writer generated from `Leanharbor.Json`
+  (`leanharbor::json_format`, `python/src/leanharbor/json_format.py`, `go/leanharbor/jsonformat/`)
+  and writes its own `{"error": ...}` bodies with it (`writeArray`; `write` in Go); the
+  calculator's replies and refusals are the bytes of the generated `encodeReplyArray` and
+  `encodeErrorArray`.
 
 ## Lean and the host languages
 
@@ -70,6 +71,11 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   `python/src/leanharbor_calculator/store.py`, `go/*/kernel/`, `go/calculator/store/`, and the SQL
   compiler and the token format in each shell) are committed and never edited.
   Run `make generate` after changing `lean/`.
+- A function the shells call on every request takes `String`s and writes into an `Array UInt8`
+  with loops over indices (`parseString`, `writeArray`), so a call converts no list of bytes. Its
+  theorem states it equal to the definition over `List UInt8` (`parseString_spec`,
+  `writeArray_spec`), whose theorems then hold for it, and the differential tests run both.
+  `bench-bytes` in the Makefile times the two side by side.
 - Authorization is the guard of `Leanharbor.Authz`: a kernel's `handle` decides a command with no
   authorization of its own, and the generated `transition` is `handle` behind `guardViewed` with
   the kernel's policy. The shells call `transition` only.

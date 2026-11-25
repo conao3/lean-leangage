@@ -77,7 +77,52 @@ instance (priority := high) jsonArbitraryToks : Arbitrary (List Tok) where
        (List.range n).mapM fun _ => jsonTok),
      (1, return (← (Arbitrary.arbitrary : Gen Value)).toks)]
 
+def jsonChars : List Char :=
+  ['\x00', '\x01', '\x08', '\t', '\n', '\x0c', '\r', '\x1f', ' ', '"', '\\', '/', 'a', 'u', '\x7f', 'é',
+    '€', '😀']
+
+def jsonStr : Gen String := do
+  let n := (← Gen.choose Nat 0 6 (Nat.zero_le _)).val
+  return String.ofList (← (List.range n).mapM fun _ => Gen.elements jsonChars (by decide))
+
+instance (priority := high) jsonArbitraryString : Arbitrary String where
+  arbitrary := jsonStr
+
+def jsonStrTok : Gen StrTok := do
+  match (← Gen.choose Nat 0 9 (Nat.zero_le _)).val with
+  | 0 => return .null
+  | 1 => return .bool (← Arbitrary.arbitrary)
+  | 2 => return .num (← Arbitrary.arbitrary)
+  | 3 => return .str (← jsonStr)
+  | 4 => return .key (← jsonStr)
+  | 5 => return .arrOpen
+  | 6 => return .arrClose
+  | 7 => return .objOpen
+  | 8 => return .objClose
+  | _ => return .str (← jsonStr)
+
+instance (priority := high) jsonArbitraryStrTok : Arbitrary StrTok where
+  arbitrary := jsonStrTok
+
+instance (priority := high) jsonArbitraryStrToks : Arbitrary (List StrTok) where
+  arbitrary := do
+    let n := (← Gen.choose Nat 0 8 (Nat.zero_le _)).val
+    (List.range n).mapM fun _ => jsonStrTok
+
+instance (priority := high) jsonArbitraryArray : Arbitrary (Array UInt8) where
+  arbitrary := return (← jsonString).toArray
+
+instance (priority := high) jsonArbitraryNat : Arbitrary Nat where
+  arbitrary := Gen.frequency (pure 0)
+    [(3, return (← Gen.choose Nat 0 12 (Nat.zero_le _)).val),
+     (2, return (← Gen.choose Nat 0 100000 (Nat.zero_le _)).val),
+     (1, Gen.elements [9, 10, 99, 100, 18446744073709551615, 18446744073709551616] (by decide))]
+
 instance : Shrinkable Tok := ⟨fun _ => []⟩
+
+instance : Shrinkable StrTok := ⟨fun _ => []⟩
+
+instance (priority := high) jsonShrinkableStrToks : Shrinkable (List StrTok) := ⟨fun _ => []⟩
 
 instance : Shrinkable Value := ⟨fun _ => []⟩
 
@@ -95,6 +140,18 @@ instance (priority := high) jsonSampleableToks : SampleableExt (List Tok) := Sam
 
 instance (priority := high) jsonSampleableValue : SampleableExt Value := SampleableExt.selfContained
 
+instance (priority := high) jsonSampleableString : SampleableExt String := SampleableExt.selfContained
+
+instance (priority := high) jsonSampleableStrTok : SampleableExt StrTok := SampleableExt.selfContained
+
+instance (priority := high) jsonSampleableStrToks : SampleableExt (List StrTok) :=
+  SampleableExt.selfContained
+
+instance (priority := high) jsonSampleableArray : SampleableExt (Array UInt8) :=
+  SampleableExt.selfContained
+
+instance (priority := high) jsonSampleableNat : SampleableExt Nat := SampleableExt.selfContained
+
 #assay Leanharbor.Json.escapeByte Leanharbor.Json.escape
   using Leanharbor.Json.escapeByte_spec Leanharbor.Json.escape_spec Leanharbor.Json.lex_escape
     Leanharbor.Json.escape_no_control
@@ -107,3 +164,18 @@ instance (priority := high) jsonSampleableValue : SampleableExt Value := Samplea
 
 #assay Leanharbor.Json.writeFrom Leanharbor.Json.write
   using Leanharbor.Json.writeFrom_spec Leanharbor.Json.write_spec Leanharbor.Json.write_value
+
+#assay Leanharbor.Json.pushEscapedByte using Leanharbor.Json.pushEscapedByte_spec
+
+#assay Leanharbor.Json.pushEscaped using Leanharbor.Json.pushEscaped_spec
+
+#assay Leanharbor.Json.pushDecimal using Leanharbor.Json.pushDecimal_spec
+
+#assay Leanharbor.Json.pushTok using Leanharbor.Json.pushTok_spec
+
+#assay Leanharbor.Json.StrTok.isClose using Leanharbor.Json.StrTok.isClose_toTok
+
+#assay Leanharbor.Json.StrTok.endsValue using Leanharbor.Json.StrTok.endsValue_toTok
+
+#assay Leanharbor.Json.writeArrayFrom Leanharbor.Json.writeArray
+  using Leanharbor.Json.writeArrayFrom_spec Leanharbor.Json.writeArray_spec

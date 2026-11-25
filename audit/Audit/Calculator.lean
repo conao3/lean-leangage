@@ -25,3 +25,8 @@ deriving instance DecidableEq for
   using Calculator.Kernel.errorName_spec Calculator.Kernel.replyToks_spec
     Calculator.Kernel.errorToks_spec Calculator.Kernel.encodeReply_spec
     Calculator.Kernel.encodeError_spec
+
+#assay Calculator.Kernel.errorString Calculator.Kernel.encodeReplyArray Calculator.Kernel.encodeErrorArray
+  using Calculator.Kernel.errorString_spec Calculator.Kernel.encodeReplyArray_eq
+    Calculator.Kernel.encodeErrorArray_eq Calculator.Kernel.encodeReplyArray_spec
+    Calculator.Kernel.encodeErrorArray_spec
