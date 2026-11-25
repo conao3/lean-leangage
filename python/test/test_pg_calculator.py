@@ -2,7 +2,8 @@
 every command the reply the memory engine and Lean give it, alone and from many threads, and the
 commands of one tenant leave the rows of the others as they were; a server started again on the
 same database answers from the state the first one stored; and the Rust and the Python server
-share a database, each answering from the rows and the stored replies of the other."""
+share a database, each answering from the rows and the stored replies of the other, alone and at
+once."""
 
 import http.client
 import json
@@ -293,3 +294,61 @@ def test_rust_and_python_servers_share_a_database() -> None:
     finally:
         rust.stop()
         python.stop()
+
+
+# The Python engine and the Rust server, in a process of its own, on one database: after each
+# write of the one, the other reads the rows it wrote, on the read-only and on the write path,
+# while the engine reads no row after its own commits. Then each adds 1 from four threads at
+# once, and both read the sum.
+def test_engine_reads_what_the_rust_server_wrote() -> None:
+    name = "calculator_other_writer"
+    url = cluster().database(name)
+    run_lockdown(rust_server(), name)
+    rust = Server(rust_server(), url)
+    engine = PgEngine.connect(STORAGE, url, 4)
+    try:
+        who = kernel.Principal(org=3, user=1)
+        t = token(3, 1)
+        add = kernel.Command_apply(op=kernel.Op.add, arg=1)
+        assert engine.execute(who, kernel.Command_set(value=6)).v == 6
+        assert rust.post(t, {"cmd": "apply", "op": "add", "arg": 4}) == (
+            200,
+            '{"value":10}',
+        )
+        assert engine.execute(who, kernel.Command_get()).v == 10, "read-only path"
+        assert rust.post(t, {"cmd": "apply", "op": "mul", "arg": 3}) == (
+            200,
+            '{"value":30}',
+        )
+        assert engine.execute(who, add).v == 31, "write path"
+        assert rust.post(t, {"cmd": "get"}) == (200, '{"value":31}')
+        loads = engine.stats.loads
+        assert engine.execute(who, add).v == 32
+        assert engine.execute(who, kernel.Command_get()).v == 32
+        assert engine.stats.loads == loads, "its own commit remembered"
+
+        def from_engine() -> None:
+            for _ in range(50):
+                engine.execute(who, add)
+
+        def from_rust() -> None:
+            connection = http.client.HTTPConnection("127.0.0.1", rust.port)
+            headers = {"Authorization": f"Bearer {t}", "Content-Type": "application/json"}
+            body = json.dumps({"cmd": "apply", "op": "add", "arg": 1})
+            for _ in range(50):
+                connection.request("POST", "/rpc", body, headers)
+                response = connection.getresponse()
+                assert response.status == 200, response.read()
+                response.read()
+            connection.close()
+
+        with ThreadPoolExecutor(8) as pool:
+            futures = [pool.submit(from_engine) for _ in range(4)]
+            futures += [pool.submit(from_rust) for _ in range(4)]
+            for f in futures:
+                f.result()
+        assert engine.execute(who, kernel.Command_get()).v == 432
+        assert rust.post(t, {"cmd": "get"}) == (200, '{"value":432}')
+    finally:
+        rust.stop()
+        engine.close()

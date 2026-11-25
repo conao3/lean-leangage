@@ -1,6 +1,6 @@
 //! The calculator on the PostgreSQL engine: the commands of one tenant leave the rows of the
-//! others as they were, and the server started again on the same database answers from the
-//! state the first one stored.
+//! others as they were, the server started again on the same database answers from the state
+//! the first one stored, and an engine reads what a server in another process wrote.
 
 use std::collections::BTreeMap;
 use std::io::{Read, Write};
@@ -214,4 +214,71 @@ async fn state_survives_a_restart_of_the_server() {
         .unwrap()
         .get(0);
     assert_eq!(owner, OWNER);
+}
+
+/// The reply of an accepted command.
+async fn value(engine: &PgEngine<Calculator>, who: &kernel::Principal, cmd: kernel::Command) -> u64 {
+    match engine.execute(who.clone(), cmd, None).await {
+        Ok(Ok(reply)) => reply.v,
+        other => panic!("not accepted: {other:?}"),
+    }
+}
+
+// The engine and a server in a process of its own, on one database: after each write of the
+// one, the other reads the rows it wrote, on the read-only and on the write path, while the
+// engine reads no row after its own commits. Then each adds 1 from four clients at once, and
+// both read the sum.
+#[tokio::test(flavor = "multi_thread", worker_threads = 4)]
+async fn engine_reads_what_a_server_process_wrote() {
+    let name = "calculator_other_writer";
+    let url = cluster().database(name).await;
+    lockdown(name);
+    let server = std::sync::Arc::new(start(&url));
+    let engine = std::sync::Arc::new(
+        PgEngine::<Calculator>::connect(&url, 4, Config::default())
+            .await
+            .expect("the engine connects"),
+    );
+    let who = kernel::Principal { org: 3, user: 1 };
+    let t = token(3, 1);
+    let add = kernel::Command::Apply {
+        op: kernel::Op::Add,
+        arg: 1,
+    };
+    let ok = |v: u64| (200, format!(r#"{{"value":{v}}}"#));
+    assert_eq!(value(&engine, &who, kernel::Command::Set { value: 6 }).await, 6);
+    assert_eq!(post(&server, &t, r#"{"cmd":"apply","op":"add","arg":4}"#), ok(10));
+    assert_eq!(value(&engine, &who, kernel::Command::Get).await, 10, "read-only path");
+    assert_eq!(post(&server, &t, r#"{"cmd":"apply","op":"mul","arg":3}"#), ok(30));
+    assert_eq!(value(&engine, &who, add.clone()).await, 31, "write path");
+    assert_eq!(post(&server, &t, r#"{"cmd":"get"}"#), ok(31));
+    let loads = engine.stats().loads.load(std::sync::atomic::Ordering::Relaxed);
+    assert_eq!(value(&engine, &who, add.clone()).await, 32);
+    assert_eq!(value(&engine, &who, kernel::Command::Get).await, 32);
+    assert_eq!(
+        engine.stats().loads.load(std::sync::atomic::Ordering::Relaxed),
+        loads,
+        "its own commit remembered"
+    );
+    let mut tasks = Vec::new();
+    for _ in 0..4 {
+        let (engine, who, add) = (engine.clone(), who.clone(), add.clone());
+        tasks.push(tokio::spawn(async move {
+            for _ in 0..50 {
+                value(&engine, &who, add.clone()).await;
+            }
+        }));
+        let (server, t) = (server.clone(), t.clone());
+        tasks.push(tokio::task::spawn_blocking(move || {
+            for _ in 0..50 {
+                let (status, _) = post(&server, &t, r#"{"cmd":"apply","op":"add","arg":1}"#);
+                assert_eq!(status, 200);
+            }
+        }));
+    }
+    for task in tasks {
+        task.await.unwrap();
+    }
+    assert_eq!(value(&engine, &who, kernel::Command::Get).await, 432);
+    assert_eq!(post(&server, &t, r#"{"cmd":"get"}"#), ok(432));
 }

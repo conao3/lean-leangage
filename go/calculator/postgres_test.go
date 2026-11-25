@@ -403,3 +403,100 @@ func TestRustAndGoServersShareADatabase(t *testing.T) {
 		}
 	}
 }
+
+// The Go engine and the Rust server, in a process of its own, on one database: after each write
+// of the one, the other reads the rows it wrote, on the read-only and on the write path, while
+// the engine reads no row after its own commits. Then each adds 1 from four goroutines at once,
+// and both read the sum.
+func TestEngineReadsWhatTheRustServerWrote(t *testing.T) {
+	t.Parallel()
+	rustBinary := rustServer(t)
+	c := pgtest.Start(t)
+	name := "calculator_other_writer"
+	url := c.Database(t, name)
+	lockdown(t, rustBinary, c.AdminURL(name))
+	rust := startServer(t, "Rust", rustBinary, url)
+	engine, err := ConnectEngine(url, 4, pg.DefaultConfig())
+	if err != nil {
+		t.Fatalf("the engine connects: %v", err)
+	}
+	defer engine.Close()
+	who := kernel.Principal{Org: 3, User: 1}
+	token := bearer(3, 1)
+	add := kernel.CommandApply{Op: kernel.OpAdd(), Arg: 1}
+	value := func(cmd kernel.Command) uint64 {
+		t.Helper()
+		reply, refusal, err := engine.Execute(who, cmd, nil)
+		if err != nil || refusal != nil {
+			t.Fatalf("%v: %v %v", cmd, refusal, err)
+		}
+		return reply.V
+	}
+	expect := func(got response, want string) {
+		t.Helper()
+		if got != (response{200, want}) {
+			t.Fatalf("Rust server: got %+v, want %s", got, want)
+		}
+	}
+	if got := value(kernel.CommandSet{Value: 6}); got != 6 {
+		t.Fatalf("set: %d", got)
+	}
+	expect(rust.post(t, token, "", `{"cmd":"apply","op":"add","arg":4}`), `{"value":10}`)
+	if got := value(kernel.CommandGet{}); got != 10 {
+		t.Fatalf("read-only path: %d", got)
+	}
+	expect(rust.post(t, token, "", `{"cmd":"apply","op":"mul","arg":3}`), `{"value":30}`)
+	if got := value(add); got != 31 {
+		t.Fatalf("write path: %d", got)
+	}
+	expect(rust.post(t, token, "", `{"cmd":"get"}`), `{"value":31}`)
+	loads := engine.Stats().Loads
+	if value(add) != 32 || value(kernel.CommandGet{}) != 32 || engine.Stats().Loads != loads {
+		t.Fatalf("its own commit is not remembered: %+v", engine.Stats())
+	}
+	done := make(chan error, 8)
+	for range 4 {
+		go func() {
+			for range 50 {
+				if _, refusal, err := engine.Execute(who, add, nil); err != nil || refusal != nil {
+					done <- fmt.Errorf("engine: %v %v", refusal, err)
+					return
+				}
+			}
+			done <- nil
+		}()
+		go func() {
+			for range 50 {
+				req, err := http.NewRequest(http.MethodPost, "http://"+rust.addr+"/rpc",
+					strings.NewReader(`{"cmd":"apply","op":"add","arg":1}`))
+				if err != nil {
+					done <- err
+					return
+				}
+				req.Header.Set("Authorization", "Bearer "+token)
+				req.Header.Set("Content-Type", "application/json")
+				res, err := http.DefaultClient.Do(req)
+				if err != nil {
+					done <- err
+					return
+				}
+				_, _ = io.Copy(io.Discard, res.Body)
+				_ = res.Body.Close()
+				if res.StatusCode != 200 {
+					done <- fmt.Errorf("Rust server: %d", res.StatusCode)
+					return
+				}
+			}
+			done <- nil
+		}()
+	}
+	for range 8 {
+		if err := <-done; err != nil {
+			t.Fatal(err)
+		}
+	}
+	if got := value(kernel.CommandGet{}); got != 432 {
+		t.Fatalf("the sum: %d", got)
+	}
+	expect(rust.post(t, token, "", `{"cmd":"get"}`), `{"value":432}`)
+}
