@@ -348,8 +348,12 @@ Proved in Lean, about the definitions that are generated and run:
   - `accepted_no_nul`: no body that an accepted command writes holds NUL;
   - `stored_commit`: every commit goes through: the `SELECT`s return rows, they load, and every
     write set compiles and runs;
-- for the token functions `Leanharbor.Token` (`encodePayload`, `join`, `parse`), which the three
-  servers call to issue and to read every bearer token:
+- for the token functions `Leanharbor.Token` (`encodePayload`, `join`, `parseString`), which the
+  three servers call to issue and to read every bearer token:
+  - `parseString_spec`: `parseString`, which reads a token as a `String` and returns its fields
+    with the bytes in arrays, returns what `parse` returns for the bytes of the string. So the
+    theorems about `parse` below hold for what the servers run, and `parseString_join`,
+    `parseString_sound` and `parseString_canon` state them for `parseString`;
   - `parse_join`: parsing the token that `join` makes of `encodePayload t u e` and any signature
     gives back `t`, `u`, `e`, that payload and that signature;
   - `parse_sound`, `parse_canon`: a token that `parse` accepts is `join` of its payload and its
@@ -359,11 +363,16 @@ Proved in Lean, about the definitions that are generated and run:
     before the last dot;
   - `encodePayload_injective`: a payload determines the tenant, the user and the expiry, so a
     signature over it binds one reading;
-  - `splitDot_spec`, `hexValue_spec`, `join_spec`, `value_decimal`, `number_decimal` and the
-    others in `Leanharbor.Token.Proofs`: the generated helpers equal definitions written another
-    way, or read back what they write.
-- for the JSON writer `Leanharbor.Json` (`escape`, `write`), which writes every JSON body that
-  the three servers send:
+  - `splitDot_spec`, `hexValue_spec`, `join_spec`, `value_decimal`, `number_decimal`,
+    `splitDot_dotFrom`, `numberAt_spec`, `unhexAt_spec` and the others in
+    `Leanharbor.Token.Proofs`: the generated helpers equal definitions written another way, or
+    read back what they write.
+- for the JSON writer `Leanharbor.Json` (`escape`, `write`, `writeArray`), which writes every
+  JSON body that the three servers send:
+  - `writeArray_spec`: `writeArray`, which takes tokens whose strings are `String`s and writes
+    into an array, writes the bytes that `write` writes for the same tokens with the bytes of
+    each string. So the theorems about `write` below hold for what the servers run, and
+    `writeArray_value` states `write_value` for `writeArray`;
   - `write_value`: `write` of the tokens of a JSON value is `Value.print` of the value, a printer
     over the tree: `null`, `true`, `false`, numbers in decimal, quoted strings, and arrays and
     objects with their elements and members separated by commas;
@@ -374,14 +383,18 @@ Proved in Lean, about the definitions that are generated and run:
     bytes after that quote, whatever they are. So no byte of a string ends it early or changes
     what it reads as;
   - `escape_no_control`: an escaped string has no byte below 0x20;
-  - `escapeByte_spec`, `tokBytes_spec`, `writeFrom_spec`, `decimal_spec` and the others in
-    `Leanharbor.Json.Proofs`: the generated helpers equal definitions written another way.
-- for the calculator's bodies (`encodeReply`, `encodeError` in `Calculator.Kernel`), which the
-  three servers send for every accepted and refused command: `encodeReply_spec` and
-  `encodeError_spec` say that they are `Value.print` of `{"value": v}` and of
-  `{"error": name}`, with the names `overflow`, `underflow` and `division_by_zero`. The shells'
-  own bodies (401, 400, a reused idempotency key, a stopped engine) are `write` of the tokens of
-  `{"error": message}`, which each shell builds from the message.
+  - `escapeByte_spec`, `tokBytes_spec`, `writeFrom_spec`, `decimal_spec`, `pushEscaped_spec`,
+    `pushTok_spec` and the others in `Leanharbor.Json.Proofs`: the generated helpers equal
+    definitions written another way.
+- for the calculator's bodies (`encodeReplyArray`, `encodeErrorArray` in `Calculator.Kernel`),
+  which the three servers send for every accepted and refused command: `encodeReplyArray_spec`
+  and `encodeErrorArray_spec` say that they are `Value.print` of `{"value": v}` and of
+  `{"error": name}`, with the names `overflow`, `underflow` and `division_by_zero`, as
+  `encodeReply_spec` and `encodeError_spec` say of `encodeReply` and `encodeError`. The shells'
+  own bodies (401, 400, a reused idempotency key, a stopped engine) are the tokens of
+  `{"error": message}`, which each shell builds from the message, written by `writeArray` in
+  Rust and Python and by `write` in Go, where `WriteArray` returns an error for a string that is
+  not UTF-8.
 
 Checked by `make check`, not proved:
 
@@ -410,13 +423,12 @@ Checked by `make check`, not proved:
   calculator, it breaks `transition`, `apply`, `compute` and the three functions of the trie in
   167 ways: 132 are rejected, 5 behave the same on every input tried, 30 do not compile, and none
   satisfies every theorem while changing an output. The same holds for the 26 functions of the SQL
-  compiler (285 ways: 241 rejected, 6 behave the same, 38 do not compile), the 11 functions of
-  the token format (189 ways: 173 rejected, 2 behave the same, 14 do not compile), the 7
-  functions of the JSON writer (243 ways: 217 rejected, 26 do not compile), the 5 functions that
-  make the calculator's bodies (102 ways, all rejected), the 6 functions of the calculator's
-  table (25 ways: 20 rejected, 5 do not compile) and the 8 functions of the notes' tables (46
-  ways: 30 rejected, 16 do not compile). For the guard, it
-  breaks `guard`, `guardViewed` and the four checks in 28 ways and runs `guard_eq`,
+  compiler (285 ways: 241 rejected, 6 behave the same, 38 do not compile), the 20 functions of
+  the token format (453 ways: 387 rejected, 15 behave the same, 51 do not compile), the 15
+  functions of the JSON writer (524 ways: 454 rejected, 6 behave the same, 64 do not compile), the
+  8 functions that make the calculator's bodies (111 ways, all rejected), the 6 functions of the
+  calculator's table (25 ways: 20 rejected, 5 do not compile) and the 8 functions of the notes'
+  tables (46 ways: 30 rejected, 16 do not compile). For the guard, it breaks `guard`, `guardViewed` and the four checks in 28 ways and runs `guard_eq`,
   `guard_viewed_eq` and the lemmas about the checks on random kernels and policies: 22 are
   rejected, 1 behaves the same, 5 do not compile, and none satisfies every theorem while changing
   an output. For the notes, it breaks `handle`, `apply`, `applyWrite`, `textOk`, the four
@@ -441,12 +453,15 @@ Checked by `make check`, not proved:
   Go as in the compiler compiled natively by Lean. 3,000 token lines (985 issued tokens, 845
   accepted and 1,170 rejected ones: edited bytes, leading zeros, signs, numbers of 2^64 and more,
   uppercase hexadecimal, missing and extra fields) give the same fields and bytes in the generated
-  Rust, Python and Go as in the token functions compiled natively by Lean. 3,000 token lists
-  (1,627 of them JSON documents; 4,903 strings and keys, of which 1,505 hold control bytes, 257 a
-  `"`, 265 a `\`, 2,992 bytes above 0x7f and 1,436 bytes that are not UTF-8) give the same bytes
-  in the generated Rust, Python and Go as in the writer compiled natively by Lean. The Go and
-  the Python table functions of the notes are generated and compiled, a Python test imports them
-  and runs their `load` on a few rows, and no differential test runs them.
+  Rust, Python and Go as in the token functions compiled natively by Lean, and the 1,916 tokens
+  to read that are UTF-8 give the same through `parseString` (Go's `ParseString` refuses the
+  others). 3,000 token lists (1,627 of them JSON documents; 4,903 strings and keys, of which 1,505
+  hold control bytes, 257 a `"`, 265 a `\`, 2,992 bytes above 0x7f and 1,436 bytes that are not
+  UTF-8) give the same bytes in the generated Rust, Python and Go as in the writer compiled
+  natively by Lean, and the 2,107 lists whose strings are UTF-8 give the same through
+  `writeArray`. The Go and the Python table functions of the notes are generated and compiled, a
+  Python test imports them and runs their `load` on a few rows, and no differential test runs
+  them.
 - **PostgreSQL stores and reads the rows as the model says.** The same 5,000 calculator commands
   run through the Rust PostgreSQL engine, on a server that the tests start in a temporary
   directory, give the same output as through the memory engine and as in Lean. Along the
@@ -527,7 +542,7 @@ holds for each of them:
 | Translation | leanfran's Rust, Python and Go backends and their runtimes, rustc, CPython, the Go compiler, Lean's kernel |
 | Engine | the memory engine: one command at a time per process, under one lock; replies stored per idempotency key. The PostgreSQL engines: the seven items of their contract, PostgreSQL's `SERIALIZABLE` (its commits equal a serial order) and its deferrable read-only snapshot, the conversion of values to parameters and of columns back to values, the stored form of replies (`Storage::encode_reply` and `decode_reply`, `Storage.encode_reply`: eight bytes for the calculator, the JSON body read back with serde_json for the notes), and that the engine's role is not a superuser and does not own the tables. In Rust, tokio-postgres and deadpool-postgres, and each value a parameter of the type PostgreSQL inferred. In Python, psycopg and the libpq it bundles, the engine's pool, each value a parameter of the type of its kind, and that the generated Python computes what Lean computes when several threads call it at once, as the PostgreSQL engine does and the memory engine, under its lock, does not. In Go, pgx and pgxpool, which take the `PG*` environment variables as the defaults of the connection string, each value a parameter of the type PostgreSQL inferred, and that the generated Go computes what Lean computes when several goroutines call it at once, as the PostgreSQL engine does outside `Scoped` |
 | Authentication | HMAC-SHA256 and the constant-time comparison of tags, the secret and its storage, the system clock and the expiry check, reading the token from the `Authorization` header, the table of accepted tokens (a token accepted once is recognised by its exact bytes and only its expiry is checked again) |
-| Wire format | JSON decoding of commands (`Api`); the fingerprint of a command under an idempotency key (`Api`; the Python and the Go calculators write the bytes of the Rust calculator's, its `Debug` form); that the shells send the bytes of `encodeReply` and `encodeError` as the body; the tokens each shell builds for its own `{"error": ...}` bodies |
+| Wire format | JSON decoding of commands (`Api`); the fingerprint of a command under an idempotency key (`Api`; the Python and the Go calculators write the bytes of the Rust calculator's, its `Debug` form); that the shells send the bytes of `encodeReplyArray` and `encodeErrorArray` as the body; the tokens each shell builds for its own `{"error": ...}` bodies |
 | HTTP | axum, hyper and tokio (Rust); `http.server` (Python); `net/http` (Go) |
 | Call site | that a shell runs the notes' `transition`. `handle`, the kernel without the guard, is generated and public too, and the guard's theorems say nothing about a caller of `handle` |
 | SQL | that PostgreSQL reads the text as `lexName_quote`'s lexer reads a quoted name; that PostgreSQL, sent `render q` with its parameters, fails or does to the tables what `run` says, and that a `SELECT` returns the rows `selected` says in some order (`ORDER BY` is not modeled); that values compare as Lean values do (text character by character, bytes byte by byte); that the tables were made by `create` of the same schema, since `CREATE TABLE IF NOT EXISTS` keeps a table of that name as it is; that no text holds NUL, which the model stores and PostgreSQL refuses (for the notes, `accepted_no_nul` proves it of every body an accepted command writes) |

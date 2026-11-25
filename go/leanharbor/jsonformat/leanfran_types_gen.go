@@ -6,30 +6,662 @@ import (
 	"github.com/conao3/leanfran-go"
 	"github.com/conao3/leanfran-go/rt"
 	"github.com/conao3/leanfran-go/schema"
+	"math/big"
 	"sync"
 )
 
+var _lfCodecStrTok leanfran.Codec[StrTok]
 var _lfCodecTok leanfran.Codec[Tok]
 var _lfCodec0 leanfran.Codec[bool]
 var _lfCodec1 leanfran.Codec[uint64]
-var _lfCodec2 leanfran.Codec[uint8]
-var _lfCodec3 leanfran.Codec[[]uint8]
-var _lfCodec4 leanfran.Codec[[]Tok]
+var _lfCodec2 leanfran.Codec[string]
+var _lfCodec3 leanfran.Codec[uint8]
+var _lfCodec4 leanfran.Codec[[]uint8]
+var _lfCodec5 leanfran.Codec[[]uint8]
+var _lfCodec6 leanfran.Codec[*big.Int]
+var _lfCodec7 leanfran.Codec[[]Tok]
+var _lfCodec8 leanfran.Codec[[]StrTok]
+var _lfDescStrTok schema.Desc
 var _lfDescTok schema.Desc
 
 var _lfCodecsOnce sync.Once
 
 func _lfBuildCodecs() {
+	_lfCodecStrTok = leanfran.Ref(descStrTok, toStrTok, fromStrTok, checkStrTok)
 	_lfCodecTok = leanfran.Ref(descTok, toTok, fromTok, checkTok)
 	_lfCodec0 = leanfran.Bool()
 	_lfCodec1 = leanfran.Fixed[uint64]("uint", 64)
-	_lfCodec2 = leanfran.Fixed[uint8]("uint", 8)
-	_lfCodec3 = leanfran.Sequence("list", _lfCodec2)
-	_lfCodec4 = leanfran.Sequence("list", _lfCodecTok)
-	_lfDescTok = schema.Desc{Name: "Tok", Kind: "inductive", Variants: []schema.Variant{{Name: "null", Tag: 0, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "bool", Tag: 1, Objects: 0, ScalarBytes: 1, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "b", Desc: _lfCodec0.Desc, Slot: "u8", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "num", Tag: 2, Objects: 0, ScalarBytes: 8, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "n", Desc: _lfCodec1.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "str", Tag: 3, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "s", Desc: _lfCodec3.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "key", Tag: 4, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "s", Desc: _lfCodec3.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "arrOpen", Tag: 5, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "arrClose", Tag: 6, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "objOpen", Tag: 7, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "objClose", Tag: 8, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}}}
+	_lfCodec2 = leanfran.String()
+	_lfCodec3 = leanfran.Fixed[uint8]("uint", 8)
+	_lfCodec4 = leanfran.Sequence("list", _lfCodec3)
+	_lfCodec5 = leanfran.Sequence("array", _lfCodec3)
+	_lfCodec6 = leanfran.Big("nat", "")
+	_lfCodec7 = leanfran.Sequence("list", _lfCodecTok)
+	_lfCodec8 = leanfran.Sequence("list", _lfCodecStrTok)
+	_lfDescStrTok = schema.Desc{Name: "StrTok", Kind: "inductive", Variants: []schema.Variant{{Name: "null", Tag: 0, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "bool", Tag: 1, Objects: 0, ScalarBytes: 1, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "b", Desc: _lfCodec0.Desc, Slot: "u8", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "num", Tag: 2, Objects: 0, ScalarBytes: 8, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "n", Desc: _lfCodec1.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "str", Tag: 3, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "s", Desc: _lfCodec2.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "key", Tag: 4, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "s", Desc: _lfCodec2.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "arrOpen", Tag: 5, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "arrClose", Tag: 6, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "objOpen", Tag: 7, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "objClose", Tag: 8, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}}}
+	_lfDescTok = schema.Desc{Name: "Tok", Kind: "inductive", Variants: []schema.Variant{{Name: "null", Tag: 0, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "bool", Tag: 1, Objects: 0, ScalarBytes: 1, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "b", Desc: _lfCodec0.Desc, Slot: "u8", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "num", Tag: 2, Objects: 0, ScalarBytes: 8, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "n", Desc: _lfCodec1.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "str", Tag: 3, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "s", Desc: _lfCodec4.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "key", Tag: 4, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "s", Desc: _lfCodec4.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "arrOpen", Tag: 5, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "arrClose", Tag: 6, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "objOpen", Tag: 7, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "objClose", Tag: 8, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}}}
 }
 
 func init() { _lfCodecsOnce.Do(_lfBuildCodecs) }
+
+func descStrTok() *schema.Desc { return &_lfDescStrTok }
+
+func LeanfranCodecStrTok() leanfran.Codec[StrTok] {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return _lfCodecStrTok
+}
+
+type StrTok interface {
+	isStrTok()
+	Validate() error
+	MarshalJSON() ([]byte, error)
+	JSONSchema(string) (map[string]any, error)
+	LeanfranDesc() *schema.Desc
+}
+
+type StrTokNull struct {
+}
+
+func (StrTokNull) isStrTok() {}
+
+func (v StrTokNull) LeanfranDesc() *schema.Desc {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return descStrTok()
+}
+
+func (v StrTokNull) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecStrTok, StrTok(v), "StrTok")
+}
+
+func (v StrTokNull) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecStrTok, StrTok(v), "StrTok")
+}
+
+func (v StrTokNull) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descStrTok(), target)
+}
+
+func (v *StrTokNull) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecStrTok, data, "StrTok")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(StrTokNull)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toStrTokNull(v StrTokNull) rt.V {
+	return descStrTok().Variants[0].Build([]rt.V{})
+}
+
+func fromStrTokNull(v rt.V) StrTokNull {
+	return StrTokNull{}
+}
+
+func checkStrTokNull(e *leanfran.ValidationError, v StrTokNull) {
+}
+
+type StrTokBool struct {
+	B bool
+}
+
+func (StrTokBool) isStrTok() {}
+
+func (v StrTokBool) LeanfranDesc() *schema.Desc {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return descStrTok()
+}
+
+func (v StrTokBool) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecStrTok, StrTok(v), "StrTok")
+}
+
+func (v StrTokBool) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecStrTok, StrTok(v), "StrTok")
+}
+
+func (v StrTokBool) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descStrTok(), target)
+}
+
+func (v *StrTokBool) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecStrTok, data, "StrTok")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(StrTokBool)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toStrTokBool(v StrTokBool) rt.V {
+	return descStrTok().Variants[1].Build([]rt.V{_lfCodec0.ToLean(v.B)})
+}
+
+func fromStrTokBool(v rt.V) StrTokBool {
+	layout := descStrTok().Variants[1]
+	return StrTokBool{B: _lfCodec0.FromLean(layout.Get(v, 0))}
+}
+
+func checkStrTokBool(e *leanfran.ValidationError, v StrTokBool) {
+	leanfran.CheckAt(e, _lfCodec0, v.B, "bool", "b")
+}
+
+type StrTokNum struct {
+	N uint64
+}
+
+func (StrTokNum) isStrTok() {}
+
+func (v StrTokNum) LeanfranDesc() *schema.Desc { _lfCodecsOnce.Do(_lfBuildCodecs); return descStrTok() }
+
+func (v StrTokNum) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecStrTok, StrTok(v), "StrTok")
+}
+
+func (v StrTokNum) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecStrTok, StrTok(v), "StrTok")
+}
+
+func (v StrTokNum) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descStrTok(), target)
+}
+
+func (v *StrTokNum) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecStrTok, data, "StrTok")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(StrTokNum)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toStrTokNum(v StrTokNum) rt.V {
+	return descStrTok().Variants[2].Build([]rt.V{_lfCodec1.ToLean(v.N)})
+}
+
+func fromStrTokNum(v rt.V) StrTokNum {
+	layout := descStrTok().Variants[2]
+	return StrTokNum{N: _lfCodec1.FromLean(layout.Get(v, 0))}
+}
+
+func checkStrTokNum(e *leanfran.ValidationError, v StrTokNum) {
+	leanfran.CheckAt(e, _lfCodec1, v.N, "num", "n")
+}
+
+type StrTokStr struct {
+	S string
+}
+
+func (StrTokStr) isStrTok() {}
+
+func (v StrTokStr) LeanfranDesc() *schema.Desc { _lfCodecsOnce.Do(_lfBuildCodecs); return descStrTok() }
+
+func (v StrTokStr) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecStrTok, StrTok(v), "StrTok")
+}
+
+func (v StrTokStr) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecStrTok, StrTok(v), "StrTok")
+}
+
+func (v StrTokStr) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descStrTok(), target)
+}
+
+func (v *StrTokStr) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecStrTok, data, "StrTok")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(StrTokStr)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toStrTokStr(v StrTokStr) rt.V {
+	return descStrTok().Variants[3].Build([]rt.V{_lfCodec2.ToLean(v.S)})
+}
+
+func fromStrTokStr(v rt.V) StrTokStr {
+	layout := descStrTok().Variants[3]
+	return StrTokStr{S: _lfCodec2.FromLean(layout.Get(v, 0))}
+}
+
+func checkStrTokStr(e *leanfran.ValidationError, v StrTokStr) {
+	leanfran.CheckAt(e, _lfCodec2, v.S, "str", "s")
+}
+
+type StrTokKey struct {
+	S string
+}
+
+func (StrTokKey) isStrTok() {}
+
+func (v StrTokKey) LeanfranDesc() *schema.Desc { _lfCodecsOnce.Do(_lfBuildCodecs); return descStrTok() }
+
+func (v StrTokKey) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecStrTok, StrTok(v), "StrTok")
+}
+
+func (v StrTokKey) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecStrTok, StrTok(v), "StrTok")
+}
+
+func (v StrTokKey) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descStrTok(), target)
+}
+
+func (v *StrTokKey) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecStrTok, data, "StrTok")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(StrTokKey)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toStrTokKey(v StrTokKey) rt.V {
+	return descStrTok().Variants[4].Build([]rt.V{_lfCodec2.ToLean(v.S)})
+}
+
+func fromStrTokKey(v rt.V) StrTokKey {
+	layout := descStrTok().Variants[4]
+	return StrTokKey{S: _lfCodec2.FromLean(layout.Get(v, 0))}
+}
+
+func checkStrTokKey(e *leanfran.ValidationError, v StrTokKey) {
+	leanfran.CheckAt(e, _lfCodec2, v.S, "key", "s")
+}
+
+type StrTokArrOpen struct {
+}
+
+func (StrTokArrOpen) isStrTok() {}
+
+func (v StrTokArrOpen) LeanfranDesc() *schema.Desc {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return descStrTok()
+}
+
+func (v StrTokArrOpen) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecStrTok, StrTok(v), "StrTok")
+}
+
+func (v StrTokArrOpen) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecStrTok, StrTok(v), "StrTok")
+}
+
+func (v StrTokArrOpen) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descStrTok(), target)
+}
+
+func (v *StrTokArrOpen) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecStrTok, data, "StrTok")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(StrTokArrOpen)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toStrTokArrOpen(v StrTokArrOpen) rt.V {
+	return descStrTok().Variants[5].Build([]rt.V{})
+}
+
+func fromStrTokArrOpen(v rt.V) StrTokArrOpen {
+	return StrTokArrOpen{}
+}
+
+func checkStrTokArrOpen(e *leanfran.ValidationError, v StrTokArrOpen) {
+}
+
+type StrTokArrClose struct {
+}
+
+func (StrTokArrClose) isStrTok() {}
+
+func (v StrTokArrClose) LeanfranDesc() *schema.Desc {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return descStrTok()
+}
+
+func (v StrTokArrClose) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecStrTok, StrTok(v), "StrTok")
+}
+
+func (v StrTokArrClose) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecStrTok, StrTok(v), "StrTok")
+}
+
+func (v StrTokArrClose) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descStrTok(), target)
+}
+
+func (v *StrTokArrClose) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecStrTok, data, "StrTok")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(StrTokArrClose)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toStrTokArrClose(v StrTokArrClose) rt.V {
+	return descStrTok().Variants[6].Build([]rt.V{})
+}
+
+func fromStrTokArrClose(v rt.V) StrTokArrClose {
+	return StrTokArrClose{}
+}
+
+func checkStrTokArrClose(e *leanfran.ValidationError, v StrTokArrClose) {
+}
+
+type StrTokObjOpen struct {
+}
+
+func (StrTokObjOpen) isStrTok() {}
+
+func (v StrTokObjOpen) LeanfranDesc() *schema.Desc {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return descStrTok()
+}
+
+func (v StrTokObjOpen) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecStrTok, StrTok(v), "StrTok")
+}
+
+func (v StrTokObjOpen) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecStrTok, StrTok(v), "StrTok")
+}
+
+func (v StrTokObjOpen) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descStrTok(), target)
+}
+
+func (v *StrTokObjOpen) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecStrTok, data, "StrTok")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(StrTokObjOpen)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toStrTokObjOpen(v StrTokObjOpen) rt.V {
+	return descStrTok().Variants[7].Build([]rt.V{})
+}
+
+func fromStrTokObjOpen(v rt.V) StrTokObjOpen {
+	return StrTokObjOpen{}
+}
+
+func checkStrTokObjOpen(e *leanfran.ValidationError, v StrTokObjOpen) {
+}
+
+type StrTokObjClose struct {
+}
+
+func (StrTokObjClose) isStrTok() {}
+
+func (v StrTokObjClose) LeanfranDesc() *schema.Desc {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return descStrTok()
+}
+
+func (v StrTokObjClose) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecStrTok, StrTok(v), "StrTok")
+}
+
+func (v StrTokObjClose) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecStrTok, StrTok(v), "StrTok")
+}
+
+func (v StrTokObjClose) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descStrTok(), target)
+}
+
+func (v *StrTokObjClose) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecStrTok, data, "StrTok")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(StrTokObjClose)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toStrTokObjClose(v StrTokObjClose) rt.V {
+	return descStrTok().Variants[8].Build([]rt.V{})
+}
+
+func fromStrTokObjClose(v rt.V) StrTokObjClose {
+	return StrTokObjClose{}
+}
+
+func checkStrTokObjClose(e *leanfran.ValidationError, v StrTokObjClose) {
+}
+
+func toStrTok(v StrTok) rt.V {
+	switch x := v.(type) {
+	case StrTokNull:
+		return toStrTokNull(x)
+	case *StrTokNull:
+		return toStrTokNull(*x)
+	case StrTokBool:
+		return toStrTokBool(x)
+	case *StrTokBool:
+		return toStrTokBool(*x)
+	case StrTokNum:
+		return toStrTokNum(x)
+	case *StrTokNum:
+		return toStrTokNum(*x)
+	case StrTokStr:
+		return toStrTokStr(x)
+	case *StrTokStr:
+		return toStrTokStr(*x)
+	case StrTokKey:
+		return toStrTokKey(x)
+	case *StrTokKey:
+		return toStrTokKey(*x)
+	case StrTokArrOpen:
+		return toStrTokArrOpen(x)
+	case *StrTokArrOpen:
+		return toStrTokArrOpen(*x)
+	case StrTokArrClose:
+		return toStrTokArrClose(x)
+	case *StrTokArrClose:
+		return toStrTokArrClose(*x)
+	case StrTokObjOpen:
+		return toStrTokObjOpen(x)
+	case *StrTokObjOpen:
+		return toStrTokObjOpen(*x)
+	case StrTokObjClose:
+		return toStrTokObjClose(x)
+	case *StrTokObjClose:
+		return toStrTokObjClose(*x)
+	}
+	rt.Lean_internal_panic("invalid StrTok")
+	return rt.V{}
+}
+
+func fromStrTok(v rt.V) StrTok {
+	switch rt.Lean_obj_tag(v) {
+	case 0:
+		return fromStrTokNull(v)
+	case 1:
+		return fromStrTokBool(v)
+	case 2:
+		return fromStrTokNum(v)
+	case 3:
+		return fromStrTokStr(v)
+	case 4:
+		return fromStrTokKey(v)
+	case 5:
+		return fromStrTokArrOpen(v)
+	case 6:
+		return fromStrTokArrClose(v)
+	case 7:
+		return fromStrTokObjOpen(v)
+	case 8:
+		return fromStrTokObjClose(v)
+	}
+	rt.Lean_internal_panic("invalid StrTok tag")
+	return nil
+}
+
+func checkStrTok(e *leanfran.ValidationError, v StrTok) {
+	switch x := v.(type) {
+	case StrTokNull:
+		checkStrTokNull(e, x)
+		return
+	case *StrTokNull:
+		if x != nil {
+			checkStrTokNull(e, *x)
+			return
+		}
+	case StrTokBool:
+		checkStrTokBool(e, x)
+		return
+	case *StrTokBool:
+		if x != nil {
+			checkStrTokBool(e, *x)
+			return
+		}
+	case StrTokNum:
+		checkStrTokNum(e, x)
+		return
+	case *StrTokNum:
+		if x != nil {
+			checkStrTokNum(e, *x)
+			return
+		}
+	case StrTokStr:
+		checkStrTokStr(e, x)
+		return
+	case *StrTokStr:
+		if x != nil {
+			checkStrTokStr(e, *x)
+			return
+		}
+	case StrTokKey:
+		checkStrTokKey(e, x)
+		return
+	case *StrTokKey:
+		if x != nil {
+			checkStrTokKey(e, *x)
+			return
+		}
+	case StrTokArrOpen:
+		checkStrTokArrOpen(e, x)
+		return
+	case *StrTokArrOpen:
+		if x != nil {
+			checkStrTokArrOpen(e, *x)
+			return
+		}
+	case StrTokArrClose:
+		checkStrTokArrClose(e, x)
+		return
+	case *StrTokArrClose:
+		if x != nil {
+			checkStrTokArrClose(e, *x)
+			return
+		}
+	case StrTokObjOpen:
+		checkStrTokObjOpen(e, x)
+		return
+	case *StrTokObjOpen:
+		if x != nil {
+			checkStrTokObjOpen(e, *x)
+			return
+		}
+	case StrTokObjClose:
+		checkStrTokObjClose(e, x)
+		return
+	case *StrTokObjClose:
+		if x != nil {
+			checkStrTokObjClose(e, *x)
+			return
+		}
+	}
+	e.Add("expected StrTok")
+}
+
+func UnmarshalStrTok(data []byte) (StrTok, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.UnmarshalJSON(_lfCodecStrTok, data, "StrTok")
+}
 
 func descTok() *schema.Desc { return &_lfDescTok }
 
@@ -228,16 +860,16 @@ func (v *TokStr) UnmarshalJSON(data []byte) error {
 }
 
 func toTokStr(v TokStr) rt.V {
-	return descTok().Variants[3].Build([]rt.V{_lfCodec3.ToLean(v.S)})
+	return descTok().Variants[3].Build([]rt.V{_lfCodec4.ToLean(v.S)})
 }
 
 func fromTokStr(v rt.V) TokStr {
 	layout := descTok().Variants[3]
-	return TokStr{S: _lfCodec3.FromLean(layout.Get(v, 0))}
+	return TokStr{S: _lfCodec4.FromLean(layout.Get(v, 0))}
 }
 
 func checkTokStr(e *leanfran.ValidationError, v TokStr) {
-	leanfran.CheckAt(e, _lfCodec3, v.S, "str", "s")
+	leanfran.CheckAt(e, _lfCodec4, v.S, "str", "s")
 }
 
 type TokKey struct {
@@ -278,16 +910,16 @@ func (v *TokKey) UnmarshalJSON(data []byte) error {
 }
 
 func toTokKey(v TokKey) rt.V {
-	return descTok().Variants[4].Build([]rt.V{_lfCodec3.ToLean(v.S)})
+	return descTok().Variants[4].Build([]rt.V{_lfCodec4.ToLean(v.S)})
 }
 
 func fromTokKey(v rt.V) TokKey {
 	layout := descTok().Variants[4]
-	return TokKey{S: _lfCodec3.FromLean(layout.Get(v, 0))}
+	return TokKey{S: _lfCodec4.FromLean(layout.Get(v, 0))}
 }
 
 func checkTokKey(e *leanfran.ValidationError, v TokKey) {
-	leanfran.CheckAt(e, _lfCodec3, v.S, "key", "s")
+	leanfran.CheckAt(e, _lfCodec4, v.S, "key", "s")
 }
 
 type TokArrOpen struct {
@@ -641,6 +1273,24 @@ func (lfValue) In(scope *leanfran.ValueScope) lfScopedValue {
 	return lfScopedValue{scope: scope}
 }
 
+func (lfValue) NewArrayUInt8(v []uint8) leanfran.Value[leanfran.ArrayType[uint8]] {
+	return lfScopedValue{}.NewArrayUInt8(v)
+}
+
+func (api lfScopedValue) NewArrayUInt8(v []uint8) leanfran.Value[leanfran.ArrayType[uint8]] {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewUncheckedValueIn[leanfran.ArrayType[uint8]](api.scope, _lfCodec5, v)
+}
+
+func (lfValue) ReadArrayUInt8(v leanfran.Value[leanfran.ArrayType[uint8]]) []uint8 {
+	return lfScopedValue{}.ReadArrayUInt8(v)
+}
+
+func (api lfScopedValue) ReadArrayUInt8(v leanfran.Value[leanfran.ArrayType[uint8]]) []uint8 {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec5, v)
+}
+
 func (lfValue) NewBool(v bool) leanfran.Value[bool] {
 	return lfScopedValue{}.NewBool(v)
 }
@@ -659,13 +1309,31 @@ func (api lfScopedValue) ReadBool(v leanfran.Value[bool]) bool {
 	return leanfran.ReadValueIn(api.scope, _lfCodec0, v)
 }
 
+func (lfValue) NewListStrTok(v []StrTok) (leanfran.Value[leanfran.ListType[StrTok]], error) {
+	return lfScopedValue{}.NewListStrTok(v)
+}
+
+func (api lfScopedValue) NewListStrTok(v []StrTok) (leanfran.Value[leanfran.ListType[StrTok]], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[leanfran.ListType[StrTok]](api.scope, _lfCodec8, v, "ListStrTok")
+}
+
+func (lfValue) ReadListStrTok(v leanfran.Value[leanfran.ListType[StrTok]]) []StrTok {
+	return lfScopedValue{}.ReadListStrTok(v)
+}
+
+func (api lfScopedValue) ReadListStrTok(v leanfran.Value[leanfran.ListType[StrTok]]) []StrTok {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec8, v)
+}
+
 func (lfValue) NewListTok(v []Tok) (leanfran.Value[leanfran.ListType[Tok]], error) {
 	return lfScopedValue{}.NewListTok(v)
 }
 
 func (api lfScopedValue) NewListTok(v []Tok) (leanfran.Value[leanfran.ListType[Tok]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.ListType[Tok]](api.scope, _lfCodec4, v, "ListTok")
+	return leanfran.NewValueIn[leanfran.ListType[Tok]](api.scope, _lfCodec7, v, "ListTok")
 }
 
 func (lfValue) ReadListTok(v leanfran.Value[leanfran.ListType[Tok]]) []Tok {
@@ -674,7 +1342,7 @@ func (lfValue) ReadListTok(v leanfran.Value[leanfran.ListType[Tok]]) []Tok {
 
 func (api lfScopedValue) ReadListTok(v leanfran.Value[leanfran.ListType[Tok]]) []Tok {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec4, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec7, v)
 }
 
 func (lfValue) NewListUInt8(v []uint8) leanfran.Value[leanfran.ListType[uint8]] {
@@ -683,7 +1351,7 @@ func (lfValue) NewListUInt8(v []uint8) leanfran.Value[leanfran.ListType[uint8]] 
 
 func (api lfScopedValue) NewListUInt8(v []uint8) leanfran.Value[leanfran.ListType[uint8]] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[leanfran.ListType[uint8]](api.scope, _lfCodec3, v)
+	return leanfran.NewUncheckedValueIn[leanfran.ListType[uint8]](api.scope, _lfCodec4, v)
 }
 
 func (lfValue) ReadListUInt8(v leanfran.Value[leanfran.ListType[uint8]]) []uint8 {
@@ -692,7 +1360,61 @@ func (lfValue) ReadListUInt8(v leanfran.Value[leanfran.ListType[uint8]]) []uint8
 
 func (api lfScopedValue) ReadListUInt8(v leanfran.Value[leanfran.ListType[uint8]]) []uint8 {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec3, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec4, v)
+}
+
+func (lfValue) NewNat(v *big.Int) (leanfran.Value[leanfran.NatType], error) {
+	return lfScopedValue{}.NewNat(v)
+}
+
+func (api lfScopedValue) NewNat(v *big.Int) (leanfran.Value[leanfran.NatType], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[leanfran.NatType](api.scope, _lfCodec6, v, "Nat")
+}
+
+func (lfValue) ReadNat(v leanfran.Value[leanfran.NatType]) *big.Int {
+	return lfScopedValue{}.ReadNat(v)
+}
+
+func (api lfScopedValue) ReadNat(v leanfran.Value[leanfran.NatType]) *big.Int {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec6, v)
+}
+
+func (lfValue) NewStrTok(v StrTok) (leanfran.Value[StrTok], error) {
+	return lfScopedValue{}.NewStrTok(v)
+}
+
+func (api lfScopedValue) NewStrTok(v StrTok) (leanfran.Value[StrTok], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[StrTok](api.scope, _lfCodecStrTok, v, "StrTok")
+}
+
+func (lfValue) ReadStrTok(v leanfran.Value[StrTok]) StrTok {
+	return lfScopedValue{}.ReadStrTok(v)
+}
+
+func (api lfScopedValue) ReadStrTok(v leanfran.Value[StrTok]) StrTok {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodecStrTok, v)
+}
+
+func (lfValue) NewString(v string) (leanfran.Value[string], error) {
+	return lfScopedValue{}.NewString(v)
+}
+
+func (api lfScopedValue) NewString(v string) (leanfran.Value[string], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[string](api.scope, _lfCodec2, v, "String")
+}
+
+func (lfValue) ReadString(v leanfran.Value[string]) string {
+	return lfScopedValue{}.ReadString(v)
+}
+
+func (api lfScopedValue) ReadString(v leanfran.Value[string]) string {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec2, v)
 }
 
 func (lfValue) NewTok(v Tok) (leanfran.Value[Tok], error) {
@@ -719,7 +1441,7 @@ func (lfValue) NewUInt8(v uint8) leanfran.Value[uint8] {
 
 func (api lfScopedValue) NewUInt8(v uint8) leanfran.Value[uint8] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[uint8](api.scope, _lfCodec2, v)
+	return leanfran.NewUncheckedValueIn[uint8](api.scope, _lfCodec3, v)
 }
 
 func (lfValue) ReadUInt8(v leanfran.Value[uint8]) uint8 {
@@ -728,5 +1450,5 @@ func (lfValue) ReadUInt8(v leanfran.Value[uint8]) uint8 {
 
 func (api lfScopedValue) ReadUInt8(v leanfran.Value[uint8]) uint8 {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec2, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec3, v)
 }

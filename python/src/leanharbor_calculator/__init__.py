@@ -88,10 +88,10 @@ def fingerprint(cmd: kernel.Command) -> bytes:
 API = Api(
     principal=lambda tenant, user: kernel.Principal(org=tenant, user=user),
     decode_command=decode_command,
-    encode_reply=lambda reply: bytes(kernel.encodeReply(reply)),
+    encode_reply=lambda reply: bytes(kernel.encodeReplyArray(reply)),
     encode_error=lambda error: (
         HTTPStatus.UNPROCESSABLE_ENTITY,
-        bytes(kernel.encodeError(error)),
+        bytes(kernel.encodeErrorArray(error)),
     ),
     fingerprint=fingerprint,
     scope=lambda actor: f"u{actor.user}",

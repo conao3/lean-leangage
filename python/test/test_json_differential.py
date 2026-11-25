@@ -1,6 +1,7 @@
 """The generated Python JSON writer against the one run natively by Lean (`json-oracle`).
 
-The line format is described in `lean/JsonOracle.lean`.
+The line format is described in `lean/JsonOracle.lean`. A list whose strings are UTF-8 is also
+written by `writeArray`, which must write what `write` writes.
 """
 
 import os
@@ -34,10 +35,45 @@ def tok(word: str) -> json_format.Tok:
     raise ValueError(word)
 
 
+STR_FIXED = {
+    "n": json_format.StrTok_null(),
+    "t": json_format.StrTok_bool(b=True),
+    "f": json_format.StrTok_bool(b=False),
+    "[": json_format.StrTok_arrOpen(),
+    "]": json_format.StrTok_arrClose(),
+    "{": json_format.StrTok_objOpen(),
+    "}": json_format.StrTok_objClose(),
+}
+
+
+def str_tok(word: str) -> json_format.StrTok:
+    """The token with strings; raises `UnicodeDecodeError` for a string that is not UTF-8."""
+    if word in STR_FIXED:
+        return STR_FIXED[word]
+    if word.startswith("u"):
+        return json_format.StrTok_num(n=int(word[1:]))
+    if word.startswith("sx"):
+        return json_format.StrTok_str(s=bytes.fromhex(word[2:]).decode())
+    if word.startswith("kx"):
+        return json_format.StrTok_key(s=bytes.fromhex(word[2:]).decode())
+    raise ValueError(word)
+
+
+def str_toks(words: list[str]) -> list[json_format.StrTok] | None:
+    try:
+        return [str_tok(w) for w in words]
+    except UnicodeDecodeError:
+        return None
+
+
 def run(line: str) -> str:
     head, *words = line.split(" ")
     assert head == "write", line
-    return "json x" + bytes(json_format.write([tok(w) for w in words])).hex()
+    written = bytes(json_format.write([tok(w) for w in words]))
+    toks = str_toks(words)
+    if toks is not None:
+        assert bytes(json_format.writeArray(toks)) == written, line
+    return "json x" + written.hex()
 
 
 def test_generated_python_json_writer_agrees_with_lean() -> None:
@@ -50,4 +86,8 @@ def test_generated_python_json_writer_agrees_with_lean() -> None:
         check=True,
     ).stdout
     ours = [run(line) for line in text_in.splitlines()]
+    assert (
+        sum(str_toks(line.split(" ")[1:]) is not None for line in text_in.splitlines())
+        > 1000
+    )
     assert ours == oracle.splitlines()

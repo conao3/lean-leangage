@@ -438,6 +438,10 @@ func init() {
 	value_L_Leanharbor_Token_parse___closed__1 = rt.Lean_mark_persistent(compute_L_Leanharbor_Token_parse___closed__1())
 }
 
+func l_Array_emptyWithCapacity(x_2 rt.V) rt.V {
+	return rt.Lean_mk_empty_array_with_capacity(x_2)
+}
+
 func l_Array_mkEmpty(x_2 rt.V) rt.V {
 	return rt.Lean_mk_empty_array_with_capacity(x_2)
 }
@@ -450,16 +454,240 @@ func l_Array_toList(x_2 rt.V) rt.V {
 	return rt.Lean_array_to_list(x_2)
 }
 
+func l_Leanharbor_Token_byteAt(x_1 rt.V, x_2 rt.V) uint8 {
+	var x_3 rt.V
+	_ = x_3
+	var x_4 uint8
+	_ = x_4
+	var x_5 uint8
+	_ = x_5
+	var x_6 uint8
+	_ = x_6
+	x_3 = l_String_utf8ByteSize(x_1)
+	x_4 = l_Nat_decLt(x_2, x_3)
+	switch x_4 {
+	case 0:
+		rt.Lean_dec(x_2)
+		x_5 = 0
+		return x_5
+	case 1:
+		x_6 = l_String_getUTF8Byte(x_1, x_2)
+		return x_6
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return 0
+	}
+}
+
+func l_Leanharbor_Token_copyBytes(x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V) rt.V {
+	var x_5 uint8
+	_ = x_5
+	var x_6 rt.V
+	_ = x_6
+	var x_7 uint8
+	_ = x_7
+	var x_8 rt.V
+	_ = x_8
+	var x_9 rt.V
+	_ = x_9
+	var x_11 uint8
+	_ = x_11
+	var x_12 rt.V
+	_ = x_12
+	var x_13 rt.V
+	_ = x_13
+	var x_14 rt.V
+	_ = x_14
+	var x_15 uint8
+	_ = x_15
+	var x_16 uint8
+	_ = x_16
+_start:
+	x_5 = l_Nat_decLt(x_2, x_3)
+	switch x_5 {
+	case 0:
+		rt.Lean_dec(x_2)
+		return x_4
+	case 1:
+		x_6 = l_String_utf8ByteSize(x_1)
+		x_7 = l_Nat_decLt(x_2, x_6)
+		switch x_7 {
+		case 0:
+			rt.Lean_dec(x_2)
+			return x_4
+		case 1:
+			x_8 = rt.NatFromUint64(1)
+			x_9 = l_Nat_add(x_2, x_8)
+			switch x_7 {
+			case 0:
+				rt.Lean_dec(x_2)
+				x_15 = 0
+				x_11 = x_15
+				goto _jp_10
+			case 1:
+				x_16 = l_String_getUTF8Byte(x_1, x_2)
+				x_11 = x_16
+				goto _jp_10
+			default:
+				rt.Lean_internal_panic_unreachable()
+				return rt.V{}
+			}
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_10:
+	x_12 = rt.Lean_box(uint64(x_11))
+	x_13 = l_Array_push(x_4, x_12)
+	x_2, x_4 = x_9, x_13
+	goto _start
+}
+
 func l_Leanharbor_Token_decimal(x_1 rt.V) rt.V {
 	frame := rt.AcquireTail()
 	defer rt.ReleaseTail(frame)
 	return frame.Result(core_L_Leanharbor_Token_decimal(frame, x_1))
 }
 
+func l_Leanharbor_Token_digitsFrom(x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V) rt.V {
+	var x_5 uint8
+	_ = x_5
+	var x_6 rt.V
+	_ = x_6
+	var x_7 uint8
+	_ = x_7
+	var x_8 rt.V
+	_ = x_8
+	var x_9 rt.V
+	_ = x_9
+	var x_10 rt.V
+	_ = x_10
+	var x_11 rt.V
+	_ = x_11
+	var x_13 uint8
+	_ = x_13
+	var x_14 rt.V
+	_ = x_14
+	var x_15 rt.V
+	_ = x_15
+	var x_16 rt.V
+	_ = x_16
+	var x_17 rt.V
+	_ = x_17
+	var x_18 rt.V
+	_ = x_18
+	var x_19 uint8
+	_ = x_19
+	var x_20 uint8
+	_ = x_20
+_start:
+	x_5 = l_Nat_decLt(x_2, x_3)
+	switch x_5 {
+	case 0:
+		rt.Lean_dec(x_2)
+		return x_4
+	case 1:
+		x_6 = l_String_utf8ByteSize(x_1)
+		x_7 = l_Nat_decLt(x_2, x_6)
+		switch x_7 {
+		case 0:
+			rt.Lean_dec(x_2)
+			return x_4
+		case 1:
+			x_8 = rt.NatFromUint64(1)
+			x_9 = l_Nat_add(x_2, x_8)
+			x_10 = rt.NatFromUint64(10)
+			x_11 = l_Nat_mul(x_4, x_10)
+			rt.Lean_dec(x_4)
+			switch x_7 {
+			case 0:
+				rt.Lean_dec(x_2)
+				x_19 = 0
+				x_13 = x_19
+				goto _jp_12
+			case 1:
+				x_20 = l_String_getUTF8Byte(x_1, x_2)
+				x_13 = x_20
+				goto _jp_12
+			default:
+				rt.Lean_internal_panic_unreachable()
+				return rt.V{}
+			}
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_12:
+	x_14 = l_UInt8_toNat(x_13)
+	x_15 = rt.NatFromUint64(48)
+	x_16 = l_Nat_sub(x_14, x_15)
+	x_17 = l_Nat_add(x_11, x_16)
+	rt.Lean_dec(x_16)
+	rt.Lean_dec(x_11)
+	x_2, x_4 = x_9, x_17
+	goto _start
+}
+
 func l_Leanharbor_Token_digitsValue(x_1 rt.V) rt.V {
 	frame := rt.AcquireTail()
 	defer rt.ReleaseTail(frame)
 	return frame.Result(core_L_Leanharbor_Token_digitsValue(frame, x_1))
+}
+
+func l_Leanharbor_Token_dotFrom(x_1 rt.V, x_2 rt.V) rt.V {
+	var x_3 rt.V
+	_ = x_3
+	var x_4 uint8
+	_ = x_4
+	var x_5 uint8
+	_ = x_5
+	var x_6 uint8
+	_ = x_6
+	var x_7 uint8
+	_ = x_7
+	var x_8 rt.V
+	_ = x_8
+	var x_9 rt.V
+	_ = x_9
+	var x_10 rt.V
+	_ = x_10
+_start:
+	x_3 = l_String_utf8ByteSize(x_1)
+	x_4 = l_Nat_decLt(x_2, x_3)
+	switch x_4 {
+	case 0:
+		rt.Lean_dec(x_2)
+		return x_3
+	case 1:
+		rt.Lean_inc(x_2)
+		x_5 = l_String_getUTF8Byte(x_1, x_2)
+		x_6 = 46
+		x_7 = l_UInt8_decEq(x_5, x_6)
+		switch x_7 {
+		case 0:
+			x_8 = rt.NatFromUint64(1)
+			x_9 = l_Nat_add(x_2, x_8)
+			rt.Lean_dec(x_2)
+			x_2 = x_9
+			goto _start
+		case 1:
+			return x_2
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
 }
 
 func l_Leanharbor_Token_encodePayload(x_1 uint64, x_2 uint64, x_3 uint64) rt.V {
@@ -564,6 +792,83 @@ func l_Leanharbor_Token_hexDigit(x_1 rt.V) uint8 {
 	}
 }
 
+func l_Leanharbor_Token_hexNibble(x_1 uint8) uint8 {
+	var x_3 uint8
+	_ = x_3
+	var x_4 uint8
+	_ = x_4
+	var x_5 uint8
+	_ = x_5
+	var x_6 uint8
+	_ = x_6
+	var x_7 uint8
+	_ = x_7
+	var x_8 uint8
+	_ = x_8
+	var x_9 uint8
+	_ = x_9
+	var x_10 uint8
+	_ = x_10
+	var x_11 uint8
+	_ = x_11
+	var x_12 uint8
+	_ = x_12
+	var x_13 uint8
+	_ = x_13
+	var x_14 uint8
+	_ = x_14
+	var x_15 uint8
+	_ = x_15
+	x_11 = 48
+	x_12 = l_UInt8_decLe(x_11, x_1)
+	switch x_12 {
+	case 0:
+		goto _jp_2
+	case 1:
+		x_13 = 57
+		x_14 = l_UInt8_decLe(x_1, x_13)
+		switch x_14 {
+		case 0:
+			goto _jp_2
+		case 1:
+			x_15 = l_UInt8_sub(x_1, x_11)
+			return x_15
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return 0
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return 0
+	}
+_jp_2:
+	x_3 = 97
+	x_4 = l_UInt8_decLe(x_3, x_1)
+	switch x_4 {
+	case 0:
+		x_5 = 16
+		return x_5
+	case 1:
+		x_6 = 102
+		x_7 = l_UInt8_decLe(x_1, x_6)
+		switch x_7 {
+		case 0:
+			x_8 = 16
+			return x_8
+		case 1:
+			x_9 = 87
+			x_10 = l_UInt8_sub(x_1, x_9)
+			return x_10
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return 0
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return 0
+	}
+}
+
 func l_Leanharbor_Token_hexValue(x_1 uint8) rt.V {
 	var x_2 rt.V
 	_ = x_2
@@ -644,6 +949,179 @@ _jp_4:
 	}
 }
 
+func l_Leanharbor_Token_isDecimal(x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V) uint8 {
+	var x_6 uint8
+	_ = x_6
+	var x_7 rt.V
+	_ = x_7
+	var x_8 rt.V
+	_ = x_8
+	var x_9 uint8
+	_ = x_9
+	var x_10 uint8
+	_ = x_10
+	var x_11 uint8
+	_ = x_11
+	var x_12 rt.V
+	_ = x_12
+	var x_13 uint8
+	_ = x_13
+	var x_15 uint8
+	_ = x_15
+	var x_16 rt.V
+	_ = x_16
+	var x_17 rt.V
+	_ = x_17
+	var x_18 rt.V
+	_ = x_18
+	var x_19 uint8
+	_ = x_19
+	var x_20 uint8
+	_ = x_20
+	var x_21 rt.V
+	_ = x_21
+	var x_22 rt.V
+	_ = x_22
+	var x_23 rt.V
+	_ = x_23
+	var x_24 uint8
+	_ = x_24
+	var x_25 rt.V
+	_ = x_25
+	var x_26 rt.V
+	_ = x_26
+	var x_27 rt.V
+	_ = x_27
+	var x_28 uint8
+	_ = x_28
+	var x_29 uint8
+	_ = x_29
+	var x_30 uint8
+	_ = x_30
+	var x_31 rt.V
+	_ = x_31
+	var x_32 rt.V
+	_ = x_32
+	var x_33 uint8
+	_ = x_33
+	var x_34 rt.V
+	_ = x_34
+	var x_35 uint8
+	_ = x_35
+	var x_36 uint8
+	_ = x_36
+	var x_37 uint8
+	_ = x_37
+	var x_38 uint8
+	_ = x_38
+_start:
+	x_11 = l_Nat_decLe(x_4, x_3)
+	switch x_11 {
+	case 0:
+		x_12 = rt.NatFromUint64(10)
+		x_13 = l_Nat_decLt(x_1, x_12)
+		switch x_13 {
+		case 0:
+			x_25 = rt.NatFromUint64(1)
+			x_26 = l_Nat_sub(x_4, x_25)
+			x_27 = l_String_utf8ByteSize(x_2)
+			x_28 = l_Nat_decLt(x_26, x_27)
+			switch x_28 {
+			case 0:
+				rt.Lean_dec(x_26)
+				x_29 = 0
+				x_15 = x_29
+				goto _jp_14
+			case 1:
+				x_30 = l_String_getUTF8Byte(x_2, x_26)
+				x_15 = x_30
+				goto _jp_14
+			default:
+				rt.Lean_internal_panic_unreachable()
+				return 0
+			}
+		case 1:
+			x_31 = rt.NatFromUint64(1)
+			x_32 = l_Nat_add(x_3, x_31)
+			x_33 = l_Nat_decEq(x_4, x_32)
+			rt.Lean_dec(x_32)
+			rt.Lean_dec(x_4)
+			switch x_33 {
+			case 0:
+				rt.Lean_dec(x_3)
+				rt.Lean_dec(x_1)
+				return x_11
+			case 1:
+				x_34 = l_String_utf8ByteSize(x_2)
+				x_35 = l_Nat_decLt(x_3, x_34)
+				switch x_35 {
+				case 0:
+					rt.Lean_dec(x_3)
+					x_36 = 0
+					x_6 = x_36
+					goto _jp_5
+				case 1:
+					x_37 = l_String_getUTF8Byte(x_2, x_3)
+					x_6 = x_37
+					goto _jp_5
+				default:
+					rt.Lean_internal_panic_unreachable()
+					return 0
+				}
+			default:
+				rt.Lean_internal_panic_unreachable()
+				return 0
+			}
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return 0
+		}
+	case 1:
+		rt.Lean_dec(x_4)
+		rt.Lean_dec(x_3)
+		rt.Lean_dec(x_1)
+		x_38 = 0
+		return x_38
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return 0
+	}
+_jp_5:
+	x_7 = rt.NatFromUint64(48)
+	x_8 = l_Nat_add(x_1, x_7)
+	rt.Lean_dec(x_1)
+	x_9 = l_UInt8_ofNat(x_8)
+	rt.Lean_dec(x_8)
+	x_10 = l_UInt8_decEq(x_6, x_9)
+	return x_10
+_jp_14:
+	x_16 = l_Nat_mod(x_1, x_12)
+	x_17 = rt.NatFromUint64(48)
+	x_18 = l_Nat_add(x_16, x_17)
+	rt.Lean_dec(x_16)
+	x_19 = l_UInt8_ofNat(x_18)
+	rt.Lean_dec(x_18)
+	x_20 = l_UInt8_decEq(x_15, x_19)
+	switch x_20 {
+	case 0:
+		rt.Lean_dec(x_4)
+		rt.Lean_dec(x_3)
+		rt.Lean_dec(x_1)
+		return x_13
+	case 1:
+		x_21 = l_Nat_div(x_1, x_12)
+		rt.Lean_dec(x_1)
+		x_22 = rt.NatFromUint64(1)
+		x_23 = l_Nat_sub(x_4, x_22)
+		rt.Lean_dec(x_4)
+		x_1, x_4 = x_21, x_23
+		goto _start
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return 0
+	}
+}
+
 func l_Leanharbor_Token_join(x_1 rt.V, x_2 rt.V) rt.V {
 	frame := rt.AcquireTail()
 	defer rt.ReleaseTail(frame)
@@ -705,6 +1183,68 @@ func l_Leanharbor_Token_number(x_1 rt.V) rt.V {
 			x_13 = rt.Lean_alloc_ctor(1, 1, 0)
 			rt.Lean_ctor_set(x_13, 0, x_12)
 			return x_13
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+}
+
+func l_Leanharbor_Token_numberAt(x_1 rt.V, x_2 rt.V, x_3 rt.V) rt.V {
+	var x_4 rt.V
+	_ = x_4
+	var x_5 rt.V
+	_ = x_5
+	var x_6 uint8
+	_ = x_6
+	var x_7 rt.V
+	_ = x_7
+	var x_8 rt.V
+	_ = x_8
+	var x_9 rt.V
+	_ = x_9
+	var x_10 uint64
+	_ = x_10
+	var x_11 rt.V
+	_ = x_11
+	var x_12 uint8
+	_ = x_12
+	var x_13 rt.V
+	_ = x_13
+	var x_14 rt.V
+	_ = x_14
+	var x_15 rt.V
+	_ = x_15
+	x_4 = l_Nat_sub(x_3, x_2)
+	x_5 = rt.NatFromUint64(20)
+	x_6 = l_Nat_decLe(x_4, x_5)
+	rt.Lean_dec(x_4)
+	switch x_6 {
+	case 0:
+		rt.Lean_dec(x_3)
+		rt.Lean_dec(x_2)
+		x_7 = rt.Lean_box(0)
+		return x_7
+	case 1:
+		x_8 = rt.NatFromUint64(0)
+		rt.Lean_inc(x_2)
+		x_9 = l_Leanharbor_Token_digitsFrom(x_1, x_2, x_3, x_8)
+		x_10 = l_UInt64_ofNat(x_9)
+		rt.Lean_dec(x_9)
+		x_11 = l_UInt64_toNat(x_10)
+		x_12 = l_Leanharbor_Token_isDecimal(x_11, x_1, x_2, x_3)
+		switch x_12 {
+		case 0:
+			x_13 = rt.Lean_box(0)
+			return x_13
+		case 1:
+			x_14 = rt.Lean_box(x_10)
+			x_15 = rt.Lean_alloc_ctor(1, 1, 0)
+			rt.Lean_ctor_set(x_15, 0, x_14)
+			return x_15
 		default:
 			rt.Lean_internal_panic_unreachable()
 			return rt.V{}
@@ -1195,6 +1735,448 @@ _jp_63:
 	return x_64
 }
 
+func l_Leanharbor_Token_parseString(x_1 rt.V) rt.V {
+	var x_2 rt.V
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	var x_5 uint8
+	_ = x_5
+	var x_6 rt.V
+	_ = x_6
+	var x_7 rt.V
+	_ = x_7
+	var x_8 rt.V
+	_ = x_8
+	var x_9 rt.V
+	_ = x_9
+	var x_10 uint8
+	_ = x_10
+	var x_11 rt.V
+	_ = x_11
+	var x_12 rt.V
+	_ = x_12
+	var x_13 rt.V
+	_ = x_13
+	var x_14 uint8
+	_ = x_14
+	var x_15 rt.V
+	_ = x_15
+	var x_16 rt.V
+	_ = x_16
+	var x_17 rt.V
+	_ = x_17
+	var x_19 uint8
+	_ = x_19
+	var x_20 uint8
+	_ = x_20
+	var x_21 uint8
+	_ = x_21
+	var x_22 rt.V
+	_ = x_22
+	var x_23 rt.V
+	_ = x_23
+	var x_24 rt.V
+	_ = x_24
+	var x_25 rt.V
+	_ = x_25
+	var x_26 rt.V
+	_ = x_26
+	var x_27 rt.V
+	_ = x_27
+	var x_28 rt.V
+	_ = x_28
+	var x_29 rt.V
+	_ = x_29
+	var x_30 rt.V
+	_ = x_30
+	var x_31 rt.V
+	_ = x_31
+	var x_32 rt.V
+	_ = x_32
+	var x_33 rt.V
+	_ = x_33
+	var x_35 rt.V
+	_ = x_35
+	var x_36 uint8
+	_ = x_36
+	var x_37 rt.V
+	_ = x_37
+	var x_38 rt.V
+	_ = x_38
+	var x_39 uint8
+	_ = x_39
+	var x_40 rt.V
+	_ = x_40
+	var x_41 rt.V
+	_ = x_41
+	var x_42 rt.V
+	_ = x_42
+	var x_43 rt.V
+	_ = x_43
+	var x_44 rt.V
+	_ = x_44
+	var x_45 rt.V
+	_ = x_45
+	var x_46 rt.V
+	_ = x_46
+	var x_47 rt.V
+	_ = x_47
+	var x_48 rt.V
+	_ = x_48
+	var x_49 rt.V
+	_ = x_49
+	var x_50 uint64
+	_ = x_50
+	var x_51 uint64
+	_ = x_51
+	var x_52 uint64
+	_ = x_52
+	var x_54 rt.V
+	_ = x_54
+	var x_55 rt.V
+	_ = x_55
+	var x_56 uint8
+	_ = x_56
+	var x_57 rt.V
+	_ = x_57
+	var x_58 rt.V
+	_ = x_58
+	var x_59 rt.V
+	_ = x_59
+	var x_60 rt.V
+	_ = x_60
+	var x_62 uint8
+	_ = x_62
+	var x_63 uint8
+	_ = x_63
+	var x_64 uint8
+	_ = x_64
+	var x_65 rt.V
+	_ = x_65
+	var x_66 uint8
+	_ = x_66
+	var x_67 uint8
+	_ = x_67
+	var x_68 uint8
+	_ = x_68
+	var x_69 uint8
+	_ = x_69
+	var x_70 rt.V
+	_ = x_70
+	var x_71 rt.V
+	_ = x_71
+	var x_72 uint8
+	_ = x_72
+	var x_73 rt.V
+	_ = x_73
+	var x_74 uint8
+	_ = x_74
+	var x_75 uint8
+	_ = x_75
+	var x_76 uint8
+	_ = x_76
+	x_2 = l_String_utf8ByteSize(x_1)
+	x_3 = rt.NatFromUint64(0)
+	x_4 = l_Leanharbor_Token_dotFrom(x_1, x_3)
+	x_5 = l_Nat_decLt(x_4, x_2)
+	switch x_5 {
+	case 0:
+		rt.Lean_dec(x_4)
+		x_6 = rt.Lean_box(0)
+		return x_6
+	case 1:
+		x_7 = rt.NatFromUint64(1)
+		x_8 = l_Nat_add(x_4, x_7)
+		rt.Lean_inc(x_8)
+		x_9 = l_Leanharbor_Token_dotFrom(x_1, x_8)
+		x_10 = l_Nat_decLt(x_9, x_2)
+		switch x_10 {
+		case 0:
+			rt.Lean_dec(x_9)
+			rt.Lean_dec(x_8)
+			rt.Lean_dec(x_4)
+			x_11 = rt.Lean_box(0)
+			return x_11
+		case 1:
+			x_12 = l_Nat_add(x_9, x_7)
+			rt.Lean_inc(x_12)
+			x_13 = l_Leanharbor_Token_dotFrom(x_1, x_12)
+			x_14 = l_Nat_decLt(x_13, x_2)
+			switch x_14 {
+			case 0:
+				rt.Lean_dec(x_13)
+				rt.Lean_dec(x_12)
+				rt.Lean_dec(x_9)
+				rt.Lean_dec(x_8)
+				rt.Lean_dec(x_4)
+				x_15 = rt.Lean_box(0)
+				return x_15
+			case 1:
+				x_16 = l_Nat_add(x_13, x_7)
+				rt.Lean_inc(x_16)
+				x_17 = l_Leanharbor_Token_dotFrom(x_1, x_16)
+				x_69 = l_Nat_decLt(x_17, x_2)
+				switch x_69 {
+				case 0:
+					rt.Lean_dec(x_17)
+					rt.Lean_dec(x_16)
+					rt.Lean_dec(x_13)
+					rt.Lean_dec(x_12)
+					rt.Lean_dec(x_9)
+					rt.Lean_dec(x_8)
+					rt.Lean_dec(x_4)
+					x_70 = rt.Lean_box(0)
+					return x_70
+				case 1:
+					x_71 = rt.NatFromUint64(2)
+					x_72 = l_Nat_decEq(x_4, x_71)
+					switch x_72 {
+					case 0:
+						rt.Lean_dec(x_17)
+						rt.Lean_dec(x_16)
+						rt.Lean_dec(x_13)
+						rt.Lean_dec(x_12)
+						rt.Lean_dec(x_9)
+						rt.Lean_dec(x_8)
+						rt.Lean_dec(x_4)
+						x_73 = rt.Lean_box(0)
+						return x_73
+					case 1:
+						x_74 = l_Nat_decLt(x_3, x_2)
+						switch x_74 {
+						case 0:
+							x_75 = 0
+							x_62 = x_75
+							goto _jp_61
+						case 1:
+							x_76 = l_String_getUTF8Byte(x_1, x_3)
+							x_62 = x_76
+							goto _jp_61
+						default:
+							rt.Lean_internal_panic_unreachable()
+							return rt.V{}
+						}
+					default:
+						rt.Lean_internal_panic_unreachable()
+						return rt.V{}
+					}
+				default:
+					rt.Lean_internal_panic_unreachable()
+					return rt.V{}
+				}
+			default:
+				rt.Lean_internal_panic_unreachable()
+				return rt.V{}
+			}
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_18:
+	x_20 = 49
+	x_21 = l_UInt8_decEq(x_19, x_20)
+	switch x_21 {
+	case 0:
+		rt.Lean_dec(x_17)
+		rt.Lean_dec(x_16)
+		rt.Lean_dec(x_13)
+		rt.Lean_dec(x_12)
+		rt.Lean_dec(x_9)
+		rt.Lean_dec(x_8)
+		rt.Lean_dec(x_4)
+		x_22 = rt.Lean_box(0)
+		return x_22
+	case 1:
+		rt.Lean_inc(x_9)
+		rt.Lean_inc(x_8)
+		x_23 = l_Leanharbor_Token_numberAt(x_1, x_8, x_9)
+		switch rt.Lean_obj_tag(x_23) {
+		case 1:
+			x_24 = rt.Lean_ctor_get(x_23, 0)
+			rt.Lean_inc(x_24)
+			rt.Lean_dec(x_23)
+			rt.Lean_inc(x_13)
+			rt.Lean_inc(x_12)
+			x_25 = l_Leanharbor_Token_numberAt(x_1, x_12, x_13)
+			switch rt.Lean_obj_tag(x_25) {
+			case 1:
+				x_26 = rt.Lean_ctor_get(x_25, 0)
+				rt.Lean_inc(x_26)
+				rt.Lean_dec(x_25)
+				rt.Lean_inc(x_17)
+				rt.Lean_inc(x_16)
+				x_27 = l_Leanharbor_Token_numberAt(x_1, x_16, x_17)
+				switch rt.Lean_obj_tag(x_27) {
+				case 1:
+					x_28 = rt.Lean_ctor_get(x_27, 0)
+					rt.Lean_inc(x_28)
+					rt.Lean_dec(x_27)
+					x_29 = l_Nat_add(x_17, x_7)
+					x_30 = rt.NatFromUint64(32)
+					x_31 = l_Array_emptyWithCapacity(x_30)
+					x_32 = l_Leanharbor_Token_unhexAt(x_1, x_29, x_2, x_31)
+					switch rt.Lean_obj_tag(x_32) {
+					case 1:
+						x_33 = rt.Lean_ctor_get(x_32, 0)
+						x_56 = rt.Bool(!rt.Lean_is_exclusive(x_32))
+						switch x_56 {
+						case 0:
+							x_35, x_36 = x_32, x_56
+							goto _jp_34
+						case 1:
+							rt.Lean_inc(x_33)
+							rt.Lean_dec(x_32)
+							x_35, x_36 = rt.V{}, x_56
+							goto _jp_34
+						default:
+							rt.Lean_internal_panic_unreachable()
+							return rt.V{}
+						}
+					default:
+						rt.Lean_dec(x_32)
+						rt.Lean_dec(x_28)
+						rt.Lean_dec(x_26)
+						rt.Lean_dec(x_24)
+						rt.Lean_dec(x_17)
+						rt.Lean_dec(x_16)
+						rt.Lean_dec(x_13)
+						rt.Lean_dec(x_12)
+						rt.Lean_dec(x_9)
+						rt.Lean_dec(x_8)
+						rt.Lean_dec(x_4)
+						x_57 = rt.Lean_box(0)
+						return x_57
+					}
+				default:
+					rt.Lean_dec(x_27)
+					rt.Lean_dec(x_26)
+					rt.Lean_dec(x_24)
+					rt.Lean_dec(x_17)
+					rt.Lean_dec(x_16)
+					rt.Lean_dec(x_13)
+					rt.Lean_dec(x_12)
+					rt.Lean_dec(x_9)
+					rt.Lean_dec(x_8)
+					rt.Lean_dec(x_4)
+					x_58 = rt.Lean_box(0)
+					return x_58
+				}
+			default:
+				rt.Lean_dec(x_25)
+				rt.Lean_dec(x_24)
+				rt.Lean_dec(x_17)
+				rt.Lean_dec(x_16)
+				rt.Lean_dec(x_13)
+				rt.Lean_dec(x_12)
+				rt.Lean_dec(x_9)
+				rt.Lean_dec(x_8)
+				rt.Lean_dec(x_4)
+				x_59 = rt.Lean_box(0)
+				return x_59
+			}
+		default:
+			rt.Lean_dec(x_23)
+			rt.Lean_dec(x_17)
+			rt.Lean_dec(x_16)
+			rt.Lean_dec(x_13)
+			rt.Lean_dec(x_12)
+			rt.Lean_dec(x_9)
+			rt.Lean_dec(x_8)
+			rt.Lean_dec(x_4)
+			x_60 = rt.Lean_box(0)
+			return x_60
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_34:
+	x_37 = l_Array_emptyWithCapacity(x_17)
+	x_38 = l_Leanharbor_Token_copyBytes(x_1, x_3, x_4, x_37)
+	rt.Lean_dec(x_4)
+	x_39 = 46
+	x_40 = rt.Lean_box(uint64(x_39))
+	x_41 = l_Array_push(x_38, x_40)
+	x_42 = l_Leanharbor_Token_copyBytes(x_1, x_8, x_9, x_41)
+	rt.Lean_dec(x_9)
+	x_43 = rt.Lean_box(uint64(x_39))
+	x_44 = l_Array_push(x_42, x_43)
+	x_45 = l_Leanharbor_Token_copyBytes(x_1, x_12, x_13, x_44)
+	rt.Lean_dec(x_13)
+	x_46 = rt.Lean_box(uint64(x_39))
+	x_47 = l_Array_push(x_45, x_46)
+	x_48 = l_Leanharbor_Token_copyBytes(x_1, x_16, x_17, x_47)
+	rt.Lean_dec(x_17)
+	x_49 = rt.Lean_alloc_ctor(0, 2, 24)
+	rt.Lean_ctor_set(x_49, 0, x_48)
+	rt.Lean_ctor_set(x_49, 1, x_33)
+	x_50 = rt.Lean_unbox(x_24)
+	rt.Lean_dec(x_24)
+	rt.Lean_ctor_set_uint64(x_49, 16, x_50)
+	x_51 = rt.Lean_unbox(x_26)
+	rt.Lean_dec(x_26)
+	rt.Lean_ctor_set_uint64(x_49, 24, x_51)
+	x_52 = rt.Lean_unbox(x_28)
+	rt.Lean_dec(x_28)
+	rt.Lean_ctor_set_uint64(x_49, 32, x_52)
+	switch x_36 {
+	case 0:
+		rt.Lean_ctor_set(x_35, 0, x_49)
+		x_54 = x_35
+		goto _jp_53
+	case 1:
+		x_55 = rt.Lean_alloc_ctor(1, 1, 0)
+		rt.Lean_ctor_set(x_55, 0, x_49)
+		x_54 = x_55
+		goto _jp_53
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_53:
+	return x_54
+_jp_61:
+	x_63 = 118
+	x_64 = l_UInt8_decEq(x_62, x_63)
+	switch x_64 {
+	case 0:
+		rt.Lean_dec(x_17)
+		rt.Lean_dec(x_16)
+		rt.Lean_dec(x_13)
+		rt.Lean_dec(x_12)
+		rt.Lean_dec(x_9)
+		rt.Lean_dec(x_8)
+		rt.Lean_dec(x_4)
+		x_65 = rt.Lean_box(0)
+		return x_65
+	case 1:
+		x_66 = l_Nat_decLt(x_7, x_2)
+		switch x_66 {
+		case 0:
+			x_67 = 0
+			x_19 = x_67
+			goto _jp_18
+		case 1:
+			x_68 = l_String_getUTF8Byte(x_1, x_7)
+			x_19 = x_68
+			goto _jp_18
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+}
+
 func l_Leanharbor_Token_parse___closed__0() rt.V {
 	return value_L_Leanharbor_Token_parse___closed__0
 }
@@ -1469,6 +2451,340 @@ _jp_10:
 _jp_26:
 	x_1, x_2 = x_27, x_9
 	goto _start
+}
+
+func l_Leanharbor_Token_unhexAt(x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V) rt.V {
+	var x_6 uint8
+	_ = x_6
+	var x_7 uint8
+	_ = x_7
+	var x_8 uint8
+	_ = x_8
+	var x_9 uint8
+	_ = x_9
+	var x_10 rt.V
+	_ = x_10
+	var x_11 uint8
+	_ = x_11
+	var x_12 rt.V
+	_ = x_12
+	var x_13 rt.V
+	_ = x_13
+	var x_14 rt.V
+	_ = x_14
+	var x_15 uint8
+	_ = x_15
+	var x_16 uint8
+	_ = x_16
+	var x_17 uint8
+	_ = x_17
+	var x_18 rt.V
+	_ = x_18
+	var x_19 rt.V
+	_ = x_19
+	var x_20 rt.V
+	_ = x_20
+	var x_22 uint8
+	_ = x_22
+	var x_23 uint8
+	_ = x_23
+	var x_24 uint8
+	_ = x_24
+	var x_25 uint8
+	_ = x_25
+	var x_26 uint8
+	_ = x_26
+	var x_27 uint8
+	_ = x_27
+	var x_28 uint8
+	_ = x_28
+	var x_29 uint8
+	_ = x_29
+	var x_30 uint8
+	_ = x_30
+	var x_31 uint8
+	_ = x_31
+	var x_33 uint8
+	_ = x_33
+	var x_34 uint8
+	_ = x_34
+	var x_35 uint8
+	_ = x_35
+	var x_36 uint8
+	_ = x_36
+	var x_37 uint8
+	_ = x_37
+	var x_38 uint8
+	_ = x_38
+	var x_39 uint8
+	_ = x_39
+	var x_40 uint8
+	_ = x_40
+	var x_41 rt.V
+	_ = x_41
+	var x_42 rt.V
+	_ = x_42
+	var x_43 rt.V
+	_ = x_43
+	var x_45 uint8
+	_ = x_45
+	var x_46 rt.V
+	_ = x_46
+	var x_47 uint8
+	_ = x_47
+	var x_48 uint8
+	_ = x_48
+	var x_49 uint8
+	_ = x_49
+	var x_51 uint8
+	_ = x_51
+	var x_52 uint8
+	_ = x_52
+	var x_53 uint8
+	_ = x_53
+	var x_54 uint8
+	_ = x_54
+	var x_55 uint8
+	_ = x_55
+	var x_56 uint8
+	_ = x_56
+	var x_57 uint8
+	_ = x_57
+	var x_58 uint8
+	_ = x_58
+	var x_59 uint8
+	_ = x_59
+	var x_61 uint8
+	_ = x_61
+	var x_62 uint8
+	_ = x_62
+	var x_63 uint8
+	_ = x_63
+	var x_64 uint8
+	_ = x_64
+	var x_65 uint8
+	_ = x_65
+	var x_66 uint8
+	_ = x_66
+	var x_67 uint8
+	_ = x_67
+	var x_68 rt.V
+	_ = x_68
+	var x_69 rt.V
+	_ = x_69
+	var x_70 uint8
+	_ = x_70
+	var x_71 uint8
+	_ = x_71
+	var x_72 uint8
+	_ = x_72
+_start:
+	x_40 = l_Nat_decLt(x_2, x_3)
+	switch x_40 {
+	case 0:
+		rt.Lean_dec(x_2)
+		x_41 = rt.Lean_alloc_ctor(1, 1, 0)
+		rt.Lean_ctor_set(x_41, 0, x_4)
+		return x_41
+	case 1:
+		x_42 = rt.NatFromUint64(1)
+		x_43 = l_Nat_add(x_2, x_42)
+		x_67 = l_Nat_decLt(x_43, x_3)
+		switch x_67 {
+		case 0:
+			rt.Lean_dec(x_43)
+			rt.Lean_dec(x_4)
+			rt.Lean_dec(x_2)
+			x_68 = rt.Lean_box(0)
+			return x_68
+		case 1:
+			x_69 = l_String_utf8ByteSize(x_1)
+			x_70 = l_Nat_decLt(x_2, x_69)
+			switch x_70 {
+			case 0:
+				x_71 = 0
+				x_61 = x_71
+				goto _jp_60
+			case 1:
+				rt.Lean_inc(x_2)
+				x_72 = l_String_getUTF8Byte(x_1, x_2)
+				x_61 = x_72
+				goto _jp_60
+			default:
+				rt.Lean_internal_panic_unreachable()
+				return rt.V{}
+			}
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_5:
+	x_8 = 16
+	x_9 = l_UInt8_decLt(x_6, x_8)
+	switch x_9 {
+	case 0:
+		rt.Lean_dec(x_4)
+		rt.Lean_dec(x_2)
+		x_10 = rt.Lean_box(0)
+		return x_10
+	case 1:
+		x_11 = l_UInt8_decLt(x_7, x_8)
+		switch x_11 {
+		case 0:
+			rt.Lean_dec(x_4)
+			rt.Lean_dec(x_2)
+			x_12 = rt.Lean_box(0)
+			return x_12
+		case 1:
+			x_13 = rt.NatFromUint64(2)
+			x_14 = l_Nat_add(x_2, x_13)
+			rt.Lean_dec(x_2)
+			x_15 = 4
+			x_16 = l_UInt8_shiftLeft(x_6, x_15)
+			x_17 = l_UInt8_add(x_16, x_7)
+			x_18 = rt.Lean_box(uint64(x_17))
+			x_19 = l_Array_push(x_4, x_18)
+			x_2, x_4 = x_14, x_19
+			goto _start
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_21:
+	x_24 = 97
+	x_25 = l_UInt8_decLe(x_24, x_22)
+	switch x_25 {
+	case 0:
+		x_26 = 16
+		x_6, x_7 = x_23, x_26
+		goto _jp_5
+	case 1:
+		x_27 = 102
+		x_28 = l_UInt8_decLe(x_22, x_27)
+		switch x_28 {
+		case 0:
+			x_29 = 16
+			x_6, x_7 = x_23, x_29
+			goto _jp_5
+		case 1:
+			x_30 = 87
+			x_31 = l_UInt8_sub(x_22, x_30)
+			x_6, x_7 = x_23, x_31
+			goto _jp_5
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_32:
+	x_35 = 48
+	x_36 = l_UInt8_decLe(x_35, x_34)
+	switch x_36 {
+	case 0:
+		x_22, x_23 = x_34, x_33
+		goto _jp_21
+	case 1:
+		x_37 = 57
+		x_38 = l_UInt8_decLe(x_34, x_37)
+		switch x_38 {
+		case 0:
+			x_22, x_23 = x_34, x_33
+			goto _jp_21
+		case 1:
+			x_39 = l_UInt8_sub(x_34, x_35)
+			x_6, x_7 = x_33, x_39
+			goto _jp_5
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_44:
+	x_46 = l_String_utf8ByteSize(x_1)
+	x_47 = l_Nat_decLt(x_43, x_46)
+	switch x_47 {
+	case 0:
+		rt.Lean_dec(x_43)
+		x_48 = 0
+		x_33, x_34 = x_45, x_48
+		goto _jp_32
+	case 1:
+		x_49 = l_String_getUTF8Byte(x_1, x_43)
+		x_33, x_34 = x_45, x_49
+		goto _jp_32
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_50:
+	x_52 = 97
+	x_53 = l_UInt8_decLe(x_52, x_51)
+	switch x_53 {
+	case 0:
+		x_54 = 16
+		x_45 = x_54
+		goto _jp_44
+	case 1:
+		x_55 = 102
+		x_56 = l_UInt8_decLe(x_51, x_55)
+		switch x_56 {
+		case 0:
+			x_57 = 16
+			x_45 = x_57
+			goto _jp_44
+		case 1:
+			x_58 = 87
+			x_59 = l_UInt8_sub(x_51, x_58)
+			x_45 = x_59
+			goto _jp_44
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_60:
+	x_62 = 48
+	x_63 = l_UInt8_decLe(x_62, x_61)
+	switch x_63 {
+	case 0:
+		x_51 = x_61
+		goto _jp_50
+	case 1:
+		x_64 = 57
+		x_65 = l_UInt8_decLe(x_61, x_64)
+		switch x_65 {
+		case 0:
+			x_51 = x_61
+			goto _jp_50
+		case 1:
+			x_66 = l_UInt8_sub(x_61, x_62)
+			x_45 = x_66
+			goto _jp_44
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
 }
 
 func l_List_appendTR___redArg(x_1 rt.V, x_2 rt.V) rt.V {
@@ -1817,6 +3133,10 @@ func l_Nat_add(x_1 rt.V, x_2 rt.V) rt.V {
 	return rt.Lean_nat_add(x_1, x_2)
 }
 
+func l_Nat_decEq(x_1 rt.V, x_2 rt.V) uint8 {
+	return rt.Lean_nat_dec_eq(x_1, x_2)
+}
+
 func l_Nat_decLe(x_1 rt.V, x_2 rt.V) uint8 {
 	return rt.Lean_nat_dec_le(x_1, x_2)
 }
@@ -1845,6 +3165,14 @@ func l_Nat_sub(x_1 rt.V, x_2 rt.V) rt.V {
 	return rt.Lean_nat_sub(x_1, x_2)
 }
 
+func l_String_getUTF8Byte(x_1 rt.V, x_2 rt.V) uint8 {
+	return rt.Lean_string_get_byte_fast(x_1, x_2)
+}
+
+func l_String_utf8ByteSize(x_1 rt.V) rt.V {
+	return rt.Lean_string_utf8_byte_size(x_1)
+}
+
 func l_UInt64_ofNat(x_1 rt.V) uint64 {
 	return rt.Lean_uint64_of_nat(x_1)
 }
@@ -1853,12 +3181,32 @@ func l_UInt64_toNat(x_1 uint64) rt.V {
 	return rt.Lean_uint64_to_nat(x_1)
 }
 
+func l_UInt8_add(x_1 uint8, x_2 uint8) uint8 {
+	return rt.Lean_uint8_add(x_1, x_2)
+}
+
 func l_UInt8_decEq(x_1 uint8, x_2 uint8) uint8 {
 	return rt.Lean_uint8_dec_eq(x_1, x_2)
 }
 
+func l_UInt8_decLe(x_1 uint8, x_2 uint8) uint8 {
+	return rt.Lean_uint8_dec_le(x_1, x_2)
+}
+
+func l_UInt8_decLt(x_1 uint8, x_2 uint8) uint8 {
+	return rt.Lean_uint8_dec_lt(x_1, x_2)
+}
+
 func l_UInt8_ofNat(x_1 rt.V) uint8 {
 	return rt.Lean_uint8_of_nat(x_1)
+}
+
+func l_UInt8_shiftLeft(x_1 uint8, x_2 uint8) uint8 {
+	return rt.Lean_uint8_shift_left(x_1, x_2)
+}
+
+func l_UInt8_sub(x_1 uint8, x_2 uint8) uint8 {
+	return rt.Lean_uint8_sub(x_1, x_2)
 }
 
 func l_UInt8_toNat(x_1 uint8) rt.V {

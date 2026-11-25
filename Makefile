@@ -92,3 +92,9 @@ bench:
 	cd rust && cargo run --release --quiet --bin bench
 	cd python && uv run python -m leanharbor_calculator.bench
 	cd go && go run ./calculator/cmd/bench
+
+.PHONY: bench-bytes
+bench-bytes:
+	cd rust && cargo run --release --quiet --bin bytes_bench
+	cd python && uv run python -m leanharbor_calculator.bytes_bench
+	cd go && go run ./calculator/cmd/bytes-bench

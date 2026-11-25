@@ -1,10 +1,11 @@
 //! The generated Rust JSON writer against the one run natively by Lean (`json-oracle`), on the
-//! shared token lists. The line format is described in `lean/JsonOracle.lean`.
+//! shared token lists. The line format is described in `lean/JsonOracle.lean`. A list whose
+//! strings are UTF-8 is also written by `write_array`, which must write what `write` writes.
 
 use std::io::Write as _;
 use std::process::{Command, Stdio};
 
-use leanharbor::json_format::{self, Tok};
+use leanharbor::json_format::{self, StrTok, Tok};
 
 const CASES: &str = include_str!("../../../testdata/json-cases.txt");
 
@@ -45,13 +46,34 @@ fn tok(word: &str) -> Tok {
     }
 }
 
+fn str_tok(t: &Tok) -> Option<StrTok> {
+    let text = |s: &[u8]| String::from_utf8(s.to_vec()).ok();
+    Some(match t {
+        Tok::Null => StrTok::Null,
+        Tok::Bool { b } => StrTok::Bool { b: *b },
+        Tok::Num { n } => StrTok::Num { n: *n },
+        Tok::Str { s } => StrTok::Str { s: text(s)? },
+        Tok::Key { s } => StrTok::Key { s: text(s)? },
+        Tok::ArrOpen => StrTok::ArrOpen,
+        Tok::ArrClose => StrTok::ArrClose,
+        Tok::ObjOpen => StrTok::ObjOpen,
+        Tok::ObjClose => StrTok::ObjClose,
+    })
+}
+
 fn run(line: &str) -> String {
     let mut words = line.split(' ');
     assert_eq!(words.next(), Some("write"), "bad line {line}");
-    format!(
-        "json {}",
-        show(&json_format::write(words.map(tok).collect()))
-    )
+    let toks: Vec<Tok> = words.map(tok).collect();
+    let written = json_format::write(toks.clone());
+    if let Some(str_toks) = toks.iter().map(str_tok).collect::<Option<Vec<_>>>() {
+        assert_eq!(
+            json_format::write_array(str_toks),
+            written,
+            "write_array of {line}"
+        );
+    }
+    format!("json {}", show(&written))
 }
 
 fn oracle() -> String {
@@ -74,6 +96,11 @@ fn generated_rust_json_writer_agrees_with_lean() {
     let ours: Vec<String> = CASES.lines().map(run).collect();
     let theirs = oracle();
     assert_eq!(ours.len(), theirs.lines().count());
+    let utf8 = CASES
+        .lines()
+        .filter(|l| l.split(' ').skip(1).map(tok).all(|t| str_tok(&t).is_some()))
+        .count();
+    assert!(utf8 > 1000);
     for (i, (a, b)) in ours.iter().zip(theirs.lines()).enumerate() {
         assert_eq!(a, b, "line {}: {}", i + 1, CASES.lines().nth(i).unwrap());
     }

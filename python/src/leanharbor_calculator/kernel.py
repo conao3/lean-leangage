@@ -24,6 +24,8 @@ from leanfran.runtime import (  # noqa: F401
     lean_nat_div,
     lean_nat_mod,
     lean_nat_shiftr,
+    lean_string_get_byte_fast,
+    lean_string_utf8_byte_size,
     lean_uint64_add,
     lean_uint64_dec_eq,
     lean_uint64_dec_lt,
@@ -34,6 +36,7 @@ from leanfran.runtime import (  # noqa: F401
     lean_uint64_sub,
     lean_uint64_to_nat,
     lean_uint8_dec_eq,
+    lean_uint8_dec_le,
     lean_uint8_dec_lt,
     lean_uint8_of_nat,
     lean_uint8_to_nat,
@@ -1206,6 +1209,50 @@ def l_Calculator_Kernel_memoryOf(x_1, x_2):
         else:
             lean_internal_panic_unreachable()
 
+def l_Calculator_Kernel_errorString(x_1):
+    __t = x_1
+    if __t == 0:
+        x_2 = l_Calculator_Kernel_errorString___closed__0()
+        return x_2
+    elif __t == 1:
+        x_3 = l_Calculator_Kernel_errorString___closed__1()
+        return x_3
+    elif __t == 2:
+        x_4 = l_Calculator_Kernel_errorString___closed__2()
+        return x_4
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Calculator_Kernel_errorString___closed__0__init():
+    x_1 = b"overflow"
+    return x_1
+l_Calculator_Kernel_errorString___closed__0__cell = []
+def l_Calculator_Kernel_errorString___closed__0():
+    c = l_Calculator_Kernel_errorString___closed__0__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorString___closed__0__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorString___closed__1__init():
+    x_1 = b"underflow"
+    return x_1
+l_Calculator_Kernel_errorString___closed__1__cell = []
+def l_Calculator_Kernel_errorString___closed__1():
+    c = l_Calculator_Kernel_errorString___closed__1__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorString___closed__1__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorString___closed__2__init():
+    x_1 = b"division_by_zero"
+    return x_1
+l_Calculator_Kernel_errorString___closed__2__cell = []
+def l_Calculator_Kernel_errorString___closed__2():
+    c = l_Calculator_Kernel_errorString___closed__2__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorString___closed__2__init()))
+    return c[0]
+
 def l_Calculator_Kernel_init__init():
     x_1 = 0
     return x_1
@@ -1668,6 +1715,461 @@ def l_Calculator_Kernel_errorName___closed__11():
         c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__11__init()))
     return c[0]
 
+def l_Calculator_Kernel_encodeErrorArray(x_1):
+    x_2 = 7
+    x_3 = l_Calculator_Kernel_encodeErrorArray___closed__1()
+    x_4 = l_Calculator_Kernel_errorString(x_1)
+    x_5 = Ctor(3, [x_4])
+    x_6 = l_Calculator_Kernel_encodeReplyArray___closed__1()
+    x_7 = Ctor(1, [x_5, x_6])
+    x_8 = Ctor(1, [x_3, x_7])
+    x_9 = Ctor(1, [x_2, x_8])
+    x_10 = l_Leanharbor_Json_writeArray(x_9)
+    lean_dec(x_9)
+    return x_10
+
+def l_Calculator_Kernel_encodeErrorArray___closed__1__init():
+    x_1 = l_Calculator_Kernel_encodeErrorArray___closed__0()
+    x_2 = Ctor(4, [x_1])
+    return x_2
+l_Calculator_Kernel_encodeErrorArray___closed__1__cell = []
+def l_Calculator_Kernel_encodeErrorArray___closed__1():
+    c = l_Calculator_Kernel_encodeErrorArray___closed__1__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_encodeErrorArray___closed__1__init()))
+    return c[0]
+
+def l_Calculator_Kernel_encodeErrorArray___closed__0__init():
+    x_1 = b"error"
+    return x_1
+l_Calculator_Kernel_encodeErrorArray___closed__0__cell = []
+def l_Calculator_Kernel_encodeErrorArray___closed__0():
+    c = l_Calculator_Kernel_encodeErrorArray___closed__0__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_encodeErrorArray___closed__0__init()))
+    return c[0]
+
+def l_Calculator_Kernel_encodeReplyArray___closed__1__init():
+    x_1 = 0
+    x_2 = 8
+    x_3 = Ctor(1, [x_2, x_1])
+    return x_3
+l_Calculator_Kernel_encodeReplyArray___closed__1__cell = []
+def l_Calculator_Kernel_encodeReplyArray___closed__1():
+    c = l_Calculator_Kernel_encodeReplyArray___closed__1__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_encodeReplyArray___closed__1__init()))
+    return c[0]
+
+def l_Leanharbor_Json_writeArray(x_1):
+    x_2 = 64
+    x_3 = lean_mk_empty_array_with_capacity(x_2)
+    x_4 = 0
+    x_5 = l_Leanharbor_Json_writeArrayFrom(x_3, x_4, x_1)
+    return x_5
+
+def l_Leanharbor_Json_writeArrayFrom(x_1, x_2, x_3):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_3)
+            if __t == 0:
+                return x_1
+            elif __t == 1:
+                x_4 = x_3.objs[0]
+                x_5 = x_3.objs[1]
+                __t = x_2
+                if __t == 0:
+                    x_7 = x_1
+                    __blk = 1
+                    continue
+                elif __t == 1:
+                    x_11 = l_Leanharbor_Json_StrTok_isClose(x_4)
+                    __t = x_11
+                    if __t == 0:
+                        x_12 = 44
+                        x_13 = x_12
+                        x_14 = lean_array_push(x_1, x_13)
+                        x_7 = x_14
+                        __blk = 1
+                        continue
+                    elif __t == 1:
+                        x_7 = x_1
+                        __blk = 1
+                        continue
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_8 = l_Leanharbor_Json_pushTok(x_7, x_4)
+            x_9 = l_Leanharbor_Json_StrTok_endsValue(x_4)
+            x_1, x_2, x_3 = x_8, x_9, x_5
+            __blk = 0
+            continue
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leanharbor_Json_pushTok(x_1, x_2):
+    __t = lean_obj_tag(x_2)
+    if __t == 0:
+        x_3 = 110
+        x_4 = x_3
+        x_5 = lean_array_push(x_1, x_4)
+        x_6 = 117
+        x_7 = x_6
+        x_8 = lean_array_push(x_5, x_7)
+        x_9 = 108
+        x_10 = x_9
+        x_11 = lean_array_push(x_8, x_10)
+        x_12 = x_9
+        x_13 = lean_array_push(x_11, x_12)
+        return x_13
+    elif __t == 1:
+        x_14 = x_2.sc[0]
+        __t = x_14
+        if __t == 0:
+            x_15 = 102
+            x_16 = x_15
+            x_17 = lean_array_push(x_1, x_16)
+            x_18 = 97
+            x_19 = x_18
+            x_20 = lean_array_push(x_17, x_19)
+            x_21 = 108
+            x_22 = x_21
+            x_23 = lean_array_push(x_20, x_22)
+            x_24 = 115
+            x_25 = x_24
+            x_26 = lean_array_push(x_23, x_25)
+            x_27 = 101
+            x_28 = x_27
+            x_29 = lean_array_push(x_26, x_28)
+            return x_29
+        elif __t == 1:
+            x_30 = 116
+            x_31 = x_30
+            x_32 = lean_array_push(x_1, x_31)
+            x_33 = 114
+            x_34 = x_33
+            x_35 = lean_array_push(x_32, x_34)
+            x_36 = 117
+            x_37 = x_36
+            x_38 = lean_array_push(x_35, x_37)
+            x_39 = 101
+            x_40 = x_39
+            x_41 = lean_array_push(x_38, x_40)
+            return x_41
+        else:
+            lean_internal_panic_unreachable()
+    elif __t == 2:
+        x_42 = x_2.sc[0]
+        x_43 = lean_uint64_to_nat(x_42)
+        x_44 = l_Leanharbor_Json_pushDecimal(x_1, x_43)
+        lean_dec(x_43)
+        return x_44
+    elif __t == 3:
+        x_45 = x_2.objs[0]
+        x_46 = 0
+        x_47 = 34
+        x_48 = x_47
+        x_49 = lean_array_push(x_1, x_48)
+        x_50 = l_Leanharbor_Json_pushEscaped(x_45, x_46, x_49)
+        x_51 = x_47
+        x_52 = lean_array_push(x_50, x_51)
+        return x_52
+    elif __t == 4:
+        x_53 = x_2.objs[0]
+        x_54 = 0
+        x_55 = 34
+        x_56 = x_55
+        x_57 = lean_array_push(x_1, x_56)
+        x_58 = l_Leanharbor_Json_pushEscaped(x_53, x_54, x_57)
+        x_59 = x_55
+        x_60 = lean_array_push(x_58, x_59)
+        x_61 = 58
+        x_62 = x_61
+        x_63 = lean_array_push(x_60, x_62)
+        return x_63
+    elif __t == 5:
+        x_64 = 91
+        x_65 = x_64
+        x_66 = lean_array_push(x_1, x_65)
+        return x_66
+    elif __t == 6:
+        x_67 = 93
+        x_68 = x_67
+        x_69 = lean_array_push(x_1, x_68)
+        return x_69
+    elif __t == 7:
+        x_70 = 123
+        x_71 = x_70
+        x_72 = lean_array_push(x_1, x_71)
+        return x_72
+    elif __t == 8:
+        x_73 = 125
+        x_74 = x_73
+        x_75 = lean_array_push(x_1, x_74)
+        return x_75
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Leanharbor_Json_pushDecimal(x_1, x_2):
+    x_3 = 10
+    x_4 = lean_nat_dec_lt(x_2, x_3)
+    __t = x_4
+    if __t == 0:
+        x_5 = lean_nat_div(x_2, x_3)
+        x_6 = l_Leanharbor_Json_pushDecimal(x_1, x_5)
+        lean_dec(x_5)
+        x_7 = lean_nat_mod(x_2, x_3)
+        x_8 = 48
+        x_9 = lean_nat_add(x_7, x_8)
+        lean_dec(x_7)
+        x_10 = lean_uint8_of_nat(x_9)
+        lean_dec(x_9)
+        x_11 = x_10
+        x_12 = lean_array_push(x_6, x_11)
+        return x_12
+    elif __t == 1:
+        x_13 = 48
+        x_14 = lean_nat_add(x_2, x_13)
+        x_15 = lean_uint8_of_nat(x_14)
+        lean_dec(x_14)
+        x_16 = x_15
+        x_17 = lean_array_push(x_1, x_16)
+        return x_17
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Leanharbor_Json_pushEscaped(x_1, x_2, x_3):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_4 = lean_string_utf8_byte_size(x_1)
+            x_5 = lean_nat_dec_lt(x_2, x_4)
+            __t = x_5
+            if __t == 0:
+                lean_dec(x_2)
+                return x_3
+            elif __t == 1:
+                x_6 = 1
+                x_7 = lean_nat_add(x_2, x_6)
+                x_8 = lean_string_get_byte_fast(x_1, x_2)
+                x_9 = l_Leanharbor_Json_pushEscapedByte(x_3, x_8)
+                x_1, x_2, x_3 = x_1, x_7, x_9
+                __blk = 0
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leanharbor_Json_pushEscapedByte(x_1, x_2):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_3 = 32
+            x_77 = lean_uint8_dec_le(x_3, x_2)
+            __t = x_77
+            if __t == 0:
+                __blk = 1
+                continue
+            elif __t == 1:
+                x_78 = 34
+                x_79 = lean_uint8_dec_eq(x_2, x_78)
+                __t = x_79
+                if __t == 0:
+                    __t = x_77
+                    if __t == 0:
+                        __blk = 1
+                        continue
+                    elif __t == 1:
+                        x_80 = 92
+                        x_81 = lean_uint8_dec_eq(x_2, x_80)
+                        __t = x_81
+                        if __t == 0:
+                            x_82 = x_2
+                            x_83 = lean_array_push(x_1, x_82)
+                            return x_83
+                        elif __t == 1:
+                            __blk = 1
+                            continue
+                        else:
+                            lean_internal_panic_unreachable()
+                    else:
+                        lean_internal_panic_unreachable()
+                elif __t == 1:
+                    __blk = 1
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_5 = 34
+            x_6 = lean_uint8_dec_eq(x_2, x_5)
+            __t = x_6
+            if __t == 0:
+                x_7 = 92
+                x_8 = lean_uint8_dec_eq(x_2, x_7)
+                __t = x_8
+                if __t == 0:
+                    x_9 = 8
+                    x_10 = lean_uint8_dec_eq(x_2, x_9)
+                    __t = x_10
+                    if __t == 0:
+                        x_11 = 12
+                        x_12 = lean_uint8_dec_eq(x_2, x_11)
+                        __t = x_12
+                        if __t == 0:
+                            x_13 = 10
+                            x_14 = lean_uint8_dec_eq(x_2, x_13)
+                            __t = x_14
+                            if __t == 0:
+                                x_15 = 13
+                                x_16 = lean_uint8_dec_eq(x_2, x_15)
+                                __t = x_16
+                                if __t == 0:
+                                    x_17 = 9
+                                    x_18 = lean_uint8_dec_eq(x_2, x_17)
+                                    __t = x_18
+                                    if __t == 0:
+                                        x_19 = lean_uint8_dec_lt(x_2, x_3)
+                                        __t = x_19
+                                        if __t == 0:
+                                            x_20 = x_2
+                                            x_21 = lean_array_push(x_1, x_20)
+                                            return x_21
+                                        elif __t == 1:
+                                            x_22 = x_7
+                                            x_23 = lean_array_push(x_1, x_22)
+                                            x_24 = 117
+                                            x_25 = x_24
+                                            x_26 = lean_array_push(x_23, x_25)
+                                            x_27 = 48
+                                            x_28 = x_27
+                                            x_29 = lean_array_push(x_26, x_28)
+                                            x_30 = x_27
+                                            x_31 = lean_array_push(x_29, x_30)
+                                            x_32 = lean_uint8_to_nat(x_2)
+                                            x_33 = 16
+                                            x_34 = 4
+                                            x_35 = lean_nat_shiftr(x_32, x_34)
+                                            x_36 = l_Leanharbor_Token_hexDigit(x_35)
+                                            lean_dec(x_35)
+                                            x_37 = x_36
+                                            x_38 = lean_array_push(x_31, x_37)
+                                            x_39 = lean_nat_mod(x_32, x_33)
+                                            x_40 = l_Leanharbor_Token_hexDigit(x_39)
+                                            lean_dec(x_39)
+                                            x_41 = x_40
+                                            x_42 = lean_array_push(x_38, x_41)
+                                            return x_42
+                                        else:
+                                            lean_internal_panic_unreachable()
+                                    elif __t == 1:
+                                        x_43 = x_7
+                                        x_44 = lean_array_push(x_1, x_43)
+                                        x_45 = 116
+                                        x_46 = x_45
+                                        x_47 = lean_array_push(x_44, x_46)
+                                        return x_47
+                                    else:
+                                        lean_internal_panic_unreachable()
+                                elif __t == 1:
+                                    x_48 = x_7
+                                    x_49 = lean_array_push(x_1, x_48)
+                                    x_50 = 114
+                                    x_51 = x_50
+                                    x_52 = lean_array_push(x_49, x_51)
+                                    return x_52
+                                else:
+                                    lean_internal_panic_unreachable()
+                            elif __t == 1:
+                                x_53 = x_7
+                                x_54 = lean_array_push(x_1, x_53)
+                                x_55 = 110
+                                x_56 = x_55
+                                x_57 = lean_array_push(x_54, x_56)
+                                return x_57
+                            else:
+                                lean_internal_panic_unreachable()
+                        elif __t == 1:
+                            x_58 = x_7
+                            x_59 = lean_array_push(x_1, x_58)
+                            x_60 = 102
+                            x_61 = x_60
+                            x_62 = lean_array_push(x_59, x_61)
+                            return x_62
+                        else:
+                            lean_internal_panic_unreachable()
+                    elif __t == 1:
+                        x_63 = x_7
+                        x_64 = lean_array_push(x_1, x_63)
+                        x_65 = 98
+                        x_66 = x_65
+                        x_67 = lean_array_push(x_64, x_66)
+                        return x_67
+                    else:
+                        lean_internal_panic_unreachable()
+                elif __t == 1:
+                    x_68 = x_7
+                    x_69 = lean_array_push(x_1, x_68)
+                    x_70 = x_7
+                    x_71 = lean_array_push(x_69, x_70)
+                    return x_71
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 1:
+                x_72 = 92
+                x_73 = x_72
+                x_74 = lean_array_push(x_1, x_73)
+                x_75 = x_5
+                x_76 = lean_array_push(x_74, x_75)
+                return x_76
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leanharbor_Json_StrTok_endsValue(x_1):
+    __t = lean_obj_tag(x_1)
+    if __t == 1:
+        x_2 = 1
+        return x_2
+    elif __t == 2:
+        x_3 = 1
+        return x_3
+    elif __t == 3:
+        x_4 = 1
+        return x_4
+    elif __t == 4:
+        x_5 = 0
+        return x_5
+    elif __t == 5:
+        x_6 = 0
+        return x_6
+    elif __t == 7:
+        x_7 = 0
+        return x_7
+    else:
+        x_8 = 1
+        return x_8
+
+def l_Leanharbor_Json_StrTok_isClose(x_1):
+    __t = lean_obj_tag(x_1)
+    if __t == 6:
+        x_2 = 1
+        return x_2
+    elif __t == 8:
+        x_3 = 1
+        return x_3
+    else:
+        x_4 = 0
+        return x_4
+
 def l_Calculator_Kernel_transition(x_1, x_2, x_3):
     __blk = 0
     while True:
@@ -1914,6 +2416,40 @@ def l_Calculator_Kernel_apply(x_1, x_2):
     else:
         lean_internal_panic_unreachable()
 
+def l_Calculator_Kernel_encodeReplyArray(x_1):
+    x_2 = 7
+    x_3 = l_Calculator_Kernel_encodeReplyArray___closed__0()
+    x_4 = Ctor(2, [])
+    x_4.sc[0] = x_1
+    x_5 = l_Calculator_Kernel_encodeReplyArray___closed__1()
+    x_6 = Ctor(1, [x_4, x_5])
+    x_7 = Ctor(1, [x_3, x_6])
+    x_8 = Ctor(1, [x_2, x_7])
+    x_9 = l_Leanharbor_Json_writeArray(x_8)
+    lean_dec(x_8)
+    return x_9
+
+def l_Calculator_Kernel_encodeReplyArray___closed__0__init():
+    x_1 = l_Calculator_Kernel_instReprMemory_repr___redArg___closed__10()
+    x_2 = Ctor(4, [x_1])
+    return x_2
+l_Calculator_Kernel_encodeReplyArray___closed__0__cell = []
+def l_Calculator_Kernel_encodeReplyArray___closed__0():
+    c = l_Calculator_Kernel_encodeReplyArray___closed__0__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_encodeReplyArray___closed__0__init()))
+    return c[0]
+
+def l_Calculator_Kernel_instReprMemory_repr___redArg___closed__10__init():
+    x_1 = b"value"
+    return x_1
+l_Calculator_Kernel_instReprMemory_repr___redArg___closed__10__cell = []
+def l_Calculator_Kernel_instReprMemory_repr___redArg___closed__10():
+    c = l_Calculator_Kernel_instReprMemory_repr___redArg___closed__10__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_instReprMemory_repr___redArg___closed__10__init()))
+    return c[0]
+
 
 # Public types and functions
 
@@ -1993,14 +2529,6 @@ class Reply(_m.LeanModel):
 Reply.__lean__ = _m.StructInfo(Reply, _m.CtorInfo("value", 0, 0, False, [_m.FieldInfo("v", _m.Scalar(0), _m.UIntD(64))], [], False), trivial=True)
 
 
-class Snapshot(_m.LeanModel):
-    "Lean `Calculator.Kernel.Snapshot`."
-    memories: "Memories"
-
-
-Snapshot.__lean__ = _m.StructInfo(Snapshot, _m.CtorInfo("mk", 0, 1, False, [_m.FieldInfo("memories", _m.Obj(0), _m.NamedD(globals(), "Memories"))], [], False), trivial=True)
-
-
 class Error(_m.LeanEnum):
     "Lean `Calculator.Kernel.Error`."
     overflow = "overflow"
@@ -2009,6 +2537,14 @@ class Error(_m.LeanEnum):
 
 
 Error.__lean__ = _m.EnumInfo(Error, plain=False)
+
+
+class Snapshot(_m.LeanModel):
+    "Lean `Calculator.Kernel.Snapshot`."
+    memories: "Memories"
+
+
+Snapshot.__lean__ = _m.StructInfo(Snapshot, _m.CtorInfo("mk", 0, 1, False, [_m.FieldInfo("memories", _m.Obj(0), _m.NamedD(globals(), "Memories"))], [], False), trivial=True)
 
 
 class Leanharbor_Json_Tok(_m.LeanInductive):
@@ -2076,22 +2612,26 @@ _D10 = _m.ListD(_m.UIntD(8))
 _D11 = _m.LeanType(_D10, "list[UInt8]")
 _D12 = _m.UIntD(64)
 _D13 = _m.LeanType(_D12, "UInt64")
-_D14 = _m.NamedD(globals(), "Snapshot")
-_D15 = _m.LeanType(_D14, "Snapshot")
-_D16 = _m.NamedD(globals(), "Error")
-_D17 = _m.LeanType(_D16, "Error")
-_D18 = _m.ListD(_m.NamedD(globals(), "Leanharbor_Json_Tok"))
-_D19 = _m.LeanType(_D18, "list[Leanharbor_Json_Tok]")
-_D20 = _m.NamedD(globals(), "Principal")
-_D21 = _m.LeanType(_D20, "Principal")
-_D22 = _m.ExceptD(globals(), _m.NamedD(globals(), "Error"), _m.ProdD(_m.OptionD(_m.NamedD(globals(), "Memory")), _m.NamedD(globals(), "Reply")), "Error", "tuple[Memory | None, Reply]")
-_D23 = _m.LeanType(_D22, "Ok[tuple[Memory | None, Reply]] | Err[Error]")
-_D24 = _m.NamedD(globals(), "Op")
-_D25 = _m.LeanType(_D24, "Op")
-_D26 = _m.ExceptD(globals(), _m.NamedD(globals(), "Error"), _m.UIntD(64), "Error", "UInt64")
-_D27 = _m.LeanType(_D26, "Ok[UInt64] | Err[Error]")
-_D28 = _m.OptionD(_m.NamedD(globals(), "Memory"))
-_D29 = _m.LeanType(_D28, "Memory | None")
+_D14 = _m.NamedD(globals(), "Error")
+_D15 = _m.LeanType(_D14, "Error")
+_D16 = _m.STRING
+_D17 = _m.LeanType(_D16, "str")
+_D18 = _m.NamedD(globals(), "Snapshot")
+_D19 = _m.LeanType(_D18, "Snapshot")
+_D20 = _m.ListD(_m.NamedD(globals(), "Leanharbor_Json_Tok"))
+_D21 = _m.LeanType(_D20, "list[Leanharbor_Json_Tok]")
+_D22 = _m.ArrayD(_m.UIntD(8))
+_D23 = _m.LeanType(_D22, "list[UInt8]")
+_D24 = _m.NamedD(globals(), "Principal")
+_D25 = _m.LeanType(_D24, "Principal")
+_D26 = _m.ExceptD(globals(), _m.NamedD(globals(), "Error"), _m.ProdD(_m.OptionD(_m.NamedD(globals(), "Memory")), _m.NamedD(globals(), "Reply")), "Error", "tuple[Memory | None, Reply]")
+_D27 = _m.LeanType(_D26, "Ok[tuple[Memory | None, Reply]] | Err[Error]")
+_D28 = _m.NamedD(globals(), "Op")
+_D29 = _m.LeanType(_D28, "Op")
+_D30 = _m.ExceptD(globals(), _m.NamedD(globals(), "Error"), _m.UIntD(64), "Error", "UInt64")
+_D31 = _m.LeanType(_D30, "Ok[UInt64] | Err[Error]")
+_D32 = _m.OptionD(_m.NamedD(globals(), "Memory"))
+_D33 = _m.LeanType(_D32, "Memory | None")
 
 
 def _pub_upsert(m: "Memory", ms: "Memories") -> "Memories":
@@ -2190,142 +2730,184 @@ def _pub_memoryOf__local(arg0: "Memories | Lean[Memories] | Local[Memories]", ar
 
 
 _m.attach(globals(), ["memoryOf"], _pub_memoryOf, "Calculator.Kernel.memoryOf", _pub_memoryOf__lean, {"arg0": _D3, "arg1": _D13}, _D13, _pub_memoryOf__local)
+def _pub_errorString(arg0: "Error") -> "str":
+    "Lean `Calculator.Kernel.errorString`."
+    __a0 = _m.to_lean(_D14, arg0, "arg0")
+    return _m.to_py(_D16, l_Calculator_Kernel_errorString(__a0))
+
+
+def _pub_errorString__lean(arg0: "Error | Lean[Error]") -> "Lean[str]":
+    "Lean `Calculator.Kernel.errorString`, on handles."
+    __a0 = _m.lean_arg(_D15, arg0, "arg0")
+    _m.give(arg0)
+    return _m.handle(_D17, l_Calculator_Kernel_errorString(__a0))
+
+
+def _pub_errorString__local(arg0: "Error | Lean[Error] | Local[Error]") -> "Local[str]":
+    "Lean `Calculator.Kernel.errorString`, on local handles."
+    __a0 = _m.local_arg(_D15, arg0, "arg0", True)
+    _m.give(arg0)
+    return _m.local_handle(_D17, l_Calculator_Kernel_errorString(__a0))
+
+
+_m.attach(globals(), ["errorString"], _pub_errorString, "Calculator.Kernel.errorString", _pub_errorString__lean, {"arg0": _D15}, _D17, _pub_errorString__local)
 def _pub_init() -> "Snapshot":
     "Lean `Calculator.Kernel.init`."
-    return _m.to_py(_D14, l_Calculator_Kernel_init())
+    return _m.to_py(_D18, l_Calculator_Kernel_init())
 
 
 def _pub_init__lean() -> "Lean[Snapshot]":
     "Lean `Calculator.Kernel.init`, on handles."
-    return _m.handle(_D15, l_Calculator_Kernel_init())
+    return _m.handle(_D19, l_Calculator_Kernel_init())
 
 
 def _pub_init__local() -> "Local[Snapshot]":
     "Lean `Calculator.Kernel.init`, on local handles."
-    return _m.local_handle(_D15, l_Calculator_Kernel_init())
+    return _m.local_handle(_D19, l_Calculator_Kernel_init())
 
 
-_m.attach(globals(), ["init"], _pub_init, "Calculator.Kernel.init", _pub_init__lean, {}, _D15, _pub_init__local)
+_m.attach(globals(), ["init"], _pub_init, "Calculator.Kernel.init", _pub_init__lean, {}, _D19, _pub_init__local)
 def _pub_errorToks(e: "Error") -> "list[Leanharbor_Json_Tok]":
     "Lean `Calculator.Kernel.errorToks`."
-    __a0 = _m.to_lean(_D16, e, "e")
-    return _m.to_py(_D18, l_Calculator_Kernel_errorToks(__a0))
+    __a0 = _m.to_lean(_D14, e, "e")
+    return _m.to_py(_D20, l_Calculator_Kernel_errorToks(__a0))
 
 
 def _pub_errorToks__lean(e: "Error | Lean[Error]") -> "Lean[list[Leanharbor_Json_Tok]]":
     "Lean `Calculator.Kernel.errorToks`, on handles."
-    __a0 = _m.lean_arg(_D17, e, "e")
+    __a0 = _m.lean_arg(_D15, e, "e")
     _m.give(e)
-    return _m.handle(_D19, l_Calculator_Kernel_errorToks(__a0))
+    return _m.handle(_D21, l_Calculator_Kernel_errorToks(__a0))
 
 
 def _pub_errorToks__local(e: "Error | Lean[Error] | Local[Error]") -> "Local[list[Leanharbor_Json_Tok]]":
     "Lean `Calculator.Kernel.errorToks`, on local handles."
-    __a0 = _m.local_arg(_D17, e, "e", True)
+    __a0 = _m.local_arg(_D15, e, "e", True)
     _m.give(e)
-    return _m.local_handle(_D19, l_Calculator_Kernel_errorToks(__a0))
+    return _m.local_handle(_D21, l_Calculator_Kernel_errorToks(__a0))
 
 
-_m.attach(globals(), ["errorToks"], _pub_errorToks, "Calculator.Kernel.errorToks", _pub_errorToks__lean, {"e": _D17}, _D19, _pub_errorToks__local)
+_m.attach(globals(), ["errorToks"], _pub_errorToks, "Calculator.Kernel.errorToks", _pub_errorToks__lean, {"e": _D15}, _D21, _pub_errorToks__local)
+def _pub_encodeErrorArray(e: "Error") -> "list[UInt8]":
+    "Lean `Calculator.Kernel.encodeErrorArray`."
+    __a0 = _m.to_lean(_D14, e, "e")
+    return _m.to_py(_D22, l_Calculator_Kernel_encodeErrorArray(__a0))
+
+
+def _pub_encodeErrorArray__lean(e: "Error | Lean[Error]") -> "Lean[list[UInt8]]":
+    "Lean `Calculator.Kernel.encodeErrorArray`, on handles."
+    __a0 = _m.lean_arg(_D15, e, "e")
+    _m.give(e)
+    return _m.handle(_D23, l_Calculator_Kernel_encodeErrorArray(__a0))
+
+
+def _pub_encodeErrorArray__local(e: "Error | Lean[Error] | Local[Error]") -> "Local[list[UInt8]]":
+    "Lean `Calculator.Kernel.encodeErrorArray`, on local handles."
+    __a0 = _m.local_arg(_D15, e, "e", True)
+    _m.give(e)
+    return _m.local_handle(_D23, l_Calculator_Kernel_encodeErrorArray(__a0))
+
+
+_m.attach(globals(), ["encodeErrorArray"], _pub_encodeErrorArray, "Calculator.Kernel.encodeErrorArray", _pub_encodeErrorArray__lean, {"e": _D15}, _D23, _pub_encodeErrorArray__local)
 def _pub_transition(actor: "Principal", snap: "Snapshot", cmd: "Command") -> "Ok[tuple[Memory | None, Reply]] | Err[Error]":
     "Lean `Calculator.Kernel.transition`."
-    __a0 = _m.to_lean(_D20, actor, "actor")
-    __a1 = _m.to_lean(_D14, snap, "snap")
+    __a0 = _m.to_lean(_D24, actor, "actor")
+    __a1 = _m.to_lean(_D18, snap, "snap")
     __a2 = _m.to_lean(_D4, cmd, "cmd")
-    return _m.to_py(_D22, l_Calculator_Kernel_transition(__a0, __a1, __a2))
+    return _m.to_py(_D26, l_Calculator_Kernel_transition(__a0, __a1, __a2))
 
 
 def _pub_transition__lean(actor: "Principal | Lean[Principal]", snap: "Snapshot | Lean[Snapshot]", cmd: "Command | Lean[Command]") -> "Lean[Ok[tuple[Memory | None, Reply]] | Err[Error]]":
     "Lean `Calculator.Kernel.transition`, on handles."
-    __a0 = _m.lean_arg(_D21, actor, "actor")
-    __a1 = _m.lean_arg(_D15, snap, "snap")
+    __a0 = _m.lean_arg(_D25, actor, "actor")
+    __a1 = _m.lean_arg(_D19, snap, "snap")
     __a2 = _m.lean_arg(_D5, cmd, "cmd")
     _m.give(actor, snap, cmd)
-    return _m.handle(_D23, l_Calculator_Kernel_transition(__a0, __a1, __a2))
+    return _m.handle(_D27, l_Calculator_Kernel_transition(__a0, __a1, __a2))
 
 
 def _pub_transition__local(actor: "Principal | Lean[Principal] | Local[Principal]", snap: "Snapshot | Lean[Snapshot] | Local[Snapshot]", cmd: "Command | Lean[Command] | Local[Command]") -> "Local[Ok[tuple[Memory | None, Reply]] | Err[Error]]":
     "Lean `Calculator.Kernel.transition`, on local handles."
-    __a0 = _m.local_arg(_D21, actor, "actor", True)
-    __a1 = _m.local_arg(_D15, snap, "snap", False)
+    __a0 = _m.local_arg(_D25, actor, "actor", True)
+    __a1 = _m.local_arg(_D19, snap, "snap", False)
     __a2 = _m.local_arg(_D5, cmd, "cmd", False)
     _m.give(actor, snap, cmd)
     __r = l_Calculator_Kernel_transition(__a0, __a1, __a2)
     _m.local_done(snap, __a1)
     _m.local_done(cmd, __a2)
-    return _m.local_handle(_D23, __r)
+    return _m.local_handle(_D27, __r)
 
 
-_m.attach(globals(), ["transition"], _pub_transition, "Calculator.Kernel.transition", _pub_transition__lean, {"actor": _D21, "snap": _D15, "cmd": _D5}, _D23, _pub_transition__local)
+_m.attach(globals(), ["transition"], _pub_transition, "Calculator.Kernel.transition", _pub_transition__lean, {"actor": _D25, "snap": _D19, "cmd": _D5}, _D27, _pub_transition__local)
 def _pub_encodeError(e: "Error") -> "list[UInt8]":
     "Lean `Calculator.Kernel.encodeError`."
-    __a0 = _m.to_lean(_D16, e, "e")
+    __a0 = _m.to_lean(_D14, e, "e")
     return _m.to_py(_D10, l_Calculator_Kernel_encodeError(__a0))
 
 
 def _pub_encodeError__lean(e: "Error | Lean[Error]") -> "Lean[list[UInt8]]":
     "Lean `Calculator.Kernel.encodeError`, on handles."
-    __a0 = _m.lean_arg(_D17, e, "e")
+    __a0 = _m.lean_arg(_D15, e, "e")
     _m.give(e)
     return _m.handle(_D11, l_Calculator_Kernel_encodeError(__a0))
 
 
 def _pub_encodeError__local(e: "Error | Lean[Error] | Local[Error]") -> "Local[list[UInt8]]":
     "Lean `Calculator.Kernel.encodeError`, on local handles."
-    __a0 = _m.local_arg(_D17, e, "e", True)
+    __a0 = _m.local_arg(_D15, e, "e", True)
     _m.give(e)
     return _m.local_handle(_D11, l_Calculator_Kernel_encodeError(__a0))
 
 
-_m.attach(globals(), ["encodeError"], _pub_encodeError, "Calculator.Kernel.encodeError", _pub_encodeError__lean, {"e": _D17}, _D11, _pub_encodeError__local)
+_m.attach(globals(), ["encodeError"], _pub_encodeError, "Calculator.Kernel.encodeError", _pub_encodeError__lean, {"e": _D15}, _D11, _pub_encodeError__local)
 def _pub_compute(op: "Op", a: "UInt64", b: "UInt64") -> "Ok[UInt64] | Err[Error]":
     "Lean `Calculator.Kernel.compute`."
-    __a0 = _m.to_lean(_D24, op, "op")
+    __a0 = _m.to_lean(_D28, op, "op")
     __a1 = _m.to_lean(_D12, a, "a")
     __a2 = _m.to_lean(_D12, b, "b")
-    return _m.to_py(_D26, l_Calculator_Kernel_compute(__a0, __a1, __a2))
+    return _m.to_py(_D30, l_Calculator_Kernel_compute(__a0, __a1, __a2))
 
 
 def _pub_compute__lean(op: "Op | Lean[Op]", a: "UInt64 | Lean[UInt64]", b: "UInt64 | Lean[UInt64]") -> "Lean[Ok[UInt64] | Err[Error]]":
     "Lean `Calculator.Kernel.compute`, on handles."
-    __a0 = _m.lean_arg(_D25, op, "op")
+    __a0 = _m.lean_arg(_D29, op, "op")
     __a1 = _m.lean_arg(_D13, a, "a")
     __a2 = _m.lean_arg(_D13, b, "b")
     _m.give(op, a, b)
-    return _m.handle(_D27, l_Calculator_Kernel_compute(__a0, __a1, __a2))
+    return _m.handle(_D31, l_Calculator_Kernel_compute(__a0, __a1, __a2))
 
 
 def _pub_compute__local(op: "Op | Lean[Op] | Local[Op]", a: "UInt64 | Lean[UInt64] | Local[UInt64]", b: "UInt64 | Lean[UInt64] | Local[UInt64]") -> "Local[Ok[UInt64] | Err[Error]]":
     "Lean `Calculator.Kernel.compute`, on local handles."
-    __a0 = _m.local_arg(_D25, op, "op", True)
+    __a0 = _m.local_arg(_D29, op, "op", True)
     __a1 = _m.local_arg(_D13, a, "a", True)
     __a2 = _m.local_arg(_D13, b, "b", True)
     _m.give(op, a, b)
-    return _m.local_handle(_D27, l_Calculator_Kernel_compute(__a0, __a1, __a2))
+    return _m.local_handle(_D31, l_Calculator_Kernel_compute(__a0, __a1, __a2))
 
 
-_m.attach(globals(), ["compute"], _pub_compute, "Calculator.Kernel.compute", _pub_compute__lean, {"op": _D25, "a": _D13, "b": _D13}, _D27, _pub_compute__local)
+_m.attach(globals(), ["compute"], _pub_compute, "Calculator.Kernel.compute", _pub_compute__lean, {"op": _D29, "a": _D13, "b": _D13}, _D31, _pub_compute__local)
 def _pub_errorName(arg0: "Error") -> "list[UInt8]":
     "Lean `Calculator.Kernel.errorName`."
-    __a0 = _m.to_lean(_D16, arg0, "arg0")
+    __a0 = _m.to_lean(_D14, arg0, "arg0")
     return _m.to_py(_D10, l_Calculator_Kernel_errorName(__a0))
 
 
 def _pub_errorName__lean(arg0: "Error | Lean[Error]") -> "Lean[list[UInt8]]":
     "Lean `Calculator.Kernel.errorName`, on handles."
-    __a0 = _m.lean_arg(_D17, arg0, "arg0")
+    __a0 = _m.lean_arg(_D15, arg0, "arg0")
     _m.give(arg0)
     return _m.handle(_D11, l_Calculator_Kernel_errorName(__a0))
 
 
 def _pub_errorName__local(arg0: "Error | Lean[Error] | Local[Error]") -> "Local[list[UInt8]]":
     "Lean `Calculator.Kernel.errorName`, on local handles."
-    __a0 = _m.local_arg(_D17, arg0, "arg0", True)
+    __a0 = _m.local_arg(_D15, arg0, "arg0", True)
     _m.give(arg0)
     return _m.local_handle(_D11, l_Calculator_Kernel_errorName(__a0))
 
 
-_m.attach(globals(), ["errorName"], _pub_errorName, "Calculator.Kernel.errorName", _pub_errorName__lean, {"arg0": _D17}, _D11, _pub_errorName__local)
+_m.attach(globals(), ["errorName"], _pub_errorName, "Calculator.Kernel.errorName", _pub_errorName__lean, {"arg0": _D15}, _D11, _pub_errorName__local)
 def _pub_store(k: "UInt64", v: "UInt64", arg2: "Memories") -> "Memories":
     "Lean `Calculator.Kernel.store`."
     __a0 = _m.to_lean(_D12, k, "k")
@@ -2385,72 +2967,93 @@ def _pub_pair__local(k_: "UInt64 | Lean[UInt64] | Local[UInt64]", v_: "UInt64 | 
 _m.attach(globals(), ["pair"], _pub_pair, "Calculator.Kernel.pair", _pub_pair__lean, {"k_": _D13, "v_": _D13, "k": _D13, "v": _D13}, _D3, _pub_pair__local)
 def _pub_tenant(actor: "Principal") -> "UInt64":
     "Lean `Calculator.Kernel.tenant`."
-    __a0 = _m.to_lean(_D20, actor, "actor")
+    __a0 = _m.to_lean(_D24, actor, "actor")
     return _m.to_py(_D12, l_Calculator_Kernel_tenant(__a0))
 
 
 def _pub_tenant__lean(actor: "Principal | Lean[Principal]") -> "Lean[UInt64]":
     "Lean `Calculator.Kernel.tenant`, on handles."
-    __a0 = _m.lean_arg(_D21, actor, "actor")
+    __a0 = _m.lean_arg(_D25, actor, "actor")
     _m.give(actor)
     return _m.handle(_D13, l_Calculator_Kernel_tenant(__a0))
 
 
 def _pub_tenant__local(actor: "Principal | Lean[Principal] | Local[Principal]") -> "Local[UInt64]":
     "Lean `Calculator.Kernel.tenant`, on local handles."
-    __a0 = _m.local_arg(_D21, actor, "actor", False)
+    __a0 = _m.local_arg(_D25, actor, "actor", False)
     _m.give(actor)
     __r = l_Calculator_Kernel_tenant(__a0)
     _m.local_done(actor, __a0)
     return _m.local_handle(_D13, __r)
 
 
-_m.attach(globals(), ["tenant"], _pub_tenant, "Calculator.Kernel.tenant", _pub_tenant__lean, {"actor": _D21}, _D13, _pub_tenant__local)
+_m.attach(globals(), ["tenant"], _pub_tenant, "Calculator.Kernel.tenant", _pub_tenant__lean, {"actor": _D25}, _D13, _pub_tenant__local)
 def _pub_replyToks(arg0: "Reply") -> "list[Leanharbor_Json_Tok]":
     "Lean `Calculator.Kernel.replyToks`."
     __a0 = _m.to_lean(_D8, arg0, "arg0")
-    return _m.to_py(_D18, l_Calculator_Kernel_replyToks(__a0))
+    return _m.to_py(_D20, l_Calculator_Kernel_replyToks(__a0))
 
 
 def _pub_replyToks__lean(arg0: "Reply | Lean[Reply]") -> "Lean[list[Leanharbor_Json_Tok]]":
     "Lean `Calculator.Kernel.replyToks`, on handles."
     __a0 = _m.lean_arg(_D9, arg0, "arg0")
     _m.give(arg0)
-    return _m.handle(_D19, l_Calculator_Kernel_replyToks(__a0))
+    return _m.handle(_D21, l_Calculator_Kernel_replyToks(__a0))
 
 
 def _pub_replyToks__local(arg0: "Reply | Lean[Reply] | Local[Reply]") -> "Local[list[Leanharbor_Json_Tok]]":
     "Lean `Calculator.Kernel.replyToks`, on local handles."
     __a0 = _m.local_arg(_D9, arg0, "arg0", True)
     _m.give(arg0)
-    return _m.local_handle(_D19, l_Calculator_Kernel_replyToks(__a0))
+    return _m.local_handle(_D21, l_Calculator_Kernel_replyToks(__a0))
 
 
-_m.attach(globals(), ["replyToks"], _pub_replyToks, "Calculator.Kernel.replyToks", _pub_replyToks__lean, {"arg0": _D9}, _D19, _pub_replyToks__local)
+_m.attach(globals(), ["replyToks"], _pub_replyToks, "Calculator.Kernel.replyToks", _pub_replyToks__lean, {"arg0": _D9}, _D21, _pub_replyToks__local)
 def _pub_apply(snap: "Snapshot", w: "Memory | None") -> "Snapshot":
     "Lean `Calculator.Kernel.apply`."
-    __a0 = _m.to_lean(_D14, snap, "snap")
-    __a1 = _m.to_lean(_D28, w, "w")
-    return _m.to_py(_D14, l_Calculator_Kernel_apply(__a0, __a1))
+    __a0 = _m.to_lean(_D18, snap, "snap")
+    __a1 = _m.to_lean(_D32, w, "w")
+    return _m.to_py(_D18, l_Calculator_Kernel_apply(__a0, __a1))
 
 
 def _pub_apply__lean(snap: "Snapshot | Lean[Snapshot]", w: "Memory | None | Lean[Memory | None]") -> "Lean[Snapshot]":
     "Lean `Calculator.Kernel.apply`, on handles."
-    __a0 = _m.lean_arg(_D15, snap, "snap")
-    __a1 = _m.lean_arg(_D29, w, "w")
+    __a0 = _m.lean_arg(_D19, snap, "snap")
+    __a1 = _m.lean_arg(_D33, w, "w")
     _m.give(snap, w)
-    return _m.handle(_D15, l_Calculator_Kernel_apply(__a0, __a1))
+    return _m.handle(_D19, l_Calculator_Kernel_apply(__a0, __a1))
 
 
 def _pub_apply__local(snap: "Snapshot | Lean[Snapshot] | Local[Snapshot]", w: "Memory | None | Lean[Memory | None] | Local[Memory | None]") -> "Local[Snapshot]":
     "Lean `Calculator.Kernel.apply`, on local handles."
-    __a0 = _m.local_arg(_D15, snap, "snap", True)
-    __a1 = _m.local_arg(_D29, w, "w", False)
+    __a0 = _m.local_arg(_D19, snap, "snap", True)
+    __a1 = _m.local_arg(_D33, w, "w", False)
     _m.give(snap, w)
     __r = l_Calculator_Kernel_apply(__a0, __a1)
     _m.local_done(w, __a1)
-    return _m.local_handle(_D15, __r)
+    return _m.local_handle(_D19, __r)
 
 
-_m.attach(globals(), ["apply"], _pub_apply, "Calculator.Kernel.apply", _pub_apply__lean, {"snap": _D15, "w": _D29}, _D15, _pub_apply__local)
+_m.attach(globals(), ["apply"], _pub_apply, "Calculator.Kernel.apply", _pub_apply__lean, {"snap": _D19, "w": _D33}, _D19, _pub_apply__local)
+def _pub_encodeReplyArray(arg0: "Reply") -> "list[UInt8]":
+    "Lean `Calculator.Kernel.encodeReplyArray`."
+    __a0 = _m.to_lean(_D8, arg0, "arg0")
+    return _m.to_py(_D22, l_Calculator_Kernel_encodeReplyArray(__a0))
+
+
+def _pub_encodeReplyArray__lean(arg0: "Reply | Lean[Reply]") -> "Lean[list[UInt8]]":
+    "Lean `Calculator.Kernel.encodeReplyArray`, on handles."
+    __a0 = _m.lean_arg(_D9, arg0, "arg0")
+    _m.give(arg0)
+    return _m.handle(_D23, l_Calculator_Kernel_encodeReplyArray(__a0))
+
+
+def _pub_encodeReplyArray__local(arg0: "Reply | Lean[Reply] | Local[Reply]") -> "Local[list[UInt8]]":
+    "Lean `Calculator.Kernel.encodeReplyArray`, on local handles."
+    __a0 = _m.local_arg(_D9, arg0, "arg0", True)
+    _m.give(arg0)
+    return _m.local_handle(_D23, l_Calculator_Kernel_encodeReplyArray(__a0))
+
+
+_m.attach(globals(), ["encodeReplyArray"], _pub_encodeReplyArray, "Calculator.Kernel.encodeReplyArray", _pub_encodeReplyArray__lean, {"arg0": _D9}, _D23, _pub_encodeReplyArray__local)
 _m.finish(globals())

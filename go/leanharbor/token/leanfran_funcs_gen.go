@@ -8,6 +8,49 @@ import (
 	"math/big"
 )
 
+func ByteAt(a0 string, a1 *big.Int) (uint8, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodec4, a0, "s")
+	if issue := leanfran.IntegerIssue(a1, true); issue != "" {
+		_lfValidation.Add(issue, "i")
+	}
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[uint8](), err
+	}
+	v0 := _lfCodec4.ToLean(a0)
+	defer rt.Lean_dec(v0)
+	v1 := _lfCodec5.ToLean(a1)
+	_lfResult := rt.Lean_box(uint64(l_Leanharbor_Token_byteAt(v0, v1)))
+	return _lfCodec1.FromLean(_lfResult), nil
+}
+
+func CopyBytes(a0 string, a1 *big.Int, a2 *big.Int, a3 []uint8) ([]uint8, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodec4, a0, "s")
+	if issue := leanfran.IntegerIssue(a1, true); issue != "" {
+		_lfValidation.Add(issue, "i")
+	}
+	if issue := leanfran.IntegerIssue(a2, true); issue != "" {
+		_lfValidation.Add(issue, "j")
+	}
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[[]uint8](), err
+	}
+	v0 := _lfCodec4.ToLean(a0)
+	defer rt.Lean_dec(v0)
+	v1 := _lfCodec5.ToLean(a1)
+	v2 := _lfCodec5.ToLean(a2)
+	defer rt.Lean_dec(v2)
+	v3 := _lfCodec3.ToLean(a3)
+	_lfResult := l_Leanharbor_Token_copyBytes(v0, v1, v2, v3)
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec3.FromLean(_lfResult), nil
+}
+
 func Decimal(a0 *big.Int) ([]uint8, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	var _lfValidation leanfran.ValidationError
@@ -18,11 +61,39 @@ func Decimal(a0 *big.Int) ([]uint8, error) {
 		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
 		return leanfran.Zero[[]uint8](), err
 	}
-	v0 := _lfCodec3.ToLean(a0)
+	v0 := _lfCodec5.ToLean(a0)
 	defer rt.Lean_dec(v0)
 	_lfResult := l_Leanharbor_Token_decimal(v0)
 	defer rt.Lean_dec(_lfResult)
 	return _lfCodec2.FromLean(_lfResult), nil
+}
+
+func DigitsFrom(a0 string, a1 *big.Int, a2 *big.Int, a3 *big.Int) (*big.Int, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodec4, a0, "s")
+	if issue := leanfran.IntegerIssue(a1, true); issue != "" {
+		_lfValidation.Add(issue, "i")
+	}
+	if issue := leanfran.IntegerIssue(a2, true); issue != "" {
+		_lfValidation.Add(issue, "j")
+	}
+	if issue := leanfran.IntegerIssue(a3, true); issue != "" {
+		_lfValidation.Add(issue, "acc")
+	}
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[*big.Int](), err
+	}
+	v0 := _lfCodec4.ToLean(a0)
+	defer rt.Lean_dec(v0)
+	v1 := _lfCodec5.ToLean(a1)
+	v2 := _lfCodec5.ToLean(a2)
+	defer rt.Lean_dec(v2)
+	v3 := _lfCodec5.ToLean(a3)
+	_lfResult := l_Leanharbor_Token_digitsFrom(v0, v1, v2, v3)
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec5.FromLean(_lfResult), nil
 }
 
 func DigitsValue(a0 []uint8) *big.Int {
@@ -31,7 +102,26 @@ func DigitsValue(a0 []uint8) *big.Int {
 	defer rt.Lean_dec(v0)
 	_lfResult := l_Leanharbor_Token_digitsValue(v0)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec3.FromLean(_lfResult)
+	return _lfCodec5.FromLean(_lfResult)
+}
+
+func DotFrom(a0 string, a1 *big.Int) (*big.Int, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodec4, a0, "s")
+	if issue := leanfran.IntegerIssue(a1, true); issue != "" {
+		_lfValidation.Add(issue, "i")
+	}
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[*big.Int](), err
+	}
+	v0 := _lfCodec4.ToLean(a0)
+	defer rt.Lean_dec(v0)
+	v1 := _lfCodec5.ToLean(a1)
+	_lfResult := l_Leanharbor_Token_dotFrom(v0, v1)
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec5.FromLean(_lfResult), nil
 }
 
 func EncodePayload(a0 uint64, a1 uint64, a2 uint64) []uint8 {
@@ -62,10 +152,17 @@ func HexDigit(a0 *big.Int) (uint8, error) {
 		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
 		return leanfran.Zero[uint8](), err
 	}
-	v0 := _lfCodec3.ToLean(a0)
+	v0 := _lfCodec5.ToLean(a0)
 	defer rt.Lean_dec(v0)
 	_lfResult := rt.Lean_box(uint64(l_Leanharbor_Token_hexDigit(v0)))
 	return _lfCodec1.FromLean(_lfResult), nil
+}
+
+func HexNibble(a0 uint8) uint8 {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	v0 := _lfCodec1.ToLean(a0)
+	_lfResult := rt.Lean_box(uint64(l_Leanharbor_Token_hexNibble(uint8(rt.Lean_unbox(v0)))))
+	return _lfCodec1.FromLean(_lfResult)
 }
 
 func HexValue(a0 uint8) *big.Int {
@@ -73,7 +170,33 @@ func HexValue(a0 uint8) *big.Int {
 	v0 := _lfCodec1.ToLean(a0)
 	_lfResult := l_Leanharbor_Token_hexValue(uint8(rt.Lean_unbox(v0)))
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec3.FromLean(_lfResult)
+	return _lfCodec5.FromLean(_lfResult)
+}
+
+func IsDecimal(a0 *big.Int, a1 string, a2 *big.Int, a3 *big.Int) (bool, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	if issue := leanfran.IntegerIssue(a0, true); issue != "" {
+		_lfValidation.Add(issue, "n")
+	}
+	leanfran.CheckAt(&_lfValidation, _lfCodec4, a1, "s")
+	if issue := leanfran.IntegerIssue(a2, true); issue != "" {
+		_lfValidation.Add(issue, "i")
+	}
+	if issue := leanfran.IntegerIssue(a3, true); issue != "" {
+		_lfValidation.Add(issue, "j")
+	}
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[bool](), err
+	}
+	v0 := _lfCodec5.ToLean(a0)
+	v1 := _lfCodec4.ToLean(a1)
+	defer rt.Lean_dec(v1)
+	v2 := _lfCodec5.ToLean(a2)
+	v3 := _lfCodec5.ToLean(a3)
+	_lfResult := rt.Lean_box(uint64(l_Leanharbor_Token_isDecimal(v0, v1, v2, v3)))
+	return _lfCodec6.FromLean(_lfResult), nil
 }
 
 func Join(a0 []uint8, a1 []uint8) []uint8 {
@@ -92,7 +215,30 @@ func Number(a0 []uint8) *uint64 {
 	defer rt.Lean_dec(v0)
 	_lfResult := l_Leanharbor_Token_number(v0)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec4.FromLean(_lfResult)
+	return _lfCodec7.FromLean(_lfResult)
+}
+
+func NumberAt(a0 string, a1 *big.Int, a2 *big.Int) (*uint64, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodec4, a0, "s")
+	if issue := leanfran.IntegerIssue(a1, true); issue != "" {
+		_lfValidation.Add(issue, "i")
+	}
+	if issue := leanfran.IntegerIssue(a2, true); issue != "" {
+		_lfValidation.Add(issue, "j")
+	}
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[*uint64](), err
+	}
+	v0 := _lfCodec4.ToLean(a0)
+	defer rt.Lean_dec(v0)
+	v1 := _lfCodec5.ToLean(a1)
+	v2 := _lfCodec5.ToLean(a2)
+	_lfResult := l_Leanharbor_Token_numberAt(v0, v1, v2)
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec7.FromLean(_lfResult), nil
 }
 
 func Parse(a0 []uint8) *Parsed {
@@ -100,7 +246,22 @@ func Parse(a0 []uint8) *Parsed {
 	v0 := _lfCodec2.ToLean(a0)
 	_lfResult := l_Leanharbor_Token_parse(v0)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec5.FromLean(_lfResult)
+	return _lfCodec8.FromLean(_lfResult)
+}
+
+func ParseString(a0 string) (*ParsedArray, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodec4, a0, "tok")
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[*ParsedArray](), err
+	}
+	v0 := _lfCodec4.ToLean(a0)
+	defer rt.Lean_dec(v0)
+	_lfResult := l_Leanharbor_Token_parseString(v0)
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec9.FromLean(_lfResult), nil
 }
 
 func SplitDot(a0 []uint8, a1 []uint8) leanfran.Pair[[]uint8, *[]uint8] {
@@ -109,7 +270,7 @@ func SplitDot(a0 []uint8, a1 []uint8) leanfran.Pair[[]uint8, *[]uint8] {
 	v1 := _lfCodec2.ToLean(a1)
 	_lfResult := l_Leanharbor_Token_splitDot(v0, v1)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec7.FromLean(_lfResult)
+	return _lfCodec11.FromLean(_lfResult)
 }
 
 func Unhex(a0 []uint8, a1 []uint8) *[]uint8 {
@@ -118,7 +279,32 @@ func Unhex(a0 []uint8, a1 []uint8) *[]uint8 {
 	v1 := _lfCodec2.ToLean(a1)
 	_lfResult := l_Leanharbor_Token_unhex(v0, v1)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec6.FromLean(_lfResult)
+	return _lfCodec10.FromLean(_lfResult)
+}
+
+func UnhexAt(a0 string, a1 *big.Int, a2 *big.Int, a3 []uint8) (*[]uint8, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodec4, a0, "s")
+	if issue := leanfran.IntegerIssue(a1, true); issue != "" {
+		_lfValidation.Add(issue, "i")
+	}
+	if issue := leanfran.IntegerIssue(a2, true); issue != "" {
+		_lfValidation.Add(issue, "j")
+	}
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[*[]uint8](), err
+	}
+	v0 := _lfCodec4.ToLean(a0)
+	defer rt.Lean_dec(v0)
+	v1 := _lfCodec5.ToLean(a1)
+	v2 := _lfCodec5.ToLean(a2)
+	defer rt.Lean_dec(v2)
+	v3 := _lfCodec3.ToLean(a3)
+	_lfResult := l_Leanharbor_Token_unhexAt(v0, v1, v2, v3)
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec12.FromLean(_lfResult), nil
 }
 
 var Handle lfHandle
@@ -131,6 +317,37 @@ type lfScopedHandle struct {
 
 func (lfHandle) In(scope *leanfran.ValueScope) lfScopedHandle {
 	return lfScopedHandle{scope: scope}
+}
+
+func (lfHandle) ByteAt(a0 leanfran.ValueInput[string], a1 leanfran.ValueInput[leanfran.NatType]) leanfran.Value[uint8] {
+	return lfScopedHandle{}.ByteAt(a0, a1)
+}
+
+func (api lfScopedHandle) ByteAt(a0 leanfran.ValueInput[string], a1 leanfran.ValueInput[leanfran.NatType]) leanfran.Value[uint8] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [2]leanfran.ValueUse{a0.Use(), a1.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	defer rt.Lean_dec(inputs[0].Lean())
+	raw := rt.Lean_box(uint64(l_Leanharbor_Token_byteAt(inputs[0].Lean(), inputs[1].Lean())))
+	return leanfran.WrapValueIn[uint8](scope, raw)
+}
+
+func (lfHandle) CopyBytes(a0 leanfran.ValueInput[string], a1 leanfran.ValueInput[leanfran.NatType], a2 leanfran.ValueInput[leanfran.NatType], a3 leanfran.ValueInput[leanfran.ArrayType[uint8]]) leanfran.Value[leanfran.ArrayType[uint8]] {
+	return lfScopedHandle{}.CopyBytes(a0, a1, a2, a3)
+}
+
+func (api lfScopedHandle) CopyBytes(a0 leanfran.ValueInput[string], a1 leanfran.ValueInput[leanfran.NatType], a2 leanfran.ValueInput[leanfran.NatType], a3 leanfran.ValueInput[leanfran.ArrayType[uint8]]) leanfran.Value[leanfran.ArrayType[uint8]] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [4]leanfran.ValueUse{a0.Use(), a1.Use(), a2.Use(), a3.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	defer rt.Lean_dec(inputs[0].Lean())
+	defer rt.Lean_dec(inputs[2].Lean())
+	raw := l_Leanharbor_Token_copyBytes(inputs[0].Lean(), inputs[1].Lean(), inputs[2].Lean(), inputs[3].Lean())
+	return leanfran.WrapValueIn[leanfran.ArrayType[uint8]](scope, raw)
 }
 
 func (lfHandle) Decimal(a0 leanfran.ValueInput[leanfran.NatType]) leanfran.Value[leanfran.ListType[uint8]] {
@@ -148,6 +365,22 @@ func (api lfScopedHandle) Decimal(a0 leanfran.ValueInput[leanfran.NatType]) lean
 	return leanfran.WrapValueIn[leanfran.ListType[uint8]](scope, raw)
 }
 
+func (lfHandle) DigitsFrom(a0 leanfran.ValueInput[string], a1 leanfran.ValueInput[leanfran.NatType], a2 leanfran.ValueInput[leanfran.NatType], a3 leanfran.ValueInput[leanfran.NatType]) leanfran.Value[leanfran.NatType] {
+	return lfScopedHandle{}.DigitsFrom(a0, a1, a2, a3)
+}
+
+func (api lfScopedHandle) DigitsFrom(a0 leanfran.ValueInput[string], a1 leanfran.ValueInput[leanfran.NatType], a2 leanfran.ValueInput[leanfran.NatType], a3 leanfran.ValueInput[leanfran.NatType]) leanfran.Value[leanfran.NatType] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [4]leanfran.ValueUse{a0.Use(), a1.Use(), a2.Use(), a3.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	defer rt.Lean_dec(inputs[0].Lean())
+	defer rt.Lean_dec(inputs[2].Lean())
+	raw := l_Leanharbor_Token_digitsFrom(inputs[0].Lean(), inputs[1].Lean(), inputs[2].Lean(), inputs[3].Lean())
+	return leanfran.WrapValueIn[leanfran.NatType](scope, raw)
+}
+
 func (lfHandle) DigitsValue(a0 leanfran.ValueInput[leanfran.ListType[uint8]]) leanfran.Value[leanfran.NatType] {
 	return lfScopedHandle{}.DigitsValue(a0)
 }
@@ -160,6 +393,21 @@ func (api lfScopedHandle) DigitsValue(a0 leanfran.ValueInput[leanfran.ListType[u
 	leanfran.AcquireValueInputs(inputs[:])
 	defer rt.Lean_dec(inputs[0].Lean())
 	raw := l_Leanharbor_Token_digitsValue(inputs[0].Lean())
+	return leanfran.WrapValueIn[leanfran.NatType](scope, raw)
+}
+
+func (lfHandle) DotFrom(a0 leanfran.ValueInput[string], a1 leanfran.ValueInput[leanfran.NatType]) leanfran.Value[leanfran.NatType] {
+	return lfScopedHandle{}.DotFrom(a0, a1)
+}
+
+func (api lfScopedHandle) DotFrom(a0 leanfran.ValueInput[string], a1 leanfran.ValueInput[leanfran.NatType]) leanfran.Value[leanfran.NatType] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [2]leanfran.ValueUse{a0.Use(), a1.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	defer rt.Lean_dec(inputs[0].Lean())
+	raw := l_Leanharbor_Token_dotFrom(inputs[0].Lean(), inputs[1].Lean())
 	return leanfran.WrapValueIn[leanfran.NatType](scope, raw)
 }
 
@@ -206,6 +454,20 @@ func (api lfScopedHandle) HexDigit(a0 leanfran.ValueInput[leanfran.NatType]) lea
 	return leanfran.WrapValueIn[uint8](scope, raw)
 }
 
+func (lfHandle) HexNibble(a0 leanfran.ValueInput[uint8]) leanfran.Value[uint8] {
+	return lfScopedHandle{}.HexNibble(a0)
+}
+
+func (api lfScopedHandle) HexNibble(a0 leanfran.ValueInput[uint8]) leanfran.Value[uint8] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [1]leanfran.ValueUse{a0.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	raw := rt.Lean_box(uint64(l_Leanharbor_Token_hexNibble(uint8(rt.Lean_unbox(inputs[0].Lean())))))
+	return leanfran.WrapValueIn[uint8](scope, raw)
+}
+
 func (lfHandle) HexValue(a0 leanfran.ValueInput[uint8]) leanfran.Value[leanfran.NatType] {
 	return lfScopedHandle{}.HexValue(a0)
 }
@@ -218,6 +480,21 @@ func (api lfScopedHandle) HexValue(a0 leanfran.ValueInput[uint8]) leanfran.Value
 	leanfran.AcquireValueInputs(inputs[:])
 	raw := l_Leanharbor_Token_hexValue(uint8(rt.Lean_unbox(inputs[0].Lean())))
 	return leanfran.WrapValueIn[leanfran.NatType](scope, raw)
+}
+
+func (lfHandle) IsDecimal(a0 leanfran.ValueInput[leanfran.NatType], a1 leanfran.ValueInput[string], a2 leanfran.ValueInput[leanfran.NatType], a3 leanfran.ValueInput[leanfran.NatType]) leanfran.Value[bool] {
+	return lfScopedHandle{}.IsDecimal(a0, a1, a2, a3)
+}
+
+func (api lfScopedHandle) IsDecimal(a0 leanfran.ValueInput[leanfran.NatType], a1 leanfran.ValueInput[string], a2 leanfran.ValueInput[leanfran.NatType], a3 leanfran.ValueInput[leanfran.NatType]) leanfran.Value[bool] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [4]leanfran.ValueUse{a0.Use(), a1.Use(), a2.Use(), a3.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	defer rt.Lean_dec(inputs[1].Lean())
+	raw := rt.Lean_box(uint64(l_Leanharbor_Token_isDecimal(inputs[0].Lean(), inputs[1].Lean(), inputs[2].Lean(), inputs[3].Lean())))
+	return leanfran.WrapValueIn[bool](scope, raw)
 }
 
 func (lfHandle) Join(a0 leanfran.ValueInput[leanfran.ListType[uint8]], a1 leanfran.ValueInput[leanfran.ListType[uint8]]) leanfran.Value[leanfran.ListType[uint8]] {
@@ -250,6 +527,21 @@ func (api lfScopedHandle) Number(a0 leanfran.ValueInput[leanfran.ListType[uint8]
 	return leanfran.WrapValueIn[leanfran.OptionType[uint64]](scope, raw)
 }
 
+func (lfHandle) NumberAt(a0 leanfran.ValueInput[string], a1 leanfran.ValueInput[leanfran.NatType], a2 leanfran.ValueInput[leanfran.NatType]) leanfran.Value[leanfran.OptionType[uint64]] {
+	return lfScopedHandle{}.NumberAt(a0, a1, a2)
+}
+
+func (api lfScopedHandle) NumberAt(a0 leanfran.ValueInput[string], a1 leanfran.ValueInput[leanfran.NatType], a2 leanfran.ValueInput[leanfran.NatType]) leanfran.Value[leanfran.OptionType[uint64]] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [3]leanfran.ValueUse{a0.Use(), a1.Use(), a2.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	defer rt.Lean_dec(inputs[0].Lean())
+	raw := l_Leanharbor_Token_numberAt(inputs[0].Lean(), inputs[1].Lean(), inputs[2].Lean())
+	return leanfran.WrapValueIn[leanfran.OptionType[uint64]](scope, raw)
+}
+
 func (lfHandle) Parse(a0 leanfran.ValueInput[leanfran.ListType[uint8]]) leanfran.Value[leanfran.OptionType[Parsed]] {
 	return lfScopedHandle{}.Parse(a0)
 }
@@ -262,6 +554,21 @@ func (api lfScopedHandle) Parse(a0 leanfran.ValueInput[leanfran.ListType[uint8]]
 	leanfran.AcquireValueInputs(inputs[:])
 	raw := l_Leanharbor_Token_parse(inputs[0].Lean())
 	return leanfran.WrapValueIn[leanfran.OptionType[Parsed]](scope, raw)
+}
+
+func (lfHandle) ParseString(a0 leanfran.ValueInput[string]) leanfran.Value[leanfran.OptionType[ParsedArray]] {
+	return lfScopedHandle{}.ParseString(a0)
+}
+
+func (api lfScopedHandle) ParseString(a0 leanfran.ValueInput[string]) leanfran.Value[leanfran.OptionType[ParsedArray]] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [1]leanfran.ValueUse{a0.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	defer rt.Lean_dec(inputs[0].Lean())
+	raw := l_Leanharbor_Token_parseString(inputs[0].Lean())
+	return leanfran.WrapValueIn[leanfran.OptionType[ParsedArray]](scope, raw)
 }
 
 func (lfHandle) SplitDot(a0 leanfran.ValueInput[leanfran.ListType[uint8]], a1 leanfran.ValueInput[leanfran.ListType[uint8]]) (leanfran.Value[leanfran.ListType[uint8]], leanfran.Value[leanfran.OptionType[leanfran.ListType[uint8]]]) {
@@ -291,4 +598,20 @@ func (api lfScopedHandle) Unhex(a0 leanfran.ValueInput[leanfran.ListType[uint8]]
 	leanfran.AcquireValueInputs(inputs[:])
 	raw := l_Leanharbor_Token_unhex(inputs[0].Lean(), inputs[1].Lean())
 	return leanfran.WrapValueIn[leanfran.OptionType[leanfran.ListType[uint8]]](scope, raw)
+}
+
+func (lfHandle) UnhexAt(a0 leanfran.ValueInput[string], a1 leanfran.ValueInput[leanfran.NatType], a2 leanfran.ValueInput[leanfran.NatType], a3 leanfran.ValueInput[leanfran.ArrayType[uint8]]) leanfran.Value[leanfran.OptionType[leanfran.ArrayType[uint8]]] {
+	return lfScopedHandle{}.UnhexAt(a0, a1, a2, a3)
+}
+
+func (api lfScopedHandle) UnhexAt(a0 leanfran.ValueInput[string], a1 leanfran.ValueInput[leanfran.NatType], a2 leanfran.ValueInput[leanfran.NatType], a3 leanfran.ValueInput[leanfran.ArrayType[uint8]]) leanfran.Value[leanfran.OptionType[leanfran.ArrayType[uint8]]] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [4]leanfran.ValueUse{a0.Use(), a1.Use(), a2.Use(), a3.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	defer rt.Lean_dec(inputs[0].Lean())
+	defer rt.Lean_dec(inputs[2].Lean())
+	raw := l_Leanharbor_Token_unhexAt(inputs[0].Lean(), inputs[1].Lean(), inputs[2].Lean(), inputs[3].Lean())
+	return leanfran.WrapValueIn[leanfran.OptionType[leanfran.ArrayType[uint8]]](scope, raw)
 }

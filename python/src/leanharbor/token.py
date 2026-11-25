@@ -36,7 +36,7 @@ def issue(secret: bytes, claims: Claims) -> str:
 
 def verify(secret: bytes, token: str, now: int) -> Claims:
     """Accepts a token whose tag matches and whose expiry is not before `now`."""
-    parsed = token_format.parse(list(token.encode()))
+    parsed = token_format.parseString(token)
     if parsed is None:
         raise TokenError("malformed token")
     if not hmac.compare_digest(_tag(secret, bytes(parsed.payload)), bytes(parsed.sig)):

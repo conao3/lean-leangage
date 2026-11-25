@@ -8,7 +8,8 @@ import Calculator.Kernel
 `transition_spec` and `compute_spec` tie the 64-bit implementation to arithmetic on unbounded
 naturals. `get_after` and `others_unchanged` are about a command followed by `apply`.
 `encodeReply_spec` and `encodeError_spec` say that the bytes of a reply and of a refusal are the
-JSON values `replyValue` and `errorValue`, printed by `Leanharbor.Json.Value.print`.
+JSON values `replyValue` and `errorValue`, printed by `Leanharbor.Json.Value.print`;
+`encodeReplyArray_spec` and `encodeErrorArray_spec` say the same of the arrays the shells send.
 -/
 
 namespace Calculator.Kernel
@@ -236,5 +237,27 @@ theorem encodeReply_spec (r : Reply) : encodeReply r = (replyValue r).print := b
 /-- The bytes of a refusal are its JSON value. -/
 theorem encodeError_spec (e : Error) : encodeError e = (errorValue e).print := by
   rw [encodeError, errorToks_spec, Leanharbor.Json.write_value]
+
+theorem errorString_spec (e : Error) : Leanharbor.Token.bytesOf (errorString e) = errorName e := by
+  cases e <;> decide
+
+theorem encodeReplyArray_eq (r : Reply) : (encodeReplyArray r).toList = encodeReply r := by
+  cases r
+  rw [encodeReplyArray, Leanharbor.Json.writeArray_spec, encodeReply, replyToks]
+  simp only [List.map, Leanharbor.Json.StrTok.toTok]
+  congr
+
+theorem encodeErrorArray_eq (e : Error) : (encodeErrorArray e).toList = encodeError e := by
+  rw [encodeErrorArray, Leanharbor.Json.writeArray_spec, encodeError, errorToks]
+  simp only [List.map, Leanharbor.Json.StrTok.toTok, errorString_spec]
+  congr
+
+/-- The bytes of a reply that the shells send are its JSON value. -/
+theorem encodeReplyArray_spec (r : Reply) : (encodeReplyArray r).toList = (replyValue r).print := by
+  rw [encodeReplyArray_eq, encodeReply_spec]
+
+/-- The bytes of a refusal that the shells send are its JSON value. -/
+theorem encodeErrorArray_spec (e : Error) : (encodeErrorArray e).toList = (errorValue e).print := by
+  rw [encodeErrorArray_eq, encodeError_spec]
 
 end Calculator.Kernel

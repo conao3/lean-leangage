@@ -1,7 +1,7 @@
 """`POST /rpc`: one kernel command per request, with the status codes of the Rust shell.
 
-The `{"error": ...}` bodies are written by `leanharbor.json_format.write`, the JSON writer generated
-from `lean/Leanharbor/Json.lean`.
+The `{"error": ...}` bodies are written by `leanharbor.json_format.writeArray`, the JSON writer
+generated from `lean/Leanharbor/Json.lean`.
 """
 
 import json
@@ -43,12 +43,12 @@ class Api:
 def error_body(message: str) -> bytes:
     """`{"error": message}`, with `?` for a character that is not in UTF-8 (a lone surrogate)."""
     return bytes(
-        json_format.write(
+        json_format.writeArray(
             [
-                json_format.Tok_objOpen(),
-                json_format.Tok_key(s=list(b"error")),
-                json_format.Tok_str(s=list(message.encode(errors="replace"))),
-                json_format.Tok_objClose(),
+                json_format.StrTok_objOpen(),
+                json_format.StrTok_key(s="error"),
+                json_format.StrTok_str(s=message.encode(errors="replace").decode()),
+                json_format.StrTok_objClose(),
             ]
         )
     )

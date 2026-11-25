@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"strings"
 	"testing"
+	"unicode/utf8"
 
 	"github.com/conao3/lean-leanharbor/go/leanharbor/token"
 )
@@ -39,11 +40,23 @@ func runToken(t *testing.T, line string) string {
 	words := strings.Split(line, " ")
 	switch {
 	case len(words) == 2 && words[0] == "parse":
-		p := token.Parse(tokenBytes(t, words[1]))
-		if p == nil {
-			return "none"
+		raw := tokenBytes(t, words[1])
+		out := "none"
+		if p := token.Parse(raw); p != nil {
+			out = fmt.Sprintf("parsed %d %d %d %s %s", p.Tenant, p.User, p.Exp, showBytes(p.Payload), showBytes(p.Sig))
 		}
-		return fmt.Sprintf("parsed %d %d %d %s %s", p.Tenant, p.User, p.Exp, showBytes(p.Payload), showBytes(p.Sig))
+		fromString := "none"
+		p, err := token.ParseString(string(raw))
+		if err != nil && utf8.Valid(raw) {
+			t.Fatalf("ParseString of %q: %v", raw, err)
+		}
+		if p != nil {
+			fromString = fmt.Sprintf("parsed %d %d %d %s %s", p.Tenant, p.User, p.Exp, showBytes(p.Payload), showBytes(p.Sig))
+		}
+		if fromString != out {
+			t.Fatalf("ParseString of %q: %s, Parse: %s", raw, fromString, out)
+		}
+		return out
 	case len(words) == 5 && words[0] == "issue":
 		payload := token.EncodePayload(number(words[1]), number(words[2]), number(words[3]))
 		return "token " + showBytes(token.Join(payload, tokenBytes(t, words[4])))
@@ -53,7 +66,8 @@ func runToken(t *testing.T, line string) string {
 }
 
 // The generated Go token functions against the ones run natively by Lean (`token-oracle`), on the
-// shared token list.
+// shared token list. Each token is also split by ParseString, which must give what Parse gives and
+// refuses a token that is not UTF-8.
 func TestGeneratedGoTokenFunctionsAgreeWithLean(t *testing.T) {
 	path, ok := os.LookupEnv("LEANHARBOR_TOKEN_ORACLE")
 	if !ok {

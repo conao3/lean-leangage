@@ -39,8 +39,8 @@ func Issue(secret []byte, claims Claims) string {
 
 // Verify accepts a token whose tag matches and whose expiry is not before now.
 func Verify(secret []byte, tok string, now uint64) (Claims, error) {
-	parsed := token.Parse([]byte(tok))
-	if parsed == nil {
+	parsed, err := token.ParseString(tok)
+	if err != nil || parsed == nil {
 		return Claims{}, ErrTokenMalformed
 	}
 	if !hmac.Equal(tag(secret, parsed.Payload), parsed.Sig) {

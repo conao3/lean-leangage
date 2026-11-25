@@ -128,4 +128,18 @@ def encodeReply (r : Reply) : List UInt8 := Leanharbor.Json.write (replyToks r)
 
 def encodeError (e : Error) : List UInt8 := Leanharbor.Json.write (errorToks e)
 
+/-- `errorName` as a string. -/
+def errorString : Error → String
+  | .overflow => "overflow"
+  | .underflow => "underflow"
+  | .divByZero => "division_by_zero"
+
+/-- The bytes of `encodeReply`, written by `Leanharbor.Json.writeArray`. -/
+def encodeReplyArray : Reply → Array UInt8
+  | .value v => Leanharbor.Json.writeArray [.objOpen, .key "value", .num v, .objClose]
+
+/-- The bytes of `encodeError`, written by `Leanharbor.Json.writeArray`. -/
+def encodeErrorArray (e : Error) : Array UInt8 :=
+  Leanharbor.Json.writeArray [.objOpen, .key "error", .str (errorString e), .objClose]
+
 end Calculator.Kernel

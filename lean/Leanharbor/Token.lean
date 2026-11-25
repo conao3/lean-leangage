@@ -5,12 +5,14 @@ Based on `crates/h5i-app-token/src/lib.rs` and `crates/h5i-app-token/proofs/Toke
 h5i (https://github.com/h5i-dev/h5i, commit 515c7b9, Apache-2.0). Changed: the functions are
 written in Lean and generated to the shells; bytes are a `List UInt8` and the numbers are
 `UInt64`s; a decimal or a hexadecimal field is accepted when it is the encoding of the value it
-reads as; the loops over the token keep what they have read in an accumulator.
+reads as; the loops over the token keep what they have read in an accumulator; `parseString`
+reads the token as a `String` and returns arrays.
 
 A token is `v1.<tenant>.<user>.<expiry>.<hex signature>`. The signature covers the payload, which
 is every byte before the last dot. `encodePayload` writes the payload, `join` appends the
-signature in lowercase hexadecimal, and `parse` splits a token into its fields. The shells compute
-and compare the signature and check the expiry.
+signature in lowercase hexadecimal, and `parse` splits a token into its fields. The shells call
+`parseString`, which splits the bytes of a string as `parse` does, compute and compare the
+signature and check the expiry.
 -/
 
 namespace Leanharbor.Token
@@ -99,5 +101,93 @@ def parse (tok : List UInt8) : Option Parsed :=
       | _ => none
     | _ => none
   | _ => none
+
+/-! ## Over the bytes of a string
+
+The functions below read a token as a `String` and write bytes into an `Array UInt8`, so a shell
+passes the token without building a list. `Leanharbor.Token.Proofs` proves `parseString` equal to
+`parse` of the bytes of the string.
+-/
+
+/-- A token split into its fields, the bytes in arrays. -/
+structure ParsedArray where
+  tenant : UInt64
+  user : UInt64
+  exp : UInt64
+  payload : Array UInt8
+  sig : Array UInt8
+deriving DecidableEq, Repr
+
+/-- The byte of `s` at `i`, or 0 past its end. -/
+@[inline] def byteAt (s : String) (i : Nat) : UInt8 :=
+  if h : i < s.utf8ByteSize then s.getUTF8Byte ⟨i⟩ h else 0
+
+/-- The index of the first dot at `i` or after it, or the size of `s`. -/
+def dotFrom (s : String) (i : Nat) : Nat :=
+  if h : i < s.utf8ByteSize then
+    if s.getUTF8Byte ⟨i⟩ h = 46 then i else dotFrom s (i + 1)
+  else s.utf8ByteSize
+termination_by s.utf8ByteSize - i
+
+/-- `acc` followed by the digits of `s` from `i` to `j` or its end, as `digitsValue` reads them. -/
+def digitsFrom (s : String) (i j acc : Nat) : Nat :=
+  if i < j ∧ i < s.utf8ByteSize then digitsFrom s (i + 1) j (acc * 10 + ((byteAt s i).toNat - 48))
+  else acc
+termination_by s.utf8ByteSize - i
+
+/-- Whether the bytes of `s` from `i` to `j` are `decimal n`, compared from the last digit. -/
+def isDecimal (n : Nat) (s : String) (i j : Nat) : Bool :=
+  if j ≤ i then false
+  else if n < 10 then j = i + 1 && byteAt s i = (n + 48).toUInt8
+  else byteAt s (j - 1) = (n % 10 + 48).toUInt8 && isDecimal (n / 10) s i (j - 1)
+termination_by n
+decreasing_by omega
+
+/-- `number` of the bytes of `s` from `i` to `j`. -/
+def numberAt (s : String) (i j : Nat) : Option UInt64 :=
+  let n := (digitsFrom s i j 0).toUInt64
+  if j - i ≤ 20 && isDecimal n.toNat s i j then some n else none
+
+/-- `hexValue c` as a byte. -/
+@[inline] def hexNibble (c : UInt8) : UInt8 :=
+  if 48 ≤ c && c ≤ 57 then c - 48 else if 97 ≤ c && c ≤ 102 then c - 87 else 16
+
+/-- `acc` followed by the bytes that the pairs of hexadecimal digits of `s` from `i` to `j`
+spell. -/
+def unhexAt (s : String) (i j : Nat) (acc : Array UInt8) : Option (Array UInt8) :=
+  if i < j then
+    if i + 1 < j then
+      let a := hexNibble (byteAt s i)
+      let b := hexNibble (byteAt s (i + 1))
+      if a < 16 && b < 16 then unhexAt s (i + 2) j (acc.push (a * 16 + b)) else none
+    else none
+  else some acc
+termination_by j - i
+
+/-- `acc` followed by the bytes of `s` from `i` to `j` or its end. -/
+def copyBytes (s : String) (i j : Nat) (acc : Array UInt8) : Array UInt8 :=
+  if i < j ∧ i < s.utf8ByteSize then copyBytes s (i + 1) j (acc.push (byteAt s i)) else acc
+termination_by s.utf8ByteSize - i
+
+/-- `parse` of the bytes of `tok`. A dot after the fourth is not a hexadecimal digit, so
+`unhexAt` refuses it. -/
+def parseString (tok : String) : Option ParsedArray :=
+  let n := tok.utf8ByteSize
+  let d0 := dotFrom tok 0
+  let d1 := dotFrom tok (d0 + 1)
+  let d2 := dotFrom tok (d1 + 1)
+  let d3 := dotFrom tok (d2 + 1)
+  if d0 < n && d1 < n && d2 < n && d3 < n then
+    if d0 = 2 && byteAt tok 0 = 118 && byteAt tok 1 = 49 then
+      match numberAt tok (d0 + 1) d1, numberAt tok (d1 + 1) d2, numberAt tok (d2 + 1) d3,
+          unhexAt tok (d3 + 1) n (.emptyWithCapacity 32) with
+      | some t, some u, some e, some sig =>
+        let payload := copyBytes tok (d2 + 1) d3 <| (copyBytes tok (d1 + 1) d2 <|
+          (copyBytes tok (d0 + 1) d1 <|
+            (copyBytes tok 0 d0 (.emptyWithCapacity d3)).push 46).push 46).push 46
+        some ⟨t, u, e, payload, sig⟩
+      | _, _, _, _ => none
+    else none
+  else none
 
 end Leanharbor.Token

@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 	"testing"
+	"unicode/utf8"
 
 	"github.com/conao3/lean-leanharbor/go/leanharbor/jsonformat"
 )
@@ -66,11 +67,55 @@ func runJSON(t *testing.T, line string) string {
 	if err != nil {
 		t.Fatal(err)
 	}
+	if strToks, ok := jsonStrToks(toks); ok {
+		fromStrings, err := jsonformat.WriteArray(strToks)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !bytes.Equal(fromStrings, out) {
+			t.Fatalf("WriteArray of %s: %s", line, showBytes(fromStrings))
+		}
+	}
 	return "json " + showBytes(out)
 }
 
+// jsonStrToks are the tokens with strings, if every string is UTF-8.
+func jsonStrToks(toks []jsonformat.Tok) ([]jsonformat.StrTok, bool) {
+	out := make([]jsonformat.StrTok, 0, len(toks))
+	for _, tok := range toks {
+		switch tok := tok.(type) {
+		case jsonformat.TokNull:
+			out = append(out, jsonformat.StrTokNull{})
+		case jsonformat.TokBool:
+			out = append(out, jsonformat.StrTokBool{B: tok.B})
+		case jsonformat.TokNum:
+			out = append(out, jsonformat.StrTokNum{N: tok.N})
+		case jsonformat.TokStr:
+			if !utf8.Valid(tok.S) {
+				return nil, false
+			}
+			out = append(out, jsonformat.StrTokStr{S: string(tok.S)})
+		case jsonformat.TokKey:
+			if !utf8.Valid(tok.S) {
+				return nil, false
+			}
+			out = append(out, jsonformat.StrTokKey{S: string(tok.S)})
+		case jsonformat.TokArrOpen:
+			out = append(out, jsonformat.StrTokArrOpen{})
+		case jsonformat.TokArrClose:
+			out = append(out, jsonformat.StrTokArrClose{})
+		case jsonformat.TokObjOpen:
+			out = append(out, jsonformat.StrTokObjOpen{})
+		case jsonformat.TokObjClose:
+			out = append(out, jsonformat.StrTokObjClose{})
+		}
+	}
+	return out, true
+}
+
 // The generated Go JSON writer against the one run natively by Lean (`json-oracle`), on the shared
-// token lists.
+// token lists. A list whose strings are UTF-8 is also written by WriteArray, which must write what
+// Write writes.
 func TestGeneratedGoJSONWriterAgreesWithLean(t *testing.T) {
 	path, ok := os.LookupEnv("LEANHARBOR_JSON_ORACLE")
 	if !ok {

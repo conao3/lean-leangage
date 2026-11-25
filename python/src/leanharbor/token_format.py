@@ -20,6 +20,7 @@ from leanfran.runtime import (  # noqa: F401
     lean_array_to_list,
     lean_mk_empty_array_with_capacity,
     lean_nat_add,
+    lean_nat_dec_eq,
     lean_nat_dec_le,
     lean_nat_dec_lt,
     lean_nat_div,
@@ -27,10 +28,17 @@ from leanfran.runtime import (  # noqa: F401
     lean_nat_mul,
     lean_nat_shiftr,
     lean_nat_sub,
+    lean_string_get_byte_fast,
+    lean_string_utf8_byte_size,
     lean_uint64_of_nat,
     lean_uint64_to_nat,
+    lean_uint8_add,
     lean_uint8_dec_eq,
+    lean_uint8_dec_le,
+    lean_uint8_dec_lt,
     lean_uint8_of_nat,
+    lean_uint8_shift_left,
+    lean_uint8_sub,
     lean_uint8_to_nat,
 )
 
@@ -950,6 +958,38 @@ def l_Leanharbor_Token_hexValue(x_1):
         else:
             lean_internal_panic_unreachable()
 
+def l_Leanharbor_Token_dotFrom(x_1, x_2):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_3 = lean_string_utf8_byte_size(x_1)
+            x_4 = lean_nat_dec_lt(x_2, x_3)
+            __t = x_4
+            if __t == 0:
+                lean_dec(x_2)
+                return x_3
+            elif __t == 1:
+                lean_inc(x_2)
+                x_5 = lean_string_get_byte_fast(x_1, x_2)
+                x_6 = 46
+                x_7 = lean_uint8_dec_eq(x_5, x_6)
+                __t = x_7
+                if __t == 0:
+                    x_8 = 1
+                    x_9 = lean_nat_add(x_2, x_8)
+                    lean_dec(x_2)
+                    x_1, x_2 = x_1, x_9
+                    __blk = 0
+                    continue
+                elif __t == 1:
+                    return x_2
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
 def l_Leanharbor_Token_hexByte(x_1):
     x_2 = lean_uint8_to_nat(x_1)
     x_3 = 16
@@ -1046,6 +1086,105 @@ def l_Leanharbor_Token_encodePayload___closed__0():
         c.append(lean_mark_persistent(l_Leanharbor_Token_encodePayload___closed__0__init()))
     return c[0]
 
+def l_Leanharbor_Token_copyBytes(x_1, x_2, x_3, x_4):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_5 = lean_nat_dec_lt(x_2, x_3)
+            __t = x_5
+            if __t == 0:
+                lean_dec(x_2)
+                return x_4
+            elif __t == 1:
+                x_6 = lean_string_utf8_byte_size(x_1)
+                x_7 = lean_nat_dec_lt(x_2, x_6)
+                __t = x_7
+                if __t == 0:
+                    lean_dec(x_2)
+                    return x_4
+                elif __t == 1:
+                    x_8 = 1
+                    x_9 = lean_nat_add(x_2, x_8)
+                    __t = x_7
+                    if __t == 0:
+                        lean_dec(x_2)
+                        x_15 = 0
+                        x_11 = x_15
+                        __blk = 1
+                        continue
+                    elif __t == 1:
+                        x_16 = lean_string_get_byte_fast(x_1, x_2)
+                        x_11 = x_16
+                        __blk = 1
+                        continue
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_12 = x_11
+            x_13 = lean_array_push(x_4, x_12)
+            x_1, x_2, x_3, x_4 = x_1, x_9, x_3, x_13
+            __blk = 0
+            continue
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leanharbor_Token_digitsFrom(x_1, x_2, x_3, x_4):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_5 = lean_nat_dec_lt(x_2, x_3)
+            __t = x_5
+            if __t == 0:
+                lean_dec(x_2)
+                return x_4
+            elif __t == 1:
+                x_6 = lean_string_utf8_byte_size(x_1)
+                x_7 = lean_nat_dec_lt(x_2, x_6)
+                __t = x_7
+                if __t == 0:
+                    lean_dec(x_2)
+                    return x_4
+                elif __t == 1:
+                    x_8 = 1
+                    x_9 = lean_nat_add(x_2, x_8)
+                    x_10 = 10
+                    x_11 = lean_nat_mul(x_4, x_10)
+                    lean_dec(x_4)
+                    __t = x_7
+                    if __t == 0:
+                        lean_dec(x_2)
+                        x_19 = 0
+                        x_13 = x_19
+                        __blk = 1
+                        continue
+                    elif __t == 1:
+                        x_20 = lean_string_get_byte_fast(x_1, x_2)
+                        x_13 = x_20
+                        __blk = 1
+                        continue
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_14 = lean_uint8_to_nat(x_13)
+            x_15 = 48
+            x_16 = lean_nat_sub(x_14, x_15)
+            x_17 = lean_nat_add(x_11, x_16)
+            lean_dec(x_16)
+            lean_dec(x_11)
+            x_1, x_2, x_3, x_4 = x_1, x_9, x_3, x_17
+            __blk = 0
+            continue
+        else:
+            lean_internal_panic_unreachable()
+
 def l_Leanharbor_Token_join(x_1, x_2):
     x_3 = 46
     x_4 = l_Leanharbor_Token_join___closed__0()
@@ -1110,6 +1249,690 @@ def l_List_foldl___at___00Array_appendList_spec__0___redArg(x_1, x_2):
         else:
             lean_internal_panic_unreachable()
 
+def l_Leanharbor_Token_numberAt(x_1, x_2, x_3):
+    x_4 = lean_nat_sub(x_3, x_2)
+    x_5 = 20
+    x_6 = lean_nat_dec_le(x_4, x_5)
+    lean_dec(x_4)
+    __t = x_6
+    if __t == 0:
+        lean_dec(x_3)
+        lean_dec(x_2)
+        x_7 = 0
+        return x_7
+    elif __t == 1:
+        x_8 = 0
+        lean_inc(x_2)
+        x_9 = l_Leanharbor_Token_digitsFrom(x_1, x_2, x_3, x_8)
+        x_10 = lean_uint64_of_nat(x_9)
+        lean_dec(x_9)
+        x_11 = lean_uint64_to_nat(x_10)
+        x_12 = l_Leanharbor_Token_isDecimal(x_11, x_1, x_2, x_3)
+        __t = x_12
+        if __t == 0:
+            x_13 = 0
+            return x_13
+        elif __t == 1:
+            x_14 = x_10
+            x_15 = Ctor(1, [x_14])
+            return x_15
+        else:
+            lean_internal_panic_unreachable()
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Leanharbor_Token_isDecimal(x_1, x_2, x_3, x_4):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_11 = lean_nat_dec_le(x_4, x_3)
+            __t = x_11
+            if __t == 0:
+                x_12 = 10
+                x_13 = lean_nat_dec_lt(x_1, x_12)
+                __t = x_13
+                if __t == 0:
+                    x_25 = 1
+                    x_26 = lean_nat_sub(x_4, x_25)
+                    x_27 = lean_string_utf8_byte_size(x_2)
+                    x_28 = lean_nat_dec_lt(x_26, x_27)
+                    __t = x_28
+                    if __t == 0:
+                        lean_dec(x_26)
+                        x_29 = 0
+                        x_15 = x_29
+                        __blk = 2
+                        continue
+                    elif __t == 1:
+                        x_30 = lean_string_get_byte_fast(x_2, x_26)
+                        x_15 = x_30
+                        __blk = 2
+                        continue
+                    else:
+                        lean_internal_panic_unreachable()
+                elif __t == 1:
+                    x_31 = 1
+                    x_32 = lean_nat_add(x_3, x_31)
+                    x_33 = lean_nat_dec_eq(x_4, x_32)
+                    lean_dec(x_32)
+                    lean_dec(x_4)
+                    __t = x_33
+                    if __t == 0:
+                        lean_dec(x_3)
+                        lean_dec(x_1)
+                        return x_11
+                    elif __t == 1:
+                        x_34 = lean_string_utf8_byte_size(x_2)
+                        x_35 = lean_nat_dec_lt(x_3, x_34)
+                        __t = x_35
+                        if __t == 0:
+                            lean_dec(x_3)
+                            x_36 = 0
+                            x_6 = x_36
+                            __blk = 1
+                            continue
+                        elif __t == 1:
+                            x_37 = lean_string_get_byte_fast(x_2, x_3)
+                            x_6 = x_37
+                            __blk = 1
+                            continue
+                        else:
+                            lean_internal_panic_unreachable()
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 1:
+                lean_dec(x_4)
+                lean_dec(x_3)
+                lean_dec(x_1)
+                x_38 = 0
+                return x_38
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_7 = 48
+            x_8 = lean_nat_add(x_1, x_7)
+            lean_dec(x_1)
+            x_9 = lean_uint8_of_nat(x_8)
+            lean_dec(x_8)
+            x_10 = lean_uint8_dec_eq(x_6, x_9)
+            return x_10
+        elif __blk == 2:
+            x_16 = lean_nat_mod(x_1, x_12)
+            x_17 = 48
+            x_18 = lean_nat_add(x_16, x_17)
+            lean_dec(x_16)
+            x_19 = lean_uint8_of_nat(x_18)
+            lean_dec(x_18)
+            x_20 = lean_uint8_dec_eq(x_15, x_19)
+            __t = x_20
+            if __t == 0:
+                lean_dec(x_4)
+                lean_dec(x_3)
+                lean_dec(x_1)
+                return x_13
+            elif __t == 1:
+                x_21 = lean_nat_div(x_1, x_12)
+                lean_dec(x_1)
+                x_22 = 1
+                x_23 = lean_nat_sub(x_4, x_22)
+                lean_dec(x_4)
+                x_1, x_2, x_3, x_4 = x_21, x_2, x_3, x_23
+                __blk = 0
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leanharbor_Token_byteAt(x_1, x_2):
+    x_3 = lean_string_utf8_byte_size(x_1)
+    x_4 = lean_nat_dec_lt(x_2, x_3)
+    __t = x_4
+    if __t == 0:
+        lean_dec(x_2)
+        x_5 = 0
+        return x_5
+    elif __t == 1:
+        x_6 = lean_string_get_byte_fast(x_1, x_2)
+        return x_6
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Leanharbor_Token_unhexAt(x_1, x_2, x_3, x_4):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_40 = lean_nat_dec_lt(x_2, x_3)
+            __t = x_40
+            if __t == 0:
+                lean_dec(x_2)
+                x_41 = Ctor(1, [x_4])
+                return x_41
+            elif __t == 1:
+                x_42 = 1
+                x_43 = lean_nat_add(x_2, x_42)
+                x_67 = lean_nat_dec_lt(x_43, x_3)
+                __t = x_67
+                if __t == 0:
+                    lean_dec(x_43)
+                    lean_dec(x_4)
+                    lean_dec(x_2)
+                    x_68 = 0
+                    return x_68
+                elif __t == 1:
+                    x_69 = lean_string_utf8_byte_size(x_1)
+                    x_70 = lean_nat_dec_lt(x_2, x_69)
+                    __t = x_70
+                    if __t == 0:
+                        x_71 = 0
+                        x_61 = x_71
+                        __blk = 6
+                        continue
+                    elif __t == 1:
+                        lean_inc(x_2)
+                        x_72 = lean_string_get_byte_fast(x_1, x_2)
+                        x_61 = x_72
+                        __blk = 6
+                        continue
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_8 = 16
+            x_9 = lean_uint8_dec_lt(x_6, x_8)
+            __t = x_9
+            if __t == 0:
+                lean_dec(x_4)
+                lean_dec(x_2)
+                x_10 = 0
+                return x_10
+            elif __t == 1:
+                x_11 = lean_uint8_dec_lt(x_7, x_8)
+                __t = x_11
+                if __t == 0:
+                    lean_dec(x_4)
+                    lean_dec(x_2)
+                    x_12 = 0
+                    return x_12
+                elif __t == 1:
+                    x_13 = 2
+                    x_14 = lean_nat_add(x_2, x_13)
+                    lean_dec(x_2)
+                    x_15 = 4
+                    x_16 = lean_uint8_shift_left(x_6, x_15)
+                    x_17 = lean_uint8_add(x_16, x_7)
+                    x_18 = x_17
+                    x_19 = lean_array_push(x_4, x_18)
+                    x_1, x_2, x_3, x_4 = x_1, x_14, x_3, x_19
+                    __blk = 0
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 2:
+            x_24 = 97
+            x_25 = lean_uint8_dec_le(x_24, x_22)
+            __t = x_25
+            if __t == 0:
+                x_26 = 16
+                x_6, x_7 = x_23, x_26
+                __blk = 1
+                continue
+            elif __t == 1:
+                x_27 = 102
+                x_28 = lean_uint8_dec_le(x_22, x_27)
+                __t = x_28
+                if __t == 0:
+                    x_29 = 16
+                    x_6, x_7 = x_23, x_29
+                    __blk = 1
+                    continue
+                elif __t == 1:
+                    x_30 = 87
+                    x_31 = lean_uint8_sub(x_22, x_30)
+                    x_6, x_7 = x_23, x_31
+                    __blk = 1
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 3:
+            x_35 = 48
+            x_36 = lean_uint8_dec_le(x_35, x_34)
+            __t = x_36
+            if __t == 0:
+                x_22, x_23 = x_34, x_33
+                __blk = 2
+                continue
+            elif __t == 1:
+                x_37 = 57
+                x_38 = lean_uint8_dec_le(x_34, x_37)
+                __t = x_38
+                if __t == 0:
+                    x_22, x_23 = x_34, x_33
+                    __blk = 2
+                    continue
+                elif __t == 1:
+                    x_39 = lean_uint8_sub(x_34, x_35)
+                    x_6, x_7 = x_33, x_39
+                    __blk = 1
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 4:
+            x_46 = lean_string_utf8_byte_size(x_1)
+            x_47 = lean_nat_dec_lt(x_43, x_46)
+            __t = x_47
+            if __t == 0:
+                lean_dec(x_43)
+                x_48 = 0
+                x_33, x_34 = x_45, x_48
+                __blk = 3
+                continue
+            elif __t == 1:
+                x_49 = lean_string_get_byte_fast(x_1, x_43)
+                x_33, x_34 = x_45, x_49
+                __blk = 3
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 5:
+            x_52 = 97
+            x_53 = lean_uint8_dec_le(x_52, x_51)
+            __t = x_53
+            if __t == 0:
+                x_54 = 16
+                x_45 = x_54
+                __blk = 4
+                continue
+            elif __t == 1:
+                x_55 = 102
+                x_56 = lean_uint8_dec_le(x_51, x_55)
+                __t = x_56
+                if __t == 0:
+                    x_57 = 16
+                    x_45 = x_57
+                    __blk = 4
+                    continue
+                elif __t == 1:
+                    x_58 = 87
+                    x_59 = lean_uint8_sub(x_51, x_58)
+                    x_45 = x_59
+                    __blk = 4
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 6:
+            x_62 = 48
+            x_63 = lean_uint8_dec_le(x_62, x_61)
+            __t = x_63
+            if __t == 0:
+                x_51 = x_61
+                __blk = 5
+                continue
+            elif __t == 1:
+                x_64 = 57
+                x_65 = lean_uint8_dec_le(x_61, x_64)
+                __t = x_65
+                if __t == 0:
+                    x_51 = x_61
+                    __blk = 5
+                    continue
+                elif __t == 1:
+                    x_66 = lean_uint8_sub(x_61, x_62)
+                    x_45 = x_66
+                    __blk = 4
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leanharbor_Token_hexNibble(x_1):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_11 = 48
+            x_12 = lean_uint8_dec_le(x_11, x_1)
+            __t = x_12
+            if __t == 0:
+                __blk = 1
+                continue
+            elif __t == 1:
+                x_13 = 57
+                x_14 = lean_uint8_dec_le(x_1, x_13)
+                __t = x_14
+                if __t == 0:
+                    __blk = 1
+                    continue
+                elif __t == 1:
+                    x_15 = lean_uint8_sub(x_1, x_11)
+                    return x_15
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_3 = 97
+            x_4 = lean_uint8_dec_le(x_3, x_1)
+            __t = x_4
+            if __t == 0:
+                x_5 = 16
+                return x_5
+            elif __t == 1:
+                x_6 = 102
+                x_7 = lean_uint8_dec_le(x_1, x_6)
+                __t = x_7
+                if __t == 0:
+                    x_8 = 16
+                    return x_8
+                elif __t == 1:
+                    x_9 = 87
+                    x_10 = lean_uint8_sub(x_1, x_9)
+                    return x_10
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leanharbor_Token_parseString(x_1):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_2 = lean_string_utf8_byte_size(x_1)
+            x_3 = 0
+            x_4 = l_Leanharbor_Token_dotFrom(x_1, x_3)
+            x_5 = lean_nat_dec_lt(x_4, x_2)
+            __t = x_5
+            if __t == 0:
+                lean_dec(x_4)
+                x_6 = 0
+                return x_6
+            elif __t == 1:
+                x_7 = 1
+                x_8 = lean_nat_add(x_4, x_7)
+                lean_inc(x_8)
+                x_9 = l_Leanharbor_Token_dotFrom(x_1, x_8)
+                x_10 = lean_nat_dec_lt(x_9, x_2)
+                __t = x_10
+                if __t == 0:
+                    lean_dec(x_9)
+                    lean_dec(x_8)
+                    lean_dec(x_4)
+                    x_11 = 0
+                    return x_11
+                elif __t == 1:
+                    x_12 = lean_nat_add(x_9, x_7)
+                    lean_inc(x_12)
+                    x_13 = l_Leanharbor_Token_dotFrom(x_1, x_12)
+                    x_14 = lean_nat_dec_lt(x_13, x_2)
+                    __t = x_14
+                    if __t == 0:
+                        lean_dec(x_13)
+                        lean_dec(x_12)
+                        lean_dec(x_9)
+                        lean_dec(x_8)
+                        lean_dec(x_4)
+                        x_15 = 0
+                        return x_15
+                    elif __t == 1:
+                        x_16 = lean_nat_add(x_13, x_7)
+                        lean_inc(x_16)
+                        x_17 = l_Leanharbor_Token_dotFrom(x_1, x_16)
+                        x_69 = lean_nat_dec_lt(x_17, x_2)
+                        __t = x_69
+                        if __t == 0:
+                            lean_dec(x_17)
+                            lean_dec(x_16)
+                            lean_dec(x_13)
+                            lean_dec(x_12)
+                            lean_dec(x_9)
+                            lean_dec(x_8)
+                            lean_dec(x_4)
+                            x_70 = 0
+                            return x_70
+                        elif __t == 1:
+                            x_71 = 2
+                            x_72 = lean_nat_dec_eq(x_4, x_71)
+                            __t = x_72
+                            if __t == 0:
+                                lean_dec(x_17)
+                                lean_dec(x_16)
+                                lean_dec(x_13)
+                                lean_dec(x_12)
+                                lean_dec(x_9)
+                                lean_dec(x_8)
+                                lean_dec(x_4)
+                                x_73 = 0
+                                return x_73
+                            elif __t == 1:
+                                x_74 = lean_nat_dec_lt(x_3, x_2)
+                                __t = x_74
+                                if __t == 0:
+                                    x_75 = 0
+                                    x_62 = x_75
+                                    __blk = 4
+                                    continue
+                                elif __t == 1:
+                                    x_76 = lean_string_get_byte_fast(x_1, x_3)
+                                    x_62 = x_76
+                                    __blk = 4
+                                    continue
+                                else:
+                                    lean_internal_panic_unreachable()
+                            else:
+                                lean_internal_panic_unreachable()
+                        else:
+                            lean_internal_panic_unreachable()
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_20 = 49
+            x_21 = lean_uint8_dec_eq(x_19, x_20)
+            __t = x_21
+            if __t == 0:
+                lean_dec(x_17)
+                lean_dec(x_16)
+                lean_dec(x_13)
+                lean_dec(x_12)
+                lean_dec(x_9)
+                lean_dec(x_8)
+                lean_dec(x_4)
+                x_22 = 0
+                return x_22
+            elif __t == 1:
+                lean_inc(x_9)
+                lean_inc(x_8)
+                x_23 = l_Leanharbor_Token_numberAt(x_1, x_8, x_9)
+                __t = lean_obj_tag(x_23)
+                if __t == 1:
+                    x_24 = x_23.objs[0]
+                    lean_inc(x_24)
+                    lean_dec(x_23)
+                    lean_inc(x_13)
+                    lean_inc(x_12)
+                    x_25 = l_Leanharbor_Token_numberAt(x_1, x_12, x_13)
+                    __t = lean_obj_tag(x_25)
+                    if __t == 1:
+                        x_26 = x_25.objs[0]
+                        lean_inc(x_26)
+                        lean_dec(x_25)
+                        lean_inc(x_17)
+                        lean_inc(x_16)
+                        x_27 = l_Leanharbor_Token_numberAt(x_1, x_16, x_17)
+                        __t = lean_obj_tag(x_27)
+                        if __t == 1:
+                            x_28 = x_27.objs[0]
+                            lean_inc(x_28)
+                            lean_dec(x_27)
+                            x_29 = lean_nat_add(x_17, x_7)
+                            x_30 = 32
+                            x_31 = lean_mk_empty_array_with_capacity(x_30)
+                            x_32 = l_Leanharbor_Token_unhexAt(x_1, x_29, x_2, x_31)
+                            __t = lean_obj_tag(x_32)
+                            if __t == 1:
+                                x_33 = x_32.objs[0]
+                                x_56 = lean_is_shared(x_32)
+                                __t = x_56
+                                if __t == 0:
+                                    x_35, x_36 = x_32, x_56
+                                    __blk = 2
+                                    continue
+                                elif __t == 1:
+                                    lean_inc(x_33)
+                                    lean_dec(x_32)
+                                    x_35, x_36 = 0, x_56
+                                    __blk = 2
+                                    continue
+                                else:
+                                    lean_internal_panic_unreachable()
+                            else:
+                                lean_dec(x_32)
+                                lean_dec(x_28)
+                                lean_dec(x_26)
+                                lean_dec(x_24)
+                                lean_dec(x_17)
+                                lean_dec(x_16)
+                                lean_dec(x_13)
+                                lean_dec(x_12)
+                                lean_dec(x_9)
+                                lean_dec(x_8)
+                                lean_dec(x_4)
+                                x_57 = 0
+                                return x_57
+                        else:
+                            lean_dec(x_27)
+                            lean_dec(x_26)
+                            lean_dec(x_24)
+                            lean_dec(x_17)
+                            lean_dec(x_16)
+                            lean_dec(x_13)
+                            lean_dec(x_12)
+                            lean_dec(x_9)
+                            lean_dec(x_8)
+                            lean_dec(x_4)
+                            x_58 = 0
+                            return x_58
+                    else:
+                        lean_dec(x_25)
+                        lean_dec(x_24)
+                        lean_dec(x_17)
+                        lean_dec(x_16)
+                        lean_dec(x_13)
+                        lean_dec(x_12)
+                        lean_dec(x_9)
+                        lean_dec(x_8)
+                        lean_dec(x_4)
+                        x_59 = 0
+                        return x_59
+                else:
+                    lean_dec(x_23)
+                    lean_dec(x_17)
+                    lean_dec(x_16)
+                    lean_dec(x_13)
+                    lean_dec(x_12)
+                    lean_dec(x_9)
+                    lean_dec(x_8)
+                    lean_dec(x_4)
+                    x_60 = 0
+                    return x_60
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 2:
+            x_37 = lean_mk_empty_array_with_capacity(x_17)
+            x_38 = l_Leanharbor_Token_copyBytes(x_1, x_3, x_4, x_37)
+            lean_dec(x_4)
+            x_39 = 46
+            x_40 = x_39
+            x_41 = lean_array_push(x_38, x_40)
+            x_42 = l_Leanharbor_Token_copyBytes(x_1, x_8, x_9, x_41)
+            lean_dec(x_9)
+            x_43 = x_39
+            x_44 = lean_array_push(x_42, x_43)
+            x_45 = l_Leanharbor_Token_copyBytes(x_1, x_12, x_13, x_44)
+            lean_dec(x_13)
+            x_46 = x_39
+            x_47 = lean_array_push(x_45, x_46)
+            x_48 = l_Leanharbor_Token_copyBytes(x_1, x_16, x_17, x_47)
+            lean_dec(x_17)
+            x_49 = Ctor(0, [x_48, x_33])
+            x_50 = x_24
+            lean_dec(x_24)
+            x_49.sc[16] = x_50
+            x_51 = x_26
+            lean_dec(x_26)
+            x_49.sc[24] = x_51
+            x_52 = x_28
+            lean_dec(x_28)
+            x_49.sc[32] = x_52
+            __t = x_36
+            if __t == 0:
+                x_35.objs[0] = x_49
+                x_54 = x_35
+                __blk = 3
+                continue
+            elif __t == 1:
+                x_55 = Ctor(1, [x_49])
+                x_54 = x_55
+                __blk = 3
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 3:
+            return x_54
+        elif __blk == 4:
+            x_63 = 118
+            x_64 = lean_uint8_dec_eq(x_62, x_63)
+            __t = x_64
+            if __t == 0:
+                lean_dec(x_17)
+                lean_dec(x_16)
+                lean_dec(x_13)
+                lean_dec(x_12)
+                lean_dec(x_9)
+                lean_dec(x_8)
+                lean_dec(x_4)
+                x_65 = 0
+                return x_65
+            elif __t == 1:
+                x_66 = lean_nat_dec_lt(x_7, x_2)
+                __t = x_66
+                if __t == 0:
+                    x_67 = 0
+                    x_19 = x_67
+                    __blk = 1
+                    continue
+                elif __t == 1:
+                    x_68 = lean_string_get_byte_fast(x_1, x_7)
+                    x_19 = x_68
+                    __blk = 1
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
 
 # Public types and functions
 
@@ -1134,22 +1957,44 @@ class Parsed(_m.LeanModel):
 Parsed.__lean__ = _m.StructInfo(Parsed, _m.CtorInfo("mk", 0, 2, False, [_m.FieldInfo("tenant", _m.Scalar(16), _m.UIntD(64)), _m.FieldInfo("user", _m.Scalar(24), _m.UIntD(64)), _m.FieldInfo("exp", _m.Scalar(32), _m.UIntD(64)), _m.FieldInfo("payload", _m.Obj(0), _m.ListD(_m.UIntD(8))), _m.FieldInfo("sig", _m.Obj(1), _m.ListD(_m.UIntD(8)))], [], False), trivial=False)
 
 
+class ParsedArray(_m.LeanModel):
+    "Lean `Leanharbor.Token.ParsedArray`."
+    tenant: "UInt64"
+    user: "UInt64"
+    exp: "UInt64"
+    payload: "list[UInt8]"
+    sig: "list[UInt8]"
+
+
+ParsedArray.__lean__ = _m.StructInfo(ParsedArray, _m.CtorInfo("mk", 0, 2, False, [_m.FieldInfo("tenant", _m.Scalar(16), _m.UIntD(64)), _m.FieldInfo("user", _m.Scalar(24), _m.UIntD(64)), _m.FieldInfo("exp", _m.Scalar(32), _m.UIntD(64)), _m.FieldInfo("payload", _m.Obj(0), _m.ArrayD(_m.UIntD(8))), _m.FieldInfo("sig", _m.Obj(1), _m.ArrayD(_m.UIntD(8)))], [], False), trivial=False)
+
+
 _D0 = _m.ListD(_m.UIntD(8))
 _D1 = _m.LeanType(_D0, "list[UInt8]")
 _D2 = _m.OptionD(_m.NamedD(globals(), "Parsed"))
 _D3 = _m.LeanType(_D2, "Parsed | None")
-_D4 = _m.UIntD(8)
-_D5 = _m.LeanType(_D4, "UInt8")
+_D4 = _m.STRING
+_D5 = _m.LeanType(_D4, "str")
 _D6 = _m.NAT
 _D7 = _m.LeanType(_D6, "Nat")
-_D8 = _m.UIntD(64)
-_D9 = _m.LeanType(_D8, "UInt64")
-_D10 = _m.OptionD(_m.ListD(_m.UIntD(8)))
-_D11 = _m.LeanType(_D10, "list[UInt8] | None")
-_D12 = _m.OptionD(_m.UIntD(64))
-_D13 = _m.LeanType(_D12, "UInt64 | None")
-_D14 = _m.ProdD(_m.ListD(_m.UIntD(8)), _m.OptionD(_m.ListD(_m.UIntD(8))))
-_D15 = _m.LeanType(_D14, "tuple[list[UInt8], list[UInt8] | None]")
+_D8 = _m.UIntD(8)
+_D9 = _m.LeanType(_D8, "UInt8")
+_D10 = _m.UIntD(64)
+_D11 = _m.LeanType(_D10, "UInt64")
+_D12 = _m.ArrayD(_m.UIntD(8))
+_D13 = _m.LeanType(_D12, "list[UInt8]")
+_D14 = _m.OptionD(_m.ListD(_m.UIntD(8)))
+_D15 = _m.LeanType(_D14, "list[UInt8] | None")
+_D16 = _m.OptionD(_m.UIntD(64))
+_D17 = _m.LeanType(_D16, "UInt64 | None")
+_D18 = _m.OptionD(_m.ArrayD(_m.UIntD(8)))
+_D19 = _m.LeanType(_D18, "list[UInt8] | None")
+_D20 = _m.ProdD(_m.ListD(_m.UIntD(8)), _m.OptionD(_m.ListD(_m.UIntD(8))))
+_D21 = _m.LeanType(_D20, "tuple[list[UInt8], list[UInt8] | None]")
+_D22 = _m.OptionD(_m.NamedD(globals(), "ParsedArray"))
+_D23 = _m.LeanType(_D22, "ParsedArray | None")
+_D24 = _m.BOOL
+_D25 = _m.LeanType(_D24, "bool")
 
 
 def _pub_parse(tok: "list[UInt8]") -> "Parsed | None":
@@ -1173,27 +2018,53 @@ def _pub_parse__local(tok: "list[UInt8] | Lean[list[UInt8]] | Local[list[UInt8]]
 
 
 _m.attach(globals(), ["parse"], _pub_parse, "Leanharbor.Token.parse", _pub_parse__lean, {"tok": _D1}, _D3, _pub_parse__local)
+def _pub_dotFrom(s: "str", i: "Nat") -> "Nat":
+    "Lean `Leanharbor.Token.dotFrom`."
+    __a0 = _m.to_lean(_D4, s, "s")
+    __a1 = _m.to_lean(_D6, i, "i")
+    return _m.to_py(_D6, l_Leanharbor_Token_dotFrom(__a0, __a1))
+
+
+def _pub_dotFrom__lean(s: "str | Lean[str]", i: "Nat | Lean[Nat]") -> "Lean[Nat]":
+    "Lean `Leanharbor.Token.dotFrom`, on handles."
+    __a0 = _m.lean_arg(_D5, s, "s")
+    __a1 = _m.lean_arg(_D7, i, "i")
+    _m.give(s, i)
+    return _m.handle(_D7, l_Leanharbor_Token_dotFrom(__a0, __a1))
+
+
+def _pub_dotFrom__local(s: "str | Lean[str] | Local[str]", i: "Nat | Lean[Nat] | Local[Nat]") -> "Local[Nat]":
+    "Lean `Leanharbor.Token.dotFrom`, on local handles."
+    __a0 = _m.local_arg(_D5, s, "s", False)
+    __a1 = _m.local_arg(_D7, i, "i", True)
+    _m.give(s, i)
+    __r = l_Leanharbor_Token_dotFrom(__a0, __a1)
+    _m.local_done(s, __a0)
+    return _m.local_handle(_D7, __r)
+
+
+_m.attach(globals(), ["dotFrom"], _pub_dotFrom, "Leanharbor.Token.dotFrom", _pub_dotFrom__lean, {"s": _D5, "i": _D7}, _D7, _pub_dotFrom__local)
 def _pub_hexByte(b: "UInt8") -> "list[UInt8]":
     "Lean `Leanharbor.Token.hexByte`."
-    __a0 = _m.to_lean(_D4, b, "b")
+    __a0 = _m.to_lean(_D8, b, "b")
     return _m.to_py(_D0, l_Leanharbor_Token_hexByte(__a0))
 
 
 def _pub_hexByte__lean(b: "UInt8 | Lean[UInt8]") -> "Lean[list[UInt8]]":
     "Lean `Leanharbor.Token.hexByte`, on handles."
-    __a0 = _m.lean_arg(_D5, b, "b")
+    __a0 = _m.lean_arg(_D9, b, "b")
     _m.give(b)
     return _m.handle(_D1, l_Leanharbor_Token_hexByte(__a0))
 
 
 def _pub_hexByte__local(b: "UInt8 | Lean[UInt8] | Local[UInt8]") -> "Local[list[UInt8]]":
     "Lean `Leanharbor.Token.hexByte`, on local handles."
-    __a0 = _m.local_arg(_D5, b, "b", True)
+    __a0 = _m.local_arg(_D9, b, "b", True)
     _m.give(b)
     return _m.local_handle(_D1, l_Leanharbor_Token_hexByte(__a0))
 
 
-_m.attach(globals(), ["hexByte"], _pub_hexByte, "Leanharbor.Token.hexByte", _pub_hexByte__lean, {"b": _D5}, _D1, _pub_hexByte__local)
+_m.attach(globals(), ["hexByte"], _pub_hexByte, "Leanharbor.Token.hexByte", _pub_hexByte__lean, {"b": _D9}, _D1, _pub_hexByte__local)
 def _pub_decimal(n: "Nat") -> "list[UInt8]":
     "Lean `Leanharbor.Token.decimal`."
     __a0 = _m.to_lean(_D6, n, "n")
@@ -1219,31 +2090,64 @@ def _pub_decimal__local(n: "Nat | Lean[Nat] | Local[Nat]") -> "Local[list[UInt8]
 _m.attach(globals(), ["decimal"], _pub_decimal, "Leanharbor.Token.decimal", _pub_decimal__lean, {"n": _D7}, _D1, _pub_decimal__local)
 def _pub_encodePayload(tenant: "UInt64", user: "UInt64", exp: "UInt64") -> "list[UInt8]":
     "Lean `Leanharbor.Token.encodePayload`."
-    __a0 = _m.to_lean(_D8, tenant, "tenant")
-    __a1 = _m.to_lean(_D8, user, "user")
-    __a2 = _m.to_lean(_D8, exp, "exp")
+    __a0 = _m.to_lean(_D10, tenant, "tenant")
+    __a1 = _m.to_lean(_D10, user, "user")
+    __a2 = _m.to_lean(_D10, exp, "exp")
     return _m.to_py(_D0, l_Leanharbor_Token_encodePayload(__a0, __a1, __a2))
 
 
 def _pub_encodePayload__lean(tenant: "UInt64 | Lean[UInt64]", user: "UInt64 | Lean[UInt64]", exp: "UInt64 | Lean[UInt64]") -> "Lean[list[UInt8]]":
     "Lean `Leanharbor.Token.encodePayload`, on handles."
-    __a0 = _m.lean_arg(_D9, tenant, "tenant")
-    __a1 = _m.lean_arg(_D9, user, "user")
-    __a2 = _m.lean_arg(_D9, exp, "exp")
+    __a0 = _m.lean_arg(_D11, tenant, "tenant")
+    __a1 = _m.lean_arg(_D11, user, "user")
+    __a2 = _m.lean_arg(_D11, exp, "exp")
     _m.give(tenant, user, exp)
     return _m.handle(_D1, l_Leanharbor_Token_encodePayload(__a0, __a1, __a2))
 
 
 def _pub_encodePayload__local(tenant: "UInt64 | Lean[UInt64] | Local[UInt64]", user: "UInt64 | Lean[UInt64] | Local[UInt64]", exp: "UInt64 | Lean[UInt64] | Local[UInt64]") -> "Local[list[UInt8]]":
     "Lean `Leanharbor.Token.encodePayload`, on local handles."
-    __a0 = _m.local_arg(_D9, tenant, "tenant", True)
-    __a1 = _m.local_arg(_D9, user, "user", True)
-    __a2 = _m.local_arg(_D9, exp, "exp", True)
+    __a0 = _m.local_arg(_D11, tenant, "tenant", True)
+    __a1 = _m.local_arg(_D11, user, "user", True)
+    __a2 = _m.local_arg(_D11, exp, "exp", True)
     _m.give(tenant, user, exp)
     return _m.local_handle(_D1, l_Leanharbor_Token_encodePayload(__a0, __a1, __a2))
 
 
-_m.attach(globals(), ["encodePayload"], _pub_encodePayload, "Leanharbor.Token.encodePayload", _pub_encodePayload__lean, {"tenant": _D9, "user": _D9, "exp": _D9}, _D1, _pub_encodePayload__local)
+_m.attach(globals(), ["encodePayload"], _pub_encodePayload, "Leanharbor.Token.encodePayload", _pub_encodePayload__lean, {"tenant": _D11, "user": _D11, "exp": _D11}, _D1, _pub_encodePayload__local)
+def _pub_copyBytes(s: "str", i: "Nat", j: "Nat", acc: "list[UInt8]") -> "list[UInt8]":
+    "Lean `Leanharbor.Token.copyBytes`."
+    __a0 = _m.to_lean(_D4, s, "s")
+    __a1 = _m.to_lean(_D6, i, "i")
+    __a2 = _m.to_lean(_D6, j, "j")
+    __a3 = _m.to_lean(_D12, acc, "acc")
+    return _m.to_py(_D12, l_Leanharbor_Token_copyBytes(__a0, __a1, __a2, __a3))
+
+
+def _pub_copyBytes__lean(s: "str | Lean[str]", i: "Nat | Lean[Nat]", j: "Nat | Lean[Nat]", acc: "list[UInt8] | Lean[list[UInt8]]") -> "Lean[list[UInt8]]":
+    "Lean `Leanharbor.Token.copyBytes`, on handles."
+    __a0 = _m.lean_arg(_D5, s, "s")
+    __a1 = _m.lean_arg(_D7, i, "i")
+    __a2 = _m.lean_arg(_D7, j, "j")
+    __a3 = _m.lean_arg(_D13, acc, "acc")
+    _m.give(s, i, j, acc)
+    return _m.handle(_D13, l_Leanharbor_Token_copyBytes(__a0, __a1, __a2, __a3))
+
+
+def _pub_copyBytes__local(s: "str | Lean[str] | Local[str]", i: "Nat | Lean[Nat] | Local[Nat]", j: "Nat | Lean[Nat] | Local[Nat]", acc: "list[UInt8] | Lean[list[UInt8]] | Local[list[UInt8]]") -> "Local[list[UInt8]]":
+    "Lean `Leanharbor.Token.copyBytes`, on local handles."
+    __a0 = _m.local_arg(_D5, s, "s", False)
+    __a1 = _m.local_arg(_D7, i, "i", True)
+    __a2 = _m.local_arg(_D7, j, "j", False)
+    __a3 = _m.local_arg(_D13, acc, "acc", True)
+    _m.give(s, i, j, acc)
+    __r = l_Leanharbor_Token_copyBytes(__a0, __a1, __a2, __a3)
+    _m.local_done(s, __a0)
+    _m.local_done(j, __a2)
+    return _m.local_handle(_D13, __r)
+
+
+_m.attach(globals(), ["copyBytes"], _pub_copyBytes, "Leanharbor.Token.copyBytes", _pub_copyBytes__lean, {"s": _D5, "i": _D7, "j": _D7, "acc": _D13}, _D13, _pub_copyBytes__local)
 def _pub_digitsValue(l: "list[UInt8]") -> "Nat":
     "Lean `Leanharbor.Token.digitsValue`."
     __a0 = _m.to_lean(_D0, l, "l")
@@ -1267,11 +2171,44 @@ def _pub_digitsValue__local(l: "list[UInt8] | Lean[list[UInt8]] | Local[list[UIn
 
 
 _m.attach(globals(), ["digitsValue"], _pub_digitsValue, "Leanharbor.Token.digitsValue", _pub_digitsValue__lean, {"l": _D1}, _D7, _pub_digitsValue__local)
+def _pub_digitsFrom(s: "str", i: "Nat", j: "Nat", acc: "Nat") -> "Nat":
+    "Lean `Leanharbor.Token.digitsFrom`."
+    __a0 = _m.to_lean(_D4, s, "s")
+    __a1 = _m.to_lean(_D6, i, "i")
+    __a2 = _m.to_lean(_D6, j, "j")
+    __a3 = _m.to_lean(_D6, acc, "acc")
+    return _m.to_py(_D6, l_Leanharbor_Token_digitsFrom(__a0, __a1, __a2, __a3))
+
+
+def _pub_digitsFrom__lean(s: "str | Lean[str]", i: "Nat | Lean[Nat]", j: "Nat | Lean[Nat]", acc: "Nat | Lean[Nat]") -> "Lean[Nat]":
+    "Lean `Leanharbor.Token.digitsFrom`, on handles."
+    __a0 = _m.lean_arg(_D5, s, "s")
+    __a1 = _m.lean_arg(_D7, i, "i")
+    __a2 = _m.lean_arg(_D7, j, "j")
+    __a3 = _m.lean_arg(_D7, acc, "acc")
+    _m.give(s, i, j, acc)
+    return _m.handle(_D7, l_Leanharbor_Token_digitsFrom(__a0, __a1, __a2, __a3))
+
+
+def _pub_digitsFrom__local(s: "str | Lean[str] | Local[str]", i: "Nat | Lean[Nat] | Local[Nat]", j: "Nat | Lean[Nat] | Local[Nat]", acc: "Nat | Lean[Nat] | Local[Nat]") -> "Local[Nat]":
+    "Lean `Leanharbor.Token.digitsFrom`, on local handles."
+    __a0 = _m.local_arg(_D5, s, "s", False)
+    __a1 = _m.local_arg(_D7, i, "i", True)
+    __a2 = _m.local_arg(_D7, j, "j", False)
+    __a3 = _m.local_arg(_D7, acc, "acc", True)
+    _m.give(s, i, j, acc)
+    __r = l_Leanharbor_Token_digitsFrom(__a0, __a1, __a2, __a3)
+    _m.local_done(s, __a0)
+    _m.local_done(j, __a2)
+    return _m.local_handle(_D7, __r)
+
+
+_m.attach(globals(), ["digitsFrom"], _pub_digitsFrom, "Leanharbor.Token.digitsFrom", _pub_digitsFrom__lean, {"s": _D5, "i": _D7, "j": _D7, "acc": _D7}, _D7, _pub_digitsFrom__local)
 def _pub_unhex(acc: "list[UInt8]", arg1: "list[UInt8]") -> "list[UInt8] | None":
     "Lean `Leanharbor.Token.unhex`."
     __a0 = _m.to_lean(_D0, acc, "acc")
     __a1 = _m.to_lean(_D0, arg1, "arg1")
-    return _m.to_py(_D10, l_Leanharbor_Token_unhex(__a0, __a1))
+    return _m.to_py(_D14, l_Leanharbor_Token_unhex(__a0, __a1))
 
 
 def _pub_unhex__lean(acc: "list[UInt8] | Lean[list[UInt8]]", arg1: "list[UInt8] | Lean[list[UInt8]]") -> "Lean[list[UInt8] | None]":
@@ -1279,7 +2216,7 @@ def _pub_unhex__lean(acc: "list[UInt8] | Lean[list[UInt8]]", arg1: "list[UInt8] 
     __a0 = _m.lean_arg(_D1, acc, "acc")
     __a1 = _m.lean_arg(_D1, arg1, "arg1")
     _m.give(acc, arg1)
-    return _m.handle(_D11, l_Leanharbor_Token_unhex(__a0, __a1))
+    return _m.handle(_D15, l_Leanharbor_Token_unhex(__a0, __a1))
 
 
 def _pub_unhex__local(acc: "list[UInt8] | Lean[list[UInt8]] | Local[list[UInt8]]", arg1: "list[UInt8] | Lean[list[UInt8]] | Local[list[UInt8]]") -> "Local[list[UInt8] | None]":
@@ -1287,10 +2224,10 @@ def _pub_unhex__local(acc: "list[UInt8] | Lean[list[UInt8]] | Local[list[UInt8]]
     __a0 = _m.local_arg(_D1, acc, "acc", True)
     __a1 = _m.local_arg(_D1, arg1, "arg1", True)
     _m.give(acc, arg1)
-    return _m.local_handle(_D11, l_Leanharbor_Token_unhex(__a0, __a1))
+    return _m.local_handle(_D15, l_Leanharbor_Token_unhex(__a0, __a1))
 
 
-_m.attach(globals(), ["unhex"], _pub_unhex, "Leanharbor.Token.unhex", _pub_unhex__lean, {"acc": _D1, "arg1": _D1}, _D11, _pub_unhex__local)
+_m.attach(globals(), ["unhex"], _pub_unhex, "Leanharbor.Token.unhex", _pub_unhex__lean, {"acc": _D1, "arg1": _D1}, _D15, _pub_unhex__local)
 def _pub_join(payload: "list[UInt8]", sig: "list[UInt8]") -> "list[UInt8]":
     "Lean `Leanharbor.Token.join`."
     __a0 = _m.to_lean(_D0, payload, "payload")
@@ -1317,38 +2254,126 @@ def _pub_join__local(payload: "list[UInt8] | Lean[list[UInt8]] | Local[list[UInt
 
 
 _m.attach(globals(), ["join"], _pub_join, "Leanharbor.Token.join", _pub_join__lean, {"payload": _D1, "sig": _D1}, _D1, _pub_join__local)
+def _pub_numberAt(s: "str", i: "Nat", j: "Nat") -> "UInt64 | None":
+    "Lean `Leanharbor.Token.numberAt`."
+    __a0 = _m.to_lean(_D4, s, "s")
+    __a1 = _m.to_lean(_D6, i, "i")
+    __a2 = _m.to_lean(_D6, j, "j")
+    return _m.to_py(_D16, l_Leanharbor_Token_numberAt(__a0, __a1, __a2))
+
+
+def _pub_numberAt__lean(s: "str | Lean[str]", i: "Nat | Lean[Nat]", j: "Nat | Lean[Nat]") -> "Lean[UInt64 | None]":
+    "Lean `Leanharbor.Token.numberAt`, on handles."
+    __a0 = _m.lean_arg(_D5, s, "s")
+    __a1 = _m.lean_arg(_D7, i, "i")
+    __a2 = _m.lean_arg(_D7, j, "j")
+    _m.give(s, i, j)
+    return _m.handle(_D17, l_Leanharbor_Token_numberAt(__a0, __a1, __a2))
+
+
+def _pub_numberAt__local(s: "str | Lean[str] | Local[str]", i: "Nat | Lean[Nat] | Local[Nat]", j: "Nat | Lean[Nat] | Local[Nat]") -> "Local[UInt64 | None]":
+    "Lean `Leanharbor.Token.numberAt`, on local handles."
+    __a0 = _m.local_arg(_D5, s, "s", False)
+    __a1 = _m.local_arg(_D7, i, "i", True)
+    __a2 = _m.local_arg(_D7, j, "j", True)
+    _m.give(s, i, j)
+    __r = l_Leanharbor_Token_numberAt(__a0, __a1, __a2)
+    _m.local_done(s, __a0)
+    return _m.local_handle(_D17, __r)
+
+
+_m.attach(globals(), ["numberAt"], _pub_numberAt, "Leanharbor.Token.numberAt", _pub_numberAt__lean, {"s": _D5, "i": _D7, "j": _D7}, _D17, _pub_numberAt__local)
+def _pub_byteAt(s: "str", i: "Nat") -> "UInt8":
+    "Lean `Leanharbor.Token.byteAt`."
+    __a0 = _m.to_lean(_D4, s, "s")
+    __a1 = _m.to_lean(_D6, i, "i")
+    return _m.to_py(_D8, l_Leanharbor_Token_byteAt(__a0, __a1))
+
+
+def _pub_byteAt__lean(s: "str | Lean[str]", i: "Nat | Lean[Nat]") -> "Lean[UInt8]":
+    "Lean `Leanharbor.Token.byteAt`, on handles."
+    __a0 = _m.lean_arg(_D5, s, "s")
+    __a1 = _m.lean_arg(_D7, i, "i")
+    _m.give(s, i)
+    return _m.handle(_D9, l_Leanharbor_Token_byteAt(__a0, __a1))
+
+
+def _pub_byteAt__local(s: "str | Lean[str] | Local[str]", i: "Nat | Lean[Nat] | Local[Nat]") -> "Local[UInt8]":
+    "Lean `Leanharbor.Token.byteAt`, on local handles."
+    __a0 = _m.local_arg(_D5, s, "s", False)
+    __a1 = _m.local_arg(_D7, i, "i", True)
+    _m.give(s, i)
+    __r = l_Leanharbor_Token_byteAt(__a0, __a1)
+    _m.local_done(s, __a0)
+    return _m.local_handle(_D9, __r)
+
+
+_m.attach(globals(), ["byteAt"], _pub_byteAt, "Leanharbor.Token.byteAt", _pub_byteAt__lean, {"s": _D5, "i": _D7}, _D9, _pub_byteAt__local)
+def _pub_unhexAt(s: "str", i: "Nat", j: "Nat", acc: "list[UInt8]") -> "list[UInt8] | None":
+    "Lean `Leanharbor.Token.unhexAt`."
+    __a0 = _m.to_lean(_D4, s, "s")
+    __a1 = _m.to_lean(_D6, i, "i")
+    __a2 = _m.to_lean(_D6, j, "j")
+    __a3 = _m.to_lean(_D12, acc, "acc")
+    return _m.to_py(_D18, l_Leanharbor_Token_unhexAt(__a0, __a1, __a2, __a3))
+
+
+def _pub_unhexAt__lean(s: "str | Lean[str]", i: "Nat | Lean[Nat]", j: "Nat | Lean[Nat]", acc: "list[UInt8] | Lean[list[UInt8]]") -> "Lean[list[UInt8] | None]":
+    "Lean `Leanharbor.Token.unhexAt`, on handles."
+    __a0 = _m.lean_arg(_D5, s, "s")
+    __a1 = _m.lean_arg(_D7, i, "i")
+    __a2 = _m.lean_arg(_D7, j, "j")
+    __a3 = _m.lean_arg(_D13, acc, "acc")
+    _m.give(s, i, j, acc)
+    return _m.handle(_D19, l_Leanharbor_Token_unhexAt(__a0, __a1, __a2, __a3))
+
+
+def _pub_unhexAt__local(s: "str | Lean[str] | Local[str]", i: "Nat | Lean[Nat] | Local[Nat]", j: "Nat | Lean[Nat] | Local[Nat]", acc: "list[UInt8] | Lean[list[UInt8]] | Local[list[UInt8]]") -> "Local[list[UInt8] | None]":
+    "Lean `Leanharbor.Token.unhexAt`, on local handles."
+    __a0 = _m.local_arg(_D5, s, "s", False)
+    __a1 = _m.local_arg(_D7, i, "i", True)
+    __a2 = _m.local_arg(_D7, j, "j", False)
+    __a3 = _m.local_arg(_D13, acc, "acc", True)
+    _m.give(s, i, j, acc)
+    __r = l_Leanharbor_Token_unhexAt(__a0, __a1, __a2, __a3)
+    _m.local_done(s, __a0)
+    _m.local_done(j, __a2)
+    return _m.local_handle(_D19, __r)
+
+
+_m.attach(globals(), ["unhexAt"], _pub_unhexAt, "Leanharbor.Token.unhexAt", _pub_unhexAt__lean, {"s": _D5, "i": _D7, "j": _D7, "acc": _D13}, _D19, _pub_unhexAt__local)
 def _pub_hexValue(c: "UInt8") -> "Nat":
     "Lean `Leanharbor.Token.hexValue`."
-    __a0 = _m.to_lean(_D4, c, "c")
+    __a0 = _m.to_lean(_D8, c, "c")
     return _m.to_py(_D6, l_Leanharbor_Token_hexValue(__a0))
 
 
 def _pub_hexValue__lean(c: "UInt8 | Lean[UInt8]") -> "Lean[Nat]":
     "Lean `Leanharbor.Token.hexValue`, on handles."
-    __a0 = _m.lean_arg(_D5, c, "c")
+    __a0 = _m.lean_arg(_D9, c, "c")
     _m.give(c)
     return _m.handle(_D7, l_Leanharbor_Token_hexValue(__a0))
 
 
 def _pub_hexValue__local(c: "UInt8 | Lean[UInt8] | Local[UInt8]") -> "Local[Nat]":
     "Lean `Leanharbor.Token.hexValue`, on local handles."
-    __a0 = _m.local_arg(_D5, c, "c", True)
+    __a0 = _m.local_arg(_D9, c, "c", True)
     _m.give(c)
     return _m.local_handle(_D7, l_Leanharbor_Token_hexValue(__a0))
 
 
-_m.attach(globals(), ["hexValue"], _pub_hexValue, "Leanharbor.Token.hexValue", _pub_hexValue__lean, {"c": _D5}, _D7, _pub_hexValue__local)
+_m.attach(globals(), ["hexValue"], _pub_hexValue, "Leanharbor.Token.hexValue", _pub_hexValue__lean, {"c": _D9}, _D7, _pub_hexValue__local)
 def _pub_number(l: "list[UInt8]") -> "UInt64 | None":
     "Lean `Leanharbor.Token.number`."
     __a0 = _m.to_lean(_D0, l, "l")
-    return _m.to_py(_D12, l_Leanharbor_Token_number(__a0))
+    return _m.to_py(_D16, l_Leanharbor_Token_number(__a0))
 
 
 def _pub_number__lean(l: "list[UInt8] | Lean[list[UInt8]]") -> "Lean[UInt64 | None]":
     "Lean `Leanharbor.Token.number`, on handles."
     __a0 = _m.lean_arg(_D1, l, "l")
     _m.give(l)
-    return _m.handle(_D13, l_Leanharbor_Token_number(__a0))
+    return _m.handle(_D17, l_Leanharbor_Token_number(__a0))
 
 
 def _pub_number__local(l: "list[UInt8] | Lean[list[UInt8]] | Local[list[UInt8]]") -> "Local[UInt64 | None]":
@@ -1357,15 +2382,36 @@ def _pub_number__local(l: "list[UInt8] | Lean[list[UInt8]] | Local[list[UInt8]]"
     _m.give(l)
     __r = l_Leanharbor_Token_number(__a0)
     _m.local_done(l, __a0)
-    return _m.local_handle(_D13, __r)
+    return _m.local_handle(_D17, __r)
 
 
-_m.attach(globals(), ["number"], _pub_number, "Leanharbor.Token.number", _pub_number__lean, {"l": _D1}, _D13, _pub_number__local)
+_m.attach(globals(), ["number"], _pub_number, "Leanharbor.Token.number", _pub_number__lean, {"l": _D1}, _D17, _pub_number__local)
+def _pub_hexNibble(c: "UInt8") -> "UInt8":
+    "Lean `Leanharbor.Token.hexNibble`."
+    __a0 = _m.to_lean(_D8, c, "c")
+    return _m.to_py(_D8, l_Leanharbor_Token_hexNibble(__a0))
+
+
+def _pub_hexNibble__lean(c: "UInt8 | Lean[UInt8]") -> "Lean[UInt8]":
+    "Lean `Leanharbor.Token.hexNibble`, on handles."
+    __a0 = _m.lean_arg(_D9, c, "c")
+    _m.give(c)
+    return _m.handle(_D9, l_Leanharbor_Token_hexNibble(__a0))
+
+
+def _pub_hexNibble__local(c: "UInt8 | Lean[UInt8] | Local[UInt8]") -> "Local[UInt8]":
+    "Lean `Leanharbor.Token.hexNibble`, on local handles."
+    __a0 = _m.local_arg(_D9, c, "c", True)
+    _m.give(c)
+    return _m.local_handle(_D9, l_Leanharbor_Token_hexNibble(__a0))
+
+
+_m.attach(globals(), ["hexNibble"], _pub_hexNibble, "Leanharbor.Token.hexNibble", _pub_hexNibble__lean, {"c": _D9}, _D9, _pub_hexNibble__local)
 def _pub_splitDot(acc: "list[UInt8]", arg1: "list[UInt8]") -> "tuple[list[UInt8], list[UInt8] | None]":
     "Lean `Leanharbor.Token.splitDot`."
     __a0 = _m.to_lean(_D0, acc, "acc")
     __a1 = _m.to_lean(_D0, arg1, "arg1")
-    return _m.to_py(_D14, l_Leanharbor_Token_splitDot(__a0, __a1))
+    return _m.to_py(_D20, l_Leanharbor_Token_splitDot(__a0, __a1))
 
 
 def _pub_splitDot__lean(acc: "list[UInt8] | Lean[list[UInt8]]", arg1: "list[UInt8] | Lean[list[UInt8]]") -> "Lean[tuple[list[UInt8], list[UInt8] | None]]":
@@ -1373,7 +2419,7 @@ def _pub_splitDot__lean(acc: "list[UInt8] | Lean[list[UInt8]]", arg1: "list[UInt
     __a0 = _m.lean_arg(_D1, acc, "acc")
     __a1 = _m.lean_arg(_D1, arg1, "arg1")
     _m.give(acc, arg1)
-    return _m.handle(_D15, l_Leanharbor_Token_splitDot(__a0, __a1))
+    return _m.handle(_D21, l_Leanharbor_Token_splitDot(__a0, __a1))
 
 
 def _pub_splitDot__local(acc: "list[UInt8] | Lean[list[UInt8]] | Local[list[UInt8]]", arg1: "list[UInt8] | Lean[list[UInt8]] | Local[list[UInt8]]") -> "Local[tuple[list[UInt8], list[UInt8] | None]]":
@@ -1381,21 +2427,76 @@ def _pub_splitDot__local(acc: "list[UInt8] | Lean[list[UInt8]] | Local[list[UInt
     __a0 = _m.local_arg(_D1, acc, "acc", True)
     __a1 = _m.local_arg(_D1, arg1, "arg1", True)
     _m.give(acc, arg1)
-    return _m.local_handle(_D15, l_Leanharbor_Token_splitDot(__a0, __a1))
+    return _m.local_handle(_D21, l_Leanharbor_Token_splitDot(__a0, __a1))
 
 
-_m.attach(globals(), ["splitDot"], _pub_splitDot, "Leanharbor.Token.splitDot", _pub_splitDot__lean, {"acc": _D1, "arg1": _D1}, _D15, _pub_splitDot__local)
+_m.attach(globals(), ["splitDot"], _pub_splitDot, "Leanharbor.Token.splitDot", _pub_splitDot__lean, {"acc": _D1, "arg1": _D1}, _D21, _pub_splitDot__local)
+def _pub_parseString(tok: "str") -> "ParsedArray | None":
+    "Lean `Leanharbor.Token.parseString`."
+    __a0 = _m.to_lean(_D4, tok, "tok")
+    return _m.to_py(_D22, l_Leanharbor_Token_parseString(__a0))
+
+
+def _pub_parseString__lean(tok: "str | Lean[str]") -> "Lean[ParsedArray | None]":
+    "Lean `Leanharbor.Token.parseString`, on handles."
+    __a0 = _m.lean_arg(_D5, tok, "tok")
+    _m.give(tok)
+    return _m.handle(_D23, l_Leanharbor_Token_parseString(__a0))
+
+
+def _pub_parseString__local(tok: "str | Lean[str] | Local[str]") -> "Local[ParsedArray | None]":
+    "Lean `Leanharbor.Token.parseString`, on local handles."
+    __a0 = _m.local_arg(_D5, tok, "tok", False)
+    _m.give(tok)
+    __r = l_Leanharbor_Token_parseString(__a0)
+    _m.local_done(tok, __a0)
+    return _m.local_handle(_D23, __r)
+
+
+_m.attach(globals(), ["parseString"], _pub_parseString, "Leanharbor.Token.parseString", _pub_parseString__lean, {"tok": _D5}, _D23, _pub_parseString__local)
+def _pub_isDecimal(n: "Nat", s: "str", i: "Nat", j: "Nat") -> "bool":
+    "Lean `Leanharbor.Token.isDecimal`."
+    __a0 = _m.to_lean(_D6, n, "n")
+    __a1 = _m.to_lean(_D4, s, "s")
+    __a2 = _m.to_lean(_D6, i, "i")
+    __a3 = _m.to_lean(_D6, j, "j")
+    return _m.to_py(_D24, l_Leanharbor_Token_isDecimal(__a0, __a1, __a2, __a3))
+
+
+def _pub_isDecimal__lean(n: "Nat | Lean[Nat]", s: "str | Lean[str]", i: "Nat | Lean[Nat]", j: "Nat | Lean[Nat]") -> "Lean[bool]":
+    "Lean `Leanharbor.Token.isDecimal`, on handles."
+    __a0 = _m.lean_arg(_D7, n, "n")
+    __a1 = _m.lean_arg(_D5, s, "s")
+    __a2 = _m.lean_arg(_D7, i, "i")
+    __a3 = _m.lean_arg(_D7, j, "j")
+    _m.give(n, s, i, j)
+    return _m.handle(_D25, l_Leanharbor_Token_isDecimal(__a0, __a1, __a2, __a3))
+
+
+def _pub_isDecimal__local(n: "Nat | Lean[Nat] | Local[Nat]", s: "str | Lean[str] | Local[str]", i: "Nat | Lean[Nat] | Local[Nat]", j: "Nat | Lean[Nat] | Local[Nat]") -> "Local[bool]":
+    "Lean `Leanharbor.Token.isDecimal`, on local handles."
+    __a0 = _m.local_arg(_D7, n, "n", True)
+    __a1 = _m.local_arg(_D5, s, "s", False)
+    __a2 = _m.local_arg(_D7, i, "i", True)
+    __a3 = _m.local_arg(_D7, j, "j", True)
+    _m.give(n, s, i, j)
+    __r = l_Leanharbor_Token_isDecimal(__a0, __a1, __a2, __a3)
+    _m.local_done(s, __a1)
+    return _m.local_handle(_D25, __r)
+
+
+_m.attach(globals(), ["isDecimal"], _pub_isDecimal, "Leanharbor.Token.isDecimal", _pub_isDecimal__lean, {"n": _D7, "s": _D5, "i": _D7, "j": _D7}, _D25, _pub_isDecimal__local)
 def _pub_hexDigit(n: "Nat") -> "UInt8":
     "Lean `Leanharbor.Token.hexDigit`."
     __a0 = _m.to_lean(_D6, n, "n")
-    return _m.to_py(_D4, l_Leanharbor_Token_hexDigit(__a0))
+    return _m.to_py(_D8, l_Leanharbor_Token_hexDigit(__a0))
 
 
 def _pub_hexDigit__lean(n: "Nat | Lean[Nat]") -> "Lean[UInt8]":
     "Lean `Leanharbor.Token.hexDigit`, on handles."
     __a0 = _m.lean_arg(_D7, n, "n")
     _m.give(n)
-    return _m.handle(_D5, l_Leanharbor_Token_hexDigit(__a0))
+    return _m.handle(_D9, l_Leanharbor_Token_hexDigit(__a0))
 
 
 def _pub_hexDigit__local(n: "Nat | Lean[Nat] | Local[Nat]") -> "Local[UInt8]":
@@ -1404,8 +2505,8 @@ def _pub_hexDigit__local(n: "Nat | Lean[Nat] | Local[Nat]") -> "Local[UInt8]":
     _m.give(n)
     __r = l_Leanharbor_Token_hexDigit(__a0)
     _m.local_done(n, __a0)
-    return _m.local_handle(_D5, __r)
+    return _m.local_handle(_D9, __r)
 
 
-_m.attach(globals(), ["hexDigit"], _pub_hexDigit, "Leanharbor.Token.hexDigit", _pub_hexDigit__lean, {"n": _D7}, _D5, _pub_hexDigit__local)
+_m.attach(globals(), ["hexDigit"], _pub_hexDigit, "Leanharbor.Token.hexDigit", _pub_hexDigit__lean, {"n": _D7}, _D9, _pub_hexDigit__local)
 _m.finish(globals())
