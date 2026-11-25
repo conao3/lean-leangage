@@ -1462,6 +1462,68 @@ func core_L_Notes_Kernel_putNote(frame *rt.Tail, x_1 rt.V, x_2 rt.V) rt.V {
 	}
 }
 
+func core_L_Notes_Kernel_sortMembers(frame *rt.Tail, x_1 rt.V) rt.V {
+	var x_2 rt.V
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	var x_5 rt.V
+	_ = x_5
+	switch rt.Lean_obj_tag(x_1) {
+	case 0:
+		return x_1
+	case 1:
+		x_2 = rt.Lean_ctor_get(x_1, 0)
+		rt.Lean_inc(x_2)
+		x_3 = rt.Lean_ctor_get(x_1, 1)
+		rt.Lean_inc(x_3)
+		rt.Lean_dec(x_1)
+		{
+			extra := frame.SuspendExtra()
+			x_4 = frame.Result(core_L_Notes_Kernel_sortMembers(frame, x_3))
+			frame.ResumeExtra(extra)
+		}
+		rt.TailCall(frame, tail_L_Notes_Kernel_insertMember, []rt.V{x_2, x_4})
+		return rt.V{}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+}
+
+func core_L_Notes_Kernel_sortNotes(frame *rt.Tail, x_1 rt.V) rt.V {
+	var x_2 rt.V
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	var x_5 rt.V
+	_ = x_5
+	switch rt.Lean_obj_tag(x_1) {
+	case 0:
+		return x_1
+	case 1:
+		x_2 = rt.Lean_ctor_get(x_1, 0)
+		rt.Lean_inc(x_2)
+		x_3 = rt.Lean_ctor_get(x_1, 1)
+		rt.Lean_inc(x_3)
+		rt.Lean_dec(x_1)
+		{
+			extra := frame.SuspendExtra()
+			x_4 = frame.Result(core_L_Notes_Kernel_sortNotes(frame, x_3))
+			frame.ResumeExtra(extra)
+		}
+		rt.TailCall(frame, tail_L_Notes_Kernel_insertNote, []rt.V{x_2, x_4})
+		return rt.V{}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+}
+
 func core_L_Notes_Kernel_transition(frame *rt.Tail, x_1 rt.V, x_2 rt.V, x_3 rt.V) rt.V {
 	var x_4 rt.V
 	_ = x_4
@@ -2168,6 +2230,45 @@ func l_List_appendTR___redArg(x_1 rt.V, x_2 rt.V) rt.V {
 	frame := rt.AcquireTail()
 	defer rt.ReleaseTail(frame)
 	return frame.Result(core_L_List_appendTR___redArg(frame, x_1, x_2))
+}
+
+func l_List_elem___at___00System_Uri_UriEscape_uriEscapeAsciiChar_spec__1(x_1 uint32, x_2 rt.V) uint8 {
+	var x_3 uint8
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	var x_5 rt.V
+	_ = x_5
+	var x_6 uint32
+	_ = x_6
+	var x_7 uint8
+	_ = x_7
+	var x_8 uint8
+	_ = x_8
+_start:
+	switch rt.Lean_obj_tag(x_2) {
+	case 0:
+		x_3 = 0
+		return x_3
+	case 1:
+		x_4 = rt.Lean_ctor_get(x_2, 0)
+		x_5 = rt.Lean_ctor_get(x_2, 1)
+		x_6 = uint32(rt.Lean_unbox(x_4))
+		x_7 = l_UInt32_decEq(x_1, x_6)
+		switch x_7 {
+		case 0:
+			x_2 = x_5
+			goto _start
+		case 1:
+			return x_7
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return 0
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return 0
+	}
 }
 
 func l_List_filterTR_loop___at___00Notes_Kernel_applyWrite_spec__0(x_1 uint64, x_2 rt.V, x_3 rt.V) rt.V {
@@ -2903,36 +3004,40 @@ func l_Notes_Kernel_handle(x_1 rt.V, x_2 rt.V, x_3 rt.V) rt.V {
 	_ = x_124
 	var x_125 rt.V
 	_ = x_125
-	var x_127 rt.V
-	_ = x_127
+	var x_126 rt.V
+	_ = x_126
 	var x_128 rt.V
 	_ = x_128
 	var x_129 rt.V
 	_ = x_129
-	var x_130 uint8
+	var x_130 rt.V
 	_ = x_130
-	var x_131 rt.V
+	var x_131 uint8
 	_ = x_131
 	var x_132 rt.V
 	_ = x_132
-	var x_134 rt.V
-	_ = x_134
-	var x_135 uint8
+	var x_133 rt.V
+	_ = x_133
+	var x_135 rt.V
 	_ = x_135
-	var x_136 rt.V
+	var x_136 uint8
 	_ = x_136
 	var x_137 rt.V
 	_ = x_137
+	var x_138 rt.V
+	_ = x_138
 	var x_139 rt.V
 	_ = x_139
-	var x_140 rt.V
-	_ = x_140
 	var x_141 rt.V
 	_ = x_141
-	var x_142 uint8
+	var x_142 rt.V
 	_ = x_142
 	var x_143 rt.V
 	_ = x_143
+	var x_144 uint8
+	_ = x_144
+	var x_145 rt.V
+	_ = x_145
 	switch rt.Lean_obj_tag(x_3) {
 	case 0:
 		rt.Lean_dec(x_2)
@@ -2969,7 +3074,7 @@ func l_Notes_Kernel_handle(x_1 rt.V, x_2 rt.V, x_3 rt.V) rt.V {
 	case 2:
 		x_49 = rt.Lean_ctor_get_uint64(x_3, 8)
 		x_50 = rt.Lean_ctor_get(x_3, 0)
-		rt.Lean_inc(x_50)
+		rt.Lean_inc_n(x_50, 2)
 		x_51 = rt.Lean_ctor_get_uint8(x_3, 16)
 		rt.Lean_dec(x_3)
 		x_61 = l_Notes_Kernel_textOk(x_50)
@@ -3043,36 +3148,36 @@ func l_Notes_Kernel_handle(x_1 rt.V, x_2 rt.V, x_3 rt.V) rt.V {
 		}
 	case 5:
 		x_120 = rt.Lean_ctor_get(x_2, 1)
-		x_130 = rt.Bool(!rt.Lean_is_exclusive(x_2))
-		switch x_130 {
+		x_131 = rt.Bool(!rt.Lean_is_exclusive(x_2))
+		switch x_131 {
 		case 0:
-			x_131 = rt.Lean_ctor_get(x_2, 0)
-			rt.Lean_dec(x_131)
-			x_122, x_123 = x_2, x_130
+			x_132 = rt.Lean_ctor_get(x_2, 0)
+			rt.Lean_dec(x_132)
+			x_122, x_123 = x_2, x_131
 			goto _jp_121
 		case 1:
 			rt.Lean_inc(x_120)
 			rt.Lean_dec(x_2)
-			x_122, x_123 = rt.V{}, x_130
+			x_122, x_123 = rt.V{}, x_131
 			goto _jp_121
 		default:
 			rt.Lean_internal_panic_unreachable()
 			return rt.V{}
 		}
 	case 6:
-		x_132 = rt.Lean_ctor_get(x_2, 0)
-		x_142 = rt.Bool(!rt.Lean_is_exclusive(x_2))
-		switch x_142 {
+		x_133 = rt.Lean_ctor_get(x_2, 0)
+		x_144 = rt.Bool(!rt.Lean_is_exclusive(x_2))
+		switch x_144 {
 		case 0:
-			x_143 = rt.Lean_ctor_get(x_2, 1)
-			rt.Lean_dec(x_143)
-			x_134, x_135 = x_2, x_142
-			goto _jp_133
+			x_145 = rt.Lean_ctor_get(x_2, 1)
+			rt.Lean_dec(x_145)
+			x_135, x_136 = x_2, x_144
+			goto _jp_134
 		case 1:
-			rt.Lean_inc(x_132)
+			rt.Lean_inc(x_133)
 			rt.Lean_dec(x_2)
-			x_134, x_135 = rt.V{}, x_142
-			goto _jp_133
+			x_135, x_136 = rt.V{}, x_144
+			goto _jp_134
 		default:
 			rt.Lean_internal_panic_unreachable()
 			return rt.V{}
@@ -3392,52 +3497,54 @@ _jp_112:
 	return x_114
 _jp_121:
 	x_124 = rt.Lean_box(0)
-	x_125 = rt.Lean_alloc_ctor(2, 1, 0)
-	rt.Lean_ctor_set(x_125, 0, x_120)
+	x_125 = l_Notes_Kernel_sortNotes(x_120)
+	x_126 = rt.Lean_alloc_ctor(2, 1, 0)
+	rt.Lean_ctor_set(x_126, 0, x_125)
 	switch x_123 {
 	case 0:
-		rt.Lean_ctor_set(x_122, 1, x_125)
+		rt.Lean_ctor_set(x_122, 1, x_126)
 		rt.Lean_ctor_set(x_122, 0, x_124)
-		x_127 = x_122
-		goto _jp_126
+		x_128 = x_122
+		goto _jp_127
 	case 1:
-		x_129 = rt.Lean_alloc_ctor(0, 2, 0)
-		rt.Lean_ctor_set(x_129, 0, x_124)
-		rt.Lean_ctor_set(x_129, 1, x_125)
-		x_127 = x_129
-		goto _jp_126
+		x_130 = rt.Lean_alloc_ctor(0, 2, 0)
+		rt.Lean_ctor_set(x_130, 0, x_124)
+		rt.Lean_ctor_set(x_130, 1, x_126)
+		x_128 = x_130
+		goto _jp_127
 	default:
 		rt.Lean_internal_panic_unreachable()
 		return rt.V{}
 	}
-_jp_126:
-	x_128 = rt.Lean_alloc_ctor(1, 1, 0)
-	rt.Lean_ctor_set(x_128, 0, x_127)
-	return x_128
-_jp_133:
-	x_136 = rt.Lean_box(0)
-	x_137 = rt.Lean_alloc_ctor(3, 1, 0)
-	rt.Lean_ctor_set(x_137, 0, x_132)
-	switch x_135 {
+_jp_127:
+	x_129 = rt.Lean_alloc_ctor(1, 1, 0)
+	rt.Lean_ctor_set(x_129, 0, x_128)
+	return x_129
+_jp_134:
+	x_137 = rt.Lean_box(0)
+	x_138 = l_Notes_Kernel_sortMembers(x_133)
+	x_139 = rt.Lean_alloc_ctor(3, 1, 0)
+	rt.Lean_ctor_set(x_139, 0, x_138)
+	switch x_136 {
 	case 0:
-		rt.Lean_ctor_set(x_134, 1, x_137)
-		rt.Lean_ctor_set(x_134, 0, x_136)
-		x_139 = x_134
-		goto _jp_138
+		rt.Lean_ctor_set(x_135, 1, x_139)
+		rt.Lean_ctor_set(x_135, 0, x_137)
+		x_141 = x_135
+		goto _jp_140
 	case 1:
-		x_141 = rt.Lean_alloc_ctor(0, 2, 0)
-		rt.Lean_ctor_set(x_141, 0, x_136)
-		rt.Lean_ctor_set(x_141, 1, x_137)
-		x_139 = x_141
-		goto _jp_138
+		x_143 = rt.Lean_alloc_ctor(0, 2, 0)
+		rt.Lean_ctor_set(x_143, 0, x_137)
+		rt.Lean_ctor_set(x_143, 1, x_139)
+		x_141 = x_143
+		goto _jp_140
 	default:
 		rt.Lean_internal_panic_unreachable()
 		return rt.V{}
 	}
-_jp_138:
-	x_140 = rt.Lean_alloc_ctor(1, 1, 0)
-	rt.Lean_ctor_set(x_140, 0, x_139)
-	return x_140
+_jp_140:
+	x_142 = rt.Lean_alloc_ctor(1, 1, 0)
+	rt.Lean_ctor_set(x_142, 0, x_141)
+	return x_142
 }
 
 func l_Notes_Kernel_handle___boxed(x_1 rt.V, x_2 rt.V, x_3 rt.V) rt.V {
@@ -3462,6 +3569,202 @@ func l_Notes_Kernel_init() rt.V {
 
 func l_Notes_Kernel_init___closed__0() rt.V {
 	return value_L_Notes_Kernel_init___closed__0
+}
+
+func l_Notes_Kernel_insertMember(x_1 rt.V, x_2 rt.V) rt.V {
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	var x_5 rt.V
+	_ = x_5
+	var x_6 uint64
+	_ = x_6
+	var x_7 uint64
+	_ = x_7
+	var x_8 uint8
+	_ = x_8
+	var x_10 rt.V
+	_ = x_10
+	var x_11 uint8
+	_ = x_11
+	var x_12 rt.V
+	_ = x_12
+	var x_14 rt.V
+	_ = x_14
+	var x_15 rt.V
+	_ = x_15
+	var x_16 uint8
+	_ = x_16
+	var x_17 rt.V
+	_ = x_17
+	var x_18 rt.V
+	_ = x_18
+	var x_19 rt.V
+	_ = x_19
+	switch rt.Lean_obj_tag(x_2) {
+	case 0:
+		x_3 = rt.Lean_alloc_ctor(1, 2, 0)
+		rt.Lean_ctor_set(x_3, 0, x_1)
+		rt.Lean_ctor_set(x_3, 1, x_2)
+		return x_3
+	case 1:
+		x_4 = rt.Lean_ctor_get(x_2, 0)
+		x_5 = rt.Lean_ctor_get(x_2, 1)
+		x_6 = rt.Lean_ctor_get_uint64(x_1, 0)
+		x_7 = rt.Lean_ctor_get_uint64(x_4, 0)
+		x_8 = l_UInt64_decLe(x_6, x_7)
+		switch x_8 {
+		case 0:
+			rt.Lean_inc(x_5)
+			rt.Lean_inc(x_4)
+			x_16 = rt.Bool(!rt.Lean_is_exclusive(x_2))
+			switch x_16 {
+			case 0:
+				x_17 = rt.Lean_ctor_get(x_2, 1)
+				rt.Lean_dec(x_17)
+				x_18 = rt.Lean_ctor_get(x_2, 0)
+				rt.Lean_dec(x_18)
+				x_10, x_11 = x_2, x_16
+				goto _jp_9
+			case 1:
+				rt.Lean_dec(x_2)
+				x_10, x_11 = rt.V{}, x_16
+				goto _jp_9
+			default:
+				rt.Lean_internal_panic_unreachable()
+				return rt.V{}
+			}
+		case 1:
+			x_19 = rt.Lean_alloc_ctor(1, 2, 0)
+			rt.Lean_ctor_set(x_19, 0, x_1)
+			rt.Lean_ctor_set(x_19, 1, x_2)
+			return x_19
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_9:
+	x_12 = l_Notes_Kernel_insertMember(x_1, x_5)
+	switch x_11 {
+	case 0:
+		rt.Lean_ctor_set(x_10, 1, x_12)
+		x_14 = x_10
+		goto _jp_13
+	case 1:
+		x_15 = rt.Lean_alloc_ctor(1, 2, 0)
+		rt.Lean_ctor_set(x_15, 0, x_4)
+		rt.Lean_ctor_set(x_15, 1, x_12)
+		x_14 = x_15
+		goto _jp_13
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_13:
+	return x_14
+}
+
+func l_Notes_Kernel_insertNote(x_1 rt.V, x_2 rt.V) rt.V {
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	var x_5 rt.V
+	_ = x_5
+	var x_6 uint64
+	_ = x_6
+	var x_7 uint64
+	_ = x_7
+	var x_8 uint8
+	_ = x_8
+	var x_10 rt.V
+	_ = x_10
+	var x_11 uint8
+	_ = x_11
+	var x_12 rt.V
+	_ = x_12
+	var x_14 rt.V
+	_ = x_14
+	var x_15 rt.V
+	_ = x_15
+	var x_16 uint8
+	_ = x_16
+	var x_17 rt.V
+	_ = x_17
+	var x_18 rt.V
+	_ = x_18
+	var x_19 rt.V
+	_ = x_19
+	switch rt.Lean_obj_tag(x_2) {
+	case 0:
+		x_3 = rt.Lean_alloc_ctor(1, 2, 0)
+		rt.Lean_ctor_set(x_3, 0, x_1)
+		rt.Lean_ctor_set(x_3, 1, x_2)
+		return x_3
+	case 1:
+		x_4 = rt.Lean_ctor_get(x_2, 0)
+		x_5 = rt.Lean_ctor_get(x_2, 1)
+		x_6 = rt.Lean_ctor_get_uint64(x_1, 8)
+		x_7 = rt.Lean_ctor_get_uint64(x_4, 8)
+		x_8 = l_UInt64_decLe(x_6, x_7)
+		switch x_8 {
+		case 0:
+			rt.Lean_inc(x_5)
+			rt.Lean_inc(x_4)
+			x_16 = rt.Bool(!rt.Lean_is_exclusive(x_2))
+			switch x_16 {
+			case 0:
+				x_17 = rt.Lean_ctor_get(x_2, 1)
+				rt.Lean_dec(x_17)
+				x_18 = rt.Lean_ctor_get(x_2, 0)
+				rt.Lean_dec(x_18)
+				x_10, x_11 = x_2, x_16
+				goto _jp_9
+			case 1:
+				rt.Lean_dec(x_2)
+				x_10, x_11 = rt.V{}, x_16
+				goto _jp_9
+			default:
+				rt.Lean_internal_panic_unreachable()
+				return rt.V{}
+			}
+		case 1:
+			x_19 = rt.Lean_alloc_ctor(1, 2, 0)
+			rt.Lean_ctor_set(x_19, 0, x_1)
+			rt.Lean_ctor_set(x_19, 1, x_2)
+			return x_19
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_9:
+	x_12 = l_Notes_Kernel_insertNote(x_1, x_5)
+	switch x_11 {
+	case 0:
+		rt.Lean_ctor_set(x_10, 1, x_12)
+		x_14 = x_10
+		goto _jp_13
+	case 1:
+		x_15 = rt.Lean_alloc_ctor(1, 2, 0)
+		rt.Lean_ctor_set(x_15, 0, x_4)
+		rt.Lean_ctor_set(x_15, 1, x_12)
+		x_14 = x_15
+		goto _jp_13
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_13:
+	return x_14
 }
 
 func l_Notes_Kernel_instDecidableEqMember_decEq(x_1 rt.V, x_2 rt.V) uint8 {
@@ -3691,6 +3994,18 @@ func l_Notes_Kernel_readOnly___boxed(x_1 rt.V) rt.V {
 	return x_3
 }
 
+func l_Notes_Kernel_sortMembers(x_1 rt.V) rt.V {
+	frame := rt.AcquireTail()
+	defer rt.ReleaseTail(frame)
+	return frame.Result(core_L_Notes_Kernel_sortMembers(frame, x_1))
+}
+
+func l_Notes_Kernel_sortNotes(x_1 rt.V) rt.V {
+	frame := rt.AcquireTail()
+	defer rt.ReleaseTail(frame)
+	return frame.Result(core_L_Notes_Kernel_sortNotes(frame, x_1))
+}
+
 func l_Notes_Kernel_stored(x_1 rt.V, x_2 rt.V) uint8 {
 	var x_3 rt.V
 	_ = x_3
@@ -3845,16 +4160,47 @@ func l_Notes_Kernel_textOk(x_1 rt.V) uint8 {
 	_ = x_5
 	var x_6 uint8
 	_ = x_6
+	var x_7 rt.V
+	_ = x_7
+	var x_8 uint32
+	_ = x_8
+	var x_9 uint8
+	_ = x_9
+	var x_10 uint8
+	_ = x_10
 	x_2 = rt.NatFromUint64(0)
 	x_3 = l_String_utf8ByteSize(x_1)
 	x_4 = l_Nat_decLt(x_2, x_3)
 	switch x_4 {
 	case 0:
+		rt.Lean_dec(x_1)
 		return x_4
 	case 1:
 		x_5 = rt.NatFromUint64(4096)
 		x_6 = l_Nat_decLe(x_3, x_5)
-		return x_6
+		switch x_6 {
+		case 0:
+			rt.Lean_dec(x_1)
+			return x_6
+		case 1:
+			x_7 = l_String_toList(x_1)
+			x_8 = 0
+			x_9 = l_List_elem___at___00System_Uri_UriEscape_uriEscapeAsciiChar_spec__1(x_8, x_7)
+			rt.Lean_dec(x_7)
+			switch x_9 {
+			case 0:
+				return x_6
+			case 1:
+				x_10 = 0
+				return x_10
+			default:
+				rt.Lean_internal_panic_unreachable()
+				return 0
+			}
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return 0
+		}
 	default:
 		rt.Lean_internal_panic_unreachable()
 		return 0
@@ -4016,12 +4362,24 @@ func l_String_decEq(x_1 rt.V, x_2 rt.V) uint8 {
 	return rt.Lean_string_dec_eq(x_1, x_2)
 }
 
+func l_String_toList(x_1 rt.V) rt.V {
+	return rt.Lean_string_data(x_1)
+}
+
 func l_String_utf8ByteSize(x_1 rt.V) rt.V {
 	return rt.Lean_string_utf8_byte_size(x_1)
 }
 
+func l_UInt32_decEq(x_1 uint32, x_2 uint32) uint8 {
+	return rt.Lean_uint32_dec_eq(x_1, x_2)
+}
+
 func l_UInt64_decEq(x_1 uint64, x_2 uint64) uint8 {
 	return rt.Lean_uint64_dec_eq(x_1, x_2)
+}
+
+func l_UInt64_decLe(x_1 uint64, x_2 uint64) uint8 {
+	return rt.Lean_uint64_dec_le(x_1, x_2)
 }
 
 func tail_L_Leanharbor_Authz_checkWritesFrom___redArg(_ *rt.Tail, args []rt.V) rt.V {
@@ -4078,6 +4436,14 @@ func tail_L_List_reverseAux___redArg(_ *rt.Tail, args []rt.V) rt.V {
 
 func tail_L_List_reverse___redArg(frame *rt.Tail, args []rt.V) rt.V {
 	return core_L_List_reverse___redArg(frame, args[0])
+}
+
+func tail_L_Notes_Kernel_insertMember(_ *rt.Tail, args []rt.V) rt.V {
+	return l_Notes_Kernel_insertMember(args[0], args[1])
+}
+
+func tail_L_Notes_Kernel_insertNote(_ *rt.Tail, args []rt.V) rt.V {
+	return l_Notes_Kernel_insertNote(args[0], args[1])
 }
 
 func tail_L_Notes_Kernel_instDecidableEqMember_decEq(_ *rt.Tail, args []rt.V) rt.V {

@@ -641,9 +641,11 @@ dependencies = [
  "axum",
  "leanfran",
  "leanharbor",
+ "leanharbor-pg",
  "serde",
  "serde_json",
  "tokio",
+ "tokio-postgres",
  "tower",
 ]
 
