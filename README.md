@@ -527,6 +527,36 @@ The Go memory engine holds the snapshot in a `leanfran.Value` and hands it to `a
 `Take()`. A test (`go/calculator/in_place_test.go`) sends commands from several goroutines, some
 of them refused, and checks that the snapshot still has one reference (`IsExclusive`).
 
+### Stored in PostgreSQL
+
+The Rust PostgreSQL engine, on a PostgreSQL server that `tools/measure.py` starts on the same VM
+with its default settings, on a Unix socket, and stops before the other measurements; its version
+and the settings that decide the cost of a commit (`fsync`, `synchronous_commit`) are in
+`versions` of [`docs/speed.json`](docs/speed.json). Every commit that writes waits for PostgreSQL
+to flush its log.
+
+Commands per second through the engine's `execute`, one command at a time on one connection, by
+the benchmark of [`rust/calculator`](rust/calculator) with `LEANHARBOR_DATABASE_URL`. Every
+command reads all the rows of its tenant in one `SERIALIZABLE` transaction, so the rate falls with
+the number of users. Each cell is the inverse of the median time of three runs, each on a new
+database. The memory engine's row is the one of the table above.
+
+<!-- docs/speed-postgres.svg and the table "Commands per second, PostgreSQL" that tools/speed-charts.py prints -->
+
+Replies per second to `POST /rpc`, as above, from the Rust calculator server with
+`LEANHARBOR_DATABASE_URL` and from a server without a kernel on axum and tokio-postgres
+([`bench/rust/src/bin/axum_postgres.rs`](bench/rust/src/bin/axum_postgres.rs)), each with a pool
+of 16 connections and a database of its own. The server without a kernel does the least the same
+replies take on the same table: `get` reads the user's row with one `SELECT` in a
+`SERIALIZABLE READ ONLY DEFERRABLE` transaction, and `apply` writes it with one upsert in a
+`SERIALIZABLE` transaction, retried after a serialization failure until it commits. It checks no
+token and takes no advisory lock. The leanharbor server checks the token, reads the rows of the
+tenant, runs the kernel and sends the generated statements, and takes the tenant's advisory lock
+around each write, so its writes to one tenant wait for each other instead of failing and
+retrying.
+
+<!-- docs/speed-http-postgres.svg and the table "Replies per second, PostgreSQL" that tools/speed-charts.py prints -->
+
 ## Layout
 
 | Path | Contents |

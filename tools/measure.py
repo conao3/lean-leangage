@@ -1,11 +1,16 @@
 """Runs every speed measurement on this machine and writes `docs/speed.json`.
 
-Needs cargo, go, uv and curl on PATH; installs `oha` with cargo when it is missing. Each
-measurement runs alone. `tools/speed-charts.py` turns the result into charts and tables.
+Needs cargo, go, uv and curl on PATH, and PostgreSQL's `initdb`, `pg_ctl` and `psql` on PATH or in
+`/usr/lib/postgresql/<version>/bin`; installs `oha` with cargo when it is missing. Each
+measurement runs alone. The PostgreSQL server runs, with its default settings, only during the
+PostgreSQL measurements, in a temporary directory, on a Unix socket; as root, its programs run
+as the user `postgres`. `tools/speed-charts.py` turns the result into charts and tables.
 """
 
+import glob
 import json
 import os
+import pwd
 import re
 import shutil
 import socket
@@ -26,10 +31,29 @@ RUST_ROWS = {
     "memory engine": "Rust, memory engine",
     "handwritten Rust (not proved)": "Rust, a HashMap by hand (not proved)",
 }
+PG_ROW = "Rust, PostgreSQL engine"
+PG_SIZES = ["1", "100", "1000", "10000"]
+PG_SETTINGS = [
+    "fsync",
+    "synchronous_commit",
+    "full_page_writes",
+    "wal_level",
+    "shared_buffers",
+    "max_connections",
+    "default_transaction_isolation",
+]
 LINE = re.compile(r"^\s*(.+?)\s+users=(\d+)\s+(\d+) ns/command$")
 
 
-def run(cmd: list[str], cwd: Path, env: dict[str, str] | None = None) -> str:
+def run(
+    cmd: list[str],
+    cwd: Path,
+    env: dict[str, str] | None = None,
+    user: pwd.struct_passwd | None = None,
+) -> str:
+    owner = (
+        {"user": user.pw_uid, "group": user.pw_gid, "extra_groups": []} if user else {}
+    )
     done = subprocess.run(
         cmd,
         cwd=cwd,
@@ -37,8 +61,100 @@ def run(cmd: list[str], cwd: Path, env: dict[str, str] | None = None) -> str:
         check=True,
         capture_output=True,
         text=True,
+        **owner,
     )
     return done.stdout
+
+
+def postgres_bin() -> Path:
+    """The directory of `initdb`, `pg_ctl` and `psql`: PATH's, or the newest Debian one."""
+    names = ["initdb", "pg_ctl", "psql"]
+    if all(shutil.which(name) for name in names):
+        return Path(shutil.which("initdb")).parent
+    found = [
+        Path(d)
+        for d in glob.glob("/usr/lib/postgresql/*/bin")
+        if all((Path(d) / name).exists() for name in names)
+    ]
+    if not found:
+        raise SystemExit(
+            "PostgreSQL is required: put initdb, pg_ctl and psql on PATH "
+            "or install it in /usr/lib/postgresql/<version>/bin (apt install postgresql)"
+        )
+    return max(
+        found, key=lambda d: int(d.parent.name) if d.parent.name.isdigit() else 0
+    )
+
+
+def postgres_user() -> pwd.struct_passwd | None:
+    """The user the PostgreSQL programs run as: this one, or `postgres` for root."""
+    if os.geteuid() != 0:
+        return None
+    try:
+        return pwd.getpwnam("postgres")
+    except KeyError:
+        raise SystemExit(
+            "as root, PostgreSQL runs as the user postgres, which does not exist"
+        )
+
+
+class Postgres:
+    """A server with the default settings in a temporary directory, on a Unix socket only."""
+
+    def __init__(self, bin: Path) -> None:
+        self.bin = bin
+        self.user = postgres_user()
+        self.dir = Path(tempfile.mkdtemp(prefix="leanharbor-measure-pg-", dir="/tmp"))
+        if self.user:
+            os.chown(self.dir, self.user.pw_uid, self.user.pw_gid)
+        self.data = self.dir / "data"
+        self.pg(
+            [
+                "initdb",
+                "-D",
+                str(self.data),
+                "-U",
+                "postgres",
+                "--auth=trust",
+                "-E",
+                "UTF8",
+            ]
+        )
+        options = f"-k {self.dir} -c listen_addresses=''"
+        log = str(self.dir / "server.log")
+        self.pg(
+            ["pg_ctl", "-D", str(self.data), "-l", log, "-w", "-o", options, "start"]
+        )
+
+    def pg(self, cmd: list[str]) -> str:
+        return run([str(self.bin / cmd[0])] + cmd[1:], self.dir, user=self.user)
+
+    def sql(self, statement: str) -> str:
+        return self.pg(
+            ["psql", "-h", str(self.dir), "-U", "postgres", "-d", "postgres"]
+            + ["-X", "-q", "-At", "-v", "ON_ERROR_STOP=1", "-c", statement]
+        ).strip()
+
+    def database(self, name: str) -> str:
+        """Creates the empty database `name` and returns the superuser's connection string."""
+        self.sql(f'DROP DATABASE IF EXISTS "{name}" WITH (FORCE)')
+        self.sql(f'CREATE DATABASE "{name}"')
+        return f"host={self.dir} user=postgres dbname={name}"
+
+    def versions(self) -> dict[str, str]:
+        listed = ", ".join(f"'{name}'" for name in PG_SETTINGS)
+        rows = self.sql(
+            f"SELECT name || '=' || current_setting(name) FROM pg_settings "
+            f"WHERE name IN ({listed}) ORDER BY name"
+        )
+        return {
+            "postgres": self.sql("SELECT version()"),
+            "postgres settings": ", ".join(rows.splitlines()),
+        }
+
+    def stop(self) -> None:
+        self.pg(["pg_ctl", "-D", str(self.data), "-m", "fast", "-w", "stop"])
+        shutil.rmtree(self.dir)
 
 
 def machine() -> str:
@@ -79,6 +195,20 @@ def engine(
                 out.setdefault(names[found[1]], {}).setdefault(found[2], []).append(
                     int(found[3])
                 )
+
+
+def postgres_engine(pg: Postgres) -> dict[str, dict[str, list[int]]]:
+    """The bench's PostgreSQL row, each run on a database of its own."""
+    runs: dict[str, list[int]] = {}
+    for index in range(ENGINE_RUNS):
+        url = pg.database(f"engine{index}")
+        bench = [str(ROOT / "rust/target/release/bench")]
+        for line in run(bench, ROOT, {"LEANHARBOR_DATABASE_URL": url}).splitlines():
+            if (found := LINE.match(line)) and found[1] == "postgres engine":
+                runs.setdefault(found[2], []).append(int(found[3]))
+    if any(len(runs.get(size, [])) != ENGINE_RUNS for size in PG_SIZES):
+        raise RuntimeError(f"the bench's postgres engine rows: {runs}")
+    return {PG_ROW: runs}
 
 
 def wait_for(port: int) -> None:
@@ -153,6 +283,8 @@ def http(
 
 
 def main() -> None:
+    pg_bin = postgres_bin()
+    postgres_user()
     if shutil.which("oha") is None:
         run(["cargo", "install", "oha"], ROOT)
     bins = Path(tempfile.mkdtemp())
@@ -249,11 +381,45 @@ def main() -> None:
             [part.replace("{port}", str(port)) for part in cmd], cwd, env, port, token
         )
 
+    pg = Postgres(pg_bin)
+    try:
+        pg_versions = pg.versions()
+        pg_commands = postgres_engine(pg)
+        pg_servers = [
+            (
+                "leanharbor, Rust (axum), PostgreSQL engine",
+                [rust_server],
+                "LEANHARBOR_LISTEN",
+                "LEANHARBOR_DATABASE_URL",
+            ),
+            (
+                "axum and tokio-postgres, no kernel",
+                [str(baselines / "axum_postgres")],
+                "BENCH_LISTEN",
+                "BENCH_DATABASE_URL",
+            ),
+        ]
+        pg_replies = {}
+        for index, (name, cmd, listen, database) in enumerate(pg_servers):
+            port = 18180 + index
+            env = {
+                **secret,
+                listen: f"127.0.0.1:{port}",
+                database: pg.database(f"http{index}"),
+            }
+            pg_replies[name] = http(cmd, ROOT, env, port, token)
+    finally:
+        pg.stop()
+
     result = {
         "machine": machine(),
-        "versions": versions(),
+        "versions": {**versions(), **pg_versions},
         "engine_ns_per_command": commands,
         "http_replies_per_second": replies,
+        "postgres": {
+            "engine_ns_per_command": pg_commands,
+            "http_replies_per_second": pg_replies,
+        },
     }
     (ROOT / "docs/speed.json").write_text(json.dumps(result, indent=2) + "\n")
 

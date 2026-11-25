@@ -102,9 +102,13 @@ All commands run inside `nix develop`.
 - `make generate`, `make format`, `make bench`.
 - The README's Speed section shows rates (higher is better) with a chart for each table, and
   every cell has a value. `python3 tools/measure.py` runs every measurement and writes
-  `docs/speed.json`; `python3 tools/speed-charts.py` draws `docs/speed-*.svg` and prints the
-  tables to paste into the README. `bench/` holds the servers without a kernel that the HTTP
-  measurement compares with; `make check` does not build them.
+  `docs/speed.json`; it needs PostgreSQL's `initdb`, `pg_ctl` and `psql` on `PATH` or in
+  `/usr/lib/postgresql/<version>/bin`, starts a server with the default settings in a temporary
+  directory for the PostgreSQL measurements only (as root, as the user `postgres`), and stops with
+  an error before measuring anything when PostgreSQL is missing. `python3 tools/speed-charts.py`
+  draws `docs/speed-*.svg` and prints the tables to paste into the README. `bench/` holds the
+  servers without a kernel that the HTTP measurement compares with (`axum_postgres` for the
+  PostgreSQL engine); `make check` does not build them.
 - The PostgreSQL tests (`rust/leanharbor-pg/tests/`, `rust/calculator/tests/postgres.rs` and
   `differential.rs`) start one server per test process with `leanharbor_pg::testing::cluster`
   (`initdb` and `pg_ctl` from the devShell, a Unix socket under `/tmp`) and give each test a

@@ -124,19 +124,31 @@ def table(corner: str, groups: list[str], series: dict[str, list[float | None]])
     return "\n".join(lines)
 
 
+SIZES = ["1", "100", "1000", "10000"]
+
+
+def commands(runs_of: dict[str, dict[str, list[int]]]) -> dict[str, list[float | None]]:
+    return {
+        name: [1e9 / statistics.median(runs[s]) if s in runs else None for s in SIZES]
+        for name, runs in runs_of.items()
+    }
+
+
+def replies(runs_of: dict[str, dict[str, list[float]]]) -> tuple[list[str], dict]:
+    cases = list(next(iter(runs_of.values())))
+    return cases, {
+        name: [statistics.mean(runs[c]) for c in cases]
+        for name, runs in runs_of.items()
+    }
+
+
 def main() -> None:
     data = json.loads((DOCS / "speed.json").read_text())
-    sizes = ["1", "100", "1000", "10000"]
-    engine = {
-        name: [1e9 / statistics.median(runs[s]) if s in runs else None for s in sizes]
-        for name, runs in data["engine_ns_per_command"].items()
-    }
-    users = [f"{int(s):,} user{'s' if s != '1' else ''}" for s in sizes]
-    cases = list(next(iter(data["http_replies_per_second"].values())))
-    http = {
-        name: [statistics.mean(runs[c]) for c in cases]
-        for name, runs in data["http_replies_per_second"].items()
-    }
+    if "postgres" not in data:
+        sys.exit("docs/speed.json has no PostgreSQL measurements: run tools/measure.py")
+    engine = commands(data["engine_ns_per_command"])
+    users = [f"{int(s):,} user{'s' if s != '1' else ''}" for s in SIZES]
+    cases, http = replies(data["http_replies_per_second"])
     (DOCS / "speed-engine.svg").write_text(
         chart(
             "One command, by the number of users in the tenant",
@@ -160,6 +172,31 @@ def main() -> None:
             )
         )
         tables.append(table(f"Replies per second, {language}", cases, servers))
+    stored = {
+        **commands(data["postgres"]["engine_ns_per_command"]),
+        "Rust, memory engine": engine["Rust, memory engine"],
+    }
+    (DOCS / "speed-postgres.svg").write_text(
+        chart(
+            "One command, stored in PostgreSQL, by the number of users in the tenant",
+            "Commands per second",
+            users,
+            stored,
+            True,
+        )
+    )
+    tables.append(table("Commands per second, PostgreSQL", users, stored))
+    pg_cases, pg_http = replies(data["postgres"]["http_replies_per_second"])
+    (DOCS / "speed-http-postgres.svg").write_text(
+        chart(
+            "POST /rpc over HTTP, Rust, stored in PostgreSQL",
+            "Replies per second",
+            pg_cases,
+            pg_http,
+            False,
+        )
+    )
+    tables.append(table("Replies per second, PostgreSQL", pg_cases, pg_http))
     sys.stdout.write("\n\n".join(tables) + "\n")
 
 
