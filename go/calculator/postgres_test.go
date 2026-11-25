@@ -42,6 +42,7 @@ func TestPostgresEngineAgreesWithMemoryEngineAndLean(t *testing.T) {
 	}
 	defer engine.Close()
 	memory := NewEngine()
+	defer memory.Close()
 	for i, line := range lines {
 		actor, cmd := parse(t, line)
 		ours := answer(engine.Execute(actor, cmd, nil))

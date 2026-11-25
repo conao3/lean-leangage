@@ -49,9 +49,12 @@ func TestConcurrentTenantsAgreeWithLean(t *testing.T) {
 	t.Cleanup(func() { leanfran.TrackLeakedValues(false) })
 	before := leanfran.LeakedValues()
 	_ = kernel.Handle.Init()
-	collect()
-	if leanfran.LeakedValues() == before {
-		t.Fatal("a value dropped without Close is not counted")
+	for deadline := time.Now().Add(10 * time.Second); leanfran.LeakedValues() == before; {
+		if time.Now().After(deadline) {
+			t.Fatal("a value dropped without Close is not counted")
+		}
+		runtime.GC()
+		time.Sleep(5 * time.Millisecond)
 	}
 	start := leanfran.LeakedValues()
 	type step struct {

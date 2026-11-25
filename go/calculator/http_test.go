@@ -12,7 +12,9 @@ import (
 // Requests to `POST /rpc` get the statuses and bodies of the Rust shell.
 func TestRpc(t *testing.T) {
 	secret := []byte("secret")
-	handler := leanharbor.RpcHandler(NewEngine(), Calculator{}, secret)
+	engine := NewEngine()
+	defer engine.Close()
+	handler := leanharbor.RpcHandler(engine, Calculator{}, secret)
 	bearer := func(user uint64) string {
 		return "Bearer " + leanharbor.Issue(secret, leanharbor.Claims{Tenant: 1, User: user, Expiry: 1 << 62})
 	}

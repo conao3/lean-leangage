@@ -83,6 +83,7 @@ func answer(reply kernel.Reply, refusal *kernel.Error, err error) string {
 func TestGeneratedGoAgreesWithLean(t *testing.T) {
 	lines, want := commands(t)
 	engine := NewEngine()
+	defer engine.Close()
 	for i, line := range lines {
 		actor, cmd := parse(t, line)
 		ours := answer(engine.Execute(actor, cmd, nil))

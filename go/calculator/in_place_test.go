@@ -12,6 +12,7 @@ import (
 // updates it in place.
 func TestSnapshotStaysExclusive(t *testing.T) {
 	engine := NewEngine()
+	defer engine.Close()
 	var group sync.WaitGroup
 	for user := range uint64(8) {
 		group.Go(func() {

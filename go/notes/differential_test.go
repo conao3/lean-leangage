@@ -110,6 +110,7 @@ func TestGeneratedGoAgreesWithLean(t *testing.T) {
 		t.Fatalf("the oracle printed %d lines", len(want))
 	}
 	engine := NewEngine()
+	defer engine.Close()
 	for i, line := range lines {
 		actor, cmd := parse(t, line)
 		reply, refusal, err := engine.Execute(actor, cmd, nil)
