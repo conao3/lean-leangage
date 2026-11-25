@@ -18,3 +18,7 @@ root = "SqlOracle"
 [[lean_exe]]
 name = "token-oracle"
 root = "TokenOracle"
+
+[[lean_exe]]
+name = "json-oracle"
+root = "JsonOracle"

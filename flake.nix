@@ -47,6 +47,8 @@
               "go/leanharbor/sql/*"
               "python/src/leanharbor/token_format.py"
               "go/leanharbor/token/*"
+              "python/src/leanharbor/json_format.py"
+              "go/leanharbor/jsonformat/*"
             ];
           };
           devShells.default = pkgs.mkShell {
