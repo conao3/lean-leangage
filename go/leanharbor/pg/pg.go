@@ -201,9 +201,10 @@ func ssiExhausted(err error) bool {
 			bytes.Contains([]byte(pgErr.Hint), []byte("max_pred_locks_per_transaction")))
 }
 
-// lost is the failure of a statement on c: a lost connection if c closed, else the database's.
+// lost is the failure of a statement on c: a lost connection if c closed without a server's
+// error code, else the database's.
 func lost(c *pgxpool.Conn, err error) *failure {
-	if c.Conn().IsClosed() {
+	if code(err) == "" && c.Conn().IsClosed() {
 		return &failure{failLost, err}
 	}
 	return &failure{failPostgres, err}
