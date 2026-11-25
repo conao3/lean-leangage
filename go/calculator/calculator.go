@@ -52,16 +52,19 @@ func must[T any](value T, err error) T {
 	return value
 }
 
-func (Calculator) Init() Snapshot {
-	return kernel.Handle.Init()
+func (c Calculator) Init() Snapshot {
+	return kernel.Handle.In(c.scope).Init()
 }
 
 func (Calculator) Tenant(actor kernel.Principal) uint64 {
 	return kernel.Tenant(actor)
 }
 
-func (Calculator) Scoped(run func(leanharbor.Kernel[kernel.Principal, Snapshot, kernel.Command, WriteSet, kernel.Reply, kernel.Error])) {
-	leanfran.WithValues(func(scope *leanfran.ValueScope) {
+func (Calculator) Scoped(
+	region *leanfran.Region,
+	run func(leanharbor.Kernel[kernel.Principal, Snapshot, kernel.Command, WriteSet, kernel.Reply, kernel.Error]),
+) {
+	region.WithValues(func(scope *leanfran.ValueScope) {
 		run(Calculator{scope})
 	})
 }
@@ -73,8 +76,7 @@ func (c Calculator) Transition(
 	who := values.NewPrincipal(actor)
 	what := must(values.NewCommand(cmd))
 	ws, reply, err := handle.Transition(who.Take(), snap.Borrow(), what.Take())
-	var refusal *leanfran.ExceptError[kernel.Error]
-	if errors.As(err, &refusal) {
+	if refusal, ok := errors.AsType[*leanfran.ExceptError[kernel.Error]](err); ok {
 		return WriteSet{}, kernel.Reply{}, &refusal.Value
 	}
 	if err != nil {
@@ -86,6 +88,10 @@ func (c Calculator) Transition(
 
 func (c Calculator) Apply(snap Snapshot, ws WriteSet) Snapshot {
 	return kernel.Handle.In(c.scope).Apply(snap.Take(), ws.Take())
+}
+
+func (c Calculator) Release(snap Snapshot) {
+	snap.CloseIn(c.scope)
 }
 
 func (Calculator) ReadOnly(cmd kernel.Command) bool {
@@ -105,6 +111,7 @@ func (c Calculator) Load(rows [][][]sql.Val) (Snapshot, bool) {
 }
 
 func (c Calculator) Writes(ws WriteSet) []sql.Write {
+	defer ws.CloseIn(c.scope)
 	return store.Writes(kernel.Value.In(c.scope).ReadOptionMemory(ws))
 }
 

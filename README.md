@@ -540,7 +540,7 @@ holds for each of them:
 | | Trusted |
 |---|---|
 | Translation | leanfran's Rust, Python and Go backends and their runtimes, rustc, CPython, the Go compiler, Lean's kernel |
-| Engine | the memory engine: one command at a time per process, under one lock; replies stored per idempotency key. The PostgreSQL engines: the seven items of their contract, PostgreSQL's `SERIALIZABLE` (its commits equal a serial order) and its deferrable read-only snapshot, the conversion of values to parameters and of columns back to values, the stored form of replies (`Storage::encode_reply` and `decode_reply`, `Storage.encode_reply`: eight bytes for the calculator, the JSON body read back with serde_json for the notes), and that the engine's role is not a superuser and does not own the tables. In Rust, tokio-postgres and deadpool-postgres, and each value a parameter of the type PostgreSQL inferred. In Python, psycopg and the libpq it bundles, the engine's pool, each value a parameter of the type of its kind, and that the generated Python computes what Lean computes when several threads call it at once, as the PostgreSQL engine does and the memory engine, under its lock, does not. In Go, pgx and pgxpool, which take the `PG*` environment variables as the defaults of the connection string, each value a parameter of the type PostgreSQL inferred, and that the generated Go computes what Lean computes when several goroutines call it at once, as the PostgreSQL engine does outside `Scoped` |
+| Engine | the memory engine: one command at a time per process, under one lock (Rust, Python), or per tenant, under the tenant's lock and in its `leanfran.Region` (Go); replies stored per idempotency key. The PostgreSQL engines: the seven items of their contract, PostgreSQL's `SERIALIZABLE` (its commits equal a serial order) and its deferrable read-only snapshot, the conversion of values to parameters and of columns back to values, the stored form of replies (`Storage::encode_reply` and `decode_reply`, `Storage.encode_reply`: eight bytes for the calculator, the JSON body read back with serde_json for the notes), and that the engine's role is not a superuser and does not own the tables. In Rust, tokio-postgres and deadpool-postgres, and each value a parameter of the type PostgreSQL inferred. In Python, psycopg and the libpq it bundles, the engine's pool, each value a parameter of the type of its kind, and that the generated Python computes what Lean computes when several threads call it at once, as the PostgreSQL engine does and the memory engine, under its lock, does not. In Go, pgx and pgxpool, which take the `PG*` environment variables as the defaults of the connection string, each value a parameter of the type PostgreSQL inferred, and that the generated Go computes what Lean computes when several goroutines call it at once, as the PostgreSQL engine does for its requests and the memory engine for different tenants, each in a `leanfran.Region` of its own |
 | Authentication | HMAC-SHA256 and the constant-time comparison of tags, the secret and its storage, the system clock and the expiry check, reading the token from the `Authorization` header, the table of accepted tokens (a token accepted once is recognised by its exact bytes and only its expiry is checked again) |
 | Wire format | JSON decoding of commands (`Api`); the fingerprint of a command under an idempotency key (`Api`; the Python and the Go calculators write the bytes of the Rust calculator's, its `Debug` form); that the shells send the bytes of `encodeReplyArray` and `encodeErrorArray` as the body; the tokens each shell builds for its own `{"error": ...}` bodies |
 | HTTP | axum, hyper and tokio (Rust); `http.server` (Python); `net/http` (Go) |
@@ -646,9 +646,17 @@ walk down the trie.
 The row with the snapshot as a Rust value converts the whole trie on every call, so it falls with
 the number of users; the engines do not use it.
 
-The Go memory engine holds the snapshot in a `leanfran.Value` and hands it to `apply` with
-`Take()`. A test (`go/calculator/in_place_test.go`) sends commands from several goroutines, some
-of them refused, and checks that the snapshot still has one reference (`IsExclusive`).
+The Go memory engine gives each tenant a lock and a `leanfran.Region` of its own, and holds the
+tenant's snapshot in a `leanfran.Value` of that region: the commands of one tenant run one at a
+time and those of different tenants in parallel, and a lock held only to look a tenant up guards
+the table of tenants. The kernel's calls for a command run in `region.WithValues` through
+`kernel.Handle.In(scope)`, and `apply` receives the snapshot with `Take()`. A test
+(`go/calculator/in_place_test.go`) sends commands from several goroutines, some of them refused,
+and checks that the snapshot still has one reference (`IsExclusive`). Another
+(`go/calculator/concurrent_test.go`, and the same for the notes) runs the shared command list on
+24 tenants at once (16 for the notes) and checks every reply against Lean's, then closes the
+engine and checks with `leanfran.TrackLeakedValues` that no value was dropped while it held a
+Lean reference.
 
 ### Stored in PostgreSQL
 

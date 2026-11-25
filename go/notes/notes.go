@@ -40,16 +40,19 @@ func must[T any](value T, err error) T {
 	return value
 }
 
-func (Notes) Init() Snapshot {
-	return kernel.Handle.Init()
+func (n Notes) Init() Snapshot {
+	return kernel.Handle.In(n.scope).Init()
 }
 
 func (Notes) Tenant(actor kernel.Principal) uint64 {
 	return kernel.Tenant(actor)
 }
 
-func (Notes) Scoped(run func(leanharbor.Kernel[kernel.Principal, Snapshot, kernel.Command, WriteSet, kernel.Reply, Refusal])) {
-	leanfran.WithValues(func(scope *leanfran.ValueScope) {
+func (Notes) Scoped(
+	region *leanfran.Region,
+	run func(leanharbor.Kernel[kernel.Principal, Snapshot, kernel.Command, WriteSet, kernel.Reply, Refusal]),
+) {
+	region.WithValues(func(scope *leanfran.ValueScope) {
 		run(Notes{scope})
 	})
 }
@@ -61,8 +64,7 @@ func (n Notes) Transition(
 	who := values.NewPrincipal(actor)
 	what := must(values.NewCommand(cmd))
 	ws, reply, err := handle.Transition(who.Take(), snap.Borrow(), what.Take())
-	var refusal *leanfran.ExceptError[Refusal]
-	if errors.As(err, &refusal) {
+	if refusal, ok := errors.AsType[*leanfran.ExceptError[Refusal]](err); ok {
 		return WriteSet{}, nil, &refusal.Value
 	}
 	if err != nil {
@@ -74,6 +76,10 @@ func (n Notes) Transition(
 
 func (n Notes) Apply(snap Snapshot, ws WriteSet) Snapshot {
 	return kernel.Handle.In(n.scope).Apply(snap.Take(), ws.Take())
+}
+
+func (n Notes) Release(snap Snapshot) {
+	snap.CloseIn(n.scope)
 }
 
 // RefusalName is the name of a refusal.

@@ -14,6 +14,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/conao3/leanfran-go"
+
 	"github.com/conao3/lean-leanharbor/go/leanharbor"
 	"github.com/conao3/lean-leanharbor/go/leanharbor/pg"
 	"github.com/conao3/lean-leanharbor/go/leanharbor/pg/pgtest"
@@ -43,7 +45,11 @@ func (storedRows) Transition(_ uint64, snap table, c rowsCmd) (table, table, *no
 
 func (storedRows) Apply(snap table, _ table) table { return snap }
 
-func (k storedRows) Scoped(run func(leanharbor.Kernel[uint64, table, rowsCmd, table, table, noRefusal])) {
+func (storedRows) Release(table) {}
+
+func (k storedRows) Scoped(
+	_ *leanfran.Region, run func(leanharbor.Kernel[uint64, table, rowsCmd, table, table, noRefusal]),
+) {
 	run(k)
 }
 

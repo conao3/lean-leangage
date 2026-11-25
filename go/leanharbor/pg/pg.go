@@ -47,6 +47,8 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/pgxpool"
 
+	"github.com/conao3/leanfran-go"
+
 	"github.com/conao3/lean-leanharbor/go/leanharbor"
 	"github.com/conao3/lean-leanharbor/go/leanharbor/sql"
 )
@@ -553,7 +555,8 @@ func (e *Engine[Principal, Snapshot, Command, WriteSet, Reply, Error]) load(
 }
 
 // decide loads the snapshot, runs the command on it and compiles its writes. It sends no
-// statement, so the lock on Lean's values that Scoped holds is held for no query.
+// statement, so the lock of the region that Scoped holds is held for no query. Each request
+// has a region of its own, so the requests decide in parallel.
 func (e *Engine[Principal, Snapshot, Command, WriteSet, Reply, Error]) decide(
 	tv int64, rows [][][]sql.Val, actor Principal, cmd Command,
 ) (decision[Reply, Error], *failure) {
@@ -563,8 +566,10 @@ func (e *Engine[Principal, Snapshot, Command, WriteSet, Reply, Error]) decide(
 		return d, broken("the stored rows do not load")
 	}
 	var ws WriteSet
-	e.storage.Scoped(func(k leanharbor.Kernel[Principal, Snapshot, Command, WriteSet, Reply, Error]) {
+	region := leanfran.NewRegion()
+	e.storage.Scoped(region, func(k leanharbor.Kernel[Principal, Snapshot, Command, WriteSet, Reply, Error]) {
 		ws, d.reply, d.refusal = k.Transition(actor, snap, cmd)
+		k.Release(snap)
 	})
 	if d.refusal != nil {
 		return d, nil

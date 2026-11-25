@@ -97,6 +97,15 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   `Take()` in Go), and no `Local` may leave the closure of `lend`, or Lean copies instead of
   updating in place. `rust/calculator/tests/in_place.rs` and `go/calculator/in_place_test.go`
   check it.
+- In Go, every handle belongs to a `leanfran.Region`, and the calls of one region run one at a
+  time. The memory engine gives each tenant a region and a lock, the PostgreSQL engine each
+  request a region, and a kernel's `Scoped` runs its calls in the region it is given with
+  `region.WithValues`, calling only `kernel.Handle.In(scope)` and `kernel.Value.In(scope)` inside
+  it. A handle that is neither closed nor taken keeps its Lean reference, and what it shares is
+  then copied instead of updated in place: close the reply, the snapshot an engine drops
+  (`Release`, `MemoryEngine.Close`) and the write set of the PostgreSQL engine (`Writes`). The
+  concurrent tests of `go/calculator` and `go/notes` and `TestPostgresEngineLeaksNoValue` count
+  the leaks with `leanfran.TrackLeakedValues`.
 - Generated files (`rust/*/src/generated/`, `python/src/leanharbor_*/kernel.py`,
   `python/src/leanharbor_calculator/store.py`, `go/*/kernel/`, `go/calculator/store/`, and the SQL
   compiler and the token format in each shell) are committed and never edited.

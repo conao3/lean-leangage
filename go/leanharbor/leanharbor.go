@@ -1,29 +1,37 @@
 // Package leanharbor is the trusted shell around a kernel proved in Lean: an engine that runs
-// one command at a time, bearer tokens, and the `/rpc` route. The package pg holds the engine
+// one command of a tenant at a time, bearer tokens, and the `/rpc` route. The package pg holds the engine
 // that stores the snapshots in PostgreSQL.
 package leanharbor
 
 import (
 	"errors"
 
+	"github.com/conao3/leanfran-go"
+
 	"github.com/conao3/lean-leanharbor/go/leanharbor/sql"
 )
 
 // Kernel is the contract of `Leanharbor.Kernel`, implemented by delegating to functions
 // generated from Lean. Snapshot is one tenant's state as an engine stores it; a kernel that
-// keeps it as a Lean value gives Apply the only reference, so Lean updates it in place.
+// keeps it as a Lean value gives Apply the only reference, so Lean updates it in place, and
+// keeps every Lean value of one snapshot in one [leanfran.Region].
 type Kernel[Principal, Snapshot, Command, WriteSet, Reply, Error any] interface {
 	// Init is a tenant's snapshot before its first command.
 	Init() Snapshot
 	// Tenant is the only tenant the principal may read or write.
 	Tenant(actor Principal) uint64
-	// Transition decides a command. A non-nil error is a refusal; nothing is stored.
+	// Transition decides a command. A non-nil error is a refusal; nothing is stored, and the
+	// write set holds nothing to release.
 	Transition(actor Principal, snap Snapshot, cmd Command) (WriteSet, Reply, *Error)
 	// Apply consumes the snapshot and the writes and returns the next snapshot.
 	Apply(snap Snapshot, ws WriteSet) Snapshot
-	// Scoped runs one command's calls: run gets a kernel whose temporary values are released
-	// together when run returns.
-	Scoped(run func(Kernel[Principal, Snapshot, Command, WriteSet, Reply, Error]))
+	// Release consumes a snapshot the engine no longer keeps.
+	Release(snap Snapshot)
+	// Scoped runs one command's calls in the region: run gets a kernel whose calls hold the
+	// region's lock and whose temporary values are released together when run returns. Calls
+	// in different regions run in parallel; the snapshots passed to run's calls belong to the
+	// region or to none.
+	Scoped(region *leanfran.Region, run func(Kernel[Principal, Snapshot, Command, WriteSet, Reply, Error]))
 }
 
 // Storage is the contract of `Leanharbor.Storage`: how a kernel's snapshots are stored in
@@ -39,7 +47,7 @@ type Storage[Principal, Snapshot, Command, WriteSet, Reply, Error any] interface
 	// Load is the snapshot of the rows of each table; false when a row is not one the kernel
 	// stores.
 	Load(rows [][][]sql.Val) (Snapshot, bool)
-	// Writes are the rows a write set stores.
+	// Writes consumes a write set and returns the rows it stores.
 	Writes(ws WriteSet) []sql.Write
 	// EncodeStoredReply is the stored form of a reply. Trusted: no theorem covers it.
 	EncodeStoredReply(reply Reply) []byte
@@ -52,8 +60,8 @@ type Storage[Principal, Snapshot, Command, WriteSet, Reply, Error any] interface
 var (
 	// ErrIdempotencyConflict: the idempotency key was used before with another command.
 	ErrIdempotencyConflict = errors.New("idempotency key reused")
-	// ErrStopped: the engine no longer runs commands: a command panicked while it held the
-	// snapshots.
+	// ErrStopped: the engine no longer runs commands: a command panicked while it held a
+	// tenant's snapshot, or the engine was closed.
 	ErrStopped = errors.New("engine stopped")
 	// ErrRetriesExhausted: every attempt failed to serialize or lost its connection; none
 	// committed, except that a request with an idempotency key may have committed on an attempt

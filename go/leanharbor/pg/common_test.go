@@ -17,6 +17,8 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
+	"github.com/conao3/leanfran-go"
+
 	"github.com/conao3/lean-leanharbor/go/leanharbor"
 	"github.com/conao3/lean-leanharbor/go/leanharbor/pg"
 	"github.com/conao3/lean-leanharbor/go/leanharbor/pg/pgtest"
@@ -87,7 +89,9 @@ func (cells) Apply(snap snapshot, ws writes) snapshot {
 	return snap
 }
 
-func (k cells) Scoped(run func(kernel)) { run(k) }
+func (cells) Release(snapshot) {}
+
+func (k cells) Scoped(_ *leanfran.Region, run func(kernel)) { run(k) }
 
 func (cells) ReadOnly(c cmd) bool {
 	switch c.(type) {

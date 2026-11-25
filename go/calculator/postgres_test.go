@@ -55,6 +55,28 @@ func TestPostgresEngineAgreesWithMemoryEngineAndLean(t *testing.T) {
 	}
 }
 
+// The PostgreSQL engine releases the snapshot it loads for each command and the write set it
+// compiles: the commands of the shared command list, refused ones among them, leak no value.
+func TestPostgresEngineLeaksNoValue(t *testing.T) {
+	lines, want := commands(t)
+	url := pgtest.Start(t).Locked(t, Calculator{}.Tables(), "calculator_leaks")
+	engine, err := ConnectEngine(url, 2, pg.DefaultConfig())
+	if err != nil {
+		t.Fatalf("the engine connects: %v", err)
+	}
+	defer engine.Close()
+	leaked := trackLeaks(t)
+	for i, line := range lines[:1000] {
+		actor, cmd := parse(t, line)
+		if got := answer(engine.Execute(actor, cmd, nil)); got != want[i] {
+			t.Fatalf("line %d: %s: got %s, want %s", i+1, line, got, want[i])
+		}
+	}
+	if n := leaked(); n != 0 {
+		t.Fatalf("%d values leaked", n)
+	}
+}
+
 type userKey struct{ tenant, user int64 }
 
 func memories(t *testing.T, conn *pgx.Conn) map[userKey]int64 {

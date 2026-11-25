@@ -1,6 +1,10 @@
 package leanharbor
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/conao3/leanfran-go"
+)
 
 type who struct{ tenant, user uint64 }
 
@@ -25,7 +29,11 @@ func (counter) Transition(_ who, snap int, cmd int) (int, int, *string) {
 
 func (counter) Apply(snap int, ws int) int { return snap + ws }
 
-func (c counter) Scoped(run func(Kernel[who, int, int, int, int, string])) { run(c) }
+func (counter) Release(int) {}
+
+func (c counter) Scoped(_ *leanfran.Region, run func(Kernel[who, int, int, int, int, string])) {
+	run(c)
+}
 
 func key(scope, key string, fingerprint string) *Idempotency {
 	return &Idempotency{Scope: scope, Key: key, Fingerprint: []byte(fingerprint)}
