@@ -28,4 +28,4 @@ elab "#assert_standard_axioms " mods:ident+ : command => do
 
 #assert_standard_axioms Leanharbor.Kernel Leanharbor.AuthzProofs Leanharbor.Sql.Proofs
   Leanharbor.Sql.Sound Leanharbor.Sql.Isolation Leanharbor.Store Leanharbor.Token.Proofs
-  Calculator.Proofs Calculator.Store.Proofs Notes.Proofs
+  Leanharbor.Json.Proofs Calculator.Proofs Calculator.Store.Proofs Notes.Proofs

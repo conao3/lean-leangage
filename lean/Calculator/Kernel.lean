@@ -1,3 +1,5 @@
+import Leanharbor.Json
+
 /-!
 # Calculator
 
@@ -6,6 +8,8 @@ refuses when the result leaves 64 bits, `get` reads it.
 
 A tenant's numbers are a binary trie on the user id, lowest bit first: a lookup and an update
 visit one node per bit until the id is alone in its subtree.
+
+A reply is `{"value":<v>}` and a refusal `{"error":"<name>"}`, written by `Leanharbor.Json.write`.
 -/
 
 namespace Calculator.Kernel
@@ -105,5 +109,23 @@ def tenant (actor : Principal) : UInt64 := actor.org
 def readOnly : Command → Bool
   | .get => true
   | _ => false
+
+/-- The name of a refusal on the wire, in ASCII. -/
+def errorName : Error → List UInt8
+  | .overflow => [111, 118, 101, 114, 102, 108, 111, 119]
+  | .underflow => [117, 110, 100, 101, 114, 102, 108, 111, 119]
+  | .divByZero => [100, 105, 118, 105, 115, 105, 111, 110, 95, 98, 121, 95, 122, 101, 114, 111]
+
+/-- `{"value":<v>}`. -/
+def replyToks : Reply → List Leanharbor.Json.Tok
+  | .value v => [.objOpen, .key [118, 97, 108, 117, 101], .num v, .objClose]
+
+/-- `{"error":"<name>"}`. -/
+def errorToks (e : Error) : List Leanharbor.Json.Tok :=
+  [.objOpen, .key [101, 114, 114, 111, 114], .str (errorName e), .objClose]
+
+def encodeReply (r : Reply) : List UInt8 := Leanharbor.Json.write (replyToks r)
+
+def encodeError (e : Error) : List UInt8 := Leanharbor.Json.write (errorToks e)
 
 end Calculator.Kernel

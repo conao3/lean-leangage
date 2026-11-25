@@ -16,7 +16,7 @@ func Apply(a0 Snapshot, a1 *Memory) (Snapshot, error) {
 		return leanfran.Zero[Snapshot](), err
 	}
 	v0 := _lfCodecSnapshot.ToLean(a0)
-	v1 := _lfCodec1.ToLean(a1)
+	v1 := _lfCodec4.ToLean(a1)
 	defer rt.Lean_dec(v1)
 	_lfResult := l_Calculator_Kernel_apply(v0, v1)
 	defer rt.Lean_dec(_lfResult)
@@ -35,6 +35,38 @@ func Compute(a0 Op, a1 uint64, a2 uint64) (uint64, error) {
 		return leanfran.Zero[uint64](), err
 	}
 	return _lfCodec0.FromLean(rt.Lean_ctor_get(_lfResult, 0)), nil
+}
+
+func EncodeError(a0 Error) []uint8 {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	v0 := _lfCodecError.ToLean(a0)
+	_lfResult := l_Calculator_Kernel_encodeError(uint8(rt.Lean_unbox(v0)))
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec3.FromLean(_lfResult)
+}
+
+func EncodeReply(a0 Reply) []uint8 {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	v0 := _lfCodecReply.ToLean(a0)
+	_lfResult := l_Calculator_Kernel_encodeReply(rt.Lean_unbox(v0))
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec3.FromLean(_lfResult)
+}
+
+func ErrorName(a0 Error) []uint8 {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	v0 := _lfCodecError.ToLean(a0)
+	_lfResult := l_Calculator_Kernel_errorName(uint8(rt.Lean_unbox(v0)))
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec3.FromLean(_lfResult)
+}
+
+func ErrorToks(a0 Error) []LeanharborJsonTok {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	v0 := _lfCodecError.ToLean(a0)
+	_lfResult := l_Calculator_Kernel_errorToks(uint8(rt.Lean_unbox(v0)))
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec5.FromLean(_lfResult)
 }
 
 func Init() Snapshot {
@@ -81,7 +113,15 @@ func ReadOnly(a0 Command) (bool, error) {
 	v0 := _lfCodecCommand.ToLean(a0)
 	defer rt.Lean_dec(v0)
 	_lfResult := rt.Lean_box(uint64(l_Calculator_Kernel_readOnly(v0)))
-	return _lfCodec2.FromLean(_lfResult), nil
+	return _lfCodec1.FromLean(_lfResult), nil
+}
+
+func ReplyToks(a0 Reply) []LeanharborJsonTok {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	v0 := _lfCodecReply.ToLean(a0)
+	_lfResult := l_Calculator_Kernel_replyToks(rt.Lean_unbox(v0))
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec5.FromLean(_lfResult)
 }
 
 func Store(a0 uint64, a1 uint64, a2 Memories) (Memories, error) {
@@ -128,7 +168,7 @@ func Transition(a0 Principal, a1 Snapshot, a2 Command) (leanfran.Pair[*Memory, R
 		err := &leanfran.ExceptError[Error]{Value: _lfCodecError.FromLean(rt.Lean_ctor_get(_lfResult, 0))}
 		return leanfran.Zero[leanfran.Pair[*Memory, Reply]](), err
 	}
-	return _lfCodec3.FromLean(rt.Lean_ctor_get(_lfResult, 0)), nil
+	return _lfCodec6.FromLean(rt.Lean_ctor_get(_lfResult, 0)), nil
 }
 
 func Upsert(a0 Memory, a1 Memories) (Memories, error) {
@@ -194,6 +234,62 @@ func (api lfScopedHandle) Compute(a0 leanfran.ValueInput[Op], a1 leanfran.ValueI
 	return leanfran.WrapValueIn[uint64](scope, leanfran.OwnValueField(raw, 0)), nil
 }
 
+func (lfHandle) EncodeError(a0 leanfran.ValueInput[Error]) leanfran.Value[leanfran.ListType[uint8]] {
+	return lfScopedHandle{}.EncodeError(a0)
+}
+
+func (api lfScopedHandle) EncodeError(a0 leanfran.ValueInput[Error]) leanfran.Value[leanfran.ListType[uint8]] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [1]leanfran.ValueUse{a0.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	raw := l_Calculator_Kernel_encodeError(uint8(rt.Lean_unbox(inputs[0].Lean())))
+	return leanfran.WrapValueIn[leanfran.ListType[uint8]](scope, raw)
+}
+
+func (lfHandle) EncodeReply(a0 leanfran.ValueInput[Reply]) leanfran.Value[leanfran.ListType[uint8]] {
+	return lfScopedHandle{}.EncodeReply(a0)
+}
+
+func (api lfScopedHandle) EncodeReply(a0 leanfran.ValueInput[Reply]) leanfran.Value[leanfran.ListType[uint8]] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [1]leanfran.ValueUse{a0.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	raw := l_Calculator_Kernel_encodeReply(rt.Lean_unbox(inputs[0].Lean()))
+	return leanfran.WrapValueIn[leanfran.ListType[uint8]](scope, raw)
+}
+
+func (lfHandle) ErrorName(a0 leanfran.ValueInput[Error]) leanfran.Value[leanfran.ListType[uint8]] {
+	return lfScopedHandle{}.ErrorName(a0)
+}
+
+func (api lfScopedHandle) ErrorName(a0 leanfran.ValueInput[Error]) leanfran.Value[leanfran.ListType[uint8]] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [1]leanfran.ValueUse{a0.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	raw := l_Calculator_Kernel_errorName(uint8(rt.Lean_unbox(inputs[0].Lean())))
+	return leanfran.WrapValueIn[leanfran.ListType[uint8]](scope, raw)
+}
+
+func (lfHandle) ErrorToks(a0 leanfran.ValueInput[Error]) leanfran.Value[leanfran.ListType[LeanharborJsonTok]] {
+	return lfScopedHandle{}.ErrorToks(a0)
+}
+
+func (api lfScopedHandle) ErrorToks(a0 leanfran.ValueInput[Error]) leanfran.Value[leanfran.ListType[LeanharborJsonTok]] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [1]leanfran.ValueUse{a0.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	raw := l_Calculator_Kernel_errorToks(uint8(rt.Lean_unbox(inputs[0].Lean())))
+	return leanfran.WrapValueIn[leanfran.ListType[LeanharborJsonTok]](scope, raw)
+}
+
 func (lfHandle) Init() leanfran.Value[Snapshot] {
 	return lfScopedHandle{}.Init()
 }
@@ -248,6 +344,20 @@ func (api lfScopedHandle) ReadOnly(a0 leanfran.ValueInput[Command]) leanfran.Val
 	defer rt.Lean_dec(inputs[0].Lean())
 	raw := rt.Lean_box(uint64(l_Calculator_Kernel_readOnly(inputs[0].Lean())))
 	return leanfran.WrapValueIn[bool](scope, raw)
+}
+
+func (lfHandle) ReplyToks(a0 leanfran.ValueInput[Reply]) leanfran.Value[leanfran.ListType[LeanharborJsonTok]] {
+	return lfScopedHandle{}.ReplyToks(a0)
+}
+
+func (api lfScopedHandle) ReplyToks(a0 leanfran.ValueInput[Reply]) leanfran.Value[leanfran.ListType[LeanharborJsonTok]] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [1]leanfran.ValueUse{a0.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	raw := l_Calculator_Kernel_replyToks(rt.Lean_unbox(inputs[0].Lean()))
+	return leanfran.WrapValueIn[leanfran.ListType[LeanharborJsonTok]](scope, raw)
 }
 
 func (lfHandle) Store(a0 leanfran.ValueInput[uint64], a1 leanfran.ValueInput[uint64], a2 leanfran.ValueInput[Memories]) leanfran.Value[Memories] {

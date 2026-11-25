@@ -50,6 +50,8 @@
               "rust/notes/src/generated/*"
               "python/src/leanharbor_notes/kernel.py"
               "go/notes/kernel/*"
+              "python/src/leanharbor/json_format.py"
+              "go/leanharbor/jsonformat/*"
             ];
           };
           devShells.default = pkgs.mkShell {

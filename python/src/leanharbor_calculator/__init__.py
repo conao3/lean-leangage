@@ -8,12 +8,6 @@ from leanharbor import Api, Kernel, Refused
 
 from leanharbor_calculator import kernel
 
-_ERRORS = {
-    kernel.Error.overflow: "overflow",
-    kernel.Error.underflow: "underflow",
-    kernel.Error.divByZero: "division_by_zero",
-}
-
 
 def _transition(
     actor: kernel.Principal, snap: Local, cmd: kernel.Command
@@ -63,10 +57,10 @@ def decode_command(body: Any) -> kernel.Command:
 API = Api(
     principal=lambda tenant, user: kernel.Principal(org=tenant, user=user),
     decode_command=decode_command,
-    encode_reply=lambda reply: {"value": reply.v},
+    encode_reply=lambda reply: bytes(kernel.encodeReply(reply)),
     encode_error=lambda error: (
         HTTPStatus.UNPROCESSABLE_ENTITY,
-        {"error": _ERRORS[error]},
+        bytes(kernel.encodeError(error)),
     ),
     fingerprint=lambda cmd: repr(cmd).encode(),
     scope=lambda actor: f"u{actor.user}",
