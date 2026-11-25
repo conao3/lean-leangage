@@ -40,7 +40,10 @@ ROWS = Storage(
         init=list,
         tenant=lambda actor: actor,
         transition=_transition,
-        apply=lambda snap, _: snap,
+        apply=lambda snap, ws: [
+            *(r for r in snap if all(r[0] != w[0] for w in ws)),
+            *ws,
+        ],
         read_only=lambda cmd: isinstance(cmd, Read),
     ),
     tables=lambda: [

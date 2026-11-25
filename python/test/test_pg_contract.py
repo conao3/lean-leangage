@@ -1,7 +1,8 @@
 """The engine's contract, item by item (the numbers of the list in `leanharbor/pg/__init__.py`),
 against the test process's PostgreSQL with injected faults: forced serialization failures and
 deadlocks, terminated backends, COMMITs lost before or after the server ran them, a client that
-stops waiting, and many concurrent clients. Each test has a database of its own."""
+stops waiting, other engines writing the same tenant, and many concurrent clients. Each test has
+a database of its own."""
 
 import socket
 import threading
@@ -90,10 +91,13 @@ def outcome(f: Any, *args: Any) -> Any:
 
 
 def conflict(db: Db, tenant: int) -> None:
-    """An outside transaction that changes cell 0 of `tenant` after the attempt's snapshot."""
+    """An outside transaction that changes cell 0 of `tenant` after the attempt's snapshot, and
+    advances the tenant's version as an engine's commit does."""
     db.one(
-        "WITH u AS (UPDATE cells SET v = v + 100 WHERE tenant_id = $1 AND id = 0 RETURNING 1) "
-        "SELECT count(*) FROM u",
+        "WITH u AS (UPDATE cells SET v = v + 100 WHERE tenant_id = $1 AND id = 0 RETURNING 1), "
+        "w AS (INSERT INTO leanharbor_version (tenant_id, version) SELECT $1, 1 FROM u "
+        "ON CONFLICT (tenant_id) DO UPDATE SET version = leanharbor_version.version + 1 "
+        "RETURNING 1) SELECT count(*) FROM w",
         [tenant],
     )
 
@@ -543,6 +547,8 @@ def test_roles_keep_the_engine_to_rows() -> None:
             "TRUNCATE cells",
             "ALTER TABLE cells ADD COLUMN x BIGINT",
             "DROP TABLE leanharbor_idempotency",
+            "DROP TABLE leanharbor_version",
+            "TRUNCATE leanharbor_version",
         ]:
             with pytest.raises(psycopg.errors.InsufficientPrivilege):
                 engine.execute(statement)
@@ -554,3 +560,200 @@ def test_roles_keep_the_engine_to_rows() -> None:
     with pytest.raises(Broken):
         lockdown(CELLS, db.admin_url(), ENGINE_ROLE, OWNER)
     assert db.cell(1, 0) == 1
+
+
+# Item 8: an engine reads the rows another engine wrote, whichever path it takes, and reads no row
+# while the version is the one it remembers.
+def test_other_engines_writes_are_read() -> None:
+    db = setup("contract_other")
+    a = db.engine(2, Config())
+    b = db.engine(2, Config())
+    assert run(a, 1, Add(0, 5)) == 5
+    assert a.stats.loads == 1
+    assert run(a, 1, Get(0)) == 5
+    assert run(a, 1, Add(0, 1)) == 6
+    assert a.stats.loads == 1, "the remembered snapshot, on both paths"
+    assert run(b, 1, Add(0, 10)) == 16
+    assert run(a, 1, Get(0)) == 16, "the read-only path"
+    assert a.stats.loads == 2
+    assert run(b, 1, Move(0, 1, 6)) == 10
+    assert run(a, 1, Add(1, 1)) == 7, "the write path"
+    assert run_keyed(b, 1, "k", Get(0)) == 10, "keyed"
+    assert run(b, 1, Get(1)) == 7
+    assert a.stats.loads == 3
+    assert b.stats.loads == 2, "its own commit remembered"
+    assert db.cells(1) == {0: 10, 1: 7}
+
+
+ADVANCE = (
+    "INSERT INTO leanharbor_version (tenant_id, version) VALUES ($1, 1) "
+    "ON CONFLICT (tenant_id) DO UPDATE SET version = leanharbor_version.version + 1 "
+    "RETURNING version"
+)
+
+
+# Item 8, on PostgreSQL's side: two transactions that read a tenant's version and advance it
+# cannot both commit, whether the row exists or not. The second fails with 40001, which the
+# engines retry, and not with 23505.
+def test_version_rows_conflict() -> None:
+    db = setup("contract_version")
+    pg = db.engine(1, Config())
+    run(pg, 2, Add(0, 1))
+    for tenant, before in [(1, 0), (2, 1)]:
+        with connect(db.url) as first, connect(db.url) as second:
+            for c in (first, second):
+                c.execute("BEGIN ISOLATION LEVEL SERIALIZABLE")
+                row = c.execute(
+                    "SELECT version FROM leanharbor_version WHERE tenant_id = $1", [tenant]
+                ).fetchone()
+                assert (0 if row is None else row[0]) == before
+            advanced = first.execute(ADVANCE, [tenant]).fetchone()
+            assert advanced is not None and advanced[0] == before + 1
+            box: dict[str, Any] = {}
+
+            def advance() -> None:
+                try:
+                    second.execute(ADVANCE, [tenant])
+                except psycopg.Error as e:
+                    box["error"] = e
+
+            waiting = threading.Thread(target=advance)
+            waiting.start()
+            time.sleep(0.2)
+            assert waiting.is_alive(), f"tenant {tenant}: waits for the first"
+            first.execute("COMMIT")
+            waiting.join(T)
+            assert box["error"].sqlstate == "40001", f"tenant {tenant}: {box['error']}"
+            second.execute("ROLLBACK")
+
+
+# Item 8: a COMMIT of unknown outcome forgets the tenant's snapshot. The engine reads the rows
+# again, whether the COMMIT ran or not, and after another engine's commit. The first ten commands
+# go to another tenant, as in `test_lost_commit_without_key_is_unknown`.
+def test_lost_commit_forgets_the_snapshot() -> None:
+    db = setup("contract_forget")
+    proxy = Proxy(cluster())
+    pg = db.engine_at(proxy.url(db.name), 1, config(20, True, None))
+    other = db.engine(1, Config())
+    for i in range(10):
+        assert run(pg, 3, Add(0, 1)) == i + 1
+    assert run(pg, 1, Add(0, 5)) == 5
+    loads = pg.stats.loads
+    proxy.arm(Fault.DROP_BEFORE)
+    assert outcome(run, pg, 1, Add(0, 1)) is CommitUnknown
+    assert run(pg, 1, Get(0)) == 5, "not committed"
+    assert run(other, 1, Add(0, 10)) == 15
+    assert run(pg, 1, Get(0)) == 15, "the other engine's commit"
+    proxy.arm(Fault.DROP_AFTER)
+    assert outcome(run, pg, 1, Add(0, 1)) is CommitUnknown
+    assert run(pg, 1, Add(0, 1)) == 17, "committed"
+    assert run(other, 1, Get(0)) == 17
+    assert pg.stats.loads - loads == 3, "every attempt after a lost COMMIT reads the rows"
+    assert proxy.outcomes() == [Outcome.NOT_SENT, Outcome.COMMITTED]
+
+
+# Item 8: a refusal, and an attempt rolled back by a terminated backend, leave the remembered
+# snapshot as the last commit left it: the refusal reads no row, and the retry runs the command
+# on what was committed.
+def test_refusals_and_rollbacks_keep_the_snapshot() -> None:
+    db = setup("contract_keep")
+    armed = threading.Event()
+
+    def kill_armed(a: Attempt) -> None:
+        if armed.is_set():
+            armed.clear()
+            kill(db, a.pid)
+
+    hook, _ = hook_at(Point.WRITTEN, float("inf"), kill_armed)
+    pg = db.engine(2, config(20, True, hook))
+    assert run(pg, 1, Add(0, 5)) == 5
+    assert outcome(run, pg, 1, Add(0, -6)) == ("refused", NEGATIVE)
+    assert outcome(run_keyed, pg, 1, "k", Add(0, -6)) == ("refused", NEGATIVE)
+    assert run(pg, 1, Get(0)) == 5
+    assert run(pg, 1, Add(0, 1)) == 6
+    assert pg.stats.loads == 1, "one read of the rows"
+    fresh = db.engine(2, Config())
+    assert outcome(run, fresh, 1, Add(0, -7)) == ("refused", NEGATIVE)
+    assert run(fresh, 1, Get(0)) == 6
+    assert fresh.stats.loads == 1, "the snapshot loaded for a refusal"
+    before = pg.stats.loads
+    assert run(pg, 2, Add(0, 3)) == 3
+    armed.set()
+    assert outcome(run, pg, 2, Add(0, 4)) is CommitUnknown
+    assert run(pg, 2, Add(0, 4)) == 7, "on the committed rows"
+    assert db.cell(2, 0) == 7
+    assert run(pg, 3, Add(0, 3)) == 3
+    armed.set()
+    assert run_keyed(pg, 3, "k", Add(0, 4)) == 7, "retried"
+    assert db.cell(3, 0) == 7
+    assert pg.stats.loads - before == 4
+
+
+# Item 8: the engine remembers at most `cache_tenants` tenants and forgets the one it used least
+# recently; with 0 it remembers none.
+def test_remembers_at_most_cache_tenants() -> None:
+    db = setup("contract_capacity")
+    pg = db.engine(1, Config(cache_tenants=2))
+    for tenant in (1, 2, 3):
+        run(pg, tenant, Add(0, 1))
+    assert pg.cached() == 2
+    assert pg.stats.loads == 3
+    assert run(pg, 2, Get(0)) == 1
+    assert pg.stats.loads == 3, "tenant 2 remembered"
+    assert run(pg, 1, Get(0)) == 1
+    assert pg.stats.loads == 4, "tenant 1 forgotten"
+    assert run(pg, 2, Get(0)) == 1
+    assert run(pg, 1, Get(0)) == 1
+    assert pg.stats.loads == 4, "tenants 1 and 2 remembered"
+    assert run(pg, 3, Get(0)) == 1
+    assert pg.stats.loads == 5, "tenant 3 forgotten"
+    assert pg.cached() == 2
+    pg = db.engine(1, Config(cache_tenants=0))
+    for _ in range(3):
+        run(pg, 1, Add(0, 1))
+        run(pg, 1, Get(0))
+    assert pg.cached() == 0
+    assert pg.stats.loads == 6
+
+
+def mover_reading(pg: PgEngine, tenant: int, c: int) -> list[tuple[int, int]]:
+    """Eight moves of one unit around the four cells, each followed by a read of its source; the
+    accepted moves."""
+    moved = []
+    for i in range(8):
+        src, dst = (c + i) % 4, (c + i + 1) % 4
+        try:
+            pg.execute(actor(tenant), Move(src, dst, 1))
+            moved.append((src, dst))
+        except Refused:
+            pass
+        pg.execute(actor(tenant), Get(src))
+    return moved
+
+
+# Item 8 with SERIALIZABLE: two engines, each with 32 threads, move units between four cells of
+# one tenant, with and without the advisory lock. Every cell holds what the accepted moves left,
+# and both engines then read it.
+def test_concurrent_engines_are_serial() -> None:
+    db = setup("contract_engines")
+    for tenant, lock in [(1, True), (2, False)]:
+        engines = [db.engine(4, config(1000, lock, None)) for _ in range(2)]
+        for cell in range(4):
+            run(engines[0], tenant, Add(cell, 100))
+        with ThreadPoolExecutor(64) as pool:
+            futures = [
+                pool.submit(mover_reading, engines[c % 2], tenant, c) for c in range(64)
+            ]
+            results = [f.result() for f in futures]
+        expected = {0: 100, 1: 100, 2: 100, 3: 100}
+        accepted = 0
+        for moved in results:
+            for src, dst in moved:
+                expected[src] -= 1
+                expected[dst] += 1
+                accepted += 1
+        assert accepted == 512, f"lock {lock}"
+        assert db.cells(tenant) == expected, f"lock {lock}"
+        for pg in engines:
+            for cell, v in expected.items():
+                assert run(pg, tenant, Get(cell)) == v, f"lock {lock}"

@@ -2,12 +2,13 @@
 describes. It is trusted: no theorem covers this file.
 
 At start it creates the kernel's tables with the statements of the generated `create` and
-`render`. Each command runs in one `SERIALIZABLE` transaction: it reads the tenant's rows with the
-generated `select` of every table, builds the snapshot with the storage's `load`, calls
-`transition`, and sends the statements the generated `compile` makes of the generated `plan` of
-each write. The only other statements are the constant ones of this file: the transaction
-control, the advisory locks, and the framework's table `leanharbor_idempotency`, of the same form
-as the Rust engine's, so that the Rust and the Python engine can share a database.
+`render`. Each command runs in one `SERIALIZABLE` transaction: it reads the tenant's version, takes
+the snapshot it remembers for that version or else reads the tenant's rows with the generated
+`select` of every table and builds the snapshot with the storage's `load`, calls `transition`, and
+sends the statements the generated `compile` makes of the generated `plan` of each write. The only
+other statements are the constant ones of this file: the transaction control, the advisory locks,
+and the framework's tables `leanharbor_idempotency` and `leanharbor_version`, of the same form as
+the Rust engine's, so that the Rust and the Python engine can share a database.
 
 The contract (the engine's side of `Storage.Stored`):
 
@@ -26,6 +27,14 @@ The contract (the engine's side of `Storage.Stored`):
    path), and fails if its write set stores a row.
 7. A request without an idempotency key whose connection is lost during COMMIT, or whose COMMIT
    fails with 57P01 or 57P02, fails with `CommitUnknown`.
+8. A transaction whose write set stores a row advances the tenant's row of `leanharbor_version` by
+   one (from 0 when it has none). An attempt reads that row first and runs the command on the
+   snapshot the engine remembers for the tenant at that version, or, when it remembers none, on
+   the snapshot `load` builds of the rows it reads. After a commit the engine remembers the
+   snapshot `apply` computed, at the version the transaction left; after a refusal, and on the
+   read-only path, the snapshot the command ran on; after any other end of the attempt, a COMMIT
+   of unknown outcome included, nothing for the tenant. It remembers at most
+   `Config.cache_tenants` tenants and forgets the one it used least recently.
 
 Every request runs on its caller's thread to its end, so a caller whose client stops waiting (a
 closed HTTP connection) does not interrupt an attempt between its lock and its unlock.
@@ -39,6 +48,7 @@ import random
 import re
 import threading
 import time
+from collections import OrderedDict
 from collections.abc import Callable
 from dataclasses import dataclass
 from enum import Enum
@@ -78,7 +88,19 @@ FRAMEWORK_DDL = (
     "tenant_id BIGINT NOT NULL, scope TEXT NOT NULL, key TEXT NOT NULL, "
     "fingerprint BYTEA NOT NULL, reply BYTEA NOT NULL, PRIMARY KEY (tenant_id, scope, key))"
 )
-FRAMEWORK_TABLES = ["leanharbor_idempotency"]
+# Each tenant's version: a transaction that writes the tenant's rows advances it by one.
+VERSION_DDL = (
+    "CREATE TABLE IF NOT EXISTS leanharbor_version ("
+    "tenant_id BIGINT PRIMARY KEY, version BIGINT NOT NULL)"
+)
+FRAMEWORK_TABLES = ["leanharbor_idempotency", "leanharbor_version"]
+# The tenant's version; no row is version 0.
+VERSION = "SELECT version FROM leanharbor_version WHERE tenant_id = $1"
+ADVANCE = (
+    "INSERT INTO leanharbor_version (tenant_id, version) VALUES ($1, 1) "
+    "ON CONFLICT (tenant_id) DO UPDATE SET version = leanharbor_version.version + 1 "
+    "RETURNING version"
+)
 STORED_REPLY = (
     "SELECT fingerprint, reply FROM leanharbor_idempotency "
     "WHERE tenant_id = $1 AND scope = $2 AND key = $3"
@@ -123,7 +145,8 @@ class Point(Enum):
     # Before `BEGIN`, holding the tenant's advisory lock if `Config.tenant_lock`. Not on the
     # read-only path.
     LOCKED = "locked"
-    # The rows are read, `transition` has not run.
+    # The version is read, and the rows unless the engine remembers the snapshot of that version;
+    # `transition` has not run.
     LOADED = "loaded"
     # The writes and the stored reply are sent, `COMMIT` is not. Not on the read-only path.
     WRITTEN = "written"
@@ -154,18 +177,21 @@ class Attempt:
 class Config:
     """`max_attempts`: attempts of one command before `RetriesExhausted`. `tenant_lock`: take the
     tenant's advisory lock before each write attempt; it spares retries, and `SERIALIZABLE` keeps
-    the commits serial without it. `hook`: called at each `Point` of each attempt, which waits for
-    it to return; for tests that inject faults."""
+    the commits serial without it. `cache_tenants`: tenants whose snapshot the engine remembers at
+    once; 0 remembers none. `hook`: called at each `Point` of each attempt, which waits for it to
+    return; for tests that inject faults."""
 
     max_attempts: int = 20
     tenant_lock: bool = True
+    cache_tenants: int = 1024
     hook: Callable[[Attempt], None] | None = None
 
 
 class Stats:
     """What the engine did, counted since it started. `commits` counts the accepted commands
-    committed on both paths, `replays` the requests answered with a stored reply, and `reads` the
-    attempts on the read-only path, also counted in `attempts`."""
+    committed on both paths, `replays` the requests answered with a stored reply, `reads` the
+    attempts on the read-only path, also counted in `attempts`, and `loads` the attempts that read
+    the tenant's rows: the engine remembered no snapshot at the version they read."""
 
     def __init__(self) -> None:
         self._lock = threading.Lock()
@@ -174,13 +200,14 @@ class Stats:
         self.commits = 0
         self.replays = 0
         self.reads = 0
+        self.loads = 0
 
     def bump(self, name: str) -> None:
         with self._lock:
             setattr(self, name, getattr(self, name) + 1)
 
-    def counts(self) -> tuple[int, int, int, int, int]:
-        """`(attempts, retries, commits, replays, reads)`."""
+    def counts(self) -> tuple[int, int, int, int, int, int]:
+        """`(attempts, retries, commits, replays, reads, loads)`."""
         with self._lock:
             return (
                 self.attempts,
@@ -188,6 +215,7 @@ class Stats:
                 self.commits,
                 self.replays,
                 self.reads,
+                self.loads,
             )
 
 
@@ -280,6 +308,44 @@ class _Idempotency:
 @dataclass(frozen=True)
 class _Refusal:
     refused: Refused
+
+
+class _Cache:
+    """The snapshots the engine remembers, each with the tenant's version it stands for, at most
+    `capacity` tenants. A snapshot taken out is held by one thread until it is put back."""
+
+    def __init__(self, capacity: int) -> None:
+        self._capacity = capacity
+        self._lock = threading.Lock()
+        self._tenants: OrderedDict[int, tuple[int, Any]] = OrderedDict()
+
+    def take(self, tenant: int, version: int) -> Any | None:
+        """The snapshot of the tenant at `version`, which the cache no longer holds. A snapshot
+        of an earlier version is forgotten."""
+        with self._lock:
+            found = self._tenants.get(tenant)
+            if found is None or found[0] > version:
+                return None
+            del self._tenants[tenant]
+            return found[1] if found[0] == version else None
+
+    def put(self, tenant: int, version: int, snap: Any) -> None:
+        """Remembers the snapshot of the tenant at `version`, unless it holds one of a later
+        version, and forgets the tenant used least recently beyond the capacity."""
+        if self._capacity == 0:
+            return
+        with self._lock:
+            found = self._tenants.get(tenant)
+            if found is not None and found[0] > version:
+                return
+            self._tenants[tenant] = (version, snap)
+            self._tenants.move_to_end(tenant)
+            while len(self._tenants) > self._capacity:
+                self._tenants.popitem(last=False)
+
+    def __len__(self) -> int:
+        with self._lock:
+            return len(self._tenants)
 
 
 def _param(v: sql.Val) -> Any:
@@ -412,6 +478,7 @@ def _create(conn: psycopg.Connection[Any], tables: list[sql.Tab]) -> None:
     conn.execute(SCHEMA_LOCK, prepare=False)
     try:
         conn.execute(FRAMEWORK_DDL, prepare=False)
+        conn.execute(VERSION_DDL, prepare=False)
         for t in tables:
             conn.execute(sql.render(sql.create(t)), prepare=False)
     finally:
@@ -419,7 +486,8 @@ def _create(conn: psycopg.Connection[Any], tables: list[sql.Tab]) -> None:
 
 
 class PgEngine:
-    """The engine: a pool of connections to one database. `connect` opens it."""
+    """The engine: a pool of connections to one database, and the snapshots it remembers.
+    `connect` opens it."""
 
     def __init__(
         self,
@@ -433,6 +501,7 @@ class PgEngine:
         self._tables = tables
         self._pool = pool
         self._config = config
+        self._cache = _Cache(config.cache_tenants)
         self.stats = Stats()
 
     @classmethod
@@ -455,6 +524,10 @@ class PgEngine:
     def idle(self) -> int:
         """Connections open and idle in the pool."""
         return self._pool.idle()
+
+    def cached(self) -> int:
+        """Tenants whose snapshot the engine remembers."""
+        return len(self._cache)
 
     def close(self) -> None:
         """Closes the idle connections."""
@@ -532,25 +605,41 @@ class PgEngine:
             everything.append([_values(cursor, row) for row in cursor.fetchall()])
         return everything
 
-    def _decide(
-        self, tv: int, rows: list[list[list[sql.Val]]], actor: Any, cmd: Any
-    ) -> _Refusal | tuple[list[tuple[str, list[Any]]], Any]:
-        """Loads the snapshot, runs the command on it and compiles its writes."""
-        snap = self._storage.load(rows)
+    def _snapshot(
+        self, conn: psycopg.Connection[Any], tenant: int, tv: int
+    ) -> tuple[int, Any]:
+        """The tenant's version, and the snapshot remembered for it or else the one `load` builds
+        of the rows of every table."""
+        row = _run(conn, VERSION, [tv]).fetchone()
+        version = 0 if row is None else row[0]
+        snap = self._cache.take(tenant, version)
+        if snap is not None:
+            return version, snap
+        self.stats.bump("loads")
+        snap = self._storage.load(self._load(conn, tv))
         if snap is None:
             raise _broken("the stored rows do not load")
+        return version, snap
+
+    def _decide(
+        self, tv: int, snap: Any, actor: Any, cmd: Any
+    ) -> _Refusal | tuple[list[tuple[str, list[Any]]], Any, Any]:
+        """Runs the command on the snapshot and compiles its writes. An accepted command gives
+        the snapshot `apply` computed, which the engine owns from then on."""
         try:
             ws, reply = self._kernel.transition(actor, snap, cmd)
         except Refused as e:
             return _Refusal(e)
+        writes = self._storage.writes(ws)
+        applied = self._kernel.apply(snap, ws)
         statements = []
-        for write in self._storage.writes(ws):
+        for write in writes:
             compiled = sql.compile(self._tables, tv, sql.plan(write))
             if compiled is None:
                 raise _broken("a write does not compile")
             q, ps = compiled
             statements.append((sql.render(q), _params(ps)))
-        return statements, reply
+        return statements, reply, applied
 
     def _write_attempt(self, actor: Any, cmd: Any, idem: _Idempotency | None) -> Any:
         """One attempt on a connection of its own, returned to the pool only when it ended
@@ -606,15 +695,20 @@ class PgEngine:
                 _run(conn, ROLLBACK)
                 self.stats.bump("replays")
                 return reply
-        rows = self._load(conn, tv)
+        version, snap = self._snapshot(conn, tenant, tv)
         self._fire(conn, Point.LOADED, tenant)
-        decided = self._decide(tv, rows, actor, cmd)
+        decided = self._decide(tv, snap, actor, cmd)
         if isinstance(decided, _Refusal):
+            self._cache.put(tenant, version, snap)
             _run(conn, ROLLBACK)
             return decided
-        statements, reply = decided
+        statements, reply, snap = decided
         for text, ps in statements:
             _run(conn, text, ps)
+        if statements:
+            advanced = _run(conn, ADVANCE, [tv]).fetchone()
+            assert advanced is not None
+            version = advanced[0]
         if idem is not None:
             stored = self._storage.encode_reply(reply)
             _run(
@@ -624,6 +718,7 @@ class PgEngine:
             )
         self._fire(conn, Point.WRITTEN, tenant)
         _commit(conn)
+        self._cache.put(tenant, version, snap)
         self.stats.bump("commits")
         return reply
 
@@ -649,16 +744,18 @@ class PgEngine:
         self, conn: psycopg.Connection[Any], actor: Any, cmd: Any, tenant: int, tv: int
     ) -> Any:
         _run(conn, BEGIN_READ)
-        rows = self._load(conn, tv)
+        version, snap = self._snapshot(conn, tenant, tv)
         self._fire(conn, Point.LOADED, tenant)
-        decided = self._decide(tv, rows, actor, cmd)
+        decided = self._decide(tv, snap, actor, cmd)
         if isinstance(decided, _Refusal):
+            self._cache.put(tenant, version, snap)
             _run(conn, ROLLBACK)
             return decided
-        statements, reply = decided
+        statements, reply, snap = decided
         if statements:
             _run(conn, ROLLBACK)
             raise _broken("a read-only command wrote")
+        self._cache.put(tenant, version, snap)
         _run(conn, COMMIT)
         self.stats.bump("commits")
         return reply

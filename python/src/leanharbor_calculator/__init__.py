@@ -19,11 +19,17 @@ def _transition(
     return result.value
 
 
+def _apply(snap: Local | kernel.Snapshot, write: kernel.Memory | None) -> Local:
+    """`apply` on the only reference to a local snapshot, which Lean updates in place, or on the
+    snapshot `store.load` built."""
+    return kernel.apply.local(snap.take() if isinstance(snap, Local) else snap, write)
+
+
 KERNEL = Kernel(
     init=kernel.init.local,
     tenant=kernel.tenant,
     transition=_transition,
-    apply=lambda snap, write: kernel.apply.local(snap.take(), write),
+    apply=_apply,
     read_only=kernel.readOnly,
 )
 

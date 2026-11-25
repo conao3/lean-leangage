@@ -29,7 +29,8 @@ class Storage:
     idempotency key.
 
     `tables` gives the tables in the order `load` receives their rows. `load` gives the snapshot
-    `kernel.transition` takes, or `None` when a row is not one the kernel stores. `writes` gives
+    `kernel.transition` and `kernel.apply` take, or `None` when a row is not one the kernel
+    stores. `writes` gives
     the rows a write set stores. `encode_reply` is trusted: no theorem covers it. `decode_reply`
     gives the reply `encode_reply` stored, or `None` for bytes it does not write.
     """
