@@ -14,8 +14,8 @@
 //
 //  1. One attempt reads one tenant, calls Transition, writes and commits in one SERIALIZABLE
 //     transaction.
-//  2. A retry opens a new transaction, reads the rows again and calls Transition again. An
-//     attempt is retried after a lost connection, SQLSTATE 40001, 40P01, 57P01, 57P02 or 53200
+//  2. A retry opens a new transaction, reads the tenant again (item 8) and calls Transition again.
+//     An attempt is retried after a lost connection, SQLSTATE 40001, 40P01, 57P01, 57P02 or 53200
 //     from a full table of serializable conflicts, and, with an idempotency key, 23505 and a lost
 //     COMMIT; at most [Config.MaxAttempts] attempts, 20 by default.
 //  3. A refused command rolls back and writes no row.

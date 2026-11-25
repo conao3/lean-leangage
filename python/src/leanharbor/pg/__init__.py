@@ -14,10 +14,10 @@ The contract (the engine's side of `Storage.Stored`):
 
 1. One attempt reads one tenant, calls `transition`, writes and commits in one `SERIALIZABLE`
    transaction.
-2. A retry opens a new transaction, reads the rows again and calls `transition` again. An attempt
-   is retried after a lost connection, SQLSTATE 40001, 40P01, 57P01, 57P02 or 53200 from a full
-   table of serializable conflicts, and, with an idempotency key, 23505 and a lost COMMIT; at most
-   `Config.max_attempts` attempts, 20 by default.
+2. A retry opens a new transaction, reads the tenant again (item 8) and calls `transition` again. An
+   attempt is retried after a lost connection, SQLSTATE 40001, 40P01, 57P01, 57P02 or 53200 from a
+   full table of serializable conflicts, and, with an idempotency key, 23505 and a lost COMMIT; at
+   most `Config.max_attempts` attempts, 20 by default.
 3. A refused command rolls back and writes no row.
 4. The app's writes and the reply stored under an idempotency key commit in one transaction.
 5. The tenant's advisory lock is taken before `BEGIN` and released before the connection returns
