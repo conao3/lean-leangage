@@ -6,3 +6,6 @@ licensed under the Apache License, Version 2.0.
 - lean/Leanharbor/Sql.lean and lean/Leanharbor/Sql/Proofs.lean are based on
   crates/h5i-app-core/proofs/H5iAppLib/Pg.lean and crates/h5i-app-core/proofs/H5iAppLib/Sql.lean.
   The files state what was changed.
+- lean/Leanharbor/Token.lean and lean/Leanharbor/Token/Proofs.lean are based on
+  crates/h5i-app-token/src/lib.rs and crates/h5i-app-token/proofs/TokenSpec.lean. The files state
+  what was changed.
