@@ -3,7 +3,8 @@ package pg_test
 // The engine's contract, item by item (the numbers of the list in pg.go), against the test
 // process's PostgreSQL with injected faults: forced serialization failures and deadlocks,
 // terminated backends, COMMITs lost before or after the server ran them, an HTTP client that
-// stops waiting, and many concurrent clients. Each test has a database of its own.
+// stops waiting, other engines writing the same tenant, and many concurrent clients. Each test
+// has a database of its own.
 
 import (
 	"encoding/json"
@@ -16,6 +17,7 @@ import (
 	"net/http/httptest"
 	"strconv"
 	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -121,9 +123,12 @@ func noCell(t *testing.T, d *db, tenant uint64, id int64) {
 }
 
 // conflict is an outside transaction that changes cell 0 of tenant after the attempt's
-// snapshot.
+// snapshot, and advances the tenant's version as an engine's commit does.
 func (d *db) conflict(tenant uint64) {
-	d.exec("UPDATE cells SET v = v + 100 WHERE tenant_id = $1 AND id = 0", int64(tenant))
+	d.exec("WITH u AS (UPDATE cells SET v = v + 100 WHERE tenant_id = $1 AND id = 0 RETURNING 1) "+
+		"INSERT INTO leanharbor_version (tenant_id, version) SELECT $1, 1 FROM u "+
+		"ON CONFLICT (tenant_id) DO UPDATE SET version = leanharbor_version.version + 1",
+		int64(tenant))
 }
 
 // Items 1 and 2: one attempt is one SERIALIZABLE read-write transaction; a retry is a new
@@ -599,6 +604,8 @@ func TestRolesKeepTheEngineToRows(t *testing.T) {
 		"TRUNCATE cells",
 		"ALTER TABLE cells ADD COLUMN x BIGINT",
 		"DROP TABLE leanharbor_idempotency",
+		"DROP TABLE leanharbor_version",
+		"TRUNCATE leanharbor_version",
 	} {
 		_, err := conn.Exec(ctx, statement)
 		var pgErr *pgconn.PgError
@@ -619,4 +626,222 @@ func TestRolesKeepTheEngineToRows(t *testing.T) {
 		t.Fatalf("an owner that can log in: %v", err)
 	}
 	hasCell(t, d, 1, 0, 1)
+}
+
+// Item 8: an engine reads the rows another engine wrote, whichever path it takes, and reads no
+// row while the version is the one it remembers.
+func TestOtherEnginesWritesAreRead(t *testing.T) {
+	d := setup(t, "contract_other")
+	a := d.engine(2, pg.DefaultConfig())
+	b := d.engine(2, pg.DefaultConfig())
+	equal(t, accepted(t, run(t, a, 1, add{0, 5})), 5, "add")
+	equal(t, a.Stats().Loads, 1, "loads")
+	equal(t, accepted(t, run(t, a, 1, get{0})), 5, "get")
+	equal(t, accepted(t, run(t, a, 1, add{0, 1})), 6, "add")
+	equal(t, a.Stats().Loads, 1, "the remembered snapshot, on both paths")
+	equal(t, accepted(t, run(t, b, 1, add{0, 10})), 16, "the other engine")
+	equal(t, accepted(t, run(t, a, 1, get{0})), 16, "the read-only path")
+	equal(t, a.Stats().Loads, 2, "loads")
+	equal(t, accepted(t, run(t, b, 1, move{0, 1, 6})), 10, "move")
+	equal(t, accepted(t, run(t, a, 1, add{1, 1})), 7, "the write path")
+	equal(t, accepted(t, runKeyed(t, b, 1, "k", get{0})), 10, "keyed")
+	equal(t, accepted(t, run(t, b, 1, get{1})), 7, "get")
+	equal(t, a.Stats().Loads, 3, "loads")
+	equal(t, b.Stats().Loads, 2, "its own commit remembered")
+	if got := d.cells(1); !maps.Equal(got, map[int64]int64{0: 10, 1: 7}) {
+		t.Fatalf("cells %v", got)
+	}
+}
+
+const advanceVersion = "INSERT INTO leanharbor_version (tenant_id, version) VALUES ($1, 1) " +
+	"ON CONFLICT (tenant_id) DO UPDATE SET version = leanharbor_version.version + 1 " +
+	"RETURNING version"
+
+// Item 8, on PostgreSQL's side: two transactions that read a tenant's version and advance it
+// cannot both commit, whether the row exists or not. The second fails with 40001, which the
+// engines retry, and not with 23505.
+func TestVersionRowsConflict(t *testing.T) {
+	d := setup(t, "contract_version")
+	e := d.engine(1, pg.DefaultConfig())
+	accepted(t, run(t, e, 2, add{0, 1}))
+	for _, c := range []struct{ tenant, before int64 }{{1, 0}, {2, 1}} {
+		first, second := pgtest.Connect(t, d.url), pgtest.Connect(t, d.url)
+		for _, conn := range []*pgx.Conn{first, second} {
+			if _, err := conn.Exec(ctx, "BEGIN ISOLATION LEVEL SERIALIZABLE"); err != nil {
+				t.Fatal(err)
+			}
+			var read int64
+			err := conn.QueryRow(ctx, "SELECT version FROM leanharbor_version WHERE tenant_id = $1", c.tenant).Scan(&read)
+			if err != nil && !errors.Is(err, pgx.ErrNoRows) {
+				t.Fatal(err)
+			}
+			equal(t, read, c.before, "the version read")
+		}
+		var advanced int64
+		if err := first.QueryRow(ctx, advanceVersion, c.tenant).Scan(&advanced); err != nil {
+			t.Fatal(err)
+		}
+		equal(t, advanced, c.before+1, "advanced")
+		done := make(chan error, 1)
+		go func() {
+			var v int64
+			done <- second.QueryRow(ctx, advanceVersion, c.tenant).Scan(&v)
+		}()
+		select {
+		case err := <-done:
+			t.Fatalf("tenant %d: the second did not wait for the first: %v", c.tenant, err)
+		case <-time.After(200 * time.Millisecond):
+		}
+		if _, err := first.Exec(ctx, "COMMIT"); err != nil {
+			t.Fatal(err)
+		}
+		var pgErr *pgconn.PgError
+		if err := <-done; !errors.As(err, &pgErr) || pgErr.Code != "40001" {
+			t.Fatalf("tenant %d: %v", c.tenant, err)
+		}
+		if _, err := second.Exec(ctx, "ROLLBACK"); err != nil {
+			t.Fatal(err)
+		}
+	}
+}
+
+// Item 8: a COMMIT of unknown outcome forgets the tenant's snapshot. The engine reads the rows
+// again, whether the COMMIT ran or not, and after another engine's commit.
+func TestLostCommitForgetsTheSnapshot(t *testing.T) {
+	d := setup(t, "contract_forget")
+	p := startProxy(t)
+	e := d.engineAt(p.url(d.name), 1, config(20, true, nil))
+	other := d.engine(1, pg.DefaultConfig())
+	equal(t, accepted(t, run(t, e, 1, add{0, 5})), 5, "add")
+	p.arm(dropBefore)
+	fails(t, run(t, e, 1, add{0, 1}), leanharbor.ErrCommitUnknown)
+	equal(t, accepted(t, run(t, e, 1, get{0})), 5, "not committed")
+	equal(t, accepted(t, run(t, other, 1, add{0, 10})), 15, "the other engine")
+	equal(t, accepted(t, run(t, e, 1, get{0})), 15, "the other engine's commit")
+	p.arm(dropAfter)
+	fails(t, run(t, e, 1, add{0, 1}), leanharbor.ErrCommitUnknown)
+	equal(t, accepted(t, run(t, e, 1, add{0, 1})), 17, "committed")
+	equal(t, accepted(t, run(t, other, 1, get{0})), 17, "the other engine reads it")
+	equal(t, e.Stats().Loads, 4, "every attempt after a lost COMMIT reads the rows")
+	equal(t, fmt.Sprint(p.seen()), fmt.Sprint([]outcome{notSent, committed}), "outcomes")
+}
+
+// Item 8: a refusal, and an attempt rolled back by a terminated backend, leave the remembered
+// snapshot as the last commit left it: the refusal reads no row, and the retry runs the command
+// on what was committed.
+func TestRefusalsAndRollbacksKeepTheSnapshot(t *testing.T) {
+	d := setup(t, "contract_keep")
+	var armed atomic.Bool
+	hook, _ := hookAt(pg.Written, math.MaxUint64, func(a pg.Attempt) {
+		if armed.Swap(false) {
+			d.kill(a.Pid)
+		}
+	})
+	e := d.engine(2, config(20, true, hook))
+	equal(t, accepted(t, run(t, e, 1, add{0, 5})), 5, "add")
+	isRefused(t, run(t, e, 1, add{0, -6}))
+	isRefused(t, runKeyed(t, e, 1, "k", add{0, -6}))
+	equal(t, accepted(t, run(t, e, 1, get{0})), 5, "get")
+	equal(t, accepted(t, run(t, e, 1, add{0, 1})), 6, "add")
+	equal(t, e.Stats().Loads, 1, "one read of the rows")
+	fresh := d.engine(2, pg.DefaultConfig())
+	isRefused(t, run(t, fresh, 1, add{0, -7}))
+	equal(t, accepted(t, run(t, fresh, 1, get{0})), 6, "get")
+	equal(t, fresh.Stats().Loads, 1, "the snapshot loaded for a refusal")
+	before := e.Stats().Loads
+	equal(t, accepted(t, run(t, e, 2, add{0, 3})), 3, "add")
+	armed.Store(true)
+	fails(t, run(t, e, 2, add{0, 4}), leanharbor.ErrCommitUnknown)
+	equal(t, accepted(t, run(t, e, 2, add{0, 4})), 7, "on the committed rows")
+	hasCell(t, d, 2, 0, 7)
+	equal(t, accepted(t, run(t, e, 3, add{0, 3})), 3, "add")
+	armed.Store(true)
+	equal(t, accepted(t, runKeyed(t, e, 3, "k", add{0, 4})), 7, "retried")
+	hasCell(t, d, 3, 0, 7)
+	equal(t, e.Stats().Loads-before, 4, "loads")
+}
+
+// Item 8: the engine remembers at most CacheTenants tenants and forgets the one it used least
+// recently; with 0 it remembers none.
+func TestRemembersAtMostCacheTenants(t *testing.T) {
+	d := setup(t, "contract_capacity")
+	two := pg.DefaultConfig()
+	two.CacheTenants = 2
+	e := d.engine(1, two)
+	for tenant := range uint64(3) {
+		accepted(t, run(t, e, tenant+1, add{0, 1}))
+	}
+	equal(t, e.Cached(), 2, "cached")
+	equal(t, e.Stats().Loads, 3, "loads")
+	equal(t, accepted(t, run(t, e, 2, get{0})), 1, "get")
+	equal(t, e.Stats().Loads, 3, "tenant 2 remembered")
+	equal(t, accepted(t, run(t, e, 1, get{0})), 1, "get")
+	equal(t, e.Stats().Loads, 4, "tenant 1 forgotten")
+	equal(t, accepted(t, run(t, e, 2, get{0})), 1, "get")
+	equal(t, accepted(t, run(t, e, 1, get{0})), 1, "get")
+	equal(t, e.Stats().Loads, 4, "tenants 1 and 2 remembered")
+	equal(t, accepted(t, run(t, e, 3, get{0})), 1, "get")
+	equal(t, e.Stats().Loads, 5, "tenant 3 forgotten")
+	equal(t, e.Cached(), 2, "cached")
+	none := pg.DefaultConfig()
+	none.CacheTenants = 0
+	e = d.engine(1, none)
+	for range 3 {
+		accepted(t, run(t, e, 1, add{0, 1}))
+		accepted(t, run(t, e, 1, get{0}))
+	}
+	equal(t, e.Cached(), 0, "cached")
+	equal(t, e.Stats().Loads, 6, "loads")
+}
+
+// Item 8 with SERIALIZABLE: two engines, each with 32 goroutines, move units between four cells
+// of one tenant, with and without the advisory lock. Every cell holds what the accepted moves
+// left, and both engines then read it.
+func TestConcurrentEnginesAreSerial(t *testing.T) {
+	d := setup(t, "contract_engines")
+	for _, c := range []struct {
+		tenant uint64
+		lock   bool
+	}{{1, true}, {2, false}} {
+		engines := []*engine{d.engine(4, config(1000, c.lock, nil)), d.engine(4, config(1000, c.lock, nil))}
+		for cell := range int64(4) {
+			accepted(t, run(t, engines[0], c.tenant, add{cell, 100}))
+		}
+		moved := make(chan [][2]int64, 64)
+		for client := range int64(64) {
+			e := engines[client%2]
+			go func() {
+				out := [][2]int64{}
+				for i := range int64(8) {
+					from, to := (client+i)%4, (client+i+1)%4
+					if _, refusal, err := e.Execute(who(c.tenant), move{from, to, 1}, nil); err == nil && refusal == nil {
+						out = append(out, [2]int64{from, to})
+					}
+					_, _, _ = e.Execute(who(c.tenant), get{from}, nil)
+				}
+				moved <- out
+			}()
+		}
+		expected := map[int64]int64{0: 100, 1: 100, 2: 100, 3: 100}
+		accepted := 0
+		for range 64 {
+			for _, m := range <-moved {
+				expected[m[0]]--
+				expected[m[1]]++
+				accepted++
+			}
+		}
+		equal(t, accepted, 512, fmt.Sprintf("lock %v", c.lock))
+		if got := d.cells(c.tenant); !maps.Equal(got, expected) {
+			t.Fatalf("lock %v: cells %v, want %v", c.lock, got, expected)
+		}
+		for _, e := range engines {
+			for cell, v := range expected {
+				r := run(t, e, c.tenant, get{cell})
+				if r.err != nil || r.refusal != nil || r.reply != v {
+					t.Fatalf("lock %v: cell %d: %+v, want %d", c.lock, cell, r, v)
+				}
+			}
+		}
+	}
 }

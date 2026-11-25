@@ -111,7 +111,6 @@ func (c Calculator) Load(rows [][][]sql.Val) (Snapshot, bool) {
 }
 
 func (c Calculator) Writes(ws WriteSet) []sql.Write {
-	defer ws.CloseIn(c.scope)
 	return store.Writes(kernel.Value.In(c.scope).ReadOptionMemory(ws))
 }
 

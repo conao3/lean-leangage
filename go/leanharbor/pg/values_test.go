@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"math"
 	"math/big"
+	"reflect"
 	"slices"
 	"strings"
 	"testing"
@@ -43,7 +44,13 @@ func (storedRows) Transition(_ uint64, snap table, c rowsCmd) (table, table, *no
 	return table{}, snap, nil
 }
 
-func (storedRows) Apply(snap table, _ table) table { return snap }
+func (storedRows) Apply(snap table, ws table) table {
+	for _, w := range ws {
+		snap = slices.DeleteFunc(snap, func(r []sql.Val) bool { return reflect.DeepEqual(r[0], w[0]) })
+		snap = append(snap, w)
+	}
+	return snap
+}
 
 func (storedRows) Release(table) {}
 

@@ -47,7 +47,7 @@ type Storage[Principal, Snapshot, Command, WriteSet, Reply, Error any] interface
 	// Load is the snapshot of the rows of each table; false when a row is not one the kernel
 	// stores.
 	Load(rows [][][]sql.Val) (Snapshot, bool)
-	// Writes consumes a write set and returns the rows it stores.
+	// Writes is the rows a write set stores; the write set is kept for Apply.
 	Writes(ws WriteSet) []sql.Write
 	// EncodeStoredReply is the stored form of a reply. Trusted: no theorem covers it.
 	EncodeStoredReply(reply Reply) []byte

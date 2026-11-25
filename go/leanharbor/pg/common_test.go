@@ -321,7 +321,9 @@ func (r *recorder) at(point pg.Point) []pg.Attempt {
 }
 
 func config(maxAttempts int, tenantLock bool, hook pg.Hook) pg.Config {
-	return pg.Config{MaxAttempts: maxAttempts, TenantLock: tenantLock, Hook: hook}
+	c := pg.DefaultConfig()
+	c.MaxAttempts, c.TenantLock, c.Hook = maxAttempts, tenantLock, hook
+	return c
 }
 
 // fault is what the proxy does with the next COMMIT it relays.

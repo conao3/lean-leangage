@@ -2,12 +2,13 @@
 // `Leanharbor.Storage.Stored` describes. It is trusted: no theorem covers this package.
 //
 // At start it creates the kernel's tables with the statements of the generated Create and
-// Render. Each command runs in one SERIALIZABLE transaction: it reads the tenant's rows with the
-// generated Select of every table, builds the snapshot with the kernel's Load, calls Transition,
-// and sends the statements the generated Compile makes of the generated Plan of each write. The
-// only other statements are the constant ones of this file: the transaction control, the
-// advisory locks, and the framework's table leanharbor_idempotency. They are the statements of
-// the Rust engine `rust/leanharbor-pg`, so the two engines share a database.
+// Render. Each command runs in one SERIALIZABLE transaction: it reads the tenant's version, takes
+// the snapshot it remembers for that version or else reads the tenant's rows with the generated
+// Select of every table and builds the snapshot with the kernel's Load, calls Transition, and
+// sends the statements the generated Compile makes of the generated Plan of each write. The only
+// other statements are the constant ones of this file: the transaction control, the advisory
+// locks, and the framework's tables leanharbor_idempotency and leanharbor_version. They are the
+// statements of the Rust engine `rust/leanharbor-pg`, so the two engines share a database.
 //
 // The contract (the engine's side of `Storage.Stored`):
 //
@@ -26,6 +27,15 @@
 //     path), and fails if its write set stores a row.
 //  7. A request without an idempotency key whose connection is lost during COMMIT, or whose
 //     COMMIT fails with 57P01 or 57P02, fails with [leanharbor.ErrCommitUnknown].
+//  8. A transaction whose write set stores a row advances the tenant's row of
+//     leanharbor_version by one (from 0 when it has none). An attempt reads that row first and
+//     runs the command on the snapshot the engine remembers for the tenant at that version, or,
+//     when it remembers none, on the snapshot Load builds of the rows it reads. After a commit
+//     the engine remembers the snapshot Apply computed, at the version the transaction left;
+//     after a refusal, and on the read-only path, the snapshot the command ran on; after any
+//     other end of the attempt, a COMMIT of unknown outcome included, nothing for the tenant. It
+//     remembers at most [Config.CacheTenants] tenants, each in a [leanfran.Region] of its own,
+//     and forgets the one it used least recently; it releases every snapshot it forgets.
 //
 // Execute takes no context: every attempt runs on the caller's goroutine to its end, so a caller
 // that stops waiting (a closed HTTP connection) does not interrupt an attempt between its lock
@@ -39,6 +49,7 @@ import (
 	"fmt"
 	"math/big"
 	"math/rand/v2"
+	"sync"
 	"sync/atomic"
 	"time"
 
@@ -58,9 +69,19 @@ const frameworkDDL = "CREATE TABLE IF NOT EXISTS leanharbor_idempotency (" +
 	"tenant_id BIGINT NOT NULL, scope TEXT NOT NULL, key TEXT NOT NULL, " +
 	"fingerprint BYTEA NOT NULL, reply BYTEA NOT NULL, PRIMARY KEY (tenant_id, scope, key))"
 
-var frameworkTables = []string{"leanharbor_idempotency"}
+// Each tenant's version: a transaction that writes the tenant's rows advances it by one.
+const versionDDL = "CREATE TABLE IF NOT EXISTS leanharbor_version (" +
+	"tenant_id BIGINT PRIMARY KEY, version BIGINT NOT NULL)"
+
+var frameworkTables = []string{"leanharbor_idempotency", "leanharbor_version"}
 
 const (
+	// The tenant's version; no row is version 0.
+	versionQuery = "SELECT version FROM leanharbor_version WHERE tenant_id = $1"
+	advance      = "INSERT INTO leanharbor_version (tenant_id, version) VALUES ($1, 1) " +
+		"ON CONFLICT (tenant_id) DO UPDATE SET version = leanharbor_version.version + 1 " +
+		"RETURNING version"
+
 	storedReply = "SELECT fingerprint, reply FROM leanharbor_idempotency " +
 		"WHERE tenant_id = $1 AND scope = $2 AND key = $3"
 	storeReply = "INSERT INTO leanharbor_idempotency " +
@@ -89,7 +110,8 @@ const (
 	// Locked is before BEGIN, holding the tenant's advisory lock if [Config.TenantLock]. Not on
 	// the read-only path.
 	Locked Point = iota
-	// Loaded: the rows are read, Transition has not run.
+	// Loaded: the version is read, and the rows unless the engine remembers the snapshot of that
+	// version; Transition has not run.
 	Loaded
 	// Written: the writes and the stored reply are sent, COMMIT is not. Not on the read-only
 	// path.
@@ -137,12 +159,15 @@ type Config struct {
 	// TenantLock takes the tenant's advisory lock before each write attempt. It spares retries;
 	// SERIALIZABLE keeps the commits serial without it.
 	TenantLock bool
-	Hook       Hook
+	// CacheTenants is the number of tenants whose snapshot the engine remembers at once; 0
+	// remembers none.
+	CacheTenants int
+	Hook         Hook
 }
 
-// DefaultConfig is 20 attempts with the tenant's lock and no hook.
+// DefaultConfig is 20 attempts with the tenant's lock, 1024 tenants remembered and no hook.
 func DefaultConfig() Config {
-	return Config{MaxAttempts: 20, TenantLock: true}
+	return Config{MaxAttempts: 20, TenantLock: true, CacheTenants: 1024}
 }
 
 // Stats is what the engine did, counted since it started.
@@ -155,10 +180,13 @@ type Stats struct {
 	Replays uint64
 	// Reads are the attempts on the read-only path, also counted in Attempts.
 	Reads uint64
+	// Loads are the attempts that read the tenant's rows: the engine remembered no snapshot at
+	// the version they read.
+	Loads uint64
 }
 
 type stats struct {
-	attempts, retries, commits, replays, reads atomic.Uint64
+	attempts, retries, commits, replays, reads, loads atomic.Uint64
 }
 
 type failureKind int
@@ -355,6 +383,82 @@ type decision[Reply, Error any] struct {
 	reply      Reply
 }
 
+// remembered is a tenant's snapshot in a region of its own, with the tenant's version it stands
+// for. An attempt that takes it out of the cache owns it until it puts it back or releases it.
+type remembered[Snapshot any] struct {
+	version int64
+	region  *leanfran.Region
+	snap    Snapshot
+	used    uint64
+}
+
+// cache is the snapshots the engine remembers, at most capacity tenants.
+type cache[Snapshot any] struct {
+	mu       sync.Mutex
+	capacity int
+	clock    uint64
+	tenants  map[uint64]*remembered[Snapshot]
+}
+
+// take is the tenant's snapshot at version, which the cache no longer holds, and a snapshot of
+// an earlier version it forgot, for the caller to release.
+func (c *cache[Snapshot]) take(tenant uint64, version int64) (found, forgot *remembered[Snapshot]) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	r, ok := c.tenants[tenant]
+	if !ok || r.version > version {
+		return nil, nil
+	}
+	delete(c.tenants, tenant)
+	if r.version == version {
+		return r, nil
+	}
+	return nil, r
+}
+
+// put remembers r, unless the cache holds a later version of the tenant, and forgets the tenant
+// used least recently beyond the capacity. It returns the snapshots it does not hold, for the
+// caller to release.
+func (c *cache[Snapshot]) put(tenant uint64, r *remembered[Snapshot]) []*remembered[Snapshot] {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	old, ok := c.tenants[tenant]
+	if c.capacity <= 0 || ok && old.version > r.version {
+		return []*remembered[Snapshot]{r}
+	}
+	var forgot []*remembered[Snapshot]
+	if ok {
+		forgot = append(forgot, old)
+	}
+	c.clock++
+	r.used = c.clock
+	c.tenants[tenant] = r
+	if len(c.tenants) > c.capacity {
+		var oldest *remembered[Snapshot]
+		var at uint64
+		for t, e := range c.tenants {
+			if oldest == nil || e.used < oldest.used {
+				oldest, at = e, t
+			}
+		}
+		delete(c.tenants, at)
+		forgot = append(forgot, oldest)
+	}
+	return forgot
+}
+
+// drain is every snapshot the cache holds, which it forgets.
+func (c *cache[Snapshot]) drain() []*remembered[Snapshot] {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	all := make([]*remembered[Snapshot], 0, len(c.tenants))
+	for t, r := range c.tenants {
+		all = append(all, r)
+		delete(c.tenants, t)
+	}
+	return all
+}
+
 func backoff(attempt int) time.Duration {
 	limit := int64(1000) << min(attempt, 8)
 	return time.Duration(rand.Int64N(limit)+100) * time.Microsecond
@@ -367,6 +471,7 @@ type Engine[Principal, Snapshot, Command, WriteSet, Reply, Error any] struct {
 	tables  []sql.Tab
 	config  Config
 	stats   stats
+	cache   *cache[Snapshot]
 }
 
 var background = context.Background()
@@ -388,6 +493,9 @@ func create(conn *pgx.Conn, tables []sql.Tab) error {
 	}
 	created := func() error {
 		if _, err := conn.Exec(background, frameworkDDL); err != nil {
+			return err
+		}
+		if _, err := conn.Exec(background, versionDDL); err != nil {
 			return err
 		}
 		for _, t := range tables {
@@ -445,12 +553,42 @@ func Connect[Principal, Snapshot, Command, WriteSet, Reply, Error any](
 		pool:    pool,
 		tables:  tables,
 		config:  config,
+		cache: &cache[Snapshot]{
+			capacity: config.CacheTenants,
+			tenants:  map[uint64]*remembered[Snapshot]{},
+		},
 	}, nil
 }
 
-// Close closes the pool's connections.
+// Close closes the pool's connections and releases the snapshots the engine remembers.
 func (e *Engine[Principal, Snapshot, Command, WriteSet, Reply, Error]) Close() {
 	e.pool.Close()
+	e.release(e.cache.drain()...)
+}
+
+// Cached is the number of tenants whose snapshot the engine remembers.
+func (e *Engine[Principal, Snapshot, Command, WriteSet, Reply, Error]) Cached() int {
+	e.cache.mu.Lock()
+	defer e.cache.mu.Unlock()
+	return len(e.cache.tenants)
+}
+
+// release releases the snapshots, each in its region.
+func (e *Engine[Principal, Snapshot, Command, WriteSet, Reply, Error]) release(
+	rs ...*remembered[Snapshot],
+) {
+	for _, r := range rs {
+		e.storage.Scoped(r.region, func(k leanharbor.Kernel[Principal, Snapshot, Command, WriteSet, Reply, Error]) {
+			k.Release(r.snap)
+		})
+	}
+}
+
+// remember gives the cache the tenant's snapshot and releases what it does not hold.
+func (e *Engine[Principal, Snapshot, Command, WriteSet, Reply, Error]) remember(
+	tenant uint64, r *remembered[Snapshot],
+) {
+	e.release(e.cache.put(tenant, r)...)
 }
 
 func (e *Engine[Principal, Snapshot, Command, WriteSet, Reply, Error]) Stats() Stats {
@@ -460,6 +598,7 @@ func (e *Engine[Principal, Snapshot, Command, WriteSet, Reply, Error]) Stats() S
 		Commits:  e.stats.commits.Load(),
 		Replays:  e.stats.replays.Load(),
 		Reads:    e.stats.reads.Load(),
+		Loads:    e.stats.loads.Load(),
 	}
 }
 
@@ -554,27 +693,55 @@ func (e *Engine[Principal, Snapshot, Command, WriteSet, Reply, Error]) load(
 	return all, nil
 }
 
-// decide loads the snapshot, runs the command on it and compiles its writes. It sends no
-// statement, so the lock of the region that Scoped holds is held for no query. Each request
-// has a region of its own, so the requests decide in parallel.
-func (e *Engine[Principal, Snapshot, Command, WriteSet, Reply, Error]) decide(
-	tv int64, rows [][][]sql.Val, actor Principal, cmd Command,
-) (decision[Reply, Error], *failure) {
-	var d decision[Reply, Error]
+// snapshot is the tenant's version, with the snapshot the engine remembers for it or else a new
+// one that Load builds of the rows of every table, in a region of its own.
+func (e *Engine[Principal, Snapshot, Command, WriteSet, Reply, Error]) snapshot(
+	c *pgxpool.Conn, tenant uint64, tv int64,
+) (*remembered[Snapshot], *failure) {
+	var version int64
+	err := c.QueryRow(background, versionQuery, tv).Scan(&version)
+	if err != nil && !errors.Is(err, pgx.ErrNoRows) {
+		return nil, lost(c, err)
+	}
+	found, forgot := e.cache.take(tenant, version)
+	if forgot != nil {
+		e.release(forgot)
+	}
+	if found != nil {
+		return found, nil
+	}
+	e.stats.loads.Add(1)
+	rows, f := e.load(c, tv)
+	if f != nil {
+		return nil, f
+	}
 	snap, ok := e.storage.Load(rows)
 	if !ok {
-		return d, broken("the stored rows do not load")
+		return nil, broken("the stored rows do not load")
 	}
+	return &remembered[Snapshot]{version: version, region: leanfran.NewRegion(), snap: snap}, nil
+}
+
+// decide runs the command on the snapshot, applies the writes of an accepted command to it and
+// compiles them. It sends no statement, so the lock of the region that Scoped holds is held for
+// no query. Each request has a region of its own, or that of the snapshot the engine remembers,
+// so the requests decide in parallel.
+func (e *Engine[Principal, Snapshot, Command, WriteSet, Reply, Error]) decide(
+	tv int64, r *remembered[Snapshot], actor Principal, cmd Command,
+) (decision[Reply, Error], *failure) {
+	var d decision[Reply, Error]
 	var ws WriteSet
-	region := leanfran.NewRegion()
-	e.storage.Scoped(region, func(k leanharbor.Kernel[Principal, Snapshot, Command, WriteSet, Reply, Error]) {
-		ws, d.reply, d.refusal = k.Transition(actor, snap, cmd)
-		k.Release(snap)
+	e.storage.Scoped(r.region, func(k leanharbor.Kernel[Principal, Snapshot, Command, WriteSet, Reply, Error]) {
+		ws, d.reply, d.refusal = k.Transition(actor, r.snap, cmd)
 	})
 	if d.refusal != nil {
 		return d, nil
 	}
-	for _, write := range e.storage.Writes(ws) {
+	writes := e.storage.Writes(ws)
+	e.storage.Scoped(r.region, func(k leanharbor.Kernel[Principal, Snapshot, Command, WriteSet, Reply, Error]) {
+		r.snap = k.Apply(r.snap, ws)
+	})
+	for _, write := range writes {
 		stmt, err := sql.Plan(write)
 		if err != nil {
 			return d, broken("a write does not compile")
@@ -717,18 +884,26 @@ func (e *Engine[Principal, Snapshot, Command, WriteSet, Reply, Error]) transact(
 			return out, nil
 		}
 	}
-	rows, f := e.load(c, tv)
+	r, f := e.snapshot(c, tenant, tv)
 	if f != nil {
 		return out, f
 	}
+	kept := false
+	defer func() {
+		if !kept {
+			e.release(r)
+		}
+	}()
 	if f := e.fire(c, Loaded, tenant); f != nil {
 		return out, f
 	}
-	d, f := e.decide(tv, rows, actor, cmd)
+	d, f := e.decide(tv, r, actor, cmd)
 	if f != nil {
 		return out, f
 	}
 	if d.refusal != nil {
+		kept = true
+		e.remember(tenant, r)
 		if _, err := c.Exec(background, rollback); err != nil {
 			return out, lost(c, err)
 		}
@@ -741,6 +916,11 @@ func (e *Engine[Principal, Snapshot, Command, WriteSet, Reply, Error]) transact(
 			return out, lost(c, err)
 		}
 		if _, err := c.Exec(background, s.text, args...); err != nil {
+			return out, lost(c, err)
+		}
+	}
+	if len(d.statements) != 0 {
+		if err := c.QueryRow(background, advance, tv).Scan(&r.version); err != nil {
 			return out, lost(c, err)
 		}
 	}
@@ -762,6 +942,8 @@ func (e *Engine[Principal, Snapshot, Command, WriteSet, Reply, Error]) transact(
 	if tag.String() != commit {
 		return out, &failure{failPostgres, fmt.Errorf("COMMIT answered %s", tag)}
 	}
+	kept = true
+	e.remember(tenant, r)
 	e.stats.commits.Add(1)
 	out.reply = d.reply
 	return out, nil
@@ -793,18 +975,26 @@ func (e *Engine[Principal, Snapshot, Command, WriteSet, Reply, Error]) readTrans
 	if _, err := c.Exec(background, beginRead); err != nil {
 		return out, lost(c, err)
 	}
-	rows, f := e.load(c, tv)
+	r, f := e.snapshot(c, tenant, tv)
 	if f != nil {
 		return out, f
 	}
+	kept := false
+	defer func() {
+		if !kept {
+			e.release(r)
+		}
+	}()
 	if f := e.fire(c, Loaded, tenant); f != nil {
 		return out, f
 	}
-	d, f := e.decide(tv, rows, actor, cmd)
+	d, f := e.decide(tv, r, actor, cmd)
 	if f != nil {
 		return out, f
 	}
 	if d.refusal != nil {
+		kept = true
+		e.remember(tenant, r)
 		if _, err := c.Exec(background, rollback); err != nil {
 			return out, lost(c, err)
 		}
@@ -817,6 +1007,8 @@ func (e *Engine[Principal, Snapshot, Command, WriteSet, Reply, Error]) readTrans
 		}
 		return out, broken("a read-only command wrote")
 	}
+	kept = true
+	e.remember(tenant, r)
 	tag, err := c.Exec(background, commit)
 	if err != nil {
 		return out, lost(c, err)
