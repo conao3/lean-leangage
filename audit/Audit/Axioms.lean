@@ -1,6 +1,7 @@
 import Lean
 import Leanharbor
 import Calculator
+import Notes
 
 /-!
 Fails the build when a theorem of the listed modules depends on an axiom other than `propext`,
@@ -25,4 +26,4 @@ elab "#assert_standard_axioms " mods:ident+ : command => do
   if checked == 0 then throwError "no theorem found"
   logInfo m!"{checked} theorems depend only on propext, Classical.choice and Quot.sound"
 
-#assert_standard_axioms Leanharbor.Kernel Leanharbor.AuthzProofs Calculator.Proofs
+#assert_standard_axioms Leanharbor.Kernel Leanharbor.AuthzProofs Calculator.Proofs Notes.Proofs

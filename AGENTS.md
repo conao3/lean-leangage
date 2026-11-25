@@ -6,15 +6,20 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
 ## Layout
 
 - `lean/`: Lake package `leanharbor`, Lean 4.35.0, core only (no Mathlib). `Leanharbor/` is the
-  contract, `Calculator/Kernel.lean` holds what is generated, `Calculator/Proofs.lean` the
+  contract and the authorization guard (`Authz.lean`, its theorems in `AuthzProofs.lean`),
+  `Calculator/Kernel.lean` holds what is generated, `Calculator/Proofs.lean` the
   specifications and theorems, `CalculatorOracle.lean` the native program the differential
-  tests compare against.
-- `audit/`: a separate Lake package with leanassay (`Audit/Calculator.lean`) and the axiom check
-  (`Audit/Axioms.lean`).
-- `rust/`: Cargo workspace, edition 2024. `leanharbor` is the shell, `calculator` the example.
-- `python/`: uv project. `leanharbor` is the shell, `leanharbor_calculator` the example.
+  tests compare against. `Notes/` and `NotesOracle.lean` are the example with a policy, in the
+  same layout.
+- `audit/`: a separate Lake package with leanassay (`Audit/Calculator.lean`, `Audit/Authz.lean`,
+  `Audit/Notes*.lean`) and the axiom check (`Audit/Axioms.lean`).
+- `rust/`: Cargo workspace, edition 2024. `leanharbor` is the shell, `calculator` and `notes` the
+  examples.
+- `python/`: uv project. `leanharbor` is the shell, `leanharbor_calculator` and `leanharbor_notes`
+  the examples.
 - `go/`: Go module `github.com/conao3/lean-leanharbor/go`. `leanharbor` is the shell,
-  `calculator` the example, with the server and the benchmark under `calculator/cmd/`.
+  `calculator` and `notes` the examples, with the calculator's server and benchmark under
+  `calculator/cmd/`.
 
 ## Lean and the host languages
 
@@ -31,9 +36,11 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   `Take()` in Go), and no `Local` may leave the closure of `lend`, or Lean copies instead of
   updating in place. `rust/calculator/tests/in_place.rs` and `go/calculator/in_place_test.go`
   check it.
-- Generated files (`rust/calculator/src/generated/`, `python/src/leanharbor_calculator/kernel.py`,
-  `go/calculator/kernel/`) are committed and never edited. Run `make generate` after changing
-  `lean/`.
+- Generated files (`rust/*/src/generated/`, `python/src/leanharbor_*/kernel.py`,
+  `go/*/kernel/`) are committed and never edited. Run `make generate` after changing `lean/`.
+- Authorization is the guard of `Leanharbor.Authz`: a kernel's `handle` decides a command with no
+  authorization of its own, and the generated `transition` is `handle` behind `guardViewed` with
+  the kernel's policy. The shells call `transition` only.
 - When a function is added to a generated module, add a theorem about it and list it in
   `audit/Audit/Calculator.lean` in the same change. Theorems whose hypothesis fixes the result
   of the function (`transition a s c = .ok …`) cannot be run by leanassay; state the runnable
@@ -54,8 +61,9 @@ All commands run inside `nix develop`.
   `docs/speed.json`; `python3 tools/speed-charts.py` draws `docs/speed-*.svg` and prints the
   tables to paste into the README. `bench/` holds the servers without a kernel that the HTTP
   measurement compares with; `make check` does not build them.
-- The differential tests read the oracle's path from `LEANHARBOR_CALCULATOR_ORACLE`; the
-  Makefile sets it.
+- The differential tests read the oracles' paths from `LEANHARBOR_CALCULATOR_ORACLE` and
+  `LEANHARBOR_NOTES_ORACLE`; the Makefile sets them. `tools/gen-commands.py` and
+  `tools/gen-notes-commands.py` write the command lists in `testdata/`.
 - The servers read `LEANHARBOR_SECRET` and `LEANHARBOR_LISTEN`; `LEANHARBOR_ISSUE=<org>:<user>`
   prints a one-day token and exits.
 

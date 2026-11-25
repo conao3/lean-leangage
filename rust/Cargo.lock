@@ -509,6 +509,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "leanharbor-notes"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "leanfran",
+ "leanharbor",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tower",
+]
+
+[[package]]
 name = "libc"
 version = "0.2.191"
 source = "registry+https://github.com/rust-lang/crates.io-index"

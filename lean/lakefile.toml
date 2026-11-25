@@ -1,5 +1,5 @@
 name = "leanharbor"
-defaultTargets = ["Leanharbor", "Calculator"]
+defaultTargets = ["Leanharbor", "Calculator", "Notes"]
 
 [[lean_lib]]
 name = "Leanharbor"
@@ -7,6 +7,13 @@ name = "Leanharbor"
 [[lean_lib]]
 name = "Calculator"
 
+[[lean_lib]]
+name = "Notes"
+
 [[lean_exe]]
 name = "calculator-oracle"
 root = "CalculatorOracle"
+
+[[lean_exe]]
+name = "notes-oracle"
+root = "NotesOracle"

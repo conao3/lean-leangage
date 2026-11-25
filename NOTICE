@@ -6,3 +6,4 @@ were rewritten in Lean and changed; each names the file it is based on:
 
 - lean/Leanharbor/Authz.lean, from crates/h5i-app-std/src/authz.rs
 - lean/Leanharbor/AuthzProofs.lean, from crates/h5i-app-std/proofs/AuthzSpecs.lean
+- lean/Notes/Kernel.lean, from examples/app/notes/kernel/src/lib.rs
