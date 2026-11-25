@@ -281,8 +281,8 @@ Checked by `make check`, not proved:
   `fun w => w.toList`; the calculator lists no invariant. No shell reads `readOnly`: every
   engine runs every command the same way, so no server relies on `ReadOnlySound` yet.
   `make check` also builds the files in [`audit/fail/`](audit/fail), a kernel without the
-  theorem, with a theorem that has one more hypothesis, and with a listed invariant that no
-  theorem states, and requires each to fail with the check's error;
+  theorem, with a theorem that has one more hypothesis, with a listed invariant that no theorem
+  states, and with an invariant left as a hole, and requires each to fail with the check's error;
 - **The theorems constrain the kernel.** [leanassay](https://github.com/conao3/lean-leanassay)
   breaks functions in small ways and runs the theorems on each broken version. For the
   calculator, it breaks `transition`, `apply`, `compute` and the three functions of the trie in
@@ -333,7 +333,7 @@ holds for each of them:
 | Call site | that a shell runs the notes' `transition`. `handle`, the kernel without the guard, is generated and public too, and the guard's theorems say nothing about a caller of `handle` |
 | SQL | that PostgreSQL reads the text as `lexName_quote`'s lexer reads a quoted name; that PostgreSQL, sent `render q` with its parameters, fails or does to the tables what `run` says, and that a `SELECT` returns the rows `selected` says in some order (`ORDER BY` is not modeled); that values compare as Lean values do (text character by character, bytes byte by byte); that the tables were made by `create` of the same schema, since `CREATE TABLE IF NOT EXISTS` keeps a table of that name as it is |
 | Storage | that an engine does what `Storage.Stored` says: it creates `tables` in a database without them, loads each commit's snapshot with `load` from the rows of the compiled `SELECT` of each table, and runs the statements compiled from `writes` of the accepted write set for the principal's tenant (`Kernel.tenant`, as the `Int64` with the same bits). No engine does this yet |
-| Specification | that `specStep` and the statements above say what a calculator and the notes should do; that the write list a kernel gives `ReadOnlySound` (`fun w => w.toList` for the calculator) lists the rows its write set stores; that `Valid`, `Accepts`, `sqlOf`, `renderSpec`, `exec`, `view`, `Sel` and `Lists` say what the SQL compiler should do; that `TenantIsolation`, `Storage`, `Loaded` and `Stored` say what storing a kernel should mean; that the calculator's `lookup` and `enc` say which rows a snapshot stands for; that `v1.<tenant>.<user>.<expiry>.<hex>` with the signature over the bytes before the last dot is the token a client should send |
+| Specification | that `specStep` and the statements above say what a calculator and the notes should do; that the write list a kernel gives `ReadOnlySound` (`fun w => w.toList` for the calculator) holds every write of its write set; that `Valid`, `Accepts`, `sqlOf`, `renderSpec`, `exec`, `view`, `Sel` and `Lists` say what the SQL compiler should do; that `TenantIsolation`, `Storage`, `Loaded` and `Stored` say what storing a kernel should mean; that the calculator's `lookup` and `enc` say which rows a snapshot stands for; that `v1.<tenant>.<user>.<expiry>.<hex>` with the signature over the bytes before the last dot is the token a client should send |
 | Policy | that `permits`, `visible`, `stored`, `view`, `disclosed` and `readOnly` of the notes say who should see and change what: the guard enforces them as written |
 
 The Python and Go notes kernels run only in the differential tests; only Rust has a notes server.

@@ -31,6 +31,7 @@ audit: lean
 	lake -d audit build --wfail
 	@for f in audit/fail/*.lean; do \
 	  expect="$$(sed -n 's/^-- expect: //p' "$$f")"; \
+	  if [ -z "$$expect" ]; then echo "$$f: no -- expect: line"; exit 1; fi; \
 	  if out="$$(lake -d audit env lean "$$f" 2>&1)"; then echo "$$f: built, but must fail"; exit 1; fi; \
 	  if [ "$$(printf '%s\n' "$$out" | grep -c ': error')" != 1 ] || ! printf '%s\n' "$$out" | grep -qF -- "$$expect"; then \
 	    printf '%s\n' "$$out"; echo "$$f: must fail with the one error: $$expect"; exit 1; \

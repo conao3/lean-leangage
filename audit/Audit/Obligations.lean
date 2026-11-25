@@ -36,7 +36,8 @@ def candidates (env : Environment) : Array (Name × Expr) :=
     match ci with
     | .thmInfo t =>
       let core := match env.getModuleIdxFor? n with
-        | some idx => [`Init, `Std, `Lean, `Lake].contains (env.header.moduleNames[idx.toNat]!.getRoot)
+        | some idx =>
+          [`Init, `Std, `Lean, `Lake].contains (env.header.moduleNames[idx.toNat]!.getRoot)
         | none => false
       if core || !t.levelParams.isEmpty then acc else acc.push (n, t.type)
     | _ => acc
@@ -64,14 +65,16 @@ def compare (stmt type : Expr) : MetaM (Option Found) :=
     catch _ => return none
 
 /-- Checks one obligation, given as syntax, against every candidate. Returns the line to print
-when a theorem states it, or the error. -/
-def check (cands : Array (Name × Expr)) (label : MessageData) (stx : Term) :
+when a theorem states it, or the error. `holes` is the number of arguments the kernel chooses. -/
+def check (cands : Array (Name × Expr)) (label : MessageData) (stx : Term) (holes : Nat) :
     TermElabM (Except MessageData MessageData) := do
   let e ← elabTerm stx (some (.sort .zero))
   synthesizeSyntheticMVarsNoPostponing
   let r ← abstractMVars (← instantiateMVars e)
   if !r.paramNames.isEmpty then
     return .error m!"{label}: the statement `{stx}` has a universe the kernel would choose"
+  if r.numMVars != holes then
+    return .error m!"{label}: the statement `{stx}` has {r.numMVars} holes, and it may have {holes}"
   let mut good : Array MessageData := #[]
   let mut bad : Array MessageData := #[]
   for (n, type) in cands do
@@ -98,14 +101,14 @@ syntax (name := obligations) "#obligations " ident (" invariant" (ppSpace term:m
 def elabObligations : CommandElab
   | `(#obligations $k:ident $[invariant $is*]?) => do
     let cands := candidates (← getEnv)
-    let stmts : Array (MessageData × Term) :=
-      #[(m!"ReadOnlySound", ← `($(mkIdent ``Leanharbor.Obligation.ReadOnlySound) $k _))] ++
+    let stmts : Array (MessageData × Term × Nat) :=
+      #[(m!"ReadOnlySound", ← `($(mkIdent ``Leanharbor.Obligation.ReadOnlySound) $k _), 2)] ++
         (← (is.getD #[]).mapM fun i => do
-          return (m!"Invariant {i}", ← `($(mkIdent ``Leanharbor.Obligation.Invariant) $k $i)))
+          return (m!"Invariant {i}", ← `($(mkIdent ``Leanharbor.Obligation.Invariant) $k $i), 0))
     let mut lines : Array MessageData := #[]
     let mut failed := false
-    for (label, stx) in stmts do
-      match ← liftTermElabM (check cands label stx) with
+    for (label, stx, holes) in stmts do
+      match ← liftTermElabM (check cands label stx holes) with
       | .ok line => lines := lines.push line
       | .error msg => logErrorAt k msg; failed := true
     unless failed do
