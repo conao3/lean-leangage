@@ -364,8 +364,13 @@ func TestRustAndGoServersShareADatabase(t *testing.T) {
 			t.Fatalf("line %d: the %s server answered the key with another command: %v", i+1, other.name, got)
 		}
 	}
-	if replays == 0 {
-		t.Fatal("no keyed command was accepted")
+	var stored int
+	admin := pgtest.Connect(t, c.AdminURL(name))
+	if err := admin.QueryRow(context.Background(), "SELECT count(*) FROM leanharbor_idempotency").Scan(&stored); err != nil {
+		t.Fatal(err)
+	}
+	if replays == 0 || stored != replays {
+		t.Fatalf("%d keyed commands accepted, %d replies stored", replays, stored)
 	}
 	for actor, token := range tokens {
 		rust := servers[0].post(t, token, "", `{"cmd":"get"}`)
