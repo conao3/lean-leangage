@@ -582,159 +582,60 @@ from annotated_types import Ge, Gt, Le, Lt, MaxLen, MinLen  # noqa: E402
 from leanfran import marshal as _m  # noqa: E402
 from leanfran.marshal import Err, Lean, Local, Ok  # noqa: E402
 from leanfran.types import Char, Int8, Int16, Int32, Int64, Nat, UInt8, UInt16, UInt32, UInt64  # noqa: E402
+import leanharbor.sql as _ext0  # noqa: E402
+import leanharbor_calculator.kernel as _ext1  # noqa: E402
 
 
-class Leanharbor_Sql_Val(_m.LeanInductive):
-    "Lean `Leanharbor.Sql.Val`."
-
-class Leanharbor_Sql_Val_int(_m.LeanModel, Leanharbor_Sql_Val):
-    v: "Int64"
 
 
-class Leanharbor_Sql_Val_bool(_m.LeanModel, Leanharbor_Sql_Val):
-    v: "bool"
 
 
-class Leanharbor_Sql_Val_text(_m.LeanModel, Leanharbor_Sql_Val):
-    v: "str"
 
 
-class Leanharbor_Sql_Val_bytes(_m.LeanModel, Leanharbor_Sql_Val):
-    v: "list[UInt8]"
 
 
-class Leanharbor_Sql_Val_null(_m.LeanModel, Leanharbor_Sql_Val):
-    pass
 
 
-_m.register_inductive(Leanharbor_Sql_Val, [(Leanharbor_Sql_Val_int, _m.CtorInfo("int", 0, 0, False, [_m.FieldInfo("v", _m.Scalar(0), _m.SIntD(64))], [], False)), (Leanharbor_Sql_Val_bool, _m.CtorInfo("bool", 1, 0, False, [_m.FieldInfo("v", _m.Scalar(0), _m.BOOL)], [], False)), (Leanharbor_Sql_Val_text, _m.CtorInfo("text", 2, 1, False, [_m.FieldInfo("v", _m.Obj(0), _m.STRING)], [], False)), (Leanharbor_Sql_Val_bytes, _m.CtorInfo("bytes", 3, 1, False, [_m.FieldInfo("v", _m.Obj(0), _m.ArrayD(_m.UIntD(8)))], [], False)), (Leanharbor_Sql_Val_null, _m.CtorInfo("null", 4, 0, True, [], [], False))])
 
 
-class Calculator_Kernel_Memories(_m.LeanInductive):
-    "Lean `Calculator.Kernel.Memories`."
-
-class Calculator_Kernel_Memories_empty(_m.LeanModel, Calculator_Kernel_Memories):
-    pass
 
 
-class Calculator_Kernel_Memories_leaf(_m.LeanModel, Calculator_Kernel_Memories):
-    key: "UInt64"
-    value: "UInt64"
 
 
-class Calculator_Kernel_Memories_node(_m.LeanModel, Calculator_Kernel_Memories):
-    even: "Calculator_Kernel_Memories"
-    odd: "Calculator_Kernel_Memories"
+_D0 = _m.ListD(_m.ListD(_m.ListD(_m.NamedD(globals(), "_ext0.Val"))))
+_D1 = _m.LeanType(_D0, "list[list[list[_ext0.Val]]]")
+_D2 = _m.OptionD(_m.NamedD(globals(), "_ext1.Snapshot"))
+_D3 = _m.LeanType(_D2, "_ext1.Snapshot | None")
+_D4 = _m.ListD(_m.NamedD(globals(), "_ext0.Tab"))
+_D5 = _m.LeanType(_D4, "list[_ext0.Tab]")
+_D6 = _m.ListD(_m.NamedD(globals(), "_ext0.Val"))
+_D7 = _m.LeanType(_D6, "list[_ext0.Val]")
+_D8 = _m.OptionD(_m.NamedD(globals(), "_ext1.Memory"))
+_D9 = _m.LeanType(_D8, "_ext1.Memory | None")
+_D10 = _m.ListD(_m.NamedD(globals(), "_ext0.Write"))
+_D11 = _m.LeanType(_D10, "list[_ext0.Write]")
+_D12 = _m.NamedD(globals(), "_ext1.Memories")
+_D13 = _m.LeanType(_D12, "_ext1.Memories")
+_D14 = _m.ListD(_m.NamedD(globals(), "_ext1.Memory"))
+_D15 = _m.LeanType(_D14, "list[_ext1.Memory]")
+_D16 = _m.NamedD(globals(), "_ext1.Memory")
+_D17 = _m.LeanType(_D16, "_ext1.Memory")
 
 
-_m.register_inductive(Calculator_Kernel_Memories, [(Calculator_Kernel_Memories_empty, _m.CtorInfo("empty", 0, 0, True, [], [], False)), (Calculator_Kernel_Memories_leaf, _m.CtorInfo("leaf", 1, 0, False, [_m.FieldInfo("key", _m.Scalar(0), _m.UIntD(64)), _m.FieldInfo("value", _m.Scalar(8), _m.UIntD(64))], [], False)), (Calculator_Kernel_Memories_node, _m.CtorInfo("node", 2, 2, False, [_m.FieldInfo("even", _m.Obj(0), _m.NamedD(globals(), "Calculator_Kernel_Memories")), _m.FieldInfo("odd", _m.Obj(1), _m.NamedD(globals(), "Calculator_Kernel_Memories"))], [], False))])
-
-
-class Calculator_Kernel_Snapshot(_m.LeanModel):
-    "Lean `Calculator.Kernel.Snapshot`."
-    memories: "Calculator_Kernel_Memories"
-
-
-Calculator_Kernel_Snapshot.__lean__ = _m.StructInfo(Calculator_Kernel_Snapshot, _m.CtorInfo("mk", 0, 1, False, [_m.FieldInfo("memories", _m.Obj(0), _m.NamedD(globals(), "Calculator_Kernel_Memories"))], [], False), trivial=True)
-
-
-class Leanharbor_Sql_Kind(_m.LeanEnum):
-    "Lean `Leanharbor.Sql.Kind`."
-    int = "int"
-    bool = "bool"
-    text = "text"
-    bytes = "bytes"
-
-
-Leanharbor_Sql_Kind.__lean__ = _m.EnumInfo(Leanharbor_Sql_Kind, plain=False)
-
-
-class Leanharbor_Sql_Col(_m.LeanModel):
-    "Lean `Leanharbor.Sql.Col`."
-    name: "str"
-    kind: "Leanharbor_Sql_Kind"
-    nullable: "bool"
-
-
-Leanharbor_Sql_Col.__lean__ = _m.StructInfo(Leanharbor_Sql_Col, _m.CtorInfo("mk", 0, 1, False, [_m.FieldInfo("name", _m.Obj(0), _m.STRING), _m.FieldInfo("kind", _m.Scalar(8), _m.NamedD(globals(), "Leanharbor_Sql_Kind")), _m.FieldInfo("nullable", _m.Scalar(9), _m.BOOL)], [], False), trivial=False)
-
-
-class Leanharbor_Sql_Tab(_m.LeanModel):
-    "Lean `Leanharbor.Sql.Tab`."
-    name: "str"
-    cols: "list[Leanharbor_Sql_Col]"
-    kl: "Nat"
-
-
-Leanharbor_Sql_Tab.__lean__ = _m.StructInfo(Leanharbor_Sql_Tab, _m.CtorInfo("mk", 0, 3, False, [_m.FieldInfo("name", _m.Obj(0), _m.STRING), _m.FieldInfo("cols", _m.Obj(1), _m.ListD(_m.NamedD(globals(), "Leanharbor_Sql_Col"))), _m.FieldInfo("kl", _m.Obj(2), _m.NAT)], [], False), trivial=False)
-
-
-class Calculator_Kernel_Memory(_m.LeanModel):
-    "Lean `Calculator.Kernel.Memory`."
-    user: "UInt64"
-    value: "UInt64"
-
-
-Calculator_Kernel_Memory.__lean__ = _m.StructInfo(Calculator_Kernel_Memory, _m.CtorInfo("mk", 0, 0, False, [_m.FieldInfo("user", _m.Scalar(0), _m.UIntD(64)), _m.FieldInfo("value", _m.Scalar(8), _m.UIntD(64))], [], False), trivial=False)
-
-
-class Leanharbor_Sql_Write(_m.LeanInductive):
-    "Lean `Leanharbor.Sql.Write`."
-
-class Leanharbor_Sql_Write_put(_m.LeanModel, Leanharbor_Sql_Write):
-    table: "Nat"
-    keyLen: "Nat"
-    row: "list[Leanharbor_Sql_Val]"
-
-
-class Leanharbor_Sql_Write_del_(_m.LeanModel, Leanharbor_Sql_Write):
-    table: "Nat"
-    key: "list[Leanharbor_Sql_Val]"
-
-
-class Leanharbor_Sql_Write_delWhere(_m.LeanModel, Leanharbor_Sql_Write):
-    table: "Nat"
-    col: "Nat"
-    val: "Leanharbor_Sql_Val"
-
-
-_m.register_inductive(Leanharbor_Sql_Write, [(Leanharbor_Sql_Write_put, _m.CtorInfo("put", 0, 3, False, [_m.FieldInfo("table", _m.Obj(0), _m.NAT), _m.FieldInfo("keyLen", _m.Obj(1), _m.NAT), _m.FieldInfo("row", _m.Obj(2), _m.ListD(_m.NamedD(globals(), "Leanharbor_Sql_Val")))], [], False)), (Leanharbor_Sql_Write_del_, _m.CtorInfo("del", 1, 2, False, [_m.FieldInfo("table", _m.Obj(0), _m.NAT), _m.FieldInfo("key", _m.Obj(1), _m.ListD(_m.NamedD(globals(), "Leanharbor_Sql_Val")))], [], False)), (Leanharbor_Sql_Write_delWhere, _m.CtorInfo("delWhere", 2, 3, False, [_m.FieldInfo("table", _m.Obj(0), _m.NAT), _m.FieldInfo("col", _m.Obj(1), _m.NAT), _m.FieldInfo("val", _m.Obj(2), _m.NamedD(globals(), "Leanharbor_Sql_Val"))], [], False))])
-
-
-_D0 = _m.ListD(_m.ListD(_m.ListD(_m.NamedD(globals(), "Leanharbor_Sql_Val"))))
-_D1 = _m.LeanType(_D0, "list[list[list[Leanharbor_Sql_Val]]]")
-_D2 = _m.OptionD(_m.NamedD(globals(), "Calculator_Kernel_Snapshot"))
-_D3 = _m.LeanType(_D2, "Calculator_Kernel_Snapshot | None")
-_D4 = _m.ListD(_m.NamedD(globals(), "Leanharbor_Sql_Tab"))
-_D5 = _m.LeanType(_D4, "list[Leanharbor_Sql_Tab]")
-_D6 = _m.ListD(_m.NamedD(globals(), "Leanharbor_Sql_Val"))
-_D7 = _m.LeanType(_D6, "list[Leanharbor_Sql_Val]")
-_D8 = _m.OptionD(_m.NamedD(globals(), "Calculator_Kernel_Memory"))
-_D9 = _m.LeanType(_D8, "Calculator_Kernel_Memory | None")
-_D10 = _m.ListD(_m.NamedD(globals(), "Leanharbor_Sql_Write"))
-_D11 = _m.LeanType(_D10, "list[Leanharbor_Sql_Write]")
-_D12 = _m.NamedD(globals(), "Calculator_Kernel_Memories")
-_D13 = _m.LeanType(_D12, "Calculator_Kernel_Memories")
-_D14 = _m.ListD(_m.NamedD(globals(), "Calculator_Kernel_Memory"))
-_D15 = _m.LeanType(_D14, "list[Calculator_Kernel_Memory]")
-_D16 = _m.NamedD(globals(), "Calculator_Kernel_Memory")
-_D17 = _m.LeanType(_D16, "Calculator_Kernel_Memory")
-
-
-def _pub_load(arg0: "list[list[list[Leanharbor_Sql_Val]]]") -> "Calculator_Kernel_Snapshot | None":
+def _pub_load(arg0: "list[list[list[_ext0.Val]]]") -> "_ext1.Snapshot | None":
     "Lean `Calculator.Store.load`."
     __a0 = _m.to_lean(_D0, arg0, "arg0")
     return _m.to_py(_D2, l_Calculator_Store_load(__a0))
 
 
-def _pub_load__lean(arg0: "list[list[list[Leanharbor_Sql_Val]]] | Lean[list[list[list[Leanharbor_Sql_Val]]]]") -> "Lean[Calculator_Kernel_Snapshot | None]":
+def _pub_load__lean(arg0: "list[list[list[_ext0.Val]]] | Lean[list[list[list[_ext0.Val]]]]") -> "Lean[_ext1.Snapshot | None]":
     "Lean `Calculator.Store.load`, on handles."
     __a0 = _m.lean_arg(_D1, arg0, "arg0")
     _m.give(arg0)
     return _m.handle(_D3, l_Calculator_Store_load(__a0))
 
 
-def _pub_load__local(arg0: "list[list[list[Leanharbor_Sql_Val]]] | Lean[list[list[list[Leanharbor_Sql_Val]]]] | Local[list[list[list[Leanharbor_Sql_Val]]]]") -> "Local[Calculator_Kernel_Snapshot | None]":
+def _pub_load__local(arg0: "list[list[list[_ext0.Val]]] | Lean[list[list[list[_ext0.Val]]]] | Local[list[list[list[_ext0.Val]]]]") -> "Local[_ext1.Snapshot | None]":
     "Lean `Calculator.Store.load`, on local handles."
     __a0 = _m.local_arg(_D1, arg0, "arg0", True)
     _m.give(arg0)
@@ -742,36 +643,36 @@ def _pub_load__local(arg0: "list[list[list[Leanharbor_Sql_Val]]] | Lean[list[lis
 
 
 _m.attach(globals(), ["load"], _pub_load, "Calculator.Store.load", _pub_load__lean, {"arg0": _D1}, _D3, _pub_load__local)
-def _pub_tables() -> "list[Leanharbor_Sql_Tab]":
+def _pub_tables() -> "list[_ext0.Tab]":
     "Lean `Calculator.Store.tables`."
     return _m.to_py(_D4, l_Calculator_Store_tables())
 
 
-def _pub_tables__lean() -> "Lean[list[Leanharbor_Sql_Tab]]":
+def _pub_tables__lean() -> "Lean[list[_ext0.Tab]]":
     "Lean `Calculator.Store.tables`, on handles."
     return _m.handle(_D5, l_Calculator_Store_tables())
 
 
-def _pub_tables__local() -> "Local[list[Leanharbor_Sql_Tab]]":
+def _pub_tables__local() -> "Local[list[_ext0.Tab]]":
     "Lean `Calculator.Store.tables`, on local handles."
     return _m.local_handle(_D5, l_Calculator_Store_tables())
 
 
 _m.attach(globals(), ["tables"], _pub_tables, "Calculator.Store.tables", _pub_tables__lean, {}, _D5, _pub_tables__local)
-def _pub_fromRow(arg0: "list[Leanharbor_Sql_Val]") -> "Calculator_Kernel_Memory | None":
+def _pub_fromRow(arg0: "list[_ext0.Val]") -> "_ext1.Memory | None":
     "Lean `Calculator.Store.fromRow`."
     __a0 = _m.to_lean(_D6, arg0, "arg0")
     return _m.to_py(_D8, l_Calculator_Store_fromRow(__a0))
 
 
-def _pub_fromRow__lean(arg0: "list[Leanharbor_Sql_Val] | Lean[list[Leanharbor_Sql_Val]]") -> "Lean[Calculator_Kernel_Memory | None]":
+def _pub_fromRow__lean(arg0: "list[_ext0.Val] | Lean[list[_ext0.Val]]") -> "Lean[_ext1.Memory | None]":
     "Lean `Calculator.Store.fromRow`, on handles."
     __a0 = _m.lean_arg(_D7, arg0, "arg0")
     _m.give(arg0)
     return _m.handle(_D9, l_Calculator_Store_fromRow(__a0))
 
 
-def _pub_fromRow__local(arg0: "list[Leanharbor_Sql_Val] | Lean[list[Leanharbor_Sql_Val]] | Local[list[Leanharbor_Sql_Val]]") -> "Local[Calculator_Kernel_Memory | None]":
+def _pub_fromRow__local(arg0: "list[_ext0.Val] | Lean[list[_ext0.Val]] | Local[list[_ext0.Val]]") -> "Local[_ext1.Memory | None]":
     "Lean `Calculator.Store.fromRow`, on local handles."
     __a0 = _m.local_arg(_D7, arg0, "arg0", False)
     _m.give(arg0)
@@ -781,20 +682,20 @@ def _pub_fromRow__local(arg0: "list[Leanharbor_Sql_Val] | Lean[list[Leanharbor_S
 
 
 _m.attach(globals(), ["fromRow"], _pub_fromRow, "Calculator.Store.fromRow", _pub_fromRow__lean, {"arg0": _D7}, _D9, _pub_fromRow__local)
-def _pub_writes(arg0: "Calculator_Kernel_Memory | None") -> "list[Leanharbor_Sql_Write]":
+def _pub_writes(arg0: "_ext1.Memory | None") -> "list[_ext0.Write]":
     "Lean `Calculator.Store.writes`."
     __a0 = _m.to_lean(_D8, arg0, "arg0")
     return _m.to_py(_D10, l_Calculator_Store_writes(__a0))
 
 
-def _pub_writes__lean(arg0: "Calculator_Kernel_Memory | None | Lean[Calculator_Kernel_Memory | None]") -> "Lean[list[Leanharbor_Sql_Write]]":
+def _pub_writes__lean(arg0: "_ext1.Memory | None | Lean[_ext1.Memory | None]") -> "Lean[list[_ext0.Write]]":
     "Lean `Calculator.Store.writes`, on handles."
     __a0 = _m.lean_arg(_D9, arg0, "arg0")
     _m.give(arg0)
     return _m.handle(_D11, l_Calculator_Store_writes(__a0))
 
 
-def _pub_writes__local(arg0: "Calculator_Kernel_Memory | None | Lean[Calculator_Kernel_Memory | None] | Local[Calculator_Kernel_Memory | None]") -> "Local[list[Leanharbor_Sql_Write]]":
+def _pub_writes__local(arg0: "_ext1.Memory | None | Lean[_ext1.Memory | None] | Local[_ext1.Memory | None]") -> "Local[list[_ext0.Write]]":
     "Lean `Calculator.Store.writes`, on local handles."
     __a0 = _m.local_arg(_D9, arg0, "arg0", False)
     _m.give(arg0)
@@ -804,14 +705,14 @@ def _pub_writes__local(arg0: "Calculator_Kernel_Memory | None | Lean[Calculator_
 
 
 _m.attach(globals(), ["writes"], _pub_writes, "Calculator.Store.writes", _pub_writes__lean, {"arg0": _D9}, _D11, _pub_writes__local)
-def _pub_storeAll(acc: "Calculator_Kernel_Memories", arg1: "list[Calculator_Kernel_Memory]") -> "Calculator_Kernel_Memories":
+def _pub_storeAll(acc: "_ext1.Memories", arg1: "list[_ext1.Memory]") -> "_ext1.Memories":
     "Lean `Calculator.Store.storeAll`."
     __a0 = _m.to_lean(_D12, acc, "acc")
     __a1 = _m.to_lean(_D14, arg1, "arg1")
     return _m.to_py(_D12, l_Calculator_Store_storeAll(__a0, __a1))
 
 
-def _pub_storeAll__lean(acc: "Calculator_Kernel_Memories | Lean[Calculator_Kernel_Memories]", arg1: "list[Calculator_Kernel_Memory] | Lean[list[Calculator_Kernel_Memory]]") -> "Lean[Calculator_Kernel_Memories]":
+def _pub_storeAll__lean(acc: "_ext1.Memories | Lean[_ext1.Memories]", arg1: "list[_ext1.Memory] | Lean[list[_ext1.Memory]]") -> "Lean[_ext1.Memories]":
     "Lean `Calculator.Store.storeAll`, on handles."
     __a0 = _m.lean_arg(_D13, acc, "acc")
     __a1 = _m.lean_arg(_D15, arg1, "arg1")
@@ -819,7 +720,7 @@ def _pub_storeAll__lean(acc: "Calculator_Kernel_Memories | Lean[Calculator_Kerne
     return _m.handle(_D13, l_Calculator_Store_storeAll(__a0, __a1))
 
 
-def _pub_storeAll__local(acc: "Calculator_Kernel_Memories | Lean[Calculator_Kernel_Memories] | Local[Calculator_Kernel_Memories]", arg1: "list[Calculator_Kernel_Memory] | Lean[list[Calculator_Kernel_Memory]] | Local[list[Calculator_Kernel_Memory]]") -> "Local[Calculator_Kernel_Memories]":
+def _pub_storeAll__local(acc: "_ext1.Memories | Lean[_ext1.Memories] | Local[_ext1.Memories]", arg1: "list[_ext1.Memory] | Lean[list[_ext1.Memory]] | Local[list[_ext1.Memory]]") -> "Local[_ext1.Memories]":
     "Lean `Calculator.Store.storeAll`, on local handles."
     __a0 = _m.local_arg(_D13, acc, "acc", True)
     __a1 = _m.local_arg(_D15, arg1, "arg1", False)
@@ -830,20 +731,20 @@ def _pub_storeAll__local(acc: "Calculator_Kernel_Memories | Lean[Calculator_Kern
 
 
 _m.attach(globals(), ["storeAll"], _pub_storeAll, "Calculator.Store.storeAll", _pub_storeAll__lean, {"acc": _D13, "arg1": _D15}, _D13, _pub_storeAll__local)
-def _pub_toRow(m: "Calculator_Kernel_Memory") -> "list[Leanharbor_Sql_Val]":
+def _pub_toRow(m: "_ext1.Memory") -> "list[_ext0.Val]":
     "Lean `Calculator.Store.toRow`."
     __a0 = _m.to_lean(_D16, m, "m")
     return _m.to_py(_D6, l_Calculator_Store_toRow(__a0))
 
 
-def _pub_toRow__lean(m: "Calculator_Kernel_Memory | Lean[Calculator_Kernel_Memory]") -> "Lean[list[Leanharbor_Sql_Val]]":
+def _pub_toRow__lean(m: "_ext1.Memory | Lean[_ext1.Memory]") -> "Lean[list[_ext0.Val]]":
     "Lean `Calculator.Store.toRow`, on handles."
     __a0 = _m.lean_arg(_D17, m, "m")
     _m.give(m)
     return _m.handle(_D7, l_Calculator_Store_toRow(__a0))
 
 
-def _pub_toRow__local(m: "Calculator_Kernel_Memory | Lean[Calculator_Kernel_Memory] | Local[Calculator_Kernel_Memory]") -> "Local[list[Leanharbor_Sql_Val]]":
+def _pub_toRow__local(m: "_ext1.Memory | Lean[_ext1.Memory] | Local[_ext1.Memory]") -> "Local[list[_ext0.Val]]":
     "Lean `Calculator.Store.toRow`, on local handles."
     __a0 = _m.local_arg(_D17, m, "m", False)
     _m.give(m)
