@@ -15,3 +15,6 @@ leanharbor-pg = { path = "../leanharbor-pg" }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 tokio = { version = "1", features = ["macros", "net", "rt-multi-thread"] }
+
+[dev-dependencies]
+tokio-postgres = "0.7"
