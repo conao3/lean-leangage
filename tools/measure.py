@@ -150,6 +150,9 @@ class Postgres:
         return {
             "postgres": self.sql("SELECT version()"),
             "postgres settings": ", ".join(rows.splitlines()),
+            "postgres data file system": run(
+                ["stat", "-f", "-c", "%T", str(self.data)], self.dir
+            ).strip(),
         }
 
     def stop(self) -> None:

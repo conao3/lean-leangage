@@ -638,10 +638,10 @@ of them refused, and checks that the snapshot still has one reference (`IsExclus
 ### Stored in PostgreSQL
 
 The Rust PostgreSQL engine, on a PostgreSQL server that `tools/measure.py` starts on the same VM
-with its default settings, on a Unix socket, and stops before the other measurements; its version
-and the settings that decide the cost of a commit (`fsync`, `synchronous_commit`) are in
-`versions` of [`docs/speed.json`](docs/speed.json). Every commit that writes waits for PostgreSQL
-to flush its log.
+with its default settings, on a Unix socket, after the other measurements and only for these;
+its version, the settings that decide the cost of a commit (`fsync`, `synchronous_commit`) and
+the file system of its data directory are in `versions` of [`docs/speed.json`](docs/speed.json).
+Every commit that writes waits for PostgreSQL to flush its log.
 
 Commands per second through the engine's `execute`, one command at a time on one connection, by
 the benchmark of [`rust/calculator`](rust/calculator) with `LEANHARBOR_DATABASE_URL`. Every
