@@ -166,5 +166,5 @@ All commands run inside `nix develop`.
 
 - Commit messages, comments and documents are in English.
 - The leanfran compilers come from the flake input pinned to a release commit; the crate, the
-  PyPI package and the Go module are pinned to the same version (`=0.11.0`, `==0.11.0`,
-  `v0.11.0`).
+  PyPI package and the Go module are pinned to the same version (`=0.12.0`, `==0.12.0`,
+  `v0.12.0`).
