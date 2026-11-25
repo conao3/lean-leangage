@@ -1,4 +1,5 @@
 import Leanharbor.Kernel
+import Leanharbor.Obligation
 import Leanharbor.Sql
 import Leanharbor.Sql.Proofs
 import Leanharbor.Sql.Model

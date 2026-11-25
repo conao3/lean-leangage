@@ -1,4 +1,4 @@
-import Leanharbor.Kernel
+import Leanharbor.Obligation
 import Calculator.Kernel
 
 /-!
@@ -116,7 +116,7 @@ theorem others_unchanged (a : Principal) (s : Snapshot) (c : Command) (w : Optio
   · exact memoryOf_upsert_other _ _ _ hu
 
 theorem read_only_sound :
-    kernel.ReadOnlySound (fun w : Option Memory => w.toList) := by
+    Leanharbor.Obligation.ReadOnlySound kernel (fun w : Option Memory => w.toList) := by
   intro a s c ws r hro ht
   cases c with
   | set value => simp [kernel, readOnly] at hro
