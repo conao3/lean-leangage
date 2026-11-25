@@ -16,6 +16,14 @@ from leanfran.runtime import (  # noqa: F401
     lean_mark_persistent,
     lean_internal_panic_unreachable,
     lean_py_extern,
+    lean_array_push,
+    lean_array_to_list,
+    lean_mk_empty_array_with_capacity,
+    lean_nat_add,
+    lean_nat_dec_lt,
+    lean_nat_div,
+    lean_nat_mod,
+    lean_nat_shiftr,
     lean_uint64_add,
     lean_uint64_dec_eq,
     lean_uint64_dec_lt,
@@ -24,6 +32,11 @@ from leanfran.runtime import (  # noqa: F401
     lean_uint64_mul,
     lean_uint64_shift_right,
     lean_uint64_sub,
+    lean_uint64_to_nat,
+    lean_uint8_dec_eq,
+    lean_uint8_dec_lt,
+    lean_uint8_of_nat,
+    lean_uint8_to_nat,
 )
 
 def l_Calculator_Kernel_upsert(x_1, x_2):
@@ -197,6 +210,955 @@ def l_Calculator_Kernel_readOnly(x_1):
         x_3 = 0
         return x_3
 
+def l_Calculator_Kernel_encodeReply(x_1):
+    x_2 = l_Calculator_Kernel_replyToks(x_1)
+    x_3 = l_Leanharbor_Json_write(x_2)
+    lean_dec(x_2)
+    return x_3
+
+def l_Calculator_Kernel_replyToks(x_1):
+    x_2 = 7
+    x_3 = l_Calculator_Kernel_replyToks___closed__5()
+    x_4 = Ctor(2, [])
+    x_4.sc[0] = x_1
+    x_5 = l_Calculator_Kernel_replyToks___closed__6()
+    x_6 = Ctor(1, [x_4, x_5])
+    x_7 = Ctor(1, [x_3, x_6])
+    x_8 = Ctor(1, [x_2, x_7])
+    return x_8
+
+def l_Calculator_Kernel_replyToks___closed__5__init():
+    x_1 = l_Calculator_Kernel_replyToks___closed__4()
+    x_2 = Ctor(4, [x_1])
+    return x_2
+l_Calculator_Kernel_replyToks___closed__5__cell = []
+def l_Calculator_Kernel_replyToks___closed__5():
+    c = l_Calculator_Kernel_replyToks___closed__5__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_replyToks___closed__5__init()))
+    return c[0]
+
+def l_Calculator_Kernel_replyToks___closed__4__init():
+    x_1 = l_Calculator_Kernel_replyToks___closed__3()
+    x_2 = 118
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_replyToks___closed__4__cell = []
+def l_Calculator_Kernel_replyToks___closed__4():
+    c = l_Calculator_Kernel_replyToks___closed__4__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_replyToks___closed__4__init()))
+    return c[0]
+
+def l_Calculator_Kernel_replyToks___closed__3__init():
+    x_1 = l_Calculator_Kernel_replyToks___closed__2()
+    x_2 = 97
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_replyToks___closed__3__cell = []
+def l_Calculator_Kernel_replyToks___closed__3():
+    c = l_Calculator_Kernel_replyToks___closed__3__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_replyToks___closed__3__init()))
+    return c[0]
+
+def l_Calculator_Kernel_replyToks___closed__2__init():
+    x_1 = l_Calculator_Kernel_replyToks___closed__1()
+    x_2 = 108
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_replyToks___closed__2__cell = []
+def l_Calculator_Kernel_replyToks___closed__2():
+    c = l_Calculator_Kernel_replyToks___closed__2__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_replyToks___closed__2__init()))
+    return c[0]
+
+def l_Calculator_Kernel_replyToks___closed__1__init():
+    x_1 = l_Calculator_Kernel_replyToks___closed__0()
+    x_2 = 117
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_replyToks___closed__1__cell = []
+def l_Calculator_Kernel_replyToks___closed__1():
+    c = l_Calculator_Kernel_replyToks___closed__1__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_replyToks___closed__1__init()))
+    return c[0]
+
+def l_Calculator_Kernel_replyToks___closed__0__init():
+    x_1 = 0
+    x_2 = 101
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_replyToks___closed__0__cell = []
+def l_Calculator_Kernel_replyToks___closed__0():
+    c = l_Calculator_Kernel_replyToks___closed__0__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_replyToks___closed__0__init()))
+    return c[0]
+
+def l_Calculator_Kernel_replyToks___closed__6__init():
+    x_1 = 0
+    x_2 = 8
+    x_3 = Ctor(1, [x_2, x_1])
+    return x_3
+l_Calculator_Kernel_replyToks___closed__6__cell = []
+def l_Calculator_Kernel_replyToks___closed__6():
+    c = l_Calculator_Kernel_replyToks___closed__6__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_replyToks___closed__6__init()))
+    return c[0]
+
+def l_Leanharbor_Json_write(x_1):
+    x_2 = 0
+    x_3 = 0
+    x_4 = l_Leanharbor_Json_writeFrom(x_2, x_3, x_1)
+    return x_4
+
+def l_Leanharbor_Json_writeFrom(x_1, x_2, x_3):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_3)
+            if __t == 0:
+                x_4 = l_List_reverse___redArg(x_1)
+                return x_4
+            elif __t == 1:
+                x_5 = x_3.objs[0]
+                x_6 = x_3.objs[1]
+                __t = x_2
+                if __t == 0:
+                    __blk = 2
+                    continue
+                elif __t == 1:
+                    x_16 = l_Leanharbor_Json_isClose(x_5)
+                    __t = x_16
+                    if __t == 0:
+                        x_17 = l_Leanharbor_Json_writeFrom___closed__0()
+                        x_8 = x_17
+                        __blk = 1
+                        continue
+                    elif __t == 1:
+                        __blk = 2
+                        continue
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_9 = l_Leanharbor_Json_tokBytes(x_5)
+            lean_inc(x_8)
+            x_10 = l_List_appendTR___redArg(x_8, x_9)
+            x_11 = l_List_reverseAux___redArg(x_10, x_1)
+            x_12 = l_Leanharbor_Json_endsValue(x_5)
+            x_1, x_2, x_3 = x_11, x_12, x_6
+            __blk = 0
+            continue
+        elif __blk == 2:
+            x_15 = 0
+            x_8 = x_15
+            __blk = 1
+            continue
+        else:
+            lean_internal_panic_unreachable()
+
+def l_List_reverse___redArg(x_1):
+    x_2 = 0
+    x_3 = l_List_reverseAux___redArg(x_1, x_2)
+    return x_3
+
+def l_List_reverseAux___redArg(x_1, x_2):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_1)
+            if __t == 0:
+                return x_2
+            elif __t == 1:
+                x_3 = x_1.objs[0]
+                x_4 = x_1.objs[1]
+                x_12 = lean_is_shared(x_1)
+                __t = x_12
+                if __t == 0:
+                    x_6, x_7 = x_1, x_12
+                    __blk = 1
+                    continue
+                elif __t == 1:
+                    lean_inc(x_4)
+                    lean_inc(x_3)
+                    lean_dec(x_1)
+                    x_6, x_7 = 0, x_12
+                    __blk = 1
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            __t = x_7
+            if __t == 0:
+                x_6.objs[1] = x_2
+                x_9 = x_6
+                __blk = 2
+                continue
+            elif __t == 1:
+                x_11 = Ctor(1, [x_3, x_2])
+                x_9 = x_11
+                __blk = 2
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 2:
+            x_1, x_2 = x_4, x_9
+            __blk = 0
+            continue
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leanharbor_Json_tokBytes(x_1):
+    __t = lean_obj_tag(x_1)
+    if __t == 0:
+        x_2 = l_Leanharbor_Json_tokBytes___closed__3()
+        return x_2
+    elif __t == 1:
+        x_3 = x_1.sc[0]
+        __t = x_3
+        if __t == 0:
+            x_4 = l_Leanharbor_Json_tokBytes___closed__8()
+            return x_4
+        elif __t == 1:
+            x_5 = l_Leanharbor_Json_tokBytes___closed__11()
+            return x_5
+        else:
+            lean_internal_panic_unreachable()
+    elif __t == 2:
+        x_6 = x_1.sc[0]
+        x_7 = lean_uint64_to_nat(x_6)
+        x_8 = l_Leanharbor_Token_decimal(x_7)
+        lean_dec(x_7)
+        return x_8
+    elif __t == 3:
+        x_9 = x_1.objs[0]
+        x_10 = 34
+        x_11 = l_Leanharbor_Json_escape(x_9)
+        x_12 = x_10
+        x_13 = Ctor(1, [x_12, x_11])
+        x_14 = l_Leanharbor_Json_escapeByte___closed__12()
+        x_15 = l_List_appendTR___redArg(x_13, x_14)
+        return x_15
+    elif __t == 4:
+        x_16 = x_1.objs[0]
+        x_17 = 34
+        x_18 = l_Leanharbor_Json_escape(x_16)
+        x_19 = x_17
+        x_20 = Ctor(1, [x_19, x_18])
+        x_21 = l_Leanharbor_Json_tokBytes___closed__13()
+        x_22 = l_List_appendTR___redArg(x_20, x_21)
+        return x_22
+    elif __t == 5:
+        x_23 = l_Leanharbor_Json_tokBytes___closed__14()
+        return x_23
+    elif __t == 6:
+        x_24 = l_Leanharbor_Json_tokBytes___closed__15()
+        return x_24
+    elif __t == 7:
+        x_25 = l_Leanharbor_Json_tokBytes___closed__16()
+        return x_25
+    elif __t == 8:
+        x_26 = l_Leanharbor_Json_tokBytes___closed__17()
+        return x_26
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Leanharbor_Json_tokBytes___closed__3__init():
+    x_1 = l_Leanharbor_Json_tokBytes___closed__2()
+    x_2 = 110
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_tokBytes___closed__3__cell = []
+def l_Leanharbor_Json_tokBytes___closed__3():
+    c = l_Leanharbor_Json_tokBytes___closed__3__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_tokBytes___closed__3__init()))
+    return c[0]
+
+def l_Leanharbor_Json_tokBytes___closed__2__init():
+    x_1 = l_Leanharbor_Json_tokBytes___closed__1()
+    x_2 = 117
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_tokBytes___closed__2__cell = []
+def l_Leanharbor_Json_tokBytes___closed__2():
+    c = l_Leanharbor_Json_tokBytes___closed__2__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_tokBytes___closed__2__init()))
+    return c[0]
+
+def l_Leanharbor_Json_tokBytes___closed__1__init():
+    x_1 = l_Leanharbor_Json_tokBytes___closed__0()
+    x_2 = 108
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_tokBytes___closed__1__cell = []
+def l_Leanharbor_Json_tokBytes___closed__1():
+    c = l_Leanharbor_Json_tokBytes___closed__1__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_tokBytes___closed__1__init()))
+    return c[0]
+
+def l_Leanharbor_Json_tokBytes___closed__0__init():
+    x_1 = 0
+    x_2 = 108
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_tokBytes___closed__0__cell = []
+def l_Leanharbor_Json_tokBytes___closed__0():
+    c = l_Leanharbor_Json_tokBytes___closed__0__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_tokBytes___closed__0__init()))
+    return c[0]
+
+def l_Leanharbor_Json_tokBytes___closed__8__init():
+    x_1 = l_Leanharbor_Json_tokBytes___closed__7()
+    x_2 = 102
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_tokBytes___closed__8__cell = []
+def l_Leanharbor_Json_tokBytes___closed__8():
+    c = l_Leanharbor_Json_tokBytes___closed__8__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_tokBytes___closed__8__init()))
+    return c[0]
+
+def l_Leanharbor_Json_tokBytes___closed__7__init():
+    x_1 = l_Leanharbor_Json_tokBytes___closed__6()
+    x_2 = 97
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_tokBytes___closed__7__cell = []
+def l_Leanharbor_Json_tokBytes___closed__7():
+    c = l_Leanharbor_Json_tokBytes___closed__7__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_tokBytes___closed__7__init()))
+    return c[0]
+
+def l_Leanharbor_Json_tokBytes___closed__6__init():
+    x_1 = l_Leanharbor_Json_tokBytes___closed__5()
+    x_2 = 108
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_tokBytes___closed__6__cell = []
+def l_Leanharbor_Json_tokBytes___closed__6():
+    c = l_Leanharbor_Json_tokBytes___closed__6__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_tokBytes___closed__6__init()))
+    return c[0]
+
+def l_Leanharbor_Json_tokBytes___closed__5__init():
+    x_1 = l_Leanharbor_Json_tokBytes___closed__4()
+    x_2 = 115
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_tokBytes___closed__5__cell = []
+def l_Leanharbor_Json_tokBytes___closed__5():
+    c = l_Leanharbor_Json_tokBytes___closed__5__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_tokBytes___closed__5__init()))
+    return c[0]
+
+def l_Leanharbor_Json_tokBytes___closed__4__init():
+    x_1 = 0
+    x_2 = 101
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_tokBytes___closed__4__cell = []
+def l_Leanharbor_Json_tokBytes___closed__4():
+    c = l_Leanharbor_Json_tokBytes___closed__4__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_tokBytes___closed__4__init()))
+    return c[0]
+
+def l_Leanharbor_Json_tokBytes___closed__11__init():
+    x_1 = l_Leanharbor_Json_tokBytes___closed__10()
+    x_2 = 116
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_tokBytes___closed__11__cell = []
+def l_Leanharbor_Json_tokBytes___closed__11():
+    c = l_Leanharbor_Json_tokBytes___closed__11__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_tokBytes___closed__11__init()))
+    return c[0]
+
+def l_Leanharbor_Json_tokBytes___closed__10__init():
+    x_1 = l_Leanharbor_Json_tokBytes___closed__9()
+    x_2 = 114
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_tokBytes___closed__10__cell = []
+def l_Leanharbor_Json_tokBytes___closed__10():
+    c = l_Leanharbor_Json_tokBytes___closed__10__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_tokBytes___closed__10__init()))
+    return c[0]
+
+def l_Leanharbor_Json_tokBytes___closed__9__init():
+    x_1 = l_Leanharbor_Json_tokBytes___closed__4()
+    x_2 = 117
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_tokBytes___closed__9__cell = []
+def l_Leanharbor_Json_tokBytes___closed__9():
+    c = l_Leanharbor_Json_tokBytes___closed__9__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_tokBytes___closed__9__init()))
+    return c[0]
+
+def l_Leanharbor_Token_decimal(x_1):
+    x_2 = 10
+    x_3 = lean_nat_dec_lt(x_1, x_2)
+    __t = x_3
+    if __t == 0:
+        x_4 = lean_nat_div(x_1, x_2)
+        x_5 = l_Leanharbor_Token_decimal(x_4)
+        lean_dec(x_4)
+        x_6 = lean_nat_mod(x_1, x_2)
+        x_7 = 48
+        x_8 = lean_nat_add(x_6, x_7)
+        lean_dec(x_6)
+        x_9 = lean_uint8_of_nat(x_8)
+        lean_dec(x_8)
+        x_10 = 0
+        x_11 = x_9
+        x_12 = Ctor(1, [x_11, x_10])
+        x_13 = l_List_appendTR___redArg(x_5, x_12)
+        return x_13
+    elif __t == 1:
+        x_14 = 48
+        x_15 = lean_nat_add(x_1, x_14)
+        x_16 = lean_uint8_of_nat(x_15)
+        lean_dec(x_15)
+        x_17 = 0
+        x_18 = x_16
+        x_19 = Ctor(1, [x_18, x_17])
+        return x_19
+    else:
+        lean_internal_panic_unreachable()
+
+def l_List_appendTR___redArg(x_1, x_2):
+    x_3 = l_List_reverse___redArg(x_1)
+    x_4 = l_List_reverseAux___redArg(x_3, x_2)
+    return x_4
+
+def l_Leanharbor_Json_escape(x_1):
+    x_2 = l_Leanharbor_Json_escape___closed__0()
+    x_3 = l___private_Init_Data_List_Impl_0__List_flatMapTR_go___at___00Leanharbor_Json_escape_spec__0(x_1, x_2)
+    return x_3
+
+def l_Leanharbor_Json_escape___closed__0__init():
+    x_1 = 0
+    x_2 = lean_mk_empty_array_with_capacity(x_1)
+    return x_2
+l_Leanharbor_Json_escape___closed__0__cell = []
+def l_Leanharbor_Json_escape___closed__0():
+    c = l_Leanharbor_Json_escape___closed__0__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escape___closed__0__init()))
+    return c[0]
+
+def l___private_Init_Data_List_Impl_0__List_flatMapTR_go___at___00Leanharbor_Json_escape_spec__0(x_1, x_2):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_1)
+            if __t == 0:
+                x_3 = lean_array_to_list(x_2)
+                return x_3
+            elif __t == 1:
+                x_4 = x_1.objs[0]
+                x_5 = x_1.objs[1]
+                x_6 = x_4
+                x_7 = l_Leanharbor_Json_escapeByte(x_6)
+                x_8 = l_List_foldl___at___00Array_appendList_spec__0___redArg(x_2, x_7)
+                x_1, x_2 = x_5, x_8
+                __blk = 0
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leanharbor_Json_escapeByte(x_1):
+    x_2 = 34
+    x_3 = lean_uint8_dec_eq(x_1, x_2)
+    __t = x_3
+    if __t == 0:
+        x_4 = 92
+        x_5 = lean_uint8_dec_eq(x_1, x_4)
+        __t = x_5
+        if __t == 0:
+            x_6 = 8
+            x_7 = lean_uint8_dec_eq(x_1, x_6)
+            __t = x_7
+            if __t == 0:
+                x_8 = 12
+                x_9 = lean_uint8_dec_eq(x_1, x_8)
+                __t = x_9
+                if __t == 0:
+                    x_10 = 10
+                    x_11 = lean_uint8_dec_eq(x_1, x_10)
+                    __t = x_11
+                    if __t == 0:
+                        x_12 = 13
+                        x_13 = lean_uint8_dec_eq(x_1, x_12)
+                        __t = x_13
+                        if __t == 0:
+                            x_14 = 9
+                            x_15 = lean_uint8_dec_eq(x_1, x_14)
+                            __t = x_15
+                            if __t == 0:
+                                x_16 = 32
+                                x_17 = lean_uint8_dec_lt(x_1, x_16)
+                                __t = x_17
+                                if __t == 0:
+                                    x_18 = 0
+                                    x_19 = x_1
+                                    x_20 = Ctor(1, [x_19, x_18])
+                                    return x_20
+                                elif __t == 1:
+                                    x_21 = 117
+                                    x_22 = 48
+                                    x_23 = lean_uint8_to_nat(x_1)
+                                    x_24 = 16
+                                    x_25 = 4
+                                    x_26 = lean_nat_shiftr(x_23, x_25)
+                                    x_27 = l_Leanharbor_Token_hexDigit(x_26)
+                                    lean_dec(x_26)
+                                    x_28 = lean_nat_mod(x_23, x_24)
+                                    x_29 = l_Leanharbor_Token_hexDigit(x_28)
+                                    lean_dec(x_28)
+                                    x_30 = 0
+                                    x_31 = x_29
+                                    x_32 = Ctor(1, [x_31, x_30])
+                                    x_33 = x_27
+                                    x_34 = Ctor(1, [x_33, x_32])
+                                    x_35 = x_22
+                                    x_36 = Ctor(1, [x_35, x_34])
+                                    x_37 = x_22
+                                    x_38 = Ctor(1, [x_37, x_36])
+                                    x_39 = x_21
+                                    x_40 = Ctor(1, [x_39, x_38])
+                                    x_41 = x_4
+                                    x_42 = Ctor(1, [x_41, x_40])
+                                    return x_42
+                                else:
+                                    lean_internal_panic_unreachable()
+                            elif __t == 1:
+                                x_43 = l_Leanharbor_Json_escapeByte___closed__1()
+                                return x_43
+                            else:
+                                lean_internal_panic_unreachable()
+                        elif __t == 1:
+                            x_44 = l_Leanharbor_Json_escapeByte___closed__3()
+                            return x_44
+                        else:
+                            lean_internal_panic_unreachable()
+                    elif __t == 1:
+                        x_45 = l_Leanharbor_Json_escapeByte___closed__5()
+                        return x_45
+                    else:
+                        lean_internal_panic_unreachable()
+                elif __t == 1:
+                    x_46 = l_Leanharbor_Json_escapeByte___closed__7()
+                    return x_46
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 1:
+                x_47 = l_Leanharbor_Json_escapeByte___closed__9()
+                return x_47
+            else:
+                lean_internal_panic_unreachable()
+        elif __t == 1:
+            x_48 = l_Leanharbor_Json_escapeByte___closed__11()
+            return x_48
+        else:
+            lean_internal_panic_unreachable()
+    elif __t == 1:
+        x_49 = l_Leanharbor_Json_escapeByte___closed__13()
+        return x_49
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Leanharbor_Token_hexDigit(x_1):
+    x_2 = 10
+    x_3 = lean_nat_dec_lt(x_1, x_2)
+    __t = x_3
+    if __t == 0:
+        x_4 = 87
+        x_5 = lean_nat_add(x_1, x_4)
+        x_6 = lean_uint8_of_nat(x_5)
+        lean_dec(x_5)
+        return x_6
+    elif __t == 1:
+        x_7 = 48
+        x_8 = lean_nat_add(x_1, x_7)
+        x_9 = lean_uint8_of_nat(x_8)
+        lean_dec(x_8)
+        return x_9
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Leanharbor_Json_escapeByte___closed__1__init():
+    x_1 = l_Leanharbor_Json_escapeByte___closed__0()
+    x_2 = 92
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__1__cell = []
+def l_Leanharbor_Json_escapeByte___closed__1():
+    c = l_Leanharbor_Json_escapeByte___closed__1__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__1__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__0__init():
+    x_1 = 0
+    x_2 = 116
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__0__cell = []
+def l_Leanharbor_Json_escapeByte___closed__0():
+    c = l_Leanharbor_Json_escapeByte___closed__0__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__0__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__3__init():
+    x_1 = l_Leanharbor_Json_escapeByte___closed__2()
+    x_2 = 92
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__3__cell = []
+def l_Leanharbor_Json_escapeByte___closed__3():
+    c = l_Leanharbor_Json_escapeByte___closed__3__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__3__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__2__init():
+    x_1 = 0
+    x_2 = 114
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__2__cell = []
+def l_Leanharbor_Json_escapeByte___closed__2():
+    c = l_Leanharbor_Json_escapeByte___closed__2__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__2__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__5__init():
+    x_1 = l_Leanharbor_Json_escapeByte___closed__4()
+    x_2 = 92
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__5__cell = []
+def l_Leanharbor_Json_escapeByte___closed__5():
+    c = l_Leanharbor_Json_escapeByte___closed__5__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__5__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__4__init():
+    x_1 = 0
+    x_2 = 110
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__4__cell = []
+def l_Leanharbor_Json_escapeByte___closed__4():
+    c = l_Leanharbor_Json_escapeByte___closed__4__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__4__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__7__init():
+    x_1 = l_Leanharbor_Json_escapeByte___closed__6()
+    x_2 = 92
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__7__cell = []
+def l_Leanharbor_Json_escapeByte___closed__7():
+    c = l_Leanharbor_Json_escapeByte___closed__7__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__7__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__6__init():
+    x_1 = 0
+    x_2 = 102
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__6__cell = []
+def l_Leanharbor_Json_escapeByte___closed__6():
+    c = l_Leanharbor_Json_escapeByte___closed__6__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__6__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__9__init():
+    x_1 = l_Leanharbor_Json_escapeByte___closed__8()
+    x_2 = 92
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__9__cell = []
+def l_Leanharbor_Json_escapeByte___closed__9():
+    c = l_Leanharbor_Json_escapeByte___closed__9__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__9__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__8__init():
+    x_1 = 0
+    x_2 = 98
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__8__cell = []
+def l_Leanharbor_Json_escapeByte___closed__8():
+    c = l_Leanharbor_Json_escapeByte___closed__8__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__8__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__11__init():
+    x_1 = l_Leanharbor_Json_escapeByte___closed__10()
+    x_2 = 92
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__11__cell = []
+def l_Leanharbor_Json_escapeByte___closed__11():
+    c = l_Leanharbor_Json_escapeByte___closed__11__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__11__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__10__init():
+    x_1 = 0
+    x_2 = 92
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__10__cell = []
+def l_Leanharbor_Json_escapeByte___closed__10():
+    c = l_Leanharbor_Json_escapeByte___closed__10__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__10__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__13__init():
+    x_1 = l_Leanharbor_Json_escapeByte___closed__12()
+    x_2 = 92
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__13__cell = []
+def l_Leanharbor_Json_escapeByte___closed__13():
+    c = l_Leanharbor_Json_escapeByte___closed__13__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__13__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__12__init():
+    x_1 = 0
+    x_2 = 34
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__12__cell = []
+def l_Leanharbor_Json_escapeByte___closed__12():
+    c = l_Leanharbor_Json_escapeByte___closed__12__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__12__init()))
+    return c[0]
+
+def l_List_foldl___at___00Array_appendList_spec__0___redArg(x_1, x_2):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_2)
+            if __t == 0:
+                return x_1
+            elif __t == 1:
+                x_3 = x_2.objs[0]
+                lean_inc(x_3)
+                x_4 = x_2.objs[1]
+                lean_inc(x_4)
+                lean_dec(x_2)
+                x_5 = lean_array_push(x_1, x_3)
+                x_1, x_2 = x_5, x_4
+                __blk = 0
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leanharbor_Json_tokBytes___closed__13__init():
+    x_1 = l_Leanharbor_Json_tokBytes___closed__12()
+    x_2 = 34
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_tokBytes___closed__13__cell = []
+def l_Leanharbor_Json_tokBytes___closed__13():
+    c = l_Leanharbor_Json_tokBytes___closed__13__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_tokBytes___closed__13__init()))
+    return c[0]
+
+def l_Leanharbor_Json_tokBytes___closed__12__init():
+    x_1 = 0
+    x_2 = 58
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_tokBytes___closed__12__cell = []
+def l_Leanharbor_Json_tokBytes___closed__12():
+    c = l_Leanharbor_Json_tokBytes___closed__12__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_tokBytes___closed__12__init()))
+    return c[0]
+
+def l_Leanharbor_Json_tokBytes___closed__14__init():
+    x_1 = 0
+    x_2 = 91
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_tokBytes___closed__14__cell = []
+def l_Leanharbor_Json_tokBytes___closed__14():
+    c = l_Leanharbor_Json_tokBytes___closed__14__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_tokBytes___closed__14__init()))
+    return c[0]
+
+def l_Leanharbor_Json_tokBytes___closed__15__init():
+    x_1 = 0
+    x_2 = 93
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_tokBytes___closed__15__cell = []
+def l_Leanharbor_Json_tokBytes___closed__15():
+    c = l_Leanharbor_Json_tokBytes___closed__15__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_tokBytes___closed__15__init()))
+    return c[0]
+
+def l_Leanharbor_Json_tokBytes___closed__16__init():
+    x_1 = 0
+    x_2 = 123
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_tokBytes___closed__16__cell = []
+def l_Leanharbor_Json_tokBytes___closed__16():
+    c = l_Leanharbor_Json_tokBytes___closed__16__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_tokBytes___closed__16__init()))
+    return c[0]
+
+def l_Leanharbor_Json_tokBytes___closed__17__init():
+    x_1 = 0
+    x_2 = 125
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_tokBytes___closed__17__cell = []
+def l_Leanharbor_Json_tokBytes___closed__17():
+    c = l_Leanharbor_Json_tokBytes___closed__17__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_tokBytes___closed__17__init()))
+    return c[0]
+
+def l_Leanharbor_Json_endsValue(x_1):
+    __t = lean_obj_tag(x_1)
+    if __t == 1:
+        x_2 = 1
+        return x_2
+    elif __t == 2:
+        x_3 = 1
+        return x_3
+    elif __t == 3:
+        x_4 = 1
+        return x_4
+    elif __t == 4:
+        x_5 = 0
+        return x_5
+    elif __t == 5:
+        x_6 = 0
+        return x_6
+    elif __t == 7:
+        x_7 = 0
+        return x_7
+    else:
+        x_8 = 1
+        return x_8
+
+def l_Leanharbor_Json_isClose(x_1):
+    __t = lean_obj_tag(x_1)
+    if __t == 6:
+        x_2 = 1
+        return x_2
+    elif __t == 8:
+        x_3 = 1
+        return x_3
+    else:
+        x_4 = 0
+        return x_4
+
+def l_Leanharbor_Json_writeFrom___closed__0__init():
+    x_1 = 0
+    x_2 = 44
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_writeFrom___closed__0__cell = []
+def l_Leanharbor_Json_writeFrom___closed__0():
+    c = l_Leanharbor_Json_writeFrom___closed__0__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_writeFrom___closed__0__init()))
+    return c[0]
+
 def l_Calculator_Kernel_memoryOf(x_1, x_2):
     __blk = 0
     while True:
@@ -252,6 +1214,458 @@ def l_Calculator_Kernel_init():
     c = l_Calculator_Kernel_init__cell
     if not c:
         c.append(lean_mark_persistent(l_Calculator_Kernel_init__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorToks(x_1):
+    x_2 = 7
+    x_3 = l_Calculator_Kernel_errorToks___closed__5()
+    x_4 = l_Calculator_Kernel_errorName(x_1)
+    x_5 = Ctor(3, [x_4])
+    x_6 = l_Calculator_Kernel_replyToks___closed__6()
+    x_7 = Ctor(1, [x_5, x_6])
+    x_8 = Ctor(1, [x_3, x_7])
+    x_9 = Ctor(1, [x_2, x_8])
+    return x_9
+
+def l_Calculator_Kernel_errorToks___closed__5__init():
+    x_1 = l_Calculator_Kernel_errorToks___closed__4()
+    x_2 = Ctor(4, [x_1])
+    return x_2
+l_Calculator_Kernel_errorToks___closed__5__cell = []
+def l_Calculator_Kernel_errorToks___closed__5():
+    c = l_Calculator_Kernel_errorToks___closed__5__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorToks___closed__5__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorToks___closed__4__init():
+    x_1 = l_Calculator_Kernel_errorToks___closed__3()
+    x_2 = 101
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorToks___closed__4__cell = []
+def l_Calculator_Kernel_errorToks___closed__4():
+    c = l_Calculator_Kernel_errorToks___closed__4__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorToks___closed__4__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorToks___closed__3__init():
+    x_1 = l_Calculator_Kernel_errorToks___closed__2()
+    x_2 = 114
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorToks___closed__3__cell = []
+def l_Calculator_Kernel_errorToks___closed__3():
+    c = l_Calculator_Kernel_errorToks___closed__3__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorToks___closed__3__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorToks___closed__2__init():
+    x_1 = l_Calculator_Kernel_errorToks___closed__1()
+    x_2 = 114
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorToks___closed__2__cell = []
+def l_Calculator_Kernel_errorToks___closed__2():
+    c = l_Calculator_Kernel_errorToks___closed__2__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorToks___closed__2__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorToks___closed__1__init():
+    x_1 = l_Calculator_Kernel_errorToks___closed__0()
+    x_2 = 111
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorToks___closed__1__cell = []
+def l_Calculator_Kernel_errorToks___closed__1():
+    c = l_Calculator_Kernel_errorToks___closed__1__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorToks___closed__1__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorToks___closed__0__init():
+    x_1 = 0
+    x_2 = 114
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorToks___closed__0__cell = []
+def l_Calculator_Kernel_errorToks___closed__0():
+    c = l_Calculator_Kernel_errorToks___closed__0__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorToks___closed__0__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName(x_1):
+    __t = x_1
+    if __t == 0:
+        x_2 = l_Calculator_Kernel_errorName___closed__7()
+        return x_2
+    elif __t == 1:
+        x_3 = l_Calculator_Kernel_errorName___closed__10()
+        return x_3
+    elif __t == 2:
+        x_4 = l_Calculator_Kernel_errorName___closed__26()
+        return x_4
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Calculator_Kernel_errorName___closed__7__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__6()
+    x_2 = 111
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__7__cell = []
+def l_Calculator_Kernel_errorName___closed__7():
+    c = l_Calculator_Kernel_errorName___closed__7__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__7__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__6__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__5()
+    x_2 = 118
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__6__cell = []
+def l_Calculator_Kernel_errorName___closed__6():
+    c = l_Calculator_Kernel_errorName___closed__6__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__6__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__5__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__4()
+    x_2 = 101
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__5__cell = []
+def l_Calculator_Kernel_errorName___closed__5():
+    c = l_Calculator_Kernel_errorName___closed__5__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__5__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__4__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__3()
+    x_2 = 114
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__4__cell = []
+def l_Calculator_Kernel_errorName___closed__4():
+    c = l_Calculator_Kernel_errorName___closed__4__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__4__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__3__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__2()
+    x_2 = 102
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__3__cell = []
+def l_Calculator_Kernel_errorName___closed__3():
+    c = l_Calculator_Kernel_errorName___closed__3__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__3__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__2__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__1()
+    x_2 = 108
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__2__cell = []
+def l_Calculator_Kernel_errorName___closed__2():
+    c = l_Calculator_Kernel_errorName___closed__2__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__2__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__1__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__0()
+    x_2 = 111
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__1__cell = []
+def l_Calculator_Kernel_errorName___closed__1():
+    c = l_Calculator_Kernel_errorName___closed__1__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__1__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__0__init():
+    x_1 = 0
+    x_2 = 119
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__0__cell = []
+def l_Calculator_Kernel_errorName___closed__0():
+    c = l_Calculator_Kernel_errorName___closed__0__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__0__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__10__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__9()
+    x_2 = 117
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__10__cell = []
+def l_Calculator_Kernel_errorName___closed__10():
+    c = l_Calculator_Kernel_errorName___closed__10__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__10__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__9__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__8()
+    x_2 = 110
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__9__cell = []
+def l_Calculator_Kernel_errorName___closed__9():
+    c = l_Calculator_Kernel_errorName___closed__9__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__9__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__8__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__5()
+    x_2 = 100
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__8__cell = []
+def l_Calculator_Kernel_errorName___closed__8():
+    c = l_Calculator_Kernel_errorName___closed__8__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__8__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__26__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__25()
+    x_2 = 100
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__26__cell = []
+def l_Calculator_Kernel_errorName___closed__26():
+    c = l_Calculator_Kernel_errorName___closed__26__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__26__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__25__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__24()
+    x_2 = 105
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__25__cell = []
+def l_Calculator_Kernel_errorName___closed__25():
+    c = l_Calculator_Kernel_errorName___closed__25__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__25__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__24__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__23()
+    x_2 = 118
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__24__cell = []
+def l_Calculator_Kernel_errorName___closed__24():
+    c = l_Calculator_Kernel_errorName___closed__24__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__24__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__23__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__22()
+    x_2 = 105
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__23__cell = []
+def l_Calculator_Kernel_errorName___closed__23():
+    c = l_Calculator_Kernel_errorName___closed__23__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__23__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__22__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__21()
+    x_2 = 115
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__22__cell = []
+def l_Calculator_Kernel_errorName___closed__22():
+    c = l_Calculator_Kernel_errorName___closed__22__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__22__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__21__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__20()
+    x_2 = 105
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__21__cell = []
+def l_Calculator_Kernel_errorName___closed__21():
+    c = l_Calculator_Kernel_errorName___closed__21__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__21__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__20__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__19()
+    x_2 = 111
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__20__cell = []
+def l_Calculator_Kernel_errorName___closed__20():
+    c = l_Calculator_Kernel_errorName___closed__20__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__20__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__19__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__18()
+    x_2 = 110
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__19__cell = []
+def l_Calculator_Kernel_errorName___closed__19():
+    c = l_Calculator_Kernel_errorName___closed__19__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__19__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__18__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__17()
+    x_2 = 95
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__18__cell = []
+def l_Calculator_Kernel_errorName___closed__18():
+    c = l_Calculator_Kernel_errorName___closed__18__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__18__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__17__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__16()
+    x_2 = 98
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__17__cell = []
+def l_Calculator_Kernel_errorName___closed__17():
+    c = l_Calculator_Kernel_errorName___closed__17__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__17__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__16__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__15()
+    x_2 = 121
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__16__cell = []
+def l_Calculator_Kernel_errorName___closed__16():
+    c = l_Calculator_Kernel_errorName___closed__16__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__16__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__15__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__14()
+    x_2 = 95
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__15__cell = []
+def l_Calculator_Kernel_errorName___closed__15():
+    c = l_Calculator_Kernel_errorName___closed__15__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__15__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__14__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__13()
+    x_2 = 122
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__14__cell = []
+def l_Calculator_Kernel_errorName___closed__14():
+    c = l_Calculator_Kernel_errorName___closed__14__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__14__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__13__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__12()
+    x_2 = 101
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__13__cell = []
+def l_Calculator_Kernel_errorName___closed__13():
+    c = l_Calculator_Kernel_errorName___closed__13__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__13__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__12__init():
+    x_1 = l_Calculator_Kernel_errorName___closed__11()
+    x_2 = 114
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__12__cell = []
+def l_Calculator_Kernel_errorName___closed__12():
+    c = l_Calculator_Kernel_errorName___closed__12__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__12__init()))
+    return c[0]
+
+def l_Calculator_Kernel_errorName___closed__11__init():
+    x_1 = 0
+    x_2 = 111
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Calculator_Kernel_errorName___closed__11__cell = []
+def l_Calculator_Kernel_errorName___closed__11():
+    c = l_Calculator_Kernel_errorName___closed__11__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Kernel_errorName___closed__11__init()))
     return c[0]
 
 def l_Calculator_Kernel_transition(x_1, x_2, x_3):
@@ -479,6 +1893,12 @@ def l_Calculator_Kernel_compute___closed__2():
         c.append(lean_mark_persistent(l_Calculator_Kernel_compute___closed__2__init()))
     return c[0]
 
+def l_Calculator_Kernel_encodeError(x_1):
+    x_2 = l_Calculator_Kernel_errorToks(x_1)
+    x_3 = l_Leanharbor_Json_write(x_2)
+    lean_dec(x_2)
+    return x_3
+
 def l_Calculator_Kernel_tenant(x_1):
     x_2 = x_1.sc[0]
     return x_2
@@ -565,21 +1985,20 @@ class Command_get(_m.LeanModel, Command):
 _m.register_inductive(Command, [(Command_set, _m.CtorInfo("set", 0, 0, False, [_m.FieldInfo("value", _m.Scalar(0), _m.UIntD(64))], [], False)), (Command_apply, _m.CtorInfo("apply", 1, 0, False, [_m.FieldInfo("op", _m.Scalar(8), _m.NamedD(globals(), "Op")), _m.FieldInfo("arg", _m.Scalar(0), _m.UIntD(64))], [], False)), (Command_get, _m.CtorInfo("get", 2, 0, True, [], [], False))])
 
 
+class Reply(_m.LeanModel):
+    "Lean `Calculator.Kernel.Reply`."
+    v: "UInt64"
+
+
+Reply.__lean__ = _m.StructInfo(Reply, _m.CtorInfo("value", 0, 0, False, [_m.FieldInfo("v", _m.Scalar(0), _m.UIntD(64))], [], False), trivial=True)
+
+
 class Snapshot(_m.LeanModel):
     "Lean `Calculator.Kernel.Snapshot`."
     memories: "Memories"
 
 
 Snapshot.__lean__ = _m.StructInfo(Snapshot, _m.CtorInfo("mk", 0, 1, False, [_m.FieldInfo("memories", _m.Obj(0), _m.NamedD(globals(), "Memories"))], [], False), trivial=True)
-
-
-class Principal(_m.LeanModel):
-    "Lean `Calculator.Kernel.Principal`."
-    org: "UInt64"
-    user: "UInt64"
-
-
-Principal.__lean__ = _m.StructInfo(Principal, _m.CtorInfo("mk", 0, 0, False, [_m.FieldInfo("org", _m.Scalar(0), _m.UIntD(64)), _m.FieldInfo("user", _m.Scalar(8), _m.UIntD(64))], [], False), trivial=False)
 
 
 class Error(_m.LeanEnum):
@@ -592,12 +2011,55 @@ class Error(_m.LeanEnum):
 Error.__lean__ = _m.EnumInfo(Error, plain=False)
 
 
-class Reply(_m.LeanModel):
-    "Lean `Calculator.Kernel.Reply`."
-    v: "UInt64"
+class Leanharbor_Json_Tok(_m.LeanInductive):
+    "Lean `Leanharbor.Json.Tok`."
+
+class Leanharbor_Json_Tok_null(_m.LeanModel, Leanharbor_Json_Tok):
+    pass
 
 
-Reply.__lean__ = _m.StructInfo(Reply, _m.CtorInfo("value", 0, 0, False, [_m.FieldInfo("v", _m.Scalar(0), _m.UIntD(64))], [], False), trivial=True)
+class Leanharbor_Json_Tok_bool(_m.LeanModel, Leanharbor_Json_Tok):
+    b: "bool"
+
+
+class Leanharbor_Json_Tok_num(_m.LeanModel, Leanharbor_Json_Tok):
+    n: "UInt64"
+
+
+class Leanharbor_Json_Tok_str(_m.LeanModel, Leanharbor_Json_Tok):
+    s: "list[UInt8]"
+
+
+class Leanharbor_Json_Tok_key(_m.LeanModel, Leanharbor_Json_Tok):
+    s: "list[UInt8]"
+
+
+class Leanharbor_Json_Tok_arrOpen(_m.LeanModel, Leanharbor_Json_Tok):
+    pass
+
+
+class Leanharbor_Json_Tok_arrClose(_m.LeanModel, Leanharbor_Json_Tok):
+    pass
+
+
+class Leanharbor_Json_Tok_objOpen(_m.LeanModel, Leanharbor_Json_Tok):
+    pass
+
+
+class Leanharbor_Json_Tok_objClose(_m.LeanModel, Leanharbor_Json_Tok):
+    pass
+
+
+_m.register_inductive(Leanharbor_Json_Tok, [(Leanharbor_Json_Tok_null, _m.CtorInfo("null", 0, 0, True, [], [], False)), (Leanharbor_Json_Tok_bool, _m.CtorInfo("bool", 1, 0, False, [_m.FieldInfo("b", _m.Scalar(0), _m.BOOL)], [], False)), (Leanharbor_Json_Tok_num, _m.CtorInfo("num", 2, 0, False, [_m.FieldInfo("n", _m.Scalar(0), _m.UIntD(64))], [], False)), (Leanharbor_Json_Tok_str, _m.CtorInfo("str", 3, 1, False, [_m.FieldInfo("s", _m.Obj(0), _m.ListD(_m.UIntD(8)))], [], False)), (Leanharbor_Json_Tok_key, _m.CtorInfo("key", 4, 1, False, [_m.FieldInfo("s", _m.Obj(0), _m.ListD(_m.UIntD(8)))], [], False)), (Leanharbor_Json_Tok_arrOpen, _m.CtorInfo("arrOpen", 5, 0, True, [], [], False)), (Leanharbor_Json_Tok_arrClose, _m.CtorInfo("arrClose", 6, 0, True, [], [], False)), (Leanharbor_Json_Tok_objOpen, _m.CtorInfo("objOpen", 7, 0, True, [], [], False)), (Leanharbor_Json_Tok_objClose, _m.CtorInfo("objClose", 8, 0, True, [], [], False))])
+
+
+class Principal(_m.LeanModel):
+    "Lean `Calculator.Kernel.Principal`."
+    org: "UInt64"
+    user: "UInt64"
+
+
+Principal.__lean__ = _m.StructInfo(Principal, _m.CtorInfo("mk", 0, 0, False, [_m.FieldInfo("org", _m.Scalar(0), _m.UIntD(64)), _m.FieldInfo("user", _m.Scalar(8), _m.UIntD(64))], [], False), trivial=False)
 
 
 _D0 = _m.NamedD(globals(), "Memory")
@@ -608,20 +2070,28 @@ _D4 = _m.NamedD(globals(), "Command")
 _D5 = _m.LeanType(_D4, "Command")
 _D6 = _m.BOOL
 _D7 = _m.LeanType(_D6, "bool")
-_D8 = _m.UIntD(64)
-_D9 = _m.LeanType(_D8, "UInt64")
-_D10 = _m.NamedD(globals(), "Snapshot")
-_D11 = _m.LeanType(_D10, "Snapshot")
-_D12 = _m.NamedD(globals(), "Principal")
-_D13 = _m.LeanType(_D12, "Principal")
-_D14 = _m.ExceptD(globals(), _m.NamedD(globals(), "Error"), _m.ProdD(_m.OptionD(_m.NamedD(globals(), "Memory")), _m.NamedD(globals(), "Reply")), "Error", "tuple[Memory | None, Reply]")
-_D15 = _m.LeanType(_D14, "Ok[tuple[Memory | None, Reply]] | Err[Error]")
-_D16 = _m.NamedD(globals(), "Op")
-_D17 = _m.LeanType(_D16, "Op")
-_D18 = _m.ExceptD(globals(), _m.NamedD(globals(), "Error"), _m.UIntD(64), "Error", "UInt64")
-_D19 = _m.LeanType(_D18, "Ok[UInt64] | Err[Error]")
-_D20 = _m.OptionD(_m.NamedD(globals(), "Memory"))
-_D21 = _m.LeanType(_D20, "Memory | None")
+_D8 = _m.NamedD(globals(), "Reply")
+_D9 = _m.LeanType(_D8, "Reply")
+_D10 = _m.ListD(_m.UIntD(8))
+_D11 = _m.LeanType(_D10, "list[UInt8]")
+_D12 = _m.UIntD(64)
+_D13 = _m.LeanType(_D12, "UInt64")
+_D14 = _m.NamedD(globals(), "Snapshot")
+_D15 = _m.LeanType(_D14, "Snapshot")
+_D16 = _m.NamedD(globals(), "Error")
+_D17 = _m.LeanType(_D16, "Error")
+_D18 = _m.ListD(_m.NamedD(globals(), "Leanharbor_Json_Tok"))
+_D19 = _m.LeanType(_D18, "list[Leanharbor_Json_Tok]")
+_D20 = _m.NamedD(globals(), "Principal")
+_D21 = _m.LeanType(_D20, "Principal")
+_D22 = _m.ExceptD(globals(), _m.NamedD(globals(), "Error"), _m.ProdD(_m.OptionD(_m.NamedD(globals(), "Memory")), _m.NamedD(globals(), "Reply")), "Error", "tuple[Memory | None, Reply]")
+_D23 = _m.LeanType(_D22, "Ok[tuple[Memory | None, Reply]] | Err[Error]")
+_D24 = _m.NamedD(globals(), "Op")
+_D25 = _m.LeanType(_D24, "Op")
+_D26 = _m.ExceptD(globals(), _m.NamedD(globals(), "Error"), _m.UIntD(64), "Error", "UInt64")
+_D27 = _m.LeanType(_D26, "Ok[UInt64] | Err[Error]")
+_D28 = _m.OptionD(_m.NamedD(globals(), "Memory"))
+_D29 = _m.LeanType(_D28, "Memory | None")
 
 
 def _pub_upsert(m: "Memory", ms: "Memories") -> "Memories":
@@ -673,117 +2143,201 @@ def _pub_readOnly__local(arg0: "Command | Lean[Command] | Local[Command]") -> "L
 
 
 _m.attach(globals(), ["readOnly"], _pub_readOnly, "Calculator.Kernel.readOnly", _pub_readOnly__lean, {"arg0": _D5}, _D7, _pub_readOnly__local)
+def _pub_encodeReply(r: "Reply") -> "list[UInt8]":
+    "Lean `Calculator.Kernel.encodeReply`."
+    __a0 = _m.to_lean(_D8, r, "r")
+    return _m.to_py(_D10, l_Calculator_Kernel_encodeReply(__a0))
+
+
+def _pub_encodeReply__lean(r: "Reply | Lean[Reply]") -> "Lean[list[UInt8]]":
+    "Lean `Calculator.Kernel.encodeReply`, on handles."
+    __a0 = _m.lean_arg(_D9, r, "r")
+    _m.give(r)
+    return _m.handle(_D11, l_Calculator_Kernel_encodeReply(__a0))
+
+
+def _pub_encodeReply__local(r: "Reply | Lean[Reply] | Local[Reply]") -> "Local[list[UInt8]]":
+    "Lean `Calculator.Kernel.encodeReply`, on local handles."
+    __a0 = _m.local_arg(_D9, r, "r", True)
+    _m.give(r)
+    return _m.local_handle(_D11, l_Calculator_Kernel_encodeReply(__a0))
+
+
+_m.attach(globals(), ["encodeReply"], _pub_encodeReply, "Calculator.Kernel.encodeReply", _pub_encodeReply__lean, {"r": _D9}, _D11, _pub_encodeReply__local)
 def _pub_memoryOf(arg0: "Memories", arg1: "UInt64") -> "UInt64":
     "Lean `Calculator.Kernel.memoryOf`."
     __a0 = _m.to_lean(_D2, arg0, "arg0")
-    __a1 = _m.to_lean(_D8, arg1, "arg1")
-    return _m.to_py(_D8, l_Calculator_Kernel_memoryOf(__a0, __a1))
+    __a1 = _m.to_lean(_D12, arg1, "arg1")
+    return _m.to_py(_D12, l_Calculator_Kernel_memoryOf(__a0, __a1))
 
 
 def _pub_memoryOf__lean(arg0: "Memories | Lean[Memories]", arg1: "UInt64 | Lean[UInt64]") -> "Lean[UInt64]":
     "Lean `Calculator.Kernel.memoryOf`, on handles."
     __a0 = _m.lean_arg(_D3, arg0, "arg0")
-    __a1 = _m.lean_arg(_D9, arg1, "arg1")
+    __a1 = _m.lean_arg(_D13, arg1, "arg1")
     _m.give(arg0, arg1)
-    return _m.handle(_D9, l_Calculator_Kernel_memoryOf(__a0, __a1))
+    return _m.handle(_D13, l_Calculator_Kernel_memoryOf(__a0, __a1))
 
 
 def _pub_memoryOf__local(arg0: "Memories | Lean[Memories] | Local[Memories]", arg1: "UInt64 | Lean[UInt64] | Local[UInt64]") -> "Local[UInt64]":
     "Lean `Calculator.Kernel.memoryOf`, on local handles."
     __a0 = _m.local_arg(_D3, arg0, "arg0", False)
-    __a1 = _m.local_arg(_D9, arg1, "arg1", True)
+    __a1 = _m.local_arg(_D13, arg1, "arg1", True)
     _m.give(arg0, arg1)
     __r = l_Calculator_Kernel_memoryOf(__a0, __a1)
     _m.local_done(arg0, __a0)
-    return _m.local_handle(_D9, __r)
+    return _m.local_handle(_D13, __r)
 
 
-_m.attach(globals(), ["memoryOf"], _pub_memoryOf, "Calculator.Kernel.memoryOf", _pub_memoryOf__lean, {"arg0": _D3, "arg1": _D9}, _D9, _pub_memoryOf__local)
+_m.attach(globals(), ["memoryOf"], _pub_memoryOf, "Calculator.Kernel.memoryOf", _pub_memoryOf__lean, {"arg0": _D3, "arg1": _D13}, _D13, _pub_memoryOf__local)
 def _pub_init() -> "Snapshot":
     "Lean `Calculator.Kernel.init`."
-    return _m.to_py(_D10, l_Calculator_Kernel_init())
+    return _m.to_py(_D14, l_Calculator_Kernel_init())
 
 
 def _pub_init__lean() -> "Lean[Snapshot]":
     "Lean `Calculator.Kernel.init`, on handles."
-    return _m.handle(_D11, l_Calculator_Kernel_init())
+    return _m.handle(_D15, l_Calculator_Kernel_init())
 
 
 def _pub_init__local() -> "Local[Snapshot]":
     "Lean `Calculator.Kernel.init`, on local handles."
-    return _m.local_handle(_D11, l_Calculator_Kernel_init())
+    return _m.local_handle(_D15, l_Calculator_Kernel_init())
 
 
-_m.attach(globals(), ["init"], _pub_init, "Calculator.Kernel.init", _pub_init__lean, {}, _D11, _pub_init__local)
+_m.attach(globals(), ["init"], _pub_init, "Calculator.Kernel.init", _pub_init__lean, {}, _D15, _pub_init__local)
+def _pub_errorToks(e: "Error") -> "list[Leanharbor_Json_Tok]":
+    "Lean `Calculator.Kernel.errorToks`."
+    __a0 = _m.to_lean(_D16, e, "e")
+    return _m.to_py(_D18, l_Calculator_Kernel_errorToks(__a0))
+
+
+def _pub_errorToks__lean(e: "Error | Lean[Error]") -> "Lean[list[Leanharbor_Json_Tok]]":
+    "Lean `Calculator.Kernel.errorToks`, on handles."
+    __a0 = _m.lean_arg(_D17, e, "e")
+    _m.give(e)
+    return _m.handle(_D19, l_Calculator_Kernel_errorToks(__a0))
+
+
+def _pub_errorToks__local(e: "Error | Lean[Error] | Local[Error]") -> "Local[list[Leanharbor_Json_Tok]]":
+    "Lean `Calculator.Kernel.errorToks`, on local handles."
+    __a0 = _m.local_arg(_D17, e, "e", True)
+    _m.give(e)
+    return _m.local_handle(_D19, l_Calculator_Kernel_errorToks(__a0))
+
+
+_m.attach(globals(), ["errorToks"], _pub_errorToks, "Calculator.Kernel.errorToks", _pub_errorToks__lean, {"e": _D17}, _D19, _pub_errorToks__local)
 def _pub_transition(actor: "Principal", snap: "Snapshot", cmd: "Command") -> "Ok[tuple[Memory | None, Reply]] | Err[Error]":
     "Lean `Calculator.Kernel.transition`."
-    __a0 = _m.to_lean(_D12, actor, "actor")
-    __a1 = _m.to_lean(_D10, snap, "snap")
+    __a0 = _m.to_lean(_D20, actor, "actor")
+    __a1 = _m.to_lean(_D14, snap, "snap")
     __a2 = _m.to_lean(_D4, cmd, "cmd")
-    return _m.to_py(_D14, l_Calculator_Kernel_transition(__a0, __a1, __a2))
+    return _m.to_py(_D22, l_Calculator_Kernel_transition(__a0, __a1, __a2))
 
 
 def _pub_transition__lean(actor: "Principal | Lean[Principal]", snap: "Snapshot | Lean[Snapshot]", cmd: "Command | Lean[Command]") -> "Lean[Ok[tuple[Memory | None, Reply]] | Err[Error]]":
     "Lean `Calculator.Kernel.transition`, on handles."
-    __a0 = _m.lean_arg(_D13, actor, "actor")
-    __a1 = _m.lean_arg(_D11, snap, "snap")
+    __a0 = _m.lean_arg(_D21, actor, "actor")
+    __a1 = _m.lean_arg(_D15, snap, "snap")
     __a2 = _m.lean_arg(_D5, cmd, "cmd")
     _m.give(actor, snap, cmd)
-    return _m.handle(_D15, l_Calculator_Kernel_transition(__a0, __a1, __a2))
+    return _m.handle(_D23, l_Calculator_Kernel_transition(__a0, __a1, __a2))
 
 
 def _pub_transition__local(actor: "Principal | Lean[Principal] | Local[Principal]", snap: "Snapshot | Lean[Snapshot] | Local[Snapshot]", cmd: "Command | Lean[Command] | Local[Command]") -> "Local[Ok[tuple[Memory | None, Reply]] | Err[Error]]":
     "Lean `Calculator.Kernel.transition`, on local handles."
-    __a0 = _m.local_arg(_D13, actor, "actor", True)
-    __a1 = _m.local_arg(_D11, snap, "snap", False)
+    __a0 = _m.local_arg(_D21, actor, "actor", True)
+    __a1 = _m.local_arg(_D15, snap, "snap", False)
     __a2 = _m.local_arg(_D5, cmd, "cmd", False)
     _m.give(actor, snap, cmd)
     __r = l_Calculator_Kernel_transition(__a0, __a1, __a2)
     _m.local_done(snap, __a1)
     _m.local_done(cmd, __a2)
-    return _m.local_handle(_D15, __r)
+    return _m.local_handle(_D23, __r)
 
 
-_m.attach(globals(), ["transition"], _pub_transition, "Calculator.Kernel.transition", _pub_transition__lean, {"actor": _D13, "snap": _D11, "cmd": _D5}, _D15, _pub_transition__local)
+_m.attach(globals(), ["transition"], _pub_transition, "Calculator.Kernel.transition", _pub_transition__lean, {"actor": _D21, "snap": _D15, "cmd": _D5}, _D23, _pub_transition__local)
+def _pub_encodeError(e: "Error") -> "list[UInt8]":
+    "Lean `Calculator.Kernel.encodeError`."
+    __a0 = _m.to_lean(_D16, e, "e")
+    return _m.to_py(_D10, l_Calculator_Kernel_encodeError(__a0))
+
+
+def _pub_encodeError__lean(e: "Error | Lean[Error]") -> "Lean[list[UInt8]]":
+    "Lean `Calculator.Kernel.encodeError`, on handles."
+    __a0 = _m.lean_arg(_D17, e, "e")
+    _m.give(e)
+    return _m.handle(_D11, l_Calculator_Kernel_encodeError(__a0))
+
+
+def _pub_encodeError__local(e: "Error | Lean[Error] | Local[Error]") -> "Local[list[UInt8]]":
+    "Lean `Calculator.Kernel.encodeError`, on local handles."
+    __a0 = _m.local_arg(_D17, e, "e", True)
+    _m.give(e)
+    return _m.local_handle(_D11, l_Calculator_Kernel_encodeError(__a0))
+
+
+_m.attach(globals(), ["encodeError"], _pub_encodeError, "Calculator.Kernel.encodeError", _pub_encodeError__lean, {"e": _D17}, _D11, _pub_encodeError__local)
 def _pub_compute(op: "Op", a: "UInt64", b: "UInt64") -> "Ok[UInt64] | Err[Error]":
     "Lean `Calculator.Kernel.compute`."
-    __a0 = _m.to_lean(_D16, op, "op")
-    __a1 = _m.to_lean(_D8, a, "a")
-    __a2 = _m.to_lean(_D8, b, "b")
-    return _m.to_py(_D18, l_Calculator_Kernel_compute(__a0, __a1, __a2))
+    __a0 = _m.to_lean(_D24, op, "op")
+    __a1 = _m.to_lean(_D12, a, "a")
+    __a2 = _m.to_lean(_D12, b, "b")
+    return _m.to_py(_D26, l_Calculator_Kernel_compute(__a0, __a1, __a2))
 
 
 def _pub_compute__lean(op: "Op | Lean[Op]", a: "UInt64 | Lean[UInt64]", b: "UInt64 | Lean[UInt64]") -> "Lean[Ok[UInt64] | Err[Error]]":
     "Lean `Calculator.Kernel.compute`, on handles."
-    __a0 = _m.lean_arg(_D17, op, "op")
-    __a1 = _m.lean_arg(_D9, a, "a")
-    __a2 = _m.lean_arg(_D9, b, "b")
+    __a0 = _m.lean_arg(_D25, op, "op")
+    __a1 = _m.lean_arg(_D13, a, "a")
+    __a2 = _m.lean_arg(_D13, b, "b")
     _m.give(op, a, b)
-    return _m.handle(_D19, l_Calculator_Kernel_compute(__a0, __a1, __a2))
+    return _m.handle(_D27, l_Calculator_Kernel_compute(__a0, __a1, __a2))
 
 
 def _pub_compute__local(op: "Op | Lean[Op] | Local[Op]", a: "UInt64 | Lean[UInt64] | Local[UInt64]", b: "UInt64 | Lean[UInt64] | Local[UInt64]") -> "Local[Ok[UInt64] | Err[Error]]":
     "Lean `Calculator.Kernel.compute`, on local handles."
-    __a0 = _m.local_arg(_D17, op, "op", True)
-    __a1 = _m.local_arg(_D9, a, "a", True)
-    __a2 = _m.local_arg(_D9, b, "b", True)
+    __a0 = _m.local_arg(_D25, op, "op", True)
+    __a1 = _m.local_arg(_D13, a, "a", True)
+    __a2 = _m.local_arg(_D13, b, "b", True)
     _m.give(op, a, b)
-    return _m.local_handle(_D19, l_Calculator_Kernel_compute(__a0, __a1, __a2))
+    return _m.local_handle(_D27, l_Calculator_Kernel_compute(__a0, __a1, __a2))
 
 
-_m.attach(globals(), ["compute"], _pub_compute, "Calculator.Kernel.compute", _pub_compute__lean, {"op": _D17, "a": _D9, "b": _D9}, _D19, _pub_compute__local)
+_m.attach(globals(), ["compute"], _pub_compute, "Calculator.Kernel.compute", _pub_compute__lean, {"op": _D25, "a": _D13, "b": _D13}, _D27, _pub_compute__local)
+def _pub_errorName(arg0: "Error") -> "list[UInt8]":
+    "Lean `Calculator.Kernel.errorName`."
+    __a0 = _m.to_lean(_D16, arg0, "arg0")
+    return _m.to_py(_D10, l_Calculator_Kernel_errorName(__a0))
+
+
+def _pub_errorName__lean(arg0: "Error | Lean[Error]") -> "Lean[list[UInt8]]":
+    "Lean `Calculator.Kernel.errorName`, on handles."
+    __a0 = _m.lean_arg(_D17, arg0, "arg0")
+    _m.give(arg0)
+    return _m.handle(_D11, l_Calculator_Kernel_errorName(__a0))
+
+
+def _pub_errorName__local(arg0: "Error | Lean[Error] | Local[Error]") -> "Local[list[UInt8]]":
+    "Lean `Calculator.Kernel.errorName`, on local handles."
+    __a0 = _m.local_arg(_D17, arg0, "arg0", True)
+    _m.give(arg0)
+    return _m.local_handle(_D11, l_Calculator_Kernel_errorName(__a0))
+
+
+_m.attach(globals(), ["errorName"], _pub_errorName, "Calculator.Kernel.errorName", _pub_errorName__lean, {"arg0": _D17}, _D11, _pub_errorName__local)
 def _pub_store(k: "UInt64", v: "UInt64", arg2: "Memories") -> "Memories":
     "Lean `Calculator.Kernel.store`."
-    __a0 = _m.to_lean(_D8, k, "k")
-    __a1 = _m.to_lean(_D8, v, "v")
+    __a0 = _m.to_lean(_D12, k, "k")
+    __a1 = _m.to_lean(_D12, v, "v")
     __a2 = _m.to_lean(_D2, arg2, "arg2")
     return _m.to_py(_D2, l_Calculator_Kernel_store(__a0, __a1, __a2))
 
 
 def _pub_store__lean(k: "UInt64 | Lean[UInt64]", v: "UInt64 | Lean[UInt64]", arg2: "Memories | Lean[Memories]") -> "Lean[Memories]":
     "Lean `Calculator.Kernel.store`, on handles."
-    __a0 = _m.lean_arg(_D9, k, "k")
-    __a1 = _m.lean_arg(_D9, v, "v")
+    __a0 = _m.lean_arg(_D13, k, "k")
+    __a1 = _m.lean_arg(_D13, v, "v")
     __a2 = _m.lean_arg(_D3, arg2, "arg2")
     _m.give(k, v, arg2)
     return _m.handle(_D3, l_Calculator_Kernel_store(__a0, __a1, __a2))
@@ -791,91 +2345,112 @@ def _pub_store__lean(k: "UInt64 | Lean[UInt64]", v: "UInt64 | Lean[UInt64]", arg
 
 def _pub_store__local(k: "UInt64 | Lean[UInt64] | Local[UInt64]", v: "UInt64 | Lean[UInt64] | Local[UInt64]", arg2: "Memories | Lean[Memories] | Local[Memories]") -> "Local[Memories]":
     "Lean `Calculator.Kernel.store`, on local handles."
-    __a0 = _m.local_arg(_D9, k, "k", True)
-    __a1 = _m.local_arg(_D9, v, "v", True)
+    __a0 = _m.local_arg(_D13, k, "k", True)
+    __a1 = _m.local_arg(_D13, v, "v", True)
     __a2 = _m.local_arg(_D3, arg2, "arg2", True)
     _m.give(k, v, arg2)
     return _m.local_handle(_D3, l_Calculator_Kernel_store(__a0, __a1, __a2))
 
 
-_m.attach(globals(), ["store"], _pub_store, "Calculator.Kernel.store", _pub_store__lean, {"k": _D9, "v": _D9, "arg2": _D3}, _D3, _pub_store__local)
+_m.attach(globals(), ["store"], _pub_store, "Calculator.Kernel.store", _pub_store__lean, {"k": _D13, "v": _D13, "arg2": _D3}, _D3, _pub_store__local)
 def _pub_pair(k_: "UInt64", v_: "UInt64", k: "UInt64", v: "UInt64") -> "Memories":
     "Lean `Calculator.Kernel.pair`."
-    __a0 = _m.to_lean(_D8, k_, "k_")
-    __a1 = _m.to_lean(_D8, v_, "v_")
-    __a2 = _m.to_lean(_D8, k, "k")
-    __a3 = _m.to_lean(_D8, v, "v")
+    __a0 = _m.to_lean(_D12, k_, "k_")
+    __a1 = _m.to_lean(_D12, v_, "v_")
+    __a2 = _m.to_lean(_D12, k, "k")
+    __a3 = _m.to_lean(_D12, v, "v")
     return _m.to_py(_D2, l_Calculator_Kernel_pair(__a0, __a1, __a2, __a3))
 
 
 def _pub_pair__lean(k_: "UInt64 | Lean[UInt64]", v_: "UInt64 | Lean[UInt64]", k: "UInt64 | Lean[UInt64]", v: "UInt64 | Lean[UInt64]") -> "Lean[Memories]":
     "Lean `Calculator.Kernel.pair`, on handles."
-    __a0 = _m.lean_arg(_D9, k_, "k_")
-    __a1 = _m.lean_arg(_D9, v_, "v_")
-    __a2 = _m.lean_arg(_D9, k, "k")
-    __a3 = _m.lean_arg(_D9, v, "v")
+    __a0 = _m.lean_arg(_D13, k_, "k_")
+    __a1 = _m.lean_arg(_D13, v_, "v_")
+    __a2 = _m.lean_arg(_D13, k, "k")
+    __a3 = _m.lean_arg(_D13, v, "v")
     _m.give(k_, v_, k, v)
     return _m.handle(_D3, l_Calculator_Kernel_pair(__a0, __a1, __a2, __a3))
 
 
 def _pub_pair__local(k_: "UInt64 | Lean[UInt64] | Local[UInt64]", v_: "UInt64 | Lean[UInt64] | Local[UInt64]", k: "UInt64 | Lean[UInt64] | Local[UInt64]", v: "UInt64 | Lean[UInt64] | Local[UInt64]") -> "Local[Memories]":
     "Lean `Calculator.Kernel.pair`, on local handles."
-    __a0 = _m.local_arg(_D9, k_, "k_", True)
-    __a1 = _m.local_arg(_D9, v_, "v_", True)
-    __a2 = _m.local_arg(_D9, k, "k", True)
-    __a3 = _m.local_arg(_D9, v, "v", True)
+    __a0 = _m.local_arg(_D13, k_, "k_", True)
+    __a1 = _m.local_arg(_D13, v_, "v_", True)
+    __a2 = _m.local_arg(_D13, k, "k", True)
+    __a3 = _m.local_arg(_D13, v, "v", True)
     _m.give(k_, v_, k, v)
     return _m.local_handle(_D3, l_Calculator_Kernel_pair(__a0, __a1, __a2, __a3))
 
 
-_m.attach(globals(), ["pair"], _pub_pair, "Calculator.Kernel.pair", _pub_pair__lean, {"k_": _D9, "v_": _D9, "k": _D9, "v": _D9}, _D3, _pub_pair__local)
+_m.attach(globals(), ["pair"], _pub_pair, "Calculator.Kernel.pair", _pub_pair__lean, {"k_": _D13, "v_": _D13, "k": _D13, "v": _D13}, _D3, _pub_pair__local)
 def _pub_tenant(actor: "Principal") -> "UInt64":
     "Lean `Calculator.Kernel.tenant`."
-    __a0 = _m.to_lean(_D12, actor, "actor")
-    return _m.to_py(_D8, l_Calculator_Kernel_tenant(__a0))
+    __a0 = _m.to_lean(_D20, actor, "actor")
+    return _m.to_py(_D12, l_Calculator_Kernel_tenant(__a0))
 
 
 def _pub_tenant__lean(actor: "Principal | Lean[Principal]") -> "Lean[UInt64]":
     "Lean `Calculator.Kernel.tenant`, on handles."
-    __a0 = _m.lean_arg(_D13, actor, "actor")
+    __a0 = _m.lean_arg(_D21, actor, "actor")
     _m.give(actor)
-    return _m.handle(_D9, l_Calculator_Kernel_tenant(__a0))
+    return _m.handle(_D13, l_Calculator_Kernel_tenant(__a0))
 
 
 def _pub_tenant__local(actor: "Principal | Lean[Principal] | Local[Principal]") -> "Local[UInt64]":
     "Lean `Calculator.Kernel.tenant`, on local handles."
-    __a0 = _m.local_arg(_D13, actor, "actor", False)
+    __a0 = _m.local_arg(_D21, actor, "actor", False)
     _m.give(actor)
     __r = l_Calculator_Kernel_tenant(__a0)
     _m.local_done(actor, __a0)
-    return _m.local_handle(_D9, __r)
+    return _m.local_handle(_D13, __r)
 
 
-_m.attach(globals(), ["tenant"], _pub_tenant, "Calculator.Kernel.tenant", _pub_tenant__lean, {"actor": _D13}, _D9, _pub_tenant__local)
+_m.attach(globals(), ["tenant"], _pub_tenant, "Calculator.Kernel.tenant", _pub_tenant__lean, {"actor": _D21}, _D13, _pub_tenant__local)
+def _pub_replyToks(arg0: "Reply") -> "list[Leanharbor_Json_Tok]":
+    "Lean `Calculator.Kernel.replyToks`."
+    __a0 = _m.to_lean(_D8, arg0, "arg0")
+    return _m.to_py(_D18, l_Calculator_Kernel_replyToks(__a0))
+
+
+def _pub_replyToks__lean(arg0: "Reply | Lean[Reply]") -> "Lean[list[Leanharbor_Json_Tok]]":
+    "Lean `Calculator.Kernel.replyToks`, on handles."
+    __a0 = _m.lean_arg(_D9, arg0, "arg0")
+    _m.give(arg0)
+    return _m.handle(_D19, l_Calculator_Kernel_replyToks(__a0))
+
+
+def _pub_replyToks__local(arg0: "Reply | Lean[Reply] | Local[Reply]") -> "Local[list[Leanharbor_Json_Tok]]":
+    "Lean `Calculator.Kernel.replyToks`, on local handles."
+    __a0 = _m.local_arg(_D9, arg0, "arg0", True)
+    _m.give(arg0)
+    return _m.local_handle(_D19, l_Calculator_Kernel_replyToks(__a0))
+
+
+_m.attach(globals(), ["replyToks"], _pub_replyToks, "Calculator.Kernel.replyToks", _pub_replyToks__lean, {"arg0": _D9}, _D19, _pub_replyToks__local)
 def _pub_apply(snap: "Snapshot", w: "Memory | None") -> "Snapshot":
     "Lean `Calculator.Kernel.apply`."
-    __a0 = _m.to_lean(_D10, snap, "snap")
-    __a1 = _m.to_lean(_D20, w, "w")
-    return _m.to_py(_D10, l_Calculator_Kernel_apply(__a0, __a1))
+    __a0 = _m.to_lean(_D14, snap, "snap")
+    __a1 = _m.to_lean(_D28, w, "w")
+    return _m.to_py(_D14, l_Calculator_Kernel_apply(__a0, __a1))
 
 
 def _pub_apply__lean(snap: "Snapshot | Lean[Snapshot]", w: "Memory | None | Lean[Memory | None]") -> "Lean[Snapshot]":
     "Lean `Calculator.Kernel.apply`, on handles."
-    __a0 = _m.lean_arg(_D11, snap, "snap")
-    __a1 = _m.lean_arg(_D21, w, "w")
+    __a0 = _m.lean_arg(_D15, snap, "snap")
+    __a1 = _m.lean_arg(_D29, w, "w")
     _m.give(snap, w)
-    return _m.handle(_D11, l_Calculator_Kernel_apply(__a0, __a1))
+    return _m.handle(_D15, l_Calculator_Kernel_apply(__a0, __a1))
 
 
 def _pub_apply__local(snap: "Snapshot | Lean[Snapshot] | Local[Snapshot]", w: "Memory | None | Lean[Memory | None] | Local[Memory | None]") -> "Local[Snapshot]":
     "Lean `Calculator.Kernel.apply`, on local handles."
-    __a0 = _m.local_arg(_D11, snap, "snap", True)
-    __a1 = _m.local_arg(_D21, w, "w", False)
+    __a0 = _m.local_arg(_D15, snap, "snap", True)
+    __a1 = _m.local_arg(_D29, w, "w", False)
     _m.give(snap, w)
     __r = l_Calculator_Kernel_apply(__a0, __a1)
     _m.local_done(w, __a1)
-    return _m.local_handle(_D11, __r)
+    return _m.local_handle(_D15, __r)
 
 
-_m.attach(globals(), ["apply"], _pub_apply, "Calculator.Kernel.apply", _pub_apply__lean, {"snap": _D11, "w": _D21}, _D11, _pub_apply__local)
+_m.attach(globals(), ["apply"], _pub_apply, "Calculator.Kernel.apply", _pub_apply__lean, {"snap": _D15, "w": _D29}, _D15, _pub_apply__local)
 _m.finish(globals())

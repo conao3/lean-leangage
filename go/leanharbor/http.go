@@ -7,15 +7,18 @@ import (
 	"net/http"
 	"strings"
 	"time"
+
+	"github.com/conao3/lean-leanharbor/go/leanharbor/jsonformat"
 )
 
 // Api is how a kernel's commands, replies and refusals appear on the wire, and who a token's
-// holder is. Trusted: no theorem covers it.
+// holder is. Trusted: no theorem covers it. EncodeReply and EncodeError return the bytes of the
+// body.
 type Api[Principal, Command, Reply, Error any] interface {
 	Principal(tenant, user uint64) Principal
 	DecodeCommand(body []byte) (Command, error)
-	EncodeReply(reply Reply) any
-	EncodeError(refusal Error) (int, any)
+	EncodeReply(reply Reply) []byte
+	EncodeError(refusal Error) (int, []byte)
 	// Fingerprint identifies the command under an idempotency key.
 	Fingerprint(cmd Command) []byte
 	// Scope separates the idempotency keys of principals of one tenant.
@@ -24,18 +27,29 @@ type Api[Principal, Command, Reply, Error any] interface {
 
 const maxBody = 2 << 20
 
-func reply(w http.ResponseWriter, status int, body any) {
-	text, err := json.Marshal(body)
+func reply(w http.ResponseWriter, status int, body []byte) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+	_, _ = w.Write(body)
+}
+
+// ErrorBody is `{"error": message}`, written by the JSON writer generated from
+// `lean/Leanharbor/Json.lean`.
+func ErrorBody(message string) []byte {
+	body, err := jsonformat.Write([]jsonformat.Tok{
+		jsonformat.TokObjOpen{},
+		jsonformat.TokKey{S: []byte("error")},
+		jsonformat.TokStr{S: []byte(message)},
+		jsonformat.TokObjClose{},
+	})
 	if err != nil {
 		panic(err)
 	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(status)
-	_, _ = w.Write(text)
+	return body
 }
 
 func fail(w http.ResponseWriter, status int, message string) {
-	reply(w, status, map[string]string{"error": message})
+	reply(w, status, ErrorBody(message))
 }
 
 func visible(s string) bool {

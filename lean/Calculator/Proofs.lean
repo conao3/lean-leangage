@@ -1,4 +1,5 @@
 import Leanharbor.Obligation
+import Leanharbor.Json.Proofs
 import Calculator.Kernel
 
 /-!
@@ -6,6 +7,8 @@ import Calculator.Kernel
 
 `transition_spec` and `compute_spec` tie the 64-bit implementation to arithmetic on unbounded
 naturals. `get_after` and `others_unchanged` are about a command followed by `apply`.
+`encodeReply_spec` and `encodeError_spec` say that the bytes of a reply and of a refusal are the
+JSON values `replyValue` and `errorValue`, printed by `Leanharbor.Json.Value.print`.
 -/
 
 namespace Calculator.Kernel
@@ -197,5 +200,41 @@ theorem transition_spec (a : Principal) (s : Snapshot) (c : Command) :
     simp only [transition, specStep, ← h]
     cases compute op (memoryOf s.memories a.user) arg <;> rfl
   | get => rfl
+
+/-! ## Replies and refusals on the wire -/
+
+/-- The name of a refusal on the wire. -/
+def wireName : Error → List Char
+  | .overflow => ['o', 'v', 'e', 'r', 'f', 'l', 'o', 'w']
+  | .underflow => ['u', 'n', 'd', 'e', 'r', 'f', 'l', 'o', 'w']
+  | .divByZero => ['d', 'i', 'v', 'i', 's', 'i', 'o', 'n', '_', 'b', 'y', '_', 'z', 'e', 'r', 'o']
+
+/-- `{"value":<v>}`. -/
+def replyValue : Reply → Leanharbor.Json.Value
+  | .value v => .obj [(Leanharbor.Json.ascii ['v', 'a', 'l', 'u', 'e'], .num v)]
+
+/-- `{"error":"<name>"}`. -/
+def errorValue (e : Error) : Leanharbor.Json.Value :=
+  .obj [(Leanharbor.Json.ascii ['e', 'r', 'r', 'o', 'r'], .str (Leanharbor.Json.ascii (wireName e)))]
+
+theorem errorName_spec (e : Error) : errorName e = Leanharbor.Json.ascii (wireName e) := by
+  cases e <;> decide
+
+theorem replyToks_spec (r : Reply) : replyToks r = (replyValue r).toks := by
+  cases r
+  simp [replyToks, replyValue, Leanharbor.Json.Value.toks, Leanharbor.Json.membersToks,
+    Leanharbor.Json.ascii]
+
+theorem errorToks_spec (e : Error) : errorToks e = (errorValue e).toks := by
+  simp [errorToks, errorValue, Leanharbor.Json.Value.toks, Leanharbor.Json.membersToks,
+    Leanharbor.Json.ascii, errorName_spec]
+
+/-- The bytes of a reply are its JSON value. -/
+theorem encodeReply_spec (r : Reply) : encodeReply r = (replyValue r).print := by
+  rw [encodeReply, replyToks_spec, Leanharbor.Json.write_value]
+
+/-- The bytes of a refusal are its JSON value. -/
+theorem encodeError_spec (e : Error) : encodeError e = (errorValue e).print := by
+  rw [encodeError, errorToks_spec, Leanharbor.Json.write_value]
 
 end Calculator.Kernel

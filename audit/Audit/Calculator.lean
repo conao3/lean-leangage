@@ -19,3 +19,9 @@ deriving instance DecidableEq for
   using Calculator.Kernel.transition_spec Calculator.Kernel.compute_spec
     Calculator.Kernel.get_after_run Calculator.Kernel.others_unchanged_run
     Calculator.Kernel.memoryOf_pair Calculator.Kernel.memoryOf_store
+
+#assay Calculator.Kernel.errorName Calculator.Kernel.replyToks Calculator.Kernel.errorToks
+    Calculator.Kernel.encodeReply Calculator.Kernel.encodeError
+  using Calculator.Kernel.errorName_spec Calculator.Kernel.replyToks_spec
+    Calculator.Kernel.errorToks_spec Calculator.Kernel.encodeReply_spec
+    Calculator.Kernel.encodeError_spec

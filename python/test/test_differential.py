@@ -5,7 +5,7 @@ import subprocess
 from pathlib import Path
 
 from leanharbor import MemoryEngine, Refused
-from leanharbor_calculator import _ERRORS, KERNEL, kernel
+from leanharbor_calculator import KERNEL, kernel
 
 COMMANDS = Path(__file__).parents[2] / "testdata" / "calculator-commands.txt"
 
@@ -39,6 +39,6 @@ def test_generated_python_agrees_with_lean() -> None:
         try:
             ours.append(f"ok {engine.execute(actor, cmd).v}")
         except Refused as e:
-            ours.append(f"error {_ERRORS[e.error]}")
+            ours.append(f"error {bytes(kernel.errorName(e.error)).decode()}")
     assert len(ours) == 5000
     assert ours == oracle.splitlines()

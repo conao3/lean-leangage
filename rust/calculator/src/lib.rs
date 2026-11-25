@@ -8,7 +8,7 @@ use leanfran::{Local, Owned};
 use leanharbor::Kernel;
 use leanharbor::http::Api;
 use serde::Deserialize;
-use serde_json::{Value, json};
+use serde_json::Value;
 
 pub use generated::calculator_kernel as kernel;
 
@@ -90,17 +90,15 @@ impl Api<Calculator> for Calculator {
         })
     }
 
-    fn encode_reply(reply: &kernel::Reply) -> Value {
-        json!({ "value": reply.v })
+    fn encode_reply(reply: &kernel::Reply) -> Vec<u8> {
+        kernel::encode_reply(reply.clone())
     }
 
-    fn encode_error(error: &kernel::Error) -> (StatusCode, Value) {
-        let name = match error {
-            kernel::Error::Overflow => "overflow",
-            kernel::Error::Underflow => "underflow",
-            kernel::Error::DivByZero => "division_by_zero",
-        };
-        (StatusCode::UNPROCESSABLE_ENTITY, json!({ "error": name }))
+    fn encode_error(error: &kernel::Error) -> (StatusCode, Vec<u8>) {
+        (
+            StatusCode::UNPROCESSABLE_ENTITY,
+            kernel::encode_error(*error),
+        )
     }
 
     fn fingerprint(cmd: &kernel::Command) -> Vec<u8> {

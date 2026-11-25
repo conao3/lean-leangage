@@ -8,6 +8,7 @@ use axum::http::StatusCode;
 use leanfran::{Local, Owned};
 use leanharbor::Kernel;
 use leanharbor::http::Api;
+use leanharbor::json_format::{self, Tok};
 use serde::Deserialize;
 use serde_json::{Value, json};
 
@@ -88,6 +89,42 @@ pub fn refusal_name(refusal: &Refusal) -> &'static str {
     }
 }
 
+/// The tokens of a JSON value made of objects, arrays, strings, booleans and numbers below 2^64.
+fn toks(value: &Value, out: &mut Vec<Tok>) {
+    match value {
+        Value::Null => out.push(Tok::Null),
+        Value::Bool(b) => out.push(Tok::Bool { b: *b }),
+        Value::Number(n) => out.push(Tok::Num {
+            n: n.as_u64().expect("the notes write numbers below 2^64"),
+        }),
+        Value::String(s) => out.push(Tok::Str {
+            s: s.as_bytes().to_vec(),
+        }),
+        Value::Array(items) => {
+            out.push(Tok::ArrOpen);
+            items.iter().for_each(|item| toks(item, out));
+            out.push(Tok::ArrClose);
+        }
+        Value::Object(fields) => {
+            out.push(Tok::ObjOpen);
+            for (key, field) in fields {
+                out.push(Tok::Key {
+                    s: key.as_bytes().to_vec(),
+                });
+                toks(field, out);
+            }
+            out.push(Tok::ObjClose);
+        }
+    }
+}
+
+/// The bytes of the value, written by the JSON writer generated from `Leanharbor.Json`.
+fn body(value: Value) -> Vec<u8> {
+    let mut out = Vec::new();
+    toks(&value, &mut out);
+    json_format::write(out)
+}
+
 impl Api<Notes> for Notes {
     fn principal(tenant: u64, user: u64) -> kernel::Principal {
         kernel::Principal { org: tenant, user }
@@ -108,8 +145,8 @@ impl Api<Notes> for Notes {
         })
     }
 
-    fn encode_reply(reply: &kernel::Reply) -> Value {
-        match reply {
+    fn encode_reply(reply: &kernel::Reply) -> Vec<u8> {
+        body(match reply {
             kernel::Reply::Done => json!({ "done": true }),
             kernel::Reply::Found { n } => json!({ "note": note(n) }),
             kernel::Reply::Notes { ns } => {
@@ -118,10 +155,10 @@ impl Api<Notes> for Notes {
             kernel::Reply::Members { ms } => {
                 json!({ "members": ms.iter().map(member).collect::<Vec<_>>() })
             }
-        }
+        })
     }
 
-    fn encode_error(error: &Refusal) -> (StatusCode, Value) {
+    fn encode_error(error: &Refusal) -> (StatusCode, Vec<u8>) {
         let status = match error {
             Refusal::Denied => StatusCode::FORBIDDEN,
             Refusal::App {
@@ -131,7 +168,7 @@ impl Api<Notes> for Notes {
                 e: kernel::Error::BadText,
             } => StatusCode::UNPROCESSABLE_ENTITY,
         };
-        (status, json!({ "error": refusal_name(error) }))
+        (status, body(json!({ "error": refusal_name(error) })))
     }
 
     fn fingerprint(cmd: &kernel::Command) -> Vec<u8> {

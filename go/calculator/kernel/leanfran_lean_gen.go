@@ -46,11 +46,1318 @@ func compute_L_Calculator_Kernel_compute___closed__2() rt.V {
 	return x_3
 }
 
+func compute_L_Calculator_Kernel_errorName___closed__0() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 119
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__1() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__0()
+	x_2 = 111
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__10() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__9()
+	x_2 = 117
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__11() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 111
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__12() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__11()
+	x_2 = 114
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__13() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__12()
+	x_2 = 101
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__14() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__13()
+	x_2 = 122
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__15() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__14()
+	x_2 = 95
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__16() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__15()
+	x_2 = 121
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__17() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__16()
+	x_2 = 98
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__18() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__17()
+	x_2 = 95
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__19() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__18()
+	x_2 = 110
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__2() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__1()
+	x_2 = 108
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__20() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__19()
+	x_2 = 111
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__21() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__20()
+	x_2 = 105
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__22() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__21()
+	x_2 = 115
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__23() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__22()
+	x_2 = 105
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__24() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__23()
+	x_2 = 118
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__25() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__24()
+	x_2 = 105
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__26() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__25()
+	x_2 = 100
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__3() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__2()
+	x_2 = 102
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__4() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__3()
+	x_2 = 114
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__5() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__4()
+	x_2 = 101
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__6() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__5()
+	x_2 = 118
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__7() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__6()
+	x_2 = 111
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__8() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__5()
+	x_2 = 100
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorName___closed__9() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorName___closed__8()
+	x_2 = 110
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorToks___closed__0() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 114
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorToks___closed__1() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorToks___closed__0()
+	x_2 = 111
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorToks___closed__2() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorToks___closed__1()
+	x_2 = 114
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorToks___closed__3() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorToks___closed__2()
+	x_2 = 114
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorToks___closed__4() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_errorToks___closed__3()
+	x_2 = 101
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_errorToks___closed__5() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 rt.V
+	_ = x_2
+	x_1 = l_Calculator_Kernel_errorToks___closed__4()
+	x_2 = rt.Lean_alloc_ctor(4, 1, 0)
+	rt.Lean_ctor_set(x_2, 0, x_1)
+	return x_2
+}
+
 func compute_L_Calculator_Kernel_init() rt.V {
 	var x_1 rt.V
 	_ = x_1
 	x_1 = rt.Lean_box(0)
 	return x_1
+}
+
+func compute_L_Calculator_Kernel_replyToks___closed__0() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 101
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_replyToks___closed__1() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_replyToks___closed__0()
+	x_2 = 117
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_replyToks___closed__2() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_replyToks___closed__1()
+	x_2 = 108
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_replyToks___closed__3() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_replyToks___closed__2()
+	x_2 = 97
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_replyToks___closed__4() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Calculator_Kernel_replyToks___closed__3()
+	x_2 = 118
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Calculator_Kernel_replyToks___closed__5() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 rt.V
+	_ = x_2
+	x_1 = l_Calculator_Kernel_replyToks___closed__4()
+	x_2 = rt.Lean_alloc_ctor(4, 1, 0)
+	rt.Lean_ctor_set(x_2, 0, x_1)
+	return x_2
+}
+
+func compute_L_Calculator_Kernel_replyToks___closed__6() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 rt.V
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	x_1 = rt.Lean_box(0)
+	x_2 = rt.Lean_box(8)
+	x_3 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_3, 0, x_2)
+	rt.Lean_ctor_set(x_3, 1, x_1)
+	return x_3
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__0() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 116
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__1() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_escapeByte___closed__0()
+	x_2 = 92
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__10() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 92
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__11() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_escapeByte___closed__10()
+	x_2 = 92
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__12() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 34
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__13() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_escapeByte___closed__12()
+	x_2 = 92
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__2() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 114
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__3() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_escapeByte___closed__2()
+	x_2 = 92
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__4() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 110
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__5() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_escapeByte___closed__4()
+	x_2 = 92
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__6() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 102
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__7() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_escapeByte___closed__6()
+	x_2 = 92
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__8() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 98
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__9() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_escapeByte___closed__8()
+	x_2 = 92
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escape___closed__0() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 rt.V
+	_ = x_2
+	x_1 = rt.NatFromUint64(0)
+	x_2 = l_Array_mkEmpty(x_1)
+	return x_2
+}
+
+func compute_L_Leanharbor_Json_tokBytes___closed__0() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 108
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_tokBytes___closed__1() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_tokBytes___closed__0()
+	x_2 = 108
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_tokBytes___closed__10() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_tokBytes___closed__9()
+	x_2 = 114
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_tokBytes___closed__11() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_tokBytes___closed__10()
+	x_2 = 116
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_tokBytes___closed__12() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 58
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_tokBytes___closed__13() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_tokBytes___closed__12()
+	x_2 = 34
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_tokBytes___closed__14() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 91
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_tokBytes___closed__15() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 93
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_tokBytes___closed__16() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 123
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_tokBytes___closed__17() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 125
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_tokBytes___closed__2() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_tokBytes___closed__1()
+	x_2 = 117
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_tokBytes___closed__3() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_tokBytes___closed__2()
+	x_2 = 110
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_tokBytes___closed__4() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 101
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_tokBytes___closed__5() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_tokBytes___closed__4()
+	x_2 = 115
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_tokBytes___closed__6() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_tokBytes___closed__5()
+	x_2 = 108
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_tokBytes___closed__7() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_tokBytes___closed__6()
+	x_2 = 97
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_tokBytes___closed__8() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_tokBytes___closed__7()
+	x_2 = 102
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_tokBytes___closed__9() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_tokBytes___closed__4()
+	x_2 = 117
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_writeFrom___closed__0() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 44
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
 }
 
 func core_L_Calculator_Kernel_apply(frame *rt.Tail, x_1 rt.V, x_2 rt.V) rt.V {
@@ -227,13 +1534,429 @@ func core_L_Calculator_Kernel_upsert(frame *rt.Tail, x_1 rt.V, x_2 rt.V) rt.V {
 	return rt.V{}
 }
 
+func core_L_Leanharbor_Json_escape(frame *rt.Tail, x_1 rt.V) rt.V {
+	var x_2 rt.V
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	x_2 = l_Leanharbor_Json_escape___closed__0()
+	rt.TailCall(frame, tail_L___private_Init_Data_List_Impl_0__List_flatMapTR_go___at___00Leanharbor_Json_escape_spec__0, []rt.V{x_1, x_2})
+	return rt.V{}
+}
+
+func core_L_Leanharbor_Json_tokBytes(frame *rt.Tail, x_1 rt.V) rt.V {
+	var x_2 rt.V
+	_ = x_2
+	var x_3 uint8
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	var x_5 rt.V
+	_ = x_5
+	var x_6 uint64
+	_ = x_6
+	var x_7 rt.V
+	_ = x_7
+	var x_8 rt.V
+	_ = x_8
+	var x_9 rt.V
+	_ = x_9
+	var x_10 uint8
+	_ = x_10
+	var x_11 rt.V
+	_ = x_11
+	var x_12 rt.V
+	_ = x_12
+	var x_13 rt.V
+	_ = x_13
+	var x_14 rt.V
+	_ = x_14
+	var x_15 rt.V
+	_ = x_15
+	var x_16 rt.V
+	_ = x_16
+	var x_17 uint8
+	_ = x_17
+	var x_18 rt.V
+	_ = x_18
+	var x_19 rt.V
+	_ = x_19
+	var x_20 rt.V
+	_ = x_20
+	var x_21 rt.V
+	_ = x_21
+	var x_22 rt.V
+	_ = x_22
+	var x_23 rt.V
+	_ = x_23
+	var x_24 rt.V
+	_ = x_24
+	var x_25 rt.V
+	_ = x_25
+	var x_26 rt.V
+	_ = x_26
+	switch rt.Lean_obj_tag(x_1) {
+	case 0:
+		x_2 = l_Leanharbor_Json_tokBytes___closed__3()
+		return x_2
+	case 1:
+		x_3 = rt.Lean_ctor_get_uint8(x_1, 0)
+		switch x_3 {
+		case 0:
+			x_4 = l_Leanharbor_Json_tokBytes___closed__8()
+			return x_4
+		case 1:
+			x_5 = l_Leanharbor_Json_tokBytes___closed__11()
+			return x_5
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	case 2:
+		x_6 = rt.Lean_ctor_get_uint64(x_1, 0)
+		x_7 = l_UInt64_toNat(x_6)
+		{
+			extra := frame.SuspendExtra()
+			x_8 = frame.Result(core_L_Leanharbor_Token_decimal(frame, x_7))
+			frame.ResumeExtra(extra)
+		}
+		rt.Lean_dec(x_7)
+		return x_8
+	case 3:
+		x_9 = rt.Lean_ctor_get(x_1, 0)
+		x_10 = 34
+		{
+			extra := frame.SuspendExtra()
+			x_11 = frame.Result(core_L_Leanharbor_Json_escape(frame, x_9))
+			frame.ResumeExtra(extra)
+		}
+		x_12 = rt.Lean_box(uint64(x_10))
+		x_13 = rt.Lean_alloc_ctor(1, 2, 0)
+		rt.Lean_ctor_set(x_13, 0, x_12)
+		rt.Lean_ctor_set(x_13, 1, x_11)
+		x_14 = l_Leanharbor_Json_escapeByte___closed__12()
+		rt.TailCall(frame, tail_L_List_appendTR___redArg, []rt.V{x_13, x_14})
+		return rt.V{}
+	case 4:
+		x_16 = rt.Lean_ctor_get(x_1, 0)
+		x_17 = 34
+		{
+			extra := frame.SuspendExtra()
+			x_18 = frame.Result(core_L_Leanharbor_Json_escape(frame, x_16))
+			frame.ResumeExtra(extra)
+		}
+		x_19 = rt.Lean_box(uint64(x_17))
+		x_20 = rt.Lean_alloc_ctor(1, 2, 0)
+		rt.Lean_ctor_set(x_20, 0, x_19)
+		rt.Lean_ctor_set(x_20, 1, x_18)
+		x_21 = l_Leanharbor_Json_tokBytes___closed__13()
+		rt.TailCall(frame, tail_L_List_appendTR___redArg, []rt.V{x_20, x_21})
+		return rt.V{}
+	case 5:
+		x_23 = l_Leanharbor_Json_tokBytes___closed__14()
+		return x_23
+	case 6:
+		x_24 = l_Leanharbor_Json_tokBytes___closed__15()
+		return x_24
+	case 7:
+		x_25 = l_Leanharbor_Json_tokBytes___closed__16()
+		return x_25
+	case 8:
+		x_26 = l_Leanharbor_Json_tokBytes___closed__17()
+		return x_26
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+}
+
+func core_L_Leanharbor_Json_write(frame *rt.Tail, x_1 rt.V) rt.V {
+	var x_2 rt.V
+	_ = x_2
+	var x_3 uint8
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_2 = rt.Lean_box(0)
+	x_3 = 0
+	rt.TailCall(frame, tail_L_Leanharbor_Json_writeFrom, []rt.V{x_2, rt.Lean_box(uint64(x_3)), x_1})
+	return rt.V{}
+}
+
+func core_L_Leanharbor_Json_writeFrom(frame *rt.Tail, x_1 rt.V, x_2 uint8, x_3 rt.V) rt.V {
+	var x_4 rt.V
+	_ = x_4
+	var x_5 rt.V
+	_ = x_5
+	var x_6 rt.V
+	_ = x_6
+	var x_8 rt.V
+	_ = x_8
+	var x_9 rt.V
+	_ = x_9
+	var x_10 rt.V
+	_ = x_10
+	var x_11 rt.V
+	_ = x_11
+	var x_12 uint8
+	_ = x_12
+	var x_13 rt.V
+	_ = x_13
+	var x_15 rt.V
+	_ = x_15
+	var x_16 uint8
+	_ = x_16
+	var x_17 rt.V
+	_ = x_17
+_start:
+	switch rt.Lean_obj_tag(x_3) {
+	case 0:
+		rt.TailCall(frame, tail_L_List_reverse___redArg, []rt.V{x_1})
+		return rt.V{}
+	case 1:
+		x_5 = rt.Lean_ctor_get(x_3, 0)
+		x_6 = rt.Lean_ctor_get(x_3, 1)
+		switch x_2 {
+		case 0:
+			goto _jp_14
+		case 1:
+			x_16 = l_Leanharbor_Json_isClose(x_5)
+			switch x_16 {
+			case 0:
+				x_17 = l_Leanharbor_Json_writeFrom___closed__0()
+				x_8 = x_17
+				goto _jp_7
+			case 1:
+				goto _jp_14
+			default:
+				rt.Lean_internal_panic_unreachable()
+				return rt.V{}
+			}
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_7:
+	{
+		extra := frame.SuspendExtra()
+		x_9 = frame.Result(core_L_Leanharbor_Json_tokBytes(frame, x_5))
+		frame.ResumeExtra(extra)
+	}
+	rt.Lean_inc(x_8)
+	{
+		extra := frame.SuspendExtra()
+		x_10 = frame.Result(core_L_List_appendTR___redArg(frame, x_8, x_9))
+		frame.ResumeExtra(extra)
+	}
+	x_11 = l_List_reverseAux___redArg(x_10, x_1)
+	x_12 = l_Leanharbor_Json_endsValue(x_5)
+	x_1, x_2, x_3 = x_11, x_12, x_6
+	goto _start
+_jp_14:
+	x_15 = rt.Lean_box(0)
+	x_8 = x_15
+	goto _jp_7
+}
+
+func core_L_Leanharbor_Token_decimal(frame *rt.Tail, x_1 rt.V) rt.V {
+	var x_2 rt.V
+	_ = x_2
+	var x_3 uint8
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	var x_5 rt.V
+	_ = x_5
+	var x_6 rt.V
+	_ = x_6
+	var x_7 rt.V
+	_ = x_7
+	var x_8 rt.V
+	_ = x_8
+	var x_9 uint8
+	_ = x_9
+	var x_10 rt.V
+	_ = x_10
+	var x_11 rt.V
+	_ = x_11
+	var x_12 rt.V
+	_ = x_12
+	var x_13 rt.V
+	_ = x_13
+	var x_14 rt.V
+	_ = x_14
+	var x_15 rt.V
+	_ = x_15
+	var x_16 uint8
+	_ = x_16
+	var x_17 rt.V
+	_ = x_17
+	var x_18 rt.V
+	_ = x_18
+	var x_19 rt.V
+	_ = x_19
+	x_2 = rt.NatFromUint64(10)
+	x_3 = l_Nat_decLt(x_1, x_2)
+	switch x_3 {
+	case 0:
+		x_4 = l_Nat_div(x_1, x_2)
+		{
+			extra := frame.SuspendExtra()
+			x_5 = frame.Result(core_L_Leanharbor_Token_decimal(frame, x_4))
+			frame.ResumeExtra(extra)
+		}
+		rt.Lean_dec(x_4)
+		x_6 = l_Nat_mod(x_1, x_2)
+		x_7 = rt.NatFromUint64(48)
+		x_8 = l_Nat_add(x_6, x_7)
+		rt.Lean_dec(x_6)
+		x_9 = l_UInt8_ofNat(x_8)
+		rt.Lean_dec(x_8)
+		x_10 = rt.Lean_box(0)
+		x_11 = rt.Lean_box(uint64(x_9))
+		x_12 = rt.Lean_alloc_ctor(1, 2, 0)
+		rt.Lean_ctor_set(x_12, 0, x_11)
+		rt.Lean_ctor_set(x_12, 1, x_10)
+		rt.TailCall(frame, tail_L_List_appendTR___redArg, []rt.V{x_5, x_12})
+		return rt.V{}
+	case 1:
+		x_14 = rt.NatFromUint64(48)
+		x_15 = l_Nat_add(x_1, x_14)
+		x_16 = l_UInt8_ofNat(x_15)
+		rt.Lean_dec(x_15)
+		x_17 = rt.Lean_box(0)
+		x_18 = rt.Lean_box(uint64(x_16))
+		x_19 = rt.Lean_alloc_ctor(1, 2, 0)
+		rt.Lean_ctor_set(x_19, 0, x_18)
+		rt.Lean_ctor_set(x_19, 1, x_17)
+		return x_19
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+}
+
+func core_L_List_appendTR___redArg(frame *rt.Tail, x_1 rt.V, x_2 rt.V) rt.V {
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	{
+		extra := frame.SuspendExtra()
+		x_3 = frame.Result(core_L_List_reverse___redArg(frame, x_1))
+		frame.ResumeExtra(extra)
+	}
+	rt.TailCall(frame, tail_L_List_reverseAux___redArg, []rt.V{x_3, x_2})
+	return rt.V{}
+}
+
+func core_L_List_reverse___redArg(frame *rt.Tail, x_1 rt.V) rt.V {
+	var x_2 rt.V
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	x_2 = rt.Lean_box(0)
+	rt.TailCall(frame, tail_L_List_reverseAux___redArg, []rt.V{x_1, x_2})
+	return rt.V{}
+}
+
 func init() {
 	rt.SetInitializing(true)
 	defer rt.SetInitializing(false)
 	value_L_Calculator_Kernel_compute___closed__0 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_compute___closed__0())
 	value_L_Calculator_Kernel_compute___closed__1 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_compute___closed__1())
 	value_L_Calculator_Kernel_compute___closed__2 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_compute___closed__2())
+	value_L_Calculator_Kernel_errorToks___closed__0 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorToks___closed__0())
+	value_L_Calculator_Kernel_errorToks___closed__1 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorToks___closed__1())
+	value_L_Calculator_Kernel_errorToks___closed__2 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorToks___closed__2())
+	value_L_Calculator_Kernel_errorToks___closed__3 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorToks___closed__3())
+	value_L_Calculator_Kernel_errorToks___closed__4 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorToks___closed__4())
+	value_L_Calculator_Kernel_errorToks___closed__5 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorToks___closed__5())
+	value_L_Calculator_Kernel_errorName___closed__0 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__0())
+	value_L_Calculator_Kernel_errorName___closed__1 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__1())
+	value_L_Calculator_Kernel_errorName___closed__2 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__2())
+	value_L_Calculator_Kernel_errorName___closed__3 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__3())
+	value_L_Calculator_Kernel_errorName___closed__4 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__4())
+	value_L_Calculator_Kernel_errorName___closed__5 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__5())
+	value_L_Calculator_Kernel_errorName___closed__6 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__6())
+	value_L_Calculator_Kernel_errorName___closed__7 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__7())
+	value_L_Calculator_Kernel_errorName___closed__8 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__8())
+	value_L_Calculator_Kernel_errorName___closed__9 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__9())
+	value_L_Calculator_Kernel_errorName___closed__10 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__10())
+	value_L_Calculator_Kernel_errorName___closed__11 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__11())
+	value_L_Calculator_Kernel_errorName___closed__12 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__12())
+	value_L_Calculator_Kernel_errorName___closed__13 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__13())
+	value_L_Calculator_Kernel_errorName___closed__14 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__14())
+	value_L_Calculator_Kernel_errorName___closed__15 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__15())
+	value_L_Calculator_Kernel_errorName___closed__16 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__16())
+	value_L_Calculator_Kernel_errorName___closed__17 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__17())
+	value_L_Calculator_Kernel_errorName___closed__18 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__18())
+	value_L_Calculator_Kernel_errorName___closed__19 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__19())
+	value_L_Calculator_Kernel_errorName___closed__20 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__20())
+	value_L_Calculator_Kernel_errorName___closed__21 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__21())
+	value_L_Calculator_Kernel_errorName___closed__22 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__22())
+	value_L_Calculator_Kernel_errorName___closed__23 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__23())
+	value_L_Calculator_Kernel_errorName___closed__24 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__24())
+	value_L_Calculator_Kernel_errorName___closed__25 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__25())
+	value_L_Calculator_Kernel_errorName___closed__26 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_errorName___closed__26())
+	value_L_Calculator_Kernel_replyToks___closed__6 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_replyToks___closed__6())
+	value_L_Leanharbor_Json_tokBytes___closed__0 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__0())
+	value_L_Leanharbor_Json_tokBytes___closed__1 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__1())
+	value_L_Leanharbor_Json_tokBytes___closed__2 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__2())
+	value_L_Leanharbor_Json_tokBytes___closed__3 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__3())
+	value_L_Leanharbor_Json_tokBytes___closed__4 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__4())
+	value_L_Leanharbor_Json_tokBytes___closed__5 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__5())
+	value_L_Leanharbor_Json_tokBytes___closed__6 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__6())
+	value_L_Leanharbor_Json_tokBytes___closed__7 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__7())
+	value_L_Leanharbor_Json_tokBytes___closed__8 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__8())
+	value_L_Leanharbor_Json_tokBytes___closed__9 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__9())
+	value_L_Leanharbor_Json_tokBytes___closed__10 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__10())
+	value_L_Leanharbor_Json_tokBytes___closed__11 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__11())
+	value_L_Leanharbor_Json_escape___closed__0 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escape___closed__0())
+	value_L_Leanharbor_Json_escapeByte___closed__0 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__0())
+	value_L_Leanharbor_Json_escapeByte___closed__1 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__1())
+	value_L_Leanharbor_Json_escapeByte___closed__2 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__2())
+	value_L_Leanharbor_Json_escapeByte___closed__3 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__3())
+	value_L_Leanharbor_Json_escapeByte___closed__4 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__4())
+	value_L_Leanharbor_Json_escapeByte___closed__5 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__5())
+	value_L_Leanharbor_Json_escapeByte___closed__6 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__6())
+	value_L_Leanharbor_Json_escapeByte___closed__7 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__7())
+	value_L_Leanharbor_Json_escapeByte___closed__8 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__8())
+	value_L_Leanharbor_Json_escapeByte___closed__9 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__9())
+	value_L_Leanharbor_Json_escapeByte___closed__10 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__10())
+	value_L_Leanharbor_Json_escapeByte___closed__11 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__11())
+	value_L_Leanharbor_Json_escapeByte___closed__12 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__12())
+	value_L_Leanharbor_Json_escapeByte___closed__13 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__13())
+	value_L_Leanharbor_Json_tokBytes___closed__12 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__12())
+	value_L_Leanharbor_Json_tokBytes___closed__13 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__13())
+	value_L_Leanharbor_Json_tokBytes___closed__14 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__14())
+	value_L_Leanharbor_Json_tokBytes___closed__15 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__15())
+	value_L_Leanharbor_Json_tokBytes___closed__16 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__16())
+	value_L_Leanharbor_Json_tokBytes___closed__17 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__17())
+	value_L_Leanharbor_Json_writeFrom___closed__0 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_writeFrom___closed__0())
+	value_L_Calculator_Kernel_replyToks___closed__0 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_replyToks___closed__0())
+	value_L_Calculator_Kernel_replyToks___closed__1 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_replyToks___closed__1())
+	value_L_Calculator_Kernel_replyToks___closed__2 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_replyToks___closed__2())
+	value_L_Calculator_Kernel_replyToks___closed__3 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_replyToks___closed__3())
+	value_L_Calculator_Kernel_replyToks___closed__4 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_replyToks___closed__4())
+	value_L_Calculator_Kernel_replyToks___closed__5 = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_replyToks___closed__5())
 	value_L_Calculator_Kernel_init = rt.Lean_mark_persistent(compute_L_Calculator_Kernel_init())
+}
+
+func l_Array_mkEmpty(x_2 rt.V) rt.V {
+	return rt.Lean_mk_empty_array_with_capacity(x_2)
+}
+
+func l_Array_push(x_2 rt.V, x_3 rt.V) rt.V {
+	return rt.Lean_array_push(x_2, x_3)
+}
+
+func l_Array_toList(x_2 rt.V) rt.V {
+	return rt.Lean_array_to_list(x_2)
 }
 
 func l_Calculator_Kernel_apply(x_1 rt.V, x_2 rt.V) rt.V {
@@ -395,6 +2118,218 @@ func l_Calculator_Kernel_compute___closed__1() rt.V {
 
 func l_Calculator_Kernel_compute___closed__2() rt.V {
 	return value_L_Calculator_Kernel_compute___closed__2
+}
+
+func l_Calculator_Kernel_encodeError(x_1 uint8) rt.V {
+	var x_2 rt.V
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	x_2 = l_Calculator_Kernel_errorToks(x_1)
+	x_3 = l_Leanharbor_Json_write(x_2)
+	rt.Lean_dec(x_2)
+	return x_3
+}
+
+func l_Calculator_Kernel_encodeReply(x_1 uint64) rt.V {
+	var x_2 rt.V
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	x_2 = l_Calculator_Kernel_replyToks(x_1)
+	x_3 = l_Leanharbor_Json_write(x_2)
+	rt.Lean_dec(x_2)
+	return x_3
+}
+
+func l_Calculator_Kernel_errorName(x_1 uint8) rt.V {
+	var x_2 rt.V
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	switch x_1 {
+	case 0:
+		x_2 = l_Calculator_Kernel_errorName___closed__7()
+		return x_2
+	case 1:
+		x_3 = l_Calculator_Kernel_errorName___closed__10()
+		return x_3
+	case 2:
+		x_4 = l_Calculator_Kernel_errorName___closed__26()
+		return x_4
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+}
+
+func l_Calculator_Kernel_errorName___closed__0() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__0
+}
+
+func l_Calculator_Kernel_errorName___closed__1() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__1
+}
+
+func l_Calculator_Kernel_errorName___closed__10() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__10
+}
+
+func l_Calculator_Kernel_errorName___closed__11() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__11
+}
+
+func l_Calculator_Kernel_errorName___closed__12() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__12
+}
+
+func l_Calculator_Kernel_errorName___closed__13() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__13
+}
+
+func l_Calculator_Kernel_errorName___closed__14() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__14
+}
+
+func l_Calculator_Kernel_errorName___closed__15() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__15
+}
+
+func l_Calculator_Kernel_errorName___closed__16() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__16
+}
+
+func l_Calculator_Kernel_errorName___closed__17() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__17
+}
+
+func l_Calculator_Kernel_errorName___closed__18() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__18
+}
+
+func l_Calculator_Kernel_errorName___closed__19() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__19
+}
+
+func l_Calculator_Kernel_errorName___closed__2() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__2
+}
+
+func l_Calculator_Kernel_errorName___closed__20() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__20
+}
+
+func l_Calculator_Kernel_errorName___closed__21() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__21
+}
+
+func l_Calculator_Kernel_errorName___closed__22() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__22
+}
+
+func l_Calculator_Kernel_errorName___closed__23() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__23
+}
+
+func l_Calculator_Kernel_errorName___closed__24() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__24
+}
+
+func l_Calculator_Kernel_errorName___closed__25() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__25
+}
+
+func l_Calculator_Kernel_errorName___closed__26() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__26
+}
+
+func l_Calculator_Kernel_errorName___closed__3() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__3
+}
+
+func l_Calculator_Kernel_errorName___closed__4() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__4
+}
+
+func l_Calculator_Kernel_errorName___closed__5() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__5
+}
+
+func l_Calculator_Kernel_errorName___closed__6() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__6
+}
+
+func l_Calculator_Kernel_errorName___closed__7() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__7
+}
+
+func l_Calculator_Kernel_errorName___closed__8() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__8
+}
+
+func l_Calculator_Kernel_errorName___closed__9() rt.V {
+	return value_L_Calculator_Kernel_errorName___closed__9
+}
+
+func l_Calculator_Kernel_errorToks(x_1 uint8) rt.V {
+	var x_2 rt.V
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	var x_5 rt.V
+	_ = x_5
+	var x_6 rt.V
+	_ = x_6
+	var x_7 rt.V
+	_ = x_7
+	var x_8 rt.V
+	_ = x_8
+	var x_9 rt.V
+	_ = x_9
+	x_2 = rt.Lean_box(7)
+	x_3 = l_Calculator_Kernel_errorToks___closed__5()
+	x_4 = l_Calculator_Kernel_errorName(x_1)
+	x_5 = rt.Lean_alloc_ctor(3, 1, 0)
+	rt.Lean_ctor_set(x_5, 0, x_4)
+	x_6 = l_Calculator_Kernel_replyToks___closed__6()
+	x_7 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_7, 0, x_5)
+	rt.Lean_ctor_set(x_7, 1, x_6)
+	x_8 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_8, 0, x_3)
+	rt.Lean_ctor_set(x_8, 1, x_7)
+	x_9 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_9, 0, x_2)
+	rt.Lean_ctor_set(x_9, 1, x_8)
+	return x_9
+}
+
+func l_Calculator_Kernel_errorToks___closed__0() rt.V {
+	return value_L_Calculator_Kernel_errorToks___closed__0
+}
+
+func l_Calculator_Kernel_errorToks___closed__1() rt.V {
+	return value_L_Calculator_Kernel_errorToks___closed__1
+}
+
+func l_Calculator_Kernel_errorToks___closed__2() rt.V {
+	return value_L_Calculator_Kernel_errorToks___closed__2
+}
+
+func l_Calculator_Kernel_errorToks___closed__3() rt.V {
+	return value_L_Calculator_Kernel_errorToks___closed__3
+}
+
+func l_Calculator_Kernel_errorToks___closed__4() rt.V {
+	return value_L_Calculator_Kernel_errorToks___closed__4
+}
+
+func l_Calculator_Kernel_errorToks___closed__5() rt.V {
+	return value_L_Calculator_Kernel_errorToks___closed__5
 }
 
 func l_Calculator_Kernel_init() rt.V {
@@ -654,6 +2589,66 @@ func l_Calculator_Kernel_readOnly(x_1 rt.V) uint8 {
 	}
 }
 
+func l_Calculator_Kernel_replyToks(x_1 uint64) rt.V {
+	var x_2 rt.V
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	var x_5 rt.V
+	_ = x_5
+	var x_6 rt.V
+	_ = x_6
+	var x_7 rt.V
+	_ = x_7
+	var x_8 rt.V
+	_ = x_8
+	x_2 = rt.Lean_box(7)
+	x_3 = l_Calculator_Kernel_replyToks___closed__5()
+	x_4 = rt.Lean_alloc_ctor(2, 0, 8)
+	rt.Lean_ctor_set_uint64(x_4, 0, x_1)
+	x_5 = l_Calculator_Kernel_replyToks___closed__6()
+	x_6 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_6, 0, x_4)
+	rt.Lean_ctor_set(x_6, 1, x_5)
+	x_7 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_7, 0, x_3)
+	rt.Lean_ctor_set(x_7, 1, x_6)
+	x_8 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_8, 0, x_2)
+	rt.Lean_ctor_set(x_8, 1, x_7)
+	return x_8
+}
+
+func l_Calculator_Kernel_replyToks___closed__0() rt.V {
+	return value_L_Calculator_Kernel_replyToks___closed__0
+}
+
+func l_Calculator_Kernel_replyToks___closed__1() rt.V {
+	return value_L_Calculator_Kernel_replyToks___closed__1
+}
+
+func l_Calculator_Kernel_replyToks___closed__2() rt.V {
+	return value_L_Calculator_Kernel_replyToks___closed__2
+}
+
+func l_Calculator_Kernel_replyToks___closed__3() rt.V {
+	return value_L_Calculator_Kernel_replyToks___closed__3
+}
+
+func l_Calculator_Kernel_replyToks___closed__4() rt.V {
+	return value_L_Calculator_Kernel_replyToks___closed__4
+}
+
+func l_Calculator_Kernel_replyToks___closed__5() rt.V {
+	return value_L_Calculator_Kernel_replyToks___closed__5
+}
+
+func l_Calculator_Kernel_replyToks___closed__6() rt.V {
+	return value_L_Calculator_Kernel_replyToks___closed__6
+}
+
 func l_Calculator_Kernel_store(x_1 uint64, x_2 uint64, x_3 rt.V) rt.V {
 	frame := rt.AcquireTail()
 	defer rt.ReleaseTail(frame)
@@ -851,6 +2846,622 @@ func l_Calculator_Kernel_upsert(x_1 rt.V, x_2 rt.V) rt.V {
 	return frame.Result(core_L_Calculator_Kernel_upsert(frame, x_1, x_2))
 }
 
+func l_Leanharbor_Json_endsValue(x_1 rt.V) uint8 {
+	var x_2 uint8
+	_ = x_2
+	var x_3 uint8
+	_ = x_3
+	var x_4 uint8
+	_ = x_4
+	var x_5 uint8
+	_ = x_5
+	var x_6 uint8
+	_ = x_6
+	var x_7 uint8
+	_ = x_7
+	var x_8 uint8
+	_ = x_8
+	switch rt.Lean_obj_tag(x_1) {
+	case 1:
+		x_2 = 1
+		return x_2
+	case 2:
+		x_3 = 1
+		return x_3
+	case 3:
+		x_4 = 1
+		return x_4
+	case 4:
+		x_5 = 0
+		return x_5
+	case 5:
+		x_6 = 0
+		return x_6
+	case 7:
+		x_7 = 0
+		return x_7
+	default:
+		x_8 = 1
+		return x_8
+	}
+}
+
+func l_Leanharbor_Json_escape(x_1 rt.V) rt.V {
+	frame := rt.AcquireTail()
+	defer rt.ReleaseTail(frame)
+	return frame.Result(core_L_Leanharbor_Json_escape(frame, x_1))
+}
+
+func l_Leanharbor_Json_escapeByte(x_1 uint8) rt.V {
+	var x_2 uint8
+	_ = x_2
+	var x_3 uint8
+	_ = x_3
+	var x_4 uint8
+	_ = x_4
+	var x_5 uint8
+	_ = x_5
+	var x_6 uint8
+	_ = x_6
+	var x_7 uint8
+	_ = x_7
+	var x_8 uint8
+	_ = x_8
+	var x_9 uint8
+	_ = x_9
+	var x_10 uint8
+	_ = x_10
+	var x_11 uint8
+	_ = x_11
+	var x_12 uint8
+	_ = x_12
+	var x_13 uint8
+	_ = x_13
+	var x_14 uint8
+	_ = x_14
+	var x_15 uint8
+	_ = x_15
+	var x_16 uint8
+	_ = x_16
+	var x_17 uint8
+	_ = x_17
+	var x_18 rt.V
+	_ = x_18
+	var x_19 rt.V
+	_ = x_19
+	var x_20 rt.V
+	_ = x_20
+	var x_21 uint8
+	_ = x_21
+	var x_22 uint8
+	_ = x_22
+	var x_23 rt.V
+	_ = x_23
+	var x_24 rt.V
+	_ = x_24
+	var x_25 rt.V
+	_ = x_25
+	var x_26 rt.V
+	_ = x_26
+	var x_27 uint8
+	_ = x_27
+	var x_28 rt.V
+	_ = x_28
+	var x_29 uint8
+	_ = x_29
+	var x_30 rt.V
+	_ = x_30
+	var x_31 rt.V
+	_ = x_31
+	var x_32 rt.V
+	_ = x_32
+	var x_33 rt.V
+	_ = x_33
+	var x_34 rt.V
+	_ = x_34
+	var x_35 rt.V
+	_ = x_35
+	var x_36 rt.V
+	_ = x_36
+	var x_37 rt.V
+	_ = x_37
+	var x_38 rt.V
+	_ = x_38
+	var x_39 rt.V
+	_ = x_39
+	var x_40 rt.V
+	_ = x_40
+	var x_41 rt.V
+	_ = x_41
+	var x_42 rt.V
+	_ = x_42
+	var x_43 rt.V
+	_ = x_43
+	var x_44 rt.V
+	_ = x_44
+	var x_45 rt.V
+	_ = x_45
+	var x_46 rt.V
+	_ = x_46
+	var x_47 rt.V
+	_ = x_47
+	var x_48 rt.V
+	_ = x_48
+	var x_49 rt.V
+	_ = x_49
+	x_2 = 34
+	x_3 = l_UInt8_decEq(x_1, x_2)
+	switch x_3 {
+	case 0:
+		x_4 = 92
+		x_5 = l_UInt8_decEq(x_1, x_4)
+		switch x_5 {
+		case 0:
+			x_6 = 8
+			x_7 = l_UInt8_decEq(x_1, x_6)
+			switch x_7 {
+			case 0:
+				x_8 = 12
+				x_9 = l_UInt8_decEq(x_1, x_8)
+				switch x_9 {
+				case 0:
+					x_10 = 10
+					x_11 = l_UInt8_decEq(x_1, x_10)
+					switch x_11 {
+					case 0:
+						x_12 = 13
+						x_13 = l_UInt8_decEq(x_1, x_12)
+						switch x_13 {
+						case 0:
+							x_14 = 9
+							x_15 = l_UInt8_decEq(x_1, x_14)
+							switch x_15 {
+							case 0:
+								x_16 = 32
+								x_17 = l_UInt8_decLt(x_1, x_16)
+								switch x_17 {
+								case 0:
+									x_18 = rt.Lean_box(0)
+									x_19 = rt.Lean_box(uint64(x_1))
+									x_20 = rt.Lean_alloc_ctor(1, 2, 0)
+									rt.Lean_ctor_set(x_20, 0, x_19)
+									rt.Lean_ctor_set(x_20, 1, x_18)
+									return x_20
+								case 1:
+									x_21 = 117
+									x_22 = 48
+									x_23 = l_UInt8_toNat(x_1)
+									x_24 = rt.NatFromUint64(16)
+									x_25 = rt.NatFromUint64(4)
+									x_26 = l_Nat_shiftRight(x_23, x_25)
+									x_27 = l_Leanharbor_Token_hexDigit(x_26)
+									rt.Lean_dec(x_26)
+									x_28 = l_Nat_mod(x_23, x_24)
+									x_29 = l_Leanharbor_Token_hexDigit(x_28)
+									rt.Lean_dec(x_28)
+									x_30 = rt.Lean_box(0)
+									x_31 = rt.Lean_box(uint64(x_29))
+									x_32 = rt.Lean_alloc_ctor(1, 2, 0)
+									rt.Lean_ctor_set(x_32, 0, x_31)
+									rt.Lean_ctor_set(x_32, 1, x_30)
+									x_33 = rt.Lean_box(uint64(x_27))
+									x_34 = rt.Lean_alloc_ctor(1, 2, 0)
+									rt.Lean_ctor_set(x_34, 0, x_33)
+									rt.Lean_ctor_set(x_34, 1, x_32)
+									x_35 = rt.Lean_box(uint64(x_22))
+									x_36 = rt.Lean_alloc_ctor(1, 2, 0)
+									rt.Lean_ctor_set(x_36, 0, x_35)
+									rt.Lean_ctor_set(x_36, 1, x_34)
+									x_37 = rt.Lean_box(uint64(x_22))
+									x_38 = rt.Lean_alloc_ctor(1, 2, 0)
+									rt.Lean_ctor_set(x_38, 0, x_37)
+									rt.Lean_ctor_set(x_38, 1, x_36)
+									x_39 = rt.Lean_box(uint64(x_21))
+									x_40 = rt.Lean_alloc_ctor(1, 2, 0)
+									rt.Lean_ctor_set(x_40, 0, x_39)
+									rt.Lean_ctor_set(x_40, 1, x_38)
+									x_41 = rt.Lean_box(uint64(x_4))
+									x_42 = rt.Lean_alloc_ctor(1, 2, 0)
+									rt.Lean_ctor_set(x_42, 0, x_41)
+									rt.Lean_ctor_set(x_42, 1, x_40)
+									return x_42
+								default:
+									rt.Lean_internal_panic_unreachable()
+									return rt.V{}
+								}
+							case 1:
+								x_43 = l_Leanharbor_Json_escapeByte___closed__1()
+								return x_43
+							default:
+								rt.Lean_internal_panic_unreachable()
+								return rt.V{}
+							}
+						case 1:
+							x_44 = l_Leanharbor_Json_escapeByte___closed__3()
+							return x_44
+						default:
+							rt.Lean_internal_panic_unreachable()
+							return rt.V{}
+						}
+					case 1:
+						x_45 = l_Leanharbor_Json_escapeByte___closed__5()
+						return x_45
+					default:
+						rt.Lean_internal_panic_unreachable()
+						return rt.V{}
+					}
+				case 1:
+					x_46 = l_Leanharbor_Json_escapeByte___closed__7()
+					return x_46
+				default:
+					rt.Lean_internal_panic_unreachable()
+					return rt.V{}
+				}
+			case 1:
+				x_47 = l_Leanharbor_Json_escapeByte___closed__9()
+				return x_47
+			default:
+				rt.Lean_internal_panic_unreachable()
+				return rt.V{}
+			}
+		case 1:
+			x_48 = l_Leanharbor_Json_escapeByte___closed__11()
+			return x_48
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	case 1:
+		x_49 = l_Leanharbor_Json_escapeByte___closed__13()
+		return x_49
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+}
+
+func l_Leanharbor_Json_escapeByte___closed__0() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__0
+}
+
+func l_Leanharbor_Json_escapeByte___closed__1() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__1
+}
+
+func l_Leanharbor_Json_escapeByte___closed__10() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__10
+}
+
+func l_Leanharbor_Json_escapeByte___closed__11() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__11
+}
+
+func l_Leanharbor_Json_escapeByte___closed__12() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__12
+}
+
+func l_Leanharbor_Json_escapeByte___closed__13() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__13
+}
+
+func l_Leanharbor_Json_escapeByte___closed__2() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__2
+}
+
+func l_Leanharbor_Json_escapeByte___closed__3() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__3
+}
+
+func l_Leanharbor_Json_escapeByte___closed__4() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__4
+}
+
+func l_Leanharbor_Json_escapeByte___closed__5() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__5
+}
+
+func l_Leanharbor_Json_escapeByte___closed__6() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__6
+}
+
+func l_Leanharbor_Json_escapeByte___closed__7() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__7
+}
+
+func l_Leanharbor_Json_escapeByte___closed__8() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__8
+}
+
+func l_Leanharbor_Json_escapeByte___closed__9() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__9
+}
+
+func l_Leanharbor_Json_escape___closed__0() rt.V {
+	return value_L_Leanharbor_Json_escape___closed__0
+}
+
+func l_Leanharbor_Json_isClose(x_1 rt.V) uint8 {
+	var x_2 uint8
+	_ = x_2
+	var x_3 uint8
+	_ = x_3
+	var x_4 uint8
+	_ = x_4
+	switch rt.Lean_obj_tag(x_1) {
+	case 6:
+		x_2 = 1
+		return x_2
+	case 8:
+		x_3 = 1
+		return x_3
+	default:
+		x_4 = 0
+		return x_4
+	}
+}
+
+func l_Leanharbor_Json_tokBytes(x_1 rt.V) rt.V {
+	frame := rt.AcquireTail()
+	defer rt.ReleaseTail(frame)
+	return frame.Result(core_L_Leanharbor_Json_tokBytes(frame, x_1))
+}
+
+func l_Leanharbor_Json_tokBytes___closed__0() rt.V {
+	return value_L_Leanharbor_Json_tokBytes___closed__0
+}
+
+func l_Leanharbor_Json_tokBytes___closed__1() rt.V {
+	return value_L_Leanharbor_Json_tokBytes___closed__1
+}
+
+func l_Leanharbor_Json_tokBytes___closed__10() rt.V {
+	return value_L_Leanharbor_Json_tokBytes___closed__10
+}
+
+func l_Leanharbor_Json_tokBytes___closed__11() rt.V {
+	return value_L_Leanharbor_Json_tokBytes___closed__11
+}
+
+func l_Leanharbor_Json_tokBytes___closed__12() rt.V {
+	return value_L_Leanharbor_Json_tokBytes___closed__12
+}
+
+func l_Leanharbor_Json_tokBytes___closed__13() rt.V {
+	return value_L_Leanharbor_Json_tokBytes___closed__13
+}
+
+func l_Leanharbor_Json_tokBytes___closed__14() rt.V {
+	return value_L_Leanharbor_Json_tokBytes___closed__14
+}
+
+func l_Leanharbor_Json_tokBytes___closed__15() rt.V {
+	return value_L_Leanharbor_Json_tokBytes___closed__15
+}
+
+func l_Leanharbor_Json_tokBytes___closed__16() rt.V {
+	return value_L_Leanharbor_Json_tokBytes___closed__16
+}
+
+func l_Leanharbor_Json_tokBytes___closed__17() rt.V {
+	return value_L_Leanharbor_Json_tokBytes___closed__17
+}
+
+func l_Leanharbor_Json_tokBytes___closed__2() rt.V {
+	return value_L_Leanharbor_Json_tokBytes___closed__2
+}
+
+func l_Leanharbor_Json_tokBytes___closed__3() rt.V {
+	return value_L_Leanharbor_Json_tokBytes___closed__3
+}
+
+func l_Leanharbor_Json_tokBytes___closed__4() rt.V {
+	return value_L_Leanharbor_Json_tokBytes___closed__4
+}
+
+func l_Leanharbor_Json_tokBytes___closed__5() rt.V {
+	return value_L_Leanharbor_Json_tokBytes___closed__5
+}
+
+func l_Leanharbor_Json_tokBytes___closed__6() rt.V {
+	return value_L_Leanharbor_Json_tokBytes___closed__6
+}
+
+func l_Leanharbor_Json_tokBytes___closed__7() rt.V {
+	return value_L_Leanharbor_Json_tokBytes___closed__7
+}
+
+func l_Leanharbor_Json_tokBytes___closed__8() rt.V {
+	return value_L_Leanharbor_Json_tokBytes___closed__8
+}
+
+func l_Leanharbor_Json_tokBytes___closed__9() rt.V {
+	return value_L_Leanharbor_Json_tokBytes___closed__9
+}
+
+func l_Leanharbor_Json_write(x_1 rt.V) rt.V {
+	frame := rt.AcquireTail()
+	defer rt.ReleaseTail(frame)
+	return frame.Result(core_L_Leanharbor_Json_write(frame, x_1))
+}
+
+func l_Leanharbor_Json_writeFrom(x_1 rt.V, x_2 uint8, x_3 rt.V) rt.V {
+	frame := rt.AcquireTail()
+	defer rt.ReleaseTail(frame)
+	return frame.Result(core_L_Leanharbor_Json_writeFrom(frame, x_1, x_2, x_3))
+}
+
+func l_Leanharbor_Json_writeFrom___closed__0() rt.V {
+	return value_L_Leanharbor_Json_writeFrom___closed__0
+}
+
+func l_Leanharbor_Token_decimal(x_1 rt.V) rt.V {
+	frame := rt.AcquireTail()
+	defer rt.ReleaseTail(frame)
+	return frame.Result(core_L_Leanharbor_Token_decimal(frame, x_1))
+}
+
+func l_Leanharbor_Token_hexDigit(x_1 rt.V) uint8 {
+	var x_2 rt.V
+	_ = x_2
+	var x_3 uint8
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	var x_5 rt.V
+	_ = x_5
+	var x_6 uint8
+	_ = x_6
+	var x_7 rt.V
+	_ = x_7
+	var x_8 rt.V
+	_ = x_8
+	var x_9 uint8
+	_ = x_9
+	x_2 = rt.NatFromUint64(10)
+	x_3 = l_Nat_decLt(x_1, x_2)
+	switch x_3 {
+	case 0:
+		x_4 = rt.NatFromUint64(87)
+		x_5 = l_Nat_add(x_1, x_4)
+		x_6 = l_UInt8_ofNat(x_5)
+		rt.Lean_dec(x_5)
+		return x_6
+	case 1:
+		x_7 = rt.NatFromUint64(48)
+		x_8 = l_Nat_add(x_1, x_7)
+		x_9 = l_UInt8_ofNat(x_8)
+		rt.Lean_dec(x_8)
+		return x_9
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return 0
+	}
+}
+
+func l_List_appendTR___redArg(x_1 rt.V, x_2 rt.V) rt.V {
+	frame := rt.AcquireTail()
+	defer rt.ReleaseTail(frame)
+	return frame.Result(core_L_List_appendTR___redArg(frame, x_1, x_2))
+}
+
+func l_List_foldl___at___00Array_appendList_spec__0___redArg(x_1 rt.V, x_2 rt.V) rt.V {
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	var x_5 rt.V
+	_ = x_5
+	var x_6 rt.V
+	_ = x_6
+_start:
+	switch rt.Lean_obj_tag(x_2) {
+	case 0:
+		return x_1
+	case 1:
+		x_3 = rt.Lean_ctor_get(x_2, 0)
+		rt.Lean_inc(x_3)
+		x_4 = rt.Lean_ctor_get(x_2, 1)
+		rt.Lean_inc(x_4)
+		rt.Lean_dec(x_2)
+		x_5 = l_Array_push(x_1, x_3)
+		x_1, x_2 = x_5, x_4
+		goto _start
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+}
+
+func l_List_reverseAux___redArg(x_1 rt.V, x_2 rt.V) rt.V {
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	var x_6 rt.V
+	_ = x_6
+	var x_7 uint8
+	_ = x_7
+	var x_9 rt.V
+	_ = x_9
+	var x_10 rt.V
+	_ = x_10
+	var x_11 rt.V
+	_ = x_11
+	var x_12 uint8
+	_ = x_12
+_start:
+	switch rt.Lean_obj_tag(x_1) {
+	case 0:
+		return x_2
+	case 1:
+		x_3 = rt.Lean_ctor_get(x_1, 0)
+		x_4 = rt.Lean_ctor_get(x_1, 1)
+		x_12 = rt.Bool(!rt.Lean_is_exclusive(x_1))
+		switch x_12 {
+		case 0:
+			x_6, x_7 = x_1, x_12
+			goto _jp_5
+		case 1:
+			rt.Lean_inc(x_4)
+			rt.Lean_inc(x_3)
+			rt.Lean_dec(x_1)
+			x_6, x_7 = rt.V{}, x_12
+			goto _jp_5
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_5:
+	switch x_7 {
+	case 0:
+		rt.Lean_ctor_set(x_6, 1, x_2)
+		x_9 = x_6
+		goto _jp_8
+	case 1:
+		x_11 = rt.Lean_alloc_ctor(1, 2, 0)
+		rt.Lean_ctor_set(x_11, 0, x_3)
+		rt.Lean_ctor_set(x_11, 1, x_2)
+		x_9 = x_11
+		goto _jp_8
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_8:
+	x_1, x_2 = x_4, x_9
+	goto _start
+}
+
+func l_List_reverse___redArg(x_1 rt.V) rt.V {
+	frame := rt.AcquireTail()
+	defer rt.ReleaseTail(frame)
+	return frame.Result(core_L_List_reverse___redArg(frame, x_1))
+}
+
+func l_Nat_add(x_1 rt.V, x_2 rt.V) rt.V {
+	return rt.Lean_nat_add(x_1, x_2)
+}
+
+func l_Nat_decLt(x_1 rt.V, x_2 rt.V) uint8 {
+	return rt.Lean_nat_dec_lt(x_1, x_2)
+}
+
+func l_Nat_div(x_1 rt.V, x_2 rt.V) rt.V {
+	return rt.Lean_nat_div(x_1, x_2)
+}
+
+func l_Nat_mod(x_1 rt.V, x_2 rt.V) rt.V {
+	return rt.Lean_nat_mod(x_1, x_2)
+}
+
+func l_Nat_shiftRight(x_1 rt.V, x_2 rt.V) rt.V {
+	return rt.Lean_nat_shiftr(x_1, x_2)
+}
+
 func l_UInt64_add(x_1 uint64, x_2 uint64) uint64 {
 	return rt.Lean_uint64_add(x_1, x_2)
 }
@@ -883,6 +3494,60 @@ func l_UInt64_sub(x_1 uint64, x_2 uint64) uint64 {
 	return rt.Lean_uint64_sub(x_1, x_2)
 }
 
+func l_UInt64_toNat(x_1 uint64) rt.V {
+	return rt.Lean_uint64_to_nat(x_1)
+}
+
+func l_UInt8_decEq(x_1 uint8, x_2 uint8) uint8 {
+	return rt.Lean_uint8_dec_eq(x_1, x_2)
+}
+
+func l_UInt8_decLt(x_1 uint8, x_2 uint8) uint8 {
+	return rt.Lean_uint8_dec_lt(x_1, x_2)
+}
+
+func l_UInt8_ofNat(x_1 rt.V) uint8 {
+	return rt.Lean_uint8_of_nat(x_1)
+}
+
+func l_UInt8_toNat(x_1 uint8) rt.V {
+	return rt.Lean_uint8_to_nat(x_1)
+}
+
+func l___private_Init_Data_List_Impl_0__List_flatMapTR_go___at___00Leanharbor_Json_escape_spec__0(x_1 rt.V, x_2 rt.V) rt.V {
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	var x_5 rt.V
+	_ = x_5
+	var x_6 uint8
+	_ = x_6
+	var x_7 rt.V
+	_ = x_7
+	var x_8 rt.V
+	_ = x_8
+	var x_9 rt.V
+	_ = x_9
+_start:
+	switch rt.Lean_obj_tag(x_1) {
+	case 0:
+		x_3 = l_Array_toList(x_2)
+		return x_3
+	case 1:
+		x_4 = rt.Lean_ctor_get(x_1, 0)
+		x_5 = rt.Lean_ctor_get(x_1, 1)
+		x_6 = uint8(rt.Lean_unbox(x_4))
+		x_7 = l_Leanharbor_Json_escapeByte(x_6)
+		x_8 = l_List_foldl___at___00Array_appendList_spec__0___redArg(x_2, x_7)
+		x_1, x_2 = x_5, x_8
+		goto _start
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+}
+
 func tail_L_Calculator_Kernel_pair(_ *rt.Tail, args []rt.V) rt.V {
 	return l_Calculator_Kernel_pair(rt.Lean_unbox(args[0]), rt.Lean_unbox(args[1]), rt.Lean_unbox(args[2]), rt.Lean_unbox(args[3]))
 }
@@ -895,10 +3560,178 @@ func tail_L_Calculator_Kernel_upsert(frame *rt.Tail, args []rt.V) rt.V {
 	return core_L_Calculator_Kernel_upsert(frame, args[0], args[1])
 }
 
+func tail_L_Leanharbor_Json_writeFrom(frame *rt.Tail, args []rt.V) rt.V {
+	return core_L_Leanharbor_Json_writeFrom(frame, args[0], uint8(rt.Lean_unbox(args[1])), args[2])
+}
+
+func tail_L_List_appendTR___redArg(frame *rt.Tail, args []rt.V) rt.V {
+	return core_L_List_appendTR___redArg(frame, args[0], args[1])
+}
+
+func tail_L_List_reverseAux___redArg(_ *rt.Tail, args []rt.V) rt.V {
+	return l_List_reverseAux___redArg(args[0], args[1])
+}
+
+func tail_L_List_reverse___redArg(frame *rt.Tail, args []rt.V) rt.V {
+	return core_L_List_reverse___redArg(frame, args[0])
+}
+
+func tail_L___private_Init_Data_List_Impl_0__List_flatMapTR_go___at___00Leanharbor_Json_escape_spec__0(_ *rt.Tail, args []rt.V) rt.V {
+	return l___private_Init_Data_List_Impl_0__List_flatMapTR_go___at___00Leanharbor_Json_escape_spec__0(args[0], args[1])
+}
+
 var value_L_Calculator_Kernel_compute___closed__0 rt.V
 
 var value_L_Calculator_Kernel_compute___closed__1 rt.V
 
 var value_L_Calculator_Kernel_compute___closed__2 rt.V
 
+var value_L_Calculator_Kernel_errorName___closed__0 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__1 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__10 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__11 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__12 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__13 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__14 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__15 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__16 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__17 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__18 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__19 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__2 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__20 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__21 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__22 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__23 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__24 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__25 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__26 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__3 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__4 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__5 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__6 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__7 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__8 rt.V
+
+var value_L_Calculator_Kernel_errorName___closed__9 rt.V
+
+var value_L_Calculator_Kernel_errorToks___closed__0 rt.V
+
+var value_L_Calculator_Kernel_errorToks___closed__1 rt.V
+
+var value_L_Calculator_Kernel_errorToks___closed__2 rt.V
+
+var value_L_Calculator_Kernel_errorToks___closed__3 rt.V
+
+var value_L_Calculator_Kernel_errorToks___closed__4 rt.V
+
+var value_L_Calculator_Kernel_errorToks___closed__5 rt.V
+
 var value_L_Calculator_Kernel_init rt.V
+
+var value_L_Calculator_Kernel_replyToks___closed__0 rt.V
+
+var value_L_Calculator_Kernel_replyToks___closed__1 rt.V
+
+var value_L_Calculator_Kernel_replyToks___closed__2 rt.V
+
+var value_L_Calculator_Kernel_replyToks___closed__3 rt.V
+
+var value_L_Calculator_Kernel_replyToks___closed__4 rt.V
+
+var value_L_Calculator_Kernel_replyToks___closed__5 rt.V
+
+var value_L_Calculator_Kernel_replyToks___closed__6 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__0 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__1 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__10 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__11 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__12 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__13 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__2 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__3 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__4 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__5 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__6 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__7 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__8 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__9 rt.V
+
+var value_L_Leanharbor_Json_escape___closed__0 rt.V
+
+var value_L_Leanharbor_Json_tokBytes___closed__0 rt.V
+
+var value_L_Leanharbor_Json_tokBytes___closed__1 rt.V
+
+var value_L_Leanharbor_Json_tokBytes___closed__10 rt.V
+
+var value_L_Leanharbor_Json_tokBytes___closed__11 rt.V
+
+var value_L_Leanharbor_Json_tokBytes___closed__12 rt.V
+
+var value_L_Leanharbor_Json_tokBytes___closed__13 rt.V
+
+var value_L_Leanharbor_Json_tokBytes___closed__14 rt.V
+
+var value_L_Leanharbor_Json_tokBytes___closed__15 rt.V
+
+var value_L_Leanharbor_Json_tokBytes___closed__16 rt.V
+
+var value_L_Leanharbor_Json_tokBytes___closed__17 rt.V
+
+var value_L_Leanharbor_Json_tokBytes___closed__2 rt.V
+
+var value_L_Leanharbor_Json_tokBytes___closed__3 rt.V
+
+var value_L_Leanharbor_Json_tokBytes___closed__4 rt.V
+
+var value_L_Leanharbor_Json_tokBytes___closed__5 rt.V
+
+var value_L_Leanharbor_Json_tokBytes___closed__6 rt.V
+
+var value_L_Leanharbor_Json_tokBytes___closed__7 rt.V
+
+var value_L_Leanharbor_Json_tokBytes___closed__8 rt.V
+
+var value_L_Leanharbor_Json_tokBytes___closed__9 rt.V
+
+var value_L_Leanharbor_Json_writeFrom___closed__0 rt.V

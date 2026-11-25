@@ -10,3 +10,5 @@ import Leanharbor.Sql.Isolation
 import Leanharbor.Store
 import Leanharbor.Authz
 import Leanharbor.AuthzProofs
+import Leanharbor.Json
+import Leanharbor.Json.Proofs

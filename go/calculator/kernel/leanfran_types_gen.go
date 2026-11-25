@@ -11,6 +11,7 @@ import (
 
 var _lfCodecCommand leanfran.Codec[Command]
 var _lfCodecError leanfran.Codec[Error]
+var _lfCodecLeanharborJsonTok leanfran.Codec[LeanharborJsonTok]
 var _lfCodecMemories leanfran.Codec[Memories]
 var _lfCodecMemory leanfran.Codec[Memory]
 var _lfCodecOp leanfran.Codec[Op]
@@ -18,13 +19,17 @@ var _lfCodecPrincipal leanfran.Codec[Principal]
 var _lfCodecReply leanfran.Codec[Reply]
 var _lfCodecSnapshot leanfran.Codec[Snapshot]
 var _lfCodec0 leanfran.Codec[uint64]
-var _lfCodec1 leanfran.Codec[*Memory]
-var _lfCodec2 leanfran.Codec[bool]
-var _lfCodec3 leanfran.Codec[leanfran.Pair[*Memory, Reply]]
-var _lfCodec4 leanfran.Codec[leanfran.Except[Error, leanfran.Pair[*Memory, Reply]]]
-var _lfCodec5 leanfran.Codec[leanfran.Except[Error, uint64]]
+var _lfCodec1 leanfran.Codec[bool]
+var _lfCodec2 leanfran.Codec[uint8]
+var _lfCodec3 leanfran.Codec[[]uint8]
+var _lfCodec4 leanfran.Codec[*Memory]
+var _lfCodec5 leanfran.Codec[[]LeanharborJsonTok]
+var _lfCodec6 leanfran.Codec[leanfran.Pair[*Memory, Reply]]
+var _lfCodec7 leanfran.Codec[leanfran.Except[Error, leanfran.Pair[*Memory, Reply]]]
+var _lfCodec8 leanfran.Codec[leanfran.Except[Error, uint64]]
 var _lfDescCommand schema.Desc
 var _lfDescError schema.Desc
+var _lfDescLeanharborJsonTok schema.Desc
 var _lfDescMemories schema.Desc
 var _lfDescMemory schema.Desc
 var _lfDescOp schema.Desc
@@ -37,6 +42,7 @@ var _lfCodecsOnce sync.Once
 func _lfBuildCodecs() {
 	_lfCodecCommand = leanfran.Ref(descCommand, toCommand, fromCommand, checkCommand)
 	_lfCodecError = leanfran.Ref(descError, toError, fromError, checkError)
+	_lfCodecLeanharborJsonTok = leanfran.Ref(descLeanharborJsonTok, toLeanharborJsonTok, fromLeanharborJsonTok, checkLeanharborJsonTok)
 	_lfCodecMemories = leanfran.Ref(descMemories, toMemories, fromMemories, checkMemories)
 	_lfCodecMemory = leanfran.Ref(descMemory, toMemory, fromMemory, checkMemory)
 	_lfCodecOp = leanfran.Ref(descOp, toOp, fromOp, checkOp)
@@ -44,13 +50,17 @@ func _lfBuildCodecs() {
 	_lfCodecReply = leanfran.Ref(descReply, toReply, fromReply, checkReply)
 	_lfCodecSnapshot = leanfran.Ref(descSnapshot, toSnapshot, fromSnapshot, checkSnapshot)
 	_lfCodec0 = leanfran.Fixed[uint64]("uint", 64)
-	_lfCodec1 = leanfran.Option(_lfCodecMemory)
-	_lfCodec2 = leanfran.Bool()
-	_lfCodec3 = leanfran.Product(_lfCodec1, _lfCodecReply)
-	_lfCodec4 = leanfran.Result(_lfCodecError, _lfCodec3)
-	_lfCodec5 = leanfran.Result(_lfCodecError, _lfCodec0)
+	_lfCodec1 = leanfran.Bool()
+	_lfCodec2 = leanfran.Fixed[uint8]("uint", 8)
+	_lfCodec3 = leanfran.Sequence("list", _lfCodec2)
+	_lfCodec4 = leanfran.Option(_lfCodecMemory)
+	_lfCodec5 = leanfran.Sequence("list", _lfCodecLeanharborJsonTok)
+	_lfCodec6 = leanfran.Product(_lfCodec4, _lfCodecReply)
+	_lfCodec7 = leanfran.Result(_lfCodecError, _lfCodec6)
+	_lfCodec8 = leanfran.Result(_lfCodecError, _lfCodec0)
 	_lfDescCommand = schema.Desc{Name: "Command", Kind: "inductive", Variants: []schema.Variant{{Name: "set", Tag: 0, Objects: 0, ScalarBytes: 8, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "value", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "apply", Tag: 1, Objects: 0, ScalarBytes: 9, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "op", Desc: _lfCodecOp.Desc, Slot: "u8", Offset: 8, Flat: false, OmitNone: false, Bounds: nil}, {Key: "arg", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "get", Tag: 2, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}}}
 	_lfDescError = schema.Desc{Name: "Error", Kind: "enum", Cases: []string{"overflow", "underflow", "divByZero"}}
+	_lfDescLeanharborJsonTok = schema.Desc{Name: "LeanharborJsonTok", Kind: "inductive", Variants: []schema.Variant{{Name: "null", Tag: 0, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "bool", Tag: 1, Objects: 0, ScalarBytes: 1, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "b", Desc: _lfCodec1.Desc, Slot: "u8", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "num", Tag: 2, Objects: 0, ScalarBytes: 8, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "n", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "str", Tag: 3, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "s", Desc: _lfCodec3.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "key", Tag: 4, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "s", Desc: _lfCodec3.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "arrOpen", Tag: 5, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "arrClose", Tag: 6, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "objOpen", Tag: 7, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "objClose", Tag: 8, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}}}
 	_lfDescMemories = schema.Desc{Name: "Memories", Kind: "inductive", Variants: []schema.Variant{{Name: "empty", Tag: 0, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "leaf", Tag: 1, Objects: 0, ScalarBytes: 16, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "key", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "value", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 8, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "node", Tag: 2, Objects: 2, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "even", Desc: _lfCodecMemories.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "odd", Desc: _lfCodecMemories.Desc, Slot: "obj", Offset: 1, Flat: false, OmitNone: false, Bounds: nil}}}}}
 	_lfDescMemory = schema.Desc{Name: "Memory", Kind: "struct", Variants: []schema.Variant{{Name: "mk", Tag: 0, Objects: 0, ScalarBytes: 16, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "user", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "value", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 8, Flat: false, OmitNone: false, Bounds: nil}}}}}
 	_lfDescOp = schema.Desc{Name: "Op", Kind: "enum", Cases: []string{"add", "sub", "mul", "div"}}
@@ -357,6 +367,634 @@ func (v *Error) UnmarshalJSON(data []byte) error {
 	}
 	*v = out
 	return nil
+}
+
+func descLeanharborJsonTok() *schema.Desc { return &_lfDescLeanharborJsonTok }
+
+func LeanfranCodecLeanharborJsonTok() leanfran.Codec[LeanharborJsonTok] {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return _lfCodecLeanharborJsonTok
+}
+
+type LeanharborJsonTok interface {
+	isLeanharborJsonTok()
+	Validate() error
+	MarshalJSON() ([]byte, error)
+	JSONSchema(string) (map[string]any, error)
+	LeanfranDesc() *schema.Desc
+}
+
+type LeanharborJsonTokNull struct {
+}
+
+func (LeanharborJsonTokNull) isLeanharborJsonTok() {}
+
+func (v LeanharborJsonTokNull) LeanfranDesc() *schema.Desc {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return descLeanharborJsonTok()
+}
+
+func (v LeanharborJsonTokNull) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+}
+
+func (v LeanharborJsonTokNull) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+}
+
+func (v LeanharborJsonTokNull) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descLeanharborJsonTok(), target)
+}
+
+func (v *LeanharborJsonTokNull) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborJsonTok, data, "LeanharborJsonTok")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(LeanharborJsonTokNull)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toLeanharborJsonTokNull(v LeanharborJsonTokNull) rt.V {
+	return descLeanharborJsonTok().Variants[0].Build([]rt.V{})
+}
+
+func fromLeanharborJsonTokNull(v rt.V) LeanharborJsonTokNull {
+	return LeanharborJsonTokNull{}
+}
+
+func checkLeanharborJsonTokNull(e *leanfran.ValidationError, v LeanharborJsonTokNull) {
+}
+
+type LeanharborJsonTokBool struct {
+	B bool
+}
+
+func (LeanharborJsonTokBool) isLeanharborJsonTok() {}
+
+func (v LeanharborJsonTokBool) LeanfranDesc() *schema.Desc {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return descLeanharborJsonTok()
+}
+
+func (v LeanharborJsonTokBool) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+}
+
+func (v LeanharborJsonTokBool) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+}
+
+func (v LeanharborJsonTokBool) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descLeanharborJsonTok(), target)
+}
+
+func (v *LeanharborJsonTokBool) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborJsonTok, data, "LeanharborJsonTok")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(LeanharborJsonTokBool)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toLeanharborJsonTokBool(v LeanharborJsonTokBool) rt.V {
+	return descLeanharborJsonTok().Variants[1].Build([]rt.V{_lfCodec1.ToLean(v.B)})
+}
+
+func fromLeanharborJsonTokBool(v rt.V) LeanharborJsonTokBool {
+	layout := descLeanharborJsonTok().Variants[1]
+	return LeanharborJsonTokBool{B: _lfCodec1.FromLean(layout.Get(v, 0))}
+}
+
+func checkLeanharborJsonTokBool(e *leanfran.ValidationError, v LeanharborJsonTokBool) {
+	leanfran.CheckAt(e, _lfCodec1, v.B, "bool", "b")
+}
+
+type LeanharborJsonTokNum struct {
+	N uint64
+}
+
+func (LeanharborJsonTokNum) isLeanharborJsonTok() {}
+
+func (v LeanharborJsonTokNum) LeanfranDesc() *schema.Desc {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return descLeanharborJsonTok()
+}
+
+func (v LeanharborJsonTokNum) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+}
+
+func (v LeanharborJsonTokNum) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+}
+
+func (v LeanharborJsonTokNum) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descLeanharborJsonTok(), target)
+}
+
+func (v *LeanharborJsonTokNum) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborJsonTok, data, "LeanharborJsonTok")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(LeanharborJsonTokNum)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toLeanharborJsonTokNum(v LeanharborJsonTokNum) rt.V {
+	return descLeanharborJsonTok().Variants[2].Build([]rt.V{_lfCodec0.ToLean(v.N)})
+}
+
+func fromLeanharborJsonTokNum(v rt.V) LeanharborJsonTokNum {
+	layout := descLeanharborJsonTok().Variants[2]
+	return LeanharborJsonTokNum{N: _lfCodec0.FromLean(layout.Get(v, 0))}
+}
+
+func checkLeanharborJsonTokNum(e *leanfran.ValidationError, v LeanharborJsonTokNum) {
+	leanfran.CheckAt(e, _lfCodec0, v.N, "num", "n")
+}
+
+type LeanharborJsonTokStr struct {
+	S []uint8
+}
+
+func (LeanharborJsonTokStr) isLeanharborJsonTok() {}
+
+func (v LeanharborJsonTokStr) LeanfranDesc() *schema.Desc {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return descLeanharborJsonTok()
+}
+
+func (v LeanharborJsonTokStr) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+}
+
+func (v LeanharborJsonTokStr) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+}
+
+func (v LeanharborJsonTokStr) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descLeanharborJsonTok(), target)
+}
+
+func (v *LeanharborJsonTokStr) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborJsonTok, data, "LeanharborJsonTok")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(LeanharborJsonTokStr)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toLeanharborJsonTokStr(v LeanharborJsonTokStr) rt.V {
+	return descLeanharborJsonTok().Variants[3].Build([]rt.V{_lfCodec3.ToLean(v.S)})
+}
+
+func fromLeanharborJsonTokStr(v rt.V) LeanharborJsonTokStr {
+	layout := descLeanharborJsonTok().Variants[3]
+	return LeanharborJsonTokStr{S: _lfCodec3.FromLean(layout.Get(v, 0))}
+}
+
+func checkLeanharborJsonTokStr(e *leanfran.ValidationError, v LeanharborJsonTokStr) {
+	leanfran.CheckAt(e, _lfCodec3, v.S, "str", "s")
+}
+
+type LeanharborJsonTokKey struct {
+	S []uint8
+}
+
+func (LeanharborJsonTokKey) isLeanharborJsonTok() {}
+
+func (v LeanharborJsonTokKey) LeanfranDesc() *schema.Desc {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return descLeanharborJsonTok()
+}
+
+func (v LeanharborJsonTokKey) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+}
+
+func (v LeanharborJsonTokKey) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+}
+
+func (v LeanharborJsonTokKey) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descLeanharborJsonTok(), target)
+}
+
+func (v *LeanharborJsonTokKey) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborJsonTok, data, "LeanharborJsonTok")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(LeanharborJsonTokKey)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toLeanharborJsonTokKey(v LeanharborJsonTokKey) rt.V {
+	return descLeanharborJsonTok().Variants[4].Build([]rt.V{_lfCodec3.ToLean(v.S)})
+}
+
+func fromLeanharborJsonTokKey(v rt.V) LeanharborJsonTokKey {
+	layout := descLeanharborJsonTok().Variants[4]
+	return LeanharborJsonTokKey{S: _lfCodec3.FromLean(layout.Get(v, 0))}
+}
+
+func checkLeanharborJsonTokKey(e *leanfran.ValidationError, v LeanharborJsonTokKey) {
+	leanfran.CheckAt(e, _lfCodec3, v.S, "key", "s")
+}
+
+type LeanharborJsonTokArrOpen struct {
+}
+
+func (LeanharborJsonTokArrOpen) isLeanharborJsonTok() {}
+
+func (v LeanharborJsonTokArrOpen) LeanfranDesc() *schema.Desc {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return descLeanharborJsonTok()
+}
+
+func (v LeanharborJsonTokArrOpen) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+}
+
+func (v LeanharborJsonTokArrOpen) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+}
+
+func (v LeanharborJsonTokArrOpen) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descLeanharborJsonTok(), target)
+}
+
+func (v *LeanharborJsonTokArrOpen) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborJsonTok, data, "LeanharborJsonTok")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(LeanharborJsonTokArrOpen)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toLeanharborJsonTokArrOpen(v LeanharborJsonTokArrOpen) rt.V {
+	return descLeanharborJsonTok().Variants[5].Build([]rt.V{})
+}
+
+func fromLeanharborJsonTokArrOpen(v rt.V) LeanharborJsonTokArrOpen {
+	return LeanharborJsonTokArrOpen{}
+}
+
+func checkLeanharborJsonTokArrOpen(e *leanfran.ValidationError, v LeanharborJsonTokArrOpen) {
+}
+
+type LeanharborJsonTokArrClose struct {
+}
+
+func (LeanharborJsonTokArrClose) isLeanharborJsonTok() {}
+
+func (v LeanharborJsonTokArrClose) LeanfranDesc() *schema.Desc {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return descLeanharborJsonTok()
+}
+
+func (v LeanharborJsonTokArrClose) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+}
+
+func (v LeanharborJsonTokArrClose) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+}
+
+func (v LeanharborJsonTokArrClose) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descLeanharborJsonTok(), target)
+}
+
+func (v *LeanharborJsonTokArrClose) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborJsonTok, data, "LeanharborJsonTok")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(LeanharborJsonTokArrClose)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toLeanharborJsonTokArrClose(v LeanharborJsonTokArrClose) rt.V {
+	return descLeanharborJsonTok().Variants[6].Build([]rt.V{})
+}
+
+func fromLeanharborJsonTokArrClose(v rt.V) LeanharborJsonTokArrClose {
+	return LeanharborJsonTokArrClose{}
+}
+
+func checkLeanharborJsonTokArrClose(e *leanfran.ValidationError, v LeanharborJsonTokArrClose) {
+}
+
+type LeanharborJsonTokObjOpen struct {
+}
+
+func (LeanharborJsonTokObjOpen) isLeanharborJsonTok() {}
+
+func (v LeanharborJsonTokObjOpen) LeanfranDesc() *schema.Desc {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return descLeanharborJsonTok()
+}
+
+func (v LeanharborJsonTokObjOpen) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+}
+
+func (v LeanharborJsonTokObjOpen) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+}
+
+func (v LeanharborJsonTokObjOpen) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descLeanharborJsonTok(), target)
+}
+
+func (v *LeanharborJsonTokObjOpen) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborJsonTok, data, "LeanharborJsonTok")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(LeanharborJsonTokObjOpen)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toLeanharborJsonTokObjOpen(v LeanharborJsonTokObjOpen) rt.V {
+	return descLeanharborJsonTok().Variants[7].Build([]rt.V{})
+}
+
+func fromLeanharborJsonTokObjOpen(v rt.V) LeanharborJsonTokObjOpen {
+	return LeanharborJsonTokObjOpen{}
+}
+
+func checkLeanharborJsonTokObjOpen(e *leanfran.ValidationError, v LeanharborJsonTokObjOpen) {
+}
+
+type LeanharborJsonTokObjClose struct {
+}
+
+func (LeanharborJsonTokObjClose) isLeanharborJsonTok() {}
+
+func (v LeanharborJsonTokObjClose) LeanfranDesc() *schema.Desc {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return descLeanharborJsonTok()
+}
+
+func (v LeanharborJsonTokObjClose) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+}
+
+func (v LeanharborJsonTokObjClose) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+}
+
+func (v LeanharborJsonTokObjClose) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descLeanharborJsonTok(), target)
+}
+
+func (v *LeanharborJsonTokObjClose) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborJsonTok, data, "LeanharborJsonTok")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(LeanharborJsonTokObjClose)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toLeanharborJsonTokObjClose(v LeanharborJsonTokObjClose) rt.V {
+	return descLeanharborJsonTok().Variants[8].Build([]rt.V{})
+}
+
+func fromLeanharborJsonTokObjClose(v rt.V) LeanharborJsonTokObjClose {
+	return LeanharborJsonTokObjClose{}
+}
+
+func checkLeanharborJsonTokObjClose(e *leanfran.ValidationError, v LeanharborJsonTokObjClose) {
+}
+
+func toLeanharborJsonTok(v LeanharborJsonTok) rt.V {
+	switch x := v.(type) {
+	case LeanharborJsonTokNull:
+		return toLeanharborJsonTokNull(x)
+	case *LeanharborJsonTokNull:
+		return toLeanharborJsonTokNull(*x)
+	case LeanharborJsonTokBool:
+		return toLeanharborJsonTokBool(x)
+	case *LeanharborJsonTokBool:
+		return toLeanharborJsonTokBool(*x)
+	case LeanharborJsonTokNum:
+		return toLeanharborJsonTokNum(x)
+	case *LeanharborJsonTokNum:
+		return toLeanharborJsonTokNum(*x)
+	case LeanharborJsonTokStr:
+		return toLeanharborJsonTokStr(x)
+	case *LeanharborJsonTokStr:
+		return toLeanharborJsonTokStr(*x)
+	case LeanharborJsonTokKey:
+		return toLeanharborJsonTokKey(x)
+	case *LeanharborJsonTokKey:
+		return toLeanharborJsonTokKey(*x)
+	case LeanharborJsonTokArrOpen:
+		return toLeanharborJsonTokArrOpen(x)
+	case *LeanharborJsonTokArrOpen:
+		return toLeanharborJsonTokArrOpen(*x)
+	case LeanharborJsonTokArrClose:
+		return toLeanharborJsonTokArrClose(x)
+	case *LeanharborJsonTokArrClose:
+		return toLeanharborJsonTokArrClose(*x)
+	case LeanharborJsonTokObjOpen:
+		return toLeanharborJsonTokObjOpen(x)
+	case *LeanharborJsonTokObjOpen:
+		return toLeanharborJsonTokObjOpen(*x)
+	case LeanharborJsonTokObjClose:
+		return toLeanharborJsonTokObjClose(x)
+	case *LeanharborJsonTokObjClose:
+		return toLeanharborJsonTokObjClose(*x)
+	}
+	rt.Lean_internal_panic("invalid LeanharborJsonTok")
+	return rt.V{}
+}
+
+func fromLeanharborJsonTok(v rt.V) LeanharborJsonTok {
+	switch rt.Lean_obj_tag(v) {
+	case 0:
+		return fromLeanharborJsonTokNull(v)
+	case 1:
+		return fromLeanharborJsonTokBool(v)
+	case 2:
+		return fromLeanharborJsonTokNum(v)
+	case 3:
+		return fromLeanharborJsonTokStr(v)
+	case 4:
+		return fromLeanharborJsonTokKey(v)
+	case 5:
+		return fromLeanharborJsonTokArrOpen(v)
+	case 6:
+		return fromLeanharborJsonTokArrClose(v)
+	case 7:
+		return fromLeanharborJsonTokObjOpen(v)
+	case 8:
+		return fromLeanharborJsonTokObjClose(v)
+	}
+	rt.Lean_internal_panic("invalid LeanharborJsonTok tag")
+	return nil
+}
+
+func checkLeanharborJsonTok(e *leanfran.ValidationError, v LeanharborJsonTok) {
+	switch x := v.(type) {
+	case LeanharborJsonTokNull:
+		checkLeanharborJsonTokNull(e, x)
+		return
+	case *LeanharborJsonTokNull:
+		if x != nil {
+			checkLeanharborJsonTokNull(e, *x)
+			return
+		}
+	case LeanharborJsonTokBool:
+		checkLeanharborJsonTokBool(e, x)
+		return
+	case *LeanharborJsonTokBool:
+		if x != nil {
+			checkLeanharborJsonTokBool(e, *x)
+			return
+		}
+	case LeanharborJsonTokNum:
+		checkLeanharborJsonTokNum(e, x)
+		return
+	case *LeanharborJsonTokNum:
+		if x != nil {
+			checkLeanharborJsonTokNum(e, *x)
+			return
+		}
+	case LeanharborJsonTokStr:
+		checkLeanharborJsonTokStr(e, x)
+		return
+	case *LeanharborJsonTokStr:
+		if x != nil {
+			checkLeanharborJsonTokStr(e, *x)
+			return
+		}
+	case LeanharborJsonTokKey:
+		checkLeanharborJsonTokKey(e, x)
+		return
+	case *LeanharborJsonTokKey:
+		if x != nil {
+			checkLeanharborJsonTokKey(e, *x)
+			return
+		}
+	case LeanharborJsonTokArrOpen:
+		checkLeanharborJsonTokArrOpen(e, x)
+		return
+	case *LeanharborJsonTokArrOpen:
+		if x != nil {
+			checkLeanharborJsonTokArrOpen(e, *x)
+			return
+		}
+	case LeanharborJsonTokArrClose:
+		checkLeanharborJsonTokArrClose(e, x)
+		return
+	case *LeanharborJsonTokArrClose:
+		if x != nil {
+			checkLeanharborJsonTokArrClose(e, *x)
+			return
+		}
+	case LeanharborJsonTokObjOpen:
+		checkLeanharborJsonTokObjOpen(e, x)
+		return
+	case *LeanharborJsonTokObjOpen:
+		if x != nil {
+			checkLeanharborJsonTokObjOpen(e, *x)
+			return
+		}
+	case LeanharborJsonTokObjClose:
+		checkLeanharborJsonTokObjClose(e, x)
+		return
+	case *LeanharborJsonTokObjClose:
+		if x != nil {
+			checkLeanharborJsonTokObjClose(e, *x)
+			return
+		}
+	}
+	e.Add("expected LeanharborJsonTok")
+}
+
+func UnmarshalLeanharborJsonTok(data []byte) (LeanharborJsonTok, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.UnmarshalJSON(_lfCodecLeanharborJsonTok, data, "LeanharborJsonTok")
 }
 
 func descMemories() *schema.Desc { return &_lfDescMemories }
@@ -890,7 +1528,7 @@ func (lfValue) NewBool(v bool) leanfran.Value[bool] {
 
 func (api lfScopedValue) NewBool(v bool) leanfran.Value[bool] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[bool](api.scope, _lfCodec2, v)
+	return leanfran.NewUncheckedValueIn[bool](api.scope, _lfCodec1, v)
 }
 
 func (lfValue) ReadBool(v leanfran.Value[bool]) bool {
@@ -899,7 +1537,7 @@ func (lfValue) ReadBool(v leanfran.Value[bool]) bool {
 
 func (api lfScopedValue) ReadBool(v leanfran.Value[bool]) bool {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec2, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec1, v)
 }
 
 func (lfValue) NewCommand(v Command) (leanfran.Value[Command], error) {
@@ -944,7 +1582,7 @@ func (lfValue) NewExceptErrorPairOptionMemoryReply(v leanfran.Except[Error, lean
 
 func (api lfScopedValue) NewExceptErrorPairOptionMemoryReply(v leanfran.Except[Error, leanfran.Pair[*Memory, Reply]]) leanfran.Value[leanfran.ExceptType[Error, leanfran.PairType[leanfran.OptionType[Memory], Reply]]] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[leanfran.ExceptType[Error, leanfran.PairType[leanfran.OptionType[Memory], Reply]]](api.scope, _lfCodec4, v)
+	return leanfran.NewUncheckedValueIn[leanfran.ExceptType[Error, leanfran.PairType[leanfran.OptionType[Memory], Reply]]](api.scope, _lfCodec7, v)
 }
 
 func (lfValue) ReadExceptErrorPairOptionMemoryReply(v leanfran.Value[leanfran.ExceptType[Error, leanfran.PairType[leanfran.OptionType[Memory], Reply]]]) leanfran.Except[Error, leanfran.Pair[*Memory, Reply]] {
@@ -953,7 +1591,7 @@ func (lfValue) ReadExceptErrorPairOptionMemoryReply(v leanfran.Value[leanfran.Ex
 
 func (api lfScopedValue) ReadExceptErrorPairOptionMemoryReply(v leanfran.Value[leanfran.ExceptType[Error, leanfran.PairType[leanfran.OptionType[Memory], Reply]]]) leanfran.Except[Error, leanfran.Pair[*Memory, Reply]] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec4, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec7, v)
 }
 
 func (lfValue) NewExceptErrorUInt64(v leanfran.Except[Error, uint64]) leanfran.Value[leanfran.ExceptType[Error, uint64]] {
@@ -962,7 +1600,7 @@ func (lfValue) NewExceptErrorUInt64(v leanfran.Except[Error, uint64]) leanfran.V
 
 func (api lfScopedValue) NewExceptErrorUInt64(v leanfran.Except[Error, uint64]) leanfran.Value[leanfran.ExceptType[Error, uint64]] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[leanfran.ExceptType[Error, uint64]](api.scope, _lfCodec5, v)
+	return leanfran.NewUncheckedValueIn[leanfran.ExceptType[Error, uint64]](api.scope, _lfCodec8, v)
 }
 
 func (lfValue) ReadExceptErrorUInt64(v leanfran.Value[leanfran.ExceptType[Error, uint64]]) leanfran.Except[Error, uint64] {
@@ -971,7 +1609,61 @@ func (lfValue) ReadExceptErrorUInt64(v leanfran.Value[leanfran.ExceptType[Error,
 
 func (api lfScopedValue) ReadExceptErrorUInt64(v leanfran.Value[leanfran.ExceptType[Error, uint64]]) leanfran.Except[Error, uint64] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec8, v)
+}
+
+func (lfValue) NewLeanharborJsonTok(v LeanharborJsonTok) (leanfran.Value[LeanharborJsonTok], error) {
+	return lfScopedValue{}.NewLeanharborJsonTok(v)
+}
+
+func (api lfScopedValue) NewLeanharborJsonTok(v LeanharborJsonTok) (leanfran.Value[LeanharborJsonTok], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[LeanharborJsonTok](api.scope, _lfCodecLeanharborJsonTok, v, "LeanharborJsonTok")
+}
+
+func (lfValue) ReadLeanharborJsonTok(v leanfran.Value[LeanharborJsonTok]) LeanharborJsonTok {
+	return lfScopedValue{}.ReadLeanharborJsonTok(v)
+}
+
+func (api lfScopedValue) ReadLeanharborJsonTok(v leanfran.Value[LeanharborJsonTok]) LeanharborJsonTok {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodecLeanharborJsonTok, v)
+}
+
+func (lfValue) NewListLeanharborJsonTok(v []LeanharborJsonTok) (leanfran.Value[leanfran.ListType[LeanharborJsonTok]], error) {
+	return lfScopedValue{}.NewListLeanharborJsonTok(v)
+}
+
+func (api lfScopedValue) NewListLeanharborJsonTok(v []LeanharborJsonTok) (leanfran.Value[leanfran.ListType[LeanharborJsonTok]], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[leanfran.ListType[LeanharborJsonTok]](api.scope, _lfCodec5, v, "ListLeanharborJsonTok")
+}
+
+func (lfValue) ReadListLeanharborJsonTok(v leanfran.Value[leanfran.ListType[LeanharborJsonTok]]) []LeanharborJsonTok {
+	return lfScopedValue{}.ReadListLeanharborJsonTok(v)
+}
+
+func (api lfScopedValue) ReadListLeanharborJsonTok(v leanfran.Value[leanfran.ListType[LeanharborJsonTok]]) []LeanharborJsonTok {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
 	return leanfran.ReadValueIn(api.scope, _lfCodec5, v)
+}
+
+func (lfValue) NewListUInt8(v []uint8) leanfran.Value[leanfran.ListType[uint8]] {
+	return lfScopedValue{}.NewListUInt8(v)
+}
+
+func (api lfScopedValue) NewListUInt8(v []uint8) leanfran.Value[leanfran.ListType[uint8]] {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewUncheckedValueIn[leanfran.ListType[uint8]](api.scope, _lfCodec3, v)
+}
+
+func (lfValue) ReadListUInt8(v leanfran.Value[leanfran.ListType[uint8]]) []uint8 {
+	return lfScopedValue{}.ReadListUInt8(v)
+}
+
+func (api lfScopedValue) ReadListUInt8(v leanfran.Value[leanfran.ListType[uint8]]) []uint8 {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec3, v)
 }
 
 func (lfValue) NewMemories(v Memories) (leanfran.Value[Memories], error) {
@@ -1034,7 +1726,7 @@ func (lfValue) NewOptionMemory(v *Memory) leanfran.Value[leanfran.OptionType[Mem
 
 func (api lfScopedValue) NewOptionMemory(v *Memory) leanfran.Value[leanfran.OptionType[Memory]] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[leanfran.OptionType[Memory]](api.scope, _lfCodec1, v)
+	return leanfran.NewUncheckedValueIn[leanfran.OptionType[Memory]](api.scope, _lfCodec4, v)
 }
 
 func (lfValue) ReadOptionMemory(v leanfran.Value[leanfran.OptionType[Memory]]) *Memory {
@@ -1043,7 +1735,7 @@ func (lfValue) ReadOptionMemory(v leanfran.Value[leanfran.OptionType[Memory]]) *
 
 func (api lfScopedValue) ReadOptionMemory(v leanfran.Value[leanfran.OptionType[Memory]]) *Memory {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec1, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec4, v)
 }
 
 func (lfValue) NewPairOptionMemoryReply(v leanfran.Pair[*Memory, Reply]) leanfran.Value[leanfran.PairType[leanfran.OptionType[Memory], Reply]] {
@@ -1052,7 +1744,7 @@ func (lfValue) NewPairOptionMemoryReply(v leanfran.Pair[*Memory, Reply]) leanfra
 
 func (api lfScopedValue) NewPairOptionMemoryReply(v leanfran.Pair[*Memory, Reply]) leanfran.Value[leanfran.PairType[leanfran.OptionType[Memory], Reply]] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[leanfran.PairType[leanfran.OptionType[Memory], Reply]](api.scope, _lfCodec3, v)
+	return leanfran.NewUncheckedValueIn[leanfran.PairType[leanfran.OptionType[Memory], Reply]](api.scope, _lfCodec6, v)
 }
 
 func (lfValue) ReadPairOptionMemoryReply(v leanfran.Value[leanfran.PairType[leanfran.OptionType[Memory], Reply]]) leanfran.Pair[*Memory, Reply] {
@@ -1061,7 +1753,7 @@ func (lfValue) ReadPairOptionMemoryReply(v leanfran.Value[leanfran.PairType[lean
 
 func (api lfScopedValue) ReadPairOptionMemoryReply(v leanfran.Value[leanfran.PairType[leanfran.OptionType[Memory], Reply]]) leanfran.Pair[*Memory, Reply] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec3, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec6, v)
 }
 
 func (lfValue) NewPrincipal(v Principal) leanfran.Value[Principal] {
@@ -1134,4 +1826,22 @@ func (lfValue) ReadUInt64(v leanfran.Value[uint64]) uint64 {
 func (api lfScopedValue) ReadUInt64(v leanfran.Value[uint64]) uint64 {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	return leanfran.ReadValueIn(api.scope, _lfCodec0, v)
+}
+
+func (lfValue) NewUInt8(v uint8) leanfran.Value[uint8] {
+	return lfScopedValue{}.NewUInt8(v)
+}
+
+func (api lfScopedValue) NewUInt8(v uint8) leanfran.Value[uint8] {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewUncheckedValueIn[uint8](api.scope, _lfCodec2, v)
+}
+
+func (lfValue) ReadUInt8(v leanfran.Value[uint8]) uint8 {
+	return lfScopedValue{}.ReadUInt8(v)
+}
+
+func (api lfScopedValue) ReadUInt8(v leanfran.Value[uint8]) uint8 {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec2, v)
 }
