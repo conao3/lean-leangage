@@ -16,14 +16,23 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   `Calculator/Kernel.lean` holds what is generated, `Calculator/Proofs.lean` the specifications
   and theorems; `Calculator/Store.lean` (generated) the calculator's table and row functions,
   `Calculator/Store/Proofs.lean` the calculator's `Storage` and its theorems.
-  `CalculatorOracle.lean`, `SqlOracle.lean` and `TokenOracle.lean` are the native programs the
-  differential tests compare against.
+  `Leanharbor/Authz.lean` is the authorization guard and `Leanharbor/AuthzProofs.lean` its
+  theorems. `Notes/` is the example with a policy, in the layout of `Calculator/`.
+  `CalculatorOracle.lean`, `NotesOracle.lean`, `SqlOracle.lean` and `TokenOracle.lean` are the
+  native programs the differential tests compare against.
 - `audit/`: a separate Lake package with leanassay (`Audit/Calculator.lean`, `Audit/Sql.lean`,
-  `Audit/Store.lean`, `Audit/Token.lean`) and the axiom check (`Audit/Axioms.lean`).
-- `rust/`: Cargo workspace, edition 2024. `leanharbor` is the shell, `calculator` the example.
-- `python/`: uv project. `leanharbor` is the shell, `leanharbor_calculator` the example.
+  `Audit/Store.lean`, `Audit/Token.lean`, `Audit/Authz.lean`, `Audit/Notes*.lean`) and the axiom
+  check (`Audit/Axioms.lean`). A file is built only when it is in `roots` of
+  `audit/lakefile.toml` or imported by `Audit.lean`. `#assay` derives instances named after the
+  short names of the types it samples, so two audit files whose types share a short name
+  (`Snapshot`) are separate roots and do not import each other.
+- `rust/`: Cargo workspace, edition 2024. `leanharbor` is the shell, `calculator` and `notes` the
+  examples.
+- `python/`: uv project. `leanharbor` is the shell, `leanharbor_calculator` and `leanharbor_notes`
+  the examples.
 - `go/`: Go module `github.com/conao3/lean-leanharbor/go`. `leanharbor` is the shell,
-  `calculator` the example, with the server and the benchmark under `calculator/cmd/`.
+  `calculator` and `notes` the examples, with the calculator's server and benchmark under
+  `calculator/cmd/`.
 - Each shell holds the SQL compiler generated from `Leanharbor.Sql`: `rust/leanharbor/src/generated/`
   (`leanharbor::sql`), `python/src/leanharbor/sql.py` and `go/leanharbor/sql/`. The calculator's
   table from `Calculator.Store` is `rust/calculator/src/generated/calculator_store.rs`,
@@ -47,13 +56,17 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   `Take()` in Go), and no `Local` may leave the closure of `lend`, or Lean copies instead of
   updating in place. `rust/calculator/tests/in_place.rs` and `go/calculator/in_place_test.go`
   check it.
-- Generated files (`rust/calculator/src/generated/`, `python/src/leanharbor_calculator/kernel.py`,
-  `python/src/leanharbor_calculator/store.py`, `go/calculator/kernel/`, `go/calculator/store/`,
-  and the SQL compiler and the token format in each shell) are committed and never edited.
+- Generated files (`rust/*/src/generated/`, `python/src/leanharbor_*/kernel.py`,
+  `python/src/leanharbor_calculator/store.py`, `go/*/kernel/`, `go/calculator/store/`, and the SQL
+  compiler and the token format in each shell) are committed and never edited.
   Run `make generate` after changing `lean/`.
+- Authorization is the guard of `Leanharbor.Authz`: a kernel's `handle` decides a command with no
+  authorization of its own, and the generated `transition` is `handle` behind `guardViewed` with
+  the kernel's policy. The shells call `transition` only.
 - When a function is added to a generated module, add a theorem about it and list it in the
   module's audit file (`audit/Audit/Calculator.lean`, `audit/Audit/Sql.lean`,
-  `audit/Audit/Store.lean`, `audit/Audit/Token.lean`) in the same change.
+  `audit/Audit/Store.lean`, `audit/Audit/Token.lean`, `audit/Audit/Notes*.lean`) in the same
+  change.
   Theorems whose hypothesis fixes the result of the function (`transition a s c = .ok …`) cannot
   be run by leanassay; state the runnable form with `match` (`get_after_run`) and derive the
   other from it.
@@ -74,7 +87,8 @@ All commands run inside `nix develop`.
   tables to paste into the README. `bench/` holds the servers without a kernel that the HTTP
   measurement compares with; `make check` does not build them.
 - The differential tests read the oracles' paths from `LEANHARBOR_CALCULATOR_ORACLE`,
-  `LEANHARBOR_SQL_ORACLE` and `LEANHARBOR_TOKEN_ORACLE`; the Makefile sets them.
+  `LEANHARBOR_NOTES_ORACLE`, `LEANHARBOR_SQL_ORACLE` and `LEANHARBOR_TOKEN_ORACLE`; the Makefile
+  sets them. `tools/gen-commands.py` and `tools/gen-notes-commands.py` write the command lists.
   `testdata/sql-statements.txt` comes from `python3 tools/gen-statements.py 3000` and
   `testdata/token-cases.txt` from `python3 tools/gen-tokens.py 3000`; their line formats are
   described in `lean/SqlOracle.lean` and `lean/TokenOracle.lean`.

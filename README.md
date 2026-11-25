@@ -4,8 +4,9 @@ Web services whose core is one pure function written and proved in Lean 4.
 
 You write the kernel of a service — what a command does to one tenant's state — as a Lean
 function, prove what callers rely on, and [leanfran](https://github.com/conao3/lean-leanfran)
-generates it to your language. leanharbor is the contract the kernel fills and the shell that
-runs the generated code behind HTTP. The same kernel runs today from Rust, from Python and from Go.
+generates it to your language. leanharbor is the contract the kernel fills, an authorization guard
+proved once for every kernel and policy, and the shell that runs the generated code behind HTTP.
+The same kernel runs today from Rust, from Python and from Go.
 
 The design follows [h5i-app](https://github.com/h5i-dev/h5i/blob/main/crates/h5i-app/README.md),
 which does this for Rust by translating Rust to Lean. leanharbor goes the other way: Lean is the
@@ -103,12 +104,95 @@ a snapshot that stands for the same database.
 calculator. The table and the row functions are generated to the three shells; no server calls
 them yet.
 
+## The notes
+
+[`lean/Notes/Kernel.lean`](lean/Notes/Kernel.lean) keeps notes in an organization with members
+and admins, after h5i's notes example. A note is visible to everyone if it is shared, otherwise to
+its owner and admins; the owner or an admin edits and deletes it, and its owner never changes.
+Admins add and remove members, and anyone may add the first member of an organization with none.
+
+`handle` decides what each command does and checks input and existence only. The policy is the
+Bool functions `permits`, `visible` and `stored`, and `view`, the rows of a snapshot the caller may
+see. The function the engine runs is `handle` behind the guard of
+[`lean/Leanharbor/Authz.lean`](lean/Leanharbor/Authz.lean):
+
+```lean
+def transition (a : Principal) (s : Snapshot) (c : Command) :
+    Except (Guarded Error) (List Write × Reply) :=
+  guardViewed handle apply ⟨permits, visible, stored⟩ disclosed readOnly view a s c
+```
+
+The guard checks each write in the state the writes before it leave, and each row the reply
+discloses against the state before or after the command. One refused write or row refuses the
+whole command with `denied`, and nothing is stored. A read-only command runs on the caller's view,
+the rows the policy lets the caller see.
+
+[`lean/Leanharbor/AuthzProofs.lean`](lean/Leanharbor/AuthzProofs.lean) proves, for every kernel
+(`transition` and `apply`), policy, disclosure, `readOnly` and `view`:
+
+| Theorem | Statement |
+|---|---|
+| `guard_authorized` | a command the guard accepts is the kernel's own result, each write is permitted in the state the writes before it leave, and each disclosed row is stored, exactly as disclosed, and visible, before or after the command |
+| `guard_complete` | the guard accepts every such command, and `guard_app_error`: it passes the kernel's refusals through. `guard_eq` states the three as one equation |
+| `guard_viewed_authorized` | with `guardViewed`, an accepted command that writes is `guard`'s case, and an accepted read-only command is the kernel's result on the caller's view, with no writes and only rows stored and visible in the view |
+| `guard_viewed_noninterference` | two states with the same view give a read-only command the same result, refusals included |
+| `read_only_sound_of_viewed` | a kernel behind `guardViewed` meets `ReadOnlySound`, the read-only obligation of the kernel contract |
+
+[`lean/Notes/Proofs.lean`](lean/Notes/Proofs.lean) applies them to the notes
+(`transition_authorized`, `transition_noninterference`, `read_only_sound`) and proves, for every
+principal, snapshot and command:
+
+| Theorem | Statement |
+|---|---|
+| `read_after_put` | after an accepted `putNote`, the same user's `readNote` returns that body and sharing, owned by the note's earlier owner or else by the caller |
+| `read_after_delete`, `member_after_add`, `member_after_remove` | after an accepted `deleteNote`, `readNote` finds no note; after `addMember`, the member is stored with its admin flag; after `removeMember`, it is gone |
+| `others_unchanged` | a user who is not an admin changes only notes they own, before and after the command |
+| `members_unchanged` | a user who is not an admin changes the members only of an organization that has none |
+| `admin_not_denied` | the guard denies no command of an admin that writes |
+| `owner_may_put`, `owner_may_delete` | the guard denies no edit or delete by a note's owner and no creation under a free id |
+| `first_member` | anyone may add the first member of an organization with none |
+| `read_note_spec`, `list_notes_spec`, `list_members_spec` | in a snapshot with unique keys, `readNote` returns the note under the id when the caller may see it and `notFound` otherwise, and the listings return exactly the rows the caller may see, in order |
+| `rows_stored_run` | every row a reply returns is the row stored under its key in the caller's view |
+| `keyed_of_run` | every snapshot a tenant reaches has unique keys |
+| `findNote_applyWrite`, `findMember_applyWrite` | what each write does to the row stored under each key |
+| `ids_putNote`, `users_putMember` | a new row goes after the stored rows and a replaced row keeps its place |
+| `bad_text` | a body is refused exactly when it is empty or longer than 4096 bytes in UTF-8 |
+| `not_found` | removing a member or deleting a note that is not stored is refused with `notFound` |
+
+The Rust server ([`rust/notes`](rust/notes)) answers a denied command with 403, a missing note
+with 404 and a bad body with 422:
+
+```console
+$ export LEANHARBOR_SECRET=dev-secret
+$ A=$(LEANHARBOR_ISSUE=1:1 cargo run --release -q --bin leanharbor-notes)
+$ B=$(LEANHARBOR_ISSUE=1:2 cargo run --release -q --bin leanharbor-notes)
+$ LEANHARBOR_LISTEN=127.0.0.1:8080 cargo run --release -q --bin leanharbor-notes &
+$ curl -s -H "Authorization: Bearer $A" -d '{"cmd":"add_member","user":1,"admin":true}' 127.0.0.1:8080/rpc
+{"done":true}
+$ curl -s -H "Authorization: Bearer $A" -d '{"cmd":"put_note","id":7,"body":"draft","shared":false}' 127.0.0.1:8080/rpc
+{"done":true}
+$ curl -s -H "Authorization: Bearer $B" -d '{"cmd":"read_note","id":7}' 127.0.0.1:8080/rpc
+{"error":"not_found"}
+$ curl -s -H "Authorization: Bearer $B" -d '{"cmd":"put_note","id":7,"body":"mine now","shared":true}' 127.0.0.1:8080/rpc
+{"error":"denied"}
+$ curl -s -H "Authorization: Bearer $A" -d '{"cmd":"put_note","id":7,"body":"for everyone","shared":true}' 127.0.0.1:8080/rpc
+{"done":true}
+$ curl -s -H "Authorization: Bearer $B" -d '{"cmd":"read_note","id":7}' 127.0.0.1:8080/rpc
+{"note":{"body":"for everyone","id":7,"owner":1,"shared":true}}
+```
+
+The same module is generated to Python ([`python/src/leanharbor_notes`](python/src/leanharbor_notes))
+and Go ([`go/notes`](go/notes)) and runs behind their memory engines in the differential tests;
+neither has a notes server.
+
 ## What is proved, and what is trusted
 
 Proved in Lean, about the definitions that are generated and run:
 
 - the six theorems above, for the calculator kernel. The three shells call `transition` and
   `apply`;
+- the guard's theorems above, for every kernel and policy, and the notes theorems, for the notes
+  kernel. Its `transition` is `handle` behind `guardViewed`, and the three shells call it;
 - `Leanharbor.Kernel.Run.inv`: a property that holds for the initial snapshot and is kept by
   every accepted command holds in every snapshot a tenant can reach;
 - for the SQL compiler `Leanharbor.Sql` (`plan`, `compile`, `select`, `create`, `render`,
@@ -183,28 +267,37 @@ Proved in Lean, about the definitions that are generated and run:
 Checked by `make check`, not proved:
 
 - **The theorems constrain the kernel.** [leanassay](https://github.com/conao3/lean-leanassay)
-  breaks `transition`, `apply`, `compute` and the three functions of the trie in 167 small ways
-  and runs the theorems on each broken version: 132 are rejected, 5 behave the same on every
-  input tried, 30 do not compile, and none satisfies every theorem while changing an output. The
-  same check breaks the 26 functions of the SQL compiler in 285 ways: 241 are rejected, 6 behave
-  the same on every input tried, 38 do not compile, and none satisfies every theorem while
-  changing an output. The 11 functions of the token format are broken in 189 ways: 173 are
-  rejected, 2 behave the same on every input tried, 14 do not compile, and none satisfies every
-  theorem while changing an output. It breaks the 6 functions of the calculator's table in 25 ways: 20 are
-  rejected, 5 do not compile, and none satisfies every theorem while changing an output.
+  breaks functions in small ways and runs the theorems on each broken version. For the
+  calculator, it breaks `transition`, `apply`, `compute` and the three functions of the trie in
+  167 ways: 132 are rejected, 5 behave the same on every input tried, 30 do not compile, and none
+  satisfies every theorem while changing an output. The same holds for the 26 functions of the SQL
+  compiler (285 ways: 241 rejected, 6 behave the same, 38 do not compile), the 11 functions of
+  the token format (189 ways: 173 rejected, 2 behave the same, 14 do not compile) and the 6
+  functions of the calculator's table (25 ways: 20 rejected, 5 do not compile). For the guard, it
+  breaks `guard`, `guardViewed` and the four checks in 28 ways and runs `guard_eq`,
+  `guard_viewed_eq` and the lemmas about the checks on random kernels and policies: 22 are
+  rejected, 1 behaves the same, 5 do not compile, and none satisfies every theorem while changing
+  an output. For the notes, it breaks `handle`, `apply`, `applyWrite`, `textOk`, the four
+  functions on the row lists and the seven functions of the policy in 180 ways: 108 are rejected,
+  5 behave the same, 67 do not compile, and none satisfies every theorem while changing an output.
+  The notes' `transition` is one call of `guardViewed`, and no edit of it compiles.
 - **The calculator's table, as PostgreSQL receives it.** `tables_create` evaluates, in Lean's
   kernel, the text of the statement that creates it:
   `CREATE TABLE IF NOT EXISTS "memories" ("tenant_id" BIGINT NOT NULL, "user" BIGINT NOT NULL, "value" BIGINT NOT NULL, PRIMARY KEY ("tenant_id", "user"))`.
-- **The generated code computes what Lean computes.** 5,000 commands (698 refusals, values up
-  to 2^64 − 1) run through the generated Rust, the generated Python and the generated Go give the
-  same output as the kernel compiled natively by Lean. 3,024 lines of schemas and statements
+- **The generated code computes what Lean computes.** 5,000 calculator commands (698 refusals,
+  values up to 2^64 − 1) and 3,000 notes commands (1,826 refusals: 1,383 denied by the guard, 336
+  not found, 107 bodies refused; bodies of characters of 1 to 4 bytes, up to and past 4096 bytes)
+  run through the generated Rust, the generated Python and the generated Go give the same output
+  as the kernels compiled natively by Lean. 3,024 lines of schemas and statements
   (1,189 compiled statements, 1,481 refused ones, names with `"`, non-ASCII and NUL, values up to
   the bounds of 64 bits) give the same SQL text and parameters in the generated Rust, Python and
   Go as in the compiler compiled natively by Lean. 3,000 token lines (985 issued tokens, 845
   accepted and 1,170 rejected ones: edited bytes, leading zeros, signs, numbers of 2^64 and more,
   uppercase hexadecimal, missing and extra fields) give the same fields and bytes in the generated
-  Rust, Python and Go as in the token functions compiled natively by Lean. The calculator's table functions are
-  generated and compiled, and no differential test runs them.
+  Rust, Python and Go as in the token functions compiled natively by Lean. The calculator's table
+  functions are generated and compiled, and no differential test runs them.
+- **The Rust notes server answers the guard's refusals with 403.** `rust/notes/tests/http.rs`
+  sends denied writes, a read of a note the caller may not see (404) and a bad body (422).
 - **The code that runs is generated from the proved source.** The build regenerates the three
   targets and fails on a difference from the committed files.
 - **No extra axioms.** Every theorem depends only on `propext`, `Classical.choice` and
@@ -220,12 +313,15 @@ holds for each of them:
 | Authentication | HMAC-SHA256 and the constant-time comparison of tags, the secret and its storage, the system clock and the expiry check, reading the token from the `Authorization` header, the table of accepted tokens (a token accepted once is recognised by its exact bytes and only its expiry is checked again) |
 | Wire format | JSON decoding of commands and encoding of replies and refusals (`Api`) |
 | HTTP | axum, hyper and tokio (Rust); `http.server` (Python); `net/http` (Go) |
+| Call site | that a shell runs the notes' `transition`. `handle`, the kernel without the guard, is generated and public too, and the guard's theorems say nothing about a caller of `handle` |
 | SQL | that PostgreSQL reads the text as `lexName_quote`'s lexer reads a quoted name; that PostgreSQL, sent `render q` with its parameters, fails or does to the tables what `run` says, and that a `SELECT` returns the rows `selected` says in some order (`ORDER BY` is not modeled); that values compare as Lean values do (text character by character, bytes byte by byte); that the tables were made by `create` of the same schema, since `CREATE TABLE IF NOT EXISTS` keeps a table of that name as it is |
 | Storage | that an engine does what `Storage.Stored` says: it creates `tables` in a database without them, loads each commit's snapshot with `load` from the rows of the compiled `SELECT` of each table, and runs the statements compiled from `writes` of the accepted write set for the principal's tenant (`Kernel.tenant`, as the `Int64` with the same bits). No engine does this yet |
-| Specification | that `specStep` and the statements above say what a calculator should do; that `Valid`, `Accepts`, `sqlOf`, `renderSpec`, `exec`, `view`, `Sel` and `Lists` say what the SQL compiler should do; that `TenantIsolation`, `Storage`, `Loaded` and `Stored` say what storing a kernel should mean; that the calculator's `lookup` and `enc` say which rows a snapshot stands for; that `v1.<tenant>.<user>.<expiry>.<hex>` with the signature over the bytes before the last dot is the token a client should send |
+| Specification | that `specStep` and the statements above say what a calculator and the notes should do; that `Valid`, `Accepts`, `sqlOf`, `renderSpec`, `exec`, `view`, `Sel` and `Lists` say what the SQL compiler should do; that `TenantIsolation`, `Storage`, `Loaded` and `Stored` say what storing a kernel should mean; that the calculator's `lookup` and `enc` say which rows a snapshot stands for; that `v1.<tenant>.<user>.<expiry>.<hex>` with the signature over the bytes before the last dot is the token a client should send |
+| Policy | that `permits`, `visible`, `stored`, `view`, `disclosed` and `readOnly` of the notes say who should see and change what: the guard enforces them as written |
 
+The Python and Go notes kernels run only in the differential tests; only Rust has a notes server.
 State lives in the server's memory and is lost on restart. An engine that stores the snapshots
-in PostgreSQL and proved authorization guards are designed and not yet built.
+in PostgreSQL is designed and not yet built.
 
 ## Speed
 
@@ -324,16 +420,18 @@ of them refused, and checks that the snapshot still has one reference (`IsExclus
 
 | Path | Contents |
 |---|---|
-| [`lean/`](lean) | the Lake package: `Leanharbor` (the kernel contract, the SQL compiler, a model of PostgreSQL, tenant isolation, the storage of a kernel, the token format, and their proofs), `Calculator` (kernel, table and proofs), `calculator-oracle`, `sql-oracle` and `token-oracle` (the kernel, the SQL compiler and the token format as native programs) |
-| [`audit/`](audit) | the leanassay audit and the axiom check |
+| [`lean/`](lean) | the Lake package: `Leanharbor` (the kernel contract, the SQL compiler, a model of PostgreSQL, tenant isolation, the storage of a kernel, the token format, the authorization guard, and their proofs), `Calculator` (kernel, table and proofs), `Notes` (kernel, policy and proofs), `calculator-oracle`, `notes-oracle`, `sql-oracle` and `token-oracle` (the kernel, the SQL compiler and the token format as native programs) |
+| [`audit/`](audit) | the leanassay audits and the axiom check |
 | [`rust/leanharbor`](rust/leanharbor) | the Rust shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler and token format (`src/generated/`) |
 | [`rust/calculator`](rust/calculator) | the generated kernel and table (`src/generated/`), the server, the benchmark, the differential test |
-| [`python/`](python) | the Python shell (`leanharbor`, with the generated `sql.py` and `token_format.py`) and the calculator (`leanharbor_calculator`, with the generated `kernel.py` and `store.py`) |
+| [`rust/notes`](rust/notes) | the generated notes kernel (`src/generated/`), the server, the HTTP and differential tests |
+| [`python/`](python) | the Python shell (`leanharbor`, with the generated `sql.py` and `token_format.py`) and the calculator (`leanharbor_calculator`, with the generated `kernel.py` and `store.py`) and the notes (`leanharbor_notes`, with the generated `kernel.py`) |
 | [`go/leanharbor`](go/leanharbor) | the Go shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler (`sql/`) and token format (`token/`) |
 | [`go/calculator`](go/calculator) | the generated kernel (`kernel/`) and table (`store/`), the server and the benchmark (`cmd/`), the differential test |
+| [`go/notes`](go/notes) | the generated notes kernel (`kernel/`), the differential test |
 | [`bench/`](bench) | servers without a kernel (axum, actix-web, `net/http`, gin, FastAPI, Flask) for the HTTP comparison |
 | [`docs/`](docs) | the measured runs (`speed.json`) and the charts drawn from them |
-| [`testdata/`](testdata) | the command list (`tools/gen-commands.py`), the statement list (`tools/gen-statements.py`) and the token list (`tools/gen-tokens.py`) of the differential tests |
+| [`testdata/`](testdata) | the command lists (`tools/gen-commands.py`, `tools/gen-notes-commands.py`), the statement list (`tools/gen-statements.py`) and the token list (`tools/gen-tokens.py`) of the differential tests |
 
 ## Development
 
