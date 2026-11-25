@@ -9,6 +9,6 @@ repository.workspace = true
 [dependencies]
 axum = "0.8"
 hmac = "0.12"
-leanfran = "=0.13.1"
+leanfran = "=0.13.2"
 serde_json = "1"
 sha2 = "0.10"

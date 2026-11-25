@@ -9,7 +9,7 @@ repository.workspace = true
 
 [dependencies]
 axum = "0.8"
-leanfran = "=0.13.1"
+leanfran = "=0.13.2"
 leanharbor = { path = "../leanharbor" }
 leanharbor-pg = { path = "../leanharbor-pg" }
 serde = { version = "1", features = ["derive"] }
