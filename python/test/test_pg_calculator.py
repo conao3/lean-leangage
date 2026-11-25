@@ -333,7 +333,10 @@ def test_engine_reads_what_the_rust_server_wrote() -> None:
 
         def from_rust() -> None:
             connection = http.client.HTTPConnection("127.0.0.1", rust.port)
-            headers = {"Authorization": f"Bearer {t}", "Content-Type": "application/json"}
+            headers = {
+                "Authorization": f"Bearer {t}",
+                "Content-Type": "application/json",
+            }
             body = json.dumps({"cmd": "apply", "op": "add", "arg": 1})
             for _ in range(50):
                 connection.request("POST", "/rpc", body, headers)

@@ -217,7 +217,11 @@ async fn state_survives_a_restart_of_the_server() {
 }
 
 /// The reply of an accepted command.
-async fn value(engine: &PgEngine<Calculator>, who: &kernel::Principal, cmd: kernel::Command) -> u64 {
+async fn value(
+    engine: &PgEngine<Calculator>,
+    who: &kernel::Principal,
+    cmd: kernel::Command,
+) -> u64 {
     match engine.execute(who.clone(), cmd, None).await {
         Ok(Ok(reply)) => reply.v,
         other => panic!("not accepted: {other:?}"),
@@ -246,17 +250,36 @@ async fn engine_reads_what_a_server_process_wrote() {
         arg: 1,
     };
     let ok = |v: u64| (200, format!(r#"{{"value":{v}}}"#));
-    assert_eq!(value(&engine, &who, kernel::Command::Set { value: 6 }).await, 6);
-    assert_eq!(post(&server, &t, r#"{"cmd":"apply","op":"add","arg":4}"#), ok(10));
-    assert_eq!(value(&engine, &who, kernel::Command::Get).await, 10, "read-only path");
-    assert_eq!(post(&server, &t, r#"{"cmd":"apply","op":"mul","arg":3}"#), ok(30));
+    assert_eq!(
+        value(&engine, &who, kernel::Command::Set { value: 6 }).await,
+        6
+    );
+    assert_eq!(
+        post(&server, &t, r#"{"cmd":"apply","op":"add","arg":4}"#),
+        ok(10)
+    );
+    assert_eq!(
+        value(&engine, &who, kernel::Command::Get).await,
+        10,
+        "read-only path"
+    );
+    assert_eq!(
+        post(&server, &t, r#"{"cmd":"apply","op":"mul","arg":3}"#),
+        ok(30)
+    );
     assert_eq!(value(&engine, &who, add.clone()).await, 31, "write path");
     assert_eq!(post(&server, &t, r#"{"cmd":"get"}"#), ok(31));
-    let loads = engine.stats().loads.load(std::sync::atomic::Ordering::Relaxed);
+    let loads = engine
+        .stats()
+        .loads
+        .load(std::sync::atomic::Ordering::Relaxed);
     assert_eq!(value(&engine, &who, add.clone()).await, 32);
     assert_eq!(value(&engine, &who, kernel::Command::Get).await, 32);
     assert_eq!(
-        engine.stats().loads.load(std::sync::atomic::Ordering::Relaxed),
+        engine
+            .stats()
+            .loads
+            .load(std::sync::atomic::Ordering::Relaxed),
         loads,
         "its own commit remembered"
     );

@@ -604,26 +604,20 @@ def test_version_rows_conflict() -> None:
             for c in (first, second):
                 c.execute("BEGIN ISOLATION LEVEL SERIALIZABLE")
                 row = c.execute(
-                    "SELECT version FROM leanharbor_version WHERE tenant_id = $1", [tenant]
+                    "SELECT version FROM leanharbor_version WHERE tenant_id = $1",
+                    [tenant],
                 ).fetchone()
                 assert (0 if row is None else row[0]) == before
             advanced = first.execute(ADVANCE, [tenant]).fetchone()
             assert advanced is not None and advanced[0] == before + 1
-            box: dict[str, Any] = {}
-
-            def advance() -> None:
-                try:
-                    second.execute(ADVANCE, [tenant])
-                except psycopg.Error as e:
-                    box["error"] = e
-
-            waiting = threading.Thread(target=advance)
-            waiting.start()
-            time.sleep(0.2)
-            assert waiting.is_alive(), f"tenant {tenant}: waits for the first"
-            first.execute("COMMIT")
-            waiting.join(T)
-            assert box["error"].sqlstate == "40001", f"tenant {tenant}: {box['error']}"
+            with ThreadPoolExecutor(1) as pool:
+                waiting = pool.submit(second.execute, ADVANCE, [tenant])
+                time.sleep(0.2)
+                assert not waiting.done(), f"tenant {tenant}: waits for the first"
+                first.execute("COMMIT")
+                error = waiting.exception(T)
+            assert isinstance(error, psycopg.Error), f"tenant {tenant}: {error}"
+            assert error.sqlstate == "40001", f"tenant {tenant}: {error}"
             second.execute("ROLLBACK")
 
 
@@ -648,7 +642,9 @@ def test_lost_commit_forgets_the_snapshot() -> None:
     assert outcome(run, pg, 1, Add(0, 1)) is CommitUnknown
     assert run(pg, 1, Add(0, 1)) == 17, "committed"
     assert run(other, 1, Get(0)) == 17
-    assert pg.stats.loads - loads == 3, "every attempt after a lost COMMIT reads the rows"
+    assert pg.stats.loads - loads == 3, (
+        "every attempt after a lost COMMIT reads the rows"
+    )
     assert proxy.outcomes() == [Outcome.NOT_SENT, Outcome.COMMITTED]
 
 

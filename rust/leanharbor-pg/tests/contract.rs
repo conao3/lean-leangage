@@ -703,7 +703,10 @@ async fn version_rows_conflict() {
         let s = second.clone();
         let waiting = tokio::spawn(async move { s.query_one(ADVANCE, &[&tenant]).await });
         tokio::time::sleep(Duration::from_millis(200)).await;
-        assert!(!waiting.is_finished(), "tenant {tenant}: waits for the first");
+        assert!(
+            !waiting.is_finished(),
+            "tenant {tenant}: waits for the first"
+        );
         first.batch_execute("COMMIT").await.unwrap();
         let e = waiting.await.unwrap().unwrap_err();
         assert_eq!(
@@ -727,15 +730,29 @@ async fn lost_commit_forgets_the_snapshot() {
     let other = db.engine(1, Config::default()).await;
     assert_eq!(run(&pg, 1, add(0, 5)).await, Ok(Ok(5)));
     proxy.arm(Fault::DropBefore);
-    assert_eq!(run(&pg, 1, add(0, 1)).await, Err(EngineError::CommitUnknown));
+    assert_eq!(
+        run(&pg, 1, add(0, 1)).await,
+        Err(EngineError::CommitUnknown)
+    );
     assert_eq!(run(&pg, 1, get(0)).await, Ok(Ok(5)), "not committed");
     assert_eq!(run(&other, 1, add(0, 10)).await, Ok(Ok(15)));
-    assert_eq!(run(&pg, 1, get(0)).await, Ok(Ok(15)), "the other engine's commit");
+    assert_eq!(
+        run(&pg, 1, get(0)).await,
+        Ok(Ok(15)),
+        "the other engine's commit"
+    );
     proxy.arm(Fault::DropAfter);
-    assert_eq!(run(&pg, 1, add(0, 1)).await, Err(EngineError::CommitUnknown));
+    assert_eq!(
+        run(&pg, 1, add(0, 1)).await,
+        Err(EngineError::CommitUnknown)
+    );
     assert_eq!(run(&pg, 1, add(0, 1)).await, Ok(Ok(17)), "committed");
     assert_eq!(run(&other, 1, get(0)).await, Ok(Ok(17)));
-    assert_eq!(loads(&pg), 4, "every attempt after a lost COMMIT reads the rows");
+    assert_eq!(
+        loads(&pg),
+        4,
+        "every attempt after a lost COMMIT reads the rows"
+    );
     assert_eq!(proxy.outcomes(), vec![Outcome::NotSent, Outcome::Committed]);
 }
 
@@ -759,7 +776,10 @@ async fn refusals_and_rollbacks_keep_the_snapshot() {
     let pg = db.engine(2, config(20, true, Some(hook))).await;
     assert_eq!(run(&pg, 1, add(0, 5)).await, Ok(Ok(5)));
     assert_eq!(run(&pg, 1, add(0, -6)).await, Ok(Err(Refused::Negative)));
-    assert_eq!(run_keyed(&pg, 1, "k", add(0, -6)).await, Ok(Err(Refused::Negative)));
+    assert_eq!(
+        run_keyed(&pg, 1, "k", add(0, -6)).await,
+        Ok(Err(Refused::Negative))
+    );
     assert_eq!(run(&pg, 1, get(0)).await, Ok(Ok(5)));
     assert_eq!(run(&pg, 1, add(0, 1)).await, Ok(Ok(6)));
     assert_eq!(loads(&pg), 1, "one read of the rows");
@@ -770,12 +790,23 @@ async fn refusals_and_rollbacks_keep_the_snapshot() {
     let before = loads(&pg);
     assert_eq!(run(&pg, 2, add(0, 3)).await, Ok(Ok(3)));
     arm.store(true, Ordering::SeqCst);
-    assert_eq!(run(&pg, 2, add(0, 4)).await, Err(EngineError::CommitUnknown));
-    assert_eq!(run(&pg, 2, add(0, 4)).await, Ok(Ok(7)), "on the committed rows");
+    assert_eq!(
+        run(&pg, 2, add(0, 4)).await,
+        Err(EngineError::CommitUnknown)
+    );
+    assert_eq!(
+        run(&pg, 2, add(0, 4)).await,
+        Ok(Ok(7)),
+        "on the committed rows"
+    );
     assert_eq!(db.cell(2, 0).await, Some(7));
     assert_eq!(run(&pg, 3, add(0, 3)).await, Ok(Ok(3)));
     arm.store(true, Ordering::SeqCst);
-    assert_eq!(run_keyed(&pg, 3, "k", add(0, 4)).await, Ok(Ok(7)), "retried");
+    assert_eq!(
+        run_keyed(&pg, 3, "k", add(0, 4)).await,
+        Ok(Ok(7)),
+        "retried"
+    );
     assert_eq!(db.cell(3, 0).await, Some(7));
     assert_eq!(loads(&pg) - before, 4);
 }
@@ -830,7 +861,10 @@ async fn concurrent_engines_are_serial() {
             Arc::new(db.engine(4, config(1000, lock, None)).await),
         ];
         for cell in 0..4 {
-            run(&engines[0], tenant, add(cell, 100)).await.unwrap().unwrap();
+            run(&engines[0], tenant, add(cell, 100))
+                .await
+                .unwrap()
+                .unwrap();
         }
         let mut tasks = Vec::new();
         for client in 0..64_i64 {
