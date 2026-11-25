@@ -9,7 +9,7 @@ repository.workspace = true
 
 [dependencies]
 axum = "0.8"
-leanfran = "=0.12.0"
+leanfran = "=0.13.1"
 leanharbor = { path = "../leanharbor" }
 leanharbor-notes = { path = "../notes" }
 hmac = "0.12"

@@ -9,7 +9,7 @@ repository.workspace = true
 [dependencies]
 bytes = "1"
 deadpool-postgres = { version = "0.14", features = ["rt_tokio_1"] }
-leanfran = "=0.12.0"
+leanfran = "=0.13.1"
 leanharbor = { path = "../leanharbor" }
 tokio = { version = "1", features = ["macros", "net", "rt-multi-thread", "time", "io-util", "sync"] }
 tokio-postgres = "0.7"
