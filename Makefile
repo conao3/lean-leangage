@@ -1,6 +1,7 @@
 ORACLE := $(CURDIR)/lean/.lake/build/bin/calculator-oracle
 SQL_ORACLE := $(CURDIR)/lean/.lake/build/bin/sql-oracle
 GENERATED := rust/calculator/src/generated python/src/leanharbor_calculator/kernel.py go/calculator/kernel \
+	python/src/leanharbor_calculator/store.py go/calculator/store \
 	rust/leanharbor/src/generated python/src/leanharbor/sql.py go/leanharbor/sql
 
 .PHONY: all
@@ -27,9 +28,11 @@ audit: lean
 
 .PHONY: generate
 generate: lean
-	leanfran project generate --lake-dir lean --output-dir rust/calculator/src/generated --modules Calculator.Kernel --output text
+	leanfran project generate --lake-dir lean --output-dir rust/calculator/src/generated --modules Calculator.Kernel Calculator.Store --output text
 	leanfran-python module generate --module-name Calculator.Kernel --search-path lean/.lake/build/lib/lean --output-file python/src/leanharbor_calculator/kernel.py --output text
 	leanfran-go module generate --module-name Calculator.Kernel --search-path lean/.lake/build/lib/lean --output-dir go/calculator/kernel --output text
+	leanfran-python module generate --module-name Calculator.Store --search-path lean/.lake/build/lib/lean --output-file python/src/leanharbor_calculator/store.py --output text
+	leanfran-go module generate --module-name Calculator.Store --search-path lean/.lake/build/lib/lean --output-dir go/calculator/store --output text
 	leanfran project generate --lake-dir lean --output-dir rust/leanharbor/src/generated --modules Leanharbor.Sql --output text
 	leanfran-python module generate --module-name Leanharbor.Sql --search-path lean/.lake/build/lib/lean --output-file python/src/leanharbor/sql.py --output text
 	leanfran-go module generate --module-name Leanharbor.Sql --search-path lean/.lake/build/lib/lean --output-dir go/leanharbor/sql --output text

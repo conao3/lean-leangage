@@ -40,6 +40,8 @@
               "rust/calculator/src/generated/*"
               "python/src/leanharbor_calculator/kernel.py"
               "go/calculator/kernel/*"
+              "python/src/leanharbor_calculator/store.py"
+              "go/calculator/store/*"
               "rust/leanharbor/src/generated/*"
               "python/src/leanharbor/sql.py"
               "go/leanharbor/sql/*"
