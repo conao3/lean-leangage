@@ -11,20 +11,21 @@ import (
 
 var _lfCodecCommand leanfran.Codec[Command]
 var _lfCodecError leanfran.Codec[Error]
+var _lfCodecMemories leanfran.Codec[Memories]
 var _lfCodecMemory leanfran.Codec[Memory]
 var _lfCodecOp leanfran.Codec[Op]
 var _lfCodecPrincipal leanfran.Codec[Principal]
 var _lfCodecReply leanfran.Codec[Reply]
 var _lfCodecSnapshot leanfran.Codec[Snapshot]
 var _lfCodec0 leanfran.Codec[uint64]
-var _lfCodec1 leanfran.Codec[[]Memory]
-var _lfCodec2 leanfran.Codec[*Memory]
-var _lfCodec3 leanfran.Codec[bool]
-var _lfCodec4 leanfran.Codec[leanfran.Pair[*Memory, Reply]]
-var _lfCodec5 leanfran.Codec[leanfran.Except[Error, leanfran.Pair[*Memory, Reply]]]
-var _lfCodec6 leanfran.Codec[leanfran.Except[Error, uint64]]
+var _lfCodec1 leanfran.Codec[*Memory]
+var _lfCodec2 leanfran.Codec[bool]
+var _lfCodec3 leanfran.Codec[leanfran.Pair[*Memory, Reply]]
+var _lfCodec4 leanfran.Codec[leanfran.Except[Error, leanfran.Pair[*Memory, Reply]]]
+var _lfCodec5 leanfran.Codec[leanfran.Except[Error, uint64]]
 var _lfDescCommand schema.Desc
 var _lfDescError schema.Desc
+var _lfDescMemories schema.Desc
 var _lfDescMemory schema.Desc
 var _lfDescOp schema.Desc
 var _lfDescPrincipal schema.Desc
@@ -36,25 +37,26 @@ var _lfCodecsOnce sync.Once
 func _lfBuildCodecs() {
 	_lfCodecCommand = leanfran.Ref(descCommand, toCommand, fromCommand, checkCommand)
 	_lfCodecError = leanfran.Ref(descError, toError, fromError, checkError)
+	_lfCodecMemories = leanfran.Ref(descMemories, toMemories, fromMemories, checkMemories)
 	_lfCodecMemory = leanfran.Ref(descMemory, toMemory, fromMemory, checkMemory)
 	_lfCodecOp = leanfran.Ref(descOp, toOp, fromOp, checkOp)
 	_lfCodecPrincipal = leanfran.Ref(descPrincipal, toPrincipal, fromPrincipal, checkPrincipal)
 	_lfCodecReply = leanfran.Ref(descReply, toReply, fromReply, checkReply)
 	_lfCodecSnapshot = leanfran.Ref(descSnapshot, toSnapshot, fromSnapshot, checkSnapshot)
 	_lfCodec0 = leanfran.Fixed[uint64]("uint", 64)
-	_lfCodec1 = leanfran.Sequence("list", _lfCodecMemory)
-	_lfCodec2 = leanfran.Option(_lfCodecMemory)
-	_lfCodec3 = leanfran.Bool()
-	_lfCodec4 = leanfran.Product(_lfCodec2, _lfCodecReply)
-	_lfCodec5 = leanfran.Result(_lfCodecError, _lfCodec4)
-	_lfCodec6 = leanfran.Result(_lfCodecError, _lfCodec0)
+	_lfCodec1 = leanfran.Option(_lfCodecMemory)
+	_lfCodec2 = leanfran.Bool()
+	_lfCodec3 = leanfran.Product(_lfCodec1, _lfCodecReply)
+	_lfCodec4 = leanfran.Result(_lfCodecError, _lfCodec3)
+	_lfCodec5 = leanfran.Result(_lfCodecError, _lfCodec0)
 	_lfDescCommand = schema.Desc{Name: "Command", Kind: "inductive", Variants: []schema.Variant{{Name: "set", Tag: 0, Objects: 0, ScalarBytes: 8, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "value", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "apply", Tag: 1, Objects: 0, ScalarBytes: 9, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "op", Desc: _lfCodecOp.Desc, Slot: "u8", Offset: 8, Flat: false, OmitNone: false, Bounds: nil}, {Key: "arg", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "get", Tag: 2, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}}}
 	_lfDescError = schema.Desc{Name: "Error", Kind: "enum", Cases: []string{"overflow", "underflow", "divByZero"}}
+	_lfDescMemories = schema.Desc{Name: "Memories", Kind: "inductive", Variants: []schema.Variant{{Name: "empty", Tag: 0, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "leaf", Tag: 1, Objects: 0, ScalarBytes: 16, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "key", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "value", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 8, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "node", Tag: 2, Objects: 2, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "even", Desc: _lfCodecMemories.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "odd", Desc: _lfCodecMemories.Desc, Slot: "obj", Offset: 1, Flat: false, OmitNone: false, Bounds: nil}}}}}
 	_lfDescMemory = schema.Desc{Name: "Memory", Kind: "struct", Variants: []schema.Variant{{Name: "mk", Tag: 0, Objects: 0, ScalarBytes: 16, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "user", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "value", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 8, Flat: false, OmitNone: false, Bounds: nil}}}}}
 	_lfDescOp = schema.Desc{Name: "Op", Kind: "enum", Cases: []string{"add", "sub", "mul", "div"}}
 	_lfDescPrincipal = schema.Desc{Name: "Principal", Kind: "struct", Variants: []schema.Variant{{Name: "mk", Tag: 0, Objects: 0, ScalarBytes: 16, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "org", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "user", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 8, Flat: false, OmitNone: false, Bounds: nil}}}}}
 	_lfDescReply = schema.Desc{Name: "Reply", Kind: "inductive", Variants: []schema.Variant{{Name: "value", Tag: 0, Objects: 0, ScalarBytes: 8, Trivial: true, Positional: false, Fields: []schema.Field{{Key: "v", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}}}
-	_lfDescSnapshot = schema.Desc{Name: "Snapshot", Kind: "struct", Variants: []schema.Variant{{Name: "mk", Tag: 0, Objects: 1, ScalarBytes: 0, Trivial: true, Positional: false, Fields: []schema.Field{{Key: "memories", Desc: _lfCodec1.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}}}
+	_lfDescSnapshot = schema.Desc{Name: "Snapshot", Kind: "struct", Variants: []schema.Variant{{Name: "mk", Tag: 0, Objects: 1, ScalarBytes: 0, Trivial: true, Positional: false, Fields: []schema.Field{{Key: "memories", Desc: _lfCodecMemories.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}}}
 }
 
 func init() { _lfCodecsOnce.Do(_lfBuildCodecs) }
@@ -357,6 +359,248 @@ func (v *Error) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+func descMemories() *schema.Desc { return &_lfDescMemories }
+
+func LeanfranCodecMemories() leanfran.Codec[Memories] {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return _lfCodecMemories
+}
+
+type Memories interface {
+	isMemories()
+	Validate() error
+	MarshalJSON() ([]byte, error)
+	JSONSchema(string) (map[string]any, error)
+	LeanfranDesc() *schema.Desc
+}
+
+type MemoriesEmpty struct {
+}
+
+func (MemoriesEmpty) isMemories() {}
+
+func (v MemoriesEmpty) LeanfranDesc() *schema.Desc {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return descMemories()
+}
+
+func (v MemoriesEmpty) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecMemories, Memories(v), "Memories")
+}
+
+func (v MemoriesEmpty) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecMemories, Memories(v), "Memories")
+}
+
+func (v MemoriesEmpty) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descMemories(), target)
+}
+
+func (v *MemoriesEmpty) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecMemories, data, "Memories")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(MemoriesEmpty)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toMemoriesEmpty(v MemoriesEmpty) rt.V {
+	return descMemories().Variants[0].Build([]rt.V{})
+}
+
+func fromMemoriesEmpty(v rt.V) MemoriesEmpty {
+	return MemoriesEmpty{}
+}
+
+func checkMemoriesEmpty(e *leanfran.ValidationError, v MemoriesEmpty) {
+}
+
+type MemoriesLeaf struct {
+	Key   uint64
+	Value uint64
+}
+
+func (MemoriesLeaf) isMemories() {}
+
+func (v MemoriesLeaf) LeanfranDesc() *schema.Desc {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return descMemories()
+}
+
+func (v MemoriesLeaf) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecMemories, Memories(v), "Memories")
+}
+
+func (v MemoriesLeaf) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecMemories, Memories(v), "Memories")
+}
+
+func (v MemoriesLeaf) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descMemories(), target)
+}
+
+func (v *MemoriesLeaf) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecMemories, data, "Memories")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(MemoriesLeaf)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toMemoriesLeaf(v MemoriesLeaf) rt.V {
+	return descMemories().Variants[1].Build([]rt.V{_lfCodec0.ToLean(v.Key), _lfCodec0.ToLean(v.Value)})
+}
+
+func fromMemoriesLeaf(v rt.V) MemoriesLeaf {
+	layout := descMemories().Variants[1]
+	return MemoriesLeaf{Key: _lfCodec0.FromLean(layout.Get(v, 0)), Value: _lfCodec0.FromLean(layout.Get(v, 1))}
+}
+
+func checkMemoriesLeaf(e *leanfran.ValidationError, v MemoriesLeaf) {
+	leanfran.CheckAt(e, _lfCodec0, v.Key, "leaf", "key")
+	leanfran.CheckAt(e, _lfCodec0, v.Value, "leaf", "value")
+}
+
+type MemoriesNode struct {
+	Even Memories
+	Odd  Memories
+}
+
+func (MemoriesNode) isMemories() {}
+
+func (v MemoriesNode) LeanfranDesc() *schema.Desc {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return descMemories()
+}
+
+func (v MemoriesNode) Validate() error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.Validate(_lfCodecMemories, Memories(v), "Memories")
+}
+
+func (v MemoriesNode) MarshalJSON() ([]byte, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.MarshalJSON(_lfCodecMemories, Memories(v), "Memories")
+}
+
+func (v MemoriesNode) JSONSchema(target string) (map[string]any, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return schema.JSONSchema(descMemories(), target)
+}
+
+func (v *MemoriesNode) UnmarshalJSON(data []byte) error {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	out, err := leanfran.UnmarshalJSON(_lfCodecMemories, data, "Memories")
+	if err != nil {
+		return err
+	}
+	typed, ok := out.(MemoriesNode)
+	if !ok {
+		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
+	}
+	*v = typed
+	return nil
+}
+
+func toMemoriesNode(v MemoriesNode) rt.V {
+	return descMemories().Variants[2].Build([]rt.V{_lfCodecMemories.ToLean(v.Even), _lfCodecMemories.ToLean(v.Odd)})
+}
+
+func fromMemoriesNode(v rt.V) MemoriesNode {
+	layout := descMemories().Variants[2]
+	return MemoriesNode{Even: _lfCodecMemories.FromLean(layout.Get(v, 0)), Odd: _lfCodecMemories.FromLean(layout.Get(v, 1))}
+}
+
+func checkMemoriesNode(e *leanfran.ValidationError, v MemoriesNode) {
+	leanfran.CheckAt(e, _lfCodecMemories, v.Even, "node", "even")
+	leanfran.CheckAt(e, _lfCodecMemories, v.Odd, "node", "odd")
+}
+
+func toMemories(v Memories) rt.V {
+	switch x := v.(type) {
+	case MemoriesEmpty:
+		return toMemoriesEmpty(x)
+	case *MemoriesEmpty:
+		return toMemoriesEmpty(*x)
+	case MemoriesLeaf:
+		return toMemoriesLeaf(x)
+	case *MemoriesLeaf:
+		return toMemoriesLeaf(*x)
+	case MemoriesNode:
+		return toMemoriesNode(x)
+	case *MemoriesNode:
+		return toMemoriesNode(*x)
+	}
+	rt.Lean_internal_panic("invalid Memories")
+	return rt.V{}
+}
+
+func fromMemories(v rt.V) Memories {
+	switch rt.Lean_obj_tag(v) {
+	case 0:
+		return fromMemoriesEmpty(v)
+	case 1:
+		return fromMemoriesLeaf(v)
+	case 2:
+		return fromMemoriesNode(v)
+	}
+	rt.Lean_internal_panic("invalid Memories tag")
+	return nil
+}
+
+func checkMemories(e *leanfran.ValidationError, v Memories) {
+	switch x := v.(type) {
+	case MemoriesEmpty:
+		checkMemoriesEmpty(e, x)
+		return
+	case *MemoriesEmpty:
+		if x != nil {
+			checkMemoriesEmpty(e, *x)
+			return
+		}
+	case MemoriesLeaf:
+		checkMemoriesLeaf(e, x)
+		return
+	case *MemoriesLeaf:
+		if x != nil {
+			checkMemoriesLeaf(e, *x)
+			return
+		}
+	case MemoriesNode:
+		checkMemoriesNode(e, x)
+		return
+	case *MemoriesNode:
+		if x != nil {
+			checkMemoriesNode(e, *x)
+			return
+		}
+	}
+	e.Add("expected Memories")
+}
+
+func UnmarshalMemories(data []byte) (Memories, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.UnmarshalJSON(_lfCodecMemories, data, "Memories")
+}
+
 func descMemory() *schema.Desc { return &_lfDescMemory }
 
 func LeanfranCodecMemory() leanfran.Codec[Memory] {
@@ -582,20 +826,20 @@ func LeanfranCodecSnapshot() leanfran.Codec[Snapshot] {
 }
 
 type Snapshot struct {
-	Memories []Memory
+	Memories Memories
 }
 
 func toSnapshot(v Snapshot) rt.V {
-	return descSnapshot().Variants[0].Build([]rt.V{_lfCodec1.ToLean(v.Memories)})
+	return descSnapshot().Variants[0].Build([]rt.V{_lfCodecMemories.ToLean(v.Memories)})
 }
 
 func fromSnapshot(v rt.V) Snapshot {
 	layout := descSnapshot().Variants[0]
-	return Snapshot{Memories: _lfCodec1.FromLean(layout.Get(v, 0))}
+	return Snapshot{Memories: _lfCodecMemories.FromLean(layout.Get(v, 0))}
 }
 
 func checkSnapshot(e *leanfran.ValidationError, v Snapshot) {
-	leanfran.CheckAt(e, _lfCodec1, v.Memories, "memories")
+	leanfran.CheckAt(e, _lfCodecMemories, v.Memories, "memories")
 }
 
 func (v Snapshot) LeanfranDesc() *schema.Desc {
@@ -646,7 +890,7 @@ func (lfValue) NewBool(v bool) leanfran.Value[bool] {
 
 func (api lfScopedValue) NewBool(v bool) leanfran.Value[bool] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[bool](api.scope, _lfCodec3, v)
+	return leanfran.NewUncheckedValueIn[bool](api.scope, _lfCodec2, v)
 }
 
 func (lfValue) ReadBool(v leanfran.Value[bool]) bool {
@@ -655,7 +899,7 @@ func (lfValue) ReadBool(v leanfran.Value[bool]) bool {
 
 func (api lfScopedValue) ReadBool(v leanfran.Value[bool]) bool {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec3, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec2, v)
 }
 
 func (lfValue) NewCommand(v Command) (leanfran.Value[Command], error) {
@@ -700,7 +944,7 @@ func (lfValue) NewExceptErrorPairOptionMemoryReply(v leanfran.Except[Error, lean
 
 func (api lfScopedValue) NewExceptErrorPairOptionMemoryReply(v leanfran.Except[Error, leanfran.Pair[*Memory, Reply]]) leanfran.Value[leanfran.ExceptType[Error, leanfran.PairType[leanfran.OptionType[Memory], Reply]]] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[leanfran.ExceptType[Error, leanfran.PairType[leanfran.OptionType[Memory], Reply]]](api.scope, _lfCodec5, v)
+	return leanfran.NewUncheckedValueIn[leanfran.ExceptType[Error, leanfran.PairType[leanfran.OptionType[Memory], Reply]]](api.scope, _lfCodec4, v)
 }
 
 func (lfValue) ReadExceptErrorPairOptionMemoryReply(v leanfran.Value[leanfran.ExceptType[Error, leanfran.PairType[leanfran.OptionType[Memory], Reply]]]) leanfran.Except[Error, leanfran.Pair[*Memory, Reply]] {
@@ -709,7 +953,7 @@ func (lfValue) ReadExceptErrorPairOptionMemoryReply(v leanfran.Value[leanfran.Ex
 
 func (api lfScopedValue) ReadExceptErrorPairOptionMemoryReply(v leanfran.Value[leanfran.ExceptType[Error, leanfran.PairType[leanfran.OptionType[Memory], Reply]]]) leanfran.Except[Error, leanfran.Pair[*Memory, Reply]] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec5, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec4, v)
 }
 
 func (lfValue) NewExceptErrorUInt64(v leanfran.Except[Error, uint64]) leanfran.Value[leanfran.ExceptType[Error, uint64]] {
@@ -718,7 +962,7 @@ func (lfValue) NewExceptErrorUInt64(v leanfran.Except[Error, uint64]) leanfran.V
 
 func (api lfScopedValue) NewExceptErrorUInt64(v leanfran.Except[Error, uint64]) leanfran.Value[leanfran.ExceptType[Error, uint64]] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[leanfran.ExceptType[Error, uint64]](api.scope, _lfCodec6, v)
+	return leanfran.NewUncheckedValueIn[leanfran.ExceptType[Error, uint64]](api.scope, _lfCodec5, v)
 }
 
 func (lfValue) ReadExceptErrorUInt64(v leanfran.Value[leanfran.ExceptType[Error, uint64]]) leanfran.Except[Error, uint64] {
@@ -727,25 +971,25 @@ func (lfValue) ReadExceptErrorUInt64(v leanfran.Value[leanfran.ExceptType[Error,
 
 func (api lfScopedValue) ReadExceptErrorUInt64(v leanfran.Value[leanfran.ExceptType[Error, uint64]]) leanfran.Except[Error, uint64] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec6, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec5, v)
 }
 
-func (lfValue) NewListMemory(v []Memory) leanfran.Value[leanfran.ListType[Memory]] {
-	return lfScopedValue{}.NewListMemory(v)
+func (lfValue) NewMemories(v Memories) (leanfran.Value[Memories], error) {
+	return lfScopedValue{}.NewMemories(v)
 }
 
-func (api lfScopedValue) NewListMemory(v []Memory) leanfran.Value[leanfran.ListType[Memory]] {
+func (api lfScopedValue) NewMemories(v Memories) (leanfran.Value[Memories], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[leanfran.ListType[Memory]](api.scope, _lfCodec1, v)
+	return leanfran.NewValueIn[Memories](api.scope, _lfCodecMemories, v, "Memories")
 }
 
-func (lfValue) ReadListMemory(v leanfran.Value[leanfran.ListType[Memory]]) []Memory {
-	return lfScopedValue{}.ReadListMemory(v)
+func (lfValue) ReadMemories(v leanfran.Value[Memories]) Memories {
+	return lfScopedValue{}.ReadMemories(v)
 }
 
-func (api lfScopedValue) ReadListMemory(v leanfran.Value[leanfran.ListType[Memory]]) []Memory {
+func (api lfScopedValue) ReadMemories(v leanfran.Value[Memories]) Memories {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec1, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodecMemories, v)
 }
 
 func (lfValue) NewMemory(v Memory) leanfran.Value[Memory] {
@@ -790,7 +1034,7 @@ func (lfValue) NewOptionMemory(v *Memory) leanfran.Value[leanfran.OptionType[Mem
 
 func (api lfScopedValue) NewOptionMemory(v *Memory) leanfran.Value[leanfran.OptionType[Memory]] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[leanfran.OptionType[Memory]](api.scope, _lfCodec2, v)
+	return leanfran.NewUncheckedValueIn[leanfran.OptionType[Memory]](api.scope, _lfCodec1, v)
 }
 
 func (lfValue) ReadOptionMemory(v leanfran.Value[leanfran.OptionType[Memory]]) *Memory {
@@ -799,7 +1043,7 @@ func (lfValue) ReadOptionMemory(v leanfran.Value[leanfran.OptionType[Memory]]) *
 
 func (api lfScopedValue) ReadOptionMemory(v leanfran.Value[leanfran.OptionType[Memory]]) *Memory {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec2, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec1, v)
 }
 
 func (lfValue) NewPairOptionMemoryReply(v leanfran.Pair[*Memory, Reply]) leanfran.Value[leanfran.PairType[leanfran.OptionType[Memory], Reply]] {
@@ -808,7 +1052,7 @@ func (lfValue) NewPairOptionMemoryReply(v leanfran.Pair[*Memory, Reply]) leanfra
 
 func (api lfScopedValue) NewPairOptionMemoryReply(v leanfran.Pair[*Memory, Reply]) leanfran.Value[leanfran.PairType[leanfran.OptionType[Memory], Reply]] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[leanfran.PairType[leanfran.OptionType[Memory], Reply]](api.scope, _lfCodec4, v)
+	return leanfran.NewUncheckedValueIn[leanfran.PairType[leanfran.OptionType[Memory], Reply]](api.scope, _lfCodec3, v)
 }
 
 func (lfValue) ReadPairOptionMemoryReply(v leanfran.Value[leanfran.PairType[leanfran.OptionType[Memory], Reply]]) leanfran.Pair[*Memory, Reply] {
@@ -817,7 +1061,7 @@ func (lfValue) ReadPairOptionMemoryReply(v leanfran.Value[leanfran.PairType[lean
 
 func (api lfScopedValue) ReadPairOptionMemoryReply(v leanfran.Value[leanfran.PairType[leanfran.OptionType[Memory], Reply]]) leanfran.Pair[*Memory, Reply] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec4, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec3, v)
 }
 
 func (lfValue) NewPrincipal(v Principal) leanfran.Value[Principal] {
@@ -856,13 +1100,13 @@ func (api lfScopedValue) ReadReply(v leanfran.Value[Reply]) Reply {
 	return leanfran.ReadValueIn(api.scope, _lfCodecReply, v)
 }
 
-func (lfValue) NewSnapshot(v Snapshot) leanfran.Value[Snapshot] {
+func (lfValue) NewSnapshot(v Snapshot) (leanfran.Value[Snapshot], error) {
 	return lfScopedValue{}.NewSnapshot(v)
 }
 
-func (api lfScopedValue) NewSnapshot(v Snapshot) leanfran.Value[Snapshot] {
+func (api lfScopedValue) NewSnapshot(v Snapshot) (leanfran.Value[Snapshot], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[Snapshot](api.scope, _lfCodecSnapshot, v)
+	return leanfran.NewValueIn[Snapshot](api.scope, _lfCodecSnapshot, v, "Snapshot")
 }
 
 func (lfValue) ReadSnapshot(v leanfran.Value[Snapshot]) Snapshot {

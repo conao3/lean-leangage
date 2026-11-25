@@ -42,9 +42,6 @@ func commands(users uint64, count int) []request {
 func main() {
 	for _, users := range []uint64{1, 100, 1_000, 10_000} {
 		count := 200_000
-		if users == 10_000 {
-			count = 2_000
-		}
 		engine := calculator.NewEngine()
 		for user := range users {
 			_, _, _ = engine.Execute(kernel.Principal{Org: 1, User: user}, kernel.CommandSet{Value: 1}, nil)

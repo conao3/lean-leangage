@@ -31,25 +31,49 @@ def eval (op : Op) (a b : Nat) : Except Error Nat :=
   | .mul => if a * b < 2 ^ 64 then .ok (a * b) else .error .overflow
   | .div => if b = 0 then .error .divByZero else .ok (a / b)
 
-theorem memoryOf_upsert_self (m : Memory) (ms : List Memory) :
-    memoryOf (upsert m ms) m.user = m.value := by
-  induction ms with
-  | nil => simp [upsert, memoryOf]
-  | cons x xs ih =>
-    unfold upsert
-    split
-    · simp [memoryOf]
-    · rename_i h; simp [memoryOf, h, ih]
+theorem eq_iff_halves (u k : UInt64) : u = k ↔ u % 2 = k % 2 ∧ u / 2 = k / 2 := by
+  constructor
+  · rintro rfl; exact ⟨rfl, rfl⟩
+  · rintro ⟨h₁, h₂⟩
+    have e₁ := congrArg UInt64.toNat h₁
+    have e₂ := congrArg UInt64.toNat h₂
+    simp only [UInt64.toNat_mod, UInt64.toNat_div, UInt64.reduceToNat] at e₁ e₂
+    exact UInt64.toNat_inj.mp (by omega)
 
-theorem memoryOf_upsert_other (m : Memory) (ms : List Memory) (u : UInt64) (h : u ≠ m.user) :
+theorem mod_two_ne_zero (x : UInt64) : ¬x % 2 = 0 ↔ x % 2 = 1 := by
+  have h : (x % 2).toNat = 0 ∨ (x % 2).toNat = 1 := by
+    simp only [UInt64.toNat_mod, UInt64.reduceToNat]; omega
+  rcases h with h | h
+  · have : x % 2 = 0 := UInt64.toNat_inj.mp h
+    simp [this]
+  · have : x % 2 = 1 := UInt64.toNat_inj.mp h
+    simp [this]
+
+theorem memoryOf_pair (k₁ v₁ k v u : UInt64) :
+    memoryOf (pair k₁ v₁ k v) u = if u = k then v else if u = k₁ then v₁ else 0 := by
+  fun_induction pair k₁ v₁ k v generalizing u <;>
+    simp only [memoryOf, *] <;>
+    simp only [eq_iff_halves u _] <;>
+    by_cases hu : u % 2 = 0 <;> simp_all [mod_two_ne_zero]
+
+theorem memoryOf_store (k v : UInt64) (ms : Memories) (u : UInt64) :
+    memoryOf (store k v ms) u = if u = k then v else memoryOf ms u := by
+  induction ms generalizing k u with
+  | empty => simp [store, memoryOf]
+  | leaf k₁ v₁ => simp [store, memoryOf, memoryOf_pair]
+  | node even odd ihe iho =>
+    unfold store
+    simp only [eq_iff_halves u k]
+    by_cases hu : u % 2 = 0 <;> by_cases hk : k % 2 = 0 <;>
+      simp_all [memoryOf, mod_two_ne_zero]
+
+theorem memoryOf_upsert_self (m : Memory) (ms : Memories) :
+    memoryOf (upsert m ms) m.user = m.value := by
+  simp [upsert, memoryOf_store]
+
+theorem memoryOf_upsert_other (m : Memory) (ms : Memories) (u : UInt64) (h : u ≠ m.user) :
     memoryOf (upsert m ms) u = memoryOf ms u := by
-  induction ms with
-  | nil => simp [upsert, memoryOf, Ne.symm h]
-  | cons x xs ih =>
-    unfold upsert
-    split
-    · rename_i hx; simp [memoryOf, hx, Ne.symm h]
-    · simp [memoryOf, ih]
+  simp [upsert, memoryOf_store, h]
 
 /-- After any accepted command, `get` by the same user returns that command's reply. -/
 theorem get_after (a : Principal) (s : Snapshot) (c : Command) (w : Option Memory) (v : UInt64)

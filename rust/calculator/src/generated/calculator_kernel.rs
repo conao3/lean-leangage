@@ -6,42 +6,71 @@ use rt::Obj;
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Calculator_Kernel_upsert(mut x_1: Obj, mut x_2: Obj) -> Obj {
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
+let mut x_3: u64 = 0;
+let mut x_4: u64 = 0;
 let mut x_5: Obj = rt::lean_box(0);
+x_3 = rt::lean_ctor_get_uint64(x_1, 0 * core::mem::size_of::<usize>() as u32 + 0);
+x_4 = rt::lean_ctor_get_uint64(x_1, 0 * core::mem::size_of::<usize>() as u32 + 8);
+x_5 = l_Calculator_Kernel_store(x_3, x_4, x_2);
+return x_5;
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_store(mut x_1: u64, mut x_2: u64, mut x_3: Obj) -> Obj {
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: u64 = 0;
+let mut x_6: u64 = 0;
 let mut x_7: Obj = rt::lean_box(0);
-let mut x_8: u8 = 0;
-let mut x_9: u64 = 0;
-let mut x_10: u64 = 0;
-let mut x_11: u8 = 0;
-let mut x_12: Obj = rt::lean_box(0);
-let mut x_14: Obj = rt::lean_box(0);
-let mut x_15: Obj = rt::lean_box(0);
-let mut x_17: Obj = rt::lean_box(0);
-let mut x_18: Obj = rt::lean_box(0);
-let mut x_19: u8 = 0;
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_12: u8 = 0;
+let mut x_13: u64 = 0;
+let mut x_14: u64 = 0;
+let mut x_15: u64 = 0;
+let mut x_16: u8 = 0;
+let mut x_17: u64 = 0;
+let mut x_18: u64 = 0;
+let mut x_19: Obj = rt::lean_box(0);
+let mut x_21: Obj = rt::lean_box(0);
+let mut x_22: Obj = rt::lean_box(0);
+let mut x_23: u64 = 0;
+let mut x_24: u64 = 0;
+let mut x_25: Obj = rt::lean_box(0);
+let mut x_27: Obj = rt::lean_box(0);
+let mut x_28: Obj = rt::lean_box(0);
+let mut x_29: u8 = 0;
 let mut __blk: u32 = 0;
 'body: loop { match __blk {
 0 => {
-match rt::lean_obj_tag(x_2) {
+match rt::lean_obj_tag(x_3) {
 0 => {
-x_3 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_3, 0, x_1); rt::lean_ctor_set(x_3, 1, x_2);
-return x_3;
+x_4 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 16);
+rt::lean_ctor_set_uint64(x_4, 0 * core::mem::size_of::<usize>() as u32 + 0, x_1);
+rt::lean_ctor_set_uint64(x_4, 0 * core::mem::size_of::<usize>() as u32 + 8, x_2);
+return x_4;
 }
 1 => {
-x_4 = rt::lean_ctor_get(x_2, 0);
-x_5 = rt::lean_ctor_get(x_2, 1);
-x_19 = (!rt::lean_is_exclusive(x_2)) as u8;
-match x_19 as u32 {
+x_5 = rt::lean_ctor_get_uint64(x_3, 0 * core::mem::size_of::<usize>() as u32 + 0);
+x_6 = rt::lean_ctor_get_uint64(x_3, 0 * core::mem::size_of::<usize>() as u32 + 8);
+rt::lean_dec_ref(x_3);
+x_7 = l_Calculator_Kernel_pair(x_5, x_6, x_1, x_2);
+return x_7;
+}
+2 => {
+x_8 = rt::lean_ctor_get(x_3, 0);
+x_9 = rt::lean_ctor_get(x_3, 1);
+x_29 = (!rt::lean_is_exclusive(x_3)) as u8;
+match x_29 as u32 {
 0 => {
-{ let t_0 = x_2; let t_1 = x_19; x_7 = t_0; x_8 = t_1; }
+{ let t_0 = x_3; let t_1 = x_29; x_11 = t_0; x_12 = t_1; }
 __blk = 1; continue 'body;
 }
 1 => {
-rt::lean_inc(x_5);
-rt::lean_inc(x_4);
-rt::lean_dec(x_2);
-{ let t_0 = rt::lean_box(0); let t_1 = x_19; x_7 = t_0; x_8 = t_1; }
+rt::lean_inc(x_9);
+rt::lean_inc(x_8);
+rt::lean_dec(x_3);
+{ let t_0 = rt::lean_box(0); let t_1 = x_29; x_11 = t_0; x_12 = t_1; }
 __blk = 1; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
@@ -51,37 +80,42 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-x_9 = rt::lean_ctor_get_uint64(x_4, 0 * core::mem::size_of::<usize>() as u32 + 0);
-x_10 = rt::lean_ctor_get_uint64(x_1, 0 * core::mem::size_of::<usize>() as u32 + 0);
-x_11 = rt::lean_uint64_dec_eq(x_9, x_10);
-match x_11 as u32 {
+x_13 = 2u64;
+x_14 = rt::lean_uint64_mod(x_1, x_13);
+x_15 = 0u64;
+x_16 = rt::lean_uint64_dec_eq(x_14, x_15);
+match x_16 as u32 {
 0 => {
-x_12 = l_Calculator_Kernel_upsert(x_1, x_5);
-match x_8 as u32 {
+x_17 = 1u64;
+x_18 = rt::lean_uint64_shift_right(x_1, x_17);
+x_19 = l_Calculator_Kernel_store(x_18, x_2, x_9);
+match x_12 as u32 {
 0 => {
-rt::lean_ctor_set(x_7, 1, x_12);
-{ let t_0 = x_7; x_14 = t_0; }
+rt::lean_ctor_set(x_11, 1, x_19);
+{ let t_0 = x_11; x_21 = t_0; }
 __blk = 2; continue 'body;
 }
 1 => {
-x_15 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_15, 0, x_4); rt::lean_ctor_set(x_15, 1, x_12);
-{ let t_0 = x_15; x_14 = t_0; }
+x_22 = rt::lean_alloc_ctor(2, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_22, 0, x_8); rt::lean_ctor_set(x_22, 1, x_19);
+{ let t_0 = x_22; x_21 = t_0; }
 __blk = 2; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-rt::lean_dec(x_4);
-match x_8 as u32 {
+x_23 = 1u64;
+x_24 = rt::lean_uint64_shift_right(x_1, x_23);
+x_25 = l_Calculator_Kernel_store(x_24, x_2, x_8);
+match x_12 as u32 {
 0 => {
-rt::lean_ctor_set(x_7, 0, x_1);
-{ let t_0 = x_7; x_17 = t_0; }
+rt::lean_ctor_set(x_11, 0, x_25);
+{ let t_0 = x_11; x_27 = t_0; }
 __blk = 3; continue 'body;
 }
 1 => {
-x_18 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_18, 0, x_1); rt::lean_ctor_set(x_18, 1, x_5);
-{ let t_0 = x_18; x_17 = t_0; }
+x_28 = rt::lean_alloc_ctor(2, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_28, 0, x_25); rt::lean_ctor_set(x_28, 1, x_9);
+{ let t_0 = x_28; x_27 = t_0; }
 __blk = 3; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
@@ -91,14 +125,131 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 }
 2 => {
-return x_14;
+return x_21;
 }
 3 => {
-return x_17;
+return x_27;
 }
 _ => rt::lean_internal_panic_unreachable(),
 } }
 }
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Kernel_pair(mut x_1: u64, mut x_2: u64, mut x_3: u64, mut x_4: u64) -> Obj {
+let mut x_5: u8 = 0;
+let mut x_6: u64 = 0;
+let mut x_7: u64 = 0;
+let mut x_8: u64 = 0;
+let mut x_9: u8 = 0;
+let mut x_10: u64 = 0;
+let mut x_11: u8 = 0;
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_13: u64 = 0;
+let mut x_14: u64 = 0;
+let mut x_15: u64 = 0;
+let mut x_16: Obj = rt::lean_box(0);
+let mut x_17: Obj = rt::lean_box(0);
+let mut x_18: u64 = 0;
+let mut x_19: u64 = 0;
+let mut x_20: Obj = rt::lean_box(0);
+let mut x_21: u64 = 0;
+let mut x_22: Obj = rt::lean_box(0);
+let mut x_23: Obj = rt::lean_box(0);
+let mut x_24: u64 = 0;
+let mut x_25: u8 = 0;
+let mut x_26: u64 = 0;
+let mut x_27: u64 = 0;
+let mut x_28: Obj = rt::lean_box(0);
+let mut x_29: u64 = 0;
+let mut x_30: Obj = rt::lean_box(0);
+let mut x_31: Obj = rt::lean_box(0);
+let mut x_32: u64 = 0;
+let mut x_33: u64 = 0;
+let mut x_34: u64 = 0;
+let mut x_35: Obj = rt::lean_box(0);
+let mut x_36: Obj = rt::lean_box(0);
+let mut x_37: Obj = rt::lean_box(0);
+let mut x_38: Obj = rt::lean_box(0);
+x_5 = rt::lean_uint64_dec_eq(x_1, x_3);
+match x_5 as u32 {
+0 => {
+x_6 = 2u64;
+x_7 = rt::lean_uint64_mod(x_3, x_6);
+x_8 = 0u64;
+x_9 = rt::lean_uint64_dec_eq(x_7, x_8);
+match x_9 as u32 {
+0 => {
+x_10 = rt::lean_uint64_mod(x_1, x_6);
+x_11 = rt::lean_uint64_dec_eq(x_10, x_8);
+match x_11 as u32 {
+0 => {
+x_12 = rt::lean_box(0);
+x_13 = 1u64;
+x_14 = rt::lean_uint64_shift_right(x_1, x_13);
+x_15 = rt::lean_uint64_shift_right(x_3, x_13);
+x_16 = l_Calculator_Kernel_pair(x_14, x_2, x_15, x_4);
+x_17 = rt::lean_alloc_ctor(2, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_17, 0, x_12); rt::lean_ctor_set(x_17, 1, x_16);
+return x_17;
+}
+1 => {
+x_18 = 1u64;
+x_19 = rt::lean_uint64_shift_right(x_1, x_18);
+x_20 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 16);
+rt::lean_ctor_set_uint64(x_20, 0 * core::mem::size_of::<usize>() as u32 + 0, x_19);
+rt::lean_ctor_set_uint64(x_20, 0 * core::mem::size_of::<usize>() as u32 + 8, x_2);
+x_21 = rt::lean_uint64_shift_right(x_3, x_18);
+x_22 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 16);
+rt::lean_ctor_set_uint64(x_22, 0 * core::mem::size_of::<usize>() as u32 + 0, x_21);
+rt::lean_ctor_set_uint64(x_22, 0 * core::mem::size_of::<usize>() as u32 + 8, x_4);
+x_23 = rt::lean_alloc_ctor(2, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_23, 0, x_20); rt::lean_ctor_set(x_23, 1, x_22);
+return x_23;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_24 = rt::lean_uint64_mod(x_1, x_6);
+x_25 = rt::lean_uint64_dec_eq(x_24, x_8);
+match x_25 as u32 {
+0 => {
+x_26 = 1u64;
+x_27 = rt::lean_uint64_shift_right(x_3, x_26);
+x_28 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 16);
+rt::lean_ctor_set_uint64(x_28, 0 * core::mem::size_of::<usize>() as u32 + 0, x_27);
+rt::lean_ctor_set_uint64(x_28, 0 * core::mem::size_of::<usize>() as u32 + 8, x_4);
+x_29 = rt::lean_uint64_shift_right(x_1, x_26);
+x_30 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 16);
+rt::lean_ctor_set_uint64(x_30, 0 * core::mem::size_of::<usize>() as u32 + 0, x_29);
+rt::lean_ctor_set_uint64(x_30, 0 * core::mem::size_of::<usize>() as u32 + 8, x_2);
+x_31 = rt::lean_alloc_ctor(2, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_31, 0, x_28); rt::lean_ctor_set(x_31, 1, x_30);
+return x_31;
+}
+1 => {
+x_32 = 1u64;
+x_33 = rt::lean_uint64_shift_right(x_1, x_32);
+x_34 = rt::lean_uint64_shift_right(x_3, x_32);
+x_35 = l_Calculator_Kernel_pair(x_33, x_2, x_34, x_4);
+x_36 = rt::lean_box(0);
+x_37 = rt::lean_alloc_ctor(2, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_37, 0, x_35); rt::lean_ctor_set(x_37, 1, x_36);
+return x_37;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_38 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 16);
+rt::lean_ctor_set_uint64(x_38, 0 * core::mem::size_of::<usize>() as u32 + 0, x_3);
+rt::lean_ctor_set_uint64(x_38, 0 * core::mem::size_of::<usize>() as u32 + 8, x_4);
+return x_38;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+
+
 
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
@@ -120,12 +271,22 @@ return x_3;
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Calculator_Kernel_memoryOf(mut x_1: Obj, mut x_2: u64) -> u64 {
 let mut x_3: u64 = 0;
-let mut x_4: Obj = rt::lean_box(0);
-let mut x_5: Obj = rt::lean_box(0);
-let mut x_6: u64 = 0;
+let mut x_4: u64 = 0;
+let mut x_5: u64 = 0;
+let mut x_6: u8 = 0;
 let mut x_7: u64 = 0;
-let mut x_8: u8 = 0;
-let mut x_9: u64 = 0;
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: u64 = 0;
+let mut x_11: u64 = 0;
+let mut x_12: u64 = 0;
+let mut x_13: u8 = 0;
+let mut x_14: u64 = 0;
+let mut x_15: u64 = 0;
+let mut x_16: u64 = 0;
+let mut x_17: u64 = 0;
+let mut x_18: u64 = 0;
+let mut x_19: u64 = 0;
 let mut __blk: u32 = 0;
 'body: loop { match __blk {
 0 => {
@@ -135,18 +296,39 @@ x_3 = 0u64;
 return x_3;
 }
 1 => {
-x_4 = rt::lean_ctor_get(x_1, 0);
-x_5 = rt::lean_ctor_get(x_1, 1);
-x_6 = rt::lean_ctor_get_uint64(x_4, 0 * core::mem::size_of::<usize>() as u32 + 0);
-x_7 = rt::lean_ctor_get_uint64(x_4, 0 * core::mem::size_of::<usize>() as u32 + 8);
-x_8 = rt::lean_uint64_dec_eq(x_6, x_2);
-match x_8 as u32 {
+x_4 = rt::lean_ctor_get_uint64(x_1, 0 * core::mem::size_of::<usize>() as u32 + 0);
+x_5 = rt::lean_ctor_get_uint64(x_1, 0 * core::mem::size_of::<usize>() as u32 + 8);
+x_6 = rt::lean_uint64_dec_eq(x_2, x_4);
+match x_6 as u32 {
 0 => {
-{ let t_0 = x_5; let t_1 = x_2; x_1 = t_0; x_2 = t_1; }
+x_7 = 0u64;
+return x_7;
+}
+1 => {
+return x_5;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+x_8 = rt::lean_ctor_get(x_1, 0);
+x_9 = rt::lean_ctor_get(x_1, 1);
+x_10 = 2u64;
+x_11 = rt::lean_uint64_mod(x_2, x_10);
+x_12 = 0u64;
+x_13 = rt::lean_uint64_dec_eq(x_11, x_12);
+match x_13 as u32 {
+0 => {
+x_14 = 1u64;
+x_15 = rt::lean_uint64_shift_right(x_2, x_14);
+{ let t_0 = x_9; let t_1 = x_15; x_1 = t_0; x_2 = t_1; }
 __blk = 0; continue 'body;
 }
 1 => {
-return x_7;
+x_17 = 1u64;
+x_18 = rt::lean_uint64_shift_right(x_2, x_17);
+{ let t_0 = x_8; let t_1 = x_18; x_1 = t_0; x_2 = t_1; }
+__blk = 0; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
@@ -524,8 +706,6 @@ return x_1;
 }
 1 => {
 x_3 = rt::lean_ctor_get(x_2, 0);
-rt::lean_inc(x_3);
-rt::lean_dec_ref(x_2);
 x_4 = l_Calculator_Kernel_upsert(x_3, x_1);
 return x_4;
 }
@@ -557,6 +737,47 @@ unsafe impl rt::LeanRepr for Memory {
     }
 }
 unsafe impl rt::IntoLean<Memory> for Memory {
+    unsafe fn into_obj(self) -> Obj {
+        rt::ToLean::to_lean(self)
+    }
+}
+
+#[doc = "Lean type `Calculator.Kernel.Memories` (module `Calculator.Kernel`)."]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub enum Memories {
+    Empty,
+    Leaf{ key: u64, value: u64 },
+    Node{ even: Box<Memories>, odd: Box<Memories> },
+}
+impl rt::ToLean for Memories {
+    unsafe fn to_lean(self) -> Obj {
+        match self {
+            Memories::Empty => rt::lean_box(0),
+            Memories::Leaf { key: f0, value: f1 } => { let o = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 16); rt::lean_ctor_set_uint64(o, 0 * core::mem::size_of::<usize>() as u32 + 0, f0); rt::lean_ctor_set_uint64(o, 0 * core::mem::size_of::<usize>() as u32 + 8, f1); o },
+            Memories::Node { even: f0, odd: f1 } => { let o = rt::lean_alloc_ctor(2, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(o, 0, rt::ToLean::to_lean((*f0))); rt::lean_ctor_set(o, 1, rt::ToLean::to_lean((*f1))); o },
+        }
+    }
+}
+impl rt::FromLean for Memories {
+    unsafe fn from_lean(o: Obj) -> Self {
+        match rt::lean_obj_tag(o) {
+            0 => Memories::Empty,
+            1 => Memories::Leaf { key: rt::lean_ctor_get_uint64(o, 0 * core::mem::size_of::<usize>() as u32 + 0), value: rt::lean_ctor_get_uint64(o, 0 * core::mem::size_of::<usize>() as u32 + 8) },
+            2 => Memories::Node { even: Box::new(<Memories as rt::FromLean>::from_lean(rt::lean_ctor_get(o, 0))), odd: Box::new(<Memories as rt::FromLean>::from_lean(rt::lean_ctor_get(o, 1))) },
+            _ => unreachable!(),
+        }
+    }
+}
+unsafe impl rt::LeanRepr for Memories {
+    type Value = Memories;
+    unsafe fn to_obj(value: Memories) -> Obj {
+        rt::ToLean::to_lean(value)
+    }
+    unsafe fn from_obj(o: Obj) -> Memories {
+        <Memories as rt::FromLean>::from_lean(o)
+    }
+}
+unsafe impl rt::IntoLean<Memories> for Memories {
     unsafe fn into_obj(self) -> Obj {
         rt::ToLean::to_lean(self)
     }
@@ -650,15 +871,15 @@ unsafe impl rt::IntoLean<Command> for Command {
 
 #[doc = "Lean type `Calculator.Kernel.Snapshot` (module `Calculator.Kernel`)."]
 #[derive(Debug, Clone, PartialEq)]
-pub struct Snapshot { pub memories: Vec<Memory> }
+pub struct Snapshot { pub memories: Memories }
 impl rt::ToLean for Snapshot {
     unsafe fn to_lean(self) -> Obj {
-        rt::list_to_lean(self.memories, |v0| rt::ToLean::to_lean(v0))
+        rt::ToLean::to_lean(self.memories)
     }
 }
 impl rt::FromLean for Snapshot {
     unsafe fn from_lean(o: Obj) -> Self {
-        Snapshot { memories: rt::list_from_lean(o, |v0| <Memory as rt::FromLean>::from_lean(v0)) }
+        Snapshot { memories: <Memories as rt::FromLean>::from_lean(o) }
     }
 }
 unsafe impl rt::LeanRepr for Snapshot {
@@ -775,14 +996,14 @@ unsafe impl rt::IntoLean<Reply> for Reply {
     }
 }
 
-#[doc = "Lean: `Calculator.Kernel.upsert : Calculator.Kernel.Memory → List Calculator.Kernel.Memory → List Calculator.Kernel.Memory` (module `Calculator.Kernel`)."]
+#[doc = "Lean: `Calculator.Kernel.upsert : Calculator.Kernel.Memory → Calculator.Kernel.Memories → Calculator.Kernel.Memories` (module `Calculator.Kernel`)."]
 #[::leanfran::exported("Calculator.Kernel.upsert")]
-pub fn upsert(m: Memory, arg1: Vec<Memory>) -> Vec<Memory> {
+pub fn upsert(m: Memory, ms: Memories) -> Memories {
     unsafe {
         let __a0: Obj = rt::ToLean::to_lean(m);
-        let __a1: Obj = rt::list_to_lean(arg1, |v0| rt::ToLean::to_lean(v0));
+        let __a1: Obj = rt::ToLean::to_lean(ms);
         let __r: Obj = l_Calculator_Kernel_upsert(__a0, __a1);
-        let __v = rt::list_from_lean(__r, |v0| <Memory as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__a0); let __v = <Memories as rt::FromLean>::from_lean(__r);
         rt::lean_dec(__r);
         __v
     }
@@ -798,11 +1019,11 @@ pub fn read_only(arg0: Command) -> bool {
     }
 }
 
-#[doc = "Lean: `Calculator.Kernel.memoryOf : List Calculator.Kernel.Memory → UInt64 → UInt64` (module `Calculator.Kernel`)."]
+#[doc = "Lean: `Calculator.Kernel.memoryOf : Calculator.Kernel.Memories → UInt64 → UInt64` (module `Calculator.Kernel`)."]
 #[::leanfran::exported("Calculator.Kernel.memoryOf")]
-pub fn memory_of(arg0: Vec<Memory>, arg1: u64) -> u64 {
+pub fn memory_of(arg0: Memories, arg1: u64) -> u64 {
     unsafe {
-        let __a0: Obj = rt::list_to_lean(arg0, |v0| rt::ToLean::to_lean(v0));
+        let __a0: Obj = rt::ToLean::to_lean(arg0);
         let __a1: u64 = arg1;
         let __r: u64 = l_Calculator_Kernel_memoryOf(__a0, __a1);
         rt::lean_dec(__a0); __r
@@ -846,6 +1067,35 @@ pub fn compute(op: Op, a: u64, b: u64) -> Result<u64, Error> {
     }
 }
 
+#[doc = "Lean: `Calculator.Kernel.store : UInt64 → UInt64 → Calculator.Kernel.Memories → Calculator.Kernel.Memories` (module `Calculator.Kernel`)."]
+#[::leanfran::exported("Calculator.Kernel.store")]
+pub fn store(k: u64, v: u64, arg2: Memories) -> Memories {
+    unsafe {
+        let __a0: u64 = k;
+        let __a1: u64 = v;
+        let __a2: Obj = rt::ToLean::to_lean(arg2);
+        let __r: Obj = l_Calculator_Kernel_store(__a0, __a1, __a2);
+        let __v = <Memories as rt::FromLean>::from_lean(__r);
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
+#[doc = "Lean: `Calculator.Kernel.pair : UInt64 → UInt64 → UInt64 → UInt64 → Calculator.Kernel.Memories` (module `Calculator.Kernel`)."]
+#[::leanfran::exported("Calculator.Kernel.pair")]
+pub fn pair(k_: u64, v_: u64, k: u64, v: u64) -> Memories {
+    unsafe {
+        let __a0: u64 = k_;
+        let __a1: u64 = v_;
+        let __a2: u64 = k;
+        let __a3: u64 = v;
+        let __r: Obj = l_Calculator_Kernel_pair(__a0, __a1, __a2, __a3);
+        let __v = <Memories as rt::FromLean>::from_lean(__r);
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
 #[doc = "Lean: `Calculator.Kernel.tenant : Calculator.Kernel.Principal → UInt64` (module `Calculator.Kernel`)."]
 #[::leanfran::exported("Calculator.Kernel.tenant")]
 pub fn tenant(actor: Principal) -> u64 {
@@ -863,7 +1113,7 @@ pub fn apply(snap: Snapshot, w: Option<Memory>) -> Snapshot {
         let __a0: Obj = rt::ToLean::to_lean(snap);
         let __a1: Obj = rt::option_to_lean(w, |v0| rt::ToLean::to_lean(v0));
         let __r: Obj = l_Calculator_Kernel_apply(__a0, __a1);
-        let __v = <Snapshot as rt::FromLean>::from_lean(__r);
+        rt::lean_dec(__a1); let __v = <Snapshot as rt::FromLean>::from_lean(__r);
         rt::lean_dec(__r);
         __v
     }
@@ -873,13 +1123,13 @@ pub fn apply(snap: Snapshot, w: Option<Memory>) -> Snapshot {
 #[allow(unused_imports, clippy::all)]
 pub mod lean {
     use super::*;
-    #[doc = "`upsert` on handles. Lean: `Calculator.Kernel.upsert : Calculator.Kernel.Memory → List Calculator.Kernel.Memory → List Calculator.Kernel.Memory` (module `Calculator.Kernel`)."]
-    pub fn upsert(m: impl rt::IntoLean<Memory>, arg1: impl rt::IntoLean<rt::List<Memory>>) -> rt::Lean<rt::List<Memory>> {
+    #[doc = "`upsert` on handles. Lean: `Calculator.Kernel.upsert : Calculator.Kernel.Memory → Calculator.Kernel.Memories → Calculator.Kernel.Memories` (module `Calculator.Kernel`)."]
+    pub fn upsert(m: impl rt::IntoLean<Memory>, ms: impl rt::IntoLean<Memories>) -> rt::Lean<Memories> {
         unsafe {
             let __a0: Obj = rt::IntoLean::<Memory>::into_obj(m);
-            let __a1: Obj = rt::IntoLean::<rt::List<Memory>>::into_obj(arg1);
+            let __a1: Obj = rt::IntoLean::<Memories>::into_obj(ms);
             let __r: Obj = l_Calculator_Kernel_upsert(__a0, __a1);
-            rt::Lean::from_owned(__r)
+            rt::lean_dec(__a0); rt::Lean::from_owned(__r)
         }
     }
     #[doc = "`read_only` on handles. Lean: `Calculator.Kernel.readOnly : Calculator.Kernel.Command → Bool` (module `Calculator.Kernel`)."]
@@ -890,10 +1140,10 @@ pub mod lean {
             rt::lean_dec(__a0); rt::Lean::from_owned(rt::lean_box(__r as usize))
         }
     }
-    #[doc = "`memory_of` on handles. Lean: `Calculator.Kernel.memoryOf : List Calculator.Kernel.Memory → UInt64 → UInt64` (module `Calculator.Kernel`)."]
-    pub fn memory_of(arg0: impl rt::IntoLean<rt::List<Memory>>, arg1: impl rt::IntoLean<u64>) -> rt::Lean<u64> {
+    #[doc = "`memory_of` on handles. Lean: `Calculator.Kernel.memoryOf : Calculator.Kernel.Memories → UInt64 → UInt64` (module `Calculator.Kernel`)."]
+    pub fn memory_of(arg0: impl rt::IntoLean<Memories>, arg1: impl rt::IntoLean<u64>) -> rt::Lean<u64> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<Memory>>::into_obj(arg0);
+            let __a0: Obj = rt::IntoLean::<Memories>::into_obj(arg0);
             let __a1: u64 = { let o = rt::IntoLean::<u64>::into_obj(arg1); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
             let __r: u64 = l_Calculator_Kernel_memoryOf(__a0, __a1);
             rt::lean_dec(__a0); rt::Lean::from_owned(rt::lean_box_uint64(__r))
@@ -927,6 +1177,27 @@ pub mod lean {
             rt::Lean::from_owned(__r)
         }
     }
+    #[doc = "`store` on handles. Lean: `Calculator.Kernel.store : UInt64 → UInt64 → Calculator.Kernel.Memories → Calculator.Kernel.Memories` (module `Calculator.Kernel`)."]
+    pub fn store(k: impl rt::IntoLean<u64>, v: impl rt::IntoLean<u64>, arg2: impl rt::IntoLean<Memories>) -> rt::Lean<Memories> {
+        unsafe {
+            let __a0: u64 = { let o = rt::IntoLean::<u64>::into_obj(k); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
+            let __a1: u64 = { let o = rt::IntoLean::<u64>::into_obj(v); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
+            let __a2: Obj = rt::IntoLean::<Memories>::into_obj(arg2);
+            let __r: Obj = l_Calculator_Kernel_store(__a0, __a1, __a2);
+            rt::Lean::from_owned(__r)
+        }
+    }
+    #[doc = "`pair` on handles. Lean: `Calculator.Kernel.pair : UInt64 → UInt64 → UInt64 → UInt64 → Calculator.Kernel.Memories` (module `Calculator.Kernel`)."]
+    pub fn pair(k_: impl rt::IntoLean<u64>, v_: impl rt::IntoLean<u64>, k: impl rt::IntoLean<u64>, v: impl rt::IntoLean<u64>) -> rt::Lean<Memories> {
+        unsafe {
+            let __a0: u64 = { let o = rt::IntoLean::<u64>::into_obj(k_); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
+            let __a1: u64 = { let o = rt::IntoLean::<u64>::into_obj(v_); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
+            let __a2: u64 = { let o = rt::IntoLean::<u64>::into_obj(k); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
+            let __a3: u64 = { let o = rt::IntoLean::<u64>::into_obj(v); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
+            let __r: Obj = l_Calculator_Kernel_pair(__a0, __a1, __a2, __a3);
+            rt::Lean::from_owned(__r)
+        }
+    }
     #[doc = "`tenant` on handles. Lean: `Calculator.Kernel.tenant : Calculator.Kernel.Principal → UInt64` (module `Calculator.Kernel`)."]
     pub fn tenant(actor: impl rt::IntoLean<Principal>) -> rt::Lean<u64> {
         unsafe {
@@ -941,7 +1212,7 @@ pub mod lean {
             let __a0: Obj = rt::IntoLean::<Snapshot>::into_obj(snap);
             let __a1: Obj = rt::IntoLean::<Option<Memory>>::into_obj(w);
             let __r: Obj = l_Calculator_Kernel_apply(__a0, __a1);
-            rt::Lean::from_owned(__r)
+            rt::lean_dec(__a1); rt::Lean::from_owned(__r)
         }
     }
 }
@@ -950,13 +1221,13 @@ pub mod lean {
 #[allow(unused_imports, clippy::all)]
 pub mod local {
     use super::*;
-    #[doc = "`upsert` on handles. Lean: `Calculator.Kernel.upsert : Calculator.Kernel.Memory → List Calculator.Kernel.Memory → List Calculator.Kernel.Memory` (module `Calculator.Kernel`)."]
-    pub fn upsert(m: impl rt::IntoLean<Memory>, arg1: impl rt::IntoLean<rt::List<Memory>>) -> rt::Local<rt::List<Memory>> {
+    #[doc = "`upsert` on handles. Lean: `Calculator.Kernel.upsert : Calculator.Kernel.Memory → Calculator.Kernel.Memories → Calculator.Kernel.Memories` (module `Calculator.Kernel`)."]
+    pub fn upsert(m: impl rt::IntoLean<Memory>, ms: impl rt::IntoLean<Memories>) -> rt::Local<Memories> {
         unsafe {
             let __a0: Obj = rt::IntoLean::<Memory>::into_obj(m);
-            let __a1: Obj = rt::IntoLean::<rt::List<Memory>>::into_obj(arg1);
+            let __a1: Obj = rt::IntoLean::<Memories>::into_obj(ms);
             let __r: Obj = l_Calculator_Kernel_upsert(__a0, __a1);
-            rt::Local::from_owned(__r)
+            rt::lean_dec(__a0); rt::Local::from_owned(__r)
         }
     }
     #[doc = "`read_only` on handles. Lean: `Calculator.Kernel.readOnly : Calculator.Kernel.Command → Bool` (module `Calculator.Kernel`)."]
@@ -967,10 +1238,10 @@ pub mod local {
             rt::lean_dec(__a0); rt::Local::from_owned(rt::lean_box(__r as usize))
         }
     }
-    #[doc = "`memory_of` on handles. Lean: `Calculator.Kernel.memoryOf : List Calculator.Kernel.Memory → UInt64 → UInt64` (module `Calculator.Kernel`)."]
-    pub fn memory_of(arg0: impl rt::IntoLean<rt::List<Memory>>, arg1: impl rt::IntoLean<u64>) -> rt::Local<u64> {
+    #[doc = "`memory_of` on handles. Lean: `Calculator.Kernel.memoryOf : Calculator.Kernel.Memories → UInt64 → UInt64` (module `Calculator.Kernel`)."]
+    pub fn memory_of(arg0: impl rt::IntoLean<Memories>, arg1: impl rt::IntoLean<u64>) -> rt::Local<u64> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<Memory>>::into_obj(arg0);
+            let __a0: Obj = rt::IntoLean::<Memories>::into_obj(arg0);
             let __a1: u64 = { let o = rt::IntoLean::<u64>::into_obj(arg1); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
             let __r: u64 = l_Calculator_Kernel_memoryOf(__a0, __a1);
             rt::lean_dec(__a0); rt::Local::from_owned(rt::lean_box_uint64(__r))
@@ -1004,6 +1275,27 @@ pub mod local {
             rt::Local::from_owned(__r)
         }
     }
+    #[doc = "`store` on handles. Lean: `Calculator.Kernel.store : UInt64 → UInt64 → Calculator.Kernel.Memories → Calculator.Kernel.Memories` (module `Calculator.Kernel`)."]
+    pub fn store(k: impl rt::IntoLean<u64>, v: impl rt::IntoLean<u64>, arg2: impl rt::IntoLean<Memories>) -> rt::Local<Memories> {
+        unsafe {
+            let __a0: u64 = { let o = rt::IntoLean::<u64>::into_obj(k); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
+            let __a1: u64 = { let o = rt::IntoLean::<u64>::into_obj(v); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
+            let __a2: Obj = rt::IntoLean::<Memories>::into_obj(arg2);
+            let __r: Obj = l_Calculator_Kernel_store(__a0, __a1, __a2);
+            rt::Local::from_owned(__r)
+        }
+    }
+    #[doc = "`pair` on handles. Lean: `Calculator.Kernel.pair : UInt64 → UInt64 → UInt64 → UInt64 → Calculator.Kernel.Memories` (module `Calculator.Kernel`)."]
+    pub fn pair(k_: impl rt::IntoLean<u64>, v_: impl rt::IntoLean<u64>, k: impl rt::IntoLean<u64>, v: impl rt::IntoLean<u64>) -> rt::Local<Memories> {
+        unsafe {
+            let __a0: u64 = { let o = rt::IntoLean::<u64>::into_obj(k_); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
+            let __a1: u64 = { let o = rt::IntoLean::<u64>::into_obj(v_); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
+            let __a2: u64 = { let o = rt::IntoLean::<u64>::into_obj(k); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
+            let __a3: u64 = { let o = rt::IntoLean::<u64>::into_obj(v); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
+            let __r: Obj = l_Calculator_Kernel_pair(__a0, __a1, __a2, __a3);
+            rt::Local::from_owned(__r)
+        }
+    }
     #[doc = "`tenant` on handles. Lean: `Calculator.Kernel.tenant : Calculator.Kernel.Principal → UInt64` (module `Calculator.Kernel`)."]
     pub fn tenant(actor: impl rt::IntoLean<Principal>) -> rt::Local<u64> {
         unsafe {
@@ -1018,7 +1310,7 @@ pub mod local {
             let __a0: Obj = rt::IntoLean::<Snapshot>::into_obj(snap);
             let __a1: Obj = rt::IntoLean::<Option<Memory>>::into_obj(w);
             let __r: Obj = l_Calculator_Kernel_apply(__a0, __a1);
-            rt::Local::from_owned(__r)
+            rt::lean_dec(__a1); rt::Local::from_owned(__r)
         }
     }
 }

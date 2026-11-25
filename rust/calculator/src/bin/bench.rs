@@ -1,7 +1,8 @@
 //! Times one command through the generated kernel, with the snapshot as a Rust value and as a
 //! Lean value, and through the memory engine, for tenants of several sizes, next to the same
-//! logic written by hand in Rust.
+//! commands on a `HashMap` written by hand in Rust.
 
+use std::collections::HashMap;
 use std::hint::black_box;
 use std::time::Instant;
 
@@ -11,11 +12,10 @@ use leanharbor_calculator::{Calculator, kernel};
 
 fn handwritten(
     actor: &kernel::Principal,
-    snap: &mut Vec<kernel::Memory>,
+    snap: &mut HashMap<u64, u64>,
     cmd: &kernel::Command,
 ) -> Result<u64, kernel::Error> {
-    let slot = snap.iter().position(|m| m.user == actor.user);
-    let current = slot.map_or(0, |i| snap[i].value);
+    let current = snap.get(&actor.user).copied().unwrap_or(0);
     let value = match cmd {
         kernel::Command::Set { value } => *value,
         kernel::Command::Apply { op, arg } => match op {
@@ -26,13 +26,7 @@ fn handwritten(
         },
         kernel::Command::Get => return Ok(current),
     };
-    match slot {
-        Some(i) => snap[i].value = value,
-        None => snap.push(kernel::Memory {
-            user: actor.user,
-            value,
-        }),
-    }
+    snap.insert(actor.user, value);
     Ok(value)
 }
 
@@ -150,7 +144,7 @@ fn main() {
             per_op("memory engine", users, count, start);
         });
 
-        let mut plain = Vec::new();
+        let mut plain = HashMap::new();
         for (actor, cmd) in &seed {
             let _ = handwritten(actor, &mut plain, cmd);
         }

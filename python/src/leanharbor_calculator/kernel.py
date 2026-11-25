@@ -20,32 +20,48 @@ from leanfran.runtime import (  # noqa: F401
     lean_uint64_dec_eq,
     lean_uint64_dec_lt,
     lean_uint64_div,
+    lean_uint64_mod,
     lean_uint64_mul,
+    lean_uint64_shift_right,
     lean_uint64_sub,
 )
 
 def l_Calculator_Kernel_upsert(x_1, x_2):
+    x_3 = x_1.sc[0]
+    x_4 = x_1.sc[8]
+    x_5 = l_Calculator_Kernel_store(x_3, x_4, x_2)
+    return x_5
+
+def l_Calculator_Kernel_store(x_1, x_2, x_3):
     __blk = 0
     while True:
         if __blk == 0:
-            __t = lean_obj_tag(x_2)
+            __t = lean_obj_tag(x_3)
             if __t == 0:
-                x_3 = Ctor(1, [x_1, x_2])
-                return x_3
+                x_4 = Ctor(1, [])
+                x_4.sc[0] = x_1
+                x_4.sc[8] = x_2
+                return x_4
             elif __t == 1:
-                x_4 = x_2.objs[0]
-                x_5 = x_2.objs[1]
-                x_19 = lean_is_shared(x_2)
-                __t = x_19
+                x_5 = x_3.sc[0]
+                x_6 = x_3.sc[8]
+                lean_dec(x_3)
+                x_7 = l_Calculator_Kernel_pair(x_5, x_6, x_1, x_2)
+                return x_7
+            elif __t == 2:
+                x_8 = x_3.objs[0]
+                x_9 = x_3.objs[1]
+                x_29 = lean_is_shared(x_3)
+                __t = x_29
                 if __t == 0:
-                    x_7, x_8 = x_2, x_19
+                    x_11, x_12 = x_3, x_29
                     __blk = 1
                     continue
                 elif __t == 1:
-                    lean_inc(x_5)
-                    lean_inc(x_4)
-                    lean_dec(x_2)
-                    x_7, x_8 = 0, x_19
+                    lean_inc(x_9)
+                    lean_inc(x_8)
+                    lean_dec(x_3)
+                    x_11, x_12 = 0, x_29
                     __blk = 1
                     continue
                 else:
@@ -53,36 +69,41 @@ def l_Calculator_Kernel_upsert(x_1, x_2):
             else:
                 lean_internal_panic_unreachable()
         elif __blk == 1:
-            x_9 = x_4.sc[0]
-            x_10 = x_1.sc[0]
-            x_11 = lean_uint64_dec_eq(x_9, x_10)
-            __t = x_11
+            x_13 = 2
+            x_14 = lean_uint64_mod(x_1, x_13)
+            x_15 = 0
+            x_16 = lean_uint64_dec_eq(x_14, x_15)
+            __t = x_16
             if __t == 0:
-                x_12 = l_Calculator_Kernel_upsert(x_1, x_5)
-                __t = x_8
+                x_17 = 1
+                x_18 = lean_uint64_shift_right(x_1, x_17)
+                x_19 = l_Calculator_Kernel_store(x_18, x_2, x_9)
+                __t = x_12
                 if __t == 0:
-                    x_7.objs[1] = x_12
-                    x_14 = x_7
+                    x_11.objs[1] = x_19
+                    x_21 = x_11
                     __blk = 2
                     continue
                 elif __t == 1:
-                    x_15 = Ctor(1, [x_4, x_12])
-                    x_14 = x_15
+                    x_22 = Ctor(2, [x_8, x_19])
+                    x_21 = x_22
                     __blk = 2
                     continue
                 else:
                     lean_internal_panic_unreachable()
             elif __t == 1:
-                lean_dec(x_4)
-                __t = x_8
+                x_23 = 1
+                x_24 = lean_uint64_shift_right(x_1, x_23)
+                x_25 = l_Calculator_Kernel_store(x_24, x_2, x_8)
+                __t = x_12
                 if __t == 0:
-                    x_7.objs[0] = x_1
-                    x_17 = x_7
+                    x_11.objs[0] = x_25
+                    x_27 = x_11
                     __blk = 3
                     continue
                 elif __t == 1:
-                    x_18 = Ctor(1, [x_1, x_5])
-                    x_17 = x_18
+                    x_28 = Ctor(2, [x_25, x_9])
+                    x_27 = x_28
                     __blk = 3
                     continue
                 else:
@@ -90,11 +111,82 @@ def l_Calculator_Kernel_upsert(x_1, x_2):
             else:
                 lean_internal_panic_unreachable()
         elif __blk == 2:
-            return x_14
+            return x_21
         elif __blk == 3:
-            return x_17
+            return x_27
         else:
             lean_internal_panic_unreachable()
+
+def l_Calculator_Kernel_pair(x_1, x_2, x_3, x_4):
+    x_5 = lean_uint64_dec_eq(x_1, x_3)
+    __t = x_5
+    if __t == 0:
+        x_6 = 2
+        x_7 = lean_uint64_mod(x_3, x_6)
+        x_8 = 0
+        x_9 = lean_uint64_dec_eq(x_7, x_8)
+        __t = x_9
+        if __t == 0:
+            x_10 = lean_uint64_mod(x_1, x_6)
+            x_11 = lean_uint64_dec_eq(x_10, x_8)
+            __t = x_11
+            if __t == 0:
+                x_12 = 0
+                x_13 = 1
+                x_14 = lean_uint64_shift_right(x_1, x_13)
+                x_15 = lean_uint64_shift_right(x_3, x_13)
+                x_16 = l_Calculator_Kernel_pair(x_14, x_2, x_15, x_4)
+                x_17 = Ctor(2, [x_12, x_16])
+                return x_17
+            elif __t == 1:
+                x_18 = 1
+                x_19 = lean_uint64_shift_right(x_1, x_18)
+                x_20 = Ctor(1, [])
+                x_20.sc[0] = x_19
+                x_20.sc[8] = x_2
+                x_21 = lean_uint64_shift_right(x_3, x_18)
+                x_22 = Ctor(1, [])
+                x_22.sc[0] = x_21
+                x_22.sc[8] = x_4
+                x_23 = Ctor(2, [x_20, x_22])
+                return x_23
+            else:
+                lean_internal_panic_unreachable()
+        elif __t == 1:
+            x_24 = lean_uint64_mod(x_1, x_6)
+            x_25 = lean_uint64_dec_eq(x_24, x_8)
+            __t = x_25
+            if __t == 0:
+                x_26 = 1
+                x_27 = lean_uint64_shift_right(x_3, x_26)
+                x_28 = Ctor(1, [])
+                x_28.sc[0] = x_27
+                x_28.sc[8] = x_4
+                x_29 = lean_uint64_shift_right(x_1, x_26)
+                x_30 = Ctor(1, [])
+                x_30.sc[0] = x_29
+                x_30.sc[8] = x_2
+                x_31 = Ctor(2, [x_28, x_30])
+                return x_31
+            elif __t == 1:
+                x_32 = 1
+                x_33 = lean_uint64_shift_right(x_1, x_32)
+                x_34 = lean_uint64_shift_right(x_3, x_32)
+                x_35 = l_Calculator_Kernel_pair(x_33, x_2, x_34, x_4)
+                x_36 = 0
+                x_37 = Ctor(2, [x_35, x_36])
+                return x_37
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+    elif __t == 1:
+        x_38 = Ctor(1, [])
+        x_38.sc[0] = x_3
+        x_38.sc[8] = x_4
+        return x_38
+    else:
+        lean_internal_panic_unreachable()
 
 def l_Calculator_Kernel_readOnly(x_1):
     __t = lean_obj_tag(x_1)
@@ -114,18 +206,37 @@ def l_Calculator_Kernel_memoryOf(x_1, x_2):
                 x_3 = 0
                 return x_3
             elif __t == 1:
-                x_4 = x_1.objs[0]
-                x_5 = x_1.objs[1]
-                x_6 = x_4.sc[0]
-                x_7 = x_4.sc[8]
-                x_8 = lean_uint64_dec_eq(x_6, x_2)
-                __t = x_8
+                x_4 = x_1.sc[0]
+                x_5 = x_1.sc[8]
+                x_6 = lean_uint64_dec_eq(x_2, x_4)
+                __t = x_6
                 if __t == 0:
-                    x_1, x_2 = x_5, x_2
+                    x_7 = 0
+                    return x_7
+                elif __t == 1:
+                    return x_5
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 2:
+                x_8 = x_1.objs[0]
+                x_9 = x_1.objs[1]
+                x_10 = 2
+                x_11 = lean_uint64_mod(x_2, x_10)
+                x_12 = 0
+                x_13 = lean_uint64_dec_eq(x_11, x_12)
+                __t = x_13
+                if __t == 0:
+                    x_14 = 1
+                    x_15 = lean_uint64_shift_right(x_2, x_14)
+                    x_1, x_2 = x_9, x_15
                     __blk = 0
                     continue
                 elif __t == 1:
-                    return x_7
+                    x_17 = 1
+                    x_18 = lean_uint64_shift_right(x_2, x_17)
+                    x_1, x_2 = x_8, x_18
+                    __blk = 0
+                    continue
                 else:
                     lean_internal_panic_unreachable()
             else:
@@ -378,8 +489,6 @@ def l_Calculator_Kernel_apply(x_1, x_2):
         return x_1
     elif __t == 1:
         x_3 = x_2.objs[0]
-        lean_inc(x_3)
-        lean_dec(x_2)
         x_4 = l_Calculator_Kernel_upsert(x_3, x_1)
         return x_4
     else:
@@ -404,6 +513,26 @@ class Memory(_m.LeanModel):
 
 
 Memory.__lean__ = _m.StructInfo(Memory, _m.CtorInfo("mk", 0, 0, False, [_m.FieldInfo("user", _m.Scalar(0), _m.UIntD(64)), _m.FieldInfo("value", _m.Scalar(8), _m.UIntD(64))], [], False), trivial=False)
+
+
+class Memories(_m.LeanInductive):
+    "Lean `Calculator.Kernel.Memories`."
+
+class Memories_empty(_m.LeanModel, Memories):
+    pass
+
+
+class Memories_leaf(_m.LeanModel, Memories):
+    key: "UInt64"
+    value: "UInt64"
+
+
+class Memories_node(_m.LeanModel, Memories):
+    even: "Memories"
+    odd: "Memories"
+
+
+_m.register_inductive(Memories, [(Memories_empty, _m.CtorInfo("empty", 0, 0, True, [], [], False)), (Memories_leaf, _m.CtorInfo("leaf", 1, 0, False, [_m.FieldInfo("key", _m.Scalar(0), _m.UIntD(64)), _m.FieldInfo("value", _m.Scalar(8), _m.UIntD(64))], [], False)), (Memories_node, _m.CtorInfo("node", 2, 2, False, [_m.FieldInfo("even", _m.Obj(0), _m.NamedD(globals(), "Memories")), _m.FieldInfo("odd", _m.Obj(1), _m.NamedD(globals(), "Memories"))], [], False))])
 
 
 class Op(_m.LeanEnum):
@@ -438,10 +567,10 @@ _m.register_inductive(Command, [(Command_set, _m.CtorInfo("set", 0, 0, False, [_
 
 class Snapshot(_m.LeanModel):
     "Lean `Calculator.Kernel.Snapshot`."
-    memories: "list[Memory]"
+    memories: "Memories"
 
 
-Snapshot.__lean__ = _m.StructInfo(Snapshot, _m.CtorInfo("mk", 0, 1, False, [_m.FieldInfo("memories", _m.Obj(0), _m.ListD(_m.NamedD(globals(), "Memory")))], [], False), trivial=True)
+Snapshot.__lean__ = _m.StructInfo(Snapshot, _m.CtorInfo("mk", 0, 1, False, [_m.FieldInfo("memories", _m.Obj(0), _m.NamedD(globals(), "Memories"))], [], False), trivial=True)
 
 
 class Principal(_m.LeanModel):
@@ -473,8 +602,8 @@ Reply.__lean__ = _m.StructInfo(Reply, _m.CtorInfo("value", 0, 0, False, [_m.Fiel
 
 _D0 = _m.NamedD(globals(), "Memory")
 _D1 = _m.LeanType(_D0, "Memory")
-_D2 = _m.ListD(_m.NamedD(globals(), "Memory"))
-_D3 = _m.LeanType(_D2, "list[Memory]")
+_D2 = _m.NamedD(globals(), "Memories")
+_D3 = _m.LeanType(_D2, "Memories")
 _D4 = _m.NamedD(globals(), "Command")
 _D5 = _m.LeanType(_D4, "Command")
 _D6 = _m.BOOL
@@ -495,30 +624,32 @@ _D20 = _m.OptionD(_m.NamedD(globals(), "Memory"))
 _D21 = _m.LeanType(_D20, "Memory | None")
 
 
-def _pub_upsert(m: "Memory", arg1: "list[Memory]") -> "list[Memory]":
+def _pub_upsert(m: "Memory", ms: "Memories") -> "Memories":
     "Lean `Calculator.Kernel.upsert`."
     __a0 = _m.to_lean(_D0, m, "m")
-    __a1 = _m.to_lean(_D2, arg1, "arg1")
+    __a1 = _m.to_lean(_D2, ms, "ms")
     return _m.to_py(_D2, l_Calculator_Kernel_upsert(__a0, __a1))
 
 
-def _pub_upsert__lean(m: "Memory | Lean[Memory]", arg1: "list[Memory] | Lean[list[Memory]]") -> "Lean[list[Memory]]":
+def _pub_upsert__lean(m: "Memory | Lean[Memory]", ms: "Memories | Lean[Memories]") -> "Lean[Memories]":
     "Lean `Calculator.Kernel.upsert`, on handles."
     __a0 = _m.lean_arg(_D1, m, "m")
-    __a1 = _m.lean_arg(_D3, arg1, "arg1")
-    _m.give(m, arg1)
+    __a1 = _m.lean_arg(_D3, ms, "ms")
+    _m.give(m, ms)
     return _m.handle(_D3, l_Calculator_Kernel_upsert(__a0, __a1))
 
 
-def _pub_upsert__local(m: "Memory | Lean[Memory] | Local[Memory]", arg1: "list[Memory] | Lean[list[Memory]] | Local[list[Memory]]") -> "Local[list[Memory]]":
+def _pub_upsert__local(m: "Memory | Lean[Memory] | Local[Memory]", ms: "Memories | Lean[Memories] | Local[Memories]") -> "Local[Memories]":
     "Lean `Calculator.Kernel.upsert`, on local handles."
-    __a0 = _m.local_arg(_D1, m, "m", True)
-    __a1 = _m.local_arg(_D3, arg1, "arg1", True)
-    _m.give(m, arg1)
-    return _m.local_handle(_D3, l_Calculator_Kernel_upsert(__a0, __a1))
+    __a0 = _m.local_arg(_D1, m, "m", False)
+    __a1 = _m.local_arg(_D3, ms, "ms", True)
+    _m.give(m, ms)
+    __r = l_Calculator_Kernel_upsert(__a0, __a1)
+    _m.local_done(m, __a0)
+    return _m.local_handle(_D3, __r)
 
 
-_m.attach(globals(), ["upsert"], _pub_upsert, "Calculator.Kernel.upsert", _pub_upsert__lean, {"m": _D1, "arg1": _D3}, _D3, _pub_upsert__local)
+_m.attach(globals(), ["upsert"], _pub_upsert, "Calculator.Kernel.upsert", _pub_upsert__lean, {"m": _D1, "ms": _D3}, _D3, _pub_upsert__local)
 def _pub_readOnly(arg0: "Command") -> "bool":
     "Lean `Calculator.Kernel.readOnly`."
     __a0 = _m.to_lean(_D4, arg0, "arg0")
@@ -542,14 +673,14 @@ def _pub_readOnly__local(arg0: "Command | Lean[Command] | Local[Command]") -> "L
 
 
 _m.attach(globals(), ["readOnly"], _pub_readOnly, "Calculator.Kernel.readOnly", _pub_readOnly__lean, {"arg0": _D5}, _D7, _pub_readOnly__local)
-def _pub_memoryOf(arg0: "list[Memory]", arg1: "UInt64") -> "UInt64":
+def _pub_memoryOf(arg0: "Memories", arg1: "UInt64") -> "UInt64":
     "Lean `Calculator.Kernel.memoryOf`."
     __a0 = _m.to_lean(_D2, arg0, "arg0")
     __a1 = _m.to_lean(_D8, arg1, "arg1")
     return _m.to_py(_D8, l_Calculator_Kernel_memoryOf(__a0, __a1))
 
 
-def _pub_memoryOf__lean(arg0: "list[Memory] | Lean[list[Memory]]", arg1: "UInt64 | Lean[UInt64]") -> "Lean[UInt64]":
+def _pub_memoryOf__lean(arg0: "Memories | Lean[Memories]", arg1: "UInt64 | Lean[UInt64]") -> "Lean[UInt64]":
     "Lean `Calculator.Kernel.memoryOf`, on handles."
     __a0 = _m.lean_arg(_D3, arg0, "arg0")
     __a1 = _m.lean_arg(_D9, arg1, "arg1")
@@ -557,7 +688,7 @@ def _pub_memoryOf__lean(arg0: "list[Memory] | Lean[list[Memory]]", arg1: "UInt64
     return _m.handle(_D9, l_Calculator_Kernel_memoryOf(__a0, __a1))
 
 
-def _pub_memoryOf__local(arg0: "list[Memory] | Lean[list[Memory]] | Local[list[Memory]]", arg1: "UInt64 | Lean[UInt64] | Local[UInt64]") -> "Local[UInt64]":
+def _pub_memoryOf__local(arg0: "Memories | Lean[Memories] | Local[Memories]", arg1: "UInt64 | Lean[UInt64] | Local[UInt64]") -> "Local[UInt64]":
     "Lean `Calculator.Kernel.memoryOf`, on local handles."
     __a0 = _m.local_arg(_D3, arg0, "arg0", False)
     __a1 = _m.local_arg(_D9, arg1, "arg1", True)
@@ -641,6 +772,63 @@ def _pub_compute__local(op: "Op | Lean[Op] | Local[Op]", a: "UInt64 | Lean[UInt6
 
 
 _m.attach(globals(), ["compute"], _pub_compute, "Calculator.Kernel.compute", _pub_compute__lean, {"op": _D17, "a": _D9, "b": _D9}, _D19, _pub_compute__local)
+def _pub_store(k: "UInt64", v: "UInt64", arg2: "Memories") -> "Memories":
+    "Lean `Calculator.Kernel.store`."
+    __a0 = _m.to_lean(_D8, k, "k")
+    __a1 = _m.to_lean(_D8, v, "v")
+    __a2 = _m.to_lean(_D2, arg2, "arg2")
+    return _m.to_py(_D2, l_Calculator_Kernel_store(__a0, __a1, __a2))
+
+
+def _pub_store__lean(k: "UInt64 | Lean[UInt64]", v: "UInt64 | Lean[UInt64]", arg2: "Memories | Lean[Memories]") -> "Lean[Memories]":
+    "Lean `Calculator.Kernel.store`, on handles."
+    __a0 = _m.lean_arg(_D9, k, "k")
+    __a1 = _m.lean_arg(_D9, v, "v")
+    __a2 = _m.lean_arg(_D3, arg2, "arg2")
+    _m.give(k, v, arg2)
+    return _m.handle(_D3, l_Calculator_Kernel_store(__a0, __a1, __a2))
+
+
+def _pub_store__local(k: "UInt64 | Lean[UInt64] | Local[UInt64]", v: "UInt64 | Lean[UInt64] | Local[UInt64]", arg2: "Memories | Lean[Memories] | Local[Memories]") -> "Local[Memories]":
+    "Lean `Calculator.Kernel.store`, on local handles."
+    __a0 = _m.local_arg(_D9, k, "k", True)
+    __a1 = _m.local_arg(_D9, v, "v", True)
+    __a2 = _m.local_arg(_D3, arg2, "arg2", True)
+    _m.give(k, v, arg2)
+    return _m.local_handle(_D3, l_Calculator_Kernel_store(__a0, __a1, __a2))
+
+
+_m.attach(globals(), ["store"], _pub_store, "Calculator.Kernel.store", _pub_store__lean, {"k": _D9, "v": _D9, "arg2": _D3}, _D3, _pub_store__local)
+def _pub_pair(k_: "UInt64", v_: "UInt64", k: "UInt64", v: "UInt64") -> "Memories":
+    "Lean `Calculator.Kernel.pair`."
+    __a0 = _m.to_lean(_D8, k_, "k_")
+    __a1 = _m.to_lean(_D8, v_, "v_")
+    __a2 = _m.to_lean(_D8, k, "k")
+    __a3 = _m.to_lean(_D8, v, "v")
+    return _m.to_py(_D2, l_Calculator_Kernel_pair(__a0, __a1, __a2, __a3))
+
+
+def _pub_pair__lean(k_: "UInt64 | Lean[UInt64]", v_: "UInt64 | Lean[UInt64]", k: "UInt64 | Lean[UInt64]", v: "UInt64 | Lean[UInt64]") -> "Lean[Memories]":
+    "Lean `Calculator.Kernel.pair`, on handles."
+    __a0 = _m.lean_arg(_D9, k_, "k_")
+    __a1 = _m.lean_arg(_D9, v_, "v_")
+    __a2 = _m.lean_arg(_D9, k, "k")
+    __a3 = _m.lean_arg(_D9, v, "v")
+    _m.give(k_, v_, k, v)
+    return _m.handle(_D3, l_Calculator_Kernel_pair(__a0, __a1, __a2, __a3))
+
+
+def _pub_pair__local(k_: "UInt64 | Lean[UInt64] | Local[UInt64]", v_: "UInt64 | Lean[UInt64] | Local[UInt64]", k: "UInt64 | Lean[UInt64] | Local[UInt64]", v: "UInt64 | Lean[UInt64] | Local[UInt64]") -> "Local[Memories]":
+    "Lean `Calculator.Kernel.pair`, on local handles."
+    __a0 = _m.local_arg(_D9, k_, "k_", True)
+    __a1 = _m.local_arg(_D9, v_, "v_", True)
+    __a2 = _m.local_arg(_D9, k, "k", True)
+    __a3 = _m.local_arg(_D9, v, "v", True)
+    _m.give(k_, v_, k, v)
+    return _m.local_handle(_D3, l_Calculator_Kernel_pair(__a0, __a1, __a2, __a3))
+
+
+_m.attach(globals(), ["pair"], _pub_pair, "Calculator.Kernel.pair", _pub_pair__lean, {"k_": _D9, "v_": _D9, "k": _D9, "v": _D9}, _D3, _pub_pair__local)
 def _pub_tenant(actor: "Principal") -> "UInt64":
     "Lean `Calculator.Kernel.tenant`."
     __a0 = _m.to_lean(_D12, actor, "actor")
@@ -682,9 +870,11 @@ def _pub_apply__lean(snap: "Snapshot | Lean[Snapshot]", w: "Memory | None | Lean
 def _pub_apply__local(snap: "Snapshot | Lean[Snapshot] | Local[Snapshot]", w: "Memory | None | Lean[Memory | None] | Local[Memory | None]") -> "Local[Snapshot]":
     "Lean `Calculator.Kernel.apply`, on local handles."
     __a0 = _m.local_arg(_D11, snap, "snap", True)
-    __a1 = _m.local_arg(_D21, w, "w", True)
+    __a1 = _m.local_arg(_D21, w, "w", False)
     _m.give(snap, w)
-    return _m.local_handle(_D11, l_Calculator_Kernel_apply(__a0, __a1))
+    __r = l_Calculator_Kernel_apply(__a0, __a1)
+    _m.local_done(w, __a1)
+    return _m.local_handle(_D11, __r)
 
 
 _m.attach(globals(), ["apply"], _pub_apply, "Calculator.Kernel.apply", _pub_apply__lean, {"snap": _D11, "w": _D21}, _D11, _pub_apply__local)

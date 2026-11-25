@@ -7,13 +7,20 @@ import (
 	"github.com/conao3/leanfran-go/rt"
 )
 
-func Apply(a0 Snapshot, a1 *Memory) Snapshot {
+func Apply(a0 Snapshot, a1 *Memory) (Snapshot, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodecSnapshot, a0, "snap")
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[Snapshot](), err
+	}
 	v0 := _lfCodecSnapshot.ToLean(a0)
-	v1 := _lfCodec2.ToLean(a1)
+	v1 := _lfCodec1.ToLean(a1)
+	defer rt.Lean_dec(v1)
 	_lfResult := l_Calculator_Kernel_apply(v0, v1)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodecSnapshot.FromLean(_lfResult)
+	return _lfCodecSnapshot.FromLean(_lfResult), nil
 }
 
 func Compute(a0 Op, a1 uint64, a2 uint64) (uint64, error) {
@@ -37,13 +44,30 @@ func Init() Snapshot {
 	return _lfCodecSnapshot.FromLean(_lfResult)
 }
 
-func MemoryOf(a0 []Memory, a1 uint64) uint64 {
+func MemoryOf(a0 Memories, a1 uint64) (uint64, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	v0 := _lfCodec1.ToLean(a0)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodecMemories, a0, "arg0")
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[uint64](), err
+	}
+	v0 := _lfCodecMemories.ToLean(a0)
 	defer rt.Lean_dec(v0)
 	v1 := _lfCodec0.ToLean(a1)
 	_lfResult := rt.Lean_box(l_Calculator_Kernel_memoryOf(v0, rt.Lean_unbox(v1)))
-	return _lfCodec0.FromLean(_lfResult)
+	return _lfCodec0.FromLean(_lfResult), nil
+}
+
+func Pair(a0 uint64, a1 uint64, a2 uint64, a3 uint64) Memories {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	v0 := _lfCodec0.ToLean(a0)
+	v1 := _lfCodec0.ToLean(a1)
+	v2 := _lfCodec0.ToLean(a2)
+	v3 := _lfCodec0.ToLean(a3)
+	_lfResult := l_Calculator_Kernel_pair(rt.Lean_unbox(v0), rt.Lean_unbox(v1), rt.Lean_unbox(v2), rt.Lean_unbox(v3))
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodecMemories.FromLean(_lfResult)
 }
 
 func ReadOnly(a0 Command) (bool, error) {
@@ -57,7 +81,23 @@ func ReadOnly(a0 Command) (bool, error) {
 	v0 := _lfCodecCommand.ToLean(a0)
 	defer rt.Lean_dec(v0)
 	_lfResult := rt.Lean_box(uint64(l_Calculator_Kernel_readOnly(v0)))
-	return _lfCodec3.FromLean(_lfResult), nil
+	return _lfCodec2.FromLean(_lfResult), nil
+}
+
+func Store(a0 uint64, a1 uint64, a2 Memories) (Memories, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodecMemories, a2, "arg2")
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[Memories](), err
+	}
+	v0 := _lfCodec0.ToLean(a0)
+	v1 := _lfCodec0.ToLean(a1)
+	v2 := _lfCodecMemories.ToLean(a2)
+	_lfResult := l_Calculator_Kernel_store(rt.Lean_unbox(v0), rt.Lean_unbox(v1), v2)
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodecMemories.FromLean(_lfResult), nil
 }
 
 func Tenant(a0 Principal) uint64 {
@@ -71,6 +111,7 @@ func Tenant(a0 Principal) uint64 {
 func Transition(a0 Principal, a1 Snapshot, a2 Command) (leanfran.Pair[*Memory, Reply], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodecSnapshot, a1, "snap")
 	leanfran.CheckAt(&_lfValidation, _lfCodecCommand, a2, "cmd")
 	if len(_lfValidation.Issues) != 0 {
 		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
@@ -87,16 +128,23 @@ func Transition(a0 Principal, a1 Snapshot, a2 Command) (leanfran.Pair[*Memory, R
 		err := &leanfran.ExceptError[Error]{Value: _lfCodecError.FromLean(rt.Lean_ctor_get(_lfResult, 0))}
 		return leanfran.Zero[leanfran.Pair[*Memory, Reply]](), err
 	}
-	return _lfCodec4.FromLean(rt.Lean_ctor_get(_lfResult, 0)), nil
+	return _lfCodec3.FromLean(rt.Lean_ctor_get(_lfResult, 0)), nil
 }
 
-func Upsert(a0 Memory, a1 []Memory) []Memory {
+func Upsert(a0 Memory, a1 Memories) (Memories, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodecMemories, a1, "ms")
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[Memories](), err
+	}
 	v0 := _lfCodecMemory.ToLean(a0)
-	v1 := _lfCodec1.ToLean(a1)
+	defer rt.Lean_dec(v0)
+	v1 := _lfCodecMemories.ToLean(a1)
 	_lfResult := l_Calculator_Kernel_upsert(v0, v1)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec1.FromLean(_lfResult)
+	return _lfCodecMemories.FromLean(_lfResult), nil
 }
 
 var Handle lfHandle
@@ -121,6 +169,7 @@ func (api lfScopedHandle) Apply(a0 leanfran.ValueInput[Snapshot], a1 leanfran.Va
 	defer leanfran.EndValueOperation(scope)
 	inputs := [2]leanfran.ValueUse{a0.Use(), a1.Use()}
 	leanfran.AcquireValueInputs(inputs[:])
+	defer rt.Lean_dec(inputs[1].Lean())
 	raw := l_Calculator_Kernel_apply(inputs[0].Lean(), inputs[1].Lean())
 	return leanfran.WrapValueIn[Snapshot](scope, raw)
 }
@@ -157,11 +206,11 @@ func (api lfScopedHandle) Init() leanfran.Value[Snapshot] {
 	return leanfran.WrapValueIn[Snapshot](scope, raw)
 }
 
-func (lfHandle) MemoryOf(a0 leanfran.ValueInput[leanfran.ListType[Memory]], a1 leanfran.ValueInput[uint64]) leanfran.Value[uint64] {
+func (lfHandle) MemoryOf(a0 leanfran.ValueInput[Memories], a1 leanfran.ValueInput[uint64]) leanfran.Value[uint64] {
 	return lfScopedHandle{}.MemoryOf(a0, a1)
 }
 
-func (api lfScopedHandle) MemoryOf(a0 leanfran.ValueInput[leanfran.ListType[Memory]], a1 leanfran.ValueInput[uint64]) leanfran.Value[uint64] {
+func (api lfScopedHandle) MemoryOf(a0 leanfran.ValueInput[Memories], a1 leanfran.ValueInput[uint64]) leanfran.Value[uint64] {
 	scope := api.scope
 	leanfran.BeginValueOperation(scope)
 	defer leanfran.EndValueOperation(scope)
@@ -170,6 +219,20 @@ func (api lfScopedHandle) MemoryOf(a0 leanfran.ValueInput[leanfran.ListType[Memo
 	defer rt.Lean_dec(inputs[0].Lean())
 	raw := rt.Lean_box(l_Calculator_Kernel_memoryOf(inputs[0].Lean(), rt.Lean_unbox(inputs[1].Lean())))
 	return leanfran.WrapValueIn[uint64](scope, raw)
+}
+
+func (lfHandle) Pair(a0 leanfran.ValueInput[uint64], a1 leanfran.ValueInput[uint64], a2 leanfran.ValueInput[uint64], a3 leanfran.ValueInput[uint64]) leanfran.Value[Memories] {
+	return lfScopedHandle{}.Pair(a0, a1, a2, a3)
+}
+
+func (api lfScopedHandle) Pair(a0 leanfran.ValueInput[uint64], a1 leanfran.ValueInput[uint64], a2 leanfran.ValueInput[uint64], a3 leanfran.ValueInput[uint64]) leanfran.Value[Memories] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [4]leanfran.ValueUse{a0.Use(), a1.Use(), a2.Use(), a3.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	raw := l_Calculator_Kernel_pair(rt.Lean_unbox(inputs[0].Lean()), rt.Lean_unbox(inputs[1].Lean()), rt.Lean_unbox(inputs[2].Lean()), rt.Lean_unbox(inputs[3].Lean()))
+	return leanfran.WrapValueIn[Memories](scope, raw)
 }
 
 func (lfHandle) ReadOnly(a0 leanfran.ValueInput[Command]) leanfran.Value[bool] {
@@ -185,6 +248,20 @@ func (api lfScopedHandle) ReadOnly(a0 leanfran.ValueInput[Command]) leanfran.Val
 	defer rt.Lean_dec(inputs[0].Lean())
 	raw := rt.Lean_box(uint64(l_Calculator_Kernel_readOnly(inputs[0].Lean())))
 	return leanfran.WrapValueIn[bool](scope, raw)
+}
+
+func (lfHandle) Store(a0 leanfran.ValueInput[uint64], a1 leanfran.ValueInput[uint64], a2 leanfran.ValueInput[Memories]) leanfran.Value[Memories] {
+	return lfScopedHandle{}.Store(a0, a1, a2)
+}
+
+func (api lfScopedHandle) Store(a0 leanfran.ValueInput[uint64], a1 leanfran.ValueInput[uint64], a2 leanfran.ValueInput[Memories]) leanfran.Value[Memories] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [3]leanfran.ValueUse{a0.Use(), a1.Use(), a2.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	raw := l_Calculator_Kernel_store(rt.Lean_unbox(inputs[0].Lean()), rt.Lean_unbox(inputs[1].Lean()), inputs[2].Lean())
+	return leanfran.WrapValueIn[Memories](scope, raw)
 }
 
 func (lfHandle) Tenant(a0 leanfran.ValueInput[Principal]) leanfran.Value[uint64] {
@@ -224,16 +301,17 @@ func (api lfScopedHandle) Transition(a0 leanfran.ValueInput[Principal], a1 leanf
 	return leanfran.WrapValueIn[leanfran.OptionType[Memory]](scope, leanfran.OwnValueField(rt.Lean_ctor_get(raw, 0), 0)), leanfran.WrapValueIn[Reply](scope, leanfran.OwnValueField(rt.Lean_ctor_get(raw, 0), 1)), nil
 }
 
-func (lfHandle) Upsert(a0 leanfran.ValueInput[Memory], a1 leanfran.ValueInput[leanfran.ListType[Memory]]) leanfran.Value[leanfran.ListType[Memory]] {
+func (lfHandle) Upsert(a0 leanfran.ValueInput[Memory], a1 leanfran.ValueInput[Memories]) leanfran.Value[Memories] {
 	return lfScopedHandle{}.Upsert(a0, a1)
 }
 
-func (api lfScopedHandle) Upsert(a0 leanfran.ValueInput[Memory], a1 leanfran.ValueInput[leanfran.ListType[Memory]]) leanfran.Value[leanfran.ListType[Memory]] {
+func (api lfScopedHandle) Upsert(a0 leanfran.ValueInput[Memory], a1 leanfran.ValueInput[Memories]) leanfran.Value[Memories] {
 	scope := api.scope
 	leanfran.BeginValueOperation(scope)
 	defer leanfran.EndValueOperation(scope)
 	inputs := [2]leanfran.ValueUse{a0.Use(), a1.Use()}
 	leanfran.AcquireValueInputs(inputs[:])
+	defer rt.Lean_dec(inputs[0].Lean())
 	raw := l_Calculator_Kernel_upsert(inputs[0].Lean(), inputs[1].Lean())
-	return leanfran.WrapValueIn[leanfran.ListType[Memory]](scope, raw)
+	return leanfran.WrapValueIn[Memories](scope, raw)
 }

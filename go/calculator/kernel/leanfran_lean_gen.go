@@ -63,14 +63,168 @@ func core_L_Calculator_Kernel_apply(frame *rt.Tail, x_1 rt.V, x_2 rt.V) rt.V {
 		return x_1
 	case 1:
 		x_3 = rt.Lean_ctor_get(x_2, 0)
-		rt.Lean_inc(x_3)
-		rt.Lean_dec(x_2)
 		rt.TailCall(frame, tail_L_Calculator_Kernel_upsert, []rt.V{x_3, x_1})
 		return rt.V{}
 	default:
 		rt.Lean_internal_panic_unreachable()
 		return rt.V{}
 	}
+}
+
+func core_L_Calculator_Kernel_store(frame *rt.Tail, x_1 uint64, x_2 uint64, x_3 rt.V) rt.V {
+	var x_4 rt.V
+	_ = x_4
+	var x_5 uint64
+	_ = x_5
+	var x_6 uint64
+	_ = x_6
+	var x_7 rt.V
+	_ = x_7
+	var x_8 rt.V
+	_ = x_8
+	var x_9 rt.V
+	_ = x_9
+	var x_11 rt.V
+	_ = x_11
+	var x_12 uint8
+	_ = x_12
+	var x_13 uint64
+	_ = x_13
+	var x_14 uint64
+	_ = x_14
+	var x_15 uint64
+	_ = x_15
+	var x_16 uint8
+	_ = x_16
+	var x_17 uint64
+	_ = x_17
+	var x_18 uint64
+	_ = x_18
+	var x_19 rt.V
+	_ = x_19
+	var x_21 rt.V
+	_ = x_21
+	var x_22 rt.V
+	_ = x_22
+	var x_23 uint64
+	_ = x_23
+	var x_24 uint64
+	_ = x_24
+	var x_25 rt.V
+	_ = x_25
+	var x_27 rt.V
+	_ = x_27
+	var x_28 rt.V
+	_ = x_28
+	var x_29 uint8
+	_ = x_29
+	switch rt.Lean_obj_tag(x_3) {
+	case 0:
+		x_4 = rt.Lean_alloc_ctor(1, 0, 16)
+		rt.Lean_ctor_set_uint64(x_4, 0, x_1)
+		rt.Lean_ctor_set_uint64(x_4, 8, x_2)
+		return x_4
+	case 1:
+		x_5 = rt.Lean_ctor_get_uint64(x_3, 0)
+		x_6 = rt.Lean_ctor_get_uint64(x_3, 8)
+		rt.Lean_dec(x_3)
+		rt.TailCall(frame, tail_L_Calculator_Kernel_pair, []rt.V{rt.Lean_box(x_5), rt.Lean_box(x_6), rt.Lean_box(x_1), rt.Lean_box(x_2)})
+		return rt.V{}
+	case 2:
+		x_8 = rt.Lean_ctor_get(x_3, 0)
+		x_9 = rt.Lean_ctor_get(x_3, 1)
+		x_29 = rt.Bool(!rt.Lean_is_exclusive(x_3))
+		switch x_29 {
+		case 0:
+			x_11, x_12 = x_3, x_29
+			goto _jp_10
+		case 1:
+			rt.Lean_inc(x_9)
+			rt.Lean_inc(x_8)
+			rt.Lean_dec(x_3)
+			x_11, x_12 = rt.V{}, x_29
+			goto _jp_10
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_10:
+	x_13 = 2
+	x_14 = l_UInt64_mod(x_1, x_13)
+	x_15 = 0
+	x_16 = l_UInt64_decEq(x_14, x_15)
+	switch x_16 {
+	case 0:
+		x_17 = 1
+		x_18 = l_UInt64_shiftRight(x_1, x_17)
+		{
+			extra := frame.SuspendExtra()
+			x_19 = frame.Result(core_L_Calculator_Kernel_store(frame, x_18, x_2, x_9))
+			frame.ResumeExtra(extra)
+		}
+		switch x_12 {
+		case 0:
+			rt.Lean_ctor_set(x_11, 1, x_19)
+			x_21 = x_11
+			goto _jp_20
+		case 1:
+			x_22 = rt.Lean_alloc_ctor(2, 2, 0)
+			rt.Lean_ctor_set(x_22, 0, x_8)
+			rt.Lean_ctor_set(x_22, 1, x_19)
+			x_21 = x_22
+			goto _jp_20
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	case 1:
+		x_23 = 1
+		x_24 = l_UInt64_shiftRight(x_1, x_23)
+		{
+			extra := frame.SuspendExtra()
+			x_25 = frame.Result(core_L_Calculator_Kernel_store(frame, x_24, x_2, x_8))
+			frame.ResumeExtra(extra)
+		}
+		switch x_12 {
+		case 0:
+			rt.Lean_ctor_set(x_11, 0, x_25)
+			x_27 = x_11
+			goto _jp_26
+		case 1:
+			x_28 = rt.Lean_alloc_ctor(2, 2, 0)
+			rt.Lean_ctor_set(x_28, 0, x_25)
+			rt.Lean_ctor_set(x_28, 1, x_9)
+			x_27 = x_28
+			goto _jp_26
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_20:
+	return x_21
+_jp_26:
+	return x_27
+}
+
+func core_L_Calculator_Kernel_upsert(frame *rt.Tail, x_1 rt.V, x_2 rt.V) rt.V {
+	var x_3 uint64
+	_ = x_3
+	var x_4 uint64
+	_ = x_4
+	var x_5 rt.V
+	_ = x_5
+	x_3 = rt.Lean_ctor_get_uint64(x_1, 0)
+	x_4 = rt.Lean_ctor_get_uint64(x_1, 8)
+	rt.TailCall(frame, tail_L_Calculator_Kernel_store, []rt.V{rt.Lean_box(x_3), rt.Lean_box(x_4), x_2})
+	return rt.V{}
 }
 
 func init() {
@@ -250,35 +404,75 @@ func l_Calculator_Kernel_init() rt.V {
 func l_Calculator_Kernel_memoryOf(x_1 rt.V, x_2 uint64) uint64 {
 	var x_3 uint64
 	_ = x_3
-	var x_4 rt.V
+	var x_4 uint64
 	_ = x_4
-	var x_5 rt.V
+	var x_5 uint64
 	_ = x_5
-	var x_6 uint64
+	var x_6 uint8
 	_ = x_6
 	var x_7 uint64
 	_ = x_7
-	var x_8 uint8
+	var x_8 rt.V
 	_ = x_8
-	var x_9 uint64
+	var x_9 rt.V
 	_ = x_9
+	var x_10 uint64
+	_ = x_10
+	var x_11 uint64
+	_ = x_11
+	var x_12 uint64
+	_ = x_12
+	var x_13 uint8
+	_ = x_13
+	var x_14 uint64
+	_ = x_14
+	var x_15 uint64
+	_ = x_15
+	var x_16 uint64
+	_ = x_16
+	var x_17 uint64
+	_ = x_17
+	var x_18 uint64
+	_ = x_18
+	var x_19 uint64
+	_ = x_19
 _start:
 	switch rt.Lean_obj_tag(x_1) {
 	case 0:
 		x_3 = 0
 		return x_3
 	case 1:
-		x_4 = rt.Lean_ctor_get(x_1, 0)
-		x_5 = rt.Lean_ctor_get(x_1, 1)
-		x_6 = rt.Lean_ctor_get_uint64(x_4, 0)
-		x_7 = rt.Lean_ctor_get_uint64(x_4, 8)
-		x_8 = l_UInt64_decEq(x_6, x_2)
-		switch x_8 {
+		x_4 = rt.Lean_ctor_get_uint64(x_1, 0)
+		x_5 = rt.Lean_ctor_get_uint64(x_1, 8)
+		x_6 = l_UInt64_decEq(x_2, x_4)
+		switch x_6 {
 		case 0:
-			x_1 = x_5
+			x_7 = 0
+			return x_7
+		case 1:
+			return x_5
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return 0
+		}
+	case 2:
+		x_8 = rt.Lean_ctor_get(x_1, 0)
+		x_9 = rt.Lean_ctor_get(x_1, 1)
+		x_10 = 2
+		x_11 = l_UInt64_mod(x_2, x_10)
+		x_12 = 0
+		x_13 = l_UInt64_decEq(x_11, x_12)
+		switch x_13 {
+		case 0:
+			x_14 = 1
+			x_15 = l_UInt64_shiftRight(x_2, x_14)
+			x_1, x_2 = x_9, x_15
 			goto _start
 		case 1:
-			return x_7
+			x_17 = 1
+			x_18 = l_UInt64_shiftRight(x_2, x_17)
+			x_1, x_2 = x_8, x_18
+			goto _start
 		default:
 			rt.Lean_internal_panic_unreachable()
 			return 0
@@ -286,6 +480,162 @@ _start:
 	default:
 		rt.Lean_internal_panic_unreachable()
 		return 0
+	}
+}
+
+func l_Calculator_Kernel_pair(x_1 uint64, x_2 uint64, x_3 uint64, x_4 uint64) rt.V {
+	var x_5 uint8
+	_ = x_5
+	var x_6 uint64
+	_ = x_6
+	var x_7 uint64
+	_ = x_7
+	var x_8 uint64
+	_ = x_8
+	var x_9 uint8
+	_ = x_9
+	var x_10 uint64
+	_ = x_10
+	var x_11 uint8
+	_ = x_11
+	var x_12 rt.V
+	_ = x_12
+	var x_13 uint64
+	_ = x_13
+	var x_14 uint64
+	_ = x_14
+	var x_15 uint64
+	_ = x_15
+	var x_16 rt.V
+	_ = x_16
+	var x_17 rt.V
+	_ = x_17
+	var x_18 uint64
+	_ = x_18
+	var x_19 uint64
+	_ = x_19
+	var x_20 rt.V
+	_ = x_20
+	var x_21 uint64
+	_ = x_21
+	var x_22 rt.V
+	_ = x_22
+	var x_23 rt.V
+	_ = x_23
+	var x_24 uint64
+	_ = x_24
+	var x_25 uint8
+	_ = x_25
+	var x_26 uint64
+	_ = x_26
+	var x_27 uint64
+	_ = x_27
+	var x_28 rt.V
+	_ = x_28
+	var x_29 uint64
+	_ = x_29
+	var x_30 rt.V
+	_ = x_30
+	var x_31 rt.V
+	_ = x_31
+	var x_32 uint64
+	_ = x_32
+	var x_33 uint64
+	_ = x_33
+	var x_34 uint64
+	_ = x_34
+	var x_35 rt.V
+	_ = x_35
+	var x_36 rt.V
+	_ = x_36
+	var x_37 rt.V
+	_ = x_37
+	var x_38 rt.V
+	_ = x_38
+	x_5 = l_UInt64_decEq(x_1, x_3)
+	switch x_5 {
+	case 0:
+		x_6 = 2
+		x_7 = l_UInt64_mod(x_3, x_6)
+		x_8 = 0
+		x_9 = l_UInt64_decEq(x_7, x_8)
+		switch x_9 {
+		case 0:
+			x_10 = l_UInt64_mod(x_1, x_6)
+			x_11 = l_UInt64_decEq(x_10, x_8)
+			switch x_11 {
+			case 0:
+				x_12 = rt.Lean_box(0)
+				x_13 = 1
+				x_14 = l_UInt64_shiftRight(x_1, x_13)
+				x_15 = l_UInt64_shiftRight(x_3, x_13)
+				x_16 = l_Calculator_Kernel_pair(x_14, x_2, x_15, x_4)
+				x_17 = rt.Lean_alloc_ctor(2, 2, 0)
+				rt.Lean_ctor_set(x_17, 0, x_12)
+				rt.Lean_ctor_set(x_17, 1, x_16)
+				return x_17
+			case 1:
+				x_18 = 1
+				x_19 = l_UInt64_shiftRight(x_1, x_18)
+				x_20 = rt.Lean_alloc_ctor(1, 0, 16)
+				rt.Lean_ctor_set_uint64(x_20, 0, x_19)
+				rt.Lean_ctor_set_uint64(x_20, 8, x_2)
+				x_21 = l_UInt64_shiftRight(x_3, x_18)
+				x_22 = rt.Lean_alloc_ctor(1, 0, 16)
+				rt.Lean_ctor_set_uint64(x_22, 0, x_21)
+				rt.Lean_ctor_set_uint64(x_22, 8, x_4)
+				x_23 = rt.Lean_alloc_ctor(2, 2, 0)
+				rt.Lean_ctor_set(x_23, 0, x_20)
+				rt.Lean_ctor_set(x_23, 1, x_22)
+				return x_23
+			default:
+				rt.Lean_internal_panic_unreachable()
+				return rt.V{}
+			}
+		case 1:
+			x_24 = l_UInt64_mod(x_1, x_6)
+			x_25 = l_UInt64_decEq(x_24, x_8)
+			switch x_25 {
+			case 0:
+				x_26 = 1
+				x_27 = l_UInt64_shiftRight(x_3, x_26)
+				x_28 = rt.Lean_alloc_ctor(1, 0, 16)
+				rt.Lean_ctor_set_uint64(x_28, 0, x_27)
+				rt.Lean_ctor_set_uint64(x_28, 8, x_4)
+				x_29 = l_UInt64_shiftRight(x_1, x_26)
+				x_30 = rt.Lean_alloc_ctor(1, 0, 16)
+				rt.Lean_ctor_set_uint64(x_30, 0, x_29)
+				rt.Lean_ctor_set_uint64(x_30, 8, x_2)
+				x_31 = rt.Lean_alloc_ctor(2, 2, 0)
+				rt.Lean_ctor_set(x_31, 0, x_28)
+				rt.Lean_ctor_set(x_31, 1, x_30)
+				return x_31
+			case 1:
+				x_32 = 1
+				x_33 = l_UInt64_shiftRight(x_1, x_32)
+				x_34 = l_UInt64_shiftRight(x_3, x_32)
+				x_35 = l_Calculator_Kernel_pair(x_33, x_2, x_34, x_4)
+				x_36 = rt.Lean_box(0)
+				x_37 = rt.Lean_alloc_ctor(2, 2, 0)
+				rt.Lean_ctor_set(x_37, 0, x_35)
+				rt.Lean_ctor_set(x_37, 1, x_36)
+				return x_37
+			default:
+				rt.Lean_internal_panic_unreachable()
+				return rt.V{}
+			}
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	case 1:
+		x_38 = rt.Lean_alloc_ctor(1, 0, 16)
+		rt.Lean_ctor_set_uint64(x_38, 0, x_3)
+		rt.Lean_ctor_set_uint64(x_38, 8, x_4)
+		return x_38
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
 	}
 }
 
@@ -302,6 +652,12 @@ func l_Calculator_Kernel_readOnly(x_1 rt.V) uint8 {
 		x_3 = 0
 		return x_3
 	}
+}
+
+func l_Calculator_Kernel_store(x_1 uint64, x_2 uint64, x_3 rt.V) rt.V {
+	frame := rt.AcquireTail()
+	defer rt.ReleaseTail(frame)
+	return frame.Result(core_L_Calculator_Kernel_store(frame, x_1, x_2, x_3))
 }
 
 func l_Calculator_Kernel_tenant(x_1 rt.V) uint64 {
@@ -490,109 +846,9 @@ _jp_28:
 }
 
 func l_Calculator_Kernel_upsert(x_1 rt.V, x_2 rt.V) rt.V {
-	var x_3 rt.V
-	_ = x_3
-	var x_4 rt.V
-	_ = x_4
-	var x_5 rt.V
-	_ = x_5
-	var x_7 rt.V
-	_ = x_7
-	var x_8 uint8
-	_ = x_8
-	var x_9 uint64
-	_ = x_9
-	var x_10 uint64
-	_ = x_10
-	var x_11 uint8
-	_ = x_11
-	var x_12 rt.V
-	_ = x_12
-	var x_14 rt.V
-	_ = x_14
-	var x_15 rt.V
-	_ = x_15
-	var x_17 rt.V
-	_ = x_17
-	var x_18 rt.V
-	_ = x_18
-	var x_19 uint8
-	_ = x_19
-	switch rt.Lean_obj_tag(x_2) {
-	case 0:
-		x_3 = rt.Lean_alloc_ctor(1, 2, 0)
-		rt.Lean_ctor_set(x_3, 0, x_1)
-		rt.Lean_ctor_set(x_3, 1, x_2)
-		return x_3
-	case 1:
-		x_4 = rt.Lean_ctor_get(x_2, 0)
-		x_5 = rt.Lean_ctor_get(x_2, 1)
-		x_19 = rt.Bool(!rt.Lean_is_exclusive(x_2))
-		switch x_19 {
-		case 0:
-			x_7, x_8 = x_2, x_19
-			goto _jp_6
-		case 1:
-			rt.Lean_inc(x_5)
-			rt.Lean_inc(x_4)
-			rt.Lean_dec(x_2)
-			x_7, x_8 = rt.V{}, x_19
-			goto _jp_6
-		default:
-			rt.Lean_internal_panic_unreachable()
-			return rt.V{}
-		}
-	default:
-		rt.Lean_internal_panic_unreachable()
-		return rt.V{}
-	}
-_jp_6:
-	x_9 = rt.Lean_ctor_get_uint64(x_4, 0)
-	x_10 = rt.Lean_ctor_get_uint64(x_1, 0)
-	x_11 = l_UInt64_decEq(x_9, x_10)
-	switch x_11 {
-	case 0:
-		x_12 = l_Calculator_Kernel_upsert(x_1, x_5)
-		switch x_8 {
-		case 0:
-			rt.Lean_ctor_set(x_7, 1, x_12)
-			x_14 = x_7
-			goto _jp_13
-		case 1:
-			x_15 = rt.Lean_alloc_ctor(1, 2, 0)
-			rt.Lean_ctor_set(x_15, 0, x_4)
-			rt.Lean_ctor_set(x_15, 1, x_12)
-			x_14 = x_15
-			goto _jp_13
-		default:
-			rt.Lean_internal_panic_unreachable()
-			return rt.V{}
-		}
-	case 1:
-		rt.Lean_dec(x_4)
-		switch x_8 {
-		case 0:
-			rt.Lean_ctor_set(x_7, 0, x_1)
-			x_17 = x_7
-			goto _jp_16
-		case 1:
-			x_18 = rt.Lean_alloc_ctor(1, 2, 0)
-			rt.Lean_ctor_set(x_18, 0, x_1)
-			rt.Lean_ctor_set(x_18, 1, x_5)
-			x_17 = x_18
-			goto _jp_16
-		default:
-			rt.Lean_internal_panic_unreachable()
-			return rt.V{}
-		}
-	default:
-		rt.Lean_internal_panic_unreachable()
-		return rt.V{}
-	}
-_jp_13:
-	return x_14
-_jp_16:
-	return x_17
+	frame := rt.AcquireTail()
+	defer rt.ReleaseTail(frame)
+	return frame.Result(core_L_Calculator_Kernel_upsert(frame, x_1, x_2))
 }
 
 func l_UInt64_add(x_1 uint64, x_2 uint64) uint64 {
@@ -611,16 +867,32 @@ func l_UInt64_div(x_1 uint64, x_2 uint64) uint64 {
 	return rt.Lean_uint64_div(x_1, x_2)
 }
 
+func l_UInt64_mod(x_1 uint64, x_2 uint64) uint64 {
+	return rt.Lean_uint64_mod(x_1, x_2)
+}
+
 func l_UInt64_mul(x_1 uint64, x_2 uint64) uint64 {
 	return rt.Lean_uint64_mul(x_1, x_2)
+}
+
+func l_UInt64_shiftRight(x_1 uint64, x_2 uint64) uint64 {
+	return rt.Lean_uint64_shift_right(x_1, x_2)
 }
 
 func l_UInt64_sub(x_1 uint64, x_2 uint64) uint64 {
 	return rt.Lean_uint64_sub(x_1, x_2)
 }
 
-func tail_L_Calculator_Kernel_upsert(_ *rt.Tail, args []rt.V) rt.V {
-	return l_Calculator_Kernel_upsert(args[0], args[1])
+func tail_L_Calculator_Kernel_pair(_ *rt.Tail, args []rt.V) rt.V {
+	return l_Calculator_Kernel_pair(rt.Lean_unbox(args[0]), rt.Lean_unbox(args[1]), rt.Lean_unbox(args[2]), rt.Lean_unbox(args[3]))
+}
+
+func tail_L_Calculator_Kernel_store(frame *rt.Tail, args []rt.V) rt.V {
+	return core_L_Calculator_Kernel_store(frame, rt.Lean_unbox(args[0]), rt.Lean_unbox(args[1]), args[2])
+}
+
+func tail_L_Calculator_Kernel_upsert(frame *rt.Tail, args []rt.V) rt.V {
+	return core_L_Calculator_Kernel_upsert(frame, args[0], args[1])
 }
 
 var value_L_Calculator_Kernel_compute___closed__0 rt.V

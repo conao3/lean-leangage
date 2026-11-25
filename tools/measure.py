@@ -24,7 +24,7 @@ RUST_ROWS = {
     "generated kernel, Rust values": "Rust, generated kernel, snapshot as a Rust value",
     "generated kernel, Lean values": "Rust, generated kernel, snapshot as a Lean value",
     "memory engine": "Rust, memory engine",
-    "handwritten Rust (not proved)": "Rust, the same logic by hand (not proved)",
+    "handwritten Rust (not proved)": "Rust, a HashMap by hand (not proved)",
 }
 LINE = re.compile(r"^\s*(.+?)\s+users=(\d+)\s+(\d+) ns/command$")
 
