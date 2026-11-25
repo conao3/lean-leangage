@@ -129,12 +129,12 @@ time of three runs; the runs of one cell differ by up to 1.3 times. M is a milli
 
 | Commands per second | 1 user | 100 users | 1,000 users | 10,000 users |
 |---|---:|---:|---:|---:|
-| Rust, generated kernel, snapshot as a Rust value | 6.37 M | 271,700 | 24,400 | 1,850 |
-| Rust, generated kernel, snapshot as a Lean value | 9.8 M | 2.73 M | 290,300 | 25,500 |
-| Rust, memory engine | 7.87 M | 2.73 M | 357,800 | 37,600 |
-| Rust, the same logic by hand (not proved) | 90.9 M | 23.8 M | 5.43 M | 621,900 |
-| Go, memory engine | 726,200 | 532,800 | 124,200 | 3,320 |
-| Python, memory engine | 47,300 | 22,300 | 3,120 | 297 |
+| Rust, generated kernel, snapshot as a Rust value | 7.87 M | 79,300 | 7,110 | 460 |
+| Rust, generated kernel, snapshot as a Lean value | 7.81 M | 5.52 M | 4.63 M | 2.61 M |
+| Rust, memory engine | 7.09 M | 4.85 M | 4.1 M | 2.48 M |
+| Rust, a HashMap by hand (not proved) | 23.8 M | 29.4 M | 28.6 M | 24.4 M |
+| Go, memory engine | 512,800 | 449,000 | 435,700 | 365,100 |
+| Python, memory engine | 38,800 | 32,100 | 29,100 | 23,600 |
 
 ### Over HTTP, next to servers without a kernel
 
@@ -151,30 +151,30 @@ token check, the engine and the generated kernel cost.
 
 | Replies per second, Rust | get, 1 connection | apply, 1 connection | get, 64 connections | apply, 64 connections |
 |---|---:|---:|---:|---:|
-| leanharbor, Rust (axum) | 17,100 | 16,800 | 128,000 | 120,800 |
-| axum, no kernel | 18,300 | 18,300 | 141,900 | 137,800 |
-| actix-web, no kernel | 18,800 | 18,600 | 191,200 | 188,900 |
+| leanharbor, Rust (axum) | 17,500 | 17,100 | 130,900 | 124,500 |
+| axum, no kernel | 18,200 | 18,100 | 141,300 | 132,000 |
+| actix-web, no kernel | 18,400 | 18,200 | 180,700 | 180,300 |
 
 ![Replies per second over HTTP, Go](docs/speed-http-go.svg)
 
 | Replies per second, Go | get, 1 connection | apply, 1 connection | get, 64 connections | apply, 64 connections |
 |---|---:|---:|---:|---:|
-| leanharbor, Go (net/http) | 10,900 | 9,950 | 68,700 | 62,500 |
-| net/http, no kernel | 12,200 | 10,900 | 90,200 | 87,400 |
-| gin, no kernel | 11,800 | 12,000 | 74,700 | 70,600 |
+| leanharbor, Go (net/http) | 10,800 | 10,300 | 63,200 | 60,700 |
+| net/http, no kernel | 12,800 | 11,600 | 82,500 | 78,800 |
+| gin, no kernel | 11,400 | 12,700 | 70,700 | 66,600 |
 
 ![Replies per second over HTTP, Python](docs/speed-http-python.svg)
 
 | Replies per second, Python | get, 1 connection | apply, 1 connection | get, 64 connections | apply, 64 connections |
 |---|---:|---:|---:|---:|
-| leanharbor, Python (http.server) | 5,960 | 5,350 | 2,940 | 2,470 |
-| FastAPI on uvicorn, 4 processes, no kernel | 6,060 | 5,980 | 24,600 | 24,700 |
-| Flask on gunicorn, 4 processes, no kernel | 2,900 | 2,940 | 7,700 | 7,510 |
+| leanharbor, Python (http.server) | 4,820 | 4,540 | 2,700 | 2,250 |
+| FastAPI on uvicorn, 4 processes, no kernel | 4,200 | 4,800 | 20,800 | 20,200 |
+| Flask on gunicorn, 4 processes, no kernel | 2,140 | 2,270 | 7,830 | 7,540 |
 
-- The Rust shell runs on axum and gives 93% of the replies of axum without a kernel on one
-  connection and 90% on 64.
-- The Go shell runs on `net/http` and gives 89% of the replies of `net/http` without a kernel on
-  one connection and 76% on 64.
+- The Rust shell runs on axum and gives 96% of the replies of axum without a kernel on one
+  connection and 93% on 64.
+- The Go shell runs on `net/http` and gives 84% of the replies of `net/http` without a kernel on
+  one connection and 77% on 64.
 - The Python shell is one process on `http.server`, with one lock around the engine. On one
   connection it gives as many replies as FastAPI. On 64 connections it gives fewer than on one,
   while FastAPI and Flask spread the connections over four processes.
@@ -191,10 +191,13 @@ command at a time. A test (`rust/calculator/tests/in_place.rs`) sends commands f
 threads, some of them refused, and checks that the snapshot is still the kind of Lean object
 that is updated in place.
 
-The hand-written logic runs 12 times as many commands as the Rust memory engine for one user,
-9 times for 100, 15 times for 1,000 and 17 times for 10,000. The difference is the allocation of
-the small Lean objects of each call, and the `List` the kernel keeps its users in: finding a user
-walks the list.
+The row written by hand keeps the numbers in a `HashMap` and has no proof. It runs 3 times as
+many commands as the Rust memory engine for one user, 6 times for 100, 7 times for 1,000 and 10
+times for 10,000. The difference is the allocation of the small Lean objects of each call and the
+walk down the trie.
+
+The row with the snapshot as a Rust value converts the whole trie on every call, so it falls with
+the number of users; the engines do not use it.
 
 The Go memory engine holds the snapshot in a `leanfran.Value` and hands it to `apply` with
 `Take()`. A test (`go/calculator/in_place_test.go`) sends commands from several goroutines, some
