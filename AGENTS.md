@@ -39,9 +39,10 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   `go/calculator/kernel/`, and the SQL compiler in each shell) are committed and never edited.
   Run `make generate` after changing `lean/`.
 - When a function is added to a generated module, add a theorem about it and list it in the
-  module's audit file (`audit/Audit/Calculator.lean`, `audit/Audit/Sql.lean`) in the same change. Theorems whose hypothesis fixes the result
-  of the function (`transition a s c = .ok …`) cannot be run by leanassay; state the runnable
-  form with `match` (`get_after_run`) and derive the other from it.
+  module's audit file (`audit/Audit/Calculator.lean`, `audit/Audit/Sql.lean`) in the same change.
+  Theorems whose hypothesis fixes the result of the function (`transition a s c = .ok …`) cannot
+  be run by leanassay; state the runnable form with `match` (`get_after_run`) and derive the
+  other from it.
 - The README states what is proved, what is checked and what is trusted. Keep its numbers equal
   to what `make check` and `make bench` print.
 
