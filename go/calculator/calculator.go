@@ -1,8 +1,9 @@
-// Package calculator is the calculator: the kernel is `lean/Calculator/Kernel.lean`, generated
-// to the package kernel.
+// Package calculator is the calculator: the kernel is `lean/Calculator/Kernel.lean` and its
+// table `lean/Calculator/Store.lean`, generated to the packages kernel and store.
 package calculator
 
 import (
+	"encoding/binary"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -12,7 +13,10 @@ import (
 	"github.com/conao3/leanfran-go"
 
 	"github.com/conao3/lean-leanharbor/go/calculator/kernel"
+	"github.com/conao3/lean-leanharbor/go/calculator/store"
 	"github.com/conao3/lean-leanharbor/go/leanharbor"
+	"github.com/conao3/lean-leanharbor/go/leanharbor/pg"
+	"github.com/conao3/lean-leanharbor/go/leanharbor/sql"
 )
 
 // Snapshot is one tenant's state, kept as a Lean value.
@@ -31,6 +35,14 @@ type Engine = leanharbor.MemoryEngine[kernel.Principal, Snapshot, kernel.Command
 
 func NewEngine() *Engine {
 	return leanharbor.NewMemoryEngine(Calculator{})
+}
+
+// PgEngine is the PostgreSQL engine of the calculator.
+type PgEngine = pg.Engine[kernel.Principal, Snapshot, kernel.Command, WriteSet, kernel.Reply, kernel.Error]
+
+// ConnectEngine is [pg.Connect] for the calculator.
+func ConnectEngine(url string, size int, config pg.Config) (*PgEngine, error) {
+	return pg.Connect(Calculator{}, url, size, config)
 }
 
 func must[T any](value T, err error) T {
@@ -74,6 +86,39 @@ func (c Calculator) Transition(
 
 func (c Calculator) Apply(snap Snapshot, ws WriteSet) Snapshot {
 	return kernel.Handle.In(c.scope).Apply(snap.Take(), ws.Take())
+}
+
+func (Calculator) ReadOnly(cmd kernel.Command) bool {
+	return must(kernel.ReadOnly(cmd))
+}
+
+func (Calculator) Tables() []sql.Tab {
+	return store.Tables()
+}
+
+func (c Calculator) Load(rows [][][]sql.Val) (Snapshot, bool) {
+	snap, err := store.Load(rows)
+	if err != nil || snap == nil {
+		return Snapshot{}, false
+	}
+	return must(kernel.Value.In(c.scope).NewSnapshot(*snap)), true
+}
+
+func (c Calculator) Writes(ws WriteSet) []sql.Write {
+	return store.Writes(kernel.Value.In(c.scope).ReadOptionMemory(ws))
+}
+
+// EncodeStoredReply is the number in 8 bytes, most significant first, as the Rust calculator
+// stores it.
+func (Calculator) EncodeStoredReply(reply kernel.Reply) []byte {
+	return binary.BigEndian.AppendUint64(nil, reply.V)
+}
+
+func (Calculator) DecodeStoredReply(stored []byte) (kernel.Reply, bool) {
+	if len(stored) != 8 {
+		return kernel.Reply{}, false
+	}
+	return kernel.Reply{V: binary.BigEndian.Uint64(stored)}, true
 }
 
 func (Calculator) Principal(tenant, user uint64) kernel.Principal {
@@ -150,8 +195,22 @@ func (Calculator) EncodeError(refusal kernel.Error) (int, []byte) {
 	return http.StatusUnprocessableEntity, kernel.EncodeError(refusal)
 }
 
+var opNames = map[kernel.Op]string{
+	kernel.OpAdd(): "Add", kernel.OpSub(): "Sub", kernel.OpMul(): "Mul", kernel.OpDiv(): "Div",
+}
+
+// Fingerprint is the command as the Rust calculator writes it (`{:?}`), so that a key used on
+// one server is replayed by the other on a database they share.
 func (Calculator) Fingerprint(cmd kernel.Command) []byte {
-	return fmt.Appendf(nil, "%#v", cmd)
+	switch cmd := cmd.(type) {
+	case kernel.CommandSet:
+		return fmt.Appendf(nil, "Set { value: %d }", cmd.Value)
+	case kernel.CommandApply:
+		return fmt.Appendf(nil, "Apply { op: %s, arg: %d }", opNames[cmd.Op], cmd.Arg)
+	case kernel.CommandGet:
+		return []byte("Get")
+	}
+	panic(fmt.Sprintf("not a calculator command: %#v", cmd))
 }
 
 func (Calculator) Scope(actor kernel.Principal) string {

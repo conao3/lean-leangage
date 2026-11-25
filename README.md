@@ -74,14 +74,14 @@ $ curl -s -H "Authorization: Bearer $TOKEN" -d '{"cmd":"set","value":6}' 127.0.0
 {"value":6}
 ```
 
-With `LEANHARBOR_DATABASE_URL`, the Rust server keeps the numbers in PostgreSQL instead of its
-memory, and a server started again on the same database answers from them. An administrator first
-runs it with `LEANHARBOR_LOCKDOWN=<owner>:<engine role>` and the administrator's connection
-string: it creates the tables, gives them to the owner (made without the right to log in if it
-does not exist), lets the engine's role (which must exist and may not be a superuser) read and
-write their rows but not alter, drop or truncate them, grants it `USAGE` and `CREATE` on the
-schema (PostgreSQL checks `CREATE` before it finds that a table of `CREATE TABLE IF NOT EXISTS`
-exists, and the engine runs those statements at start), and exits:
+With `LEANHARBOR_DATABASE_URL`, the Rust, the Python and the Go servers keep the numbers in
+PostgreSQL instead of their memory, and a server started again on the same database answers from
+them. An administrator first runs one of them with `LEANHARBOR_LOCKDOWN=<owner>:<engine role>`
+and the administrator's connection string: it creates the tables, gives them to the owner (made
+without the right to log in if it does not exist), lets the engine's role (which must exist and
+may not be a superuser) read and write their rows but not alter, drop or truncate them, grants it
+`USAGE` and `CREATE` on the schema (PostgreSQL checks `CREATE` before it finds that a table of
+`CREATE TABLE IF NOT EXISTS` exists, and the engine runs those statements at start), and exits:
 
 ```console
 $ LEANHARBOR_DATABASE_URL='host=/run/postgresql user=postgres dbname=calc' \
@@ -90,7 +90,19 @@ $ LEANHARBOR_DATABASE_URL='host=/run/postgresql user=leanharbor_engine dbname=ca
     LEANHARBOR_LISTEN=127.0.0.1:8083 cargo run --release -q --bin leanharbor-calculator &
 $ curl -s -H "Authorization: Bearer $TOKEN" -d '{"cmd":"apply","op":"add","arg":1}' 127.0.0.1:8083/rpc
 {"value":1}
+$ cd python && LEANHARBOR_DATABASE_URL='host=/run/postgresql user=leanharbor_engine dbname=calc' \
+    LEANHARBOR_LISTEN=127.0.0.1:8084 uv run leanharbor-calculator &
+$ curl -s -H "Authorization: Bearer $TOKEN" -d '{"cmd":"apply","op":"add","arg":1}' 127.0.0.1:8084/rpc
+{"value":2}
+$ cd go && LEANHARBOR_DATABASE_URL='host=/run/postgresql user=leanharbor_engine dbname=calc' \
+    LEANHARBOR_LISTEN=127.0.0.1:8085 go run ./calculator/cmd/leanharbor-calculator &
+$ curl -s -H "Authorization: Bearer $TOKEN" -d '{"cmd":"apply","op":"add","arg":1}' 127.0.0.1:8085/rpc
+{"value":3}
 ```
+
+The servers can run on one database at once. They read and write the same tables and the same
+table of stored replies, and fingerprint a command alike, so a reply stored under an
+`Idempotency-Key` by one is replayed by another.
 
 ## Storing a kernel in PostgreSQL
 
@@ -119,21 +131,45 @@ with `enc`, the tenant's database a snapshot stands for, and four obligations: t
 into that of the snapshot `apply` computes, and rows that list the database of a snapshot load to
 a snapshot that stands for the same database.
 [`lean/Calculator/Store/Proofs.lean`](lean/Calculator/Store/Proofs.lean) proves them for the
-calculator. The table and the row functions are generated to the three shells, and the Rust one
-runs behind the PostgreSQL engine.
+calculator, and [`lean/Notes/Store/Proofs.lean`](lean/Notes/Store/Proofs.lean) for the notes,
+whose members and notes are two tables, with `BOOLEAN` and `TEXT` columns. The tables and the row
+functions are generated to the three shells. Those of the calculator run behind the three
+PostgreSQL engines, and those of the notes behind the Rust one.
 
-The engine ([`rust/leanharbor-pg`](rust/leanharbor-pg)) takes a kernel with an implementation of
-`leanharbor::Storage`, which delegates `tables`, `load` and `writes` to the generated functions.
+The Rust engine ([`rust/leanharbor-pg`](rust/leanharbor-pg)) takes a kernel with an implementation
+of `leanharbor::Storage`, which delegates `tables`, `load` and `writes` to the generated functions.
 At start it creates the tables with the statements of the generated `create` and `render`. Each
 command runs in one `SERIALIZABLE` transaction: the engine reads the tenant's rows of each table
 with the generated `select`, builds the snapshot with `load`, calls `transition`, and sends the
-statements the generated `compile` makes of the generated `plan` of each write, with the values
-as parameters. Its other statements are constants of its own: the transaction control, the
-advisory locks, and the framework's table `leanharbor_idempotency`, which holds the reply of each
-command run under an idempotency key, per tenant, scope and key. `lockdown`, which an
-administrator runs, writes statements of its own around role names it checks against
-`[a-z_][a-z0-9_]*` and table names quoted by the generated `quote`. Its contract is the list at
-the top of [`rust/leanharbor-pg/src/lib.rs`](rust/leanharbor-pg/src/lib.rs).
+statements the generated `compile` makes of the generated `plan` of each write, with the values as
+parameters. Its other statements are constants of its own: the transaction control, the advisory
+locks, and the framework's table `leanharbor_idempotency`, which holds the reply of each command run
+under an idempotency key, per tenant, scope and key. `lockdown`, which an administrator runs, writes
+statements of its own around role names it checks against `[a-z_][a-z0-9_]*` and table names quoted
+by the generated `quote`. Its contract is the list at the top of
+[`rust/leanharbor-pg/src/lib.rs`](rust/leanharbor-pg/src/lib.rs).
+
+The Python engine ([`python/src/leanharbor/pg`](python/src/leanharbor/pg)) takes a
+`leanharbor.Storage`, which the calculator fills with the generated `tables`, `load` and `writes`
+of `store.py`. `store.py` is generated with the classes of the generated kernel and SQL compiler
+(`--type-module`), so the snapshot `load` builds is the one `transition` takes, and the writes
+`transition` returns are the ones `writes` takes. The engine keeps the same contract, at the top of
+[`python/src/leanharbor/pg/__init__.py`](python/src/leanharbor/pg/__init__.py), with the same
+statements for the advisory locks and `leanharbor_idempotency` and the same `lockdown`; it writes
+its transaction control (`BEGIN ISOLATION LEVEL SERIALIZABLE`, `COMMIT`, `ROLLBACK`) itself, where
+the Rust engine has tokio-postgres write it. It sends each value as a parameter of the type of its
+kind (`BIGINT`, `BOOLEAN`, `TEXT`, `BYTEA`; `NULL` untyped) through psycopg's `RawCursor`, which
+sends the text of `render` unchanged, and reads each column back by the OID of its type.
+
+The Go engine ([`go/leanharbor/pg`](go/leanharbor/pg), on pgx) takes a kernel with an
+implementation of `leanharbor.Storage`, which the calculator implements with the generated
+`Tables`, `Load` and `Writes` of the package `store`, generated with the types of the packages
+`kernel` and `sql` (`--type-module`). The engine keeps the same contract, at the top of
+[`go/leanharbor/pg/pg.go`](go/leanharbor/pg/pg.go), with the statements of the Rust engine for the
+transaction control, the advisory locks and `leanharbor_idempotency`, and the same `Lockdown`. It
+sends each value as a parameter of the type PostgreSQL inferred, which it checks against the
+value's kind, and reads each column back by the OID of its type. The pool and the connections stay
+inside the package: a kernel's code gets `Execute` and no type of pgx.
 
 ## The notes
 
@@ -142,9 +178,10 @@ and admins, after h5i's notes example. A note is visible to everyone if it is sh
 its owner and admins; the owner or an admin edits and deletes it, and its owner never changes.
 Admins add and remove members, and anyone may add the first member of an organization with none.
 
-`handle` decides what each command does and checks input and existence only. The policy is the
-Bool functions `permits`, `visible` and `stored`, and `view`, the rows of a snapshot the caller may
-see. The function the engine runs is `handle` behind the guard of
+`handle` decides what each command does and checks input and existence only. It lists notes and
+members in key order, so that no reply depends on the order in which a snapshot holds its rows.
+The policy is the Bool functions `permits`, `visible` and `stored`, and `view`, the rows of a
+snapshot the caller may see. The function the engine runs is `handle` behind the guard of
 [`lean/Leanharbor/Authz.lean`](lean/Leanharbor/Authz.lean):
 
 ```lean
@@ -182,16 +219,19 @@ principal, snapshot and command:
 | `admin_not_denied` | the guard denies no command of an admin that writes |
 | `owner_may_put`, `owner_may_delete` | the guard denies no edit or delete by a note's owner and no creation under a free id |
 | `first_member` | anyone may add the first member of an organization with none |
-| `read_note_spec`, `list_notes_spec`, `list_members_spec` | in a snapshot with unique keys, `readNote` returns the note under the id when the caller may see it and `notFound` otherwise, and the listings return exactly the rows the caller may see, in order |
+| `read_note_spec`, `list_notes_spec`, `list_members_spec` | in a snapshot with unique keys, `readNote` returns the note under the id when the caller may see it and `notFound` otherwise, and the listings return exactly the rows the caller may see, in key order |
+| `sortNotes_spec`, `sortMembers_spec` | a listing is in key order and holds each row of the list it sorts once |
+| `transition_congr` | two snapshots with unique keys that store the same row under each key answer every command of every principal the same, whatever the order of their rows |
 | `rows_stored_run` | every row a reply returns is the row stored under its key in the caller's view |
 | `keyed_of_run` | every snapshot a tenant reaches has unique keys |
 | `findNote_applyWrite`, `findMember_applyWrite` | what each write does to the row stored under each key |
 | `ids_putNote`, `users_putMember` | a new row goes after the stored rows and a replaced row keeps its place |
-| `bad_text` | a body is refused exactly when it is empty or longer than 4096 bytes in UTF-8 |
+| `bad_text` | a body is refused exactly when it is empty, longer than 4096 bytes in UTF-8, or holds NUL |
 | `not_found` | removing a member or deleting a note that is not stored is refused with `notFound` |
 
 The Rust server ([`rust/notes`](rust/notes)) answers a denied command with 403, a missing note
-with 404 and a bad body with 422:
+with 404 and a bad body with 422. It keeps the snapshots in its memory, or in PostgreSQL when
+`LEANHARBOR_DATABASE_URL` is set, as the calculator does:
 
 ```console
 $ export LEANHARBOR_SECRET=dev-secret
@@ -212,9 +252,9 @@ $ curl -s -H "Authorization: Bearer $B" -d '{"cmd":"read_note","id":7}' 127.0.0.
 {"note":{"body":"for everyone","id":7,"owner":1,"shared":true}}
 ```
 
-The same module is generated to Python ([`python/src/leanharbor_notes`](python/src/leanharbor_notes))
-and Go ([`go/notes`](go/notes)) and runs behind their memory engines in the differential tests;
-neither has a notes server.
+The same modules are generated to Python ([`python/src/leanharbor_notes`](python/src/leanharbor_notes))
+and Go ([`go/notes`](go/notes)). The kernel runs behind their memory engines in the differential
+tests; neither has a notes server.
 
 ## What is proved, and what is trusted
 
@@ -228,7 +268,7 @@ Proved in Lean, about the definitions that are generated and run:
   every accepted command holds in every snapshot a tenant can reach. `Obligation.Invariant.run`
   states it for a property that satisfies `Obligation.Invariant`;
 - for the SQL compiler `Leanharbor.Sql` (`plan`, `compile`, `select`, `create`, `render`,
-  `valid`), which is generated to the three shells and which the Rust PostgreSQL engine calls for
+  `valid`), which is generated to the three shells and which the three PostgreSQL engines call for
   every statement on a kernel's tables:
   - `lexName_quote`: a quoted name followed by any character but `"` reads back as exactly that
     name, under PostgreSQL's rule for quoted identifiers written as a lexer on characters;
@@ -271,8 +311,8 @@ Proved in Lean, about the definitions that are generated and run:
   - `create_stored`: creating the tables in a database without them starts every tenant from
     `init`;
 - for the calculator's table (`Calculator.Store`: `tables`, `toRow`, `fromRow`, `writes`,
-  `storeAll`, `load`), which is generated to the three shells and which the Rust calculator server
-  calls through the PostgreSQL engine:
+  `storeAll`, `load`), which is generated to the three shells and which the three calculator
+  servers call through the PostgreSQL engines:
   - `fromRow_toRow`, `toRow_fromRow`: the laws of `Row`;
   - `writes_compile`: every write set compiles, for every tenant;
   - `enc_apply`, `load_enc`: the obligations of the calculator's `storage`, so the theorems above
@@ -282,6 +322,31 @@ Proved in Lean, about the definitions that are generated and run:
     command of every principal as that snapshot does. They compare the numbers the two snapshots
     hold; that the two are the same tree is not proved;
   - `stored_commit`: every commit goes through: the `SELECT` returns rows, they load, and every
+    write set compiles and runs;
+- for the notes' tables (`Notes.Store`: `tables`, `memberRow`, `memberOfRow`, `noteRow`,
+  `noteOfRow`, `write`, `writes`, `load`), which are generated to the three shells and which the
+  Rust notes server calls through the PostgreSQL engine:
+  - `memberOfRow_memberRow`, `memberRow_memberOfRow`, `noteOfRow_noteRow`, `noteRow_noteOfRow`:
+    the laws of `Row`;
+  - `writes_compile`: every write set compiles, for every tenant;
+  - `enc_apply`, `load_enc`: the obligations of the notes' `storage`, so the theorems above hold
+    for the notes;
+  - `stored_keyed`, `stored_load`: every snapshot an engine stores, and every snapshot it loads
+    from a tenant's rows, has unique keys;
+  - `stored_transition`: the snapshot loaded from a tenant's rows answers every command of every
+    principal as the snapshot `apply` computed does. The two may hold their rows in different
+    orders; `transition_congr` makes the replies equal;
+  - `stored_authorized`: a command accepted on the snapshot loaded from a tenant's rows is
+    authorized against the snapshot `apply` computed, as `transition_authorized` states it: a
+    command that writes is `handle`'s result on that snapshot with every write permitted and every
+    disclosed row stored and visible, and a read-only command is `handle`'s result on the caller's
+    view of it, with no writes. So every write set an engine stores is one the guard permits in
+    the state the tenant's rows stand for;
+  - `stored_noninterference`: a read-only command of a principal gives the same result on the
+    snapshots loaded from two databases, or two tenants, when the rows the principal may see stand
+    for the same rows;
+  - `accepted_no_nul`: no body that an accepted command writes holds NUL;
+  - `stored_commit`: every commit goes through: the `SELECT`s return rows, they load, and every
     write set compiles and runs;
 - for the token functions `Leanharbor.Token` (`encodePayload`, `join`, `parse`), which the three
   servers call to issue and to read every bearer token:
@@ -334,8 +399,9 @@ Checked by `make check`, not proved:
   `fun w => w.toList`; the calculator lists no invariant. For the notes,
   `#obligations Notes.Kernel.kernel invariant Notes.Kernel.Keyed` finds `read_only_sound` with the
   write list `fun ws => ws` and `keyed_invariant` (no two members share a user id and no two notes
-  an id). No engine reads `readOnly`: every engine runs every command the same way, so no engine
-  relies on `ReadOnlySound` yet.
+  an id). The PostgreSQL engines rely on `ReadOnlySound`: they run a command that `readOnly`
+  marks, sent without an idempotency key, in a read-only transaction, and fail it if its write set
+  stores a row (item 6 of their contract). The memory engines run every command the same way.
   `make check` also builds the files in [`audit/fail/`](audit/fail), a kernel without the
   theorem, with a theorem that has one more hypothesis, with a listed invariant that no theorem
   states, and with an invariant left as a hole, and requires each to fail with the check's error;
@@ -347,18 +413,24 @@ Checked by `make check`, not proved:
   compiler (285 ways: 241 rejected, 6 behave the same, 38 do not compile), the 11 functions of
   the token format (189 ways: 173 rejected, 2 behave the same, 14 do not compile), the 7
   functions of the JSON writer (243 ways: 217 rejected, 26 do not compile), the 5 functions that
-  make the calculator's bodies (102 ways, all rejected) and the 6 functions of the calculator's
-  table (25 ways: 20 rejected, 5 do not compile). For the guard, it
+  make the calculator's bodies (102 ways, all rejected), the 6 functions of the calculator's
+  table (25 ways: 20 rejected, 5 do not compile) and the 8 functions of the notes' tables (46
+  ways: 30 rejected, 16 do not compile). For the guard, it
   breaks `guard`, `guardViewed` and the four checks in 28 ways and runs `guard_eq`,
   `guard_viewed_eq` and the lemmas about the checks on random kernels and policies: 22 are
   rejected, 1 behaves the same, 5 do not compile, and none satisfies every theorem while changing
   an output. For the notes, it breaks `handle`, `apply`, `applyWrite`, `textOk`, the four
-  functions on the row lists and the seven functions of the policy in 180 ways: 108 are rejected,
-  5 behave the same, 67 do not compile, and none satisfies every theorem while changing an output.
+  functions on the row lists, the four functions that sort the listings and the seven functions of
+  the policy in 217 ways: 141 are rejected, 5 behave the same, 71 do not compile, and none
+  satisfies every theorem while changing an output.
   The notes' `transition` is one call of `guardViewed`, and no edit of it compiles.
-- **The calculator's table, as PostgreSQL receives it.** `tables_create` evaluates, in Lean's
-  kernel, the text of the statement that creates it:
+- **The tables, as PostgreSQL receives them.** `tables_create` evaluates, in Lean's kernel, the
+  text of the statements that create them. For the calculator:
   `CREATE TABLE IF NOT EXISTS "memories" ("tenant_id" BIGINT NOT NULL, "user" BIGINT NOT NULL, "value" BIGINT NOT NULL, PRIMARY KEY ("tenant_id", "user"))`.
+  For the notes:
+  `CREATE TABLE IF NOT EXISTS "members" ("tenant_id" BIGINT NOT NULL, "user" BIGINT NOT NULL, "admin" BOOLEAN NOT NULL, PRIMARY KEY ("tenant_id", "user"))`
+  and
+  `CREATE TABLE IF NOT EXISTS "notes" ("tenant_id" BIGINT NOT NULL, "id" BIGINT NOT NULL, "owner" BIGINT NOT NULL, "shared" BOOLEAN NOT NULL, "body" TEXT NOT NULL, PRIMARY KEY ("tenant_id", "id"))`.
 - **The generated code computes what Lean computes.** 5,000 calculator commands (698 refusals,
   values up to 2^64 − 1) and 3,000 notes commands (1,826 refusals: 1,383 denied by the guard, 336
   not found, 107 bodies refused; bodies of characters of 1 to 4 bytes, up to and past 4096 bytes)
@@ -372,39 +444,74 @@ Checked by `make check`, not proved:
   Rust, Python and Go as in the token functions compiled natively by Lean. 3,000 token lists
   (1,627 of them JSON documents; 4,903 strings and keys, of which 1,505 hold control bytes, 257 a
   `"`, 265 a `\`, 2,992 bytes above 0x7f and 1,436 bytes that are not UTF-8) give the same bytes
-  in the generated Rust, Python and Go as in the writer compiled natively by Lean. The Python and
-  Go calculator's table functions are generated and compiled, and no differential test runs them.
-- **PostgreSQL stores and reads the rows as the model says.** The same 5,000
-  calculator commands run through the PostgreSQL engine, on a server that the tests start in a
-  temporary directory, give the same output as through the memory engine and as in Lean. Along the
+  in the generated Rust, Python and Go as in the writer compiled natively by Lean. The Go and
+  the Python table functions of the notes are generated and compiled, a Python test imports them
+  and runs their `load` on a few rows, and no differential test runs them.
+- **PostgreSQL stores and reads the rows as the model says.** The same 5,000 calculator commands
+  run through the Rust PostgreSQL engine, on a server that the tests start in a temporary
+  directory, give the same output as through the memory engine and as in Lean. Along the
   same commands, which mix three tenants, each command leaves every row but its own user's as it
   was (`rust/calculator/tests/postgres.rs`). Values of every kind, `NULL` included, at the bounds
   of 64 bits, text with quotes and characters outside ASCII and bytes 0 to 255, in a table and
   columns whose names hold `"`, read back as written; a text holding NUL, which PostgreSQL cannot
   store, fails the command (`rust/leanharbor-pg/tests/values.rs`). A calculator server started
-  again on the same database answers from the rows the first one stored.
-- **The PostgreSQL engine keeps its contract.**
+  again on the same database answers from the rows the first one stored. The same holds for the
+  Python engine and the generated Python table functions behind it
+  (`python/test/test_pg_calculator.py`, `python/test/test_pg_values.py`). There, tenants of 2^63
+  and more are stored under the `Int64` with the same bits, and the 15 principals of the command
+  list each run their commands from a thread of their own, with and without the advisory lock, and
+  get the replies Lean gives. The Rust and the Python calculator servers run on one database at
+  once: the 5,000 commands go to them in turn and get the replies Lean gives, and a reply stored
+  under an idempotency key by either server is replayed by the other and refused with another
+  command. The same holds for the Go engine and the generated Go table functions behind it
+  (`go/calculator/postgres_test.go`, `go/leanharbor/pg/values_test.go`, which reads the values
+  back before and after a row is replaced, and stores empty bytes from a `nil` slice and from an
+  empty one as empty bytes and not as `NULL`). The Rust and the Go calculator servers run on one
+  database whose tables the Rust server's `LEANHARBOR_LOCKDOWN` made: the 5,000 commands go to
+  them in turn and get the replies Lean gives; every tenth carries an idempotency key and is sent
+  again with that key to the other server, which answers alike (from the stored reply for the 424
+  accepted ones) and refuses the key with another command; at the end both answer `get` alike for
+  every user. No test runs the Python and the Go servers on one database. The 3,000 notes commands run through the Rust PostgreSQL engine give the same output
+  as through the memory engine and as in Lean, listings and denials included
+  (`rust/notes/tests/differential.rs`). Along them, which mix two tenants, each of the 1,826
+  refused commands (1,383 denied by the guard) and of the 849 accepted read-only commands leaves
+  every row of both tables as it was, and every other command leaves the other tenant's rows as
+  they were (`rust/notes/tests/postgres.rs`). A body holding NUL is refused on both engines and
+  writes no row. The stored form of each of the 1,174 replies of the list reads back as the reply,
+  and a repeated keyed request gets the stored reply. A notes server started again on the same
+  database answers from the rows the first one stored.
+- **The PostgreSQL engines keep their contract.**
   [`rust/leanharbor-pg/tests/contract.rs`](rust/leanharbor-pg/tests/contract.rs) runs a small
-  kernel written in Rust through the engine, with a hook the engine calls at three points of each
-  attempt and a proxy that loses a COMMIT:
+  kernel written in Rust through the Rust engine,
+  [`python/test/test_pg_contract.py`](python/test/test_pg_contract.py) one written in Python
+  through the Python engine, and [`go/leanharbor/pg/contract_test.go`](go/leanharbor/pg/contract_test.go)
+  one written in Go through the Go engine, each with a hook the engine calls at three points of
+  each attempt and a proxy that loses a COMMIT. Each Python test has the name of the Rust test
+  with `test_` in front, and each Go test that name in camel case with `Test` in front
+  (`TestSerializationFailuresRetryInANewTransaction`); each checks the same, except where the last
+  two columns say:
 
-  | Item of the contract | Tests |
-  |---|---|
-  | 1. one attempt, one `SERIALIZABLE` transaction | `serialization_failures_retry_in_a_new_transaction` (three attempts, each `serializable` and read-write, with distinct virtual transaction ids) |
-  | 2. retries in a new transaction, at most 20 attempts | `serialization_failures_retry_in_a_new_transaction` (two forced 40001s: each retry reads the outside commits), `serialization_failures_exhaust_after_max_attempts`, `deadlocks_are_retried` (a real 40P01 between the advisory lock and a row lock), `killed_before_commit_retries_once` (the backend terminated at each point, with and without a key: one effect, on a new connection; without a key, a backend terminated just before COMMIT gives `CommitUnknown` and no effect) |
-  | 3. a refusal rolls back | `refusals_write_nothing` (no row, no stored reply; the key runs the command once it is accepted) |
-  | 4. writes and reply commit together | `replies_commit_with_the_writes` (COMMIT lost before: neither; after: both), `idempotency_keys_replay_and_conflict`, `concurrent_requests_with_one_key_run_once` (32 clients, with and without the lock: one commit, 31 replays) |
-  | 5. advisory lock before `BEGIN`, released before the pool | `advisory_lock_is_held_around_the_transaction` (a queued request waits before reading the table, then reads the first commit without a retry), `advisory_locks_are_released` (after a commit, a refusal, a terminated backend, a failed request and a caller that stopped waiting) |
-  | 6. read-only commands | `read_only_path` (`SERIALIZABLE READ ONLY DEFERRABLE`, no advisory lock, retried after a terminated backend, a command that claims to read only and writes fails, a keyed read takes the write path) |
-  | 7. COMMIT lost without a key | `lost_commit_without_key_is_unknown` (`CommitUnknown`, not retried; one case committed, one did not), `lost_commit_with_key_runs_once` |
-  | with `SERIALIZABLE`, commits are serial | `concurrent_moves_are_serial` (64 clients, 512 moves between four cells, with and without the lock: every cell holds what the accepted moves left) |
-  | the roles | `roles_keep_the_engine_to_rows` (the tables belong to a role that cannot log in; the engine's role cannot alter, drop or truncate them; a superuser is refused as the engine's role) |
+  | Item of the contract | Tests | Python | Go |
+  |---|---|---|---|
+  | 1. one attempt, one `SERIALIZABLE` transaction | `serialization_failures_retry_in_a_new_transaction` (three attempts, each `serializable` and read-write, with distinct virtual transaction ids) | the same | the same |
+  | 2. retries in a new transaction, at most 20 attempts | `serialization_failures_retry_in_a_new_transaction` (two forced 40001s: each retry reads the outside commits), `serialization_failures_exhaust_after_max_attempts`, `deadlocks_are_retried` (a real 40P01 between the advisory lock and a row lock), `killed_before_commit_retries_once` (the backend terminated at each point, with and without a key: one effect, on a new connection; without a key, a backend terminated just before COMMIT gives `CommitUnknown` and no effect) | the same | the same |
+  | 3. a refusal rolls back | `refusals_write_nothing` (no row, no stored reply; the key runs the command once it is accepted) | the same | the same |
+  | 4. writes and reply commit together | `replies_commit_with_the_writes` (COMMIT lost before: neither; after: both), `idempotency_keys_replay_and_conflict`, `concurrent_requests_with_one_key_run_once` (32 clients, with and without the lock: one commit, 31 replays) | the same, with 32 threads | the same, with 32 goroutines |
+  | 5. advisory lock before `BEGIN`, released before the pool | `advisory_lock_is_held_around_the_transaction` (a queued request waits before reading the table, then reads the first commit without a retry), `advisory_locks_are_released` (after a commit, a refusal, a terminated backend, a failed request and a caller that stopped waiting) | the caller that stops waiting is an HTTP client of `leanharbor.serve` that closes its connection while its request waits before COMMIT | the caller that stops waiting is an HTTP client of `RpcHandler` that closes its connection while its request waits before COMMIT |
+  | 6. read-only commands | `read_only_path` (`SERIALIZABLE READ ONLY DEFERRABLE`, no advisory lock, retried after a terminated backend, a command that claims to read only and writes fails, a keyed read takes the write path) | the same | the same |
+  | 7. COMMIT lost without a key | `lost_commit_without_key_is_unknown` (`CommitUnknown`, not retried; one case committed, one did not), `lost_commit_with_key_runs_once` | first ten commands on the proxy's one connection, more than the five after which psycopg prepares a statement it runs again, so the engine's COMMIT is still a simple query the proxy sees | the same |
+  | with `SERIALIZABLE`, commits are serial | `concurrent_moves_are_serial` (64 clients, 512 moves between four cells, with and without the lock: every cell holds what the accepted moves left) | the same, with 64 threads | the same, with 64 goroutines |
+  | the roles | `roles_keep_the_engine_to_rows` (the tables belong to a role that cannot log in; the engine's role cannot alter, drop or truncate them; a superuser is refused as the engine's role) | the same | the same |
 
-  A caller that stops waiting (a closed HTTP connection) does not cancel its command: the request
-  runs in a task of its own to its end, so its advisory lock is released, and it may commit. Not
-  tested: a restart of the database server while clients write, a crash of the host, network
-  delays short of a closed connection, and a full table of serializable conflicts (53200), which
-  the engine retries. The engine connects without TLS.
+  A caller that stops waiting (a closed HTTP connection) does not cancel its command: the Rust
+  engine runs the request in a task of its own to its end, the Python engine runs it on the thread
+  of the HTTP request, which a closed connection does not stop, and the Go engine's `Execute` takes
+  no context and runs on the goroutine of the HTTP request to its end. Its advisory lock is
+  released, and it may commit. Not tested: a restart of the database server while clients write,
+  a crash of the host, network delays short of a closed connection, and a full table of
+  serializable conflicts (53200), which the engines retry. The Rust engine connects without TLS;
+  the Python and the Go engines use TLS as the connection string's `sslmode` says (the default of
+  libpq and of pgx is `prefer`).
 - **The Rust notes server answers the guard's refusals with 403.** `rust/notes/tests/http.rs`
   sends denied writes, a read of a note the caller may not see (404) and a bad body (422).
 - **The code that runs is generated from the proved source.** The build regenerates the three
@@ -418,19 +525,20 @@ holds for each of them:
 | | Trusted |
 |---|---|
 | Translation | leanfran's Rust, Python and Go backends and their runtimes, rustc, CPython, the Go compiler, Lean's kernel |
-| Engine | the memory engine: one command at a time per process, under one lock; replies stored per idempotency key. The PostgreSQL engine (Rust): the seven items of its contract, PostgreSQL's `SERIALIZABLE` (its commits equal a serial order) and its deferrable read-only snapshot, tokio-postgres and deadpool-postgres, the conversion of values to parameters of the type PostgreSQL inferred and of columns back to values, the stored form of replies (`Storage::encode_reply`), and that the engine's role is not a superuser and does not own the tables |
+| Engine | the memory engine: one command at a time per process, under one lock; replies stored per idempotency key. The PostgreSQL engines: the seven items of their contract, PostgreSQL's `SERIALIZABLE` (its commits equal a serial order) and its deferrable read-only snapshot, the conversion of values to parameters and of columns back to values, the stored form of replies (`Storage::encode_reply` and `decode_reply`, `Storage.encode_reply`: eight bytes for the calculator, the JSON body read back with serde_json for the notes), and that the engine's role is not a superuser and does not own the tables. In Rust, tokio-postgres and deadpool-postgres, and each value a parameter of the type PostgreSQL inferred. In Python, psycopg and the libpq it bundles, the engine's pool, each value a parameter of the type of its kind, and that the generated Python computes what Lean computes when several threads call it at once, as the PostgreSQL engine does and the memory engine, under its lock, does not. In Go, pgx and pgxpool, which take the `PG*` environment variables as the defaults of the connection string, each value a parameter of the type PostgreSQL inferred, and that the generated Go computes what Lean computes when several goroutines call it at once, as the PostgreSQL engine does outside `Scoped` |
 | Authentication | HMAC-SHA256 and the constant-time comparison of tags, the secret and its storage, the system clock and the expiry check, reading the token from the `Authorization` header, the table of accepted tokens (a token accepted once is recognised by its exact bytes and only its expiry is checked again) |
-| Wire format | JSON decoding of commands (`Api`); that the shells send the bytes of `encodeReply` and `encodeError` as the body; the tokens each shell builds for its own `{"error": ...}` bodies |
+| Wire format | JSON decoding of commands (`Api`); the fingerprint of a command under an idempotency key (`Api`; the Python and the Go calculators write the bytes of the Rust calculator's, its `Debug` form); that the shells send the bytes of `encodeReply` and `encodeError` as the body; the tokens each shell builds for its own `{"error": ...}` bodies |
 | HTTP | axum, hyper and tokio (Rust); `http.server` (Python); `net/http` (Go) |
 | Call site | that a shell runs the notes' `transition`. `handle`, the kernel without the guard, is generated and public too, and the guard's theorems say nothing about a caller of `handle` |
-| SQL | that PostgreSQL reads the text as `lexName_quote`'s lexer reads a quoted name; that PostgreSQL, sent `render q` with its parameters, fails or does to the tables what `run` says, and that a `SELECT` returns the rows `selected` says in some order (`ORDER BY` is not modeled); that values compare as Lean values do (text character by character, bytes byte by byte); that the tables were made by `create` of the same schema, since `CREATE TABLE IF NOT EXISTS` keeps a table of that name as it is; that no text holds NUL, which the model stores and PostgreSQL refuses |
-| Storage | that the PostgreSQL engine does what `Storage.Stored` says: it creates `tables` in a database without them, loads each commit's snapshot with `load` from the rows of the compiled `SELECT` of each table, and runs the statements compiled from `writes` of the accepted write set for the principal's tenant (`Kernel.tenant`, as the `Int64` with the same bits). The code that does it is `rust/leanharbor-pg/src/lib.rs` and the calculator's `Storage`, which delegates to the generated functions; the differential test and the contract tests check it |
-| Specification | that `specStep` and the statements above say what a calculator and the notes should do; that the write list a kernel gives `ReadOnlySound` (`fun w => w.toList` for the calculator) holds every write of its write set; that `Valid`, `Accepts`, `sqlOf`, `renderSpec`, `exec`, `view`, `Sel` and `Lists` say what the SQL compiler should do; that `TenantIsolation`, `Storage`, `Loaded` and `Stored` say what storing a kernel should mean; that the calculator's `lookup` and `enc` say which rows a snapshot stands for; that `v1.<tenant>.<user>.<expiry>.<hex>` with the signature over the bytes before the last dot is the token a client should sen; that `Value.print` and `printToks` print JSON as RFC 8259 defines it, and `lexStr` reads a string as RFC 8259 does for the escapes `write` uses; that `replyValue` and `errorValue` are the bodies a client should read |
+| SQL | that PostgreSQL reads the text as `lexName_quote`'s lexer reads a quoted name; that PostgreSQL, sent `render q` with its parameters, fails or does to the tables what `run` says, and that a `SELECT` returns the rows `selected` says in some order (`ORDER BY` is not modeled); that values compare as Lean values do (text character by character, bytes byte by byte); that the tables were made by `create` of the same schema, since `CREATE TABLE IF NOT EXISTS` keeps a table of that name as it is; that no text holds NUL, which the model stores and PostgreSQL refuses (for the notes, `accepted_no_nul` proves it of every body an accepted command writes) |
+| Storage | that the PostgreSQL engines do what `Storage.Stored` says: each creates `tables` in a database without them, loads each commit's snapshot with `load` from the rows of the compiled `SELECT` of each table, and runs the statements compiled from `writes` of the accepted write set for the principal's tenant (`Kernel.tenant`, as the `Int64` with the same bits). The code that does it is `rust/leanharbor-pg/src/lib.rs`, `python/src/leanharbor/pg/__init__.py` and `go/leanharbor/pg/pg.go`, and the `Storage` of the calculator in Rust, in Python and in Go and of the notes in Rust, which delegate to the generated functions; the differential tests and the contract tests check it |
+| Specification | that `specStep` and the statements above say what a calculator and the notes should do; that the write list a kernel gives `ReadOnlySound` (`fun w => w.toList` for the calculator) holds every write of its write set; that `Valid`, `Accepts`, `sqlOf`, `renderSpec`, `exec`, `view`, `Sel` and `Lists` say what the SQL compiler should do; that `TenantIsolation`, `Storage`, `Loaded` and `Stored` say what storing a kernel should mean; that the calculator's `lookup` and `enc` and the notes' `enc` and `encTable` say which rows a snapshot stands for, and that `SameRows` says when two snapshots differ only in the order of their rows; that `v1.<tenant>.<user>.<expiry>.<hex>` with the signature over the bytes before the last dot is the token a client should sen; that `Value.print` and `printToks` print JSON as RFC 8259 defines it, and `lexStr` reads a string as RFC 8259 does for the escapes `write` uses; that `replyValue` and `errorValue` are the bodies a client should read |
 | Policy | that `permits`, `visible`, `stored`, `view`, `disclosed` and `readOnly` of the notes say who should see and change what: the guard enforces them as written |
 
 The Python and Go notes kernels run only in the differential tests; only Rust has a notes server.
-Only the Rust calculator server has a PostgreSQL engine; the other servers keep the state in their
-memory, where it is lost on restart.
+The Rust, the Python and the Go calculator servers and the Rust notes server have a PostgreSQL
+engine; without `LEANHARBOR_DATABASE_URL` a server keeps the state in its memory, where it is lost
+on restart.
 
 ## Speed
 
@@ -561,16 +669,17 @@ retrying.
 
 | Path | Contents |
 |---|---|
-| [`lean/`](lean) | the Lake package: `Leanharbor` (the kernel contract, the obligations, the SQL compiler, a model of PostgreSQL, tenant isolation, the storage of a kernel, the token format, the JSON writer, the authorization guard, and their proofs), `Calculator` (kernel, table and proofs), `Notes` (kernel, policy and proofs), `calculator-oracle`, `notes-oracle`, `sql-oracle` and `token-oracle`, `json-oracle` (the kernel, the SQL compiler and the token format as native programs) |
+| [`lean/`](lean) | the Lake package: `Leanharbor` (the kernel contract, the obligations, the SQL compiler, a model of PostgreSQL, tenant isolation, the storage of a kernel, the token format, the JSON writer, the authorization guard, and their proofs), `Calculator` (kernel, table and proofs), `Notes` (kernel, policy, tables and proofs), `calculator-oracle`, `notes-oracle`, `sql-oracle` and `token-oracle`, `json-oracle` (the kernel, the SQL compiler and the token format as native programs) |
 | [`audit/`](audit) | the leanassay audits, the axiom check and the obligation check, with the files that must fail it (`fail/`) |
 | [`rust/leanharbor`](rust/leanharbor) | the Rust shell: `Kernel`, `Storage`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler, token format and JSON writer (`src/generated/`) |
 | [`rust/leanharbor-pg`](rust/leanharbor-pg) | the PostgreSQL engine, `lockdown` (the owner and the engine's role), the contract tests and the test server (`testing`) |
 | [`rust/calculator`](rust/calculator) | the generated kernel and table (`src/generated/`), the server, the benchmark, the differential and PostgreSQL tests |
-| [`rust/notes`](rust/notes) | the generated notes kernel (`src/generated/`), the server, the HTTP and differential tests |
-| [`python/`](python) | the Python shell (`leanharbor`, with the generated `sql.py`, `token_format.py` and `json_format.py`) and the calculator (`leanharbor_calculator`, with the generated `kernel.py` and `store.py`) and the notes (`leanharbor_notes`, with the generated `kernel.py`) |
-| [`go/leanharbor`](go/leanharbor) | the Go shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler (`sql/`), token format (`token/`) and JSON writer (`jsonformat/`) |
-| [`go/calculator`](go/calculator) | the generated kernel (`kernel/`) and table (`store/`), the server and the benchmark (`cmd/`), the differential test |
-| [`go/notes`](go/notes) | the generated notes kernel (`kernel/`), the differential test |
+| [`rust/notes`](rust/notes) | the generated notes kernel and tables (`src/generated/`), the server, the HTTP, differential and PostgreSQL tests |
+| [`python/`](python) | the Python shell (`leanharbor`, with the generated `sql.py`, `token_format.py` and `json_format.py`, and `leanharbor.pg`: the PostgreSQL engine, `lockdown` and the test server `testing`), the calculator (`leanharbor_calculator`, with the generated `kernel.py` and `store.py`), the notes (`leanharbor_notes`, with the generated `kernel.py` and `store.py`), and the tests (`test/`, among them the PostgreSQL engine's contract tests) |
+| [`go/leanharbor`](go/leanharbor) | the Go shell: `Kernel`, `Storage`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler (`sql/`), token format (`token/`) and JSON writer (`jsonformat/`) |
+| [`go/leanharbor/pg`](go/leanharbor/pg) | the PostgreSQL engine, `Lockdown` (the owner and the engine's role), the contract tests and the test server (`pgtest/`) |
+| [`go/calculator`](go/calculator) | the generated kernel (`kernel/`) and table (`store/`), the server and the benchmark (`cmd/`), the differential and PostgreSQL tests |
+| [`go/notes`](go/notes) | the generated notes kernel (`kernel/`) and tables (`store/`), the differential test |
 | [`bench/`](bench) | servers without a kernel (axum, actix-web, `net/http`, gin, FastAPI, Flask) for the HTTP comparison |
 | [`docs/`](docs) | the measured runs (`speed.json`) and the charts drawn from them |
 | [`testdata/`](testdata) | the command lists (`tools/gen-commands.py`, `tools/gen-notes-commands.py`), the statement list (`tools/gen-statements.py`) , the token list (`tools/gen-tokens.py`) and the JSON token lists (`tools/gen-json.py`) of the differential tests |
@@ -585,7 +694,8 @@ nix run                            # the Rust calculator server
 
 `make generate` rewrites the generated Rust, Python and Go from `lean/`. The PostgreSQL tests
 start a server of their own with `initdb` and `pg_ctl` from the devShell, in a directory under
-`/tmp` that is removed when the test process exits.
+`/tmp` that is removed when the test process exits. `make python` and `make go` build the Rust
+calculator server, which the Python and the Go tests run next to their own on a shared database.
 
 ## License
 

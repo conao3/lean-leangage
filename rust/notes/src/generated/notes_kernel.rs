@@ -5,6 +5,93 @@ use ::leanfran::runtime as rt;
 use rt::Obj;
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Notes_Kernel_insertNote(mut x_1: Obj, mut x_2: Obj) -> Obj {
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: u64 = 0;
+let mut x_7: u64 = 0;
+let mut x_8: u8 = 0;
+let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: u8 = 0;
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: Obj = rt::lean_box(0);
+let mut x_16: u8 = 0;
+let mut x_17: Obj = rt::lean_box(0);
+let mut x_18: Obj = rt::lean_box(0);
+let mut x_19: Obj = rt::lean_box(0);
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+match rt::lean_obj_tag(x_2) {
+0 => {
+x_3 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_3, 0, x_1); rt::lean_ctor_set(x_3, 1, x_2);
+return x_3;
+}
+1 => {
+x_4 = rt::lean_ctor_get(x_2, 0);
+x_5 = rt::lean_ctor_get(x_2, 1);
+x_6 = rt::lean_ctor_get_uint64(x_1, 1 * core::mem::size_of::<usize>() as u32 + 0);
+x_7 = rt::lean_ctor_get_uint64(x_4, 1 * core::mem::size_of::<usize>() as u32 + 0);
+x_8 = rt::lean_uint64_dec_le(x_6, x_7);
+match x_8 as u32 {
+0 => {
+rt::lean_inc(x_5);
+rt::lean_inc(x_4);
+x_16 = (!rt::lean_is_exclusive(x_2)) as u8;
+match x_16 as u32 {
+0 => {
+x_17 = rt::lean_ctor_get(x_2, 1);
+rt::lean_dec(x_17);
+x_18 = rt::lean_ctor_get(x_2, 0);
+rt::lean_dec(x_18);
+{ let t_0 = x_2; let t_1 = x_16; x_10 = t_0; x_11 = t_1; }
+__blk = 1; continue 'body;
+}
+1 => {
+rt::lean_dec(x_2);
+{ let t_0 = rt::lean_box(0); let t_1 = x_16; x_10 = t_0; x_11 = t_1; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_19 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_19, 0, x_1); rt::lean_ctor_set(x_19, 1, x_2);
+return x_19;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_12 = l_Notes_Kernel_insertNote(x_1, x_5);
+match x_11 as u32 {
+0 => {
+rt::lean_ctor_set(x_10, 1, x_12);
+{ let t_0 = x_10; x_14 = t_0; }
+__blk = 2; continue 'body;
+}
+1 => {
+x_15 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_15, 0, x_4); rt::lean_ctor_set(x_15, 1, x_12);
+{ let t_0 = x_15; x_14 = t_0; }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+return x_14;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Notes_Kernel_readOnly(mut x_1: Obj) -> u8 {
 let mut x_2: u8 = 0;
 let mut x_3: u8 = 0;
@@ -27,6 +114,30 @@ _ => {
 x_5 = 0u8;
 return x_5;
 }
+}
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Notes_Kernel_sortNotes(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+match rt::lean_obj_tag(x_1) {
+0 => {
+return x_1;
+}
+1 => {
+x_2 = rt::lean_ctor_get(x_1, 0);
+rt::lean_inc(x_2);
+x_3 = rt::lean_ctor_get(x_1, 1);
+rt::lean_inc(x_3);
+rt::lean_dec_ref(x_1);
+x_4 = l_Notes_Kernel_sortNotes(x_3);
+x_5 = l_Notes_Kernel_insertNote(x_2, x_4);
+return x_5;
+}
+_ => rt::lean_internal_panic_unreachable(),
 }
 }
 
@@ -884,6 +995,116 @@ pub(crate) unsafe fn l_Notes_Kernel_maxText() -> Obj {
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Notes_Kernel_sortMembers(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+match rt::lean_obj_tag(x_1) {
+0 => {
+return x_1;
+}
+1 => {
+x_2 = rt::lean_ctor_get(x_1, 0);
+rt::lean_inc(x_2);
+x_3 = rt::lean_ctor_get(x_1, 1);
+rt::lean_inc(x_3);
+rt::lean_dec_ref(x_1);
+x_4 = l_Notes_Kernel_sortMembers(x_3);
+x_5 = l_Notes_Kernel_insertMember(x_2, x_4);
+return x_5;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Notes_Kernel_insertMember(mut x_1: Obj, mut x_2: Obj) -> Obj {
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: u64 = 0;
+let mut x_7: u64 = 0;
+let mut x_8: u8 = 0;
+let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: u8 = 0;
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: Obj = rt::lean_box(0);
+let mut x_16: u8 = 0;
+let mut x_17: Obj = rt::lean_box(0);
+let mut x_18: Obj = rt::lean_box(0);
+let mut x_19: Obj = rt::lean_box(0);
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+match rt::lean_obj_tag(x_2) {
+0 => {
+x_3 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_3, 0, x_1); rt::lean_ctor_set(x_3, 1, x_2);
+return x_3;
+}
+1 => {
+x_4 = rt::lean_ctor_get(x_2, 0);
+x_5 = rt::lean_ctor_get(x_2, 1);
+x_6 = rt::lean_ctor_get_uint64(x_1, 0 * core::mem::size_of::<usize>() as u32 + 0);
+x_7 = rt::lean_ctor_get_uint64(x_4, 0 * core::mem::size_of::<usize>() as u32 + 0);
+x_8 = rt::lean_uint64_dec_le(x_6, x_7);
+match x_8 as u32 {
+0 => {
+rt::lean_inc(x_5);
+rt::lean_inc(x_4);
+x_16 = (!rt::lean_is_exclusive(x_2)) as u8;
+match x_16 as u32 {
+0 => {
+x_17 = rt::lean_ctor_get(x_2, 1);
+rt::lean_dec(x_17);
+x_18 = rt::lean_ctor_get(x_2, 0);
+rt::lean_dec(x_18);
+{ let t_0 = x_2; let t_1 = x_16; x_10 = t_0; x_11 = t_1; }
+__blk = 1; continue 'body;
+}
+1 => {
+rt::lean_dec(x_2);
+{ let t_0 = rt::lean_box(0); let t_1 = x_16; x_10 = t_0; x_11 = t_1; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_19 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_19, 0, x_1); rt::lean_ctor_set(x_19, 1, x_2);
+return x_19;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_12 = l_Notes_Kernel_insertMember(x_1, x_5);
+match x_11 as u32 {
+0 => {
+rt::lean_ctor_set(x_10, 1, x_12);
+{ let t_0 = x_10; x_14 = t_0; }
+__blk = 2; continue 'body;
+}
+1 => {
+x_15 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_15, 0, x_4); rt::lean_ctor_set(x_15, 1, x_12);
+{ let t_0 = x_15; x_14 = t_0; }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+return x_14;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Notes_Kernel_stored(mut x_1: Obj, mut x_2: Obj) -> u8 {
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_5: Obj = rt::lean_box(0);
@@ -1465,23 +1686,91 @@ let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: u8 = 0;
 let mut x_5: Obj = rt::lean_box(0);
 let mut x_6: u8 = 0;
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: u32 = 0;
+let mut x_9: u8 = 0;
+let mut x_10: u8 = 0;
 x_2 = rt::lean_unsigned_to_nat(0u32);
 x_3 = rt::lean_string_utf8_byte_size(x_1);
 x_4 = rt::lean_nat_dec_lt(x_2, x_3);
 match x_4 as u32 {
 0 => {
+rt::lean_dec_ref(x_1);
 return x_4;
 }
 1 => {
 x_5 = rt::lean_unsigned_to_nat(4096u32);
 x_6 = rt::lean_nat_dec_le(x_3, x_5);
+match x_6 as u32 {
+0 => {
+rt::lean_dec_ref(x_1);
 return x_6;
+}
+1 => {
+x_7 = rt::lean_string_data(x_1);
+x_8 = 0u32;
+x_9 = l_List_elem___at___00System_Uri_UriEscape_uriEscapeAsciiChar_spec__1(x_8, x_7);
+rt::lean_dec(x_7);
+match x_9 as u32 {
+0 => {
+return x_6;
+}
+1 => {
+x_10 = 0u8;
+return x_10;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 
 
+
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_List_elem___at___00System_Uri_UriEscape_uriEscapeAsciiChar_spec__1(mut x_1: u32, mut x_2: Obj) -> u8 {
+let mut x_3: u8 = 0;
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: u32 = 0;
+let mut x_7: u8 = 0;
+let mut x_8: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+match rt::lean_obj_tag(x_2) {
+0 => {
+x_3 = 0u8;
+return x_3;
+}
+1 => {
+x_4 = rt::lean_ctor_get(x_2, 0);
+x_5 = rt::lean_ctor_get(x_2, 1);
+x_6 = rt::lean_unbox_uint32(x_4);
+x_7 = rt::lean_uint32_dec_eq(x_1, x_6);
+match x_7 as u32 {
+0 => {
+{ let t_0 = x_1; let t_1 = x_5; x_1 = t_0; x_2 = t_1; }
+__blk = 0; continue 'body;
+}
+1 => {
+return x_7;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
 
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
@@ -1602,21 +1891,23 @@ let mut x_122: Obj = rt::lean_box(0);
 let mut x_123: u8 = 0;
 let mut x_124: Obj = rt::lean_box(0);
 let mut x_125: Obj = rt::lean_box(0);
-let mut x_127: Obj = rt::lean_box(0);
+let mut x_126: Obj = rt::lean_box(0);
 let mut x_128: Obj = rt::lean_box(0);
 let mut x_129: Obj = rt::lean_box(0);
-let mut x_130: u8 = 0;
-let mut x_131: Obj = rt::lean_box(0);
+let mut x_130: Obj = rt::lean_box(0);
+let mut x_131: u8 = 0;
 let mut x_132: Obj = rt::lean_box(0);
-let mut x_134: Obj = rt::lean_box(0);
-let mut x_135: u8 = 0;
-let mut x_136: Obj = rt::lean_box(0);
+let mut x_133: Obj = rt::lean_box(0);
+let mut x_135: Obj = rt::lean_box(0);
+let mut x_136: u8 = 0;
 let mut x_137: Obj = rt::lean_box(0);
+let mut x_138: Obj = rt::lean_box(0);
 let mut x_139: Obj = rt::lean_box(0);
-let mut x_140: Obj = rt::lean_box(0);
 let mut x_141: Obj = rt::lean_box(0);
-let mut x_142: u8 = 0;
+let mut x_142: Obj = rt::lean_box(0);
 let mut x_143: Obj = rt::lean_box(0);
+let mut x_144: u8 = 0;
+let mut x_145: Obj = rt::lean_box(0);
 let mut __blk: u32 = 0;
 'body: loop { match __blk {
 0 => {
@@ -1658,7 +1949,7 @@ _ => rt::lean_internal_panic_unreachable(),
 2 => {
 x_49 = rt::lean_ctor_get_uint64(x_3, 1 * core::mem::size_of::<usize>() as u32 + 0);
 x_50 = rt::lean_ctor_get(x_3, 0);
-rt::lean_inc_ref(x_50);
+rt::lean_inc_ref_n(x_50, 2);
 x_51 = rt::lean_ctor_get_uint8(x_3, 1 * core::mem::size_of::<usize>() as u32 + 8);
 rt::lean_dec_ref(x_3);
 x_61 = l_Notes_Kernel_textOk(x_50);
@@ -1735,37 +2026,37 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 5 => {
 x_120 = rt::lean_ctor_get(x_2, 1);
-x_130 = (!rt::lean_is_exclusive(x_2)) as u8;
-match x_130 as u32 {
+x_131 = (!rt::lean_is_exclusive(x_2)) as u8;
+match x_131 as u32 {
 0 => {
-x_131 = rt::lean_ctor_get(x_2, 0);
-rt::lean_dec(x_131);
-{ let t_0 = x_2; let t_1 = x_130; x_122 = t_0; x_123 = t_1; }
+x_132 = rt::lean_ctor_get(x_2, 0);
+rt::lean_dec(x_132);
+{ let t_0 = x_2; let t_1 = x_131; x_122 = t_0; x_123 = t_1; }
 __blk = 20; continue 'body;
 }
 1 => {
 rt::lean_inc(x_120);
 rt::lean_dec(x_2);
-{ let t_0 = rt::lean_box(0); let t_1 = x_130; x_122 = t_0; x_123 = t_1; }
+{ let t_0 = rt::lean_box(0); let t_1 = x_131; x_122 = t_0; x_123 = t_1; }
 __blk = 20; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 6 => {
-x_132 = rt::lean_ctor_get(x_2, 0);
-x_142 = (!rt::lean_is_exclusive(x_2)) as u8;
-match x_142 as u32 {
+x_133 = rt::lean_ctor_get(x_2, 0);
+x_144 = (!rt::lean_is_exclusive(x_2)) as u8;
+match x_144 as u32 {
 0 => {
-x_143 = rt::lean_ctor_get(x_2, 1);
-rt::lean_dec(x_143);
-{ let t_0 = x_2; let t_1 = x_142; x_134 = t_0; x_135 = t_1; }
+x_145 = rt::lean_ctor_get(x_2, 1);
+rt::lean_dec(x_145);
+{ let t_0 = x_2; let t_1 = x_144; x_135 = t_0; x_136 = t_1; }
 __blk = 22; continue 'body;
 }
 1 => {
-rt::lean_inc(x_132);
+rt::lean_inc(x_133);
 rt::lean_dec(x_2);
-{ let t_0 = rt::lean_box(0); let t_1 = x_142; x_134 = t_0; x_135 = t_1; }
+{ let t_0 = rt::lean_box(0); let t_1 = x_144; x_135 = t_0; x_136 = t_1; }
 __blk = 22; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
@@ -2082,47 +2373,49 @@ return x_114;
 }
 20 => {
 x_124 = rt::lean_box(0);
-x_125 = rt::lean_alloc_ctor(2, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_125, 0, x_120);
+x_125 = l_Notes_Kernel_sortNotes(x_120);
+x_126 = rt::lean_alloc_ctor(2, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_126, 0, x_125);
 match x_123 as u32 {
 0 => {
-rt::lean_ctor_set(x_122, 1, x_125);
+rt::lean_ctor_set(x_122, 1, x_126);
 rt::lean_ctor_set(x_122, 0, x_124);
-{ let t_0 = x_122; x_127 = t_0; }
+{ let t_0 = x_122; x_128 = t_0; }
 __blk = 21; continue 'body;
 }
 1 => {
-x_129 = rt::lean_alloc_ctor(0, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_129, 0, x_124); rt::lean_ctor_set(x_129, 1, x_125);
-{ let t_0 = x_129; x_127 = t_0; }
+x_130 = rt::lean_alloc_ctor(0, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_130, 0, x_124); rt::lean_ctor_set(x_130, 1, x_126);
+{ let t_0 = x_130; x_128 = t_0; }
 __blk = 21; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 21 => {
-x_128 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_128, 0, x_127);
-return x_128;
+x_129 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_129, 0, x_128);
+return x_129;
 }
 22 => {
-x_136 = rt::lean_box(0);
-x_137 = rt::lean_alloc_ctor(3, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_137, 0, x_132);
-match x_135 as u32 {
+x_137 = rt::lean_box(0);
+x_138 = l_Notes_Kernel_sortMembers(x_133);
+x_139 = rt::lean_alloc_ctor(3, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_139, 0, x_138);
+match x_136 as u32 {
 0 => {
-rt::lean_ctor_set(x_134, 1, x_137);
-rt::lean_ctor_set(x_134, 0, x_136);
-{ let t_0 = x_134; x_139 = t_0; }
+rt::lean_ctor_set(x_135, 1, x_139);
+rt::lean_ctor_set(x_135, 0, x_137);
+{ let t_0 = x_135; x_141 = t_0; }
 __blk = 23; continue 'body;
 }
 1 => {
-x_141 = rt::lean_alloc_ctor(0, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_141, 0, x_136); rt::lean_ctor_set(x_141, 1, x_137);
-{ let t_0 = x_141; x_139 = t_0; }
+x_143 = rt::lean_alloc_ctor(0, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_143, 0, x_137); rt::lean_ctor_set(x_143, 1, x_139);
+{ let t_0 = x_143; x_141 = t_0; }
 __blk = 23; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 23 => {
-x_140 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_140, 0, x_139);
-return x_140;
+x_142 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_142, 0, x_141);
+return x_142;
 }
 _ => rt::lean_internal_panic_unreachable(),
 } }
@@ -3482,6 +3775,34 @@ return x_3;
 }
 
 
+#[doc = "Lean type `Notes.Kernel.Note` (module `Notes.Kernel`)."]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct Note { pub id: u64, pub owner: u64, pub shared: bool, pub body: String }
+impl rt::ToLean for Note {
+    unsafe fn to_lean(self) -> Obj {
+        let Note { id: f0, owner: f1, shared: f2, body: f3 } = self; { let o = rt::lean_alloc_ctor(0, 1, 0 * core::mem::size_of::<usize>() as u32 + 17); rt::lean_ctor_set_uint64(o, 1 * core::mem::size_of::<usize>() as u32 + 0, f0); rt::lean_ctor_set_uint64(o, 1 * core::mem::size_of::<usize>() as u32 + 8, f1); rt::lean_ctor_set_uint8(o, 1 * core::mem::size_of::<usize>() as u32 + 16, (f2) as u8); rt::lean_ctor_set(o, 0, rt::ToLean::to_lean(f3)); o }
+    }
+}
+impl rt::FromLean for Note {
+    unsafe fn from_lean(o: Obj) -> Self {
+        Note { id: rt::lean_ctor_get_uint64(o, 1 * core::mem::size_of::<usize>() as u32 + 0), owner: rt::lean_ctor_get_uint64(o, 1 * core::mem::size_of::<usize>() as u32 + 8), shared: (rt::lean_ctor_get_uint8(o, 1 * core::mem::size_of::<usize>() as u32 + 16)) != 0, body: <String as rt::FromLean>::from_lean(rt::lean_ctor_get(o, 0)) }
+    }
+}
+unsafe impl rt::LeanRepr for Note {
+    type Value = Note;
+    unsafe fn to_obj(value: Note) -> Obj {
+        rt::ToLean::to_lean(value)
+    }
+    unsafe fn from_obj(o: Obj) -> Note {
+        <Note as rt::FromLean>::from_lean(o)
+    }
+}
+unsafe impl rt::IntoLean<Note> for Note {
+    unsafe fn into_obj(self) -> Obj {
+        rt::ToLean::to_lean(self)
+    }
+}
+
 #[doc = "Lean type `Notes.Kernel.Command` (module `Notes.Kernel`)."]
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum Command {
@@ -3558,34 +3879,6 @@ unsafe impl rt::LeanRepr for Member {
     }
 }
 unsafe impl rt::IntoLean<Member> for Member {
-    unsafe fn into_obj(self) -> Obj {
-        rt::ToLean::to_lean(self)
-    }
-}
-
-#[doc = "Lean type `Notes.Kernel.Note` (module `Notes.Kernel`)."]
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
-pub struct Note { pub id: u64, pub owner: u64, pub shared: bool, pub body: String }
-impl rt::ToLean for Note {
-    unsafe fn to_lean(self) -> Obj {
-        let Note { id: f0, owner: f1, shared: f2, body: f3 } = self; { let o = rt::lean_alloc_ctor(0, 1, 0 * core::mem::size_of::<usize>() as u32 + 17); rt::lean_ctor_set_uint64(o, 1 * core::mem::size_of::<usize>() as u32 + 0, f0); rt::lean_ctor_set_uint64(o, 1 * core::mem::size_of::<usize>() as u32 + 8, f1); rt::lean_ctor_set_uint8(o, 1 * core::mem::size_of::<usize>() as u32 + 16, (f2) as u8); rt::lean_ctor_set(o, 0, rt::ToLean::to_lean(f3)); o }
-    }
-}
-impl rt::FromLean for Note {
-    unsafe fn from_lean(o: Obj) -> Self {
-        Note { id: rt::lean_ctor_get_uint64(o, 1 * core::mem::size_of::<usize>() as u32 + 0), owner: rt::lean_ctor_get_uint64(o, 1 * core::mem::size_of::<usize>() as u32 + 8), shared: (rt::lean_ctor_get_uint8(o, 1 * core::mem::size_of::<usize>() as u32 + 16)) != 0, body: <String as rt::FromLean>::from_lean(rt::lean_ctor_get(o, 0)) }
-    }
-}
-unsafe impl rt::LeanRepr for Note {
-    type Value = Note;
-    unsafe fn to_obj(value: Note) -> Obj {
-        rt::ToLean::to_lean(value)
-    }
-    unsafe fn from_obj(o: Obj) -> Note {
-        <Note as rt::FromLean>::from_lean(o)
-    }
-}
-unsafe impl rt::IntoLean<Note> for Note {
     unsafe fn into_obj(self) -> Obj {
         rt::ToLean::to_lean(self)
     }
@@ -3852,6 +4145,19 @@ unsafe impl rt::IntoLean<LeanharborAuthzGuardedNotesKernelError> for LeanharborA
     }
 }
 
+#[doc = "Lean: `Notes.Kernel.insertNote : Notes.Kernel.Note → List Notes.Kernel.Note → List Notes.Kernel.Note` (module `Notes.Kernel`)."]
+#[::leanfran::exported("Notes.Kernel.insertNote")]
+pub fn insert_note(n: Note, arg1: Vec<Note>) -> Vec<Note> {
+    unsafe {
+        let __a0: Obj = rt::ToLean::to_lean(n);
+        let __a1: Obj = rt::list_to_lean(arg1, |v0| rt::ToLean::to_lean(v0));
+        let __r: Obj = l_Notes_Kernel_insertNote(__a0, __a1);
+        let __v = rt::list_from_lean(__r, |v0| <Note as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
 #[doc = "Lean: `Notes.Kernel.readOnly : Notes.Kernel.Command → Bool` (module `Notes.Kernel`)."]
 #[::leanfran::exported("Notes.Kernel.readOnly")]
 pub fn read_only(arg0: Command) -> bool {
@@ -3859,6 +4165,18 @@ pub fn read_only(arg0: Command) -> bool {
         let __a0: Obj = rt::ToLean::to_lean(arg0);
         let __r: u8 = l_Notes_Kernel_readOnly(__a0);
         rt::lean_dec(__a0); (__r) != 0
+    }
+}
+
+#[doc = "Lean: `Notes.Kernel.sortNotes : List Notes.Kernel.Note → List Notes.Kernel.Note` (module `Notes.Kernel`)."]
+#[::leanfran::exported("Notes.Kernel.sortNotes")]
+pub fn sort_notes(arg0: Vec<Note>) -> Vec<Note> {
+    unsafe {
+        let __a0: Obj = rt::list_to_lean(arg0, |v0| rt::ToLean::to_lean(v0));
+        let __r: Obj = l_Notes_Kernel_sortNotes(__a0);
+        let __v = rt::list_from_lean(__r, |v0| <Note as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__r);
+        __v
     }
 }
 
@@ -3905,6 +4223,18 @@ pub fn max_text() -> rt::Nat {
     }
 }
 
+#[doc = "Lean: `Notes.Kernel.sortMembers : List Notes.Kernel.Member → List Notes.Kernel.Member` (module `Notes.Kernel`)."]
+#[::leanfran::exported("Notes.Kernel.sortMembers")]
+pub fn sort_members(arg0: Vec<Member>) -> Vec<Member> {
+    unsafe {
+        let __a0: Obj = rt::list_to_lean(arg0, |v0| rt::ToLean::to_lean(v0));
+        let __r: Obj = l_Notes_Kernel_sortMembers(__a0);
+        let __v = rt::list_from_lean(__r, |v0| <Member as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
 #[doc = "Lean: `Notes.Kernel.stored : Notes.Kernel.Snapshot → Notes.Kernel.Row → Bool` (module `Notes.Kernel`)."]
 #[::leanfran::exported("Notes.Kernel.stored")]
 pub fn stored(s: Snapshot, arg1: Row) -> bool {
@@ -3934,7 +4264,7 @@ pub fn text_ok(t: impl AsRef<str>) -> bool {
     unsafe {
         let __a0: Obj = rt::ToLean::to_lean(t.as_ref());
         let __r: u8 = l_Notes_Kernel_textOk(__a0);
-        rt::lean_dec(__a0); (__r) != 0
+        (__r) != 0
     }
 }
 
@@ -4013,6 +4343,19 @@ pub fn init() -> Snapshot {
     }
 }
 
+#[doc = "Lean: `Notes.Kernel.insertMember : Notes.Kernel.Member → List Notes.Kernel.Member → List Notes.Kernel.Member` (module `Notes.Kernel`)."]
+#[::leanfran::exported("Notes.Kernel.insertMember")]
+pub fn insert_member(m: Member, arg1: Vec<Member>) -> Vec<Member> {
+    unsafe {
+        let __a0: Obj = rt::ToLean::to_lean(m);
+        let __a1: Obj = rt::list_to_lean(arg1, |v0| rt::ToLean::to_lean(v0));
+        let __r: Obj = l_Notes_Kernel_insertMember(__a0, __a1);
+        let __v = rt::list_from_lean(__r, |v0| <Member as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
 #[doc = "Lean: `Notes.Kernel.transition : Notes.Kernel.Principal →\n  Notes.Kernel.Snapshot →\n    Notes.Kernel.Command →\n      Except (Leanharbor.Authz.Guarded Notes.Kernel.Error) (List Notes.Kernel.Write × Notes.Kernel.Reply)` (module `Notes.Kernel`)."]
 #[::leanfran::exported("Notes.Kernel.transition")]
 pub fn transition(a: Principal, s: Snapshot, c: Command) -> Result<(Vec<Write>, Reply), LeanharborAuthzGuardedNotesKernelError> {
@@ -4081,12 +4424,29 @@ pub fn apply(s: Snapshot, ws: Vec<Write>) -> Snapshot {
 #[allow(unused_imports, clippy::all)]
 pub mod lean {
     use super::*;
+    #[doc = "`insert_note` on handles. Lean: `Notes.Kernel.insertNote : Notes.Kernel.Note → List Notes.Kernel.Note → List Notes.Kernel.Note` (module `Notes.Kernel`)."]
+    pub fn insert_note(n: impl rt::IntoLean<Note>, arg1: impl rt::IntoLean<rt::List<Note>>) -> rt::Lean<rt::List<Note>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<Note>::into_obj(n);
+            let __a1: Obj = rt::IntoLean::<rt::List<Note>>::into_obj(arg1);
+            let __r: Obj = l_Notes_Kernel_insertNote(__a0, __a1);
+            rt::Lean::from_owned(__r)
+        }
+    }
     #[doc = "`read_only` on handles. Lean: `Notes.Kernel.readOnly : Notes.Kernel.Command → Bool` (module `Notes.Kernel`)."]
     pub fn read_only(arg0: impl rt::IntoLean<Command>) -> rt::Lean<bool> {
         unsafe {
             let __a0: Obj = rt::IntoLean::<Command>::into_obj(arg0);
             let __r: u8 = l_Notes_Kernel_readOnly(__a0);
             rt::lean_dec(__a0); rt::Lean::from_owned(rt::lean_box(__r as usize))
+        }
+    }
+    #[doc = "`sort_notes` on handles. Lean: `Notes.Kernel.sortNotes : List Notes.Kernel.Note → List Notes.Kernel.Note` (module `Notes.Kernel`)."]
+    pub fn sort_notes(arg0: impl rt::IntoLean<rt::List<Note>>) -> rt::Lean<rt::List<Note>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<rt::List<Note>>::into_obj(arg0);
+            let __r: Obj = l_Notes_Kernel_sortNotes(__a0);
+            rt::Lean::from_owned(__r)
         }
     }
     #[doc = "`is_admin` on handles. Lean: `Notes.Kernel.isAdmin : Notes.Kernel.Snapshot → UInt64 → Bool` (module `Notes.Kernel`)."]
@@ -4123,6 +4483,14 @@ pub mod lean {
             rt::Lean::from_owned(__r)
         }
     }
+    #[doc = "`sort_members` on handles. Lean: `Notes.Kernel.sortMembers : List Notes.Kernel.Member → List Notes.Kernel.Member` (module `Notes.Kernel`)."]
+    pub fn sort_members(arg0: impl rt::IntoLean<rt::List<Member>>) -> rt::Lean<rt::List<Member>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<rt::List<Member>>::into_obj(arg0);
+            let __r: Obj = l_Notes_Kernel_sortMembers(__a0);
+            rt::Lean::from_owned(__r)
+        }
+    }
     #[doc = "`stored` on handles. Lean: `Notes.Kernel.stored : Notes.Kernel.Snapshot → Notes.Kernel.Row → Bool` (module `Notes.Kernel`)."]
     pub fn stored(s: impl rt::IntoLean<Snapshot>, arg1: impl rt::IntoLean<Row>) -> rt::Lean<bool> {
         unsafe {
@@ -4145,7 +4513,7 @@ pub mod lean {
         unsafe {
             let __a0: Obj = rt::IntoLean::<String>::into_obj(t);
             let __r: u8 = l_Notes_Kernel_textOk(__a0);
-            rt::lean_dec(__a0); rt::Lean::from_owned(rt::lean_box(__r as usize))
+            rt::Lean::from_owned(rt::lean_box(__r as usize))
         }
     }
     #[doc = "`find_note` on handles. Lean: `Notes.Kernel.findNote : List Notes.Kernel.Note → UInt64 → Option Notes.Kernel.Note` (module `Notes.Kernel`)."]
@@ -4199,6 +4567,15 @@ pub mod lean {
         unsafe {
             let __r: Obj = l_Notes_Kernel_init();
             rt::lean_inc(__r);
+            rt::Lean::from_owned(__r)
+        }
+    }
+    #[doc = "`insert_member` on handles. Lean: `Notes.Kernel.insertMember : Notes.Kernel.Member → List Notes.Kernel.Member → List Notes.Kernel.Member` (module `Notes.Kernel`)."]
+    pub fn insert_member(m: impl rt::IntoLean<Member>, arg1: impl rt::IntoLean<rt::List<Member>>) -> rt::Lean<rt::List<Member>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<Member>::into_obj(m);
+            let __a1: Obj = rt::IntoLean::<rt::List<Member>>::into_obj(arg1);
+            let __r: Obj = l_Notes_Kernel_insertMember(__a0, __a1);
             rt::Lean::from_owned(__r)
         }
     }
@@ -4256,12 +4633,29 @@ pub mod lean {
 #[allow(unused_imports, clippy::all)]
 pub mod local {
     use super::*;
+    #[doc = "`insert_note` on handles. Lean: `Notes.Kernel.insertNote : Notes.Kernel.Note → List Notes.Kernel.Note → List Notes.Kernel.Note` (module `Notes.Kernel`)."]
+    pub fn insert_note(n: impl rt::IntoLean<Note>, arg1: impl rt::IntoLean<rt::List<Note>>) -> rt::Local<rt::List<Note>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<Note>::into_obj(n);
+            let __a1: Obj = rt::IntoLean::<rt::List<Note>>::into_obj(arg1);
+            let __r: Obj = l_Notes_Kernel_insertNote(__a0, __a1);
+            rt::Local::from_owned(__r)
+        }
+    }
     #[doc = "`read_only` on handles. Lean: `Notes.Kernel.readOnly : Notes.Kernel.Command → Bool` (module `Notes.Kernel`)."]
     pub fn read_only(arg0: impl rt::IntoLean<Command>) -> rt::Local<bool> {
         unsafe {
             let __a0: Obj = rt::IntoLean::<Command>::into_obj(arg0);
             let __r: u8 = l_Notes_Kernel_readOnly(__a0);
             rt::lean_dec(__a0); rt::Local::from_owned(rt::lean_box(__r as usize))
+        }
+    }
+    #[doc = "`sort_notes` on handles. Lean: `Notes.Kernel.sortNotes : List Notes.Kernel.Note → List Notes.Kernel.Note` (module `Notes.Kernel`)."]
+    pub fn sort_notes(arg0: impl rt::IntoLean<rt::List<Note>>) -> rt::Local<rt::List<Note>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<rt::List<Note>>::into_obj(arg0);
+            let __r: Obj = l_Notes_Kernel_sortNotes(__a0);
+            rt::Local::from_owned(__r)
         }
     }
     #[doc = "`is_admin` on handles. Lean: `Notes.Kernel.isAdmin : Notes.Kernel.Snapshot → UInt64 → Bool` (module `Notes.Kernel`)."]
@@ -4298,6 +4692,14 @@ pub mod local {
             rt::Local::from_owned(__r)
         }
     }
+    #[doc = "`sort_members` on handles. Lean: `Notes.Kernel.sortMembers : List Notes.Kernel.Member → List Notes.Kernel.Member` (module `Notes.Kernel`)."]
+    pub fn sort_members(arg0: impl rt::IntoLean<rt::List<Member>>) -> rt::Local<rt::List<Member>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<rt::List<Member>>::into_obj(arg0);
+            let __r: Obj = l_Notes_Kernel_sortMembers(__a0);
+            rt::Local::from_owned(__r)
+        }
+    }
     #[doc = "`stored` on handles. Lean: `Notes.Kernel.stored : Notes.Kernel.Snapshot → Notes.Kernel.Row → Bool` (module `Notes.Kernel`)."]
     pub fn stored(s: impl rt::IntoLean<Snapshot>, arg1: impl rt::IntoLean<Row>) -> rt::Local<bool> {
         unsafe {
@@ -4320,7 +4722,7 @@ pub mod local {
         unsafe {
             let __a0: Obj = rt::IntoLean::<String>::into_obj(t);
             let __r: u8 = l_Notes_Kernel_textOk(__a0);
-            rt::lean_dec(__a0); rt::Local::from_owned(rt::lean_box(__r as usize))
+            rt::Local::from_owned(rt::lean_box(__r as usize))
         }
     }
     #[doc = "`find_note` on handles. Lean: `Notes.Kernel.findNote : List Notes.Kernel.Note → UInt64 → Option Notes.Kernel.Note` (module `Notes.Kernel`)."]
@@ -4374,6 +4776,15 @@ pub mod local {
         unsafe {
             let __r: Obj = l_Notes_Kernel_init();
             rt::lean_inc(__r);
+            rt::Local::from_owned(__r)
+        }
+    }
+    #[doc = "`insert_member` on handles. Lean: `Notes.Kernel.insertMember : Notes.Kernel.Member → List Notes.Kernel.Member → List Notes.Kernel.Member` (module `Notes.Kernel`)."]
+    pub fn insert_member(m: impl rt::IntoLean<Member>, arg1: impl rt::IntoLean<rt::List<Member>>) -> rt::Local<rt::List<Member>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<Member>::into_obj(m);
+            let __a1: Obj = rt::IntoLean::<rt::List<Member>>::into_obj(arg1);
+            let __r: Obj = l_Notes_Kernel_insertMember(__a0, __a1);
             rt::Local::from_owned(__r)
         }
     }

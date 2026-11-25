@@ -1,12 +1,14 @@
-//! The generated Rust behind the memory engine against the kernel run natively by Lean
-//! (`notes-oracle`), on the shared command list.
+//! The generated Rust behind the memory engine and behind the PostgreSQL engine against the
+//! kernel run natively by Lean (`notes-oracle`), on the shared command list.
 
 use std::io::Write;
 use std::process::{Command, Stdio};
 
-use leanharbor::Engine;
 use leanharbor::memory::MemoryEngine;
+use leanharbor::{Engine, Executed};
 use leanharbor_notes::{Notes, kernel, refusal_name};
+use leanharbor_pg::testing::cluster;
+use leanharbor_pg::{Config, PgEngine};
 
 const COMMANDS: &str = include_str!("../../../testdata/notes-commands.txt");
 
@@ -84,22 +86,52 @@ fn oracle() -> String {
     String::from_utf8(output.stdout).expect("utf-8")
 }
 
-#[tokio::test]
-async fn generated_rust_agrees_with_lean() {
-    let engine = MemoryEngine::<Notes>::new();
-    let mut ours = String::new();
-    for line in COMMANDS.lines() {
-        let (actor, cmd) = parse(line);
-        let executed = engine.execute(actor, cmd, None).await;
-        match executed.expect("no engine error") {
-            Ok(reply) => ours.push_str(&format!("ok {}\n", show(&reply))),
-            Err(refusal) => ours.push_str(&format!("error {}\n", refusal_name(&refusal))),
-        }
+fn line(executed: Executed<Notes>) -> String {
+    match executed.expect("no engine error") {
+        Ok(reply) => format!("ok {}\n", show(&reply)),
+        Err(refusal) => format!("error {}\n", refusal_name(&refusal)),
     }
-    let theirs = oracle();
+}
+
+async fn run(engine: &impl Engine<Notes>) -> String {
+    let mut out = String::new();
+    for line_ in COMMANDS.lines() {
+        let (actor, cmd) = parse(line_);
+        out.push_str(&line(engine.execute(actor, cmd, None).await));
+    }
+    out
+}
+
+fn agree(ours: &str, theirs: &str) {
     assert_eq!(ours.lines().count(), 3000);
     for (i, (a, b)) in ours.lines().zip(theirs.lines()).enumerate() {
-        assert_eq!(a, b, "line {}", i + 1);
+        assert_eq!(a, b, "line {}: {}", i + 1, COMMANDS.lines().nth(i).unwrap());
     }
     assert_eq!(ours, theirs);
+}
+
+#[tokio::test]
+async fn generated_rust_agrees_with_lean() {
+    let ours = run(&MemoryEngine::<Notes>::new()).await;
+    agree(&ours, &oracle());
+}
+
+/// The rows stored and read back in PostgreSQL give every command the reply the memory engine
+/// and Lean give it, listings and refusals of the guard included.
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+async fn postgres_engine_agrees_with_memory_engine_and_lean() {
+    let url = cluster().locked::<Notes>("notes_differential").await;
+    let engine = PgEngine::<Notes>::connect(&url, 2, Config::default())
+        .await
+        .expect("the engine connects");
+    let ours = run(&engine).await;
+    agree(&ours, &run(&MemoryEngine::<Notes>::new()).await);
+    agree(&ours, &oracle());
+    assert_eq!(
+        engine
+            .stats()
+            .retries
+            .load(std::sync::atomic::Ordering::Relaxed),
+        0
+    );
 }

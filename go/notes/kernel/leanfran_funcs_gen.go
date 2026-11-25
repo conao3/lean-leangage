@@ -87,6 +87,31 @@ func Init() Snapshot {
 	return _lfCodecSnapshot.FromLean(_lfResult)
 }
 
+func InsertMember(a0 Member, a1 []Member) []Member {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	v0 := _lfCodecMember.ToLean(a0)
+	v1 := _lfCodec4.ToLean(a1)
+	_lfResult := l_Notes_Kernel_insertMember(v0, v1)
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec4.FromLean(_lfResult)
+}
+
+func InsertNote(a0 Note, a1 []Note) ([]Note, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodecNote, a0, "n")
+	leanfran.CheckAt(&_lfValidation, _lfCodec3, a1, "arg1")
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[[]Note](), err
+	}
+	v0 := _lfCodecNote.ToLean(a0)
+	v1 := _lfCodec3.ToLean(a1)
+	_lfResult := l_Notes_Kernel_insertNote(v0, v1)
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec3.FromLean(_lfResult), nil
+}
+
 func IsAdmin(a0 Snapshot, a1 uint64) (bool, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	var _lfValidation leanfran.ValidationError
@@ -189,6 +214,28 @@ func ReadOnly(a0 Command) (bool, error) {
 	return _lfCodec1.FromLean(_lfResult), nil
 }
 
+func SortMembers(a0 []Member) []Member {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	v0 := _lfCodec4.ToLean(a0)
+	_lfResult := l_Notes_Kernel_sortMembers(v0)
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec4.FromLean(_lfResult)
+}
+
+func SortNotes(a0 []Note) ([]Note, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodec3, a0, "arg0")
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[[]Note](), err
+	}
+	v0 := _lfCodec3.ToLean(a0)
+	_lfResult := l_Notes_Kernel_sortNotes(v0)
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec3.FromLean(_lfResult), nil
+}
+
 func Stored(a0 Snapshot, a1 Row) (bool, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	var _lfValidation leanfran.ValidationError
@@ -222,7 +269,6 @@ func TextOk(a0 string) (bool, error) {
 		return leanfran.Zero[bool](), err
 	}
 	v0 := _lfCodec2.ToLean(a0)
-	defer rt.Lean_dec(v0)
 	_lfResult := rt.Lean_box(uint64(l_Notes_Kernel_textOk(v0)))
 	return _lfCodec1.FromLean(_lfResult), nil
 }
@@ -400,6 +446,34 @@ func (api lfScopedHandle) Init() leanfran.Value[Snapshot] {
 	return leanfran.WrapValueIn[Snapshot](scope, raw)
 }
 
+func (lfHandle) InsertMember(a0 leanfran.ValueInput[Member], a1 leanfran.ValueInput[leanfran.ListType[Member]]) leanfran.Value[leanfran.ListType[Member]] {
+	return lfScopedHandle{}.InsertMember(a0, a1)
+}
+
+func (api lfScopedHandle) InsertMember(a0 leanfran.ValueInput[Member], a1 leanfran.ValueInput[leanfran.ListType[Member]]) leanfran.Value[leanfran.ListType[Member]] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [2]leanfran.ValueUse{a0.Use(), a1.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	raw := l_Notes_Kernel_insertMember(inputs[0].Lean(), inputs[1].Lean())
+	return leanfran.WrapValueIn[leanfran.ListType[Member]](scope, raw)
+}
+
+func (lfHandle) InsertNote(a0 leanfran.ValueInput[Note], a1 leanfran.ValueInput[leanfran.ListType[Note]]) leanfran.Value[leanfran.ListType[Note]] {
+	return lfScopedHandle{}.InsertNote(a0, a1)
+}
+
+func (api lfScopedHandle) InsertNote(a0 leanfran.ValueInput[Note], a1 leanfran.ValueInput[leanfran.ListType[Note]]) leanfran.Value[leanfran.ListType[Note]] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [2]leanfran.ValueUse{a0.Use(), a1.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	raw := l_Notes_Kernel_insertNote(inputs[0].Lean(), inputs[1].Lean())
+	return leanfran.WrapValueIn[leanfran.ListType[Note]](scope, raw)
+}
+
 func (lfHandle) IsAdmin(a0 leanfran.ValueInput[Snapshot], a1 leanfran.ValueInput[uint64]) leanfran.Value[bool] {
 	return lfScopedHandle{}.IsAdmin(a0, a1)
 }
@@ -487,6 +561,34 @@ func (api lfScopedHandle) ReadOnly(a0 leanfran.ValueInput[Command]) leanfran.Val
 	return leanfran.WrapValueIn[bool](scope, raw)
 }
 
+func (lfHandle) SortMembers(a0 leanfran.ValueInput[leanfran.ListType[Member]]) leanfran.Value[leanfran.ListType[Member]] {
+	return lfScopedHandle{}.SortMembers(a0)
+}
+
+func (api lfScopedHandle) SortMembers(a0 leanfran.ValueInput[leanfran.ListType[Member]]) leanfran.Value[leanfran.ListType[Member]] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [1]leanfran.ValueUse{a0.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	raw := l_Notes_Kernel_sortMembers(inputs[0].Lean())
+	return leanfran.WrapValueIn[leanfran.ListType[Member]](scope, raw)
+}
+
+func (lfHandle) SortNotes(a0 leanfran.ValueInput[leanfran.ListType[Note]]) leanfran.Value[leanfran.ListType[Note]] {
+	return lfScopedHandle{}.SortNotes(a0)
+}
+
+func (api lfScopedHandle) SortNotes(a0 leanfran.ValueInput[leanfran.ListType[Note]]) leanfran.Value[leanfran.ListType[Note]] {
+	scope := api.scope
+	leanfran.BeginValueOperation(scope)
+	defer leanfran.EndValueOperation(scope)
+	inputs := [1]leanfran.ValueUse{a0.Use()}
+	leanfran.AcquireValueInputs(inputs[:])
+	raw := l_Notes_Kernel_sortNotes(inputs[0].Lean())
+	return leanfran.WrapValueIn[leanfran.ListType[Note]](scope, raw)
+}
+
 func (lfHandle) Stored(a0 leanfran.ValueInput[Snapshot], a1 leanfran.ValueInput[Row]) leanfran.Value[bool] {
 	return lfScopedHandle{}.Stored(a0, a1)
 }
@@ -527,7 +629,6 @@ func (api lfScopedHandle) TextOk(a0 leanfran.ValueInput[string]) leanfran.Value[
 	defer leanfran.EndValueOperation(scope)
 	inputs := [1]leanfran.ValueUse{a0.Use()}
 	leanfran.AcquireValueInputs(inputs[:])
-	defer rt.Lean_dec(inputs[0].Lean())
 	raw := rt.Lean_box(uint64(l_Notes_Kernel_textOk(inputs[0].Lean())))
 	return leanfran.WrapValueIn[bool](scope, raw)
 }

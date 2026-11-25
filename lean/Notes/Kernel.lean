@@ -13,8 +13,9 @@ otherwise to its owner and admins; the owner or an admin edits and deletes it, a
 changes. Admins add and remove members; anyone may add the first member of an organization with
 none.
 
-`handle` decides what each command does and checks input and existence only. `transition`, the
-function the engine runs, is `handle` behind the guard of `Leanharbor.Authz`.
+`handle` decides what each command does and checks input and existence only. The listings are in
+key order, so that no reply depends on the order of the rows. `transition`, the function the
+engine runs, is `handle` behind the guard of `Leanharbor.Authz`.
 -/
 
 namespace Notes.Kernel
@@ -85,7 +86,10 @@ deriving DecidableEq, Repr
 /-- The longest note, in bytes. -/
 def maxText : Nat := 4096
 
-def textOk (t : String) : Bool := 0 < t.utf8ByteSize && t.utf8ByteSize ≤ maxText
+/-- A body is not empty, at most `maxText` bytes, and holds no NUL, which PostgreSQL cannot store
+in a `TEXT` column. -/
+def textOk (t : String) : Bool :=
+  0 < t.utf8ByteSize && t.utf8ByteSize ≤ maxText && !t.toList.contains '\x00'
 
 /-- The member stored under the user id, if any. -/
 def findMember (ms : List Member) (user : UInt64) : Option Member := ms.find? (·.user == user)
@@ -111,6 +115,26 @@ def applyWrite (s : Snapshot) : Write → Snapshot
   | .delNote id => { s with notes := s.notes.filter (·.id != id) }
 
 def apply (s : Snapshot) (ws : List Write) : Snapshot := ws.foldl applyWrite s
+
+/-- Puts the member before the first member with a larger user id. -/
+def insertMember (m : Member) : List Member → List Member
+  | [] => [m]
+  | x :: ms => if m.user ≤ x.user then m :: x :: ms else x :: insertMember m ms
+
+/-- The members in the order of their user ids. -/
+def sortMembers : List Member → List Member
+  | [] => []
+  | m :: ms => insertMember m (sortMembers ms)
+
+/-- Puts the note before the first note with a larger id. -/
+def insertNote (n : Note) : List Note → List Note
+  | [] => [n]
+  | x :: ns => if n.id ≤ x.id then n :: x :: ns else x :: insertNote n ns
+
+/-- The notes in the order of their ids. -/
+def sortNotes : List Note → List Note
+  | [] => []
+  | n :: ns => insertNote n (sortNotes ns)
 
 /-! ## The policy -/
 
@@ -192,8 +216,8 @@ def handle (a : Principal) (s : Snapshot) : Command → Except Error (List Write
     match findNote s.notes id with
     | none => .error .notFound
     | some n => .ok ([], .found n)
-  | .listNotes => .ok ([], .notes s.notes)
-  | .listMembers => .ok ([], .members s.members)
+  | .listNotes => .ok ([], .notes (sortNotes s.notes))
+  | .listMembers => .ok ([], .members (sortMembers s.members))
 
 /-- The kernel the engine runs: `handle` behind the guard. -/
 def transition (a : Principal) (s : Snapshot) (c : Command) :

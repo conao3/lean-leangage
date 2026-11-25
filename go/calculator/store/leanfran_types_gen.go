@@ -3,1238 +3,47 @@
 package store
 
 import (
+	lfmod0 "github.com/conao3/lean-leanharbor/go/calculator/kernel"
+	lfmod1 "github.com/conao3/lean-leanharbor/go/leanharbor/sql"
 	"github.com/conao3/leanfran-go"
-	"github.com/conao3/leanfran-go/rt"
-	"github.com/conao3/leanfran-go/schema"
-	"math/big"
 	"sync"
 )
 
-var _lfCodecCalculatorKernelMemories leanfran.Codec[CalculatorKernelMemories]
-var _lfCodecCalculatorKernelMemory leanfran.Codec[CalculatorKernelMemory]
-var _lfCodecCalculatorKernelSnapshot leanfran.Codec[CalculatorKernelSnapshot]
-var _lfCodecLeanharborSqlCol leanfran.Codec[LeanharborSqlCol]
-var _lfCodecLeanharborSqlKind leanfran.Codec[LeanharborSqlKind]
-var _lfCodecLeanharborSqlTab leanfran.Codec[LeanharborSqlTab]
-var _lfCodecLeanharborSqlVal leanfran.Codec[LeanharborSqlVal]
-var _lfCodecLeanharborSqlWrite leanfran.Codec[LeanharborSqlWrite]
-var _lfCodec0 leanfran.Codec[uint64]
-var _lfCodec1 leanfran.Codec[string]
-var _lfCodec2 leanfran.Codec[bool]
-var _lfCodec3 leanfran.Codec[[]LeanharborSqlCol]
-var _lfCodec4 leanfran.Codec[*big.Int]
-var _lfCodec5 leanfran.Codec[int64]
-var _lfCodec6 leanfran.Codec[uint8]
-var _lfCodec7 leanfran.Codec[[]uint8]
-var _lfCodec8 leanfran.Codec[[]LeanharborSqlVal]
-var _lfCodec9 leanfran.Codec[*CalculatorKernelMemory]
-var _lfCodec10 leanfran.Codec[[][]LeanharborSqlVal]
-var _lfCodec11 leanfran.Codec[[][][]LeanharborSqlVal]
-var _lfCodec12 leanfran.Codec[*CalculatorKernelSnapshot]
-var _lfCodec13 leanfran.Codec[[]CalculatorKernelMemory]
-var _lfCodec14 leanfran.Codec[[]LeanharborSqlTab]
-var _lfCodec15 leanfran.Codec[[]LeanharborSqlWrite]
-var _lfDescCalculatorKernelMemories schema.Desc
-var _lfDescCalculatorKernelMemory schema.Desc
-var _lfDescCalculatorKernelSnapshot schema.Desc
-var _lfDescLeanharborSqlCol schema.Desc
-var _lfDescLeanharborSqlKind schema.Desc
-var _lfDescLeanharborSqlTab schema.Desc
-var _lfDescLeanharborSqlVal schema.Desc
-var _lfDescLeanharborSqlWrite schema.Desc
+var _lfCodec0 leanfran.Codec[lfmod1.Val]
+var _lfCodec1 leanfran.Codec[[]lfmod1.Val]
+var _lfCodec2 leanfran.Codec[lfmod0.Memory]
+var _lfCodec3 leanfran.Codec[*lfmod0.Memory]
+var _lfCodec4 leanfran.Codec[[][]lfmod1.Val]
+var _lfCodec5 leanfran.Codec[[][][]lfmod1.Val]
+var _lfCodec6 leanfran.Codec[lfmod0.Snapshot]
+var _lfCodec7 leanfran.Codec[*lfmod0.Snapshot]
+var _lfCodec8 leanfran.Codec[lfmod0.Memories]
+var _lfCodec9 leanfran.Codec[[]lfmod0.Memory]
+var _lfCodec10 leanfran.Codec[lfmod1.Tab]
+var _lfCodec11 leanfran.Codec[[]lfmod1.Tab]
+var _lfCodec12 leanfran.Codec[lfmod1.Write]
+var _lfCodec13 leanfran.Codec[[]lfmod1.Write]
 
 var _lfCodecsOnce sync.Once
 
 func _lfBuildCodecs() {
-	_lfCodecCalculatorKernelMemories = leanfran.Ref(descCalculatorKernelMemories, toCalculatorKernelMemories, fromCalculatorKernelMemories, checkCalculatorKernelMemories)
-	_lfCodecCalculatorKernelMemory = leanfran.Ref(descCalculatorKernelMemory, toCalculatorKernelMemory, fromCalculatorKernelMemory, checkCalculatorKernelMemory)
-	_lfCodecCalculatorKernelSnapshot = leanfran.Ref(descCalculatorKernelSnapshot, toCalculatorKernelSnapshot, fromCalculatorKernelSnapshot, checkCalculatorKernelSnapshot)
-	_lfCodecLeanharborSqlCol = leanfran.Ref(descLeanharborSqlCol, toLeanharborSqlCol, fromLeanharborSqlCol, checkLeanharborSqlCol)
-	_lfCodecLeanharborSqlKind = leanfran.Ref(descLeanharborSqlKind, toLeanharborSqlKind, fromLeanharborSqlKind, checkLeanharborSqlKind)
-	_lfCodecLeanharborSqlTab = leanfran.Ref(descLeanharborSqlTab, toLeanharborSqlTab, fromLeanharborSqlTab, checkLeanharborSqlTab)
-	_lfCodecLeanharborSqlVal = leanfran.Ref(descLeanharborSqlVal, toLeanharborSqlVal, fromLeanharborSqlVal, checkLeanharborSqlVal)
-	_lfCodecLeanharborSqlWrite = leanfran.Ref(descLeanharborSqlWrite, toLeanharborSqlWrite, fromLeanharborSqlWrite, checkLeanharborSqlWrite)
-	_lfCodec0 = leanfran.Fixed[uint64]("uint", 64)
-	_lfCodec1 = leanfran.String()
-	_lfCodec2 = leanfran.Bool()
-	_lfCodec3 = leanfran.Sequence("list", _lfCodecLeanharborSqlCol)
-	_lfCodec4 = leanfran.Big("nat", "")
-	_lfCodec5 = leanfran.Fixed[int64]("sint", 64)
-	_lfCodec6 = leanfran.Fixed[uint8]("uint", 8)
-	_lfCodec7 = leanfran.Sequence("array", _lfCodec6)
-	_lfCodec8 = leanfran.Sequence("list", _lfCodecLeanharborSqlVal)
-	_lfCodec9 = leanfran.Option(_lfCodecCalculatorKernelMemory)
-	_lfCodec10 = leanfran.Sequence("list", _lfCodec8)
+	_lfCodec0 = lfmod1.LeanfranCodecVal()
+	_lfCodec1 = leanfran.Sequence("list", _lfCodec0)
+	_lfCodec2 = lfmod0.LeanfranCodecMemory()
+	_lfCodec3 = leanfran.Option(_lfCodec2)
+	_lfCodec4 = leanfran.Sequence("list", _lfCodec1)
+	_lfCodec5 = leanfran.Sequence("list", _lfCodec4)
+	_lfCodec6 = lfmod0.LeanfranCodecSnapshot()
+	_lfCodec7 = leanfran.Option(_lfCodec6)
+	_lfCodec8 = lfmod0.LeanfranCodecMemories()
+	_lfCodec9 = leanfran.Sequence("list", _lfCodec2)
+	_lfCodec10 = lfmod1.LeanfranCodecTab()
 	_lfCodec11 = leanfran.Sequence("list", _lfCodec10)
-	_lfCodec12 = leanfran.Option(_lfCodecCalculatorKernelSnapshot)
-	_lfCodec13 = leanfran.Sequence("list", _lfCodecCalculatorKernelMemory)
-	_lfCodec14 = leanfran.Sequence("list", _lfCodecLeanharborSqlTab)
-	_lfCodec15 = leanfran.Sequence("list", _lfCodecLeanharborSqlWrite)
-	_lfDescCalculatorKernelMemories = schema.Desc{Name: "CalculatorKernelMemories", Kind: "inductive", Variants: []schema.Variant{{Name: "empty", Tag: 0, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "leaf", Tag: 1, Objects: 0, ScalarBytes: 16, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "key", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "value", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 8, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "node", Tag: 2, Objects: 2, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "even", Desc: _lfCodecCalculatorKernelMemories.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "odd", Desc: _lfCodecCalculatorKernelMemories.Desc, Slot: "obj", Offset: 1, Flat: false, OmitNone: false, Bounds: nil}}}}}
-	_lfDescCalculatorKernelMemory = schema.Desc{Name: "CalculatorKernelMemory", Kind: "struct", Variants: []schema.Variant{{Name: "mk", Tag: 0, Objects: 0, ScalarBytes: 16, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "user", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "value", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 8, Flat: false, OmitNone: false, Bounds: nil}}}}}
-	_lfDescCalculatorKernelSnapshot = schema.Desc{Name: "CalculatorKernelSnapshot", Kind: "struct", Variants: []schema.Variant{{Name: "mk", Tag: 0, Objects: 1, ScalarBytes: 0, Trivial: true, Positional: false, Fields: []schema.Field{{Key: "memories", Desc: _lfCodecCalculatorKernelMemories.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}}}
-	_lfDescLeanharborSqlCol = schema.Desc{Name: "LeanharborSqlCol", Kind: "struct", Variants: []schema.Variant{{Name: "mk", Tag: 0, Objects: 1, ScalarBytes: 2, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "name", Desc: _lfCodec1.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "kind", Desc: _lfCodecLeanharborSqlKind.Desc, Slot: "u8", Offset: 8, Flat: false, OmitNone: false, Bounds: nil}, {Key: "nullable", Desc: _lfCodec2.Desc, Slot: "u8", Offset: 9, Flat: false, OmitNone: false, Bounds: nil}}}}}
-	_lfDescLeanharborSqlKind = schema.Desc{Name: "LeanharborSqlKind", Kind: "enum", Cases: []string{"int", "bool", "text", "bytes"}}
-	_lfDescLeanharborSqlTab = schema.Desc{Name: "LeanharborSqlTab", Kind: "struct", Variants: []schema.Variant{{Name: "mk", Tag: 0, Objects: 3, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "name", Desc: _lfCodec1.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "cols", Desc: _lfCodec3.Desc, Slot: "obj", Offset: 1, Flat: false, OmitNone: false, Bounds: nil}, {Key: "kl", Desc: _lfCodec4.Desc, Slot: "obj", Offset: 2, Flat: false, OmitNone: false, Bounds: nil}}}}}
-	_lfDescLeanharborSqlVal = schema.Desc{Name: "LeanharborSqlVal", Kind: "inductive", Variants: []schema.Variant{{Name: "int", Tag: 0, Objects: 0, ScalarBytes: 8, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "v", Desc: _lfCodec5.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "bool", Tag: 1, Objects: 0, ScalarBytes: 1, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "v", Desc: _lfCodec2.Desc, Slot: "u8", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "text", Tag: 2, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "v", Desc: _lfCodec1.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "bytes", Tag: 3, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "v", Desc: _lfCodec7.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "null", Tag: 4, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}}}
-	_lfDescLeanharborSqlWrite = schema.Desc{Name: "LeanharborSqlWrite", Kind: "inductive", Variants: []schema.Variant{{Name: "put", Tag: 0, Objects: 3, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "table", Desc: _lfCodec4.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "keyLen", Desc: _lfCodec4.Desc, Slot: "obj", Offset: 1, Flat: false, OmitNone: false, Bounds: nil}, {Key: "row", Desc: _lfCodec8.Desc, Slot: "obj", Offset: 2, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "del", Tag: 1, Objects: 2, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "table", Desc: _lfCodec4.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "key", Desc: _lfCodec8.Desc, Slot: "obj", Offset: 1, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "delWhere", Tag: 2, Objects: 3, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "table", Desc: _lfCodec4.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "col", Desc: _lfCodec4.Desc, Slot: "obj", Offset: 1, Flat: false, OmitNone: false, Bounds: nil}, {Key: "val", Desc: _lfCodecLeanharborSqlVal.Desc, Slot: "obj", Offset: 2, Flat: false, OmitNone: false, Bounds: nil}}}}}
+	_lfCodec12 = lfmod1.LeanfranCodecWrite()
+	_lfCodec13 = leanfran.Sequence("list", _lfCodec12)
 }
 
 func init() { _lfCodecsOnce.Do(_lfBuildCodecs) }
-
-func descCalculatorKernelMemories() *schema.Desc { return &_lfDescCalculatorKernelMemories }
-
-func LeanfranCodecCalculatorKernelMemories() leanfran.Codec[CalculatorKernelMemories] {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return _lfCodecCalculatorKernelMemories
-}
-
-type CalculatorKernelMemories interface {
-	isCalculatorKernelMemories()
-	Validate() error
-	MarshalJSON() ([]byte, error)
-	JSONSchema(string) (map[string]any, error)
-	LeanfranDesc() *schema.Desc
-}
-
-type CalculatorKernelMemoriesEmpty struct {
-}
-
-func (CalculatorKernelMemoriesEmpty) isCalculatorKernelMemories() {}
-
-func (v CalculatorKernelMemoriesEmpty) LeanfranDesc() *schema.Desc {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descCalculatorKernelMemories()
-}
-
-func (v CalculatorKernelMemoriesEmpty) Validate() error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecCalculatorKernelMemories, CalculatorKernelMemories(v), "CalculatorKernelMemories")
-}
-
-func (v CalculatorKernelMemoriesEmpty) MarshalJSON() ([]byte, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecCalculatorKernelMemories, CalculatorKernelMemories(v), "CalculatorKernelMemories")
-}
-
-func (v CalculatorKernelMemoriesEmpty) JSONSchema(target string) (map[string]any, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descCalculatorKernelMemories(), target)
-}
-
-func (v *CalculatorKernelMemoriesEmpty) UnmarshalJSON(data []byte) error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecCalculatorKernelMemories, data, "CalculatorKernelMemories")
-	if err != nil {
-		return err
-	}
-	typed, ok := out.(CalculatorKernelMemoriesEmpty)
-	if !ok {
-		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
-	}
-	*v = typed
-	return nil
-}
-
-func toCalculatorKernelMemoriesEmpty(v CalculatorKernelMemoriesEmpty) rt.V {
-	return descCalculatorKernelMemories().Variants[0].Build([]rt.V{})
-}
-
-func fromCalculatorKernelMemoriesEmpty(v rt.V) CalculatorKernelMemoriesEmpty {
-	return CalculatorKernelMemoriesEmpty{}
-}
-
-func checkCalculatorKernelMemoriesEmpty(e *leanfran.ValidationError, v CalculatorKernelMemoriesEmpty) {
-}
-
-type CalculatorKernelMemoriesLeaf struct {
-	Key   uint64
-	Value uint64
-}
-
-func (CalculatorKernelMemoriesLeaf) isCalculatorKernelMemories() {}
-
-func (v CalculatorKernelMemoriesLeaf) LeanfranDesc() *schema.Desc {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descCalculatorKernelMemories()
-}
-
-func (v CalculatorKernelMemoriesLeaf) Validate() error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecCalculatorKernelMemories, CalculatorKernelMemories(v), "CalculatorKernelMemories")
-}
-
-func (v CalculatorKernelMemoriesLeaf) MarshalJSON() ([]byte, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecCalculatorKernelMemories, CalculatorKernelMemories(v), "CalculatorKernelMemories")
-}
-
-func (v CalculatorKernelMemoriesLeaf) JSONSchema(target string) (map[string]any, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descCalculatorKernelMemories(), target)
-}
-
-func (v *CalculatorKernelMemoriesLeaf) UnmarshalJSON(data []byte) error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecCalculatorKernelMemories, data, "CalculatorKernelMemories")
-	if err != nil {
-		return err
-	}
-	typed, ok := out.(CalculatorKernelMemoriesLeaf)
-	if !ok {
-		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
-	}
-	*v = typed
-	return nil
-}
-
-func toCalculatorKernelMemoriesLeaf(v CalculatorKernelMemoriesLeaf) rt.V {
-	return descCalculatorKernelMemories().Variants[1].Build([]rt.V{_lfCodec0.ToLean(v.Key), _lfCodec0.ToLean(v.Value)})
-}
-
-func fromCalculatorKernelMemoriesLeaf(v rt.V) CalculatorKernelMemoriesLeaf {
-	layout := descCalculatorKernelMemories().Variants[1]
-	return CalculatorKernelMemoriesLeaf{Key: _lfCodec0.FromLean(layout.Get(v, 0)), Value: _lfCodec0.FromLean(layout.Get(v, 1))}
-}
-
-func checkCalculatorKernelMemoriesLeaf(e *leanfran.ValidationError, v CalculatorKernelMemoriesLeaf) {
-	leanfran.CheckAt(e, _lfCodec0, v.Key, "leaf", "key")
-	leanfran.CheckAt(e, _lfCodec0, v.Value, "leaf", "value")
-}
-
-type CalculatorKernelMemoriesNode struct {
-	Even CalculatorKernelMemories
-	Odd  CalculatorKernelMemories
-}
-
-func (CalculatorKernelMemoriesNode) isCalculatorKernelMemories() {}
-
-func (v CalculatorKernelMemoriesNode) LeanfranDesc() *schema.Desc {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descCalculatorKernelMemories()
-}
-
-func (v CalculatorKernelMemoriesNode) Validate() error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecCalculatorKernelMemories, CalculatorKernelMemories(v), "CalculatorKernelMemories")
-}
-
-func (v CalculatorKernelMemoriesNode) MarshalJSON() ([]byte, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecCalculatorKernelMemories, CalculatorKernelMemories(v), "CalculatorKernelMemories")
-}
-
-func (v CalculatorKernelMemoriesNode) JSONSchema(target string) (map[string]any, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descCalculatorKernelMemories(), target)
-}
-
-func (v *CalculatorKernelMemoriesNode) UnmarshalJSON(data []byte) error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecCalculatorKernelMemories, data, "CalculatorKernelMemories")
-	if err != nil {
-		return err
-	}
-	typed, ok := out.(CalculatorKernelMemoriesNode)
-	if !ok {
-		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
-	}
-	*v = typed
-	return nil
-}
-
-func toCalculatorKernelMemoriesNode(v CalculatorKernelMemoriesNode) rt.V {
-	return descCalculatorKernelMemories().Variants[2].Build([]rt.V{_lfCodecCalculatorKernelMemories.ToLean(v.Even), _lfCodecCalculatorKernelMemories.ToLean(v.Odd)})
-}
-
-func fromCalculatorKernelMemoriesNode(v rt.V) CalculatorKernelMemoriesNode {
-	layout := descCalculatorKernelMemories().Variants[2]
-	return CalculatorKernelMemoriesNode{Even: _lfCodecCalculatorKernelMemories.FromLean(layout.Get(v, 0)), Odd: _lfCodecCalculatorKernelMemories.FromLean(layout.Get(v, 1))}
-}
-
-func checkCalculatorKernelMemoriesNode(e *leanfran.ValidationError, v CalculatorKernelMemoriesNode) {
-	leanfran.CheckAt(e, _lfCodecCalculatorKernelMemories, v.Even, "node", "even")
-	leanfran.CheckAt(e, _lfCodecCalculatorKernelMemories, v.Odd, "node", "odd")
-}
-
-func toCalculatorKernelMemories(v CalculatorKernelMemories) rt.V {
-	switch x := v.(type) {
-	case CalculatorKernelMemoriesEmpty:
-		return toCalculatorKernelMemoriesEmpty(x)
-	case *CalculatorKernelMemoriesEmpty:
-		return toCalculatorKernelMemoriesEmpty(*x)
-	case CalculatorKernelMemoriesLeaf:
-		return toCalculatorKernelMemoriesLeaf(x)
-	case *CalculatorKernelMemoriesLeaf:
-		return toCalculatorKernelMemoriesLeaf(*x)
-	case CalculatorKernelMemoriesNode:
-		return toCalculatorKernelMemoriesNode(x)
-	case *CalculatorKernelMemoriesNode:
-		return toCalculatorKernelMemoriesNode(*x)
-	}
-	rt.Lean_internal_panic("invalid CalculatorKernelMemories")
-	return rt.V{}
-}
-
-func fromCalculatorKernelMemories(v rt.V) CalculatorKernelMemories {
-	switch rt.Lean_obj_tag(v) {
-	case 0:
-		return fromCalculatorKernelMemoriesEmpty(v)
-	case 1:
-		return fromCalculatorKernelMemoriesLeaf(v)
-	case 2:
-		return fromCalculatorKernelMemoriesNode(v)
-	}
-	rt.Lean_internal_panic("invalid CalculatorKernelMemories tag")
-	return nil
-}
-
-func checkCalculatorKernelMemories(e *leanfran.ValidationError, v CalculatorKernelMemories) {
-	switch x := v.(type) {
-	case CalculatorKernelMemoriesEmpty:
-		checkCalculatorKernelMemoriesEmpty(e, x)
-		return
-	case *CalculatorKernelMemoriesEmpty:
-		if x != nil {
-			checkCalculatorKernelMemoriesEmpty(e, *x)
-			return
-		}
-	case CalculatorKernelMemoriesLeaf:
-		checkCalculatorKernelMemoriesLeaf(e, x)
-		return
-	case *CalculatorKernelMemoriesLeaf:
-		if x != nil {
-			checkCalculatorKernelMemoriesLeaf(e, *x)
-			return
-		}
-	case CalculatorKernelMemoriesNode:
-		checkCalculatorKernelMemoriesNode(e, x)
-		return
-	case *CalculatorKernelMemoriesNode:
-		if x != nil {
-			checkCalculatorKernelMemoriesNode(e, *x)
-			return
-		}
-	}
-	e.Add("expected CalculatorKernelMemories")
-}
-
-func UnmarshalCalculatorKernelMemories(data []byte) (CalculatorKernelMemories, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.UnmarshalJSON(_lfCodecCalculatorKernelMemories, data, "CalculatorKernelMemories")
-}
-
-func descCalculatorKernelMemory() *schema.Desc { return &_lfDescCalculatorKernelMemory }
-
-func LeanfranCodecCalculatorKernelMemory() leanfran.Codec[CalculatorKernelMemory] {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return _lfCodecCalculatorKernelMemory
-}
-
-type CalculatorKernelMemory struct {
-	User  uint64
-	Value uint64
-}
-
-func toCalculatorKernelMemory(v CalculatorKernelMemory) rt.V {
-	return descCalculatorKernelMemory().Variants[0].Build([]rt.V{_lfCodec0.ToLean(v.User), _lfCodec0.ToLean(v.Value)})
-}
-
-func fromCalculatorKernelMemory(v rt.V) CalculatorKernelMemory {
-	layout := descCalculatorKernelMemory().Variants[0]
-	return CalculatorKernelMemory{User: _lfCodec0.FromLean(layout.Get(v, 0)), Value: _lfCodec0.FromLean(layout.Get(v, 1))}
-}
-
-func checkCalculatorKernelMemory(e *leanfran.ValidationError, v CalculatorKernelMemory) {
-	leanfran.CheckAt(e, _lfCodec0, v.User, "user")
-	leanfran.CheckAt(e, _lfCodec0, v.Value, "value")
-}
-
-func (v CalculatorKernelMemory) LeanfranDesc() *schema.Desc {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descCalculatorKernelMemory()
-}
-
-func (v CalculatorKernelMemory) Validate() error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecCalculatorKernelMemory, v, "CalculatorKernelMemory")
-}
-
-func (v CalculatorKernelMemory) MarshalJSON() ([]byte, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecCalculatorKernelMemory, v, "CalculatorKernelMemory")
-}
-
-func (v CalculatorKernelMemory) JSONSchema(target string) (map[string]any, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descCalculatorKernelMemory(), target)
-}
-
-func (v *CalculatorKernelMemory) UnmarshalJSON(data []byte) error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecCalculatorKernelMemory, data, "CalculatorKernelMemory")
-	if err != nil {
-		return err
-	}
-	*v = out
-	return nil
-}
-
-func descCalculatorKernelSnapshot() *schema.Desc { return &_lfDescCalculatorKernelSnapshot }
-
-func LeanfranCodecCalculatorKernelSnapshot() leanfran.Codec[CalculatorKernelSnapshot] {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return _lfCodecCalculatorKernelSnapshot
-}
-
-type CalculatorKernelSnapshot struct {
-	Memories CalculatorKernelMemories
-}
-
-func toCalculatorKernelSnapshot(v CalculatorKernelSnapshot) rt.V {
-	return descCalculatorKernelSnapshot().Variants[0].Build([]rt.V{_lfCodecCalculatorKernelMemories.ToLean(v.Memories)})
-}
-
-func fromCalculatorKernelSnapshot(v rt.V) CalculatorKernelSnapshot {
-	layout := descCalculatorKernelSnapshot().Variants[0]
-	return CalculatorKernelSnapshot{Memories: _lfCodecCalculatorKernelMemories.FromLean(layout.Get(v, 0))}
-}
-
-func checkCalculatorKernelSnapshot(e *leanfran.ValidationError, v CalculatorKernelSnapshot) {
-	leanfran.CheckAt(e, _lfCodecCalculatorKernelMemories, v.Memories, "memories")
-}
-
-func (v CalculatorKernelSnapshot) LeanfranDesc() *schema.Desc {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descCalculatorKernelSnapshot()
-}
-
-func (v CalculatorKernelSnapshot) Validate() error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecCalculatorKernelSnapshot, v, "CalculatorKernelSnapshot")
-}
-
-func (v CalculatorKernelSnapshot) MarshalJSON() ([]byte, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecCalculatorKernelSnapshot, v, "CalculatorKernelSnapshot")
-}
-
-func (v CalculatorKernelSnapshot) JSONSchema(target string) (map[string]any, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descCalculatorKernelSnapshot(), target)
-}
-
-func (v *CalculatorKernelSnapshot) UnmarshalJSON(data []byte) error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecCalculatorKernelSnapshot, data, "CalculatorKernelSnapshot")
-	if err != nil {
-		return err
-	}
-	*v = out
-	return nil
-}
-
-func descLeanharborSqlCol() *schema.Desc { return &_lfDescLeanharborSqlCol }
-
-func LeanfranCodecLeanharborSqlCol() leanfran.Codec[LeanharborSqlCol] {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return _lfCodecLeanharborSqlCol
-}
-
-type LeanharborSqlCol struct {
-	Name     string
-	Kind     LeanharborSqlKind
-	Nullable bool
-}
-
-func toLeanharborSqlCol(v LeanharborSqlCol) rt.V {
-	return descLeanharborSqlCol().Variants[0].Build([]rt.V{_lfCodec1.ToLean(v.Name), _lfCodecLeanharborSqlKind.ToLean(v.Kind), _lfCodec2.ToLean(v.Nullable)})
-}
-
-func fromLeanharborSqlCol(v rt.V) LeanharborSqlCol {
-	layout := descLeanharborSqlCol().Variants[0]
-	return LeanharborSqlCol{Name: _lfCodec1.FromLean(layout.Get(v, 0)), Kind: _lfCodecLeanharborSqlKind.FromLean(layout.Get(v, 1)), Nullable: _lfCodec2.FromLean(layout.Get(v, 2))}
-}
-
-func checkLeanharborSqlCol(e *leanfran.ValidationError, v LeanharborSqlCol) {
-	leanfran.CheckAt(e, _lfCodec1, v.Name, "name")
-	leanfran.CheckAt(e, _lfCodecLeanharborSqlKind, v.Kind, "kind")
-	leanfran.CheckAt(e, _lfCodec2, v.Nullable, "nullable")
-}
-
-func (v LeanharborSqlCol) LeanfranDesc() *schema.Desc {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborSqlCol()
-}
-
-func (v LeanharborSqlCol) Validate() error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborSqlCol, v, "LeanharborSqlCol")
-}
-
-func (v LeanharborSqlCol) MarshalJSON() ([]byte, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborSqlCol, v, "LeanharborSqlCol")
-}
-
-func (v LeanharborSqlCol) JSONSchema(target string) (map[string]any, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborSqlCol(), target)
-}
-
-func (v *LeanharborSqlCol) UnmarshalJSON(data []byte) error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborSqlCol, data, "LeanharborSqlCol")
-	if err != nil {
-		return err
-	}
-	*v = out
-	return nil
-}
-
-func descLeanharborSqlKind() *schema.Desc { return &_lfDescLeanharborSqlKind }
-
-func LeanfranCodecLeanharborSqlKind() leanfran.Codec[LeanharborSqlKind] {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return _lfCodecLeanharborSqlKind
-}
-
-type LeanharborSqlKind struct{ tag uint64 }
-
-func LeanharborSqlKindInt() LeanharborSqlKind { return LeanharborSqlKind{tag: 0} }
-
-func LeanharborSqlKindBool() LeanharborSqlKind { return LeanharborSqlKind{tag: 1} }
-
-func LeanharborSqlKindText() LeanharborSqlKind { return LeanharborSqlKind{tag: 2} }
-
-func LeanharborSqlKindBytes() LeanharborSqlKind { return LeanharborSqlKind{tag: 3} }
-
-func toLeanharborSqlKind(v LeanharborSqlKind) rt.V { return rt.Lean_box(v.tag) }
-
-func fromLeanharborSqlKind(v rt.V) LeanharborSqlKind {
-	tag := rt.Lean_unbox(v)
-	if tag >= 4 {
-		rt.Lean_internal_panic("invalid LeanharborSqlKind")
-	}
-	return LeanharborSqlKind{tag: tag}
-}
-
-func checkLeanharborSqlKind(e *leanfran.ValidationError, v LeanharborSqlKind) {
-	if v.tag >= 4 {
-		e.Add("expected LeanharborSqlKind")
-	}
-}
-
-func (v LeanharborSqlKind) LeanfranDesc() *schema.Desc {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborSqlKind()
-}
-
-func (v LeanharborSqlKind) Validate() error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborSqlKind, v, "LeanharborSqlKind")
-}
-
-func (v LeanharborSqlKind) MarshalJSON() ([]byte, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborSqlKind, v, "LeanharborSqlKind")
-}
-
-func (v LeanharborSqlKind) JSONSchema(target string) (map[string]any, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborSqlKind(), target)
-}
-
-func (v *LeanharborSqlKind) UnmarshalJSON(data []byte) error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborSqlKind, data, "LeanharborSqlKind")
-	if err != nil {
-		return err
-	}
-	*v = out
-	return nil
-}
-
-func descLeanharborSqlTab() *schema.Desc { return &_lfDescLeanharborSqlTab }
-
-func LeanfranCodecLeanharborSqlTab() leanfran.Codec[LeanharborSqlTab] {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return _lfCodecLeanharborSqlTab
-}
-
-type LeanharborSqlTab struct {
-	Name string
-	Cols []LeanharborSqlCol
-	Kl   *big.Int
-}
-
-func toLeanharborSqlTab(v LeanharborSqlTab) rt.V {
-	return descLeanharborSqlTab().Variants[0].Build([]rt.V{_lfCodec1.ToLean(v.Name), _lfCodec3.ToLean(v.Cols), _lfCodec4.ToLean(v.Kl)})
-}
-
-func fromLeanharborSqlTab(v rt.V) LeanharborSqlTab {
-	layout := descLeanharborSqlTab().Variants[0]
-	return LeanharborSqlTab{Name: _lfCodec1.FromLean(layout.Get(v, 0)), Cols: _lfCodec3.FromLean(layout.Get(v, 1)), Kl: _lfCodec4.FromLean(layout.Get(v, 2))}
-}
-
-func checkLeanharborSqlTab(e *leanfran.ValidationError, v LeanharborSqlTab) {
-	leanfran.CheckAt(e, _lfCodec1, v.Name, "name")
-	leanfran.CheckAt(e, _lfCodec3, v.Cols, "cols")
-	leanfran.CheckAt(e, _lfCodec4, v.Kl, "kl")
-}
-
-func (v LeanharborSqlTab) LeanfranDesc() *schema.Desc {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborSqlTab()
-}
-
-func (v LeanharborSqlTab) Validate() error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborSqlTab, v, "LeanharborSqlTab")
-}
-
-func (v LeanharborSqlTab) MarshalJSON() ([]byte, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborSqlTab, v, "LeanharborSqlTab")
-}
-
-func (v LeanharborSqlTab) JSONSchema(target string) (map[string]any, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborSqlTab(), target)
-}
-
-func (v *LeanharborSqlTab) UnmarshalJSON(data []byte) error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborSqlTab, data, "LeanharborSqlTab")
-	if err != nil {
-		return err
-	}
-	*v = out
-	return nil
-}
-
-func descLeanharborSqlVal() *schema.Desc { return &_lfDescLeanharborSqlVal }
-
-func LeanfranCodecLeanharborSqlVal() leanfran.Codec[LeanharborSqlVal] {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return _lfCodecLeanharborSqlVal
-}
-
-type LeanharborSqlVal interface {
-	isLeanharborSqlVal()
-	Validate() error
-	MarshalJSON() ([]byte, error)
-	JSONSchema(string) (map[string]any, error)
-	LeanfranDesc() *schema.Desc
-}
-
-type LeanharborSqlValInt struct {
-	V int64
-}
-
-func (LeanharborSqlValInt) isLeanharborSqlVal() {}
-
-func (v LeanharborSqlValInt) LeanfranDesc() *schema.Desc {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborSqlVal()
-}
-
-func (v LeanharborSqlValInt) Validate() error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborSqlVal, LeanharborSqlVal(v), "LeanharborSqlVal")
-}
-
-func (v LeanharborSqlValInt) MarshalJSON() ([]byte, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborSqlVal, LeanharborSqlVal(v), "LeanharborSqlVal")
-}
-
-func (v LeanharborSqlValInt) JSONSchema(target string) (map[string]any, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborSqlVal(), target)
-}
-
-func (v *LeanharborSqlValInt) UnmarshalJSON(data []byte) error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborSqlVal, data, "LeanharborSqlVal")
-	if err != nil {
-		return err
-	}
-	typed, ok := out.(LeanharborSqlValInt)
-	if !ok {
-		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
-	}
-	*v = typed
-	return nil
-}
-
-func toLeanharborSqlValInt(v LeanharborSqlValInt) rt.V {
-	return descLeanharborSqlVal().Variants[0].Build([]rt.V{_lfCodec5.ToLean(v.V)})
-}
-
-func fromLeanharborSqlValInt(v rt.V) LeanharborSqlValInt {
-	layout := descLeanharborSqlVal().Variants[0]
-	return LeanharborSqlValInt{V: _lfCodec5.FromLean(layout.Get(v, 0))}
-}
-
-func checkLeanharborSqlValInt(e *leanfran.ValidationError, v LeanharborSqlValInt) {
-	leanfran.CheckAt(e, _lfCodec5, v.V, "int", "v")
-}
-
-type LeanharborSqlValBool struct {
-	V bool
-}
-
-func (LeanharborSqlValBool) isLeanharborSqlVal() {}
-
-func (v LeanharborSqlValBool) LeanfranDesc() *schema.Desc {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborSqlVal()
-}
-
-func (v LeanharborSqlValBool) Validate() error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborSqlVal, LeanharborSqlVal(v), "LeanharborSqlVal")
-}
-
-func (v LeanharborSqlValBool) MarshalJSON() ([]byte, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborSqlVal, LeanharborSqlVal(v), "LeanharborSqlVal")
-}
-
-func (v LeanharborSqlValBool) JSONSchema(target string) (map[string]any, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborSqlVal(), target)
-}
-
-func (v *LeanharborSqlValBool) UnmarshalJSON(data []byte) error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborSqlVal, data, "LeanharborSqlVal")
-	if err != nil {
-		return err
-	}
-	typed, ok := out.(LeanharborSqlValBool)
-	if !ok {
-		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
-	}
-	*v = typed
-	return nil
-}
-
-func toLeanharborSqlValBool(v LeanharborSqlValBool) rt.V {
-	return descLeanharborSqlVal().Variants[1].Build([]rt.V{_lfCodec2.ToLean(v.V)})
-}
-
-func fromLeanharborSqlValBool(v rt.V) LeanharborSqlValBool {
-	layout := descLeanharborSqlVal().Variants[1]
-	return LeanharborSqlValBool{V: _lfCodec2.FromLean(layout.Get(v, 0))}
-}
-
-func checkLeanharborSqlValBool(e *leanfran.ValidationError, v LeanharborSqlValBool) {
-	leanfran.CheckAt(e, _lfCodec2, v.V, "bool", "v")
-}
-
-type LeanharborSqlValText struct {
-	V string
-}
-
-func (LeanharborSqlValText) isLeanharborSqlVal() {}
-
-func (v LeanharborSqlValText) LeanfranDesc() *schema.Desc {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborSqlVal()
-}
-
-func (v LeanharborSqlValText) Validate() error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborSqlVal, LeanharborSqlVal(v), "LeanharborSqlVal")
-}
-
-func (v LeanharborSqlValText) MarshalJSON() ([]byte, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborSqlVal, LeanharborSqlVal(v), "LeanharborSqlVal")
-}
-
-func (v LeanharborSqlValText) JSONSchema(target string) (map[string]any, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborSqlVal(), target)
-}
-
-func (v *LeanharborSqlValText) UnmarshalJSON(data []byte) error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborSqlVal, data, "LeanharborSqlVal")
-	if err != nil {
-		return err
-	}
-	typed, ok := out.(LeanharborSqlValText)
-	if !ok {
-		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
-	}
-	*v = typed
-	return nil
-}
-
-func toLeanharborSqlValText(v LeanharborSqlValText) rt.V {
-	return descLeanharborSqlVal().Variants[2].Build([]rt.V{_lfCodec1.ToLean(v.V)})
-}
-
-func fromLeanharborSqlValText(v rt.V) LeanharborSqlValText {
-	layout := descLeanharborSqlVal().Variants[2]
-	return LeanharborSqlValText{V: _lfCodec1.FromLean(layout.Get(v, 0))}
-}
-
-func checkLeanharborSqlValText(e *leanfran.ValidationError, v LeanharborSqlValText) {
-	leanfran.CheckAt(e, _lfCodec1, v.V, "text", "v")
-}
-
-type LeanharborSqlValBytes struct {
-	V []uint8
-}
-
-func (LeanharborSqlValBytes) isLeanharborSqlVal() {}
-
-func (v LeanharborSqlValBytes) LeanfranDesc() *schema.Desc {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborSqlVal()
-}
-
-func (v LeanharborSqlValBytes) Validate() error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborSqlVal, LeanharborSqlVal(v), "LeanharborSqlVal")
-}
-
-func (v LeanharborSqlValBytes) MarshalJSON() ([]byte, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborSqlVal, LeanharborSqlVal(v), "LeanharborSqlVal")
-}
-
-func (v LeanharborSqlValBytes) JSONSchema(target string) (map[string]any, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborSqlVal(), target)
-}
-
-func (v *LeanharborSqlValBytes) UnmarshalJSON(data []byte) error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborSqlVal, data, "LeanharborSqlVal")
-	if err != nil {
-		return err
-	}
-	typed, ok := out.(LeanharborSqlValBytes)
-	if !ok {
-		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
-	}
-	*v = typed
-	return nil
-}
-
-func toLeanharborSqlValBytes(v LeanharborSqlValBytes) rt.V {
-	return descLeanharborSqlVal().Variants[3].Build([]rt.V{_lfCodec7.ToLean(v.V)})
-}
-
-func fromLeanharborSqlValBytes(v rt.V) LeanharborSqlValBytes {
-	layout := descLeanharborSqlVal().Variants[3]
-	return LeanharborSqlValBytes{V: _lfCodec7.FromLean(layout.Get(v, 0))}
-}
-
-func checkLeanharborSqlValBytes(e *leanfran.ValidationError, v LeanharborSqlValBytes) {
-	leanfran.CheckAt(e, _lfCodec7, v.V, "bytes", "v")
-}
-
-type LeanharborSqlValNull struct {
-}
-
-func (LeanharborSqlValNull) isLeanharborSqlVal() {}
-
-func (v LeanharborSqlValNull) LeanfranDesc() *schema.Desc {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborSqlVal()
-}
-
-func (v LeanharborSqlValNull) Validate() error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborSqlVal, LeanharborSqlVal(v), "LeanharborSqlVal")
-}
-
-func (v LeanharborSqlValNull) MarshalJSON() ([]byte, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborSqlVal, LeanharborSqlVal(v), "LeanharborSqlVal")
-}
-
-func (v LeanharborSqlValNull) JSONSchema(target string) (map[string]any, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborSqlVal(), target)
-}
-
-func (v *LeanharborSqlValNull) UnmarshalJSON(data []byte) error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborSqlVal, data, "LeanharborSqlVal")
-	if err != nil {
-		return err
-	}
-	typed, ok := out.(LeanharborSqlValNull)
-	if !ok {
-		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
-	}
-	*v = typed
-	return nil
-}
-
-func toLeanharborSqlValNull(v LeanharborSqlValNull) rt.V {
-	return descLeanharborSqlVal().Variants[4].Build([]rt.V{})
-}
-
-func fromLeanharborSqlValNull(v rt.V) LeanharborSqlValNull {
-	return LeanharborSqlValNull{}
-}
-
-func checkLeanharborSqlValNull(e *leanfran.ValidationError, v LeanharborSqlValNull) {
-}
-
-func toLeanharborSqlVal(v LeanharborSqlVal) rt.V {
-	switch x := v.(type) {
-	case LeanharborSqlValInt:
-		return toLeanharborSqlValInt(x)
-	case *LeanharborSqlValInt:
-		return toLeanharborSqlValInt(*x)
-	case LeanharborSqlValBool:
-		return toLeanharborSqlValBool(x)
-	case *LeanharborSqlValBool:
-		return toLeanharborSqlValBool(*x)
-	case LeanharborSqlValText:
-		return toLeanharborSqlValText(x)
-	case *LeanharborSqlValText:
-		return toLeanharborSqlValText(*x)
-	case LeanharborSqlValBytes:
-		return toLeanharborSqlValBytes(x)
-	case *LeanharborSqlValBytes:
-		return toLeanharborSqlValBytes(*x)
-	case LeanharborSqlValNull:
-		return toLeanharborSqlValNull(x)
-	case *LeanharborSqlValNull:
-		return toLeanharborSqlValNull(*x)
-	}
-	rt.Lean_internal_panic("invalid LeanharborSqlVal")
-	return rt.V{}
-}
-
-func fromLeanharborSqlVal(v rt.V) LeanharborSqlVal {
-	switch rt.Lean_obj_tag(v) {
-	case 0:
-		return fromLeanharborSqlValInt(v)
-	case 1:
-		return fromLeanharborSqlValBool(v)
-	case 2:
-		return fromLeanharborSqlValText(v)
-	case 3:
-		return fromLeanharborSqlValBytes(v)
-	case 4:
-		return fromLeanharborSqlValNull(v)
-	}
-	rt.Lean_internal_panic("invalid LeanharborSqlVal tag")
-	return nil
-}
-
-func checkLeanharborSqlVal(e *leanfran.ValidationError, v LeanharborSqlVal) {
-	switch x := v.(type) {
-	case LeanharborSqlValInt:
-		checkLeanharborSqlValInt(e, x)
-		return
-	case *LeanharborSqlValInt:
-		if x != nil {
-			checkLeanharborSqlValInt(e, *x)
-			return
-		}
-	case LeanharborSqlValBool:
-		checkLeanharborSqlValBool(e, x)
-		return
-	case *LeanharborSqlValBool:
-		if x != nil {
-			checkLeanharborSqlValBool(e, *x)
-			return
-		}
-	case LeanharborSqlValText:
-		checkLeanharborSqlValText(e, x)
-		return
-	case *LeanharborSqlValText:
-		if x != nil {
-			checkLeanharborSqlValText(e, *x)
-			return
-		}
-	case LeanharborSqlValBytes:
-		checkLeanharborSqlValBytes(e, x)
-		return
-	case *LeanharborSqlValBytes:
-		if x != nil {
-			checkLeanharborSqlValBytes(e, *x)
-			return
-		}
-	case LeanharborSqlValNull:
-		checkLeanharborSqlValNull(e, x)
-		return
-	case *LeanharborSqlValNull:
-		if x != nil {
-			checkLeanharborSqlValNull(e, *x)
-			return
-		}
-	}
-	e.Add("expected LeanharborSqlVal")
-}
-
-func UnmarshalLeanharborSqlVal(data []byte) (LeanharborSqlVal, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.UnmarshalJSON(_lfCodecLeanharborSqlVal, data, "LeanharborSqlVal")
-}
-
-func descLeanharborSqlWrite() *schema.Desc { return &_lfDescLeanharborSqlWrite }
-
-func LeanfranCodecLeanharborSqlWrite() leanfran.Codec[LeanharborSqlWrite] {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return _lfCodecLeanharborSqlWrite
-}
-
-type LeanharborSqlWrite interface {
-	isLeanharborSqlWrite()
-	Validate() error
-	MarshalJSON() ([]byte, error)
-	JSONSchema(string) (map[string]any, error)
-	LeanfranDesc() *schema.Desc
-}
-
-type LeanharborSqlWritePut struct {
-	Table  *big.Int
-	KeyLen *big.Int
-	Row    []LeanharborSqlVal
-}
-
-func (LeanharborSqlWritePut) isLeanharborSqlWrite() {}
-
-func (v LeanharborSqlWritePut) LeanfranDesc() *schema.Desc {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborSqlWrite()
-}
-
-func (v LeanharborSqlWritePut) Validate() error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborSqlWrite, LeanharborSqlWrite(v), "LeanharborSqlWrite")
-}
-
-func (v LeanharborSqlWritePut) MarshalJSON() ([]byte, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborSqlWrite, LeanharborSqlWrite(v), "LeanharborSqlWrite")
-}
-
-func (v LeanharborSqlWritePut) JSONSchema(target string) (map[string]any, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborSqlWrite(), target)
-}
-
-func (v *LeanharborSqlWritePut) UnmarshalJSON(data []byte) error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborSqlWrite, data, "LeanharborSqlWrite")
-	if err != nil {
-		return err
-	}
-	typed, ok := out.(LeanharborSqlWritePut)
-	if !ok {
-		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
-	}
-	*v = typed
-	return nil
-}
-
-func toLeanharborSqlWritePut(v LeanharborSqlWritePut) rt.V {
-	return descLeanharborSqlWrite().Variants[0].Build([]rt.V{_lfCodec4.ToLean(v.Table), _lfCodec4.ToLean(v.KeyLen), _lfCodec8.ToLean(v.Row)})
-}
-
-func fromLeanharborSqlWritePut(v rt.V) LeanharborSqlWritePut {
-	layout := descLeanharborSqlWrite().Variants[0]
-	return LeanharborSqlWritePut{Table: _lfCodec4.FromLean(layout.Get(v, 0)), KeyLen: _lfCodec4.FromLean(layout.Get(v, 1)), Row: _lfCodec8.FromLean(layout.Get(v, 2))}
-}
-
-func checkLeanharborSqlWritePut(e *leanfran.ValidationError, v LeanharborSqlWritePut) {
-	leanfran.CheckAt(e, _lfCodec4, v.Table, "put", "table")
-	leanfran.CheckAt(e, _lfCodec4, v.KeyLen, "put", "keyLen")
-	leanfran.CheckAt(e, _lfCodec8, v.Row, "put", "row")
-}
-
-type LeanharborSqlWriteDel struct {
-	Table *big.Int
-	Key   []LeanharborSqlVal
-}
-
-func (LeanharborSqlWriteDel) isLeanharborSqlWrite() {}
-
-func (v LeanharborSqlWriteDel) LeanfranDesc() *schema.Desc {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborSqlWrite()
-}
-
-func (v LeanharborSqlWriteDel) Validate() error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborSqlWrite, LeanharborSqlWrite(v), "LeanharborSqlWrite")
-}
-
-func (v LeanharborSqlWriteDel) MarshalJSON() ([]byte, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborSqlWrite, LeanharborSqlWrite(v), "LeanharborSqlWrite")
-}
-
-func (v LeanharborSqlWriteDel) JSONSchema(target string) (map[string]any, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborSqlWrite(), target)
-}
-
-func (v *LeanharborSqlWriteDel) UnmarshalJSON(data []byte) error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborSqlWrite, data, "LeanharborSqlWrite")
-	if err != nil {
-		return err
-	}
-	typed, ok := out.(LeanharborSqlWriteDel)
-	if !ok {
-		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
-	}
-	*v = typed
-	return nil
-}
-
-func toLeanharborSqlWriteDel(v LeanharborSqlWriteDel) rt.V {
-	return descLeanharborSqlWrite().Variants[1].Build([]rt.V{_lfCodec4.ToLean(v.Table), _lfCodec8.ToLean(v.Key)})
-}
-
-func fromLeanharborSqlWriteDel(v rt.V) LeanharborSqlWriteDel {
-	layout := descLeanharborSqlWrite().Variants[1]
-	return LeanharborSqlWriteDel{Table: _lfCodec4.FromLean(layout.Get(v, 0)), Key: _lfCodec8.FromLean(layout.Get(v, 1))}
-}
-
-func checkLeanharborSqlWriteDel(e *leanfran.ValidationError, v LeanharborSqlWriteDel) {
-	leanfran.CheckAt(e, _lfCodec4, v.Table, "del", "table")
-	leanfran.CheckAt(e, _lfCodec8, v.Key, "del", "key")
-}
-
-type LeanharborSqlWriteDelWhere struct {
-	Table *big.Int
-	Col   *big.Int
-	Val   LeanharborSqlVal
-}
-
-func (LeanharborSqlWriteDelWhere) isLeanharborSqlWrite() {}
-
-func (v LeanharborSqlWriteDelWhere) LeanfranDesc() *schema.Desc {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborSqlWrite()
-}
-
-func (v LeanharborSqlWriteDelWhere) Validate() error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborSqlWrite, LeanharborSqlWrite(v), "LeanharborSqlWrite")
-}
-
-func (v LeanharborSqlWriteDelWhere) MarshalJSON() ([]byte, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborSqlWrite, LeanharborSqlWrite(v), "LeanharborSqlWrite")
-}
-
-func (v LeanharborSqlWriteDelWhere) JSONSchema(target string) (map[string]any, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborSqlWrite(), target)
-}
-
-func (v *LeanharborSqlWriteDelWhere) UnmarshalJSON(data []byte) error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborSqlWrite, data, "LeanharborSqlWrite")
-	if err != nil {
-		return err
-	}
-	typed, ok := out.(LeanharborSqlWriteDelWhere)
-	if !ok {
-		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
-	}
-	*v = typed
-	return nil
-}
-
-func toLeanharborSqlWriteDelWhere(v LeanharborSqlWriteDelWhere) rt.V {
-	return descLeanharborSqlWrite().Variants[2].Build([]rt.V{_lfCodec4.ToLean(v.Table), _lfCodec4.ToLean(v.Col), _lfCodecLeanharborSqlVal.ToLean(v.Val)})
-}
-
-func fromLeanharborSqlWriteDelWhere(v rt.V) LeanharborSqlWriteDelWhere {
-	layout := descLeanharborSqlWrite().Variants[2]
-	return LeanharborSqlWriteDelWhere{Table: _lfCodec4.FromLean(layout.Get(v, 0)), Col: _lfCodec4.FromLean(layout.Get(v, 1)), Val: _lfCodecLeanharborSqlVal.FromLean(layout.Get(v, 2))}
-}
-
-func checkLeanharborSqlWriteDelWhere(e *leanfran.ValidationError, v LeanharborSqlWriteDelWhere) {
-	leanfran.CheckAt(e, _lfCodec4, v.Table, "delWhere", "table")
-	leanfran.CheckAt(e, _lfCodec4, v.Col, "delWhere", "col")
-	leanfran.CheckAt(e, _lfCodecLeanharborSqlVal, v.Val, "delWhere", "val")
-}
-
-func toLeanharborSqlWrite(v LeanharborSqlWrite) rt.V {
-	switch x := v.(type) {
-	case LeanharborSqlWritePut:
-		return toLeanharborSqlWritePut(x)
-	case *LeanharborSqlWritePut:
-		return toLeanharborSqlWritePut(*x)
-	case LeanharborSqlWriteDel:
-		return toLeanharborSqlWriteDel(x)
-	case *LeanharborSqlWriteDel:
-		return toLeanharborSqlWriteDel(*x)
-	case LeanharborSqlWriteDelWhere:
-		return toLeanharborSqlWriteDelWhere(x)
-	case *LeanharborSqlWriteDelWhere:
-		return toLeanharborSqlWriteDelWhere(*x)
-	}
-	rt.Lean_internal_panic("invalid LeanharborSqlWrite")
-	return rt.V{}
-}
-
-func fromLeanharborSqlWrite(v rt.V) LeanharborSqlWrite {
-	switch rt.Lean_obj_tag(v) {
-	case 0:
-		return fromLeanharborSqlWritePut(v)
-	case 1:
-		return fromLeanharborSqlWriteDel(v)
-	case 2:
-		return fromLeanharborSqlWriteDelWhere(v)
-	}
-	rt.Lean_internal_panic("invalid LeanharborSqlWrite tag")
-	return nil
-}
-
-func checkLeanharborSqlWrite(e *leanfran.ValidationError, v LeanharborSqlWrite) {
-	switch x := v.(type) {
-	case LeanharborSqlWritePut:
-		checkLeanharborSqlWritePut(e, x)
-		return
-	case *LeanharborSqlWritePut:
-		if x != nil {
-			checkLeanharborSqlWritePut(e, *x)
-			return
-		}
-	case LeanharborSqlWriteDel:
-		checkLeanharborSqlWriteDel(e, x)
-		return
-	case *LeanharborSqlWriteDel:
-		if x != nil {
-			checkLeanharborSqlWriteDel(e, *x)
-			return
-		}
-	case LeanharborSqlWriteDelWhere:
-		checkLeanharborSqlWriteDelWhere(e, x)
-		return
-	case *LeanharborSqlWriteDelWhere:
-		if x != nil {
-			checkLeanharborSqlWriteDelWhere(e, *x)
-			return
-		}
-	}
-	e.Add("expected LeanharborSqlWrite")
-}
-
-func UnmarshalLeanharborSqlWrite(data []byte) (LeanharborSqlWrite, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.UnmarshalJSON(_lfCodecLeanharborSqlWrite, data, "LeanharborSqlWrite")
-}
 
 var Value lfValue
 
@@ -1248,290 +57,254 @@ func (lfValue) In(scope *leanfran.ValueScope) lfScopedValue {
 	return lfScopedValue{scope: scope}
 }
 
-func (lfValue) NewCalculatorKernelMemories(v CalculatorKernelMemories) (leanfran.Value[CalculatorKernelMemories], error) {
-	return lfScopedValue{}.NewCalculatorKernelMemories(v)
+func (lfValue) NewListListListVal(v [][][]lfmod1.Val) (leanfran.Value[leanfran.ListType[leanfran.ListType[leanfran.ListType[lfmod1.Val]]]], error) {
+	return lfScopedValue{}.NewListListListVal(v)
 }
 
-func (api lfScopedValue) NewCalculatorKernelMemories(v CalculatorKernelMemories) (leanfran.Value[CalculatorKernelMemories], error) {
+func (api lfScopedValue) NewListListListVal(v [][][]lfmod1.Val) (leanfran.Value[leanfran.ListType[leanfran.ListType[leanfran.ListType[lfmod1.Val]]]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[CalculatorKernelMemories](api.scope, _lfCodecCalculatorKernelMemories, v, "CalculatorKernelMemories")
+	return leanfran.NewValueIn[leanfran.ListType[leanfran.ListType[leanfran.ListType[lfmod1.Val]]]](api.scope, _lfCodec5, v, "ListListListVal")
 }
 
-func (lfValue) ReadCalculatorKernelMemories(v leanfran.Value[CalculatorKernelMemories]) CalculatorKernelMemories {
-	return lfScopedValue{}.ReadCalculatorKernelMemories(v)
+func (lfValue) ReadListListListVal(v leanfran.Value[leanfran.ListType[leanfran.ListType[leanfran.ListType[lfmod1.Val]]]]) [][][]lfmod1.Val {
+	return lfScopedValue{}.ReadListListListVal(v)
 }
 
-func (api lfScopedValue) ReadCalculatorKernelMemories(v leanfran.Value[CalculatorKernelMemories]) CalculatorKernelMemories {
+func (api lfScopedValue) ReadListListListVal(v leanfran.Value[leanfran.ListType[leanfran.ListType[leanfran.ListType[lfmod1.Val]]]]) [][][]lfmod1.Val {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodecCalculatorKernelMemories, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec5, v)
 }
 
-func (lfValue) NewCalculatorKernelMemory(v CalculatorKernelMemory) leanfran.Value[CalculatorKernelMemory] {
-	return lfScopedValue{}.NewCalculatorKernelMemory(v)
+func (lfValue) NewListListVal(v [][]lfmod1.Val) (leanfran.Value[leanfran.ListType[leanfran.ListType[lfmod1.Val]]], error) {
+	return lfScopedValue{}.NewListListVal(v)
 }
 
-func (api lfScopedValue) NewCalculatorKernelMemory(v CalculatorKernelMemory) leanfran.Value[CalculatorKernelMemory] {
+func (api lfScopedValue) NewListListVal(v [][]lfmod1.Val) (leanfran.Value[leanfran.ListType[leanfran.ListType[lfmod1.Val]]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[CalculatorKernelMemory](api.scope, _lfCodecCalculatorKernelMemory, v)
+	return leanfran.NewValueIn[leanfran.ListType[leanfran.ListType[lfmod1.Val]]](api.scope, _lfCodec4, v, "ListListVal")
 }
 
-func (lfValue) ReadCalculatorKernelMemory(v leanfran.Value[CalculatorKernelMemory]) CalculatorKernelMemory {
-	return lfScopedValue{}.ReadCalculatorKernelMemory(v)
+func (lfValue) ReadListListVal(v leanfran.Value[leanfran.ListType[leanfran.ListType[lfmod1.Val]]]) [][]lfmod1.Val {
+	return lfScopedValue{}.ReadListListVal(v)
 }
 
-func (api lfScopedValue) ReadCalculatorKernelMemory(v leanfran.Value[CalculatorKernelMemory]) CalculatorKernelMemory {
+func (api lfScopedValue) ReadListListVal(v leanfran.Value[leanfran.ListType[leanfran.ListType[lfmod1.Val]]]) [][]lfmod1.Val {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodecCalculatorKernelMemory, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec4, v)
 }
 
-func (lfValue) NewCalculatorKernelSnapshot(v CalculatorKernelSnapshot) (leanfran.Value[CalculatorKernelSnapshot], error) {
-	return lfScopedValue{}.NewCalculatorKernelSnapshot(v)
+func (lfValue) NewListMemory(v []lfmod0.Memory) leanfran.Value[leanfran.ListType[lfmod0.Memory]] {
+	return lfScopedValue{}.NewListMemory(v)
 }
 
-func (api lfScopedValue) NewCalculatorKernelSnapshot(v CalculatorKernelSnapshot) (leanfran.Value[CalculatorKernelSnapshot], error) {
+func (api lfScopedValue) NewListMemory(v []lfmod0.Memory) leanfran.Value[leanfran.ListType[lfmod0.Memory]] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[CalculatorKernelSnapshot](api.scope, _lfCodecCalculatorKernelSnapshot, v, "CalculatorKernelSnapshot")
+	return leanfran.NewUncheckedValueIn[leanfran.ListType[lfmod0.Memory]](api.scope, _lfCodec9, v)
 }
 
-func (lfValue) ReadCalculatorKernelSnapshot(v leanfran.Value[CalculatorKernelSnapshot]) CalculatorKernelSnapshot {
-	return lfScopedValue{}.ReadCalculatorKernelSnapshot(v)
+func (lfValue) ReadListMemory(v leanfran.Value[leanfran.ListType[lfmod0.Memory]]) []lfmod0.Memory {
+	return lfScopedValue{}.ReadListMemory(v)
 }
 
-func (api lfScopedValue) ReadCalculatorKernelSnapshot(v leanfran.Value[CalculatorKernelSnapshot]) CalculatorKernelSnapshot {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodecCalculatorKernelSnapshot, v)
-}
-
-func (lfValue) NewLeanharborSqlCol(v LeanharborSqlCol) (leanfran.Value[LeanharborSqlCol], error) {
-	return lfScopedValue{}.NewLeanharborSqlCol(v)
-}
-
-func (api lfScopedValue) NewLeanharborSqlCol(v LeanharborSqlCol) (leanfran.Value[LeanharborSqlCol], error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[LeanharborSqlCol](api.scope, _lfCodecLeanharborSqlCol, v, "LeanharborSqlCol")
-}
-
-func (lfValue) ReadLeanharborSqlCol(v leanfran.Value[LeanharborSqlCol]) LeanharborSqlCol {
-	return lfScopedValue{}.ReadLeanharborSqlCol(v)
-}
-
-func (api lfScopedValue) ReadLeanharborSqlCol(v leanfran.Value[LeanharborSqlCol]) LeanharborSqlCol {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodecLeanharborSqlCol, v)
-}
-
-func (lfValue) NewLeanharborSqlKind(v LeanharborSqlKind) leanfran.Value[LeanharborSqlKind] {
-	return lfScopedValue{}.NewLeanharborSqlKind(v)
-}
-
-func (api lfScopedValue) NewLeanharborSqlKind(v LeanharborSqlKind) leanfran.Value[LeanharborSqlKind] {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[LeanharborSqlKind](api.scope, _lfCodecLeanharborSqlKind, v)
-}
-
-func (lfValue) ReadLeanharborSqlKind(v leanfran.Value[LeanharborSqlKind]) LeanharborSqlKind {
-	return lfScopedValue{}.ReadLeanharborSqlKind(v)
-}
-
-func (api lfScopedValue) ReadLeanharborSqlKind(v leanfran.Value[LeanharborSqlKind]) LeanharborSqlKind {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodecLeanharborSqlKind, v)
-}
-
-func (lfValue) NewLeanharborSqlTab(v LeanharborSqlTab) (leanfran.Value[LeanharborSqlTab], error) {
-	return lfScopedValue{}.NewLeanharborSqlTab(v)
-}
-
-func (api lfScopedValue) NewLeanharborSqlTab(v LeanharborSqlTab) (leanfran.Value[LeanharborSqlTab], error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[LeanharborSqlTab](api.scope, _lfCodecLeanharborSqlTab, v, "LeanharborSqlTab")
-}
-
-func (lfValue) ReadLeanharborSqlTab(v leanfran.Value[LeanharborSqlTab]) LeanharborSqlTab {
-	return lfScopedValue{}.ReadLeanharborSqlTab(v)
-}
-
-func (api lfScopedValue) ReadLeanharborSqlTab(v leanfran.Value[LeanharborSqlTab]) LeanharborSqlTab {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodecLeanharborSqlTab, v)
-}
-
-func (lfValue) NewLeanharborSqlVal(v LeanharborSqlVal) (leanfran.Value[LeanharborSqlVal], error) {
-	return lfScopedValue{}.NewLeanharborSqlVal(v)
-}
-
-func (api lfScopedValue) NewLeanharborSqlVal(v LeanharborSqlVal) (leanfran.Value[LeanharborSqlVal], error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[LeanharborSqlVal](api.scope, _lfCodecLeanharborSqlVal, v, "LeanharborSqlVal")
-}
-
-func (lfValue) ReadLeanharborSqlVal(v leanfran.Value[LeanharborSqlVal]) LeanharborSqlVal {
-	return lfScopedValue{}.ReadLeanharborSqlVal(v)
-}
-
-func (api lfScopedValue) ReadLeanharborSqlVal(v leanfran.Value[LeanharborSqlVal]) LeanharborSqlVal {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodecLeanharborSqlVal, v)
-}
-
-func (lfValue) NewLeanharborSqlWrite(v LeanharborSqlWrite) (leanfran.Value[LeanharborSqlWrite], error) {
-	return lfScopedValue{}.NewLeanharborSqlWrite(v)
-}
-
-func (api lfScopedValue) NewLeanharborSqlWrite(v LeanharborSqlWrite) (leanfran.Value[LeanharborSqlWrite], error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[LeanharborSqlWrite](api.scope, _lfCodecLeanharborSqlWrite, v, "LeanharborSqlWrite")
-}
-
-func (lfValue) ReadLeanharborSqlWrite(v leanfran.Value[LeanharborSqlWrite]) LeanharborSqlWrite {
-	return lfScopedValue{}.ReadLeanharborSqlWrite(v)
-}
-
-func (api lfScopedValue) ReadLeanharborSqlWrite(v leanfran.Value[LeanharborSqlWrite]) LeanharborSqlWrite {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodecLeanharborSqlWrite, v)
-}
-
-func (lfValue) NewListCalculatorKernelMemory(v []CalculatorKernelMemory) leanfran.Value[leanfran.ListType[CalculatorKernelMemory]] {
-	return lfScopedValue{}.NewListCalculatorKernelMemory(v)
-}
-
-func (api lfScopedValue) NewListCalculatorKernelMemory(v []CalculatorKernelMemory) leanfran.Value[leanfran.ListType[CalculatorKernelMemory]] {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[leanfran.ListType[CalculatorKernelMemory]](api.scope, _lfCodec13, v)
-}
-
-func (lfValue) ReadListCalculatorKernelMemory(v leanfran.Value[leanfran.ListType[CalculatorKernelMemory]]) []CalculatorKernelMemory {
-	return lfScopedValue{}.ReadListCalculatorKernelMemory(v)
-}
-
-func (api lfScopedValue) ReadListCalculatorKernelMemory(v leanfran.Value[leanfran.ListType[CalculatorKernelMemory]]) []CalculatorKernelMemory {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec13, v)
-}
-
-func (lfValue) NewListLeanharborSqlTab(v []LeanharborSqlTab) (leanfran.Value[leanfran.ListType[LeanharborSqlTab]], error) {
-	return lfScopedValue{}.NewListLeanharborSqlTab(v)
-}
-
-func (api lfScopedValue) NewListLeanharborSqlTab(v []LeanharborSqlTab) (leanfran.Value[leanfran.ListType[LeanharborSqlTab]], error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.ListType[LeanharborSqlTab]](api.scope, _lfCodec14, v, "ListLeanharborSqlTab")
-}
-
-func (lfValue) ReadListLeanharborSqlTab(v leanfran.Value[leanfran.ListType[LeanharborSqlTab]]) []LeanharborSqlTab {
-	return lfScopedValue{}.ReadListLeanharborSqlTab(v)
-}
-
-func (api lfScopedValue) ReadListLeanharborSqlTab(v leanfran.Value[leanfran.ListType[LeanharborSqlTab]]) []LeanharborSqlTab {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec14, v)
-}
-
-func (lfValue) NewListLeanharborSqlVal(v []LeanharborSqlVal) (leanfran.Value[leanfran.ListType[LeanharborSqlVal]], error) {
-	return lfScopedValue{}.NewListLeanharborSqlVal(v)
-}
-
-func (api lfScopedValue) NewListLeanharborSqlVal(v []LeanharborSqlVal) (leanfran.Value[leanfran.ListType[LeanharborSqlVal]], error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.ListType[LeanharborSqlVal]](api.scope, _lfCodec8, v, "ListLeanharborSqlVal")
-}
-
-func (lfValue) ReadListLeanharborSqlVal(v leanfran.Value[leanfran.ListType[LeanharborSqlVal]]) []LeanharborSqlVal {
-	return lfScopedValue{}.ReadListLeanharborSqlVal(v)
-}
-
-func (api lfScopedValue) ReadListLeanharborSqlVal(v leanfran.Value[leanfran.ListType[LeanharborSqlVal]]) []LeanharborSqlVal {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec8, v)
-}
-
-func (lfValue) NewListLeanharborSqlWrite(v []LeanharborSqlWrite) (leanfran.Value[leanfran.ListType[LeanharborSqlWrite]], error) {
-	return lfScopedValue{}.NewListLeanharborSqlWrite(v)
-}
-
-func (api lfScopedValue) NewListLeanharborSqlWrite(v []LeanharborSqlWrite) (leanfran.Value[leanfran.ListType[LeanharborSqlWrite]], error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.ListType[LeanharborSqlWrite]](api.scope, _lfCodec15, v, "ListLeanharborSqlWrite")
-}
-
-func (lfValue) ReadListLeanharborSqlWrite(v leanfran.Value[leanfran.ListType[LeanharborSqlWrite]]) []LeanharborSqlWrite {
-	return lfScopedValue{}.ReadListLeanharborSqlWrite(v)
-}
-
-func (api lfScopedValue) ReadListLeanharborSqlWrite(v leanfran.Value[leanfran.ListType[LeanharborSqlWrite]]) []LeanharborSqlWrite {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec15, v)
-}
-
-func (lfValue) NewListListLeanharborSqlVal(v [][]LeanharborSqlVal) (leanfran.Value[leanfran.ListType[leanfran.ListType[LeanharborSqlVal]]], error) {
-	return lfScopedValue{}.NewListListLeanharborSqlVal(v)
-}
-
-func (api lfScopedValue) NewListListLeanharborSqlVal(v [][]LeanharborSqlVal) (leanfran.Value[leanfran.ListType[leanfran.ListType[LeanharborSqlVal]]], error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.ListType[leanfran.ListType[LeanharborSqlVal]]](api.scope, _lfCodec10, v, "ListListLeanharborSqlVal")
-}
-
-func (lfValue) ReadListListLeanharborSqlVal(v leanfran.Value[leanfran.ListType[leanfran.ListType[LeanharborSqlVal]]]) [][]LeanharborSqlVal {
-	return lfScopedValue{}.ReadListListLeanharborSqlVal(v)
-}
-
-func (api lfScopedValue) ReadListListLeanharborSqlVal(v leanfran.Value[leanfran.ListType[leanfran.ListType[LeanharborSqlVal]]]) [][]LeanharborSqlVal {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec10, v)
-}
-
-func (lfValue) NewListListListLeanharborSqlVal(v [][][]LeanharborSqlVal) (leanfran.Value[leanfran.ListType[leanfran.ListType[leanfran.ListType[LeanharborSqlVal]]]], error) {
-	return lfScopedValue{}.NewListListListLeanharborSqlVal(v)
-}
-
-func (api lfScopedValue) NewListListListLeanharborSqlVal(v [][][]LeanharborSqlVal) (leanfran.Value[leanfran.ListType[leanfran.ListType[leanfran.ListType[LeanharborSqlVal]]]], error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.ListType[leanfran.ListType[leanfran.ListType[LeanharborSqlVal]]]](api.scope, _lfCodec11, v, "ListListListLeanharborSqlVal")
-}
-
-func (lfValue) ReadListListListLeanharborSqlVal(v leanfran.Value[leanfran.ListType[leanfran.ListType[leanfran.ListType[LeanharborSqlVal]]]]) [][][]LeanharborSqlVal {
-	return lfScopedValue{}.ReadListListListLeanharborSqlVal(v)
-}
-
-func (api lfScopedValue) ReadListListListLeanharborSqlVal(v leanfran.Value[leanfran.ListType[leanfran.ListType[leanfran.ListType[LeanharborSqlVal]]]]) [][][]LeanharborSqlVal {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec11, v)
-}
-
-func (lfValue) NewOptionCalculatorKernelMemory(v *CalculatorKernelMemory) leanfran.Value[leanfran.OptionType[CalculatorKernelMemory]] {
-	return lfScopedValue{}.NewOptionCalculatorKernelMemory(v)
-}
-
-func (api lfScopedValue) NewOptionCalculatorKernelMemory(v *CalculatorKernelMemory) leanfran.Value[leanfran.OptionType[CalculatorKernelMemory]] {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[leanfran.OptionType[CalculatorKernelMemory]](api.scope, _lfCodec9, v)
-}
-
-func (lfValue) ReadOptionCalculatorKernelMemory(v leanfran.Value[leanfran.OptionType[CalculatorKernelMemory]]) *CalculatorKernelMemory {
-	return lfScopedValue{}.ReadOptionCalculatorKernelMemory(v)
-}
-
-func (api lfScopedValue) ReadOptionCalculatorKernelMemory(v leanfran.Value[leanfran.OptionType[CalculatorKernelMemory]]) *CalculatorKernelMemory {
+func (api lfScopedValue) ReadListMemory(v leanfran.Value[leanfran.ListType[lfmod0.Memory]]) []lfmod0.Memory {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	return leanfran.ReadValueIn(api.scope, _lfCodec9, v)
 }
 
-func (lfValue) NewOptionCalculatorKernelSnapshot(v *CalculatorKernelSnapshot) (leanfran.Value[leanfran.OptionType[CalculatorKernelSnapshot]], error) {
-	return lfScopedValue{}.NewOptionCalculatorKernelSnapshot(v)
+func (lfValue) NewListTab(v []lfmod1.Tab) (leanfran.Value[leanfran.ListType[lfmod1.Tab]], error) {
+	return lfScopedValue{}.NewListTab(v)
 }
 
-func (api lfScopedValue) NewOptionCalculatorKernelSnapshot(v *CalculatorKernelSnapshot) (leanfran.Value[leanfran.OptionType[CalculatorKernelSnapshot]], error) {
+func (api lfScopedValue) NewListTab(v []lfmod1.Tab) (leanfran.Value[leanfran.ListType[lfmod1.Tab]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.OptionType[CalculatorKernelSnapshot]](api.scope, _lfCodec12, v, "OptionCalculatorKernelSnapshot")
+	return leanfran.NewValueIn[leanfran.ListType[lfmod1.Tab]](api.scope, _lfCodec11, v, "ListTab")
 }
 
-func (lfValue) ReadOptionCalculatorKernelSnapshot(v leanfran.Value[leanfran.OptionType[CalculatorKernelSnapshot]]) *CalculatorKernelSnapshot {
-	return lfScopedValue{}.ReadOptionCalculatorKernelSnapshot(v)
+func (lfValue) ReadListTab(v leanfran.Value[leanfran.ListType[lfmod1.Tab]]) []lfmod1.Tab {
+	return lfScopedValue{}.ReadListTab(v)
 }
 
-func (api lfScopedValue) ReadOptionCalculatorKernelSnapshot(v leanfran.Value[leanfran.OptionType[CalculatorKernelSnapshot]]) *CalculatorKernelSnapshot {
+func (api lfScopedValue) ReadListTab(v leanfran.Value[leanfran.ListType[lfmod1.Tab]]) []lfmod1.Tab {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec11, v)
+}
+
+func (lfValue) NewListVal(v []lfmod1.Val) (leanfran.Value[leanfran.ListType[lfmod1.Val]], error) {
+	return lfScopedValue{}.NewListVal(v)
+}
+
+func (api lfScopedValue) NewListVal(v []lfmod1.Val) (leanfran.Value[leanfran.ListType[lfmod1.Val]], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[leanfran.ListType[lfmod1.Val]](api.scope, _lfCodec1, v, "ListVal")
+}
+
+func (lfValue) ReadListVal(v leanfran.Value[leanfran.ListType[lfmod1.Val]]) []lfmod1.Val {
+	return lfScopedValue{}.ReadListVal(v)
+}
+
+func (api lfScopedValue) ReadListVal(v leanfran.Value[leanfran.ListType[lfmod1.Val]]) []lfmod1.Val {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec1, v)
+}
+
+func (lfValue) NewListWrite(v []lfmod1.Write) (leanfran.Value[leanfran.ListType[lfmod1.Write]], error) {
+	return lfScopedValue{}.NewListWrite(v)
+}
+
+func (api lfScopedValue) NewListWrite(v []lfmod1.Write) (leanfran.Value[leanfran.ListType[lfmod1.Write]], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[leanfran.ListType[lfmod1.Write]](api.scope, _lfCodec13, v, "ListWrite")
+}
+
+func (lfValue) ReadListWrite(v leanfran.Value[leanfran.ListType[lfmod1.Write]]) []lfmod1.Write {
+	return lfScopedValue{}.ReadListWrite(v)
+}
+
+func (api lfScopedValue) ReadListWrite(v leanfran.Value[leanfran.ListType[lfmod1.Write]]) []lfmod1.Write {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec13, v)
+}
+
+func (lfValue) NewMemories(v lfmod0.Memories) (leanfran.Value[lfmod0.Memories], error) {
+	return lfScopedValue{}.NewMemories(v)
+}
+
+func (api lfScopedValue) NewMemories(v lfmod0.Memories) (leanfran.Value[lfmod0.Memories], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[lfmod0.Memories](api.scope, _lfCodec8, v, "Memories")
+}
+
+func (lfValue) ReadMemories(v leanfran.Value[lfmod0.Memories]) lfmod0.Memories {
+	return lfScopedValue{}.ReadMemories(v)
+}
+
+func (api lfScopedValue) ReadMemories(v leanfran.Value[lfmod0.Memories]) lfmod0.Memories {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec8, v)
+}
+
+func (lfValue) NewMemory(v lfmod0.Memory) leanfran.Value[lfmod0.Memory] {
+	return lfScopedValue{}.NewMemory(v)
+}
+
+func (api lfScopedValue) NewMemory(v lfmod0.Memory) leanfran.Value[lfmod0.Memory] {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewUncheckedValueIn[lfmod0.Memory](api.scope, _lfCodec2, v)
+}
+
+func (lfValue) ReadMemory(v leanfran.Value[lfmod0.Memory]) lfmod0.Memory {
+	return lfScopedValue{}.ReadMemory(v)
+}
+
+func (api lfScopedValue) ReadMemory(v leanfran.Value[lfmod0.Memory]) lfmod0.Memory {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec2, v)
+}
+
+func (lfValue) NewOptionMemory(v *lfmod0.Memory) leanfran.Value[leanfran.OptionType[lfmod0.Memory]] {
+	return lfScopedValue{}.NewOptionMemory(v)
+}
+
+func (api lfScopedValue) NewOptionMemory(v *lfmod0.Memory) leanfran.Value[leanfran.OptionType[lfmod0.Memory]] {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewUncheckedValueIn[leanfran.OptionType[lfmod0.Memory]](api.scope, _lfCodec3, v)
+}
+
+func (lfValue) ReadOptionMemory(v leanfran.Value[leanfran.OptionType[lfmod0.Memory]]) *lfmod0.Memory {
+	return lfScopedValue{}.ReadOptionMemory(v)
+}
+
+func (api lfScopedValue) ReadOptionMemory(v leanfran.Value[leanfran.OptionType[lfmod0.Memory]]) *lfmod0.Memory {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec3, v)
+}
+
+func (lfValue) NewOptionSnapshot(v *lfmod0.Snapshot) (leanfran.Value[leanfran.OptionType[lfmod0.Snapshot]], error) {
+	return lfScopedValue{}.NewOptionSnapshot(v)
+}
+
+func (api lfScopedValue) NewOptionSnapshot(v *lfmod0.Snapshot) (leanfran.Value[leanfran.OptionType[lfmod0.Snapshot]], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[leanfran.OptionType[lfmod0.Snapshot]](api.scope, _lfCodec7, v, "OptionSnapshot")
+}
+
+func (lfValue) ReadOptionSnapshot(v leanfran.Value[leanfran.OptionType[lfmod0.Snapshot]]) *lfmod0.Snapshot {
+	return lfScopedValue{}.ReadOptionSnapshot(v)
+}
+
+func (api lfScopedValue) ReadOptionSnapshot(v leanfran.Value[leanfran.OptionType[lfmod0.Snapshot]]) *lfmod0.Snapshot {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec7, v)
+}
+
+func (lfValue) NewSnapshot(v lfmod0.Snapshot) (leanfran.Value[lfmod0.Snapshot], error) {
+	return lfScopedValue{}.NewSnapshot(v)
+}
+
+func (api lfScopedValue) NewSnapshot(v lfmod0.Snapshot) (leanfran.Value[lfmod0.Snapshot], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[lfmod0.Snapshot](api.scope, _lfCodec6, v, "Snapshot")
+}
+
+func (lfValue) ReadSnapshot(v leanfran.Value[lfmod0.Snapshot]) lfmod0.Snapshot {
+	return lfScopedValue{}.ReadSnapshot(v)
+}
+
+func (api lfScopedValue) ReadSnapshot(v leanfran.Value[lfmod0.Snapshot]) lfmod0.Snapshot {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec6, v)
+}
+
+func (lfValue) NewTab(v lfmod1.Tab) (leanfran.Value[lfmod1.Tab], error) {
+	return lfScopedValue{}.NewTab(v)
+}
+
+func (api lfScopedValue) NewTab(v lfmod1.Tab) (leanfran.Value[lfmod1.Tab], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[lfmod1.Tab](api.scope, _lfCodec10, v, "Tab")
+}
+
+func (lfValue) ReadTab(v leanfran.Value[lfmod1.Tab]) lfmod1.Tab {
+	return lfScopedValue{}.ReadTab(v)
+}
+
+func (api lfScopedValue) ReadTab(v leanfran.Value[lfmod1.Tab]) lfmod1.Tab {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec10, v)
+}
+
+func (lfValue) NewVal(v lfmod1.Val) (leanfran.Value[lfmod1.Val], error) {
+	return lfScopedValue{}.NewVal(v)
+}
+
+func (api lfScopedValue) NewVal(v lfmod1.Val) (leanfran.Value[lfmod1.Val], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[lfmod1.Val](api.scope, _lfCodec0, v, "Val")
+}
+
+func (lfValue) ReadVal(v leanfran.Value[lfmod1.Val]) lfmod1.Val {
+	return lfScopedValue{}.ReadVal(v)
+}
+
+func (api lfScopedValue) ReadVal(v leanfran.Value[lfmod1.Val]) lfmod1.Val {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec0, v)
+}
+
+func (lfValue) NewWrite(v lfmod1.Write) (leanfran.Value[lfmod1.Write], error) {
+	return lfScopedValue{}.NewWrite(v)
+}
+
+func (api lfScopedValue) NewWrite(v lfmod1.Write) (leanfran.Value[lfmod1.Write], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[lfmod1.Write](api.scope, _lfCodec12, v, "Write")
+}
+
+func (lfValue) ReadWrite(v leanfran.Value[lfmod1.Write]) lfmod1.Write {
+	return lfScopedValue{}.ReadWrite(v)
+}
+
+func (api lfScopedValue) ReadWrite(v leanfran.Value[lfmod1.Write]) lfmod1.Write {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	return leanfran.ReadValueIn(api.scope, _lfCodec12, v)
 }

@@ -7,7 +7,9 @@ import Notes.Kernel
 
 `transition` is `handle` behind `Leanharbor.Authz.guardViewed`, so the guard's theorems hold for
 it by instantiation (`transition_authorized`, `transition_noninterference`, `read_only_sound`).
-The other theorems are about what the commands do and what the policy lets each user do.
+The other theorems are about what the commands do and what the policy lets each user do, and
+`transition_congr`: two snapshots with unique keys that store the same row under each key answer
+every command the same.
 -/
 
 namespace Notes.Kernel
@@ -42,9 +44,10 @@ theorem transition_noninterference {a : Principal} {s₁ s₂ : Snapshot} {c : C
 theorem read_only_sound : Obligation.ReadOnlySound kernel (fun ws : List Write => ws) :=
   read_only_sound_of_viewed handle apply policy disclosed readOnly view init tenant
 
-theorem textOk_iff {t : String} : textOk t = true ↔ 0 < t.utf8ByteSize ∧ t.utf8ByteSize ≤ 4096 := by
+theorem textOk_iff {t : String} :
+    textOk t = true ↔ 0 < t.utf8ByteSize ∧ t.utf8ByteSize ≤ 4096 ∧ '\x00' ∉ t.toList := by
   unfold textOk maxText
-  simp only [Bool.and_eq_true, decide_eq_true_eq]
+  simp [and_assoc]
 
 /-! ## Lists keyed by an id -/
 
@@ -148,16 +151,14 @@ theorem keys_upsert {α : Type} (key : α → UInt64) (l : List α) (x : α) :
     by_cases hy : key y = key x <;> simp [hy]
   · simp
 
-/-- Adding a member puts it after every stored member, and replacing one keeps its place, so
-`listMembers` lists members in the order they were added. -/
+/-- Adding a member puts it after every stored member, and replacing one keeps its place. -/
 theorem users_putMember (ms : List Member) (m : Member) :
     (putMember ms m).map (·.user) =
       if ms.any (·.user == m.user) then ms.map (·.user) else ms.map (·.user) ++ [m.user] := by
   unfold putMember
   exact keys_upsert (fun x : Member => x.user) ms m
 
-/-- Creating a note puts it after every stored note, and replacing one keeps its place, so
-`listNotes` lists notes in the order they were created. -/
+/-- Creating a note puts it after every stored note, and replacing one keeps its place. -/
 theorem ids_putNote (ns : List Note) (n : Note) :
     (putNote ns n).map (·.id) = if ns.any (·.id == n.id) then ns.map (·.id) else ns.map (·.id) ++ [n.id] := by
   unfold putNote
@@ -222,6 +223,137 @@ theorem eq_of_key_eq (key : α → UInt64) {l : List α} (h : (l.map key).Nodup)
   exact (Option.some.inj h₁).symm
 
 end Filter
+
+/-! ## Listings in key order -/
+
+section Sorting
+
+variable {α : Type} (key : α → UInt64)
+
+/-- Inserts `x` before the first element with a larger key. -/
+def insertKey (x : α) : List α → List α
+  | [] => [x]
+  | y :: l => if key x ≤ key y then x :: y :: l else y :: insertKey x l
+
+/-- Sorts a list by `key`, by insertion. -/
+def sortKey : List α → List α
+  | [] => []
+  | x :: l => insertKey key x (sortKey l)
+
+theorem perm_insertKey (x : α) (l : List α) : (insertKey key x l).Perm (x :: l) := by
+  induction l with
+  | nil => exact List.Perm.refl _
+  | cons y l ih =>
+    unfold insertKey
+    split
+    · exact List.Perm.refl _
+    · exact ((ih.cons y).trans (List.Perm.swap x y l))
+
+theorem perm_sortKey (l : List α) : (sortKey key l).Perm l := by
+  induction l with
+  | nil => exact List.Perm.refl _
+  | cons x l ih => exact (perm_insertKey key x _).trans (ih.cons x)
+
+theorem sorted_insertKey (x : α) {l : List α} (h : l.Pairwise (key · ≤ key ·)) :
+    (insertKey key x l).Pairwise (key · ≤ key ·) := by
+  induction l with
+  | nil => exact List.pairwise_singleton _ _
+  | cons y l ih =>
+    rw [List.pairwise_cons] at h
+    unfold insertKey
+    split
+    · rename_i hxy
+      refine List.pairwise_cons.mpr ⟨fun z hz => ?_, List.pairwise_cons.mpr h⟩
+      rcases List.mem_cons.mp hz with rfl | hz
+      · exact hxy
+      · exact UInt64.le_trans hxy (h.1 z hz)
+    · rename_i hxy
+      refine List.pairwise_cons.mpr ⟨fun z hz => ?_, ih h.2⟩
+      rcases List.mem_cons.mp ((perm_insertKey key x l).mem_iff.mp hz) with rfl | hz
+      · exact UInt64.le_of_lt (UInt64.not_le.mp hxy)
+      · exact h.1 z hz
+
+theorem sorted_sortKey (l : List α) : (sortKey key l).Pairwise (key · ≤ key ·) := by
+  induction l with
+  | nil => exact List.Pairwise.nil
+  | cons x l ih => exact sorted_insertKey key x ih
+
+/-- Two lists in strictly increasing key order with the same elements are equal. -/
+theorem eq_of_sorted {l₁ l₂ : List α} (h₁ : l₁.Pairwise (key · < key ·))
+    (h₂ : l₂.Pairwise (key · < key ·)) (h : ∀ x, x ∈ l₁ ↔ x ∈ l₂) : l₁ = l₂ := by
+  induction l₁ generalizing l₂ with
+  | nil =>
+    cases l₂ with
+    | nil => rfl
+    | cons y l₂ => exact absurd ((h y).mpr List.mem_cons_self) List.not_mem_nil
+  | cons x l₁ ih =>
+    cases l₂ with
+    | nil => exact absurd ((h x).mp List.mem_cons_self) List.not_mem_nil
+    | cons y l₂ =>
+      rw [List.pairwise_cons] at h₁ h₂
+      have hxy : x = y := by
+        rcases List.mem_cons.mp ((h x).mp List.mem_cons_self) with e | hx
+        · exact e
+        · rcases List.mem_cons.mp ((h y).mpr List.mem_cons_self) with e | hy
+          · exact e.symm
+          · exact absurd (UInt64.lt_trans (h₁.1 y hy) (h₂.1 x hx)) (UInt64.lt_irrefl _)
+      subst hxy
+      congr 1
+      refine ih h₁.2 h₂.2 (fun z => ⟨fun hz => ?_, fun hz => ?_⟩)
+      · rcases List.mem_cons.mp ((h z).mp (List.mem_cons_of_mem _ hz)) with rfl | hz'
+        · exact absurd (h₁.1 _ hz) (UInt64.lt_irrefl _)
+        · exact hz'
+      · rcases List.mem_cons.mp ((h z).mpr (List.mem_cons_of_mem _ hz)) with rfl | hz'
+        · exact absurd (h₂.1 _ hz) (UInt64.lt_irrefl _)
+        · exact hz'
+
+theorem strict_sortKey {l : List α} (hn : (l.map key).Nodup) :
+    (sortKey key l).Pairwise (key · < key ·) := by
+  have hn' : ((sortKey key l).map key).Nodup := hn.perm ((perm_sortKey key l).map key).symm
+  rw [List.Nodup, List.pairwise_map] at hn'
+  exact ((sorted_sortKey key l).and hn').imp fun ⟨hle, hne⟩ => UInt64.lt_of_le_of_ne hle hne
+
+/-- Lists with no key twice and the same elements sort to the same list. -/
+theorem sortKey_eq {l₁ l₂ : List α} (hn₁ : (l₁.map key).Nodup) (hn₂ : (l₂.map key).Nodup)
+    (h : ∀ x, x ∈ l₁ ↔ x ∈ l₂) : sortKey key l₁ = sortKey key l₂ :=
+  eq_of_sorted key (strict_sortKey key hn₁) (strict_sortKey key hn₂) fun x => by
+    rw [(perm_sortKey key l₁).mem_iff, (perm_sortKey key l₂).mem_iff]
+    exact h x
+
+end Sorting
+
+theorem insertMember_eq (m : Member) (ms : List Member) :
+    insertMember m ms = insertKey (·.user) m ms := by
+  induction ms with
+  | nil => rfl
+  | cons x ms ih => simp only [insertMember, insertKey, ih]
+
+theorem sortMembers_eq (ms : List Member) : sortMembers ms = sortKey (·.user) ms := by
+  induction ms with
+  | nil => rfl
+  | cons m ms ih => simp only [sortMembers, sortKey, ih, insertMember_eq]
+
+theorem insertNote_eq (n : Note) (ns : List Note) : insertNote n ns = insertKey (·.id) n ns := by
+  induction ns with
+  | nil => rfl
+  | cons x ns ih => simp only [insertNote, insertKey, ih]
+
+theorem sortNotes_eq (ns : List Note) : sortNotes ns = sortKey (·.id) ns := by
+  induction ns with
+  | nil => rfl
+  | cons n ns ih => simp only [sortNotes, sortKey, ih, insertNote_eq]
+
+/-- `listMembers` lists members in the order of their user ids, each once. -/
+theorem sortMembers_spec (ms : List Member) :
+    (sortMembers ms).Pairwise (·.user ≤ ·.user) ∧ (sortMembers ms).Perm ms := by
+  rw [sortMembers_eq]
+  exact ⟨sorted_sortKey _ ms, perm_sortKey _ ms⟩
+
+/-- `listNotes` lists notes in the order of their ids, each once. -/
+theorem sortNotes_spec (ns : List Note) :
+    (sortNotes ns).Pairwise (·.id ≤ ·.id) ∧ (sortNotes ns).Perm ns := by
+  rw [sortNotes_eq]
+  exact ⟨sorted_sortKey _ ns, perm_sortKey _ ns⟩
 
 /-- `readNote` of the note stored under the id returns it when the caller may see it. -/
 theorem read_visible {a : Principal} {s : Snapshot} {id : UInt64} {n : Note}
@@ -439,21 +571,22 @@ theorem read_note_spec (a : Principal) (s : Snapshot) (id : UInt64) (hk : Keyed 
       subst this
       exact hv hmv
 
-/-- In a snapshot with unique keys, `listNotes` returns, in order, the notes that are shared or
-owned by the caller, or every note when the caller is an admin. -/
+/-- In a snapshot with unique keys, `listNotes` returns, in the order of their ids, the notes that
+are shared or owned by the caller, or every note when the caller is an admin. -/
 theorem list_notes_spec (a : Principal) (s : Snapshot) (hk : Keyed s) :
     transition a s .listNotes =
-      .ok ([], .notes (s.notes.filter fun n =>
-        n.shared || n.owner == a.user || (findMember s.members a.user).any (·.admin))) := by
+      .ok ([], .notes (sortKey (·.id) (s.notes.filter fun n =>
+        n.shared || n.owner == a.user || (findMember s.members a.user).any (·.admin)))) := by
   simp only [← visible_note]
   rw [transition_eq, guard_viewed_eq]
-  simp only [readOnly, ite_true, handle]
+  simp only [readOnly, ite_true, handle, sortNotes_eq]
   split
   · rfl
   rename_i hc
   refine absurd ⟨by simp, fun d hd => ?_⟩ hc
   simp only [disclosed, List.mem_map] at hd
   obtain ⟨n, hn, rfl⟩ := hd
+  rw [(perm_sortKey _ _).mem_iff] at hn
   have hkv : ((view a s).notes.map (·.id)).Nodup := hk.2.sublist ((List.filter_sublist).map _)
   refine ⟨?_, ?_⟩
   · simp [policy, stored, findNote, find?_of_mem (·.id) hkv hn]
@@ -461,37 +594,39 @@ theorem list_notes_spec (a : Principal) (s : Snapshot) (hk : Keyed s) :
     exact (List.mem_filter.mp hn).2
 
 /-- In a snapshot with unique keys, `listMembers` returns the caller's own member row, or every
-member in order when the caller is an admin. -/
+member in the order of their user ids when the caller is an admin. -/
 theorem list_members_spec (a : Principal) (s : Snapshot) (hk : Keyed s) :
     transition a s .listMembers =
-      .ok ([], .members (s.members.filter fun m =>
-        m.user == a.user || (findMember s.members a.user).any (·.admin))) := by
+      .ok ([], .members (sortKey (·.user) (s.members.filter fun m =>
+        m.user == a.user || (findMember s.members a.user).any (·.admin)))) := by
   simp only [← visible_member]
   rw [transition_eq, guard_viewed_eq]
-  simp only [readOnly, ite_true, handle]
+  simp only [readOnly, ite_true, handle, sortMembers_eq]
   split
   · rfl
   rename_i hc
   refine absurd ⟨by simp, fun d hd => ?_⟩ hc
   simp only [disclosed, List.mem_map] at hd
   obtain ⟨m, hm, rfl⟩ := hd
+  rw [(perm_sortKey _ _).mem_iff] at hm
   have hkv : ((view a s).members.map (·.user)).Nodup := hk.1.sublist ((List.filter_sublist).map _)
   refine ⟨?_, ?_⟩
   · simp [policy, stored, findMember, find?_of_mem (·.user) hkv hm]
   · simp only [policy, visible_view]
     exact (List.mem_filter.mp hm).2
 
-/-- A note's body is refused exactly when it is empty or longer than 4096 bytes. -/
+/-- A note's body is refused exactly when it is empty, longer than 4096 bytes or holds NUL. -/
 theorem bad_text (a : Principal) (s : Snapshot) (id : UInt64) (body : String) (shared : Bool) :
     transition a s (.putNote id body shared) = .error (.app .badText) ↔
-      ¬(0 < body.utf8ByteSize ∧ body.utf8ByteSize ≤ 4096) := by
+      ¬(0 < body.utf8ByteSize ∧ body.utf8ByteSize ≤ 4096 ∧ '\x00' ∉ body.toList) := by
   rw [transition_write a s _ rfl, guard_eq]
   by_cases ht : textOk body = true
   · obtain ⟨ws, hh⟩ : ∃ ws, handle a s (.putNote id body shared) = .ok (ws, .done) := by
       simp only [handle, ht, ite_true]
       exact ⟨_, rfl⟩
     rw [hh]
-    have hn : 0 < body.utf8ByteSize ∧ body.utf8ByteSize ≤ 4096 := textOk_iff.mp ht
+    have hn : 0 < body.utf8ByteSize ∧ body.utf8ByteSize ≤ 4096 ∧ '\x00' ∉ body.toList :=
+      textOk_iff.mp ht
     simp only [hn]
     split <;> simp
   · have hh : handle a s (.putNote id body shared) = .error .badText := by
@@ -727,6 +862,178 @@ theorem first_member (a : Principal) (s : Snapshot) (u : UInt64) (admin : Bool)
     subst hi
     simp [apply, policy, permits, findMember, h]
   · simp [ReadsVisible, disclosed]
+
+/-! ## The order of the rows -/
+
+section Order
+
+variable {α : Type} (key : α → UInt64)
+
+theorem mem_iff_find? {l : List α} (h : (l.map key).Nodup) (x : α) :
+    x ∈ l ↔ l.find? (key · == key x) = some x :=
+  ⟨find?_of_mem key h, List.mem_of_find?_eq_some⟩
+
+/-- In a list with no key twice, the element under a key among those that pass a filter is the
+element under that key, if it passes. -/
+theorem find?_filter_key {l : List α} (h : (l.map key).Nodup) (p : α → Bool) (k : UInt64) :
+    (l.filter p).find? (key · == k) = (l.find? (key · == k)).filter p := by
+  induction l with
+  | nil => rfl
+  | cons y l ih =>
+    rw [List.map_cons, List.nodup_cons] at h
+    by_cases hy : key y = k
+    · have hnone : (l.filter p).find? (key · == k) = none := by
+        rw [List.find?_eq_none]
+        intro x hx hkx
+        have hkx : key x = k := by simpa using hkx
+        exact h.1 (hy ▸ hkx ▸ List.mem_map_of_mem (List.mem_filter.mp hx).1)
+      have hk : (key y == k) = true := by simpa using hy
+      by_cases hp : p y = true
+      · rw [List.filter_cons_of_pos hp]
+        simp only [List.find?_cons, hk]
+        exact (Option.filter_some_pos hp).symm
+      · rw [List.filter_cons_of_neg hp, hnone]
+        simp only [List.find?_cons, hk]
+        exact (Option.filter_some_neg (by simpa using hp)).symm
+    · have hk : (key y == k) = false := by simpa using hy
+      by_cases hp : p y = true
+      · rw [List.filter_cons_of_pos hp]
+        simp only [List.find?_cons, hk]
+        exact ih h.2
+      · rw [List.filter_cons_of_neg hp]
+        simp only [List.find?_cons, hk]
+        exact ih h.2
+
+end Order
+
+/-- `s` and `s'` have unique keys and store the same member under each user id and the same note
+under each id: they differ at most in the order of their rows. -/
+def SameRows (s s' : Snapshot) : Prop :=
+  Keyed s ∧ Keyed s' ∧ (∀ u, findMember s.members u = findMember s'.members u) ∧
+    ∀ k, findNote s.notes k = findNote s'.notes k
+
+theorem members_eq_nil (s : Snapshot) :
+    s.members = [] ↔ ∀ u, findMember s.members u = none := by
+  constructor
+  · intro h u
+    simp [findMember, h]
+  · intro h
+    cases hm : s.members with
+    | nil => rfl
+    | cons m ms =>
+      have := h m.user
+      simp [findMember, hm] at this
+
+namespace SameRows
+
+variable {s s' : Snapshot} (h : SameRows s s')
+include h
+
+theorem isAdmin_eq (u : UInt64) : isAdmin s u = isAdmin s' u := by
+  simp only [isAdmin, h.2.2.1 u]
+
+theorem isEmpty_eq : s.members.isEmpty = s'.members.isEmpty := by
+  have e : s.members = [] ↔ s'.members = [] := by
+    rw [members_eq_nil, members_eq_nil]
+    simp only [h.2.2.1]
+  cases h1 : s.members <;> cases h2 : s'.members <;> simp_all
+
+theorem permits_eq (a : Principal) (w : Write) : permits a s w = permits a s' w := by
+  cases w <;> simp only [permits, h.2.2.1, h.2.2.2, h.isAdmin_eq, h.isEmpty_eq]
+
+theorem visible_eq (a : Principal) (d : Row) : visible a s d = visible a s' d := by
+  cases d <;> simp only [visible, h.isAdmin_eq]
+
+theorem stored_eq (d : Row) : stored s d = stored s' d := by
+  cases d <;> simp only [stored, h.2.2.1, h.2.2.2]
+
+theorem symm : SameRows s' s :=
+  ⟨h.2.1, h.1, fun u => (h.2.2.1 u).symm, fun k => (h.2.2.2 k).symm⟩
+
+omit h in
+theorem refl (hk : Keyed s) : SameRows s s := ⟨hk, hk, fun _ => rfl, fun _ => rfl⟩
+
+theorem applyWrite (w : Write) : SameRows (applyWrite s w) (applyWrite s' w) := by
+  refine ⟨keyed_applyWrite s w h.1, keyed_applyWrite s' w h.2.1, fun u => ?_, fun k => ?_⟩
+  · rw [findMember_applyWrite, findMember_applyWrite]
+    cases w <;> simp only [h.2.2.1]
+  · rw [findNote_applyWrite, findNote_applyWrite]
+    cases w <;> simp only [h.2.2.2]
+
+omit h in
+theorem apply {s s' : Snapshot} (h : SameRows s s') (ws : List Write) :
+    SameRows (Notes.Kernel.apply s ws) (Notes.Kernel.apply s' ws) := by
+  induction ws generalizing s s' with
+  | nil => exact h
+  | cons w ws ih => exact ih (h.applyWrite w)
+
+theorem view (a : Principal) : SameRows (view a s) (view a s') := by
+  have hv : ∀ d, visible a s d = visible a s' d := h.visible_eq a
+  refine ⟨⟨h.1.1.sublist ((List.filter_sublist).map _), h.1.2.sublist ((List.filter_sublist).map _)⟩,
+    ⟨h.2.1.1.sublist ((List.filter_sublist).map _), h.2.1.2.sublist ((List.filter_sublist).map _)⟩,
+    fun u => ?_, fun k => ?_⟩
+  · have e := h.2.2.1 u
+    simp only [findMember] at e
+    simp only [Notes.Kernel.view, findMember]
+    rw [find?_filter_key (fun m : Member => m.user) h.1.1,
+      find?_filter_key (fun m : Member => m.user) h.2.1.1, e]
+    simp only [hv]
+  · have e := h.2.2.2 k
+    simp only [findNote] at e
+    simp only [Notes.Kernel.view, findNote]
+    rw [find?_filter_key (fun n : Note => n.id) h.1.2, find?_filter_key (fun n : Note => n.id) h.2.1.2, e]
+    simp only [hv]
+
+theorem sortMembers_eq : sortMembers s.members = sortMembers s'.members := by
+  rw [Notes.Kernel.sortMembers_eq, Notes.Kernel.sortMembers_eq]
+  refine sortKey_eq _ h.1.1 h.2.1.1 fun m => ?_
+  rw [mem_iff_find? (·.user) h.1.1, mem_iff_find? (·.user) h.2.1.1]
+  exact iff_of_eq (congrArg (· = some m) (h.2.2.1 m.user))
+
+theorem sortNotes_eq : sortNotes s.notes = sortNotes s'.notes := by
+  rw [Notes.Kernel.sortNotes_eq, Notes.Kernel.sortNotes_eq]
+  refine sortKey_eq _ h.1.2 h.2.1.2 fun n => ?_
+  rw [mem_iff_find? (·.id) h.1.2, mem_iff_find? (·.id) h.2.1.2]
+  exact iff_of_eq (congrArg (· = some n) (h.2.2.2 n.id))
+
+theorem handle_eq (a : Principal) (c : Command) : handle a s c = handle a s' c := by
+  cases c <;> simp only [handle, h.2.2.1, h.2.2.2, h.sortMembers_eq, h.sortNotes_eq]
+
+theorem checkWritesFrom_eq (a : Principal) (done ws : List Write) :
+    checkWritesFrom Notes.Kernel.apply policy a s done ws =
+      checkWritesFrom Notes.Kernel.apply policy a s' done ws := by
+  induction ws generalizing done with
+  | nil => rfl
+  | cons w ws ih =>
+    simp only [checkWritesFrom, ih]
+    rw [show policy.permits = permits from rfl, (h.apply done).permits_eq]
+
+omit h in
+theorem checkReads_eq {b b' f f' : Snapshot} (hb : SameRows b b') (hf : SameRows f f') (a : Principal)
+    (ds : List Row) : checkReads policy a b f ds = checkReads policy a b' f' ds := by
+  simp only [checkReads, shown, show policy.stored = stored from rfl,
+    show policy.visible = visible from rfl, hb.stored_eq, hb.visible_eq, hf.stored_eq, hf.visible_eq]
+
+end SameRows
+
+/-- Two snapshots that differ at most in the order of their rows answer every command of every
+principal the same. -/
+theorem transition_congr {s s' : Snapshot} (h : SameRows s s') (a : Principal) (c : Command) :
+    transition a s c = transition a s' c := by
+  rw [transition_eq, transition_eq]
+  unfold guardViewed Authz.guard checkWrites
+  simp only [h.handle_eq, (h.view a).handle_eq, h.checkWritesFrom_eq,
+    fun ws ds => SameRows.checkReads_eq h (h.apply ws) a ds,
+    fun ds => SameRows.checkReads_eq (h.view a) (h.view a) a ds]
+
+/-- A read-only command gives the same result on two snapshots whose views differ at most in the
+order of their rows. -/
+theorem transition_view_congr {a : Principal} {s s' : Snapshot} {c : Command}
+    (hro : readOnly c = true) (h : SameRows (view a s) (view a s')) :
+    transition a s c = transition a s' c := by
+  rw [transition_eq, transition_eq]
+  simp only [guardViewed, hro, ite_true, h.handle_eq,
+    fun ds => SameRows.checkReads_eq h h a ds]
 
 /-! ## Forms without a hypothesis on the result, for the audit -/
 
