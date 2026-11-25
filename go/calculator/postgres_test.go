@@ -31,28 +31,41 @@ const secret = "secret"
 
 // The rows stored and read back in PostgreSQL give every command the reply the memory engine
 // and Lean give it: PostgreSQL runs the generated statements as the model of `Leanharbor.Sql`
-// says.
+// says. The engine that remembers no snapshot reads the rows back for every command; the one
+// that remembers them gives the same replies.
 func TestPostgresEngineAgreesWithMemoryEngineAndLean(t *testing.T) {
 	t.Parallel()
 	lines, want := commands(t)
-	url := pgtest.Start(t).Locked(t, Calculator{}.Tables(), "calculator_differential")
-	engine, err := ConnectEngine(url, 2, pg.DefaultConfig())
-	if err != nil {
-		t.Fatalf("the engine connects: %v", err)
-	}
-	defer engine.Close()
-	memory := NewEngine()
-	defer memory.Close()
-	for i, line := range lines {
-		actor, cmd := parse(t, line)
-		ours := answer(engine.Execute(actor, cmd, nil))
-		theirs := answer(memory.Execute(actor, cmd, nil))
-		if ours != theirs || ours != want[i] {
-			t.Fatalf("line %d: %s: PostgreSQL %s, memory %s, Lean %s", i+1, line, ours, theirs, want[i])
+	for _, c := range []struct {
+		name  string
+		cache int
+	}{{"calculator_differential", 0}, {"calculator_differential_cached", 1024}} {
+		url := pgtest.Start(t).Locked(t, Calculator{}.Tables(), c.name)
+		config := pg.DefaultConfig()
+		config.CacheTenants = c.cache
+		engine, err := ConnectEngine(url, 2, config)
+		if err != nil {
+			t.Fatalf("the engine connects: %v", err)
 		}
-	}
-	if retries := engine.Stats().Retries; retries != 0 {
-		t.Fatalf("%d retries", retries)
+		memory := NewEngine()
+		for i, line := range lines {
+			actor, cmd := parse(t, line)
+			ours := answer(engine.Execute(actor, cmd, nil))
+			theirs := answer(memory.Execute(actor, cmd, nil))
+			if ours != theirs || ours != want[i] {
+				t.Fatalf("cache %d, line %d: %s: PostgreSQL %s, memory %s, Lean %s",
+					c.cache, i+1, line, ours, theirs, want[i])
+			}
+		}
+		s := engine.Stats()
+		if s.Retries != 0 {
+			t.Fatalf("cache %d: %d retries", c.cache, s.Retries)
+		}
+		if c.cache == 0 && s.Loads != s.Attempts {
+			t.Fatalf("every attempt reads the rows: %+v", s)
+		}
+		memory.Close()
+		engine.Close()
 	}
 }
 

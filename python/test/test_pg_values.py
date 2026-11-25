@@ -2,13 +2,14 @@
 whose name holds `"`, a space and a letter outside ASCII. A text holding NUL, which PostgreSQL
 cannot store, fails the command instead of storing something else, and the generated `compile`
 refuses a value of another kind than its column's. A tenant id of 2^63 or more is stored as the
-`Int64` with the same bits."""
+`Int64` with the same bits. The engine remembers no snapshot, so every command reads the rows
+back."""
 
 from dataclasses import dataclass
 
 import pytest
 from leanharbor import Broken, DatabaseError, Kernel, Storage, sql
-from leanharbor.pg import PgEngine
+from leanharbor.pg import Config, PgEngine
 from leanharbor.pg.testing import cluster, connect
 
 Row = list[sql.Val]
@@ -83,7 +84,7 @@ def key(row: Row) -> int:
 
 def test_every_kind_reads_back_as_written() -> None:
     url = cluster().locked(ROWS, "values_kinds")
-    pg = PgEngine.connect(ROWS, url, 2)
+    pg = PgEngine.connect(ROWS, url, 2, Config(cache_tenants=0))
     rows = [
         [
             int_(MIN),
@@ -130,7 +131,7 @@ def test_every_kind_reads_back_as_written() -> None:
 def test_tenants_of_the_upper_half_keep_their_bits() -> None:
     name = "values_tenants"
     url = cluster().locked(ROWS, name)
-    pg = PgEngine.connect(ROWS, url, 2)
+    pg = PgEngine.connect(ROWS, url, 2, Config(cache_tenants=0))
     tenants = [2**63, 2**64 - 1, 2**63 - 1]
     for i, tenant in enumerate(tenants):
         pg.execute(tenant, Put([int_(i), NULL, NULL, NULL, NULL]))
@@ -139,3 +140,4 @@ def test_tenants_of_the_upper_half_keep_their_bits() -> None:
     with connect(cluster().admin_url(name)) as admin:
         stored = admin.execute('SELECT tenant_id, k FROM "odd ""näme"""').fetchall()
     assert sorted(stored) == [(MIN, 0), (-1, 1), (MAX, 2)]
+    assert pg.stats.loads == pg.stats.attempts, "every attempt read the rows"

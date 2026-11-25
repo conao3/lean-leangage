@@ -90,23 +90,36 @@ async fn generated_rust_agrees_with_lean() {
 
 /// The rows stored and read back in PostgreSQL give every command the reply the memory engine
 /// and Lean give it: PostgreSQL runs the generated statements as the model of `Leanharbor.Sql`
-/// says.
+/// says. The engine that remembers no snapshot reads the rows back for every command; the one
+/// that remembers them gives the same replies.
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn postgres_engine_agrees_with_memory_engine_and_lean() {
-    let url = cluster()
-        .locked::<Calculator>("calculator_differential")
-        .await;
-    let engine = PgEngine::<Calculator>::connect(&url, 2, Config::default())
-        .await
-        .expect("the engine connects");
-    let ours = run(&engine).await;
-    agree(&ours, &run(&MemoryEngine::<Calculator>::new()).await);
-    agree(&ours, &oracle());
-    assert_eq!(
-        engine
-            .stats()
-            .retries
-            .load(std::sync::atomic::Ordering::Relaxed),
-        0
-    );
+    let memory = run(&MemoryEngine::<Calculator>::new()).await;
+    let lean = oracle();
+    for (name, cache_tenants) in [
+        ("calculator_differential", 0),
+        ("calculator_differential_cached", 1024),
+    ] {
+        let url = cluster().locked::<Calculator>(name).await;
+        let config = Config {
+            cache_tenants,
+            ..Config::default()
+        };
+        let engine = PgEngine::<Calculator>::connect(&url, 2, config)
+            .await
+            .expect("the engine connects");
+        let ours = run(&engine).await;
+        agree(&ours, &memory);
+        agree(&ours, &lean);
+        let stats = engine.stats();
+        let load = |a: &std::sync::atomic::AtomicU64| a.load(std::sync::atomic::Ordering::Relaxed);
+        assert_eq!(load(&stats.retries), 0);
+        if cache_tenants == 0 {
+            assert_eq!(
+                load(&stats.loads),
+                load(&stats.attempts),
+                "every attempt read the rows"
+            );
+        }
+    }
 }

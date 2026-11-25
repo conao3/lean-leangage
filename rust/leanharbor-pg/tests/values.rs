@@ -1,5 +1,6 @@
 //! Every kind of `Val`, `NULL` included, written by the engine and read back unchanged, in a
-//! table whose name holds `"`, a space and a letter outside ASCII. A text holding NUL, which
+//! table whose name holds `"`, a space and a letter outside ASCII. The engine remembers no
+//! snapshot, so every command reads the rows back. A text holding NUL, which
 //! PostgreSQL cannot store, fails the command instead of storing something else.
 
 use leanfran::runtime::Nat;
@@ -115,7 +116,11 @@ fn int(v: i64) -> Val {
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn every_kind_reads_back_as_written() {
     let url = cluster().locked::<Rows>("values_kinds").await;
-    let pg = PgEngine::<Rows>::connect(&url, 2, Config::default())
+    let none = Config {
+        cache_tenants: 0,
+        ..Config::default()
+    };
+    let pg = PgEngine::<Rows>::connect(&url, 2, none)
         .await
         .expect("the engine connects");
     let rows = vec![
@@ -195,4 +200,11 @@ async fn every_kind_reads_back_as_written() {
     assert!(matches!(r, Err(EngineError::Database(_))), "{r:?}");
     let read = pg.execute(1, Cmd::Read, None).await.unwrap().unwrap();
     assert_eq!(read.len(), 4, "nothing stored");
+    let stats = pg.stats();
+    let load = |a: &std::sync::atomic::AtomicU64| a.load(std::sync::atomic::Ordering::Relaxed);
+    assert_eq!(
+        load(&stats.loads),
+        load(&stats.attempts),
+        "every attempt read the rows"
+    );
 }

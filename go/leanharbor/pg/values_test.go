@@ -3,7 +3,8 @@ package pg_test
 // Every kind of Val, NULL included, written by the engine and read back unchanged, before and
 // after a row is replaced, in a table whose name holds `"`, a space and a letter outside ASCII.
 // An empty byte string, nil or not, is stored as empty bytes and not as NULL. A text holding NUL,
-// which PostgreSQL cannot store, fails the command instead of storing something else.
+// which PostgreSQL cannot store, fails the command instead of storing something else. The engine
+// remembers no snapshot, so every command reads the rows back.
 
 import (
 	"errors"
@@ -132,7 +133,9 @@ func shown(rows table) []string {
 func TestEveryKindReadsBackAsWritten(t *testing.T) {
 	t.Parallel()
 	url := pgtest.Start(t).Locked(t, storedRows{}.Tables(), "values_kinds")
-	e, err := pg.Connect(storedRows{}, url, 2, pg.DefaultConfig())
+	none := pg.DefaultConfig()
+	none.CacheTenants = 0
+	e, err := pg.Connect(storedRows{}, url, 2, none)
 	if err != nil {
 		t.Fatalf("the engine connects: %v", err)
 	}
@@ -187,5 +190,8 @@ func TestEveryKindReadsBackAsWritten(t *testing.T) {
 	read, _, err = e.Execute(1, rowsCmd{}, nil)
 	if err != nil || len(read) != len(rows) {
 		t.Fatalf("nothing stored: %d rows, %v", len(read), err)
+	}
+	if s := e.Stats(); s.Loads != s.Attempts {
+		t.Fatalf("every attempt reads the rows: %+v", s)
 	}
 }

@@ -64,29 +64,37 @@ def others(r: Rows, mine: tuple[int, int]) -> Rows:
 
 # The rows stored and read back in PostgreSQL give every command the reply the memory engine and
 # Lean give it: PostgreSQL runs the generated statements as the model of `Leanharbor.Sql` says.
-# The command list mixes three tenants; after each command, every row of the other tenants, and
-# of the other users of its tenant, is as it was.
+# The engine that remembers no snapshot reads the rows back for every command; the one that
+# remembers them gives the same replies. The command list mixes three tenants; after each
+# command, every row of the other tenants, and of the other users of its tenant, is as it was.
 def test_postgres_engine_agrees_with_memory_engine_and_lean() -> None:
-    name = "calculator_differential"
-    url = cluster().locked(STORAGE, name)
-    engine = PgEngine.connect(STORAGE, url, 2)
-    ours = []
-    tenants = set()
-    with connect(cluster().admin_url(name)) as admin:
-        before = rows(admin)
-        for actor, cmd in commands():
-            tenants.add(actor.org)
-            mine = (actor.org, actor.user)
-            ours.append(line(engine, actor, cmd))
-            after = rows(admin)
-            assert others(after, mine) == others(before, mine), (actor, cmd)
-            before = after
-    assert len(tenants) == 3
-    assert len({t for t, _ in before}) == 3
-    assert len(ours) == 5000
-    assert ours == run(MemoryEngine(KERNEL))
-    assert ours == oracle()
-    assert engine.stats.retries == 0
+    memory = run(MemoryEngine(KERNEL))
+    lean = oracle()
+    for name, cache in [
+        ("calculator_differential", 0),
+        ("calculator_differential_cached", 1024),
+    ]:
+        url = cluster().locked(STORAGE, name)
+        engine = PgEngine.connect(STORAGE, url, 2, Config(cache_tenants=cache))
+        ours = []
+        tenants = set()
+        with connect(cluster().admin_url(name)) as admin:
+            before = rows(admin)
+            for actor, cmd in commands():
+                tenants.add(actor.org)
+                mine = (actor.org, actor.user)
+                ours.append(line(engine, actor, cmd))
+                after = rows(admin)
+                assert others(after, mine) == others(before, mine), (actor, cmd)
+                before = after
+        assert len(tenants) == 3
+        assert len({t for t, _ in before}) == 3
+        assert len(ours) == 5000
+        assert ours == memory, f"cache {cache}"
+        assert ours == lean, f"cache {cache}"
+        assert engine.stats.retries == 0
+        if cache == 0:
+            assert engine.stats.loads == engine.stats.attempts
 
 
 def client(
@@ -101,9 +109,9 @@ def client(
         ours[i] = line(engine, actor, cmd)
 
 
-# Each principal's commands, from a thread of its own, with and without the advisory lock: a
-# command reads and writes only its user's row, so each reply is the one Lean gives it in the
-# order of the list.
+# Each principal's commands, from a thread of its own, with and without the advisory lock and the
+# remembered snapshots: a command reads and writes only its user's row, so each reply is the one
+# Lean gives it in the order of the list.
 def test_concurrent_principals_agree_with_lean() -> None:
     expected = oracle()
     by_principal: dict[tuple[int, int], list[int]] = defaultdict(list)
@@ -111,9 +119,10 @@ def test_concurrent_principals_agree_with_lean() -> None:
     for i, (actor, _) in enumerate(listed):
         by_principal[(actor.org, actor.user)].append(i)
     assert len(by_principal) == 15
-    for lock in [True, False]:
-        url = cluster().locked(STORAGE, f"calculator_concurrent_{lock}".lower())
-        engine = PgEngine.connect(STORAGE, url, 8, Config(1000, lock, None))
+    for lock, cache in [(True, 0), (False, 0), (True, 1024), (False, 1024)]:
+        url = cluster().locked(STORAGE, f"calculator_concurrent_{lock}_{cache}".lower())
+        config = Config(1000, lock, None, cache_tenants=cache)
+        engine = PgEngine.connect(STORAGE, url, 8, config)
         ours = [""] * len(listed)
         with ThreadPoolExecutor(len(by_principal)) as pool:
             futures = [
@@ -122,7 +131,7 @@ def test_concurrent_principals_agree_with_lean() -> None:
             ]
             for f in futures:
                 f.result()
-        assert ours == expected, f"lock {lock}"
+        assert ours == expected, f"lock {lock}, cache {cache}"
 
 
 def free_port() -> int:
