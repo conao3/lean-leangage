@@ -72,10 +72,10 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   text of the generated `render` for a kernel's tables, with the values as parameters; their own
   statements are the constants of `rust/leanharbor-pg/src/lib.rs` and
   `python/src/leanharbor/pg/__init__.py` (transaction control, advisory locks,
-  `leanharbor_idempotency`, the same text in both, so that the Rust and the Python server share a
-  database) and the role statements of `lockdown`. The Python engine runs statements through
-  psycopg's `RawCursor`, which sends the text unchanged, and the constants without parameters
-  with `prepare=False`, so that COMMIT stays a simple query.
+  `leanharbor_idempotency`; the last two of the same text in both, so that the Rust and the Python
+  server share a database) and the role statements of `lockdown`. The Python engine runs
+  statements through psycopg's `RawCursor`, which sends the text unchanged, and the constants
+  without parameters with `prepare=False`, so that COMMIT stays a simple query.
 - The contract uses `Except` for refusals. The memory engines keep each tenant's snapshot as a Lean
   value with one owner (`leanfran::Owned` in Rust, lent as a `Local` by `Kernel::lend`;
   `leanfran.Local` in Python; `leanfran.Value` in Go) and call the generated functions that take

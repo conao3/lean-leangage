@@ -149,9 +149,11 @@ of `store.py`. `store.py` is generated with the classes of the generated kernel 
 (`--type-module`), so the snapshot `load` builds is the one `transition` takes, and the writes
 `transition` returns are the ones `writes` takes. The engine keeps the same contract, at the top of
 [`python/src/leanharbor/pg/__init__.py`](python/src/leanharbor/pg/__init__.py), with the same
-statements of its own and the same `lockdown`. It sends each value as a parameter of the type of
-its kind (`BIGINT`, `BOOLEAN`, `TEXT`, `BYTEA`; `NULL` untyped) through psycopg's `RawCursor`,
-which sends the text of `render` unchanged, and reads each column back by the OID of its type.
+statements for the advisory locks and `leanharbor_idempotency` and the same `lockdown`; it writes
+its transaction control (`BEGIN ISOLATION LEVEL SERIALIZABLE`, `COMMIT`, `ROLLBACK`) itself, where
+the Rust engine has tokio-postgres write it. It sends each value as a parameter of the type of its
+kind (`BIGINT`, `BOOLEAN`, `TEXT`, `BYTEA`; `NULL` untyped) through psycopg's `RawCursor`, which
+sends the text of `render` unchanged, and reads each column back by the OID of its type.
 
 ## The notes
 
