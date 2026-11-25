@@ -1,11 +1,15 @@
 import Assay
 import Audit.Except
+import Audit.Obligations
 import Calculator.Proofs
 
 /-!
-Breaks the calculator kernel in small ways and runs the theorems on each broken version. The
-build fails when a broken version satisfies every theorem.
+Checks that the calculator's theorems state the obligations of `Leanharbor.Obligation`, then
+breaks the calculator kernel in small ways and runs the theorems on each broken version. The
+build fails when an obligation has no theorem or a broken version satisfies every theorem.
 -/
+
+#obligations Calculator.Kernel.kernel
 
 deriving instance DecidableEq for
   Calculator.Kernel.Principal, Calculator.Kernel.Snapshot, Calculator.Kernel.Command
