@@ -112,23 +112,25 @@ generation and tenant isolation, and proved authorization guards are designed an
 Measured on a cloud VM with 4 virtual CPUs (Intel Xeon, 2.10 GHz) and 16 GB of memory by
 `tools/measure.py`, which runs every measurement alone and writes the runs to
 [`docs/speed.json`](docs/speed.json). `tools/speed-charts.py` draws the charts and prints the
-tables from that file. Every number is a rate, so higher is better.
+tables from that file. Every number is a rate, so higher is better. All numbers come from one
+run of the program: the same measurement on another VM of this kind differs by up to 2 times, so
+compare rows within this section only.
 
 ### One command through the kernel
 
 Commands per second through `transition` and `apply`. Each cell is the inverse of the median
-time of three runs; the runs of one cell differ by up to 1.2 times. M is a million.
+time of three runs; the runs of one cell differ by up to 1.3 times. M is a million.
 
 ![Commands per second by the number of users in the tenant](docs/speed-engine.svg)
 
 | Commands per second | 1 user | 100 users | 1,000 users | 10,000 users |
 |---|---:|---:|---:|---:|
-| Rust, generated kernel, snapshot as a Rust value | 5.1 M | 224,800 | 19,500 | 1,530 |
-| Rust, generated kernel, snapshot as a Lean value | 8.4 M | 1.53 M | 121,400 | 11,300 |
-| Rust, memory engine | 6.9 M | 1.37 M | 140,500 | 13,300 |
-| Rust, the same logic by hand (not proved) | 83.3 M | 20 M | 3.15 M | 294,600 |
-| Go, memory engine | 317,600 | 115,900 | 14,700 | 674 |
-| Python, memory engine | 42,800 | 20,100 | 3,130 | 288 |
+| Rust, generated kernel, snapshot as a Rust value | 6.37 M | 271,700 | 24,400 | 1,850 |
+| Rust, generated kernel, snapshot as a Lean value | 9.8 M | 2.73 M | 290,300 | 25,500 |
+| Rust, memory engine | 7.87 M | 2.73 M | 357,800 | 37,600 |
+| Rust, the same logic by hand (not proved) | 90.9 M | 23.8 M | 5.43 M | 621,900 |
+| Go, memory engine | 726,200 | 532,800 | 124,200 | 3,320 |
+| Python, memory engine | 47,300 | 22,300 | 3,120 | 297 |
 
 ### Over HTTP, next to servers without a kernel
 
@@ -145,30 +147,30 @@ token check, the engine and the generated kernel cost.
 
 | Replies per second, Rust | get, 1 connection | apply, 1 connection | get, 64 connections | apply, 64 connections |
 |---|---:|---:|---:|---:|
-| leanharbor, Rust (axum) | 19,000 | 18,600 | 139,600 | 132,400 |
-| axum, no kernel | 19,900 | 19,400 | 157,100 | 150,900 |
-| actix-web, no kernel | 20,200 | 19,700 | 197,000 | 198,300 |
+| leanharbor, Rust (axum) | 17,100 | 16,800 | 128,000 | 120,800 |
+| axum, no kernel | 18,300 | 18,300 | 141,900 | 137,800 |
+| actix-web, no kernel | 18,800 | 18,600 | 191,200 | 188,900 |
 
 ![Replies per second over HTTP, Go](docs/speed-http-go.svg)
 
 | Replies per second, Go | get, 1 connection | apply, 1 connection | get, 64 connections | apply, 64 connections |
 |---|---:|---:|---:|---:|
-| leanharbor, Go (net/http) | 12,500 | 11,500 | 69,700 | 61,100 |
-| net/http, no kernel | 14,600 | 14,900 | 97,500 | 90,900 |
-| gin, no kernel | 14,700 | 14,600 | 88,200 | 85,400 |
+| leanharbor, Go (net/http) | 10,900 | 9,950 | 68,700 | 62,500 |
+| net/http, no kernel | 12,200 | 10,900 | 90,200 | 87,400 |
+| gin, no kernel | 11,800 | 12,000 | 74,700 | 70,600 |
 
 ![Replies per second over HTTP, Python](docs/speed-http-python.svg)
 
 | Replies per second, Python | get, 1 connection | apply, 1 connection | get, 64 connections | apply, 64 connections |
 |---|---:|---:|---:|---:|
-| leanharbor, Python (http.server) | 5,950 | 5,410 | 3,780 | 3,200 |
-| FastAPI on uvicorn, 4 processes, no kernel | 6,090 | 6,190 | 24,600 | 23,900 |
-| Flask on gunicorn, 4 processes, no kernel | 2,580 | 2,590 | 8,490 | 8,270 |
+| leanharbor, Python (http.server) | 5,960 | 5,350 | 2,940 | 2,470 |
+| FastAPI on uvicorn, 4 processes, no kernel | 6,060 | 5,980 | 24,600 | 24,700 |
+| Flask on gunicorn, 4 processes, no kernel | 2,900 | 2,940 | 7,700 | 7,510 |
 
-- The Rust shell runs on axum and gives 95% of the replies of axum without a kernel on one
-  connection and 89% on 64.
-- The Go shell runs on `net/http` and gives 86% of the replies of `net/http` without a kernel on
-  one connection and 71% on 64.
+- The Rust shell runs on axum and gives 93% of the replies of axum without a kernel on one
+  connection and 90% on 64.
+- The Go shell runs on `net/http` and gives 89% of the replies of `net/http` without a kernel on
+  one connection and 76% on 64.
 - The Python shell is one process on `http.server`, with one lock around the engine. On one
   connection it gives as many replies as FastAPI. On 64 connections it gives fewer than on one,
   while FastAPI and Flask spread the connections over four processes.
@@ -186,8 +188,8 @@ threads, some of them refused, and checks that the snapshot is still the kind of
 that is updated in place.
 
 The hand-written logic runs 12 times as many commands as the Rust memory engine for one user,
-15 times for 100, and 22 times for 1,000 and for 10,000. The difference is the allocation of the
-small Lean objects of each call, and the `List` the kernel keeps its users in: finding a user
+9 times for 100, 15 times for 1,000 and 17 times for 10,000. The difference is the allocation of
+the small Lean objects of each call, and the `List` the kernel keeps its users in: finding a user
 walks the list.
 
 The Go memory engine holds the snapshot in a `leanfran.Value` and hands it to `apply` with
