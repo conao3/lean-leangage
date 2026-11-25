@@ -40,6 +40,9 @@
               "rust/calculator/src/generated/*"
               "python/src/leanharbor_calculator/kernel.py"
               "go/calculator/kernel/*"
+              "rust/leanharbor/src/generated/*"
+              "python/src/leanharbor/sql.py"
+              "go/leanharbor/sql/*"
             ];
           };
           devShells.default = pkgs.mkShell {

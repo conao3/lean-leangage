@@ -10,3 +10,7 @@ name = "Calculator"
 [[lean_exe]]
 name = "calculator-oracle"
 root = "CalculatorOracle"
+
+[[lean_exe]]
+name = "sql-oracle"
+root = "SqlOracle"

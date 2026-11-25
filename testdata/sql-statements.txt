@@ -1,0 +1,3024 @@
+reset
+table 782279 0 e5908de5898d:int:1 746167:bool:1
+create
+select 2 1 2 n
+select 2147483648 0 1 b1
+delwhere 2 0 1 t
+select 3 0
+del -9223372036854775808 0
+select 1 0 0 i0
+select 0 0 1 b1
+put 2 1 0
+delwhere 1 0 1 b0
+select 1 0
+put 3 1 0
+select 3 0
+put 3 0 0 i-88 b0
+put 1 1 0
+put 3 0 0 i2147483648 b1
+del 1 1
+select 3 0 1 b1
+select 2 0
+select 2 0 2 n
+select -9223372036854775808 0
+del 2 0
+del 2 0
+select 2 0
+select 1 0
+put 2 0 0 i39 b1
+select 3 0
+select 1 0 1 b1
+select 1 0 0 i1
+select 1 0 0 i-9223372036854775808
+put 2 0 0 i-16 b0
+reset
+table 746167 2 c3a9:int:1 61:bytes:1
+create
+select 1 0 1 y36
+delwhere 1 1 1 n
+delwhere -1 1 0 t27
+select 2 0 0 i45
+select 2 0 0 yaf
+del 1 0 i58 ybb58
+delwhere 7 0 2 n
+del 2147483648 0 n y917fd3
+put 3 0 2 i2147483648 t7827293b2044524f50205441424c4520743b202d2d
+put 2 0 2 i-9223372036854775808 y43ae0c
+delwhere 2 0 0 i-1
+delwhere 3 0 1 ydc
+delwhere 2 0 1 y7f6b
+delwhere 2 1 1 n
+del 3 0 n y
+select -9223372036854775808 1 0 n
+delwhere 1 0 0 i-9223372036854775808
+select 2 0
+delwhere 1 1 2 n
+del 3 0 i0
+delwhere 0 0 1 n
+put 3 0 2 i-9223372036854775808 y
+put 1 0 2 t610062 yedb1
+put 2 0 2 i-9223372036854775808 i1
+delwhere 7 0 1 yb9fc
+delwhere 1 0 0 i1
+delwhere 2 0 1 y74
+select 9223372036854775807 1
+del 1 0 i-13 n
+put 3 0 3 i-99 y834687
+reset
+table 782279 4 746167:int:1 2222:int:1 626f6479:text:0
+create
+put 3 0 4 b1 i-66 n
+del 1 0 i7 i43 t610062 n
+del 2 0 i-1 n t27 n
+delwhere 2 0 2 t
+put 9223372036854775807 0 1 i12 i-9223372036854775808 n n
+select 1 0
+select 3 1 1 n
+delwhere 1 0 1 i-96
+put 3 0 4 i7 i95 n
+del -1 1
+put 0 0 4 i76 n t2431
+select 2 0 1 i-1
+select 1 0 2 t61
+delwhere 3 0 0 y1c5d
+select 1 0 1 i-1
+select 1 0
+select 3 0 2 t610062
+del 1 1
+delwhere -9223372036854775808 0 1 i59
+delwhere 1 0 2 t22
+select 7 1
+select 3 0 3 n
+put 2147483648 1 3
+delwhere 2147483648 0 0 i-9223372036854775808
+select 2 0 0 i1
+del 3 0 i-50 i-33 t22 n
+put 3 1 0
+put 2 0 3 i1 i0 t22
+select -9223372036854775808 1
+delwhere 9223372036854775807 1 2 n
+reset
+table 546167 2 6964:bytes:1 e5908de5898d:text:1
+table 6e6f7465 1 626f6479:bool:0
+create
+put 1 0 2 yb2 tc3a9
+delwhere 1 1 3 n
+delwhere 3 0 0 t7827293b2044524f50205441424c4520743b202d2d
+put 1 1 1 b1
+select 1 2
+delwhere 3 0 1 n
+select 1 0
+put 1 0 2 y49ab n
+put 2 0 2 n t27
+delwhere 1 1 0 t27
+del 1 1 n
+del 1 2
+select -1 1
+select 1 0
+put 1 1 1 b1
+select 3 0
+select 2 2 2 n
+del 3 0 n t22
+del 2 1 b0
+delwhere 7 0 0 y8eca
+select 3 0
+delwhere -1 0 1 t61
+delwhere 7 0 1 tc3a9
+delwhere 3 1 0 b1
+select 7 2 1 n
+select -9223372036854775808 2
+delwhere 1 1 0 n
+select 3 2
+select 2 0 0 yd1
+put 3 0 2 y t610062
+reset
+table 746167 1 626f6479:text:0 546167:text:0 e5908de5898d:text:1
+table 546167 0 61:int:0
+table e5908de5898d 2 6964:bytes:1 746167:int:0 2222:int:0
+create
+select 1 2 0 b1
+select 2 0
+select -1 2 0 y471b
+put 1 3 0
+del 3 0 t
+select 2 2
+put 2 2 2 i-97 y i30
+delwhere 3 1 0 i0
+select 2 2 1 i9223372036854775807
+del 1 2 y i7
+put 2 2 2 i-14 i9223372036854775807 b1
+select -9223372036854775808 0
+del 3 1
+del 7 1
+put 2 1 0
+delwhere 9223372036854775807 0 0 i-36
+delwhere 1 3 2 n
+select -1 0 0 t27
+delwhere 3 3 0 n
+put 7 2 2 tc3a9 i2147483648 i-65
+select 3 3 3 n
+del 2 2 y3b8cce n
+select 2147483648 1 0 i-1
+delwhere 3 0 1 t7827293b2044524f50205441424c4520743b202d2d
+put 9223372036854775807 2 2 yd806de i-1 i-45
+delwhere 3 0 2 i-24
+del 2 1
+delwhere 1 0 1 t7827293b2044524f50205441424c4520743b202d2d
+del 1 2 yd086 i1
+put 1 0 3 n t7827293b2044524f50205441424c4520743b202d2d t27
+reset
+table 546167 2 546167:text:1 6964:int:0
+table 612062 2 6964:text:1 6e6f7465:int:0
+create
+del 1 1 t27 i-9223372036854775808
+select -9223372036854775808 1
+delwhere 3 0 1 i-1
+select 1 2
+select -9223372036854775808 1 1 i-9223372036854775808
+select 1 0
+select 2 0 1 b0
+select -1 2 0 n
+put 0 0 0 t610062 i-23
+select 1 1
+delwhere 0 0 1 b0
+put 2 1 2 i50 i2147483648
+put 2147483648 0 2 t22 i-16
+delwhere 7 0 1 t7827293b2044524f50205441424c4520743b202d2d
+select 1 0
+del -9223372036854775808 0 t61 i-6
+delwhere 2 1 0 y83c7
+select 1 1
+delwhere 3 0 0 t2431
+select 7 1
+del 1 0 t2431 i2147483648
+select 2 0 0 t7827293b2044524f50205441424c4520743b202d2d
+put 2 0 2 t7827293b2044524f50205441424c4520743b202d2d i49
+select 1 0
+put 3 0 2 te5908de5898d i76
+del 3 1 t22
+select 1 0 0 t22
+select -9223372036854775808 2 0 n
+select 9223372036854775807 1
+select 1 1 3 t
+reset
+table c3a9 2 782279:text:1 546167:bool:0 :int:0
+create
+select 2 0 2 i-53
+put 1 1 0
+del 0 0 t2431 b0
+delwhere 3 1 3 n
+put 1 0 2 t
+del 3 1
+select -1 0
+del -9223372036854775808 0 t7827293b2044524f50205441424c4520743b202d2d b1
+del -1 0 i7 b1
+del 2147483648 0 tc3a9 t
+del 3 0 t22 b0
+del 2147483648 0 t61 b0
+select 0 0
+put 9223372036854775807 0 2 t7827293b2044524f50205441424c4520743b202d2d b0 n
+delwhere 3 0 0 t2431
+select 0 0
+del 2 0 t610062 b1
+delwhere -1 0 2 n
+del 3 0 n b0
+select 1 0
+delwhere 2 0 1 b1
+del 3 0 b1 b1
+put 2 0 2 t22 b1
+del 3 1
+select 1 0 1 b0
+put 3 0 2 t
+select 9223372036854775807 0
+select 2 0
+select -9223372036854775808 0
+delwhere 3 0 2 n
+reset
+table 782279 0 612062:bytes:1
+table 6964 1 c3a9:text:0 782279:bytes:0 e5908de5898d:int:0
+create
+delwhere 2 2 3 n
+put 3 1 1 tc3a9 i-1 i-9223372036854775808
+del 0 0
+select 1 0 0 y14
+select 3 1 2 i-39
+select 3 0 0 y24
+select 1 1 0 t2431
+del 1 2
+delwhere 3 1 1 y695e
+select 1 1 1 y
+select 2 0 0 y9bd0
+select 1 0 0 y
+select 2 0
+select 3 1 1 ybc
+select 3 1
+select 2 2 0 i-53
+put 7 1 1 t22 yb6 b1
+put 1 1 1 t61 ybc68 i41
+delwhere 3 0 0 yf4
+put -1 0 0 y
+select 9223372036854775807 1
+select 1 0 0 y501780
+delwhere 1 0 0 yc26c7e
+delwhere 3 2 3 b1
+select 1 1
+select -1 1
+del 3 1 t
+put 3 1 1 t2431 y63 i72
+select 1 0
+select 1 0
+reset
+table 546167 1 61:bytes:0 2222:int:0 746167:bool:0
+table e5908de5898d 0 c3a9:int:1
+table c3a9 1 6e6f7465:text:0
+create
+del -9223372036854775808 2 t610062
+del 2 1
+select 2 2
+select 9223372036854775807 2
+put 3 2 1 tc3a9
+select 1 1 0 i29
+del 2147483648 2 t
+delwhere 2147483648 3 0 n
+put 3 3 0
+select 9223372036854775807 3 1 n
+put 1 0 1 b1 i-9223372036854775808 b0
+del 1 0 y201ef8
+put 2 0 3 ya6 i-63 b0
+select 2 2 0 y4bac
+del -9223372036854775808 0 y
+del 1 1
+del 1 2 tc3a9
+put 3 0 3 n i2147483648 b0
+put 2 1 0 yc8
+put 1 2 1 t61 i-9223372036854775808
+select 1 0
+put 2 1 0 i20
+delwhere 3 0 2 b0
+del 3 2 t7827293b2044524f50205441424c4520743b202d2d
+select -9223372036854775808 0 0 y6f1695
+del -9223372036854775808 2 te5908de5898d
+select 3 2 0 t7827293b2044524f50205441424c4520743b202d2d
+select 1 1
+delwhere 3 3 0 n
+put 2 2 1 b0
+reset
+table 626f6479 1 626f6479:int:1 782279:bytes:1 546167:bytes:0
+table c3a9 0 782279:bool:1
+table 782279 2 546167:text:0 c3a9:bool:1 612062:int:1
+create
+select 9223372036854775807 3 0 t27
+put 1 2 2 t27 b0 t22
+delwhere 2 2 0 t610062
+select -9223372036854775808 2 1 b1
+delwhere 2 1 0 t2431
+put 1 0 1 b0 tc3a9 y71d0
+del 2147483648 2 t y4d89
+select 2 0 1 y
+select 1 1 0 b0
+select 2 1
+delwhere 7 1 0 b0
+delwhere 3 3 2 n
+delwhere 3 0 1 y23
+select 2 0
+select 2 0 1 i9223372036854775807
+del -1 2 n t61
+select 2 2
+delwhere 1 0 2 n
+del 1 0 i2147483648
+delwhere 1 3 1 n
+delwhere 1 3 3 n
+select 2 1
+select 7 3 0 b0
+delwhere 3 1 2 t22
+put 2 2 2 t b0 i-64
+select 1 1
+select 2 2 0 t61
+select 2 1 0 b1
+select 1 0 0 i-10
+put 2 1 0 b0
+reset
+table 612062 1 61:bytes:0 746167:int:0 6964:text:0
+create
+del 7 0 y1f
+select 1 0
+select 2 0
+put 1 0 1 ydd7f i-57 t
+delwhere 3 0 0 n
+select 0 0 1 i-1
+delwhere 2 0 1 i2147483648
+delwhere 1 1 2 t610062
+select 3 0
+select 2 0 2 t610062
+select 9223372036854775807 0
+select 0 0 3 n
+select 2 0 0 yede6
+put 1 0 2 ya11f i33 n
+delwhere 9223372036854775807 0 1 n
+put 3 0 1 b0 i-64 te5908de5898d
+put 3 0 1 ya570 i-44 t27
+select 1 1 3 n
+del 1 0 t7827293b2044524f50205441424c4520743b202d2d
+put -1 1 0 n
+delwhere 3 0 0 i-9223372036854775808
+select 0 0
+del 1 0 y
+put 3 0 1 n i9223372036854775807 t7827293b2044524f50205441424c4520743b202d2d i-43
+del 2 0 y
+select 3 0
+select 9223372036854775807 0
+put 2 0 3 y2f0af7 i71 te5908de5898d
+del -1 0 ya2b473
+delwhere 2147483648 1 3 n
+reset
+table c3a9 2 612062:text:1 61:bytes:0 6964:bytes:1
+create
+put 1 0 2 t22 yf4 n
+put -1 0 2 i-29 y922d y708a
+del 1 0 t b1
+select 2 0
+select 1 1
+del 0 0 t yce3e73
+delwhere 3 1 3 n
+del 1 0 t ycd
+delwhere 1 0 0 tc3a9
+select 2 0
+put 0 0 2 t y204a9d y
+select 1 0
+select 2147483648 0 2 ya44cf9
+del 1 0 t610062 y2c
+select -9223372036854775808 0
+select 1 0
+put 9223372036854775807 0 2
+put 3 0 2 n y y
+delwhere -9223372036854775808 0 1 yd776
+del 3 1
+select 2 0
+select 2 0
+delwhere 1 0 3 n
+del 1 0 tc3a9 y
+put 1 0 2 t y081e yf9eaaf
+put 0 0 2 t y5c y
+delwhere 2 0 0 n
+select 1 0 2 y694808
+del 1 0 tc3a9 y
+delwhere 3 1 0 n
+reset
+table 626f6479 2 746167:bytes:0 546167:int:1 e5908de5898d:text:1
+table 782279 2 2222:bool:1 782279:bool:1
+table 612062 1 c3a9:text:0 e5908de5898d:bytes:0 6964:text:0
+create
+select 1 1
+delwhere 0 2 1 y860bb6
+delwhere 1 0 1 i-10
+del -9223372036854775808 0 y i7
+select 1 2 1 t
+select 3 2 3 n
+select 1 2 2 t2431
+put 2 1 2 b1 b0
+put 3 0 2
+select 2 3
+put 1 0 2 t22 y b0
+select 1 0 1 i-85
+put 3 2 1 tc3a9 n n
+select 2 1 2 n
+put 1 1 2 b1 b0
+put 2 0 2 y i-78 te5908de5898d
+put 3 0 2 y n t2431
+select 2 0
+put 1 0 2 y824e13 i-13 t
+put 1 2 1 t7827293b2044524f50205441424c4520743b202d2d y2b1cc3 n
+del 1 2 t22
+select 2 0
+select 2147483648 0
+select 3 1
+delwhere 1 3 3 n
+delwhere 1 2 3 n
+del 7 1 b0 n
+del 0 0 y237ece i-9223372036854775808
+select 2147483648 2 1 y62b1b0
+select 2 1 0 t22
+reset
+table 2222 0 2222:int:1 c3a9:bytes:1
+table 626f6479 2 546167:text:0 612062:int:1
+table e5908de5898d 2 6964:bool:0 546167:int:1 61:bytes:0
+create
+put 7 2 2 b0 i0 y67
+del 3 3
+put 1 2 2 b0 i7 yf4031d
+select 1 0 0 i-85
+put -9223372036854775808 0 0 i2147483648 y
+put 3 2 2 b0 i-1 y0b7f n
+delwhere 2 2 1 i37
+select 2 0
+put 1 0 0 i7 i0
+select 7 2
+put 3 1 2 n i2147483648
+select 1 1
+delwhere -1 1 0 t
+delwhere 1 3 2 n
+delwhere 1 2 0 b0
+del 1 1 t22 i-59
+select 1 1
+delwhere 3 2 3 n
+del 2 1 t27 i7
+put 1 1 2 t27 i-1
+delwhere 3 0 0 i-9223372036854775808
+delwhere 3 0 0 i9223372036854775807
+delwhere 1 1 0 i1
+put -1 1 1 te5908de5898d i2147483648
+select 1 2 1 i-9223372036854775808
+del 2147483648 0
+select 3 2
+select 1 2 1 i-57
+delwhere 0 1 1 i-31
+delwhere 7 2 1 i9223372036854775807
+reset
+table 2222 1 546167:int:0 6964:text:1 6e6f7465:bytes:0
+table 612062 0 6964:int:1 6e6f7465:bool:1
+create
+select 3 1
+del -9223372036854775808 2 n n
+select 3 1
+del 2 0 i2147483648
+select 1 2 2 n
+put 1 0 1 i7 t27 n
+put 3 0 1 t2431 t7827293b2044524f50205441424c4520743b202d2d yad2fe1
+put 1 2 0
+put 0 2 0
+select 2 1 1 b0
+select 1 1
+del -9223372036854775808 0 b1
+select 2 1 0 n
+del 1 1
+select 9223372036854775807 1 1 b1
+select 9223372036854775807 0 1 t2431
+put -9223372036854775808 2 0
+select 0 1 1 b1
+delwhere -9223372036854775808 1 0 i0
+select 3 0 1 t2431
+select 2 0
+select 1 0 1 t
+del 3 1
+select 3 1
+put -9223372036854775808 1 0 b0 b1
+del -9223372036854775808 2
+del 2 0 i-1
+put 1 1 0 i7 n n
+put 9223372036854775807 1 0 i-47 b1
+del 1 1
+reset
+table c3a9 2 782279:bytes:0 c3a9:bool:0 546167:int:1
+create
+delwhere 1 0 3 n
+del 2 0 yf1d84e b1
+select 2 0 1 i64
+delwhere 1 0 3 n
+select -9223372036854775808 0 0 n
+select 2 0 1 b0
+del 7 0 y n
+select 1 0 0 ydc63
+select 2 0 3 n
+put -1 0 2 yc1 b1 i17
+del 1 0 yc832 b0
+select 1 0
+delwhere 7 0 0 n
+select 1 0
+select 2 0 1 t2431
+select 3 0 1 b1
+select 1 0 1 b0
+select 3 0 1 b0
+select 3 0 2 i7
+delwhere 9223372036854775807 0 1 b0
+put 1 1 0
+select 2 0
+delwhere 2 0 0 y04
+delwhere 3 0 1 b1
+del 0 0 n y607d
+select 0 0 0 t610062
+put 1 0 2 y073b1f tc3a9 i-93
+select 7 0
+select 9223372036854775807 0
+put 1 0 2 ybc y3d51 i-8
+reset
+table 6964 2 e5908de5898d:int:1 626f6479:bool:1
+table 61 1 e5908de5898d:text:0 546167:bool:0
+create
+select 3 1 0 n
+put 1 1 1 te5908de5898d b0
+select -1 0 0 i1
+select 9223372036854775807 2 0 n
+delwhere 3 1 1 n
+select 2 2
+put 1 1 1 t7827293b2044524f50205441424c4520743b202d2d b0
+delwhere 2 0 0 i21
+select 2 2
+delwhere 7 0 1 b1
+select -9223372036854775808 1
+delwhere 2 2 0 n
+del 2 0 i81 b0
+select 3 1 0 y
+delwhere 1 2 0 b1
+put -9223372036854775808 0 2 i-15 b0
+select 1 1 1 b1
+select 1 0
+put -1 0 2 i9223372036854775807 n
+select 2147483648 1 0 tc3a9
+delwhere 2 2 1 n
+select 7 1 1 b1
+delwhere 2 0 0 i-1
+del 0 1 te5908de5898d
+del 2 0 i2147483648 b0
+delwhere 2147483648 1 2 n
+delwhere 2 1 0 tc3a9
+put 2 0 2 i0 b1
+select 2 0
+del 3 1 n
+reset
+table 612062 1 2222:bytes:0 6964:text:0 546167:bool:0
+table 782279 3 746167:bool:0 546167:text:0 2222:bool:0
+create
+put 1 2 0
+select 1 1 2 b1
+delwhere 3 0 1 te5908de5898d
+delwhere 1 1 2 n
+del 1 1 b0 n b0
+put 0 0 1 yae20 tc3a9 b1
+select 3 0
+select 1 1 2 n
+del 2147483648 1 b0 i-9223372036854775808 b1
+select 1 1 2 b0
+put 1 0 1 y19ed t61 b0
+select 2 1
+put 2147483648 2 0
+delwhere 2 1 0 b0
+del 3 2
+select 2 1
+select 1 2 3 n
+select 2 1 2 b0
+put 2147483648 1 1 b0 t610062 yc4b7
+select 2 0 1 n
+put 2147483648 1 3 b0 t61 b0
+del 3 1 b0
+put -1 2 0
+select 3 0 1 t610062
+del 3 0 ydb86
+select 1 0
+select 1 1 1 t22
+select -1 0
+del 2147483648 0 n
+select 3 1
+reset
+table 6964 1 6964:text:0 61:bytes:1
+table c3a9 2 2222:text:0 782279:bool:1
+create
+delwhere 3 0 0 b0
+select 1 2
+select 3 1 3 n
+put 3 1 2 t610062
+select 0 1
+put 2 0 1 i-90 y554e
+delwhere 9223372036854775807 0 0 t2431
+select 3 0
+select -9223372036854775808 2
+del 7 1 b0 t22
+delwhere 3 0 0 tc3a9
+delwhere 9223372036854775807 1 3 n
+put -1 1 2 t2431 b0
+put 1 0 3 t61 yfbb6
+del 3 0 tc3a9
+delwhere 2 2 2 y5abf0b
+delwhere 1 1 1 b1
+del 2 2
+del 2 0 te5908de5898d
+select 3 1
+delwhere -9223372036854775808 0 3 n
+del 2 1 t7827293b2044524f50205441424c4520743b202d2d b1
+del 1 2
+select 2 2
+delwhere 2147483648 0 1 n
+put 3 2 3
+del -9223372036854775808 0 tc3a9
+select 2147483648 0 3 n
+select 3 1
+del 3 1 y47 b1
+reset
+table 6964 1 746167:text:0 612062:bool:0 e5908de5898d:bytes:0
+table c3a9 2 626f6479:bool:0 6964:text:0
+table 6e6f7465 0 546167:bytes:1 782279:text:0
+create
+del -1 1 b1 t610062 n
+delwhere 7 0 0 n
+del 3 2
+select -1 1
+delwhere 1 2 0 y
+del 3 2
+delwhere 0 1 0 i59
+put 1 3 0
+del 9223372036854775807 2
+delwhere 3 3 3 t7827293b2044524f50205441424c4520743b202d2d
+select -9223372036854775808 1 1 n
+select 3 2 1 t2431
+del 2 2
+put 1 2 0 y5ebd71 t
+select 7 2 2 n
+del -1 0 tc3a9
+select 1 0 2 yf7
+del 3 0 t22
+del 3 0
+select 0 1 1 te5908de5898d
+put 3 2 0 y6e1659 n
+del 1 2
+put -1 1 2 i65 b1
+put 2147483648 0 1 t2431 b0 y8d2d37
+del 3 3
+put 3 3 0
+del 2 2
+select 2 3 3 n
+select 1 3
+put -9223372036854775808 1 0 b0 tc3a9
+reset
+table 6e6f7465 1 2222:bytes:1 626f6479:bytes:1 e5908de5898d:bytes:1
+create
+select 1 0 2 yd2ae64
+put 3 0 2 y0a47 y y0655d2
+del -1 0 y374f
+del -9223372036854775808 1
+select 1 0 2 y
+select 2 0
+select 0 0 0 yd0dd25
+del -9223372036854775808 0 y12db
+del 1 1
+delwhere 2147483648 0 2 y9ed0
+put 9223372036854775807 0 1 i1 y1cd2b8 y89f1
+select -9223372036854775808 1 2 n
+delwhere 3 0 2 n
+del -9223372036854775808 0 y
+put 2 0 1 y5a y04 yf5f2a7
+del 2 0 i7
+put -1 0 1
+select 3 0
+select -1 0 0 y
+put 1 1 0
+del 2 0 y
+select -9223372036854775808 0
+select 3 0
+select 1 0
+select 3 0
+delwhere 2 0 0 y1c85e4
+del 1 1
+del -1 0 y8a72
+select 9223372036854775807 0
+delwhere 3 0 2 y2ecf48
+reset
+table c3a9 0 612062:int:1
+table 6e6f7465 0 61:text:1 c3a9:text:1
+create
+del 3 1
+select 3 0
+put 2147483648 2 0
+delwhere 1 0 0 i86
+del 1 1
+delwhere 1 2 1 n
+del 3 0
+delwhere 2 1 0 n
+delwhere 2147483648 0 3 n
+delwhere 0 1 0 t22
+select 3 0 0 n
+put 1 1 0 t2431 yf6
+put -9223372036854775808 1 0 te5908de5898d t7827293b2044524f50205441424c4520743b202d2d
+put 1 0 0
+delwhere -1 0 0 n
+delwhere 2147483648 2 0 n
+select 3 1 1 n
+delwhere 3 1 3 yac92
+put 2 1 0 t610062 t27
+delwhere 7 1 0 n
+del 9223372036854775807 2 y3a2495 n n n
+select 2 0 0 n
+select 1 0
+select -9223372036854775808 0 2 n
+select 1 1 1 y6932
+delwhere 3 2 3 n
+put 3 0 0 i-9223372036854775808
+put 3 0 1 t610062
+select 2 0
+select 0 1 1 t27
+reset
+table e5908de5898d 2 e5908de5898d:bool:1 782279:text:0
+table 782279 3 546167:int:1 6964:bytes:0 c3a9:bool:0
+create
+select 2 1 0 b0
+delwhere 2 1 0 i7
+select 2 0 1 t61
+del 1 2
+del 1 1 i3 y30 b1
+del 2147483648 1 i-55 yd1 b0
+put 2 0 2 b1 n
+delwhere -1 0 1 te5908de5898d
+select 2 0 0 b0
+select 1 0
+select 1 1
+put 3 1 3 i-60 b1 b1
+put 1 0 2 b1 t22
+put 1 0 1 t610062 t
+put 2 2 0
+put 2147483648 1 3 i-21 b0 b0
+del 3 1 i-1 y238401 i2147483648
+delwhere 0 1 2 t610062
+select 9223372036854775807 1
+select 3 1 1 yc9
+select 9223372036854775807 1
+del 3 1 i0 y25c6 b0
+del 1 1 i2147483648 y0c b1
+select 3 1 0 y
+select 3 0
+select 1 0
+put 3 2 0
+select 2 0
+put 7 0 2 b0 te5908de5898d
+put 2 1 3 i-51 ydc9a b0
+reset
+table c3a9 0 746167:int:1 782279:int:0
+table 6964 1 2222:bool:0 e5908de5898d:bytes:0
+table 546167 3 c3a9:bool:0 6964:bytes:1 782279:text:0
+create
+select 1 1 1 y
+delwhere 3 2 2 ya530
+delwhere 2 1 3 n
+select 0 3 2 n
+put 2 2 3 n b1 tc3a9
+select 3 1 1 y4e9896
+put 9223372036854775807 1 1 b0 y4a
+delwhere 2 0 0 i-10
+delwhere 2 2 1 yc9
+delwhere 2 3 0 n
+put 3 1 1
+del 1 2 b1 yd1 te5908de5898d
+del 2147483648 1 b1
+select 1 2
+select 1 2 0 b0
+select 7 0
+select 3 1 0 i25
+put 2 0 0 y8cda0c i1
+del 1 1 t
+put 2147483648 1 1 b1 n
+put 1 1 1
+select 2147483648 2
+delwhere 7 2 1 b0
+del 2 2 b1 n te5908de5898d n
+select 2147483648 1
+select 1 1 3 b0
+select 3 2
+put 3 2 3 b1 yd00f60 t7827293b2044524f50205441424c4520743b202d2d n
+select 7 0 0 n
+put 1 0 0 n i-9223372036854775808
+reset
+table 546167 1 c3a9:int:1 e5908de5898d:text:0
+table 746167 2 2222:int:1 782279:bool:1 6964:int:1
+table 626f6479 3 612062:bytes:1 626f6479:int:0 c3a9:text:1 612062:bytes:1
+create
+select 3 0 1 t2431
+delwhere 2 1 1 te5908de5898d
+select 3 2 3 yc4408a
+delwhere 3 0 1 t27
+put 2147483648 3 0
+delwhere 2 1 2 n
+put 1 2 3 yb1e2 b1 y0c48 y87ff8e
+delwhere 9223372036854775807 0 1 te5908de5898d
+delwhere 9223372036854775807 2 1 tc3a9
+put 1 3 0
+delwhere 3 0 0 tc3a9
+select 1 0 1 tc3a9
+del 2 2 yf4fc y73 t2431
+select 2 3 1 n
+select 1 0 0 i77
+select 2 2 3 y9b
+select 3 0
+delwhere 1 0 1 t610062
+select 1 0 1 te5908de5898d
+delwhere 2 1 3 n
+select 2 1
+put -1 0 1 i0 t22
+delwhere 0 2 1 i7
+delwhere 3 2 3 yb0
+select 2 2
+select 1 2 1 i9223372036854775807
+put 2 0 1 i63 t61
+select 9223372036854775807 2
+select 7 1
+put 3 2 3 i89 n i0 n
+reset
+table e5908de5898d 2 2222:bytes:1 782279:text:1
+table 612062 2 6964:bool:0 2222:int:0 c3a9:bool:0
+table 782279 1 6964:bool:0 6e6f7465:text:1
+create
+select 3 0 1 y
+select 3 1
+del 3 0 y5c61fb t610062
+select 0 1
+del 2 3
+delwhere -1 3 2 n
+select 2147483648 3 1 n
+select 1 1 3 n
+delwhere 1 0 1 t
+select 3 0
+put 1 2 1 b0 n
+select 1 1 2 yb24f70
+select 2 0 1 t7827293b2044524f50205441424c4520743b202d2d
+select 2 2
+select 1 2
+select 1 2
+delwhere 3 0 1 tc3a9
+delwhere 1 2 0 b0
+del 3 0 y te5908de5898d
+del 2 1 b0 t610062
+select 2 1 2 i0
+select 2 2 0 b0
+select 1 2
+delwhere 3 1 0 b1
+del 2 3
+delwhere 1 2 0 b1
+delwhere 0 0 1 t27
+delwhere 2 2 1 tc3a9
+put -1 2 0 b1 t61
+select 3 1 2 b0
+reset
+table 746167 4 c3a9:bytes:1 612062:bytes:0 782279:text:0
+create
+put 2 0 4 i-1 t te5908de5898d
+select 3 0
+del 1 0 y y68a9 i2147483648 n
+delwhere 1 0 0 yab
+del -1 0 y y t61 n
+del 3 0 y2f y54 t t7827293b2044524f50205441424c4520743b202d2d
+select 1 0 0 y9d5b
+select 3 0 2 t2431
+delwhere 2 0 0 y52d747
+del 3 0 t7827293b2044524f50205441424c4520743b202d2d yce158a t27 b0
+select 0 0
+del 9223372036854775807 0 yccbd y t2431 n
+del 2 1
+del 1 0 yf6771d n t2431 n
+put 1 0 4 yd2f5 n t610062
+select 3 0 1 y5c25
+select 3 0 0 te5908de5898d
+del 2147483648 0 y647b y8a
+select 3 0 1 y35
+del 1 0 y76 yc01e t61 n
+del 2147483648 0 ye4d1 y n yd1
+del 9223372036854775807 0 yca19 y t610062 n
+select 2 0 2 t61
+put 3 0 4 y y3db515 t
+select 2 0
+select 1 0 2 te5908de5898d
+delwhere 2 0 2 t61
+put 3 0 4 b0 y t22
+select 1 0
+del 1 0 b1 y t2431 n
+reset
+table 61 2 746167:bool:0 61:bool:0
+create
+select 1 0 1 b1
+delwhere 2 0 0 b1
+select 2 0
+select 3 0 0 i9223372036854775807
+del 3 0 b1 b1
+delwhere 3 0 0 b1
+delwhere 1 0 0 b0
+select 2 0 1 b0
+put 1 0 2 b0 b0
+delwhere 2147483648 0 1 y
+put 1 0 2 i0 b1
+select 2147483648 0 2 n
+select 1 1 0 b1
+select 1 0 1 b1
+put 7 0 2 b1 i-68
+select 1 0
+del 1 0 n b0
+del 1 0 b1 b0
+select 3 1 0 yc2
+select -9223372036854775808 1
+del 1 1
+select -9223372036854775808 1
+select -9223372036854775808 0
+select -1 0 1 b0
+put 3 0 2 b1 b1
+put 2 0 2 b0 b1
+put 3 0 3 n y70
+delwhere 0 0 0 b1
+del 3 0 b1 b0
+select 2 0
+reset
+table 6e6f7465 1 782279:text:1
+table 782279 1 626f6479:text:1
+table 746167 2 c3a9:int:1 612062:bytes:0
+create
+delwhere 3 1 0 t2431
+del 2 2 i-90 y259d
+put 1 0 3 tc3a9
+select 0 0
+select 7 1 0 te5908de5898d
+select 3 2
+del 1 1 t n
+del 3 3
+select 2 2
+del 2 3
+delwhere 1 2 0 tc3a9
+put 2 1 1 te5908de5898d
+select 3 1 3 n
+del 1 1 t2431
+put 3 0 1 te5908de5898d
+select 3 0
+select 1 0
+select 2 2
+select 2 3
+delwhere 3 0 0 n
+del 2 1 t61
+select 2 1
+select 3 2 0 i7
+select 3 2
+put 2 1 1 t27
+select 3 0
+select 2147483648 1 0 te5908de5898d
+del 1 0 t610062
+select 9223372036854775807 1
+select 2147483648 2 0 i-4
+reset
+table 626f6479 0 e5908de5898d:int:1 c3a9:int:1 61:int:1
+create
+del 7 1
+delwhere 2 0 0 i7
+select 0 0
+select -9223372036854775808 0
+delwhere 0 0 2 i7
+delwhere 1 1 3 n
+select 2 0 2 n
+select 3 0 2 i1
+del 2 0
+put -1 0 0 t610062 b0 i0
+select 3 0
+del 0 0 i-9223372036854775808 i-9223372036854775808
+del -9223372036854775808 1
+delwhere 3 0 2 i74
+delwhere 1 0 0 i-51
+select 1 0
+put 3 0 0 i-63 n i56
+put 3 0 0 n i71 n
+put 2 0 0 i-1 i1 i54
+select 1 0 2 i-9223372036854775808
+del 2147483648 1 n n
+select 2 1 0 b1
+select 3 1
+del 3 0
+select -1 0 2 i9223372036854775807
+delwhere 2147483648 0 2 i-42
+select 1 0
+del 1 0
+delwhere 1 0 2 i-80
+select 1 1
+reset
+table 626f6479 2 546167:text:0
+create
+del 1 0 t27 n
+delwhere 0 0 0 t
+select 2 0 0 yd82aa0
+put 2 0 2 n n
+put 2147483648 0 2 i-9223372036854775808
+select 1 1 2 n
+select 2 0 0 t7827293b2044524f50205441424c4520743b202d2d
+put 3 0 2 t
+select -1 0 1 n
+delwhere 3 0 1 n
+select 3 0
+del 2 0 tc3a9 n
+put 1 0 2 n
+select -1 1 3 n
+select 1 0 0 t27
+put -1 0 1 t22
+select 3 0 0 t2431
+select 0 0 0 te5908de5898d
+put -1 0 1 i-21
+del 3 0 t2431 n
+del -9223372036854775808 0 tc3a9 n
+put 2 0 2 yb05d
+select 2 0 0 t
+put 3 0 2 te5908de5898d
+select 3 0 0 te5908de5898d
+select 7 0 0 b1
+put 3 0 2 tc3a9
+delwhere 2147483648 0 0 tc3a9
+delwhere 1 0 0 t61
+del 1 0 te5908de5898d n
+reset
+table 746167 1 2222:bool:0
+table 626f6479 0 546167:text:1 782279:int:0
+table 6964 3 6e6f7465:bool:0 546167:bytes:0 6964:text:0
+create
+del 2 3
+delwhere -1 0 0 b0
+put 3 2 3 b1 y646274 n
+select 3 2 1 b1
+delwhere -9223372036854775808 2 0 b1
+put 1 1 0 t27 i-1
+select 1 2
+delwhere 3 1 1 i-1
+delwhere 1 2 2 t22
+del 2 0 b1 n n
+select 1 2 1 ydf26
+put 3 0 1 b1
+del 3 3
+select 1 0 0 n
+put -1 0 1 b1
+put 3 0 1 b0
+put 3 0 1 b0
+delwhere -9223372036854775808 2 1 y
+put 2 1 0 t22 i-1
+put 3 0 1 b1
+select -1 2 2 t7827293b2044524f50205441424c4520743b202d2d
+select 3 2
+put 3 2 3 y4dfca7 y41f5 t
+put 1 1 0
+put 7 0 1 b1
+delwhere 2 0 0 b1
+put 1 3 0
+select 1 0 0 i-95
+put 2 1 0 i7 n
+select 3 1 0 y0b63b9
+reset
+table c3a9 0 61:text:0
+table 6964 0 782279:int:1
+table 746167 0 782279:bytes:1
+create
+put -9223372036854775808 2 0 y87
+put 3 1 1 i9223372036854775807
+select 2 1
+put 3 2 0 yd8
+put -1 1 0 i-32 n yb4890f n
+select 2 0
+put 3 1 0 n
+del 1 0
+del 2 0
+select 2147483648 2 0 y32
+delwhere 2 2 3 n
+put 1 2 0 n
+delwhere 3 2 0 b0
+put 2 1 0 i-18
+select 3 1
+select 3 2 0 y
+select 1 0
+del 3 0 t n
+select 7 2 0 yd4c505
+delwhere 2 1 0 i-5
+delwhere 9223372036854775807 1 0 i85
+select 9223372036854775807 2
+del 3 2
+select -9223372036854775808 1 0 n
+del 1 0
+select 2 2
+select 2 2 0 y056e
+del -9223372036854775808 1
+del 1 0
+delwhere 1 0 0 t61
+reset
+table 6964 0 e5908de5898d:bool:0
+table 782279 1 746167:text:0 61:bytes:0 782279:bool:0
+table 61 0 6964:bool:1
+create
+select 1 2 0 b1
+delwhere 1 3 2 n
+put 3 0 0 y
+select -9223372036854775808 3
+put -1 1 1 t22 y61 b0
+select 3 2
+select 2 1 0 te5908de5898d
+select 1 0
+select 2 2
+put 3 3 0
+select 0 1 0 t27
+delwhere 2 2 0 n
+put 3 2 0 yac
+select 3 0
+delwhere 2 1 0 b0
+delwhere 1 1 1 y8c
+del 2 1 t2431
+del 2147483648 1 t61
+del 3 1 t2431 y521b
+select -1 1 0 t27
+select 9223372036854775807 2 3 t22
+delwhere 3 2 0 b1
+select 2 0
+select 1 2
+put 2147483648 2 0 t7827293b2044524f50205441424c4520743b202d2d n
+delwhere 1 1 0 b0
+del 2 1 t
+select 9223372036854775807 1 2 b0
+select 3 0
+select 1 2
+reset
+table 61 1 c3a9:int:0 2222:int:0 782279:text:1
+table 74656e616e745f6964 1 612062:bool:1
+create
+put -9223372036854775808 0 1 b0 i-86 ycb5f
+delwhere -9223372036854775808 1 0 b0
+select -1 2
+select 3 1 0 n
+select 3 1
+put 2147483648 0 1 i2147483648 i7 t7827293b2044524f50205441424c4520743b202d2d
+put 7 1 3 b1
+delwhere 1 2 2 n
+put 1 0 1 t22 n t61
+select 3 0 2 n
+del 1 1 b0
+delwhere 1 2 3 n
+del 9223372036854775807 0 i-45
+select 1 1
+del 2 2
+put 1 0 1 i-66 i0 b0
+select 1 1
+del 3 0 i-97
+select 1 0 1 i-1
+delwhere 9223372036854775807 2 0 n
+select 9223372036854775807 0
+del 3 2
+select 3 1
+select 3 1 0 b0
+select 2 0
+select 1 0 1 i-1
+select -1 2 3 n
+put 2 1 2
+del 2 1 n
+del 2147483648 1 b0
+reset
+table 546167 0 626f6479:text:1
+table 2222 1 782279:int:1
+table 782279 1 61:int:0 546167:bool:0 c3a9:text:0
+create
+select 1 1
+select 1 0 1 i7
+select 1 3
+delwhere 3 1 0 i21
+delwhere 2 0 0 tc3a9
+delwhere 1 0 0 n
+del -1 3
+select 2 3
+select 3 0 0 tc3a9
+select 3 0
+put -9223372036854775808 0 0 te5908de5898d
+delwhere -1 2 1 b0
+del 7 1 i9223372036854775807 n n b0
+select 2 1
+put 1 3 1
+del 0 0
+del 3 1 i1
+delwhere 3 2 0 i94
+select 2 2 0 i2147483648
+select 2 2 1 b0
+del 7 1 ycc
+select 3 0
+select 1 1 0 i-30
+del -1 0
+put 3 1 1 i-70
+del 1 0
+select -9223372036854775808 1
+select 1 1
+del 2147483648 1 t27 n n n
+select 2147483648 0 0 t
+reset
+table 782279 0 6e6f7465:bytes:1 2222:int:0
+create
+select 2 0 1 b0
+put 2 0 0 b0 i0
+delwhere 9223372036854775807 0 0 n
+del 1 0
+del 2 0
+delwhere 1 0 0 y9d
+del 2147483648 0
+put 3 0 0 y n
+select 1 0
+delwhere 2 0 0 ydf8bd6
+select -1 1 1 i1
+select 1 0 0 ybd9374
+select 3 0
+del 3 0
+delwhere 3 0 0 y2c
+select 2 0
+select 3 0 0 i7
+delwhere 1 0 0 y
+delwhere 3 0 1 i-54
+delwhere 2 0 0 n
+delwhere 3 0 1 i0
+put 1 0 0 n i38
+select 3 0 3 n
+put 3 0 0 y3c i-1
+select 2 0 1 i48
+delwhere 3 1 1 n
+select 1 0
+select 0 0
+del 3 0
+select 1 0
+reset
+table 6e6f7465 1 546167:int:1 e5908de5898d:bytes:1 6c65616e686172626f725f74:int:0
+create
+put 2 0 1 i7 i-9223372036854775808 i-62
+delwhere 9223372036854775807 0 1 y0924
+select 3 1 2 n
+put 3 0 1 b1 ycd82f9 i-78
+put 2 1 0
+select 3 1
+select 3 0
+select 3 0 2 i-27
+put 9223372036854775807 0 1 i12 n i0
+select -1 0 2 i7
+put 0 0 1 i9223372036854775807 y
+put 3 0 1 i2147483648 i1 te5908de5898d
+delwhere 2 0 1 y21
+put 2 0 1 i32 y06bd i2147483648
+select 1 0 0 i-63
+select 0 0
+put 3 0 1 i-1 ydd i9223372036854775807
+select 3 0
+select -1 0
+del 2 0 i84
+select 0 0
+delwhere 7 0 0 i-69
+del 1 0 i-27
+select 1 0 2 n
+put 3 0 1 i93 y b0
+put 3 0 1 i-38 t610062
+select 3 0
+select 9223372036854775807 0
+delwhere 3 0 0 i0
+select 1 0 3 n
+reset
+table 612062 2 612062:bool:0 746167:bytes:0 c3a9:bytes:0
+table 61 0 6964:text:0 546167:int:0
+table 6964 2 626f6479:int:0 6e6f7465:bytes:0
+create
+delwhere 1 2 0 i-1
+delwhere 2147483648 2 0 n
+delwhere 3 1 2 b0
+select 3 2
+del 1 2 b0 y15f339
+delwhere 7 1 1 i10
+select 2 2 1 n
+put 1 0 2 b0 ye8e1 y61
+delwhere -1 2 0 b0
+put 3 2 1 i36 y4c n n
+delwhere 1 2 0 i1
+select 1 0
+select 2 0 1 y
+put 2 1 0 i-95 b0
+select 9223372036854775807 2
+del 1 0 i9 y7c
+select 2 2 0 i50
+delwhere 2 0 1 ye743
+put 1 0 2 b1 n yd6c5
+put 1 3 0 n
+select 1 1 1 i13
+del 1 2 i86 ycd28
+select 1 1 1 i-12
+select 2147483648 0
+select 3 2
+put 2 3 0
+del 1 0 b1 b1
+put 1 1 0 te5908de5898d n
+delwhere 2 2 0 i-65
+select -9223372036854775808 0
+reset
+table 2222 1 612062:int:1 6964:int:0 6e6f7465:bytes:1
+table e5908de5898d 1 6e6f7465:bool:1 546167:text:0
+create
+del 9223372036854775807 0 i2147483648
+del 7 1 b1
+select 1 0 1 i-24
+put 1 1 1 b1 t61
+select -9223372036854775808 1 0 ybd
+del 2147483648 1 b0
+put 3 0 1 i-20 i-75 y370650
+put 9223372036854775807 1 1 b1 tc3a9
+delwhere 2 0 2 b1
+select 2 2 2 n
+del 2 1 b0
+put 2 1 1 b1 t22
+put 2147483648 1 1 b1 tc3a9
+del 7 1 b1
+select 2 0 2 t61
+put 2147483648 1 1 b0 t2431 n
+del 1 0 n
+select 3 0 0 i-58
+put 9223372036854775807 1 1 i2147483648 t2431
+select 9223372036854775807 0
+select 3 1
+delwhere 2147483648 0 0 n
+select 2147483648 2 1 n
+select -1 2 0 n
+select 1 0
+del 9223372036854775807 0 i61
+put 2 1 1 b0 tc3a9
+select 0 2
+put 1 0 1 i9223372036854775807 i-64 y0023
+del 1 1 b0
+reset
+table 612062 1 6964:int:0 612062:bool:0 6e6f7465:text:0
+table c3a9 0 546167:bool:0 6964:int:0
+table 6964 3 612062:int:0 2222:bool:1 e5908de5898d:text:1
+create
+delwhere 2147483648 0 3 n
+put 9223372036854775807 3 0
+delwhere 2 0 0 i9223372036854775807
+select 2147483648 3
+delwhere 2147483648 0 1 ya7
+select 3 0 2 n
+select 1 1 0 b1
+select 3 0
+select 2 2
+del 7 3
+delwhere 2 2 0 i2147483648
+del 1 3
+delwhere 1 3 2 n
+put 9223372036854775807 1 0 b0 i-19 n
+select 1 0 1 b0
+select 1 3
+select 2 0
+delwhere 3 3 2 n
+put 3 3 0
+delwhere 1 3 1 n
+select -1 0
+del 2 2 b1 b0 n
+select 7 1 1 i-10
+put 3 2 3 i0 b0 t7827293b2044524f50205441424c4520743b202d2d
+select 9223372036854775807 1 1 i77
+put 1 0 1 b0 b0 t27
+put 3 0 1 i5 y832a t22
+put 1 1 0 b0 i-9223372036854775808
+delwhere 2 2 0 y9ea710
+delwhere 1 1 2 i-52
+reset
+table c3a9 0 546167:bool:1
+create
+del 1 0
+select 3 0 0 n
+put 2 0 0 b0
+delwhere 2 0 0 b0
+select 2 1 1 n
+select 3 0
+select 2 0 0 b1
+put 2147483648 0 0 i94
+del 1 0
+del 0 0
+delwhere 3 0 0 b1
+del 0 0
+delwhere 2 0 0 b1
+delwhere 3 0 0 b0
+put 3 0 0 y0e43cf
+select 9223372036854775807 0
+select 3 0
+del 9223372036854775807 0
+put 1 0 0 b1
+select 7 0 1 n
+del 2 1
+delwhere 3 0 0 b1
+put 2147483648 0 0 b0
+del 2 0
+delwhere 2 1 2 n
+delwhere -1 0 0 b1
+select 3 0
+select 9223372036854775807 0
+delwhere 1 0 0 n
+put 2 0 0 b1
+reset
+table 2222 0 6e6f7465:bool:1
+table 746167 1 546167:bool:1
+create
+del 3 0
+del 2 1 b0
+del 2 0
+select 1 1
+select 1 1
+select 2 1
+put 1 1 1 b0
+del 2147483648 1 b1
+select 1 1
+select 3 1 0 b1
+del 1 0
+del 1 0
+del 1 2
+put 1 0 0 b0
+select 0 1
+select 1 1 0 b0
+delwhere 1 1 0 b0
+put 2 1 1 b0
+select 3 2
+put 3 1 1 b1
+put 2 2 1
+delwhere 3 0 0 b0
+select 9223372036854775807 1
+select 2 0
+select 1 1 0 b1
+select 3 1
+select 1 1 0 t610062
+delwhere 1 1 0 t27
+delwhere 2 2 2 n
+select 1 1 0 b0
+reset
+table 746167 3 6e6f7465:bool:0 61:bool:0 782279:text:0
+create
+del 1 0 b1 b1 t7827293b2044524f50205441424c4520743b202d2d
+del 3 0 b0
+select 2 0
+put 2 1 0
+delwhere -1 0 0 b0
+select 3 1 2 n
+del 3 0 b1 b1 n
+select -1 0 1 b1
+del 1 0 b1 b1 b1
+put 3 0 3
+select -9223372036854775808 0
+put 2 0 1 y68d01e b1 n
+del -9223372036854775808 0 b0 b0 t27
+put 1 0 3 b0 i-9223372036854775808 n
+select 0 0
+delwhere 1 0 2 te5908de5898d
+del 2 0 b0 b0 t7827293b2044524f50205441424c4520743b202d2d
+delwhere 2 0 2 t2431
+select 2 0
+put 3 0 3 b0 b1 b0
+del 2 0 b0 b0 i65
+delwhere -1 1 1 n
+select -1 0
+del -9223372036854775808 0 b1 b0 t7827293b2044524f50205441424c4520743b202d2d
+select 7 0
+select -9223372036854775808 0 1 n
+select 1 1 1 n
+del 2 1
+put 3 0 0 b0 b1 t61
+delwhere 9223372036854775807 1 0 n
+reset
+table c3a9 3 782279:bytes:0 c3a9:int:0 61:text:0 610062:int:0
+table 2222 0 e5908de5898d:int:1 626f6479:text:1
+create
+select 1 1
+delwhere 1 1 1 y437069
+put 3 0 3 i58 i-49 t2431 i51
+select -1 1
+select 3 2 3 n
+select 1 0 2 y36815e
+delwhere 2 1 0 i-1
+delwhere 2147483648 1 0 y266b7b
+select 2 1 3 n
+select 3 0
+del 1 1
+select 9223372036854775807 1
+select -9223372036854775808 0
+delwhere 2 0 0 yc151
+select 3 1 0 i7
+put 1 0 3 y i-36 t610062 y
+put 2 0 0 y54 i47 t610062 i12
+select -1 0
+del 7 2
+delwhere 3 1 1 t
+put 3 2 0
+put -1 1 0 i56 n
+select 3 0
+select 3 2 2 n
+put -1 1 0 i-93 y56de
+select 3 1
+put 1 1 0 i0 n
+put 7 2 0
+del 3 2
+select 1 0 0 y
+reset
+table e5908de5898d 3 746167:bool:1 2222:text:0 e5908de5898d:int:0 c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9:int:0
+create
+select 2147483648 0
+select 2 0 2 t61
+delwhere 1 0 1 y7b71
+select 3 0 3 i92
+delwhere 1 1 0 n
+select 1 0 0 n
+del 2 0 b0 t61 t610062
+put 3 0 3
+del 3 0 t27 te5908de5898d i9223372036854775807
+select 1 0 0 b1
+del 3 0 b0 tc3a9 b1
+select 1 0 0 b1
+put 0 1 0
+del 2 0 b0 t2431 i2147483648
+put 1 0 3 b1
+select 2 0
+delwhere 2 0 1 t22
+put 7 0 3 b0 t7827293b2044524f50205441424c4520743b202d2d i-24 i-7
+put 3 1 0
+select 2 0
+select 3 0
+del 2147483648 0 b0 t i7
+select 1 0
+delwhere 1 0 2 i-94
+select 0 0 2 i4
+select 2147483648 0
+select 3 0 3 i0
+select 9223372036854775807 0
+delwhere 1 0 3 yb4b8
+select 3 0
+reset
+table 61 2 746167:text:0 612062:int:1 c3a9:text:0
+create
+select 2 0 0 t61
+select 1 1 2 n
+select 7 1 1 n
+del 3 1
+delwhere 9223372036854775807 0 2 t7827293b2044524f50205441424c4520743b202d2d
+select 0 0 2 tc3a9
+select 1 1 0 n
+select 2 0 0 te5908de5898d
+delwhere -1 0 2 t22
+delwhere 1 0 2 tc3a9
+del 2 0 t22 i5
+put 1 0 2 b0
+select 2 0
+del 1 0 t610062 i2147483648
+del 1 0 t7827293b2044524f50205441424c4520743b202d2d n
+del -1 0 y3eb352 i-1
+select 2147483648 0
+select 1 0
+del 1 1
+put 2 0 2 n i32 t27
+select 3 1
+del 3 1
+delwhere 1 0 0 te5908de5898d
+delwhere 2 0 1 i-77
+del 2 0 t22 i97
+select 2 0
+put 3 1 0
+del 1 1
+delwhere -9223372036854775808 0 2 t22
+select 3 0 0 t7827293b2044524f50205441424c4520743b202d2d
+reset
+table 546167 3 782279:bytes:0 746167:text:0 2222:bool:0
+create
+select 3 0 0 yc7c850
+delwhere 3 0 1 t7827293b2044524f50205441424c4520743b202d2d
+del 1 0 b0 te5908de5898d b0
+delwhere 1 0 1 t22
+delwhere 2 0 2 b0
+select 1 0 1 te5908de5898d
+select 2 0 1 t
+select 1 0
+select 2 0
+del 2 0 y57 t i-76
+put 0 0 3 y619319 t7827293b2044524f50205441424c4520743b202d2d b0
+del 1 0 y t2431 b1
+delwhere 9223372036854775807 1 1 n
+select 3 0
+del 9223372036854775807 0 yb96e t2431 b0
+delwhere 1 0 1 t2431
+del 3 1 n n n n
+put 2147483648 0 3 y4e tc3a9 b0
+del 1 0 n te5908de5898d b0
+select 1 0 2 b0
+select 2 0
+put 1 0 3 t61 te5908de5898d i-1
+select 0 0 2 b0
+del 3 0 y9cc2d0 t22 n
+del 1 0 yd6ae tc3a9 b0
+select -9223372036854775808 0 0 y84d94d
+delwhere -1 0 3 n
+select 2147483648 0
+put 1 0 3 n n b0
+delwhere 7 1 1 n
+reset
+table 626f6479 0 626f6479:bytes:0 6964:int:1 e5908de5898d:text:1 626f6479:bytes:0
+create
+select 1 0 2 tc3a9
+put -1 0 0 n n tc3a9 t2431
+select -9223372036854775808 0 2 t22
+select 1 0
+delwhere -9223372036854775808 0 1 i0
+select 3 1 1 n
+del 1 0
+del 1 1
+select 1 0 0 ya0b40d
+put 3 0 0 y1aad4f i-48 i9223372036854775807 n
+select 2 0
+select 2147483648 0
+delwhere 1 0 0 n
+select 3 0
+delwhere -1 0 2 n
+select 2 0
+del 1 0
+put 1 0 0 ybf i-1 n y7638
+delwhere 2147483648 0 3 b0
+delwhere 0 0 3 n
+delwhere -9223372036854775808 0 1 i7
+select 3 1
+put 1 1 0
+select 2 0 2 t27
+select 9223372036854775807 0 1 i-9223372036854775808
+select 3 0
+delwhere 3 0 1 i2147483648
+put 1 0 3 yad ydd93 n t
+delwhere -9223372036854775808 0 1 i9223372036854775807
+del 3 1
+reset
+table c3a9 0 746167:bytes:0
+table 6e6f7465 1 626f6479:text:0 782279:text:0
+table 612062 0 612062:bytes:1
+create
+delwhere 2 1 0 t7827293b2044524f50205441424c4520743b202d2d
+select 1 1
+select 1 0
+del 7 0
+select 2 0 0 n
+select 3 2 0 i0
+delwhere 3 0 0 y5c
+select 1 3
+delwhere 1 2 1 n
+put -1 2 0 y9703
+del 3 2
+put 2 2 0 y
+del 2 1 te5908de5898d
+del 1 0
+put -1 3 0 b0 n n
+del 3 3
+select 3 1
+del 1 3
+select 2 3 0 n
+delwhere 7 3 0 tc3a9
+delwhere 1 2 0 y68
+select 2 2
+select 9223372036854775807 1 1 t
+select 3 2
+select 3 1 2 n
+put -1 2 0 te5908de5898d
+del 9223372036854775807 1 i-47
+select 1 3 2 n
+select 1 3 3 n
+select 2 2 0 y
+reset
+table 2222 1 6964:int:0
+table 746167 0 626f6479:text:0 610062:int:0
+table 6e6f7465 0 6e6f7465:bytes:1 6964:bool:0
+create
+select 3 2
+put 3 2 0 yf6f9 t610062
+delwhere 3 0 0 i83
+del 0 3
+put 2 2 0 t61 y
+del 1 3
+select -1 1 0 te5908de5898d
+delwhere 2 2 0 y5323
+del 2147483648 1
+select 9223372036854775807 0 0 i33
+select -9223372036854775808 0
+delwhere -1 3 3 n
+del 2 2
+select 1 2 1 b0
+delwhere 3 0 0 i-16
+select 3 3 1 n
+delwhere 2 1 0 t27
+del 1 1
+select 1 0
+del -1 2
+put 3 0 1 i86
+put 3 1 0 yeb i62
+select 2 1 1 i1
+put -1 2 0 y25 yb6a9
+delwhere 2 1 1 i1
+del 1 1
+del 3 1
+select 2 2
+select 1 1
+put 3 1 0 te5908de5898d b0
+reset
+table 6e6f7465 0 6964:bytes:0
+create
+delwhere 3 0 0 ye0
+delwhere 9223372036854775807 0 0 y
+del 2147483648 0 ya55b n
+delwhere 1 1 2 t27
+delwhere 3 0 0 b0
+del 2147483648 1
+put 2 1 0
+del 3 0
+select 1 0 0 yd579
+select 3 0 0 y
+select 3 0
+del 2 0
+select 1 0 0 y
+select 3 0 0 y3050
+select 1 0
+select 2 0
+put 2 0 0 y
+select 3 0
+del 3 0 y7f n n n
+delwhere 3 0 0 y7d91
+select 2 0
+del 1 0
+delwhere 3 0 0 yeba2
+select 2 1
+select 9223372036854775807 0
+delwhere 2 0 0 y55f4cf
+select 3 0 0 y8d
+put 1 1 0
+put 3 0 1 y
+put 7 0 0 t
+reset
+table 546167 1 782279:int:0
+table 6964 1 e5908de5898d:text:0 546167:bytes:1
+create
+del 0 1 t61
+select 1 1
+select -9223372036854775808 1
+select 2 1 1 ye8
+del 0 0 b0
+del 2 1 y789e
+delwhere 2 0 0 i-57
+select 3 1 1 b0
+del 1 1 n
+select 2 1
+select -1 0 0 i-57
+select 1 1
+select 1 0 0 n
+delwhere -1 0 0 n
+select 3 1
+select 2 0
+put 9223372036854775807 1 1 t27 y494d22
+put 2 0 1 i-50
+put 2 2 3 n
+delwhere 0 0 0 i2
+select 2 0
+select 3 0
+select 9223372036854775807 0
+del 1 1 t610062
+select 9223372036854775807 1 1 y
+put 1 0 1 i27
+put 9223372036854775807 1 1 b1 y
+put 3 0 1 i9223372036854775807
+select 1 0 0 i-1
+delwhere 7 0 0 i65
+reset
+table 6964 3 746167:text:1 6964:bool:1 e5908de5898d:bytes:0
+table c3a9 2 e5908de5898d:bool:0 746167:bytes:0 782279:bool:0
+table 782279 1 2222:text:1 6e6f7465:bytes:1 74656e616e745f6964:int:0
+create
+select 1 1
+select 2 0
+delwhere 2 2 2 i9223372036854775807
+select -9223372036854775808 2 1 y7f30
+put 2 1 2 b1 i-57 b0
+put 1 2 1 n y i1 n
+put 1 2 1 t27 y57bf i1
+select 3 2
+select 9223372036854775807 0
+put 3 0 3 tc3a9 b1 y
+put 1 3 0
+select 1 0 0 t610062
+select -9223372036854775808 3 2 n
+select 3 0
+select 1 2
+delwhere 2 0 0 t
+select 1 3 3 n
+del 3 3
+del 3 2 t61
+delwhere -1 1 1 y55
+delwhere 1 0 0 te5908de5898d
+select 2 0 2 y7a
+select 1 2 2 i-53
+select 3 0 0 t22
+select -9223372036854775808 0
+delwhere 1 0 0 t
+del 3 2 t
+select 3 0
+put 1 0 3 n b0 y
+delwhere 0 1 0 t
+reset
+table 746167 3 2222:int:0 6964:text:0 6e6f7465:bytes:1
+table 546167 0 626f6479:text:1 546167:bool:1
+table 626f6479 1 626f6479:text:1 6e6f7465:text:1 2222:int:0
+create
+delwhere 3 0 2 yb81f
+select 9223372036854775807 0
+delwhere 1 0 0 i60
+select 3 2 2 te5908de5898d
+delwhere 0 1 0 t22
+delwhere 1 0 0 i8
+select 7 1
+select 1 0
+put 2 0 3 i-68 b1 t2431
+put 2 2 1 b0 n i1
+del 3 0 i0 n y
+delwhere 2 1 1 i41
+put 7 0 1
+put 2 3 0 n n
+del 3 2 i59
+delwhere 2 1 0 te5908de5898d
+select 0 3 2 n
+select 1 1 0 t2431
+put 2 1 0 t b0
+del 2 2 tc3a9
+del 2 0 b0 t7827293b2044524f50205441424c4520743b202d2d y
+select 1 3 2 n
+del 9223372036854775807 0 i80 tc3a9 y5d1d
+select 1 0 1 t7827293b2044524f50205441424c4520743b202d2d
+delwhere 7 1 0 tc3a9
+put 2 1 0 t27 i-4
+select 3 1 1 b1
+del 1 0 i2147483648 tc3a9 i-1
+put 0 1 0 te5908de5898d b1
+select 1 0 2 y
+reset
+table 626f6479 3 626f6479:bytes:1 6e6f7465:bytes:1
+create
+select 2 0
+put 3 1 0 n t22 y n
+put 1 0 3 y y5b
+del 2 1
+select 3 1 3 b1
+delwhere 1 0 1 y
+select 3 0
+delwhere 1 0 0 ybd
+del -9223372036854775808 0 y2e ycada n
+put 3 0 3 y y3099
+del 3 0 y y n
+delwhere 2 1 3 n
+del 1 0 yfc b1 n
+del -9223372036854775808 0 n n n
+put 1 0 3 y y
+del 1 1
+put 1 0 3 ye691e2 n
+del 1 0 y37f55e ye1 n
+select 7 0 0 yef9d
+del 2 1
+del -1 0 y033b16 y511d8b n
+del 1 0 y48e227 y n
+select 1 1
+delwhere 3 0 0 i-25
+select 2 0
+select 0 0 3 n
+select 3 0 1 y
+delwhere 2 0 1 y
+select 3 0
+select 3 0
+reset
+table 2222 0 782279:int:1 e5908de5898d:int:1
+table 546167 1 546167:bool:0
+create
+put -1 0 0 i3 i1
+select 3 1 0 b1
+select -9223372036854775808 2
+select 1 1
+select 7 2 3 t7827293b2044524f50205441424c4520743b202d2d
+put 3 0 0 i10 i24
+put 2 1 1 b0
+delwhere 0 1 0 b1
+del 2 0
+delwhere 2147483648 1 3 n
+del 3 0
+del 1 0 i-1
+delwhere 2147483648 0 2 n
+put 2147483648 0 0 tc3a9 n
+put 3 0 0 i7 i-1
+del 7 1 y
+select 2 1 0 b1
+delwhere 3 1 0 n
+del -1 1 b1
+select -1 1
+select 2 1 0 b0
+del 1 1 b0
+delwhere 2 1 0 n
+del 3 0
+select 3 1
+select -9223372036854775808 1 0 y10a130
+delwhere 2 1 0 b0
+select 1 1 0 b0
+put 1 0 0 i35 i59
+delwhere 2 1 0 b1
+reset
+table 6964 1 546167:int:1
+table 546167 1 612062:bytes:1
+table 626f6479 3 6964:int:0 546167:int:1 746167:bool:0
+create
+select 2 1
+delwhere 2 0 0 i9223372036854775807
+select 1 0
+del 2 0 i-62
+select 2147483648 0 0 i65
+put 3 2 3 i-63 i-42 i9223372036854775807
+delwhere 2 2 1 i-1
+put 3 2 3 i30 i-99 b0
+del 2 2 i51 i25 te5908de5898d
+delwhere 2 2 2 b1
+delwhere -9223372036854775808 3 0 n
+put 2 2 3 i-38 i36 b0
+delwhere -1 3 0 n
+select 2147483648 3
+select 2147483648 3
+select 3 2
+put 0 0 1 i-50
+delwhere 2 0 0 b0
+put 2 0 1
+delwhere 2147483648 2 2 b0
+del 2 2 i-1 te5908de5898d b0
+select 1 0
+select 2 1 0 yd4
+delwhere 2 0 0 t22
+select 2 2 2 b0
+select 1 2 0 i0
+put 7 0 1 b1
+select 3 2
+put 7 1 1 yb6
+select 1 0
+reset
+table 626f6479 0 61:text:1 746167:int:0 61:text:1
+create
+select 3 0 2 te5908de5898d
+select 1 0
+put 2 1 0
+del 3 1
+select 2 0
+put 1 0 0 t61 y te5908de5898d
+select 0 0
+select 3 0 1 i-1
+put 3 0 0 te5908de5898d i-22 t61
+del 3 0
+delwhere 7 0 1 i-1
+put 7 0 0 t i1 t61
+select 3 1
+select 1 0
+select 1 0 1 i85
+del 2 0
+select 1 0
+delwhere 3 0 0 t2431
+del 3 0
+put 1 1 0
+select 9223372036854775807 0
+select -9223372036854775808 0 3 n
+select 1 0 2 i0
+delwhere 1 0 0 t27
+del 1 0
+put 3 0 0 t27 n t61
+delwhere 2 0 3 n
+del 2 0
+select 1 0 2 t22
+put 2147483648 0 0 t7827293b2044524f50205441424c4520743b202d2d i-17 t2431
+reset
+table 626f6479 0 626f6479:bool:0 2222:bool:1
+table 6e6f7465 1 626f6479:int:1 782279:bytes:1
+table 61 0 626f6479:bool:1
+create
+put 1 1 1 i18
+del -9223372036854775808 2
+put 3 1 1 i2147483648 b1
+delwhere 2 1 0 i1
+delwhere 1 0 0 b1
+del 0 2
+select 1 0 0 b0
+select 2 0
+select 3 2
+put 1 0 0 b1 b1
+del 7 0
+put 2 3 0
+delwhere 1 3 1 n
+select -1 1
+select 2 1
+del 2 2
+del 3 0
+delwhere 2 1 0 i7
+select 9223372036854775807 1 0 i-9223372036854775808
+delwhere 1 2 0 b0
+select 2147483648 2 0 b0
+del 2 0
+put 3 3 0
+put 9223372036854775807 0 0 b0 n y3b
+put 0 0 0 b0 b1
+select -1 1 1 y85
+del 1 0
+del -9223372036854775808 0
+select 1 1
+put 2 0 0 b0 b0
+reset
+table c3a9 3 e5908de5898d:bool:1 546167:int:0 c3a9:bytes:0
+table 2222 0 746167:text:1
+table 61 0 2222:bytes:0
+create
+delwhere 3 1 3 n
+put 3 2 0 y1b93d5
+delwhere 2 2 0 i1
+select 1 2
+select 3 2
+select 2 2 0 b0
+select 1 2 0 y9a01
+put 1 2 0 yf50e8f
+del 3 1
+delwhere 1 1 0 t27
+del 1 0 b0 n y
+put 1 0 3 b0 i2147483648 b0
+select 1 1 0 t61
+select 1 0 2 i47
+select 1 2 0 n
+delwhere 0 0 2 y57
+select 3 1 2 i0
+del 2 2
+put 2 1 0 t27
+del 3 0 b0 t y20
+del -1 0 ya845 t n
+put 1 2 0 n
+select 7 3
+select 3 1 0 t27
+del 3 2
+delwhere 2 2 0 y
+del 0 1
+select 7 0 0 b0
+del 3 2
+select 3 1 0 t610062
+reset
+table 546167 2 6e6f7465:bool:1 782279:text:0
+create
+del 3 0 b0 tc3a9
+del 2147483648 0 b1
+delwhere 2 0 1 t
+del 7 0 b1 t
+del 2 0 b0 t27
+select 1 0 1 t7827293b2044524f50205441424c4520743b202d2d
+delwhere -1 0 0 b0
+delwhere 2 0 0 i2147483648
+put 7 0 2 b1 tc3a9
+select 7 0 1 t2431
+select -9223372036854775808 0 1 t
+select 2147483648 1 0 n
+put 1 0 2 b1 t27
+select 1 0 0 b0
+select 1 0 2 n
+del 3 1 tc3a9 n n
+put 0 0 2 b1 b0 n b0
+del 9223372036854775807 0 b1 t22
+del 2 0 n ydfbc0d
+delwhere 1 0 0 y18
+select 2 0 0 b1
+select 3 0 0 n
+select 3 0
+select 2 0 0 b1
+select -9223372036854775808 0
+del 2 1
+select 1 0 0 b0
+select 2 1
+select 7 0
+select -1 0 1 t27
+reset
+table 6e6f7465 0 626f6479:text:0
+table 782279 2 746167:text:0 612062:int:0
+table 2222 1 6e6f7465:text:0
+create
+delwhere 3 2 0 t2431
+put 2 0 0 te5908de5898d
+delwhere 3 1 1 i0
+select 1 0 0 t7827293b2044524f50205441424c4520743b202d2d
+select 1 0
+select 9223372036854775807 2
+select 2147483648 3
+select 3 2
+delwhere 2 2 0 te5908de5898d
+del 1 1 t61 i-50
+put 1 0 0 t61
+put 0 0 0 t27
+select 2147483648 2 0 t610062
+put 2 3 2
+select -1 0
+select -9223372036854775808 1
+delwhere 0 2 0 te5908de5898d
+del 3 2 t27
+del -9223372036854775808 2 b0
+put 3 0 0 n n n n
+delwhere 3 1 0 t610062
+del 2 2 t2431
+select 9223372036854775807 2
+select 1 1
+delwhere 1 3 2 t61
+select 3 2 2 n
+delwhere 9223372036854775807 0 0 t27
+delwhere 1 1 1 i91
+delwhere 3 0 0 n
+select 2 2
+reset
+table 782279 0 626f6479:int:0
+table 6964 0 612062:bool:1 746167:text:1
+table 61 3 2222:bool:1 61:text:0 782279:bool:0
+create
+delwhere 3 2 2 i0
+put -1 2 3 b0 tc3a9 t2431
+select 2 3 0 n
+put 1 0 3 i-8
+delwhere 1 1 0 b1
+select 2 3
+select 1 1
+put 9223372036854775807 2 3 b1 t22 n
+select 2 1
+put 9223372036854775807 3 0
+del 1 1 i7 t610062 n
+select 2147483648 0
+delwhere 2 0 0 i88
+select 7 2 0 n
+select 1 3 0 n
+delwhere -9223372036854775808 1 1 t61
+select 3 0 0 i7
+select 1 2 0 b0
+select -1 2
+del 2147483648 0
+put 3 0 1 i7
+delwhere 2 1 1 n
+select 1 3 2 i-2
+del 3 2 b1 y b0
+select 1 0
+select -9223372036854775808 2
+delwhere -9223372036854775808 0 0 b1
+select 3 2 1 n
+select 2 2 1 t
+select 7 2
+reset
+table 546167 1 746167:int:1 e5908de5898d:int:1 61:bool:1
+table 6964 3 782279:bool:1 626f6479:bytes:1 746167:int:0
+table c3a9 2 e5908de5898d:int:0 6964:bool:0
+create
+del 0 2 t7827293b2044524f50205441424c4520743b202d2d t610062
+put 0 1 3 i-10 y450298 i-9223372036854775808
+select 2 3 3 b0
+del 7 3
+delwhere 9223372036854775807 2 0 i83
+del 2 1 b1 y n
+select 1 1 1 yce1812
+select 1 0
+del 3 2 i-1 yf2
+put 2 2 2 i91 b0
+select 1 2
+select 1 1 0 b1
+put 2 3 0
+select 1 3 2 n
+delwhere 0 0 0 i70
+delwhere 2147483648 1 1 y7a
+select 3 2
+select 2 0
+del 0 0 i-34
+put 2 1 3 b0 n i-25
+delwhere 1 0 2 b1
+put 1 1 3 t7827293b2044524f50205441424c4520743b202d2d
+select 1 1 0 b1
+del -9223372036854775808 0 i-9223372036854775808
+select 7 0
+select 0 2
+put 1 0 1 t22 i36 b1
+select 3 2
+del 3 1 b0 y224d i7
+put 3 0 1 i67 i9223372036854775807 b0
+reset
+table 6e6f7465 0 746167:bool:0
+table 6964 0 e5908de5898d:bool:1 c3a9:bool:1
+create
+select 1 2
+delwhere 2 1 1 b1
+select 3 0
+select 3 2 2 b1
+del -9223372036854775808 0 b1
+select 2 1
+select 1 2
+put 3 0 3 b1
+select 7 0 0 b0
+select 0 2 3 n
+put 1 0 0 b1
+del 3 1
+select 3 0 0 n
+select 2 0
+select 7 1
+select 1 1 0 t610062
+del 1 0 b0 n n n
+select 9223372036854775807 1
+select 1 2
+del 3 0
+delwhere 3 1 0 b1
+delwhere 2 1 1 y
+select 9223372036854775807 1 0 b1
+delwhere 1 0 0 b1
+select 3 0
+select 1 1
+put -1 0 0 b0
+delwhere 2147483648 1 0 b1
+delwhere 2 0 0 b0
+select 7 1 0 b0
+reset
+table 6964 0 6e6f7465:int:1
+table 61 3 546167:int:0 626f6479:int:1 782279:bool:0 546167:int:0
+table 746167 1 782279:bool:1
+create
+select 2 2
+select 2 1
+del 2 0
+delwhere 1 1 1 i98
+select 1 0 0 i89
+select -9223372036854775808 3
+select 9223372036854775807 2
+delwhere 1 2 0 b0
+select 2 2 0 y3fa198
+del 2 1 i0 i7 b1
+select 1 1 2 b0
+put 7 2 1 b1
+del 1 0
+select 1 2 0 b0
+delwhere -9223372036854775808 2 0 te5908de5898d
+select 2 2 0 b0
+delwhere 2 0 0 i30
+delwhere 3 1 1 i9223372036854775807
+del -1 2 y
+select 2 1 3 i-87
+put 2 2 0 b1
+select 9223372036854775807 3
+delwhere 2 2 1 n
+select 1 0
+select 1 3
+select 0 0
+select 0 0
+put 2 0 0 n
+del 1 0
+select 2 0
+reset
+table 746167 0 546167:bytes:0 6e6f7465:int:1 6964:int:1
+table 546167 0 746167:bool:0 546167:text:1
+create
+select 1 1 3 n
+select 0 0
+put 3 0 0 y01d3 n i-89
+delwhere -9223372036854775808 1 0 b1
+delwhere 3 0 2 i36
+put 1 1 0 b1 n
+select 2 0 2 i41
+select 2 0 0 i2147483648
+select 2147483648 1 0 b0
+delwhere 1 1 1 t
+put -9223372036854775808 1 0 y t61
+del 9223372036854775807 0
+delwhere 1 2 2 n
+del 1 1
+delwhere 1 1 0 b1
+put 1 2 0
+del 3 0
+delwhere -9223372036854775808 1 0 b0
+del 2147483648 1 b1 t61
+select 1 0 2 i1
+delwhere 3 0 2 i21
+select 2 0
+delwhere 2 0 0 y63b8b6
+del 2 0
+select 2 0 0 y
+put 2 0 1 y08
+select 3 1 0 b1
+del 3 1
+del -9223372036854775808 0 y i72 i-85 y3531
+select 1 0
+reset
+table c3a9 1 e5908de5898d:bytes:0 e5908de5898d:bytes:0
+table 612062 1 612062:bytes:1 61:bytes:0
+create
+select 1 1 0 n
+select 0 0
+del 1 0 y018a
+delwhere 2 2 0 n
+select 7 0 0 y532a
+del -1 0 i-1
+delwhere 1 1 0 y
+select 2 0
+select 3 0 0 i-9223372036854775808
+select 3 1
+del 1 0 y00c7
+put 2147483648 1 1 y8f53b4 y5fe9
+del 3 1 y1883
+put 1 1 1 y311095 y
+put 3 2 0
+select 1 1 0 y21
+delwhere 7 1 0 y79
+delwhere 3 0 0 y7c70af
+put 1 0 3 yc012 yc0
+select 1 1
+del 3 2 b0 n n t610062
+select 2 0 0 yb785
+select 3 1 0 y0e3a
+delwhere 2 1 0 b1
+delwhere 1 0 1 i-58
+put 2 0 1 y b1
+put -9223372036854775808 1 1 n y9a n tc3a9
+select 2 0
+del 2 0 y72ba87
+select 3 1 0 b0
+reset
+table 782279 2 e5908de5898d:int:1 626f6479:text:0 546167:int:0
+create
+select 1 0
+select 2 0 2 y
+del 1 0 i-1 t61
+select 3 0 1 t61
+select 3 0 2 i-9223372036854775808
+del 1 0 i10 n
+delwhere 9223372036854775807 0 2 i2147483648
+select 0 0 0 i2147483648
+delwhere 3 0 1 t27
+del 2 0 i2147483648 tc3a9
+select 3 0 0 i-97
+select -1 0
+select 1 0 3 n
+select 3 0 2 ye788f3
+del 2 0 n t2431
+delwhere 2 0 2 i1
+select 1 0 2 n
+select 1 0 1 t
+put 1 0 2 i13 ye1a1 i10
+put 2 0 2 i36 t61 i-43
+put 3 0 2 i-34 t27 i9223372036854775807
+delwhere 3 0 2 i1
+delwhere 2 0 1 t22
+select 1 0 0 t7827293b2044524f50205441424c4520743b202d2d
+select 3 0 0 tc3a9
+put 2147483648 0 2 n n n
+select 7 0
+delwhere 2 0 1 i-28
+select 3 0 0 i-1
+del 3 0 i92 t22
+reset
+table 746167 0 2222:bytes:0
+create
+select 0 0
+select 7 0 0 y
+put 1 0 3 y8596
+del 2 0
+delwhere -9223372036854775808 0 0 y
+select 1 0 0 y
+delwhere 3 0 0 y
+select 2 1
+select 3 0 0 ybd
+put -9223372036854775808 0 0 y38
+put 2 0 0 y46c0dc
+delwhere 1 0 0 yc4
+put 1 0 3 yc9
+put 1 0 0 n
+del 2 0
+put -9223372036854775808 0 0 y2ae8
+put -9223372036854775808 0 0 y4c2b7c
+put 1 0 0 y0275bd n yfd179e n
+select -9223372036854775808 0
+select 1 0
+del -9223372036854775808 0
+select 1 0
+del 0 0
+put -1 1 0 b0 n n
+del 1 0
+del 3 0
+put 3 0 0 y
+put 3 0 0 ya2
+select 1 1 1 n
+delwhere 3 0 0 yfcaa
+reset
+table 626f6479 3 e5908de5898d:bytes:1 612062:text:0 c3a9:bytes:1
+create
+select 1 0 1 tc3a9
+del 0 0 y9f i7 y212f
+select 1 0
+delwhere 2 1 1 n
+select 2 0 0 y05
+select 1 0 2 yb5d9
+put 2 0 2 y2309e5 t61 yea4985
+select 2 0 0 b1
+del 2 0 y814b t y
+select 1 0
+select 3 0
+delwhere 3 0 1 te5908de5898d
+delwhere 3 0 1 tc3a9
+select 2 0 0 n
+select 3 0 1 t610062
+select -9223372036854775808 0
+put 3 0 3 y37 te5908de5898d y4f
+delwhere 2 0 2 y
+delwhere 2 0 1 tc3a9
+delwhere 1 1 3 n
+select 2 0 1 te5908de5898d
+del 1 0 y57ee t2431 y10b7
+put 3 0 3 y8a2253 i-1 y4ccc5f
+del 3 0 n t7827293b2044524f50205441424c4520743b202d2d yc2
+select 1 1
+put 1 0 3 y56d363 t610062 y8d3db3
+delwhere 3 0 2 n
+put 2 1 0
+select 1 0
+put 2 1 0
+reset
+table 546167 0 c3a9:int:1
+table 612062 1 746167:bytes:0
+table c3a9 1 626f6479:bytes:1
+create
+select 9223372036854775807 2 0 y54
+del 3 2 t27
+delwhere 0 2 0 y3f7025
+del 0 2 y61
+select 1 1
+put 1 2 1 yf6762d
+put 1 2 1 yf365
+put 2 3 0
+put 3 2 1 y553bb3
+select 3 1
+select 2147483648 1
+select 9223372036854775807 2
+select 1 1
+select 2 2 0 n
+put 2 1 1 yc3dc
+select 7 2 0 y676f9d
+select -9223372036854775808 1 0 b1
+del 7 2 y77
+delwhere 3 1 0 n
+put 3 2 1 i11
+put 3 2 1 y1fbc
+put 9223372036854775807 1 1
+del 3 2 y6c
+put 2 1 1 y
+select 2 3
+select 3 2
+del 2 0
+del 2 1 y302061
+del 3 1 y
+delwhere 0 0 0 i75
+reset
+table 546167 0
+create
+del 3 1
+delwhere 3 0 1 n
+del 2 0
+select 2 0
+delwhere -1 0 1 n
+put 3 0 0
+delwhere 2 0 2 n
+put 1 0 0
+select 7 0 2 t
+select 3 0
+put 7 1 1
+put 3 0 0 n n
+select 1 0 1 n
+put 2 0 1
+select 1 0
+put 2147483648 1 0
+select 1 0
+select 9223372036854775807 0
+select 0 0
+put 2147483648 1 0
+delwhere 0 0 1 n
+put 1 0 0
+select 3 0 2 n
+del 3 0 n n
+select 3 0
+delwhere 2 0 1 b0
+select 3 0
+select 7 0
+select 2 0
+put 2 0 0
+reset
+table 61 3 e5908de5898d:bytes:1 612062:bool:0 746167:int:0
+table 6964 2 6964:bool:0 546167:text:1 e5908de5898d:int:1
+table 2222 1 e5908de5898d:bytes:1
+create
+del 2 1 b1 n
+select 9223372036854775807 1
+delwhere 3 0 1 b1
+del -9223372036854775808 1 b1 t61
+del 7 2 i-66
+select 3 3
+delwhere 1 3 0 n
+select 9223372036854775807 1 0 b1
+delwhere 0 1 1 t7827293b2044524f50205441424c4520743b202d2d
+select 1 0
+select 1 1
+delwhere 3 1 2 i-9223372036854775808
+select 2 0 1 n
+select 2 1
+del 1 2 yaa8c3d
+put 2147483648 2 1 b1 i9223372036854775807 n n
+put 1 3 0
+put -1 0 3 n b1 i-41
+del 2147483648 3
+delwhere 3 1 1 t7827293b2044524f50205441424c4520743b202d2d
+del 9223372036854775807 0 y33f4 b0 i-1
+del 2147483648 0 y i-50 i0
+del 0 1 b1 t27
+select 0 3 0 n
+select 2 0 0 y
+delwhere 2147483648 2 0 i68
+del 9223372036854775807 0 y12 b1 i7
+select 0 2 0 n
+del 1 0 y6a8800 n i53
+del 2 2 y7970db n n
+reset
+table 626f6479 0 6e6f7465:bool:0
+table 612062 0 746167:bool:1 6e6f7465:bool:0
+create
+put -1 1 0 b0 b1
+delwhere 3 2 1 t
+select 2 1
+select 3 1 1 b1
+put 1 0 0 b0
+put 3 1 0 b1 b1
+select 2 0
+put 1 1 0 b1 y
+del 0 1
+select 1 0
+delwhere 1 0 0 b1
+del 1 1
+del 3 0
+select 0 0 0 b0
+put 3 1 0 b1 yda3c16
+delwhere 1 0 3 n
+put 1 2 0
+select 3 1
+put -9223372036854775808 1 0 b0 b1
+del 2 1
+del 3 1
+del 2 1
+delwhere 2 1 0 b1
+put 2 0 0 b0
+del 2 0
+del 1 0
+select 0 1 0 y47
+put 2 1 0 i-97 b1
+delwhere 2147483648 1 0 y7f44
+select 3 0 0 t610062
+reset
+table c3a9 1 546167:text:1 612062:text:0 61:bool:1
+create
+select 9223372036854775807 0 2 b0
+select 3 0
+del 1 0 te5908de5898d
+put 1 0 1 t2431 t61 i-54
+select 1 0
+select 9223372036854775807 0 0 t
+del 3 0 t2431
+put 2147483648 0 1 tc3a9 te5908de5898d b0
+delwhere 9223372036854775807 0 0 t61
+put 1 0 1 i-9223372036854775808 n
+select 1 1 1 n
+del 3 1
+put 1 1 0
+select 9223372036854775807 0
+select 1 0 0 te5908de5898d
+del 1 0 t22
+select 1 0
+delwhere 2 0 1 b0
+put 1 0 1 t610062 n b0
+select 2 1 0 n
+put 2147483648 0 1 t610062 t610062 y
+delwhere 3 0 0 t27
+del 2147483648 0 t22
+delwhere 1 0 0 t610062
+select 2 0 0 y46c9
+put 3 0 1 tc3a9 t7827293b2044524f50205441424c4520743b202d2d b1
+select 3 0 0 tc3a9
+del 2 1
+delwhere -1 1 1 n
+delwhere -1 0 0 t2431
+reset
+table 612062 0 e5908de5898d:int:0 c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9:int:0
+create
+delwhere 1 0 3 n
+delwhere 3 0 0 i-90
+delwhere 1 0 0 t22
+select 3 0
+delwhere 1 1 2 n
+select 3 0
+put 3 0 0 i-53 i0
+select 3 1
+del 2 0
+select 2 0 0 t
+put 3 0 0 i2147483648 i9223372036854775807
+delwhere 2 0 0 n
+del 3 0
+select 2 0 0 i76
+select 3 0 0 i47
+select 1 0
+select 1 0
+put 1 0 3 i7 b1
+select 9223372036854775807 0 3 n
+select 2 0
+delwhere 3 0 1 i-1
+select 2 0 0 i9223372036854775807
+select 3 0 0 i-27
+delwhere 9223372036854775807 1 0 n
+put 2 1 0
+select 1 0
+put 1 0 0 i7 b1
+del 0 0 i43 n n n
+select 1 0
+put 3 0 0 i-9223372036854775808
+reset
+table 746167 2 2222:text:1 626f6479:int:0
+create
+put 2147483648 0 1 t2431 i50
+delwhere 9223372036854775807 0 1 i1
+select -9223372036854775808 0
+put -1 0 2 n i1
+select 0 0
+select 0 0
+delwhere 7 0 0 tc3a9
+select 1 0 0 n
+delwhere 1 0 0 t2431
+select -9223372036854775808 0
+delwhere 1 0 0 y93
+select 2 0
+del 9223372036854775807 0 tc3a9 yb2
+del 7 0 t610062 i-70
+select 2 0 1 b0
+del 3 0 t2431 b0
+select 2 0
+select 3 1
+put 7 0 2 t22 i-34
+put -9223372036854775808 0 2 n i-1
+put 3 0 2 t2431 i2147483648
+select 2 0 1 tc3a9
+delwhere 1 0 0 t22
+put 7 0 2 b0 i-9223372036854775808
+delwhere -9223372036854775808 0 1 i2147483648
+put 1 0 2 t27 i-9223372036854775808
+del 2 0 te5908de5898d i9223372036854775807
+del 3 1
+put 3 0 2 t2431 i80
+select 1 0
+reset
+table 2222 1 782279:text:0
+table 6e6f7465 0 e5908de5898d:int:1
+table 746167 3 6964:int:0 6e6f7465:bool:1 626f6479:bytes:1
+create
+select -1 1
+select 1 1
+del 9223372036854775807 0 t27
+select 2147483648 2 2 yba43
+select 1 0 0 t22
+put 2 0 1 t22
+put 1 1 0 b1
+put 7 3 0
+put 2 2 3 i1 b0 y5f02ce
+put 1 1 0 i0
+select 1 2
+put 2 2 3 i95 b1 n
+del 1 0 t22
+select 1 2
+del 1 2 i-73 b0 n
+delwhere 1 1 0 n
+del 1 1
+delwhere 1 1 0 n
+del 2 2 i-27 b0 ya1
+select 2 2
+put 9223372036854775807 1 0 i-9223372036854775808
+delwhere 1 0 0 t27
+put 2 2 2 i-9223372036854775808 b1 y4e986a
+del -9223372036854775808 0 tc3a9
+delwhere 0 1 2 n
+select 2 1 0 n
+delwhere 2 1 0 t7827293b2044524f50205441424c4520743b202d2d
+put -9223372036854775808 2 3 i-93 b0 b1
+select 0 0 0 te5908de5898d
+select 1 3
+reset
+table e5908de5898d 2 e5908de5898d:int:1 61:bool:1
+table 626f6479 0 746167:bytes:0
+create
+select 3 0 1 b0
+select -9223372036854775808 1
+put 2147483648 0 3 i-35 b0
+put 1 2 0
+select 2 1 0 y
+select -9223372036854775808 0 1 b0
+put 2 1 1 y2c3eaf
+select -1 0 0 t
+del 2 2
+del 1 0 i1 b1
+select 2 0
+select 3 1
+select 1 1
+select 2147483648 0 1 t
+put 1 1 0 y
+select 9223372036854775807 1
+put 2 0 2 i7 b0
+delwhere 3 0 0 b1
+del 2 1
+select 2 0
+del 1 2
+select 1 2 2 n
+put -1 1 0 y
+delwhere 2147483648 1 3 n
+put 1 2 0
+put 3 0 2 i-62 b1
+select -1 1
+delwhere 3 1 0 i1
+delwhere 1 2 1 n
+select 3 0 0 b1
+reset
+table c3a9 1 6964:int:1 c3a9:text:1 61:bytes:0
+create
+select -9223372036854775808 1 3 n
+select 1 0 1 t610062
+put 9223372036854775807 0 1 i-1 tc3a9 yb5
+select 1 0 1 te5908de5898d
+delwhere 1 0 1 t22
+select 1 0 0 n
+select 3 0 0 n
+del 2 0 i0
+delwhere 1 0 1 te5908de5898d
+delwhere 7 1 1 n
+del 2 0 i1
+del 2 0 n
+put 3 0 1 i66 t7827293b2044524f50205441424c4520743b202d2d y
+select 7 1 2 i9223372036854775807
+select 7 0 0 n
+select 3 0 1 b1
+put 1 0 1 i9223372036854775807 t610062 y
+select 1 0
+del 3 0 i-92
+select 2 0 0 i7
+del 3 0
+put 2 0 1 i9223372036854775807 te5908de5898d i7
+del 3 1 n n n
+select 1 1
+put 3 0 1 i0 n y121b
+select 2 0
+select 2 0
+delwhere 3 1 3 n
+select 2 0
+delwhere 1 0 0 i-92
+reset
+table 626f6479 0 e5908de5898d:bytes:0
+table 6e6f7465 2 c3a9:bool:1 612062:int:0 2222:text:1
+create
+delwhere 2147483648 0 0 yceb5
+delwhere -9223372036854775808 0 0 y
+delwhere 3 1 0 b0
+del -9223372036854775808 0
+put 3 0 2 y2d
+delwhere 1 1 0 b1
+put 0 0 0 y
+delwhere 2 1 2 tc3a9
+del 3 1 b0 i-55
+select 0 1 2 tc3a9
+del 2 2
+select 3 1 2 t22
+del -1 1 b0 i95
+put 7 2 0
+select 2 1
+put 1 2 0
+select 1 0 2 n
+del 2 1 yc31e i2147483648
+select 2 0
+select 0 1
+select 7 1
+put 7 0 0 y
+del 2 1 b0 n
+del 3 1 y5465 i9223372036854775807 t2431
+select 2147483648 1
+delwhere 1 2 3 n
+del 1 1
+select 3 1 0 b0
+del 9223372036854775807 1
+select 2 2
+reset
+table e5908de5898d 2 746167:bytes:0 6964:int:0
+table 626f6479 1 612062:bool:1 626f6479:bool:1 6e6f7465:bool:0
+create
+select -1 0 1 b1
+del 1 0 y9c i2147483648
+select 2 2 2 n
+delwhere 1 2 2 n
+put 2 0 2 b1 n
+put 3 0 2 b1 i-11
+select -1 1 1 b1
+select 7 1 0 b1
+del 2 0 yf1ae8c i2147483648 n n
+select 3 0 0 i-36
+select 2 1 3 n
+delwhere 2 1 2 b0
+delwhere -1 1 0 b0
+select 1 1 1 b0
+put 3 0 2 yb5 i9223372036854775807
+put 1 1 1 n b1 b0
+select 1 1
+put 7 2 0
+put 7 1 1 b1 b0 b0
+del 1 1 b0
+select 1 1
+select 1 1
+delwhere 3 0 0 y470047
+select 3 0 1 n
+put 2 1 1 b0
+put 9223372036854775807 2 0
+put -1 0 2 y
+select -1 1 0 b0
+put 2 0 2 ybd i52
+del -1 0 n i7
+reset
+table 626f6479 0 e5908de5898d:bytes:0 6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e:int:0
+create
+select 3 1 2 y
+put 2 0 0
+del 2 0
+select 2147483648 0 2 n
+put 1 0 0 y30030b i1
+select 1 0 1 i-1
+delwhere 1 0 1 tc3a9
+del 0 0
+del 3 0
+select 2 0 1 i90
+select 1 0 1 i93
+put 2 1 0
+select 2 0 0 y0f4af8
+del 1 0
+delwhere 9223372036854775807 0 1 i40
+del 9223372036854775807 0
+put 1 0 1 y6930 i2147483648
+delwhere -1 0 0 y74caf2
+select 1 0 1 y68
+select 2 0 0 y58dc
+select 3 0
+select 2 0 0 y48
+del 3 0
+put 9223372036854775807 0 0 y i-94
+delwhere -9223372036854775808 0 0 y5afb63
+select 3 0
+select 1 0 1 i43
+select -1 1 3 y
+select 2 0
+del 7 0
+reset
+table c3a9 2 626f6479:bool:1 6e6f7465:bytes:0 782279:bytes:1
+table 546167 0 61:bytes:0 e5908de5898d:int:0 746167:bytes:0
+create
+put 1 1 0 y b0 ybcd664
+delwhere 9223372036854775807 0 2 yd8
+select 1 1
+select 2 1
+del 3 1
+put 1 1 0 yc7396c i1 ye2
+delwhere 2147483648 1 0 n
+put 1 1 0 n i93 i9223372036854775807
+del 2147483648 0 b1 y23
+delwhere 3 2 3 n
+select 0 0 1 n
+select -9223372036854775808 1 2 i-16
+select 1 1 2 y28570e
+select 3 0 2 yc3a8
+delwhere 1 1 1 i-37
+del 1 1
+del 1 0 t61 y
+put 2 0 2 b0 ya9ef24 yd6
+select 2147483648 0 0 y44a443
+put 1 0 2 b0 y ydd n
+del 7 1
+delwhere 3 1 0 y3704af
+delwhere 9223372036854775807 1 0 y18
+select 1 1
+put 7 2 2
+select 2 1
+delwhere 3 0 0 n
+put 1 0 2 b0 n ya17d
+delwhere 0 1 1 ya1d6ef
+del 2147483648 2
+reset
+table 546167 1 61:int:1
+table 782279 2 746167:bool:1 e5908de5898d:bytes:1 6e6f7465:int:0 746167:bool:1
+create
+put 3 1 2 b1 y i2147483648 b0
+delwhere 1 0 0 i95
+select 3 2 0 n
+delwhere 9223372036854775807 2 0 n
+select 3 1 2 i0
+put 2 0 1 i-68
+del 1 1 i97 y09
+select 3 0
+del 2 2 n n
+delwhere 2 1 1 yd769ef
+put 2 1 2 b0 y i37 y77e689
+select 1 1 0 b0
+select 2 0 0 i-79
+put 1 1 2 b1 ycaddc6 n i7
+put 2 1 2 t7827293b2044524f50205441424c4520743b202d2d i70 i0 te5908de5898d
+delwhere 3 0 0 i42
+select 1 1
+select 2 2
+select 3 0
+delwhere 2 2 0 n
+delwhere 0 1 3 b0
+select 2 1
+select 2 0
+delwhere 3 0 0 i7
+put 1 0 1 t
+select 3 1 1 yfe060f
+select 3 1
+put 3 2 0
+select 1 0
+delwhere 0 1 2 n
+reset
+table 626f6479 3 2222:int:0 c3a9:bytes:0 626f6479:bytes:0
+table 61 0 612062:text:0
+table 546167 2 612062:text:0 e5908de5898d:int:0
+create
+select -1 1 2 t7827293b2044524f50205441424c4520743b202d2d
+del 2147483648 1
+select 2 1
+put 2 0 3 i75 ydbf2db y
+select 3 2
+put 1 0 1 i9223372036854775807 y0e1c i-98
+select 9223372036854775807 1 0 t7827293b2044524f50205441424c4520743b202d2d
+del 1 2 b0 b1
+select 3 2
+select 2 2 1 i0
+select 1 0
+put 9223372036854775807 1 0 t22
+del 3 2 t22 i8
+delwhere 2147483648 3 0 n
+delwhere 3 2 0 t610062
+select 1 0
+delwhere 2 1 0 t610062
+put 9223372036854775807 2 2 t n n n
+select 3 0
+select 2 2 3 y2ef03c
+delwhere 0 0 1 yc98f86
+del 1 2 t2431 i-83
+delwhere 2147483648 3 1 n
+del 3 3
+put 3 2 2 n i43
+select -1 3
+select 3 1 0 t7827293b2044524f50205441424c4520743b202d2d
+delwhere 2 0 1 y
+put 1 0 3 n y0098 n
+del 2 0 i9223372036854775807 y n
+reset
+table 6964 2 e5908de5898d:text:0 612062:int:1
+table 6e6f7465 0 782279:text:0
+create
+select 1 0 1 i2147483648
+select 3 1
+select -1 0
+delwhere 1 2 1 n
+delwhere 1 0 2 n
+select 3 2
+select 3 1 0 tc3a9
+select 1 1 0 t61
+select 1 2 0 n
+select 2 0 0 t61
+select 9223372036854775807 1 1 n
+del 3 2
+select 2 0
+select -1 1 0 t61
+del 2 2
+del 3 1
+del 1 1
+select 1 2 1 n
+del 1 2
+del -9223372036854775808 1
+put 2 1 0 t
+select -9223372036854775808 1
+del 1 2
+select 1 1
+put 3 0 2 n b1
+select 2 0
+select 0 1
+del 3 1
+select 1 1
+select 1 0
