@@ -161,11 +161,16 @@ fn main() {
                     user: actor.user,
                 };
                 for (actor, cmd) in &seed {
-                    let _ = engine.execute(tenant(actor), cmd.clone(), None).await;
+                    engine
+                        .execute(tenant(actor), cmd.clone(), None)
+                        .await
+                        .expect("the engine stores the seed")
+                        .expect("set is accepted");
                 }
                 let start = Instant::now();
                 for (actor, cmd) in &cmds[..count] {
-                    let _ = black_box(engine.execute(tenant(actor), cmd.clone(), None).await);
+                    let decided = engine.execute(tenant(actor), cmd.clone(), None).await;
+                    let _ = black_box(decided.expect("the engine runs the command"));
                 }
                 per_op("postgres engine", users, count, start);
             });
