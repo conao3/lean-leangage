@@ -8,20 +8,26 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
 - `lean/`: Lake package `leanharbor`, Lean 4.35.0, core only (no Mathlib). `Leanharbor/Kernel.lean`
   is the contract, `Leanharbor/Sql.lean` the SQL compiler that is generated,
   `Leanharbor/Sql/Proofs.lean` its specifications and theorems, `Leanharbor/Sql/Model.lean` a
-  model of PostgreSQL and what a statement means to a tenant, and `Leanharbor/Sql/Sound.lean` the
-  theorems that the compiled statements do that under the model. `Leanharbor/Token.lean` is the
+  model of PostgreSQL and what a statement means to a tenant, `Leanharbor/Sql/Sound.lean` the
+  theorems that the compiled statements do that under the model, `Leanharbor/Sql/Isolation.lean`
+  tenant isolation, and `Leanharbor/Store.lean` the class `Row`, the storage of a kernel
+  (`Storage`) and the theorems proved once for every storage. `Leanharbor/Token.lean` is the
   token format that is generated and `Leanharbor/Token/Proofs.lean` its theorems.
   `Calculator/Kernel.lean` holds what is generated, `Calculator/Proofs.lean` the specifications
-  and theorems. `CalculatorOracle.lean`, `SqlOracle.lean` and `TokenOracle.lean` are the native
-  programs the differential tests compare against.
+  and theorems; `Calculator/Store.lean` (generated) the calculator's table and row functions,
+  `Calculator/Store/Proofs.lean` the calculator's `Storage` and its theorems.
+  `CalculatorOracle.lean`, `SqlOracle.lean` and `TokenOracle.lean` are the native programs the
+  differential tests compare against.
 - `audit/`: a separate Lake package with leanassay (`Audit/Calculator.lean`, `Audit/Sql.lean`,
-  `Audit/Token.lean`) and the axiom check (`Audit/Axioms.lean`).
+  `Audit/Store.lean`, `Audit/Token.lean`) and the axiom check (`Audit/Axioms.lean`).
 - `rust/`: Cargo workspace, edition 2024. `leanharbor` is the shell, `calculator` the example.
 - `python/`: uv project. `leanharbor` is the shell, `leanharbor_calculator` the example.
 - `go/`: Go module `github.com/conao3/lean-leanharbor/go`. `leanharbor` is the shell,
   `calculator` the example, with the server and the benchmark under `calculator/cmd/`.
 - Each shell holds the SQL compiler generated from `Leanharbor.Sql`: `rust/leanharbor/src/generated/`
-  (`leanharbor::sql`), `python/src/leanharbor/sql.py` and `go/leanharbor/sql/`. Each shell holds
+  (`leanharbor::sql`), `python/src/leanharbor/sql.py` and `go/leanharbor/sql/`. The calculator's
+  table from `Calculator.Store` is `rust/calculator/src/generated/calculator_store.rs`,
+  `python/src/leanharbor_calculator/store.py` and `go/calculator/store/`. Each shell holds
   the token format generated from `Leanharbor.Token` (`leanharbor::token_format`,
   `python/src/leanharbor/token_format.py`, `go/leanharbor/token/`), and its `token` module calls
   `encodePayload`, `join` and `parse` and computes and compares the HMAC and checks the expiry.
@@ -42,12 +48,12 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   updating in place. `rust/calculator/tests/in_place.rs` and `go/calculator/in_place_test.go`
   check it.
 - Generated files (`rust/calculator/src/generated/`, `python/src/leanharbor_calculator/kernel.py`,
-  `go/calculator/kernel/`, and the SQL compiler and the token format in each shell) are committed
-  and never edited.
+  `python/src/leanharbor_calculator/store.py`, `go/calculator/kernel/`, `go/calculator/store/`,
+  and the SQL compiler and the token format in each shell) are committed and never edited.
   Run `make generate` after changing `lean/`.
 - When a function is added to a generated module, add a theorem about it and list it in the
   module's audit file (`audit/Audit/Calculator.lean`, `audit/Audit/Sql.lean`,
-  `audit/Audit/Token.lean`) in the same change.
+  `audit/Audit/Store.lean`, `audit/Audit/Token.lean`) in the same change.
   Theorems whose hypothesis fixes the result of the function (`transition a s c = .ok …`) cannot
   be run by leanassay; state the runnable form with `match` (`get_after_run`) and derive the
   other from it.

@@ -73,6 +73,36 @@ $ curl -s -H "Authorization: Bearer $TOKEN" -d '{"cmd":"set","value":6}' 127.0.0
 {"value":6}
 ```
 
+## Storing a kernel in PostgreSQL
+
+A kernel declares its tables as a `List Tab` and each row type as an instance of
+`Leanharbor.Row`, whose laws say that `fromRow` reads back what `toRow` writes and accepts no other
+row. [`lean/Calculator/Store.lean`](lean/Calculator/Store.lean) stores the calculator's numbers in
+one table keyed by the user, each `UInt64` as the `Int64` with the same bits:
+
+```lean
+def tables : List Tab := [⟨"memories", [⟨"user", .int, false⟩, ⟨"value", .int, false⟩], 1⟩]
+
+def toRow (m : Memory) : List Val := [.int m.user.toInt64, .int m.value.toInt64]
+
+def fromRow : List Val → Option Memory
+  | [.int user, .int value] => some { user := user.toUInt64, value := value.toUInt64 }
+  | _ => none
+
+def writes : Option Memory → List Write
+  | none => []
+  | some m => [.put 0 1 (toRow m)]
+```
+
+`load` builds a snapshot from the rows of each table. A `Leanharbor.Storage` puts these together
+with `enc`, the tenant's database a snapshot stands for, and four obligations: the schema is valid,
+`init` stands for no rows, the rows an accepted write set stores turn the database of a snapshot
+into that of the snapshot `apply` computes, and rows that list the database of a snapshot load to
+a snapshot that stands for the same database.
+[`lean/Calculator/Store/Proofs.lean`](lean/Calculator/Store/Proofs.lean) proves them for the
+calculator. The table and the row functions are generated to the three shells; no server calls
+them yet.
+
 ## What is proved, and what is trusted
 
 Proved in Lean, about the definitions that are generated and run:
@@ -104,7 +134,37 @@ Proved in Lean, about the definitions that are generated and run:
       tenant's rows;
     - `create_sound`: creating the tables of a valid schema in a database without them gives
       tables that match the schema, with no row for any tenant, and changes no other table.
-      `create_kept`: tables that exist are kept as they are.
+      `create_kept`: tables that exist are kept as they are;
+    - `tenant_isolation` (`TenantIsolation`), for every schema `valid` accepts: statements
+      compiled for one tenant leave every other tenant's rows as they were, and a compiled
+      `SELECT` returns the same rows, up to order, from two databases that hold the same rows for
+      its tenant;
+- for every kernel with a `Leanharbor.Storage`, against the same model. `Storage.Stored` is what
+  an engine does to one tenant on a shared database, from tables that match the schema and hold no
+  row for the tenant: load the snapshot from the rows a compiled `SELECT` of each table returned,
+  run an accepted command of any principal on it, and run the statements compiled from its write
+  set, with statements compiled for other tenants in between:
+  - `stored_view`: the tenant's rows are those of the snapshot that `apply` computed, and the
+    tables stay as `create` made them;
+  - `stored_load`: loading the tenant's rows gives back a snapshot that stands for the same rows;
+  - `stored_inv`: a property of `init`, kept by every accepted command, that holds for a snapshot
+    when it holds for one standing for the same rows, holds for every snapshot loaded;
+  - `stored_commit`: the `SELECT`s of the tables return rows, the rows load, and compiled
+    statements run;
+  - `create_stored`: creating the tables in a database without them starts every tenant from
+    `init`;
+- for the calculator's table (`Calculator.Store`: `tables`, `toRow`, `fromRow`, `writes`,
+  `storeAll`, `load`), which is generated to the three shells and which no server calls yet:
+  - `fromRow_toRow`, `toRow_fromRow`: the laws of `Row`;
+  - `writes_compile`: every write set compiles, for every tenant;
+  - `enc_apply`, `load_enc`: the obligations of the calculator's `storage`, so the theorems above
+    hold for the calculator;
+  - `stored_lookup`, `stored_transition`: the snapshot loaded from a tenant's rows stores a number
+    for the same users, with the same values, as the snapshot `apply` computed, and answers every
+    command of every principal as that snapshot does. They compare the numbers the two snapshots
+    hold; that the two are the same tree is not proved;
+  - `stored_commit`: every commit goes through: the `SELECT` returns rows, they load, and every
+    write set compiles and runs;
 - for the token functions `Leanharbor.Token` (`encodePayload`, `join`, `parse`), which the three
   servers call to issue and to read every bearer token:
   - `parse_join`: parsing the token that `join` makes of `encodePayload t u e` and any signature
@@ -130,7 +190,11 @@ Checked by `make check`, not proved:
   the same on every input tried, 38 do not compile, and none satisfies every theorem while
   changing an output. The 11 functions of the token format are broken in 189 ways: 173 are
   rejected, 2 behave the same on every input tried, 14 do not compile, and none satisfies every
-  theorem while changing an output.
+  theorem while changing an output. It breaks the 6 functions of the calculator's table in 25 ways: 20 are
+  rejected, 5 do not compile, and none satisfies every theorem while changing an output.
+- **The calculator's table, as PostgreSQL receives it.** `tables_create` evaluates, in Lean's
+  kernel, the text of the statement that creates it:
+  `CREATE TABLE IF NOT EXISTS "memories" ("tenant_id" BIGINT NOT NULL, "user" BIGINT NOT NULL, "value" BIGINT NOT NULL, PRIMARY KEY ("tenant_id", "user"))`.
 - **The generated code computes what Lean computes.** 5,000 commands (698 refusals, values up
   to 2^64 − 1) run through the generated Rust, the generated Python and the generated Go give the
   same output as the kernel compiled natively by Lean. 3,024 lines of schemas and statements
@@ -139,7 +203,8 @@ Checked by `make check`, not proved:
   Go as in the compiler compiled natively by Lean. 3,000 token lines (985 issued tokens, 845
   accepted and 1,170 rejected ones: edited bytes, leading zeros, signs, numbers of 2^64 and more,
   uppercase hexadecimal, missing and extra fields) give the same fields and bytes in the generated
-  Rust, Python and Go as in the token functions compiled natively by Lean.
+  Rust, Python and Go as in the token functions compiled natively by Lean. The calculator's table functions are
+  generated and compiled, and no differential test runs them.
 - **The code that runs is generated from the proved source.** The build regenerates the three
   targets and fails on a difference from the committed files.
 - **No extra axioms.** Every theorem depends only on `propext`, `Classical.choice` and
@@ -156,10 +221,11 @@ holds for each of them:
 | Wire format | JSON decoding of commands and encoding of replies and refusals (`Api`) |
 | HTTP | axum, hyper and tokio (Rust); `http.server` (Python); `net/http` (Go) |
 | SQL | that PostgreSQL reads the text as `lexName_quote`'s lexer reads a quoted name; that PostgreSQL, sent `render q` with its parameters, fails or does to the tables what `run` says, and that a `SELECT` returns the rows `selected` says in some order (`ORDER BY` is not modeled); that values compare as Lean values do (text character by character, bytes byte by byte); that the tables were made by `create` of the same schema, since `CREATE TABLE IF NOT EXISTS` keeps a table of that name as it is |
-| Specification | that `specStep` and the statements above say what a calculator should do; that `Valid`, `Accepts`, `sqlOf`, `renderSpec`, `exec`, `view`, `Sel` and `Lists` say what the SQL compiler should do; that `v1.<tenant>.<user>.<expiry>.<hex>` with the signature over the bytes before the last dot is the token a client should send |
+| Storage | that an engine does what `Storage.Stored` says: it creates `tables` in a database without them, loads each commit's snapshot with `load` from the rows of the compiled `SELECT` of each table, and runs the statements compiled from `writes` of the accepted write set for the principal's tenant (`Kernel.tenant`, as the `Int64` with the same bits). No engine does this yet |
+| Specification | that `specStep` and the statements above say what a calculator should do; that `Valid`, `Accepts`, `sqlOf`, `renderSpec`, `exec`, `view`, `Sel` and `Lists` say what the SQL compiler should do; that `TenantIsolation`, `Storage`, `Loaded` and `Stored` say what storing a kernel should mean; that the calculator's `lookup` and `enc` say which rows a snapshot stands for; that `v1.<tenant>.<user>.<expiry>.<hex>` with the signature over the bytes before the last dot is the token a client should send |
 
-State lives in the server's memory and is lost on restart. PostgreSQL storage, tenant isolation
-over the model of PostgreSQL, and proved authorization guards are designed and not yet built.
+State lives in the server's memory and is lost on restart. An engine that stores the snapshots
+in PostgreSQL and proved authorization guards are designed and not yet built.
 
 ## Speed
 
@@ -257,13 +323,13 @@ of them refused, and checks that the snapshot still has one reference (`IsExclus
 
 | Path | Contents |
 |---|---|
-| [`lean/`](lean) | the Lake package: `Leanharbor` (the kernel contract, the SQL compiler, a model of PostgreSQL, the token format, and their proofs), `Calculator` (kernel and proofs), `calculator-oracle`, `sql-oracle` and `token-oracle` (the kernel, the SQL compiler and the token format as native programs) |
+| [`lean/`](lean) | the Lake package: `Leanharbor` (the kernel contract, the SQL compiler, a model of PostgreSQL, tenant isolation, the storage of a kernel, the token format, and their proofs), `Calculator` (kernel, table and proofs), `calculator-oracle`, `sql-oracle` and `token-oracle` (the kernel, the SQL compiler and the token format as native programs) |
 | [`audit/`](audit) | the leanassay audit and the axiom check |
 | [`rust/leanharbor`](rust/leanharbor) | the Rust shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler and token format (`src/generated/`) |
-| [`rust/calculator`](rust/calculator) | the generated kernel (`src/generated/`), the server, the benchmark, the differential test |
-| [`python/`](python) | the Python shell (`leanharbor`, with the generated `sql.py` and `token_format.py`) and the calculator (`leanharbor_calculator`, with the generated `kernel.py`) |
+| [`rust/calculator`](rust/calculator) | the generated kernel and table (`src/generated/`), the server, the benchmark, the differential test |
+| [`python/`](python) | the Python shell (`leanharbor`, with the generated `sql.py` and `token_format.py`) and the calculator (`leanharbor_calculator`, with the generated `kernel.py` and `store.py`) |
 | [`go/leanharbor`](go/leanharbor) | the Go shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler (`sql/`) and token format (`token/`) |
-| [`go/calculator`](go/calculator) | the generated kernel (`kernel/`), the server and the benchmark (`cmd/`), the differential test |
+| [`go/calculator`](go/calculator) | the generated kernel (`kernel/`) and table (`store/`), the server and the benchmark (`cmd/`), the differential test |
 | [`bench/`](bench) | servers without a kernel (axum, actix-web, `net/http`, gin, FastAPI, Flask) for the HTTP comparison |
 | [`docs/`](docs) | the measured runs (`speed.json`) and the charts drawn from them |
 | [`testdata/`](testdata) | the command list (`tools/gen-commands.py`), the statement list (`tools/gen-statements.py`) and the token list (`tools/gen-tokens.py`) of the differential tests |
