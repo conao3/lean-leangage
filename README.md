@@ -94,7 +94,17 @@ Proved in Lean, about the definitions that are generated and run:
     every value of the same kinds;
   - `render_spec`, `valid_iff`, `compile_spec`, `select_spec`, `create_spec`, `plan_spec`: the
     generated functions equal definitions written another way (the text as lists of characters,
-    the schema checks as propositions).
+    the schema checks as propositions);
+  - against the model of PostgreSQL in `Leanharbor.Sql.Model`, on tables that `create` made:
+    - `compile_sound`: a compiled statement runs, the tables stay as `create` made them, the
+      tenant's rows change as `exec` says, and no other tenant's rows and no table outside the
+      schema change. `compileAll_sound` states the same for a list of statements;
+    - `select_sound`: a compiled `SELECT` returns the tenant's rows of the table that pass the
+      filter, each once, in any order. `lists_of_selects`: a `SELECT` of every table lists the
+      tenant's rows;
+    - `create_sound`: creating the tables of a valid schema in a database without them gives
+      tables that match the schema, with no row for any tenant, and changes no other table.
+      `create_kept`: tables that exist are kept as they are.
 
 Checked by `make check`, not proved:
 
@@ -126,12 +136,11 @@ holds for each of them:
 | Authentication | the token format and its parser, HMAC-SHA256, the secret and its storage, the system clock |
 | Wire format | JSON decoding of commands and encoding of replies and refusals (`Api`) |
 | HTTP | axum, hyper and tokio (Rust); `http.server` (Python); `net/http` (Go) |
-| SQL | that PostgreSQL reads the text as `lexName_quote`'s lexer reads a quoted name; what each statement does to the tables, which no theorem states yet |
-| Specification | that `specStep` and the statements above say what a calculator should do; that `Valid`, `Accepts`, `sqlOf` and `renderSpec` say what the SQL compiler should do |
+| SQL | that PostgreSQL reads the text as `lexName_quote`'s lexer reads a quoted name; that PostgreSQL, sent `render q` with its parameters, fails or does to the tables what `run` says, and that a `SELECT` returns the rows `selected` says in some order (`ORDER BY` is not modeled); that values compare as Lean values do (text character by character, bytes byte by byte); that the tables were made by `create` of the same schema, since `CREATE TABLE IF NOT EXISTS` keeps a table of that name as it is |
+| Specification | that `specStep` and the statements above say what a calculator should do; that `Valid`, `Accepts`, `sqlOf`, `renderSpec` and `exec` say what the SQL compiler should do |
 
-State lives in the server's memory and is lost on restart. PostgreSQL storage, the model of
-PostgreSQL that `compile` is proved against, tenant isolation over that model, and proved
-authorization guards are designed and not yet built.
+State lives in the server's memory and is lost on restart. PostgreSQL storage, tenant isolation
+over the model of PostgreSQL, and proved authorization guards are designed and not yet built.
 
 ## Speed
 
@@ -229,7 +238,7 @@ of them refused, and checks that the snapshot still has one reference (`IsExclus
 
 | Path | Contents |
 |---|---|
-| [`lean/`](lean) | the Lake package: `Leanharbor` (the kernel contract, the SQL compiler and its proofs), `Calculator` (kernel and proofs), `calculator-oracle` and `sql-oracle` (the kernel and the SQL compiler as native programs) |
+| [`lean/`](lean) | the Lake package: `Leanharbor` (the kernel contract, the SQL compiler, a model of PostgreSQL, and their proofs), `Calculator` (kernel and proofs), `calculator-oracle` and `sql-oracle` (the kernel and the SQL compiler as native programs) |
 | [`audit/`](audit) | the leanassay audit and the axiom check |
 | [`rust/leanharbor`](rust/leanharbor) | the Rust shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler (`src/generated/`) |
 | [`rust/calculator`](rust/calculator) | the generated kernel (`src/generated/`), the server, the benchmark, the differential test |

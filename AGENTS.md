@@ -6,8 +6,10 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
 ## Layout
 
 - `lean/`: Lake package `leanharbor`, Lean 4.35.0, core only (no Mathlib). `Leanharbor/Kernel.lean`
-  is the contract, `Leanharbor/Sql.lean` the SQL compiler that is generated and
-  `Leanharbor/Sql/Proofs.lean` its specifications and theorems. `Calculator/Kernel.lean` holds
+  is the contract, `Leanharbor/Sql.lean` the SQL compiler that is generated,
+  `Leanharbor/Sql/Proofs.lean` its specifications and theorems, `Leanharbor/Sql/Model.lean` a
+  model of PostgreSQL and what a statement means to a tenant, and `Leanharbor/Sql/Sound.lean` the
+  theorems that the compiled statements do that under the model. `Calculator/Kernel.lean` holds
   what is generated, `Calculator/Proofs.lean` the specifications and theorems.
   `CalculatorOracle.lean` and `SqlOracle.lean` are the native programs the differential tests
   compare against.
