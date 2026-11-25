@@ -6,7 +6,8 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
 ## Layout
 
 - `lean/`: Lake package `leanharbor`, Lean 4.35.0, core only (no Mathlib). `Leanharbor/Kernel.lean`
-  is the contract, `Leanharbor/Sql.lean` the SQL compiler that is generated,
+  is the contract, `Leanharbor/Obligation.lean` the statements every kernel's theorems must state
+  exactly, `Leanharbor/Sql.lean` the SQL compiler that is generated,
   `Leanharbor/Sql/Proofs.lean` its specifications and theorems, `Leanharbor/Sql/Model.lean` a
   model of PostgreSQL and what a statement means to a tenant, `Leanharbor/Sql/Sound.lean` the
   theorems that the compiled statements do that under the model, `Leanharbor/Sql/Isolation.lean`
@@ -21,8 +22,10 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   `CalculatorOracle.lean`, `NotesOracle.lean`, `SqlOracle.lean` and `TokenOracle.lean` are the
   native programs the differential tests compare against.
 - `audit/`: a separate Lake package with leanassay (`Audit/Calculator.lean`, `Audit/Sql.lean`,
-  `Audit/Store.lean`, `Audit/Token.lean`, `Audit/Authz.lean`, `Audit/Notes*.lean`) and the axiom
-  check (`Audit/Axioms.lean`). A file is built only when it is in `roots` of
+  `Audit/Store.lean`, `Audit/Token.lean`, `Audit/Authz.lean`, `Audit/Notes*.lean`), the axiom
+  check (`Audit/Axioms.lean`) and the obligation check `#obligations` (`Audit/Obligations.lean`,
+  run on the calculator in `Audit/Calculator.lean`). Each file in `audit/fail/` must fail to build
+  with the error on its `-- expect:` line; `make check` builds them with `lake -d audit env lean`. A file is built only when it is in `roots` of
   `audit/lakefile.toml` or imported by `Audit.lean`. `#assay` derives instances named after the
   short names of the types it samples, so two audit files whose types share a short name
   (`Snapshot`) are separate roots and do not import each other.

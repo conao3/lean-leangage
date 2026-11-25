@@ -40,7 +40,7 @@ and command:
 | `compute_spec` | `compute` is `+`, `-`, `*`, `/` on naturals when the result fits 64 bits, and a refusal otherwise |
 | `get_after` | after an accepted command, `get` by the same user returns that command's reply |
 | `others_unchanged` | a command leaves every other user's number as it was |
-| `read_only_sound` | `get` returns no writes |
+| `read_only_sound` | `get` returns no writes (the obligation `ReadOnlySound`) |
 | `memoryOf_store` | after `store k v`, `memoryOf` returns `v` for `k` and what it returned before for every other id |
 
 The Rust server is the generated kernel behind an ordinary axum router
@@ -194,7 +194,8 @@ Proved in Lean, about the definitions that are generated and run:
 - the guard's theorems above, for every kernel and policy, and the notes theorems, for the notes
   kernel. Its `transition` is `handle` behind `guardViewed`, and the three shells call it;
 - `Leanharbor.Kernel.Run.inv`: a property that holds for the initial snapshot and is kept by
-  every accepted command holds in every snapshot a tenant can reach;
+  every accepted command holds in every snapshot a tenant can reach. `Obligation.Invariant.run`
+  states it for a property that satisfies `Obligation.Invariant`;
 - for the SQL compiler `Leanharbor.Sql` (`plan`, `compile`, `select`, `create`, `render`,
   `valid`), which is generated to the three shells and which no server calls yet:
   - `lexName_quote`: a quoted name followed by any character but `"` reads back as exactly that
@@ -266,6 +267,22 @@ Proved in Lean, about the definitions that are generated and run:
 
 Checked by `make check`, not proved:
 
+- **The theorems state the framework's statements.** `Leanharbor.Obligation` fixes statements
+  that have the same form for every kernel: `ReadOnlySound k writes` (whenever `readOnly c` is
+  `true` and `transition` accepts `c`, `writes` of the write set is empty) and `Invariant k I`
+  (`I` holds for `init` and is kept by every accepted command). `#obligations k`
+  ([`audit/Audit/Obligations.lean`](audit/Audit/Obligations.lean)) fails the build unless a
+  theorem's type is definitionally equal, in Lean's kernel, to `ReadOnlySound k _`, and to
+  `Invariant k I` for each `I` listed after `invariant`, and that theorem depends only on
+  `propext`, `Classical.choice` and `Quot.sound`. It searches the theorems of the file and of the
+  imported modules outside `Init`, `Std`, `Lean` and `Lake`. The write list is the kernel's
+  choice: the check prints it, and a list that is always empty would pass. For the calculator,
+  `#obligations Calculator.Kernel.kernel` finds `read_only_sound` with the write list
+  `fun w => w.toList`; the calculator lists no invariant. No shell reads `readOnly`: every
+  engine runs every command the same way, so no server relies on `ReadOnlySound` yet.
+  `make check` also builds the files in [`audit/fail/`](audit/fail), a kernel without the
+  theorem, with a theorem that has one more hypothesis, and with a listed invariant that no
+  theorem states, and requires each to fail with the check's error;
 - **The theorems constrain the kernel.** [leanassay](https://github.com/conao3/lean-leanassay)
   breaks functions in small ways and runs the theorems on each broken version. For the
   calculator, it breaks `transition`, `apply`, `compute` and the three functions of the trie in
@@ -316,7 +333,7 @@ holds for each of them:
 | Call site | that a shell runs the notes' `transition`. `handle`, the kernel without the guard, is generated and public too, and the guard's theorems say nothing about a caller of `handle` |
 | SQL | that PostgreSQL reads the text as `lexName_quote`'s lexer reads a quoted name; that PostgreSQL, sent `render q` with its parameters, fails or does to the tables what `run` says, and that a `SELECT` returns the rows `selected` says in some order (`ORDER BY` is not modeled); that values compare as Lean values do (text character by character, bytes byte by byte); that the tables were made by `create` of the same schema, since `CREATE TABLE IF NOT EXISTS` keeps a table of that name as it is |
 | Storage | that an engine does what `Storage.Stored` says: it creates `tables` in a database without them, loads each commit's snapshot with `load` from the rows of the compiled `SELECT` of each table, and runs the statements compiled from `writes` of the accepted write set for the principal's tenant (`Kernel.tenant`, as the `Int64` with the same bits). No engine does this yet |
-| Specification | that `specStep` and the statements above say what a calculator and the notes should do; that `Valid`, `Accepts`, `sqlOf`, `renderSpec`, `exec`, `view`, `Sel` and `Lists` say what the SQL compiler should do; that `TenantIsolation`, `Storage`, `Loaded` and `Stored` say what storing a kernel should mean; that the calculator's `lookup` and `enc` say which rows a snapshot stands for; that `v1.<tenant>.<user>.<expiry>.<hex>` with the signature over the bytes before the last dot is the token a client should send |
+| Specification | that `specStep` and the statements above say what a calculator and the notes should do; that the write list a kernel gives `ReadOnlySound` (`fun w => w.toList` for the calculator) lists the rows its write set stores; that `Valid`, `Accepts`, `sqlOf`, `renderSpec`, `exec`, `view`, `Sel` and `Lists` say what the SQL compiler should do; that `TenantIsolation`, `Storage`, `Loaded` and `Stored` say what storing a kernel should mean; that the calculator's `lookup` and `enc` say which rows a snapshot stands for; that `v1.<tenant>.<user>.<expiry>.<hex>` with the signature over the bytes before the last dot is the token a client should send |
 | Policy | that `permits`, `visible`, `stored`, `view`, `disclosed` and `readOnly` of the notes say who should see and change what: the guard enforces them as written |
 
 The Python and Go notes kernels run only in the differential tests; only Rust has a notes server.
@@ -420,8 +437,8 @@ of them refused, and checks that the snapshot still has one reference (`IsExclus
 
 | Path | Contents |
 |---|---|
-| [`lean/`](lean) | the Lake package: `Leanharbor` (the kernel contract, the SQL compiler, a model of PostgreSQL, tenant isolation, the storage of a kernel, the token format, the authorization guard, and their proofs), `Calculator` (kernel, table and proofs), `Notes` (kernel, policy and proofs), `calculator-oracle`, `notes-oracle`, `sql-oracle` and `token-oracle` (the kernel, the SQL compiler and the token format as native programs) |
-| [`audit/`](audit) | the leanassay audits and the axiom check |
+| [`lean/`](lean) | the Lake package: `Leanharbor` (the kernel contract, the obligations, the SQL compiler, a model of PostgreSQL, tenant isolation, the storage of a kernel, the token format, the authorization guard, and their proofs), `Calculator` (kernel, table and proofs), `Notes` (kernel, policy and proofs), `calculator-oracle`, `notes-oracle`, `sql-oracle` and `token-oracle` (the kernel, the SQL compiler and the token format as native programs) |
+| [`audit/`](audit) | the leanassay audits, the axiom check and the obligation check, with the files that must fail it (`fail/`) |
 | [`rust/leanharbor`](rust/leanharbor) | the Rust shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler and token format (`src/generated/`) |
 | [`rust/calculator`](rust/calculator) | the generated kernel and table (`src/generated/`), the server, the benchmark, the differential test |
 | [`rust/notes`](rust/notes) | the generated notes kernel (`src/generated/`), the server, the HTTP and differential tests |
