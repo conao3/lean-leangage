@@ -39,7 +39,7 @@ pub trait Api<K: Kernel>: Send + Sync + 'static {
 
 struct App<K: Kernel, A, E> {
     engine: Arc<E>,
-    secret: Vec<u8>,
+    verifier: token::Verifier,
     marker: PhantomData<fn() -> (K, A)>,
 }
 
@@ -56,7 +56,10 @@ fn error(status: StatusCode, message: &str) -> Response {
     reply(status, json!({ "error": message }))
 }
 
-fn authenticate(secret: &[u8], headers: &HeaderMap) -> Result<token::Claims, &'static str> {
+fn authenticate(
+    verifier: &token::Verifier,
+    headers: &HeaderMap,
+) -> Result<token::Claims, &'static str> {
     let header = headers
         .get(AUTHORIZATION)
         .and_then(|v| v.to_str().ok())
@@ -67,7 +70,7 @@ fn authenticate(secret: &[u8], headers: &HeaderMap) -> Result<token::Claims, &'s
     let now = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .map_or(0, |d| d.as_secs());
-    token::verify(secret, token, now).map_err(|e| match e {
+    verifier.verify(token, now).map_err(|e| match e {
         token::TokenError::Malformed => "malformed token",
         token::TokenError::BadSignature => "bad token signature",
         token::TokenError::Expired => "token expired",
@@ -79,7 +82,7 @@ async fn rpc<K: Kernel, A: Api<K>, E: Engine<K>>(
     headers: HeaderMap,
     body: Bytes,
 ) -> Response {
-    let claims = match authenticate(&app.secret, &headers) {
+    let claims = match authenticate(&app.verifier, &headers) {
         Ok(claims) => claims,
         Err(message) => return error(StatusCode::UNAUTHORIZED, message),
     };
@@ -118,7 +121,7 @@ async fn rpc<K: Kernel, A: Api<K>, E: Engine<K>>(
 pub fn rpc_router<K: Kernel, A: Api<K>, E: Engine<K>>(engine: Arc<E>, secret: Vec<u8>) -> Router {
     let app = Arc::new(App::<K, A, E> {
         engine,
-        secret,
+        verifier: token::Verifier::new(secret),
         marker: PhantomData,
     });
     Router::new()

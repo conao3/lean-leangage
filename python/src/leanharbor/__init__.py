@@ -2,7 +2,7 @@
 
 from leanharbor.engine import IdempotencyConflict, Kernel, MemoryEngine, Refused
 from leanharbor.http import Api, serve
-from leanharbor.token import Claims, TokenError, issue, verify
+from leanharbor.token import Claims, TokenError, Verifier, issue, verify
 
 __all__ = [
     "Api",
@@ -12,6 +12,7 @@ __all__ = [
     "MemoryEngine",
     "Refused",
     "TokenError",
+    "Verifier",
     "issue",
     "serve",
     "verify",

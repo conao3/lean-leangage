@@ -9,7 +9,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
 
 from leanharbor.engine import IdempotencyConflict, MemoryEngine, Refused
-from leanharbor.token import TokenError, verify
+from leanharbor.token import TokenError, Verifier
 
 
 @dataclass(frozen=True)
@@ -25,7 +25,7 @@ class Api:
 
 
 def handle(
-    engine: MemoryEngine, api: Api, secret: bytes, headers: Any, body: bytes
+    engine: MemoryEngine, api: Api, verifier: Verifier, headers: Any, body: bytes
 ) -> tuple[int, Any]:
     authorization = headers.get("Authorization")
     if authorization is None:
@@ -33,7 +33,9 @@ def handle(
     if not authorization.startswith("Bearer "):
         return HTTPStatus.UNAUTHORIZED, {"error": "authorization is not a bearer token"}
     try:
-        claims = verify(secret, authorization.removeprefix("Bearer "), int(time.time()))
+        claims = verifier.verify(
+            authorization.removeprefix("Bearer "), int(time.time())
+        )
     except TokenError as e:
         return HTTPStatus.UNAUTHORIZED, {"error": str(e)}
     actor = api.principal(claims.tenant, claims.user)
@@ -59,6 +61,8 @@ def handle(
 def serve(
     engine: MemoryEngine, api: Api, secret: bytes, host: str, port: int
 ) -> ThreadingHTTPServer:
+    verifier = Verifier(secret)
+
     class Handler(BaseHTTPRequestHandler):
         protocol_version = "HTTP/1.1"
         wbufsize = -1
@@ -81,7 +85,7 @@ def serve(
             if self.path != "/rpc":
                 self._send(HTTPStatus.NOT_FOUND, b"", "text/plain")
                 return
-            status, value = handle(engine, api, secret, self.headers, body)
+            status, value = handle(engine, api, verifier, self.headers, body)
             self._send(
                 status,
                 json.dumps(value, separators=(",", ":")).encode(),

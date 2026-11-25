@@ -44,3 +44,28 @@ def verify(secret: bytes, token: str, now: int) -> Claims:
     if parsed.exp < now:
         raise TokenError("token expired")
     return Claims(parsed.tenant, parsed.user, parsed.exp)
+
+
+class Verifier:
+    """Verifies tokens of one secret.
+
+    A token that `verify` accepted is remembered by its exact bytes, and a later request with the
+    same bytes only has its expiry checked.
+    """
+
+    REMEMBERED = 4096
+
+    def __init__(self, secret: bytes) -> None:
+        self._secret = secret
+        self._accepted: dict[str, Claims] = {}
+
+    def verify(self, token: str, now: int) -> Claims:
+        claims = self._accepted.get(token)
+        if claims is None:
+            claims = verify(self._secret, token, now)
+            if len(self._accepted) >= self.REMEMBERED:
+                self._accepted.clear()
+            self._accepted[token] = claims
+        elif claims.expiry < now:
+            raise TokenError("token expired")
+        return claims

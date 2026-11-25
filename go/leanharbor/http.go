@@ -55,7 +55,7 @@ func header(r *http.Request, name string) (string, bool) {
 	return values[0], true
 }
 
-func authenticate(secret []byte, r *http.Request) (Claims, error) {
+func authenticate(verifier *Verifier, r *http.Request) (Claims, error) {
 	authorization, ok := header(r, "Authorization")
 	if !ok {
 		return Claims{}, errors.New("missing authorization header")
@@ -64,7 +64,7 @@ func authenticate(secret []byte, r *http.Request) (Claims, error) {
 	if !ok {
 		return Claims{}, errors.New("authorization is not a bearer token")
 	}
-	return Verify(secret, token, uint64(max(time.Now().Unix(), 0)))
+	return verifier.Verify(token, uint64(max(time.Now().Unix(), 0)))
 }
 
 // RpcHandler serves one kernel command per request, authenticated with secret and run on
@@ -83,8 +83,9 @@ func RpcHandler[Principal, Command, Reply, Error any](
 	api Api[Principal, Command, Reply, Error],
 	secret []byte,
 ) http.Handler {
+	verifier := NewVerifier(secret)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		claims, err := authenticate(secret, r)
+		claims, err := authenticate(verifier, r)
 		if err != nil {
 			fail(w, http.StatusUnauthorized, err.Error())
 			return

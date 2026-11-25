@@ -48,3 +48,30 @@ func TestRejects(t *testing.T) {
 		}
 	}
 }
+
+func TestVerifierRemembersOnlyWhatItAccepted(t *testing.T) {
+	claims := Claims{Tenant: 12, User: 3, Expiry: 100}
+	token := Issue([]byte("secret"), claims)
+	verifier := NewVerifier([]byte("secret"))
+	for range 2 {
+		if got, err := verifier.Verify(token, 100); err != nil || got != claims {
+			t.Fatalf("got %v, %v", got, err)
+		}
+	}
+	if _, err := verifier.Verify(token, 101); err != ErrTokenExpired {
+		t.Fatalf("got %v", err)
+	}
+	forged := strings.Replace(token, "v1.12.", "v1.13.", 1)
+	for range 2 {
+		if _, err := verifier.Verify(forged, 0); err != ErrTokenBadSignature {
+			t.Fatalf("got %v", err)
+		}
+	}
+	late := NewVerifier([]byte("secret"))
+	if _, err := late.Verify(token, 101); err != ErrTokenExpired {
+		t.Fatalf("got %v", err)
+	}
+	if got, err := late.Verify(token, 100); err != nil || got != claims {
+		t.Fatalf("got %v, %v", got, err)
+	}
+}

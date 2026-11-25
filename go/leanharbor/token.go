@@ -4,6 +4,7 @@ import (
 	"crypto/hmac"
 	"crypto/sha256"
 	"errors"
+	"sync"
 
 	"github.com/conao3/lean-leanharbor/go/leanharbor/token"
 )
@@ -49,4 +50,41 @@ func Verify(secret []byte, tok string, now uint64) (Claims, error) {
 		return Claims{}, ErrTokenExpired
 	}
 	return Claims{Tenant: parsed.Tenant, User: parsed.User, Expiry: parsed.Exp}, nil
+}
+
+const remembered = 4096
+
+// Verifier verifies tokens of one secret. A token that Verify accepted is remembered by its
+// exact bytes, and a later request with the same bytes only has its expiry checked.
+type Verifier struct {
+	secret   []byte
+	mu       sync.RWMutex
+	accepted map[string]Claims
+}
+
+func NewVerifier(secret []byte) *Verifier {
+	return &Verifier{secret: secret, accepted: map[string]Claims{}}
+}
+
+func (v *Verifier) Verify(tok string, now uint64) (Claims, error) {
+	v.mu.RLock()
+	claims, known := v.accepted[tok]
+	v.mu.RUnlock()
+	if known {
+		if claims.Expiry < now {
+			return Claims{}, ErrTokenExpired
+		}
+		return claims, nil
+	}
+	claims, err := Verify(v.secret, tok, now)
+	if err != nil {
+		return Claims{}, err
+	}
+	v.mu.Lock()
+	if len(v.accepted) >= remembered {
+		clear(v.accepted)
+	}
+	v.accepted[tok] = claims
+	v.mu.Unlock()
+	return claims, nil
 }
