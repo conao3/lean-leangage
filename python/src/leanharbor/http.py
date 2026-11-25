@@ -33,13 +33,13 @@ class Api:
 
 
 def error_body(message: str) -> bytes:
-    """`{"error": message}`."""
+    """`{"error": message}`, with `?` for a character that is not in UTF-8 (a lone surrogate)."""
     return bytes(
         json_format.write(
             [
                 json_format.Tok_objOpen(),
                 json_format.Tok_key(s=list(b"error")),
-                json_format.Tok_str(s=list(message.encode())),
+                json_format.Tok_str(s=list(message.encode(errors="replace"))),
                 json_format.Tok_objClose(),
             ]
         )

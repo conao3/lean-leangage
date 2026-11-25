@@ -213,7 +213,7 @@ Checked by `make check`, not proved:
   theorem while changing an output. The 7 functions of the JSON writer are broken in 243 ways:
   217 are rejected, 26 do not compile, and none satisfies every theorem while changing an
   output. The 5 functions that make the calculator's bodies are broken in 102 ways, and all 102
-  are rejected. It breaks the 6 functions of the calculator's table in 25 ways: 20 are
+  are rejected. The 6 functions of the calculator's table are broken in 25 ways: 20 are
   rejected, 5 do not compile, and none satisfies every theorem while changing an output.
 - **The calculator's table, as PostgreSQL receives it.** `tables_create` evaluates, in Lean's
   kernel, the text of the statement that creates it:
