@@ -24,11 +24,12 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
 - `audit/`: a separate Lake package with leanassay (`Audit/Calculator.lean`, `Audit/Sql.lean`,
   `Audit/Store.lean`, `Audit/Token.lean`, `Audit/Authz.lean`, `Audit/Notes*.lean`), the axiom
   check (`Audit/Axioms.lean`) and the obligation check `#obligations` (`Audit/Obligations.lean`,
-  run on the calculator in `Audit/Calculator.lean`). Each file in `audit/fail/` must fail to build
-  with the error on its `-- expect:` line; `make check` builds them with `lake -d audit env lean`. A file is built only when it is in `roots` of
-  `audit/lakefile.toml` or imported by `Audit.lean`. `#assay` derives instances named after the
-  short names of the types it samples, so two audit files whose types share a short name
-  (`Snapshot`) are separate roots and do not import each other.
+  run on the calculator in `Audit/Calculator.lean` and on the notes in
+  `Audit/NotesObligations.lean`). Each file in `audit/fail/` must fail to build with the error on
+  its `-- expect:` line; `make check` builds them with `lake -d audit env lean`. A file is built
+  only when it is in `roots` of `audit/lakefile.toml` or imported by `Audit.lean`. `#assay`
+  derives instances named after the short names of the types it samples, so two audit files whose
+  types share a short name (`Snapshot`) are separate roots and do not import each other.
 - `rust/`: Cargo workspace, edition 2024. `leanharbor` is the shell, `calculator` and `notes` the
   examples.
 - `python/`: uv project. `leanharbor` is the shell, `leanharbor_calculator` and `leanharbor_notes`

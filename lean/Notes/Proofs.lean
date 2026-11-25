@@ -1,4 +1,4 @@
-import Leanharbor.Kernel
+import Leanharbor.Obligation
 import Leanharbor.AuthzProofs
 import Notes.Kernel
 
@@ -39,7 +39,7 @@ theorem transition_noninterference {a : Principal} {s₁ s₂ : Snapshot} {c : C
     (hro : readOnly c = true) (hv : view a s₁ = view a s₂) : transition a s₁ c = transition a s₂ c :=
   guard_viewed_noninterference handle apply policy disclosed readOnly view hro hv
 
-theorem read_only_sound : kernel.ReadOnlySound (fun ws : List Write => ws) :=
+theorem read_only_sound : Obligation.ReadOnlySound kernel (fun ws : List Write => ws) :=
   read_only_sound_of_viewed handle apply policy disclosed readOnly view init tenant
 
 theorem textOk_iff {t : String} : textOk t = true ↔ 0 < t.utf8ByteSize ∧ t.utf8ByteSize ≤ 4096 := by
@@ -315,10 +315,13 @@ theorem keyed_apply (s : Snapshot) (ws : List Write) (h : Keyed s) : Keyed (appl
   | nil => exact h
   | cons w ws ih => exact ih (applyWrite s w) (keyed_applyWrite s w h)
 
+/-- `init` has unique keys and every accepted command keeps them unique. -/
+theorem keyed_invariant : Obligation.Invariant kernel Keyed :=
+  ⟨⟨List.nodup_nil, List.nodup_nil⟩, fun _ s _ ws _ hs _ => keyed_apply s ws hs⟩
+
 /-- Every snapshot a tenant reaches has unique keys. -/
 theorem keyed_of_run {s : Snapshot} (h : kernel.Run s) : Keyed s :=
-  Kernel.Run.inv (k := kernel) Keyed ⟨List.nodup_nil, List.nodup_nil⟩
-    (fun _ s _ ws _ hs _ => keyed_apply s ws hs) h
+  keyed_invariant.run h
 
 /-! ## What a write does -/
 

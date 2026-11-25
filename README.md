@@ -278,8 +278,11 @@ Checked by `make check`, not proved:
   imported modules outside `Init`, `Std`, `Lean` and `Lake`. The write list is the kernel's
   choice: the check prints it, and a list that is always empty would pass. For the calculator,
   `#obligations Calculator.Kernel.kernel` finds `read_only_sound` with the write list
-  `fun w => w.toList`; the calculator lists no invariant. No shell reads `readOnly`: every
-  engine runs every command the same way, so no server relies on `ReadOnlySound` yet.
+  `fun w => w.toList`; the calculator lists no invariant. For the notes,
+  `#obligations Notes.Kernel.kernel invariant Notes.Kernel.Keyed` finds `read_only_sound` with the
+  write list `fun ws => ws` and `keyed_invariant` (no two members share a user id and no two notes
+  an id). No engine reads `readOnly`: every engine runs every command the same way, so no engine
+  relies on `ReadOnlySound` yet.
   `make check` also builds the files in [`audit/fail/`](audit/fail), a kernel without the
   theorem, with a theorem that has one more hypothesis, with a listed invariant that no theorem
   states, and with an invariant left as a hole, and requires each to fail with the check's error;
