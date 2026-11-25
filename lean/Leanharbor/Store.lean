@@ -16,8 +16,9 @@ A kernel declares its tables as a `List Tab`, and each row type as an instance o
 `Storage` adds to the kernel the rows each write set stores (`writes`) and the snapshot the rows
 of the tables give back (`load`), with the database a snapshot stands for (`enc`) and four
 obligations. `Storage.Stored` is what an engine does to one tenant on a shared database: it loads
-the snapshot from the rows a `SELECT` of each table returned, runs an accepted command, and stores
-its writes, with other tenants' statements in between. Proved once, for every storage:
+the snapshot from the rows a `SELECT` of each table returned, or takes the snapshot it remembers,
+runs an accepted command, and stores its writes, with other tenants' statements in between.
+Proved once, for every storage:
 
 - `Storage.stored_view`: the tenant's rows are those of the snapshot that `apply` computed;
 - `Storage.stored_load`: loading them gives back a snapshot that stands for the same rows;
@@ -103,11 +104,12 @@ def Loaded (tv : Int64) (db : PgDb) (rows : List (List (List Val))) : Prop :=
   rows.length = st.tables.length ∧ ∀ t (h : t < rows.length), ∃ q ps R0,
     select st.tables tv t none = some (q, ps) ∧ selected db q ps = some R0 ∧ rows[t].Perm R0
 
-/-- The databases an engine produces for the tenant `tv` from tables `create` made, with the
-snapshot each holds. A commit loads the snapshot from the rows a `SELECT` of each table returned,
-runs an accepted command of any principal on it, and stores the statements compiled from its
-write set; the snapshot it holds is what `apply` computes. Statements compiled for other tenants
-may run in between. -/
+/-- The databases an engine produces for the tenant `tv` from tables `create` made, with a
+snapshot an engine may hold for each. A commit loads the snapshot from the rows a `SELECT` of
+each table returned, runs an accepted command of any principal on it, and stores the statements
+compiled from its write set; the snapshot it holds is what `apply` computes. An engine may
+remember the snapshot it loaded from the rows, and commit on the snapshot it holds instead of
+loading one. Statements compiled for other tenants may run in between. -/
 inductive Stored (st : Storage k) (tv : Int64) : PgDb → k.Snapshot → Prop
   | fresh {db : PgDb} :
       Matches st.tables db → view st.tables tv db = (fun _ _ => none) → Stored st tv db k.init
@@ -117,6 +119,13 @@ inductive Stored (st : Storage k) (tv : Int64) : PgDb → k.Snapshot → Prop
       k.transition a snap c = .ok (ws, r) →
       ((st.writes ws).map plan).mapM (compile st.tables tv) = some qs → runAll db qs = some db' →
       Stored st tv db' (k.apply snap ws)
+  | loaded {db : PgDb} {s snap : k.Snapshot} {rows : List (List (List Val))} :
+      Stored st tv db s → st.Loaded tv db rows → st.load rows = some snap → Stored st tv db snap
+  | cached {db db' : PgDb} {s : k.Snapshot} {a : k.Principal} {c : k.Command} {ws : k.WriteSet}
+      {r : k.Reply} {qs : List (Sql × List Val)} :
+      Stored st tv db s → k.transition a s c = .ok (ws, r) →
+      ((st.writes ws).map plan).mapM (compile st.tables tv) = some qs → runAll db qs = some db' →
+      Stored st tv db' (k.apply s ws)
   | other {db db' : PgDb} {s : k.Snapshot} {tv' : Int64} {ss : List Stmt}
       {qs : List (Sql × List Val)} :
       Stored st tv db s → tv' ≠ tv → ss.mapM (compile st.tables tv') = some qs →
@@ -150,6 +159,19 @@ theorem stored_view {tv : Int64} {db : PgDb} {s : k.Snapshot} (h : st.Stored tv 
     cases hr2
     refine ⟨hm2, ?_⟩
     rw [hv2, he, ← hes, st.enc_apply _ _ _ _ _ ht]
+  | loaded _ hl hload ih =>
+    obtain ⟨hm, he⟩ := ih
+    obtain ⟨snap', hsnap, hes⟩ := st.load_enc _ _ hl.1 (he ▸ st.lists_of_loaded hm hl)
+    rw [hload] at hsnap
+    cases hsnap
+    exact ⟨hm, he.trans hes.symm⟩
+  | cached _ ht hq hr ih =>
+    obtain ⟨hm, he⟩ := ih
+    obtain ⟨db2, hr2, hm2, hv2, -, -⟩ := compileAll_sound st.valid_tables _ _ _ hm hq
+    rw [hr] at hr2
+    cases hr2
+    refine ⟨hm2, ?_⟩
+    rw [hv2, he, st.enc_apply _ _ _ _ _ ht]
   | other _ hne hq hr ih =>
     obtain ⟨hm, he⟩ := ih
     obtain ⟨db2, hr2, hm2, -, ho, -⟩ := compileAll_sound st.valid_tables _ _ _ hm hq
@@ -181,6 +203,12 @@ theorem stored_inv (I : k.Snapshot → Prop) (hinit : I k.init)
       rw [hload] at hs'
       cases hs'
       exact hstep _ _ _ _ _ (henc _ _ he ih) ht
+    | loaded h₀ hl hload ih =>
+      obtain ⟨s', hs', he⟩ := st.stored_load h₀ hl
+      rw [hload] at hs'
+      cases hs'
+      exact henc _ _ he ih
+    | cached _ ht _ _ ih => exact hstep _ _ _ _ _ ih ht
     | other _ _ _ _ ih => exact ih
   refine ⟨hI, fun rows hl => ?_⟩
   obtain ⟨s', hs', he⟩ := st.stored_load h hl

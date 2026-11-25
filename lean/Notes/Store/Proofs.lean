@@ -455,6 +455,13 @@ theorem stored_keyed {tv : Int64} {db : PgDb} {s : kernel.Snapshot} (h : storage
     rw [hload'] at hs'
     cases hs'
     exact keyed_apply _ _ hk
+  | loaded h₀ hl hload _ =>
+    obtain ⟨s', hs', -, hk⟩ := stored_load h₀ hl
+    have hload' : load _ = some _ := hload
+    rw [hload'] at hs'
+    cases hs'
+    exact hk
+  | cached _ _ _ _ ih => exact keyed_apply _ _ ih
   | other _ _ _ _ ih => exact ih
 
 /-- On PostgreSQL, the snapshot loaded from a tenant's rows answers every command of every
