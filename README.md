@@ -229,7 +229,7 @@ in PostgreSQL and proved authorization guards are designed and not yet built.
 
 ## Speed
 
-Measured on a cloud VM with 4 virtual CPUs (Intel Xeon, 2.10 GHz) and 16 GB of memory by
+Measured on a cloud VM with 4 virtual CPUs (Intel Xeon, 2.30 GHz) and 16 GB of memory by
 `tools/measure.py`, which runs every measurement alone and writes the runs to
 [`docs/speed.json`](docs/speed.json). `tools/speed-charts.py` draws the charts and prints the
 tables from that file. Every number is a rate, so higher is better. All numbers come from one
@@ -245,18 +245,19 @@ time of three runs; the runs of one cell differ by up to 1.3 times. M is a milli
 
 | Commands per second | 1 user | 100 users | 1,000 users | 10,000 users |
 |---|---:|---:|---:|---:|
-| Rust, generated kernel, snapshot as a Rust value | 7.87 M | 79,300 | 7,110 | 460 |
-| Rust, generated kernel, snapshot as a Lean value | 7.81 M | 5.52 M | 4.63 M | 2.61 M |
-| Rust, memory engine | 7.09 M | 4.85 M | 4.1 M | 2.48 M |
-| Rust, a HashMap by hand (not proved) | 23.8 M | 29.4 M | 28.6 M | 24.4 M |
-| Go, memory engine | 512,800 | 449,000 | 435,700 | 365,100 |
-| Python, memory engine | 38,800 | 32,100 | 29,100 | 23,600 |
+| Rust, generated kernel, snapshot as a Rust value | 8.47 M | 113,600 | 10,400 | 588 |
+| Rust, generated kernel, snapshot as a Lean value | 9.17 M | 7.75 M | 6.9 M | 4.67 M |
+| Rust, memory engine | 9.62 M | 6.41 M | 5.99 M | 4.31 M |
+| Rust, a HashMap by hand (not proved) | 40 M | 41.7 M | 41.7 M | 40 M |
+| Go, memory engine | 932,000 | 775,800 | 699,800 | 554,600 |
+| Python, memory engine | 57,100 | 43,700 | 40,400 | 34,400 |
 
 ### Over HTTP, next to servers without a kernel
 
 Replies per second to `POST /rpc` on the same VM, with `oha` for 8 seconds against a tenant of
 one user. Each cell is the mean of two runs, and every reply had status 200. The load generator
-runs on the same four CPUs as the server.
+runs on the same four CPUs as the server. Every request carries the same token, so after the
+first request the server recognises the token by its bytes and checks only its expiry.
 
 The servers marked "no kernel" ([`bench/`](bench)) are the usual servers of each language doing
 the least a JSON endpoint does: they decode the JSON body and reply with a JSON value. They check
@@ -267,30 +268,30 @@ token check, the engine and the generated kernel cost.
 
 | Replies per second, Rust | get, 1 connection | apply, 1 connection | get, 64 connections | apply, 64 connections |
 |---|---:|---:|---:|---:|
-| leanharbor, Rust (axum) | 17,500 | 17,100 | 130,900 | 124,500 |
-| axum, no kernel | 18,200 | 18,100 | 141,300 | 132,000 |
-| actix-web, no kernel | 18,400 | 18,200 | 180,700 | 180,300 |
+| leanharbor, Rust (axum) | 19,400 | 19,200 | 155,100 | 154,700 |
+| axum, no kernel | 19,500 | 19,300 | 156,700 | 165,300 |
+| actix-web, no kernel | 20,700 | 20,300 | 223,000 | 209,500 |
 
 ![Replies per second over HTTP, Go](docs/speed-http-go.svg)
 
 | Replies per second, Go | get, 1 connection | apply, 1 connection | get, 64 connections | apply, 64 connections |
 |---|---:|---:|---:|---:|
-| leanharbor, Go (net/http) | 10,800 | 10,300 | 63,200 | 60,700 |
-| net/http, no kernel | 12,800 | 11,600 | 82,500 | 78,800 |
-| gin, no kernel | 11,400 | 12,700 | 70,700 | 66,600 |
+| leanharbor, Go (net/http) | 13,000 | 12,600 | 81,600 | 69,700 |
+| net/http, no kernel | 13,200 | 13,700 | 102,500 | 98,200 |
+| gin, no kernel | 12,800 | 12,100 | 79,900 | 80,300 |
 
 ![Replies per second over HTTP, Python](docs/speed-http-python.svg)
 
 | Replies per second, Python | get, 1 connection | apply, 1 connection | get, 64 connections | apply, 64 connections |
 |---|---:|---:|---:|---:|
-| leanharbor, Python (http.server) | 4,820 | 4,540 | 2,700 | 2,250 |
-| FastAPI on uvicorn, 4 processes, no kernel | 4,200 | 4,800 | 20,800 | 20,200 |
-| Flask on gunicorn, 4 processes, no kernel | 2,140 | 2,270 | 7,830 | 7,540 |
+| leanharbor, Python (http.server) | 6,950 | 6,320 | 3,420 | 2,770 |
+| FastAPI on uvicorn, 4 processes, no kernel | 7,030 | 6,750 | 30,100 | 27,100 |
+| Flask on gunicorn, 4 processes, no kernel | 3,600 | 3,200 | 7,220 | 7,720 |
 
-- The Rust shell runs on axum and gives 96% of the replies of axum without a kernel on one
-  connection and 93% on 64.
-- The Go shell runs on `net/http` and gives 84% of the replies of `net/http` without a kernel on
-  one connection and 77% on 64.
+- The Rust shell runs on axum and gives 99% of the replies of axum without a kernel on one
+  connection and on 64.
+- The Go shell runs on `net/http` and gives 98% of the replies of `net/http` without a kernel on
+  one connection and 80% on 64.
 - The Python shell is one process on `http.server`, with one lock around the engine. On one
   connection it gives as many replies as FastAPI. On 64 connections it gives fewer than on one,
   while FastAPI and Flask spread the connections over four processes.
@@ -307,9 +308,9 @@ command at a time. A test (`rust/calculator/tests/in_place.rs`) sends commands f
 threads, some of them refused, and checks that the snapshot is still the kind of Lean object
 that is updated in place.
 
-The row written by hand keeps the numbers in a `HashMap` and has no proof. It runs 3 times as
-many commands as the Rust memory engine for one user, 6 times for 100, 7 times for 1,000 and 10
-times for 10,000. The difference is the allocation of the small Lean objects of each call and the
+The row written by hand keeps the numbers in a `HashMap` and has no proof. It runs 4 times as
+many commands as the Rust memory engine for one user, 7 times for 100 and for 1,000, and 9 times
+for 10,000. The difference is the allocation of the small Lean objects of each call and the
 walk down the trie.
 
 The row with the snapshot as a Rust value converts the whole trie on every call, so it falls with
