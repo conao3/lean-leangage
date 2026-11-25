@@ -177,14 +177,14 @@ class Attempt:
 class Config:
     """`max_attempts`: attempts of one command before `RetriesExhausted`. `tenant_lock`: take the
     tenant's advisory lock before each write attempt; it spares retries, and `SERIALIZABLE` keeps
-    the commits serial without it. `cache_tenants`: tenants whose snapshot the engine remembers at
-    once; 0 remembers none. `hook`: called at each `Point` of each attempt, which waits for it to
-    return; for tests that inject faults."""
+    the commits serial without it. `hook`: called at each `Point` of each attempt, which waits for
+    it to return; for tests that inject faults. `cache_tenants`: tenants whose snapshot the engine
+    remembers at once; 0 remembers none."""
 
     max_attempts: int = 20
     tenant_lock: bool = True
-    cache_tenants: int = 1024
     hook: Callable[[Attempt], None] | None = None
+    cache_tenants: int = 1024
 
 
 class Stats:
