@@ -5,14 +5,17 @@ import Leanharbor.Token
 
 Based on `crates/h5i-app-json/src/lib.rs` and `crates/h5i-app-json/proofs/JsonSpec.lean` of h5i
 (https://github.com/h5i-dev/h5i, commit 515c7b9, Apache-2.0). Changed: the functions are written
-in Lean and generated to the shells; bytes are a `List UInt8` and numbers are `UInt64`s; the
-decimal and hexadecimal digits are those of `Leanharbor.Token`; the loop over the tokens keeps
-what it has written, reversed, in an accumulator.
+in Lean and generated to the shells; bytes are a `List UInt8` and numbers are `UInt64`s; the five
+control bytes that JSON has a short escape for are written with it; the decimal and hexadecimal
+digits are those of `Leanharbor.Token`; the loop over the tokens keeps what it has written,
+reversed, in an accumulator.
 
 A document is a list of `Tok`s. `write` adds the commas and the colons: a comma goes before a
 token that follows a value and does not close an array or an object, and `key` writes its colon.
-In a string, `"` and `\` get a backslash, bytes below 0x20 become `\u00XX` with lowercase
-hexadecimal, and every other byte passes through, so UTF-8 in gives UTF-8 out.
+In a string, `"` and `\` get a backslash, backspace, form feed, line feed, carriage return and tab
+become `\b`, `\f`, `\n`, `\r` and `\t`, the other bytes below 0x20 become `\u00XX` with lowercase
+hexadecimal, and every other byte passes through, so UTF-8 in gives UTF-8 out. These are the
+escapes `serde_json` writes.
 -/
 
 namespace Leanharbor.Json
@@ -34,6 +37,11 @@ deriving DecidableEq, Repr
 def escapeByte (c : UInt8) : List UInt8 :=
   if c = 34 then [92, 34]
   else if c = 92 then [92, 92]
+  else if c = 8 then [92, 98]
+  else if c = 12 then [92, 102]
+  else if c = 10 then [92, 110]
+  else if c = 13 then [92, 114]
+  else if c = 9 then [92, 116]
   else if c < 32 then
     [92, 117, 48, 48, Token.hexDigit (c.toNat / 16), Token.hexDigit (c.toNat % 16)]
   else [c]

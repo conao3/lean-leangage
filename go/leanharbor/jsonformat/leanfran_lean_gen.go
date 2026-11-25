@@ -14,7 +14,7 @@ func compute_L_Leanharbor_Json_escapeByte___closed__0() rt.V {
 	var x_4 rt.V
 	_ = x_4
 	x_1 = rt.Lean_box(0)
-	x_2 = 92
+	x_2 = 116
 	x_3 = rt.Lean_box(uint64(x_2))
 	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
 	rt.Lean_ctor_set(x_4, 0, x_3)
@@ -40,7 +40,43 @@ func compute_L_Leanharbor_Json_escapeByte___closed__1() rt.V {
 	return x_4
 }
 
-func compute_L_Leanharbor_Json_escapeByte___closed__2() rt.V {
+func compute_L_Leanharbor_Json_escapeByte___closed__10() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 92
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__11() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_escapeByte___closed__10()
+	x_2 = 92
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__12() rt.V {
 	var x_1 rt.V
 	_ = x_1
 	var x_2 uint8
@@ -58,6 +94,42 @@ func compute_L_Leanharbor_Json_escapeByte___closed__2() rt.V {
 	return x_4
 }
 
+func compute_L_Leanharbor_Json_escapeByte___closed__13() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_escapeByte___closed__12()
+	x_2 = 92
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__2() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 114
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
 func compute_L_Leanharbor_Json_escapeByte___closed__3() rt.V {
 	var x_1 rt.V
 	_ = x_1
@@ -68,6 +140,114 @@ func compute_L_Leanharbor_Json_escapeByte___closed__3() rt.V {
 	var x_4 rt.V
 	_ = x_4
 	x_1 = l_Leanharbor_Json_escapeByte___closed__2()
+	x_2 = 92
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__4() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 110
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__5() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_escapeByte___closed__4()
+	x_2 = 92
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__6() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 102
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__7() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_escapeByte___closed__6()
+	x_2 = 92
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__8() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = rt.Lean_box(0)
+	x_2 = 98
+	x_3 = rt.Lean_box(uint64(x_2))
+	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
+	rt.Lean_ctor_set(x_4, 0, x_3)
+	rt.Lean_ctor_set(x_4, 1, x_1)
+	return x_4
+}
+
+func compute_L_Leanharbor_Json_escapeByte___closed__9() rt.V {
+	var x_1 rt.V
+	_ = x_1
+	var x_2 uint8
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	x_1 = l_Leanharbor_Json_escapeByte___closed__8()
 	x_2 = 92
 	x_3 = rt.Lean_box(uint64(x_2))
 	x_4 = rt.Lean_alloc_ctor(1, 2, 0)
@@ -528,7 +708,7 @@ func core_L_Leanharbor_Json_tokBytes(frame *rt.Tail, x_1 rt.V) rt.V {
 		x_13 = rt.Lean_alloc_ctor(1, 2, 0)
 		rt.Lean_ctor_set(x_13, 0, x_12)
 		rt.Lean_ctor_set(x_13, 1, x_11)
-		x_14 = l_Leanharbor_Json_escapeByte___closed__2()
+		x_14 = l_Leanharbor_Json_escapeByte___closed__12()
 		rt.TailCall(frame, tail_L_List_appendTR___redArg, []rt.V{x_13, x_14})
 		return rt.V{}
 	case 4:
@@ -766,6 +946,16 @@ func init() {
 	value_L_Leanharbor_Json_escapeByte___closed__1 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__1())
 	value_L_Leanharbor_Json_escapeByte___closed__2 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__2())
 	value_L_Leanharbor_Json_escapeByte___closed__3 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__3())
+	value_L_Leanharbor_Json_escapeByte___closed__4 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__4())
+	value_L_Leanharbor_Json_escapeByte___closed__5 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__5())
+	value_L_Leanharbor_Json_escapeByte___closed__6 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__6())
+	value_L_Leanharbor_Json_escapeByte___closed__7 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__7())
+	value_L_Leanharbor_Json_escapeByte___closed__8 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__8())
+	value_L_Leanharbor_Json_escapeByte___closed__9 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__9())
+	value_L_Leanharbor_Json_escapeByte___closed__10 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__10())
+	value_L_Leanharbor_Json_escapeByte___closed__11 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__11())
+	value_L_Leanharbor_Json_escapeByte___closed__12 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__12())
+	value_L_Leanharbor_Json_escapeByte___closed__13 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_escapeByte___closed__13())
 	value_L_Leanharbor_Json_tokBytes___closed__0 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__0())
 	value_L_Leanharbor_Json_tokBytes___closed__1 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__1())
 	value_L_Leanharbor_Json_tokBytes___closed__2 = rt.Lean_mark_persistent(compute_L_Leanharbor_Json_tokBytes___closed__2())
@@ -858,35 +1048,35 @@ func l_Leanharbor_Json_escapeByte(x_1 uint8) rt.V {
 	_ = x_6
 	var x_7 uint8
 	_ = x_7
-	var x_8 rt.V
+	var x_8 uint8
 	_ = x_8
-	var x_9 rt.V
+	var x_9 uint8
 	_ = x_9
-	var x_10 rt.V
+	var x_10 uint8
 	_ = x_10
 	var x_11 uint8
 	_ = x_11
 	var x_12 uint8
 	_ = x_12
-	var x_13 rt.V
+	var x_13 uint8
 	_ = x_13
-	var x_14 rt.V
+	var x_14 uint8
 	_ = x_14
-	var x_15 rt.V
+	var x_15 uint8
 	_ = x_15
-	var x_16 rt.V
+	var x_16 uint8
 	_ = x_16
 	var x_17 uint8
 	_ = x_17
 	var x_18 rt.V
 	_ = x_18
-	var x_19 uint8
+	var x_19 rt.V
 	_ = x_19
 	var x_20 rt.V
 	_ = x_20
-	var x_21 rt.V
+	var x_21 uint8
 	_ = x_21
-	var x_22 rt.V
+	var x_22 uint8
 	_ = x_22
 	var x_23 rt.V
 	_ = x_23
@@ -896,11 +1086,11 @@ func l_Leanharbor_Json_escapeByte(x_1 uint8) rt.V {
 	_ = x_25
 	var x_26 rt.V
 	_ = x_26
-	var x_27 rt.V
+	var x_27 uint8
 	_ = x_27
 	var x_28 rt.V
 	_ = x_28
-	var x_29 rt.V
+	var x_29 uint8
 	_ = x_29
 	var x_30 rt.V
 	_ = x_30
@@ -912,6 +1102,36 @@ func l_Leanharbor_Json_escapeByte(x_1 uint8) rt.V {
 	_ = x_33
 	var x_34 rt.V
 	_ = x_34
+	var x_35 rt.V
+	_ = x_35
+	var x_36 rt.V
+	_ = x_36
+	var x_37 rt.V
+	_ = x_37
+	var x_38 rt.V
+	_ = x_38
+	var x_39 rt.V
+	_ = x_39
+	var x_40 rt.V
+	_ = x_40
+	var x_41 rt.V
+	_ = x_41
+	var x_42 rt.V
+	_ = x_42
+	var x_43 rt.V
+	_ = x_43
+	var x_44 rt.V
+	_ = x_44
+	var x_45 rt.V
+	_ = x_45
+	var x_46 rt.V
+	_ = x_46
+	var x_47 rt.V
+	_ = x_47
+	var x_48 rt.V
+	_ = x_48
+	var x_49 rt.V
+	_ = x_49
 	x_2 = 34
 	x_3 = l_UInt8_decEq(x_1, x_2)
 	switch x_3 {
@@ -920,68 +1140,123 @@ func l_Leanharbor_Json_escapeByte(x_1 uint8) rt.V {
 		x_5 = l_UInt8_decEq(x_1, x_4)
 		switch x_5 {
 		case 0:
-			x_6 = 32
-			x_7 = l_UInt8_decLt(x_1, x_6)
+			x_6 = 8
+			x_7 = l_UInt8_decEq(x_1, x_6)
 			switch x_7 {
 			case 0:
-				x_8 = rt.Lean_box(0)
-				x_9 = rt.Lean_box(uint64(x_1))
-				x_10 = rt.Lean_alloc_ctor(1, 2, 0)
-				rt.Lean_ctor_set(x_10, 0, x_9)
-				rt.Lean_ctor_set(x_10, 1, x_8)
-				return x_10
+				x_8 = 12
+				x_9 = l_UInt8_decEq(x_1, x_8)
+				switch x_9 {
+				case 0:
+					x_10 = 10
+					x_11 = l_UInt8_decEq(x_1, x_10)
+					switch x_11 {
+					case 0:
+						x_12 = 13
+						x_13 = l_UInt8_decEq(x_1, x_12)
+						switch x_13 {
+						case 0:
+							x_14 = 9
+							x_15 = l_UInt8_decEq(x_1, x_14)
+							switch x_15 {
+							case 0:
+								x_16 = 32
+								x_17 = l_UInt8_decLt(x_1, x_16)
+								switch x_17 {
+								case 0:
+									x_18 = rt.Lean_box(0)
+									x_19 = rt.Lean_box(uint64(x_1))
+									x_20 = rt.Lean_alloc_ctor(1, 2, 0)
+									rt.Lean_ctor_set(x_20, 0, x_19)
+									rt.Lean_ctor_set(x_20, 1, x_18)
+									return x_20
+								case 1:
+									x_21 = 117
+									x_22 = 48
+									x_23 = l_UInt8_toNat(x_1)
+									x_24 = rt.NatFromUint64(16)
+									x_25 = rt.NatFromUint64(4)
+									x_26 = l_Nat_shiftRight(x_23, x_25)
+									x_27 = l_Leanharbor_Token_hexDigit(x_26)
+									rt.Lean_dec(x_26)
+									x_28 = l_Nat_mod(x_23, x_24)
+									x_29 = l_Leanharbor_Token_hexDigit(x_28)
+									rt.Lean_dec(x_28)
+									x_30 = rt.Lean_box(0)
+									x_31 = rt.Lean_box(uint64(x_29))
+									x_32 = rt.Lean_alloc_ctor(1, 2, 0)
+									rt.Lean_ctor_set(x_32, 0, x_31)
+									rt.Lean_ctor_set(x_32, 1, x_30)
+									x_33 = rt.Lean_box(uint64(x_27))
+									x_34 = rt.Lean_alloc_ctor(1, 2, 0)
+									rt.Lean_ctor_set(x_34, 0, x_33)
+									rt.Lean_ctor_set(x_34, 1, x_32)
+									x_35 = rt.Lean_box(uint64(x_22))
+									x_36 = rt.Lean_alloc_ctor(1, 2, 0)
+									rt.Lean_ctor_set(x_36, 0, x_35)
+									rt.Lean_ctor_set(x_36, 1, x_34)
+									x_37 = rt.Lean_box(uint64(x_22))
+									x_38 = rt.Lean_alloc_ctor(1, 2, 0)
+									rt.Lean_ctor_set(x_38, 0, x_37)
+									rt.Lean_ctor_set(x_38, 1, x_36)
+									x_39 = rt.Lean_box(uint64(x_21))
+									x_40 = rt.Lean_alloc_ctor(1, 2, 0)
+									rt.Lean_ctor_set(x_40, 0, x_39)
+									rt.Lean_ctor_set(x_40, 1, x_38)
+									x_41 = rt.Lean_box(uint64(x_4))
+									x_42 = rt.Lean_alloc_ctor(1, 2, 0)
+									rt.Lean_ctor_set(x_42, 0, x_41)
+									rt.Lean_ctor_set(x_42, 1, x_40)
+									return x_42
+								default:
+									rt.Lean_internal_panic_unreachable()
+									return rt.V{}
+								}
+							case 1:
+								x_43 = l_Leanharbor_Json_escapeByte___closed__1()
+								return x_43
+							default:
+								rt.Lean_internal_panic_unreachable()
+								return rt.V{}
+							}
+						case 1:
+							x_44 = l_Leanharbor_Json_escapeByte___closed__3()
+							return x_44
+						default:
+							rt.Lean_internal_panic_unreachable()
+							return rt.V{}
+						}
+					case 1:
+						x_45 = l_Leanharbor_Json_escapeByte___closed__5()
+						return x_45
+					default:
+						rt.Lean_internal_panic_unreachable()
+						return rt.V{}
+					}
+				case 1:
+					x_46 = l_Leanharbor_Json_escapeByte___closed__7()
+					return x_46
+				default:
+					rt.Lean_internal_panic_unreachable()
+					return rt.V{}
+				}
 			case 1:
-				x_11 = 117
-				x_12 = 48
-				x_13 = l_UInt8_toNat(x_1)
-				x_14 = rt.NatFromUint64(16)
-				x_15 = rt.NatFromUint64(4)
-				x_16 = l_Nat_shiftRight(x_13, x_15)
-				x_17 = l_Leanharbor_Token_hexDigit(x_16)
-				rt.Lean_dec(x_16)
-				x_18 = l_Nat_mod(x_13, x_14)
-				x_19 = l_Leanharbor_Token_hexDigit(x_18)
-				rt.Lean_dec(x_18)
-				x_20 = rt.Lean_box(0)
-				x_21 = rt.Lean_box(uint64(x_19))
-				x_22 = rt.Lean_alloc_ctor(1, 2, 0)
-				rt.Lean_ctor_set(x_22, 0, x_21)
-				rt.Lean_ctor_set(x_22, 1, x_20)
-				x_23 = rt.Lean_box(uint64(x_17))
-				x_24 = rt.Lean_alloc_ctor(1, 2, 0)
-				rt.Lean_ctor_set(x_24, 0, x_23)
-				rt.Lean_ctor_set(x_24, 1, x_22)
-				x_25 = rt.Lean_box(uint64(x_12))
-				x_26 = rt.Lean_alloc_ctor(1, 2, 0)
-				rt.Lean_ctor_set(x_26, 0, x_25)
-				rt.Lean_ctor_set(x_26, 1, x_24)
-				x_27 = rt.Lean_box(uint64(x_12))
-				x_28 = rt.Lean_alloc_ctor(1, 2, 0)
-				rt.Lean_ctor_set(x_28, 0, x_27)
-				rt.Lean_ctor_set(x_28, 1, x_26)
-				x_29 = rt.Lean_box(uint64(x_11))
-				x_30 = rt.Lean_alloc_ctor(1, 2, 0)
-				rt.Lean_ctor_set(x_30, 0, x_29)
-				rt.Lean_ctor_set(x_30, 1, x_28)
-				x_31 = rt.Lean_box(uint64(x_4))
-				x_32 = rt.Lean_alloc_ctor(1, 2, 0)
-				rt.Lean_ctor_set(x_32, 0, x_31)
-				rt.Lean_ctor_set(x_32, 1, x_30)
-				return x_32
+				x_47 = l_Leanharbor_Json_escapeByte___closed__9()
+				return x_47
 			default:
 				rt.Lean_internal_panic_unreachable()
 				return rt.V{}
 			}
 		case 1:
-			x_33 = l_Leanharbor_Json_escapeByte___closed__1()
-			return x_33
+			x_48 = l_Leanharbor_Json_escapeByte___closed__11()
+			return x_48
 		default:
 			rt.Lean_internal_panic_unreachable()
 			return rt.V{}
 		}
 	case 1:
-		x_34 = l_Leanharbor_Json_escapeByte___closed__3()
-		return x_34
+		x_49 = l_Leanharbor_Json_escapeByte___closed__13()
+		return x_49
 	default:
 		rt.Lean_internal_panic_unreachable()
 		return rt.V{}
@@ -996,12 +1271,52 @@ func l_Leanharbor_Json_escapeByte___closed__1() rt.V {
 	return value_L_Leanharbor_Json_escapeByte___closed__1
 }
 
+func l_Leanharbor_Json_escapeByte___closed__10() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__10
+}
+
+func l_Leanharbor_Json_escapeByte___closed__11() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__11
+}
+
+func l_Leanharbor_Json_escapeByte___closed__12() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__12
+}
+
+func l_Leanharbor_Json_escapeByte___closed__13() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__13
+}
+
 func l_Leanharbor_Json_escapeByte___closed__2() rt.V {
 	return value_L_Leanharbor_Json_escapeByte___closed__2
 }
 
 func l_Leanharbor_Json_escapeByte___closed__3() rt.V {
 	return value_L_Leanharbor_Json_escapeByte___closed__3
+}
+
+func l_Leanharbor_Json_escapeByte___closed__4() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__4
+}
+
+func l_Leanharbor_Json_escapeByte___closed__5() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__5
+}
+
+func l_Leanharbor_Json_escapeByte___closed__6() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__6
+}
+
+func l_Leanharbor_Json_escapeByte___closed__7() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__7
+}
+
+func l_Leanharbor_Json_escapeByte___closed__8() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__8
+}
+
+func l_Leanharbor_Json_escapeByte___closed__9() rt.V {
+	return value_L_Leanharbor_Json_escapeByte___closed__9
 }
 
 func l_Leanharbor_Json_escape___closed__0() rt.V {
@@ -1368,9 +1683,29 @@ var value_L_Leanharbor_Json_escapeByte___closed__0 rt.V
 
 var value_L_Leanharbor_Json_escapeByte___closed__1 rt.V
 
+var value_L_Leanharbor_Json_escapeByte___closed__10 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__11 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__12 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__13 rt.V
+
 var value_L_Leanharbor_Json_escapeByte___closed__2 rt.V
 
 var value_L_Leanharbor_Json_escapeByte___closed__3 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__4 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__5 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__6 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__7 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__8 rt.V
+
+var value_L_Leanharbor_Json_escapeByte___closed__9 rt.V
 
 var value_L_Leanharbor_Json_escape___closed__0 rt.V
 

@@ -9,7 +9,7 @@ import random
 import sys
 
 NUMBERS = [0, 1, 9, 10, 99, 100, 10**19 - 1, 10**19, 2**63, 2**64 - 1]
-SPECIAL = b'\x00\x01\x08\t\n\r\x1f\x1e "\\/:,[]{}u\x7f'
+SPECIAL = b'\x00\x01\x08\t\n\x0c\r\x1f\x1e "\\/:,[]{}u\x7f'
 UTF8 = ["é", "日本", "😀", " ", "﻿"]
 
 

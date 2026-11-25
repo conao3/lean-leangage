@@ -12,33 +12,48 @@ let mut x_4: u8 = 0;
 let mut x_5: u8 = 0;
 let mut x_6: u8 = 0;
 let mut x_7: u8 = 0;
-let mut x_8: Obj = rt::lean_box(0);
-let mut x_9: Obj = rt::lean_box(0);
-let mut x_10: Obj = rt::lean_box(0);
+let mut x_8: u8 = 0;
+let mut x_9: u8 = 0;
+let mut x_10: u8 = 0;
 let mut x_11: u8 = 0;
 let mut x_12: u8 = 0;
-let mut x_13: Obj = rt::lean_box(0);
-let mut x_14: Obj = rt::lean_box(0);
-let mut x_15: Obj = rt::lean_box(0);
-let mut x_16: Obj = rt::lean_box(0);
+let mut x_13: u8 = 0;
+let mut x_14: u8 = 0;
+let mut x_15: u8 = 0;
+let mut x_16: u8 = 0;
 let mut x_17: u8 = 0;
 let mut x_18: Obj = rt::lean_box(0);
-let mut x_19: u8 = 0;
+let mut x_19: Obj = rt::lean_box(0);
 let mut x_20: Obj = rt::lean_box(0);
-let mut x_21: Obj = rt::lean_box(0);
-let mut x_22: Obj = rt::lean_box(0);
+let mut x_21: u8 = 0;
+let mut x_22: u8 = 0;
 let mut x_23: Obj = rt::lean_box(0);
 let mut x_24: Obj = rt::lean_box(0);
 let mut x_25: Obj = rt::lean_box(0);
 let mut x_26: Obj = rt::lean_box(0);
-let mut x_27: Obj = rt::lean_box(0);
+let mut x_27: u8 = 0;
 let mut x_28: Obj = rt::lean_box(0);
-let mut x_29: Obj = rt::lean_box(0);
+let mut x_29: u8 = 0;
 let mut x_30: Obj = rt::lean_box(0);
 let mut x_31: Obj = rt::lean_box(0);
 let mut x_32: Obj = rt::lean_box(0);
 let mut x_33: Obj = rt::lean_box(0);
 let mut x_34: Obj = rt::lean_box(0);
+let mut x_35: Obj = rt::lean_box(0);
+let mut x_36: Obj = rt::lean_box(0);
+let mut x_37: Obj = rt::lean_box(0);
+let mut x_38: Obj = rt::lean_box(0);
+let mut x_39: Obj = rt::lean_box(0);
+let mut x_40: Obj = rt::lean_box(0);
+let mut x_41: Obj = rt::lean_box(0);
+let mut x_42: Obj = rt::lean_box(0);
+let mut x_43: Obj = rt::lean_box(0);
+let mut x_44: Obj = rt::lean_box(0);
+let mut x_45: Obj = rt::lean_box(0);
+let mut x_46: Obj = rt::lean_box(0);
+let mut x_47: Obj = rt::lean_box(0);
+let mut x_48: Obj = rt::lean_box(0);
+let mut x_49: Obj = rt::lean_box(0);
 x_2 = 34u8;
 x_3 = rt::lean_uint8_dec_eq(x_1, x_2);
 match x_3 as u32 {
@@ -47,55 +62,110 @@ x_4 = 92u8;
 x_5 = rt::lean_uint8_dec_eq(x_1, x_4);
 match x_5 as u32 {
 0 => {
-x_6 = 32u8;
-x_7 = rt::lean_uint8_dec_lt(x_1, x_6);
+x_6 = 8u8;
+x_7 = rt::lean_uint8_dec_eq(x_1, x_6);
 match x_7 as u32 {
 0 => {
-x_8 = rt::lean_box(0);
-x_9 = rt::lean_box(x_1 as usize);
-x_10 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_10, 0, x_9); rt::lean_ctor_set(x_10, 1, x_8);
-return x_10;
+x_8 = 12u8;
+x_9 = rt::lean_uint8_dec_eq(x_1, x_8);
+match x_9 as u32 {
+0 => {
+x_10 = 10u8;
+x_11 = rt::lean_uint8_dec_eq(x_1, x_10);
+match x_11 as u32 {
+0 => {
+x_12 = 13u8;
+x_13 = rt::lean_uint8_dec_eq(x_1, x_12);
+match x_13 as u32 {
+0 => {
+x_14 = 9u8;
+x_15 = rt::lean_uint8_dec_eq(x_1, x_14);
+match x_15 as u32 {
+0 => {
+x_16 = 32u8;
+x_17 = rt::lean_uint8_dec_lt(x_1, x_16);
+match x_17 as u32 {
+0 => {
+x_18 = rt::lean_box(0);
+x_19 = rt::lean_box(x_1 as usize);
+x_20 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_20, 0, x_19); rt::lean_ctor_set(x_20, 1, x_18);
+return x_20;
 }
 1 => {
-x_11 = 117u8;
-x_12 = 48u8;
-x_13 = rt::lean_uint8_to_nat(x_1);
-x_14 = rt::lean_unsigned_to_nat(16u32);
-x_15 = rt::lean_unsigned_to_nat(4u32);
-x_16 = rt::lean_nat_shiftr(x_13, x_15);
-x_17 = l_Leanharbor_Token_hexDigit(x_16);
-rt::lean_dec(x_16);
-x_18 = rt::lean_nat_mod(x_13, x_14);
-x_19 = l_Leanharbor_Token_hexDigit(x_18);
-rt::lean_dec(x_18);
-x_20 = rt::lean_box(0);
-x_21 = rt::lean_box(x_19 as usize);
-x_22 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_22, 0, x_21); rt::lean_ctor_set(x_22, 1, x_20);
-x_23 = rt::lean_box(x_17 as usize);
-x_24 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_24, 0, x_23); rt::lean_ctor_set(x_24, 1, x_22);
-x_25 = rt::lean_box(x_12 as usize);
-x_26 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_26, 0, x_25); rt::lean_ctor_set(x_26, 1, x_24);
-x_27 = rt::lean_box(x_12 as usize);
-x_28 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_28, 0, x_27); rt::lean_ctor_set(x_28, 1, x_26);
-x_29 = rt::lean_box(x_11 as usize);
-x_30 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_30, 0, x_29); rt::lean_ctor_set(x_30, 1, x_28);
-x_31 = rt::lean_box(x_4 as usize);
+x_21 = 117u8;
+x_22 = 48u8;
+x_23 = rt::lean_uint8_to_nat(x_1);
+x_24 = rt::lean_unsigned_to_nat(16u32);
+x_25 = rt::lean_unsigned_to_nat(4u32);
+x_26 = rt::lean_nat_shiftr(x_23, x_25);
+x_27 = l_Leanharbor_Token_hexDigit(x_26);
+rt::lean_dec(x_26);
+x_28 = rt::lean_nat_mod(x_23, x_24);
+x_29 = l_Leanharbor_Token_hexDigit(x_28);
+rt::lean_dec(x_28);
+x_30 = rt::lean_box(0);
+x_31 = rt::lean_box(x_29 as usize);
 x_32 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_32, 0, x_31); rt::lean_ctor_set(x_32, 1, x_30);
-return x_32;
+x_33 = rt::lean_box(x_27 as usize);
+x_34 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_34, 0, x_33); rt::lean_ctor_set(x_34, 1, x_32);
+x_35 = rt::lean_box(x_22 as usize);
+x_36 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_36, 0, x_35); rt::lean_ctor_set(x_36, 1, x_34);
+x_37 = rt::lean_box(x_22 as usize);
+x_38 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_38, 0, x_37); rt::lean_ctor_set(x_38, 1, x_36);
+x_39 = rt::lean_box(x_21 as usize);
+x_40 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_40, 0, x_39); rt::lean_ctor_set(x_40, 1, x_38);
+x_41 = rt::lean_box(x_4 as usize);
+x_42 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_42, 0, x_41); rt::lean_ctor_set(x_42, 1, x_40);
+return x_42;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-x_33 = l_Leanharbor_Json_escapeByte___closed__1();
-return x_33;
+x_43 = l_Leanharbor_Json_escapeByte___closed__1();
+return x_43;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-x_34 = l_Leanharbor_Json_escapeByte___closed__3();
-return x_34;
+x_44 = l_Leanharbor_Json_escapeByte___closed__3();
+return x_44;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_45 = l_Leanharbor_Json_escapeByte___closed__5();
+return x_45;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_46 = l_Leanharbor_Json_escapeByte___closed__7();
+return x_46;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_47 = l_Leanharbor_Json_escapeByte___closed__9();
+return x_47;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_48 = l_Leanharbor_Json_escapeByte___closed__11();
+return x_48;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_49 = l_Leanharbor_Json_escapeByte___closed__13();
+return x_49;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
@@ -167,7 +237,7 @@ let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
 x_1 = rt::lean_box(0);
-x_2 = 92u8;
+x_2 = 116u8;
 x_3 = rt::lean_box(x_2 as usize);
 x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
 return x_4;
@@ -207,7 +277,7 @@ let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
 x_1 = rt::lean_box(0);
-x_2 = 34u8;
+x_2 = 114u8;
 x_3 = rt::lean_box(x_2 as usize);
 x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
 return x_4;
@@ -217,6 +287,206 @@ pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__2() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
   let v = l_Leanharbor_Json_escapeByte___closed__2_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_escapeByte___closed__5_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Leanharbor_Json_escapeByte___closed__4();
+x_2 = 92u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__5() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_escapeByte___closed__5_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_escapeByte___closed__4_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = 110u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__4() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_escapeByte___closed__4_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_escapeByte___closed__7_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Leanharbor_Json_escapeByte___closed__6();
+x_2 = 92u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__7() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_escapeByte___closed__7_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_escapeByte___closed__6_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = 102u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__6() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_escapeByte___closed__6_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_escapeByte___closed__9_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Leanharbor_Json_escapeByte___closed__8();
+x_2 = 92u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__9() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_escapeByte___closed__9_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_escapeByte___closed__8_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = 98u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__8() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_escapeByte___closed__8_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_escapeByte___closed__11_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Leanharbor_Json_escapeByte___closed__10();
+x_2 = 92u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__11() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_escapeByte___closed__11_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_escapeByte___closed__10_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = 92u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__10() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_escapeByte___closed__10_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_escapeByte___closed__13_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = l_Leanharbor_Json_escapeByte___closed__12();
+x_2 = 92u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__13() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_escapeByte___closed__13_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leanharbor_Json_escapeByte___closed__12_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: u8 = 0;
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = 34u8;
+x_3 = rt::lean_box(x_2 as usize);
+x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
+return x_4;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__12() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leanharbor_Json_escapeByte___closed__12_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
@@ -430,7 +700,7 @@ x_10 = 34u8;
 x_11 = l_Leanharbor_Json_escape(x_9);
 x_12 = rt::lean_box(x_10 as usize);
 x_13 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_13, 0, x_12); rt::lean_ctor_set(x_13, 1, x_11);
-x_14 = l_Leanharbor_Json_escapeByte___closed__2();
+x_14 = l_Leanharbor_Json_escapeByte___closed__12();
 x_15 = l_List_appendTR___redArg(x_13, x_14);
 return x_15;
 }

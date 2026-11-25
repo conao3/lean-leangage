@@ -451,7 +451,7 @@ def l_Leanharbor_Json_tokBytes(x_1):
         x_11 = l_Leanharbor_Json_escape(x_9)
         x_12 = x_10
         x_13 = Ctor(1, [x_12, x_11])
-        x_14 = l_Leanharbor_Json_escapeByte___closed__2()
+        x_14 = l_Leanharbor_Json_escapeByte___closed__12()
         x_15 = l_List_appendTR___redArg(x_13, x_14)
         return x_15
     elif __t == 4:
@@ -717,50 +717,95 @@ def l_Leanharbor_Json_escapeByte(x_1):
         x_5 = lean_uint8_dec_eq(x_1, x_4)
         __t = x_5
         if __t == 0:
-            x_6 = 32
-            x_7 = lean_uint8_dec_lt(x_1, x_6)
+            x_6 = 8
+            x_7 = lean_uint8_dec_eq(x_1, x_6)
             __t = x_7
             if __t == 0:
-                x_8 = 0
-                x_9 = x_1
-                x_10 = Ctor(1, [x_9, x_8])
-                return x_10
+                x_8 = 12
+                x_9 = lean_uint8_dec_eq(x_1, x_8)
+                __t = x_9
+                if __t == 0:
+                    x_10 = 10
+                    x_11 = lean_uint8_dec_eq(x_1, x_10)
+                    __t = x_11
+                    if __t == 0:
+                        x_12 = 13
+                        x_13 = lean_uint8_dec_eq(x_1, x_12)
+                        __t = x_13
+                        if __t == 0:
+                            x_14 = 9
+                            x_15 = lean_uint8_dec_eq(x_1, x_14)
+                            __t = x_15
+                            if __t == 0:
+                                x_16 = 32
+                                x_17 = lean_uint8_dec_lt(x_1, x_16)
+                                __t = x_17
+                                if __t == 0:
+                                    x_18 = 0
+                                    x_19 = x_1
+                                    x_20 = Ctor(1, [x_19, x_18])
+                                    return x_20
+                                elif __t == 1:
+                                    x_21 = 117
+                                    x_22 = 48
+                                    x_23 = lean_uint8_to_nat(x_1)
+                                    x_24 = 16
+                                    x_25 = 4
+                                    x_26 = lean_nat_shiftr(x_23, x_25)
+                                    x_27 = l_Leanharbor_Token_hexDigit(x_26)
+                                    lean_dec(x_26)
+                                    x_28 = lean_nat_mod(x_23, x_24)
+                                    x_29 = l_Leanharbor_Token_hexDigit(x_28)
+                                    lean_dec(x_28)
+                                    x_30 = 0
+                                    x_31 = x_29
+                                    x_32 = Ctor(1, [x_31, x_30])
+                                    x_33 = x_27
+                                    x_34 = Ctor(1, [x_33, x_32])
+                                    x_35 = x_22
+                                    x_36 = Ctor(1, [x_35, x_34])
+                                    x_37 = x_22
+                                    x_38 = Ctor(1, [x_37, x_36])
+                                    x_39 = x_21
+                                    x_40 = Ctor(1, [x_39, x_38])
+                                    x_41 = x_4
+                                    x_42 = Ctor(1, [x_41, x_40])
+                                    return x_42
+                                else:
+                                    lean_internal_panic_unreachable()
+                            elif __t == 1:
+                                x_43 = l_Leanharbor_Json_escapeByte___closed__1()
+                                return x_43
+                            else:
+                                lean_internal_panic_unreachable()
+                        elif __t == 1:
+                            x_44 = l_Leanharbor_Json_escapeByte___closed__3()
+                            return x_44
+                        else:
+                            lean_internal_panic_unreachable()
+                    elif __t == 1:
+                        x_45 = l_Leanharbor_Json_escapeByte___closed__5()
+                        return x_45
+                    else:
+                        lean_internal_panic_unreachable()
+                elif __t == 1:
+                    x_46 = l_Leanharbor_Json_escapeByte___closed__7()
+                    return x_46
+                else:
+                    lean_internal_panic_unreachable()
             elif __t == 1:
-                x_11 = 117
-                x_12 = 48
-                x_13 = lean_uint8_to_nat(x_1)
-                x_14 = 16
-                x_15 = 4
-                x_16 = lean_nat_shiftr(x_13, x_15)
-                x_17 = l_Leanharbor_Token_hexDigit(x_16)
-                lean_dec(x_16)
-                x_18 = lean_nat_mod(x_13, x_14)
-                x_19 = l_Leanharbor_Token_hexDigit(x_18)
-                lean_dec(x_18)
-                x_20 = 0
-                x_21 = x_19
-                x_22 = Ctor(1, [x_21, x_20])
-                x_23 = x_17
-                x_24 = Ctor(1, [x_23, x_22])
-                x_25 = x_12
-                x_26 = Ctor(1, [x_25, x_24])
-                x_27 = x_12
-                x_28 = Ctor(1, [x_27, x_26])
-                x_29 = x_11
-                x_30 = Ctor(1, [x_29, x_28])
-                x_31 = x_4
-                x_32 = Ctor(1, [x_31, x_30])
-                return x_32
+                x_47 = l_Leanharbor_Json_escapeByte___closed__9()
+                return x_47
             else:
                 lean_internal_panic_unreachable()
         elif __t == 1:
-            x_33 = l_Leanharbor_Json_escapeByte___closed__1()
-            return x_33
+            x_48 = l_Leanharbor_Json_escapeByte___closed__11()
+            return x_48
         else:
             lean_internal_panic_unreachable()
     elif __t == 1:
-        x_34 = l_Leanharbor_Json_escapeByte___closed__3()
-        return x_34
+        x_49 = l_Leanharbor_Json_escapeByte___closed__13()
+        return x_49
     else:
         lean_internal_panic_unreachable()
 
@@ -798,7 +843,7 @@ def l_Leanharbor_Json_escapeByte___closed__1():
 
 def l_Leanharbor_Json_escapeByte___closed__0__init():
     x_1 = 0
-    x_2 = 92
+    x_2 = 116
     x_3 = x_2
     x_4 = Ctor(1, [x_3, x_1])
     return x_4
@@ -824,7 +869,7 @@ def l_Leanharbor_Json_escapeByte___closed__3():
 
 def l_Leanharbor_Json_escapeByte___closed__2__init():
     x_1 = 0
-    x_2 = 34
+    x_2 = 114
     x_3 = x_2
     x_4 = Ctor(1, [x_3, x_1])
     return x_4
@@ -833,6 +878,136 @@ def l_Leanharbor_Json_escapeByte___closed__2():
     c = l_Leanharbor_Json_escapeByte___closed__2__cell
     if not c:
         c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__2__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__5__init():
+    x_1 = l_Leanharbor_Json_escapeByte___closed__4()
+    x_2 = 92
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__5__cell = []
+def l_Leanharbor_Json_escapeByte___closed__5():
+    c = l_Leanharbor_Json_escapeByte___closed__5__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__5__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__4__init():
+    x_1 = 0
+    x_2 = 110
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__4__cell = []
+def l_Leanharbor_Json_escapeByte___closed__4():
+    c = l_Leanharbor_Json_escapeByte___closed__4__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__4__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__7__init():
+    x_1 = l_Leanharbor_Json_escapeByte___closed__6()
+    x_2 = 92
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__7__cell = []
+def l_Leanharbor_Json_escapeByte___closed__7():
+    c = l_Leanharbor_Json_escapeByte___closed__7__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__7__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__6__init():
+    x_1 = 0
+    x_2 = 102
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__6__cell = []
+def l_Leanharbor_Json_escapeByte___closed__6():
+    c = l_Leanharbor_Json_escapeByte___closed__6__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__6__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__9__init():
+    x_1 = l_Leanharbor_Json_escapeByte___closed__8()
+    x_2 = 92
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__9__cell = []
+def l_Leanharbor_Json_escapeByte___closed__9():
+    c = l_Leanharbor_Json_escapeByte___closed__9__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__9__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__8__init():
+    x_1 = 0
+    x_2 = 98
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__8__cell = []
+def l_Leanharbor_Json_escapeByte___closed__8():
+    c = l_Leanharbor_Json_escapeByte___closed__8__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__8__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__11__init():
+    x_1 = l_Leanharbor_Json_escapeByte___closed__10()
+    x_2 = 92
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__11__cell = []
+def l_Leanharbor_Json_escapeByte___closed__11():
+    c = l_Leanharbor_Json_escapeByte___closed__11__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__11__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__10__init():
+    x_1 = 0
+    x_2 = 92
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__10__cell = []
+def l_Leanharbor_Json_escapeByte___closed__10():
+    c = l_Leanharbor_Json_escapeByte___closed__10__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__10__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__13__init():
+    x_1 = l_Leanharbor_Json_escapeByte___closed__12()
+    x_2 = 92
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__13__cell = []
+def l_Leanharbor_Json_escapeByte___closed__13():
+    c = l_Leanharbor_Json_escapeByte___closed__13__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__13__init()))
+    return c[0]
+
+def l_Leanharbor_Json_escapeByte___closed__12__init():
+    x_1 = 0
+    x_2 = 34
+    x_3 = x_2
+    x_4 = Ctor(1, [x_3, x_1])
+    return x_4
+l_Leanharbor_Json_escapeByte___closed__12__cell = []
+def l_Leanharbor_Json_escapeByte___closed__12():
+    c = l_Leanharbor_Json_escapeByte___closed__12__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leanharbor_Json_escapeByte___closed__12__init()))
     return c[0]
 
 def l_List_foldl___at___00Array_appendList_spec__0___redArg(x_1, x_2):

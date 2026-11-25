@@ -16,7 +16,7 @@ open Plausible Leanharbor.Json
 deriving instance Repr for Leanharbor.Json.Value
 
 def jsonBytes : List UInt8 :=
-  [0, 1, 8, 9, 10, 13, 15, 16, 26, 31, 32, 33, 34, 47, 58, 91, 92, 93, 117, 123, 125, 127, 128, 169,
+  [0, 1, 8, 9, 10, 12, 13, 15, 16, 26, 31, 32, 33, 34, 47, 58, 91, 92, 93, 117, 123, 125, 127, 128, 169,
     195, 255]
 
 instance (priority := high) jsonArbitraryUInt8 : Arbitrary UInt8 where

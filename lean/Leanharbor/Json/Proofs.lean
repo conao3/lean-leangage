@@ -9,7 +9,7 @@ of h5i (https://github.com/h5i-dev/h5i, commit 515c7b9, Apache-2.0). Changed: th
 about the generated functions over `List UInt8` and `UInt64`, so they need no bound on the
 length of the output; the printer of the specification also prints a tree of JSON values, and
 `write_value` ties the writer to it; numbers are specified by `Nat.toDigits`; the proofs use no
-Mathlib.
+Mathlib; the five control bytes that JSON has a short escape for are written with it.
 
 - `write_spec`: `write` of any list of tokens is `printToks` of it, the printer over tokens of
   the specification.
@@ -40,6 +40,11 @@ def digits (n : Nat) : List UInt8 :=
 def escByte (c : UInt8) : List UInt8 :=
   if c = 34 then ascii ['\\', '"']
   else if c = 92 then ascii ['\\', '\\']
+  else if c = 8 then ascii ['\\', 'b']
+  else if c = 12 then ascii ['\\', 'f']
+  else if c = 10 then ascii ['\\', 'n']
+  else if c = 13 then ascii ['\\', 'r']
+  else if c = 9 then ascii ['\\', 't']
   else if c.toNat < 32 then
     ascii ['\\', 'u', '0', '0'] ++ [hexChars.getD (c.toNat / 16) 0, hexChars.getD (c.toNat % 16) 0]
   else [c]
@@ -287,6 +292,58 @@ theorem unhexDigit_hexChars (d : Nat) (h : d < 16) : unhexDigit (hexChars.getD d
   revert d
   decide
 
+theorem lexStr_short (e v : UInt8) (r : List UInt8)
+    (h : (if e = 34 then some 34 else if e = 92 then some 92 else if e = 47 then some 47
+      else if e = 98 then some 8 else if e = 102 then some 12 else if e = 110 then some 10
+      else if e = 114 then some 13 else if e = 116 then some 9 else none) = some v) :
+    lexStr (92 :: e :: r) = (lexStr r).map fun p => (v :: p.1, p.2) := by
+  rw [lexStr.eq_def]
+  simp only [show (92 : UInt8) ≠ 34 by decide, ite_false, ite_true]
+  simp only [h]
+
+/-- The lexer reads the escape of a byte as that byte. -/
+theorem lexStr_escByte (c : UInt8) (r : List UInt8) :
+    lexStr (escByte c ++ r) = (lexStr r).map fun p => (c :: p.1, p.2) := by
+  by_cases h34 : c = 34
+  · subst h34; exact lexStr_short 34 34 r (by decide)
+  by_cases h92 : c = 92
+  · subst h92; exact lexStr_short 92 92 r (by decide)
+  by_cases h8 : c = 8
+  · subst h8; exact lexStr_short 98 8 r (by decide)
+  by_cases h12 : c = 12
+  · subst h12; exact lexStr_short 102 12 r (by decide)
+  by_cases h10 : c = 10
+  · subst h10; exact lexStr_short 110 10 r (by decide)
+  by_cases h13 : c = 13
+  · subst h13; exact lexStr_short 114 13 r (by decide)
+  by_cases h9 : c = 9
+  · subst h9; exact lexStr_short 116 9 r (by decide)
+  by_cases h32 : c.toNat < 32
+  · have h1 : c.toNat / 16 < 16 := by omega
+    have h2 : c.toNat % 16 < 16 := Nat.mod_lt _ (by decide)
+    rw [show escByte c = ascii ['\\', 'u', '0', '0'] ++
+        [hexChars.getD (c.toNat / 16) 0, hexChars.getD (c.toNat % 16) 0] by
+      simp [escByte, h34, h92, h8, h12, h10, h13, h9, h32]]
+    simp only [ascii, List.map_cons, List.map_nil, List.cons_append, List.nil_append]
+    rw [lexStr.eq_def]
+    have h0 : unhexDigit 48 = some 0 := by decide
+    have hu : ∀ e : UInt8, e.toNat = 117 →
+        (if e = 34 then some (34 : UInt8) else if e = 92 then some 92 else if e = 47 then some 47
+        else if e = 98 then some 8 else if e = 102 then some 12 else if e = 110 then some 10
+        else if e = 114 then some 13 else if e = 116 then some 9 else none) = none := by
+      intro e he
+      have : e = 117 := UInt8.toNat_inj.mp he
+      subst this; decide
+    simp only [unhexDigit_hexChars _ h1, unhexDigit_hexChars _ h2]
+    erw [h0]
+    have hc : ∀ n, n < 32 → UInt8.ofNat (n / 16) * 16 + UInt8.ofNat (n % 16) = n.toUInt8 := by
+      decide
+    simp [hc c.toNat h32]
+    omega
+  · rw [show escByte c = [c] by simp [escByte, h34, h92, h8, h12, h10, h13, h9, h32]]
+    rw [List.cons_append, lexStr.eq_def]
+    simp [h34, h92, h32]
+
 /-- Reading `escape s` and a quote gives back `s` and what follows the quote: the lexer stops at
 the quote after `escape s` and at no byte of `escape s`. -/
 theorem lex_escape (s rest : List UInt8) : lexStr (escape s ++ 34 :: rest) = some (s, rest) := by
@@ -295,32 +352,8 @@ theorem lex_escape (s rest : List UInt8) : lexStr (escape s ++ 34 :: rest) = som
   | nil => rw [esc, List.flatMap_nil, List.nil_append, lexStr.eq_def]; simp
   | cons c s ih =>
     simp only [esc, List.flatMap_cons, List.append_assoc] at ih ⊢
-    by_cases h34 : c = 34
-    · subst h34
-      simp only [escByte, ascii, ite_true, List.map_cons, List.map_nil, List.cons_append,
-        List.nil_append]
-      rw [lexStr.eq_def]; simp [ih]
-    by_cases h92 : c = 92
-    · subst h92
-      simp only [escByte, ascii, List.map_cons, List.map_nil, List.cons_append, List.nil_append]
-      rw [lexStr.eq_def]; simp [ih]
-    by_cases h32 : c.toNat < 32
-    · have h1 : c.toNat / 16 < 16 := by omega
-      have h2 : c.toNat % 16 < 16 := Nat.mod_lt _ (by decide)
-      rw [show escByte c = ascii ['\\', 'u', '0', '0'] ++
-          [hexChars.getD (c.toNat / 16) 0, hexChars.getD (c.toNat % 16) 0] by simp [escByte, h34, h92, h32]]
-      simp only [ascii, List.map_cons, List.map_nil, List.cons_append, List.nil_append]
-      rw [lexStr.eq_def]
-      have h0 : unhexDigit 48 = some 0 := by decide
-      simp only [unhexDigit_hexChars _ h1, unhexDigit_hexChars _ h2]
-      erw [h0]
-      have hc : ∀ n, n < 32 → UInt8.ofNat (n / 16) * 16 + UInt8.ofNat (n % 16) = n.toUInt8 := by
-        decide
-      simp [ih, hc c.toNat h32]
-      omega
-    · rw [show escByte c = [c] by simp [escByte, h34, h92, h32]]
-      rw [List.cons_append, lexStr.eq_def]
-      simp [h34, h92, h32, ih]
+    rw [lexStr_escByte, ih]
+    rfl
 
 /-- `escape s` has no control byte. -/
 theorem escape_no_control (s : List UInt8) : ∀ c ∈ escape s, 32 ≤ c.toNat := by
