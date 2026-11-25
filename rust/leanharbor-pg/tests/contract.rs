@@ -1,7 +1,8 @@
 //! The engine's contract, item by item (the numbers of the list in `src/lib.rs`), against the
 //! test process's PostgreSQL with injected faults: forced serialization failures and deadlocks,
 //! terminated backends, COMMITs lost before or after the server ran them, callers that stop
-//! waiting, and many concurrent clients. Each test has a database of its own.
+//! waiting, other engines writing the same tenant, and many concurrent clients. Each test has a
+//! database of its own.
 
 mod common;
 
@@ -54,11 +55,18 @@ fn stat(engine: &PgEngine<Cells>) -> [u64; 5] {
     ]
 }
 
-/// An outside transaction that changes cell 0 of `tenant` after the attempt's snapshot.
+fn loads(engine: &PgEngine<Cells>) -> u64 {
+    engine.stats().loads.load(Ordering::Relaxed)
+}
+
+/// An outside transaction that changes cell 0 of `tenant` after the attempt's snapshot, and
+/// advances the tenant's version as an engine's commit does.
 async fn conflict(admin: &tokio_postgres::Client, tenant: u64) {
     admin
         .execute(
-            "UPDATE cells SET v = v + 100 WHERE tenant_id = $1 AND id = 0",
+            "WITH u AS (UPDATE cells SET v = v + 100 WHERE tenant_id = $1 AND id = 0 RETURNING 1) \
+             INSERT INTO leanharbor_version (tenant_id, version) SELECT $1, 1 FROM u \
+             ON CONFLICT (tenant_id) DO UPDATE SET version = leanharbor_version.version + 1",
             &[&(tenant as i64)],
         )
         .await
@@ -629,6 +637,240 @@ async fn concurrent_moves_are_serial() {
     }
 }
 
+fn get(cell: i64) -> Cmd {
+    Cmd::Get { cell }
+}
+
+// Item 8: an engine reads the rows another engine wrote, whichever path it takes, and reads no
+// row while the version is the one it remembers.
+#[tokio::test(flavor = "multi_thread", worker_threads = 4)]
+async fn other_engines_writes_are_read() {
+    let db = setup("contract_other").await;
+    let a = db.engine(2, Config::default()).await;
+    let b = db.engine(2, Config::default()).await;
+    assert_eq!(run(&a, 1, add(0, 5)).await, Ok(Ok(5)));
+    assert_eq!(loads(&a), 1);
+    assert_eq!(run(&a, 1, get(0)).await, Ok(Ok(5)));
+    assert_eq!(run(&a, 1, add(0, 1)).await, Ok(Ok(6)));
+    assert_eq!(loads(&a), 1, "the remembered snapshot, on both paths");
+    assert_eq!(run(&b, 1, add(0, 10)).await, Ok(Ok(16)));
+    assert_eq!(run(&a, 1, get(0)).await, Ok(Ok(16)), "the read-only path");
+    assert_eq!(loads(&a), 2);
+    let cmd = Cmd::Move {
+        from: 0,
+        to: 1,
+        amount: 6,
+    };
+    assert_eq!(run(&b, 1, cmd).await, Ok(Ok(10)));
+    assert_eq!(run(&a, 1, add(1, 1)).await, Ok(Ok(7)), "the write path");
+    assert_eq!(run_keyed(&b, 1, "k", get(0)).await, Ok(Ok(10)), "keyed");
+    assert_eq!(run(&b, 1, get(1)).await, Ok(Ok(7)));
+    assert_eq!(loads(&a), 3);
+    assert_eq!(loads(&b), 2, "its own commit remembered");
+    assert_eq!(db.cells(1).await, BTreeMap::from([(0, 10), (1, 7)]));
+}
+
+// Item 8, on PostgreSQL's side: two transactions that read a tenant's version and advance it
+// cannot both commit, whether the row exists or not. The second fails with 40001, which the
+// engines retry, and not with 23505.
+#[tokio::test(flavor = "multi_thread", worker_threads = 4)]
+async fn version_rows_conflict() {
+    const ADVANCE: &str = "INSERT INTO leanharbor_version (tenant_id, version) VALUES ($1, 1) \
+        ON CONFLICT (tenant_id) DO UPDATE SET version = leanharbor_version.version + 1 \
+        RETURNING version";
+    let db = setup("contract_version").await;
+    let pg = db.engine(1, Config::default()).await;
+    run(&pg, 2, add(0, 1)).await.unwrap().unwrap();
+    for (tenant, before) in [(1_i64, 0_i64), (2, 1)] {
+        let first = connect(&db.url).await;
+        let second = Arc::new(connect(&db.url).await);
+        for c in [&first, &*second] {
+            c.batch_execute("BEGIN ISOLATION LEVEL SERIALIZABLE")
+                .await
+                .unwrap();
+            let read: Option<i64> = c
+                .query_opt(
+                    "SELECT version FROM leanharbor_version WHERE tenant_id = $1",
+                    &[&tenant],
+                )
+                .await
+                .unwrap()
+                .map(|r| r.get(0));
+            assert_eq!(read.unwrap_or(0), before);
+        }
+        let advanced: i64 = first.query_one(ADVANCE, &[&tenant]).await.unwrap().get(0);
+        assert_eq!(advanced, before + 1);
+        let s = second.clone();
+        let waiting = tokio::spawn(async move { s.query_one(ADVANCE, &[&tenant]).await });
+        tokio::time::sleep(Duration::from_millis(200)).await;
+        assert!(!waiting.is_finished(), "tenant {tenant}: waits for the first");
+        first.batch_execute("COMMIT").await.unwrap();
+        let e = waiting.await.unwrap().unwrap_err();
+        assert_eq!(
+            e.code(),
+            Some(&tokio_postgres::error::SqlState::T_R_SERIALIZATION_FAILURE),
+            "tenant {tenant}: {e}"
+        );
+        second.batch_execute("ROLLBACK").await.unwrap();
+    }
+}
+
+// Item 8: a COMMIT of unknown outcome forgets the tenant's snapshot. The engine reads the rows
+// again, whether the COMMIT ran or not, and after another engine's commit.
+#[tokio::test(flavor = "multi_thread", worker_threads = 4)]
+async fn lost_commit_forgets_the_snapshot() {
+    let db = setup("contract_forget").await;
+    let proxy = Proxy::start(cluster()).await;
+    let pg = db
+        .engine_at(&proxy.url(&db.name), 1, config(20, true, None))
+        .await;
+    let other = db.engine(1, Config::default()).await;
+    assert_eq!(run(&pg, 1, add(0, 5)).await, Ok(Ok(5)));
+    proxy.arm(Fault::DropBefore);
+    assert_eq!(run(&pg, 1, add(0, 1)).await, Err(EngineError::CommitUnknown));
+    assert_eq!(run(&pg, 1, get(0)).await, Ok(Ok(5)), "not committed");
+    assert_eq!(run(&other, 1, add(0, 10)).await, Ok(Ok(15)));
+    assert_eq!(run(&pg, 1, get(0)).await, Ok(Ok(15)), "the other engine's commit");
+    proxy.arm(Fault::DropAfter);
+    assert_eq!(run(&pg, 1, add(0, 1)).await, Err(EngineError::CommitUnknown));
+    assert_eq!(run(&pg, 1, add(0, 1)).await, Ok(Ok(17)), "committed");
+    assert_eq!(run(&other, 1, get(0)).await, Ok(Ok(17)));
+    assert_eq!(loads(&pg), 4, "every attempt after a lost COMMIT reads the rows");
+    assert_eq!(proxy.outcomes(), vec![Outcome::NotSent, Outcome::Committed]);
+}
+
+// Item 8: a refusal, and an attempt rolled back by a terminated backend, leave the remembered
+// snapshot as the last commit left it: the refusal reads no row, and the retry runs the command
+// on what was committed.
+#[tokio::test(flavor = "multi_thread", worker_threads = 4)]
+async fn refusals_and_rollbacks_keep_the_snapshot() {
+    let db = setup("contract_keep").await;
+    let admin = db.admin.clone();
+    let armed = Arc::new(std::sync::atomic::AtomicBool::new(false));
+    let arm = armed.clone();
+    let (hook, _) = hook_at(Point::Written, u64::MAX, move |a| {
+        let (admin, armed) = (admin.clone(), armed.clone());
+        async move {
+            if armed.swap(false, Ordering::SeqCst) {
+                kill(&admin, a.pid).await;
+            }
+        }
+    });
+    let pg = db.engine(2, config(20, true, Some(hook))).await;
+    assert_eq!(run(&pg, 1, add(0, 5)).await, Ok(Ok(5)));
+    assert_eq!(run(&pg, 1, add(0, -6)).await, Ok(Err(Refused::Negative)));
+    assert_eq!(run_keyed(&pg, 1, "k", add(0, -6)).await, Ok(Err(Refused::Negative)));
+    assert_eq!(run(&pg, 1, get(0)).await, Ok(Ok(5)));
+    assert_eq!(run(&pg, 1, add(0, 1)).await, Ok(Ok(6)));
+    assert_eq!(loads(&pg), 1, "one read of the rows");
+    let fresh = db.engine(2, Config::default()).await;
+    assert_eq!(run(&fresh, 1, add(0, -7)).await, Ok(Err(Refused::Negative)));
+    assert_eq!(run(&fresh, 1, get(0)).await, Ok(Ok(6)));
+    assert_eq!(loads(&fresh), 1, "the snapshot loaded for a refusal");
+    let before = loads(&pg);
+    assert_eq!(run(&pg, 2, add(0, 3)).await, Ok(Ok(3)));
+    arm.store(true, Ordering::SeqCst);
+    assert_eq!(run(&pg, 2, add(0, 4)).await, Err(EngineError::CommitUnknown));
+    assert_eq!(run(&pg, 2, add(0, 4)).await, Ok(Ok(7)), "on the committed rows");
+    assert_eq!(db.cell(2, 0).await, Some(7));
+    assert_eq!(run(&pg, 3, add(0, 3)).await, Ok(Ok(3)));
+    arm.store(true, Ordering::SeqCst);
+    assert_eq!(run_keyed(&pg, 3, "k", add(0, 4)).await, Ok(Ok(7)), "retried");
+    assert_eq!(db.cell(3, 0).await, Some(7));
+    assert_eq!(loads(&pg) - before, 4);
+}
+
+// Item 8: the engine remembers at most `cache_tenants` tenants and forgets the one it used
+// least recently; with 0 it remembers none.
+#[tokio::test(flavor = "multi_thread", worker_threads = 4)]
+async fn remembers_at_most_cache_tenants() {
+    let db = setup("contract_capacity").await;
+    let two = Config {
+        cache_tenants: 2,
+        ..Config::default()
+    };
+    let pg = db.engine(1, two).await;
+    for tenant in 1..=3 {
+        run(&pg, tenant, add(0, 1)).await.unwrap().unwrap();
+    }
+    assert_eq!(pg.cached(), 2);
+    assert_eq!(loads(&pg), 3);
+    assert_eq!(run(&pg, 2, get(0)).await, Ok(Ok(1)));
+    assert_eq!(loads(&pg), 3, "tenant 2 remembered");
+    assert_eq!(run(&pg, 1, get(0)).await, Ok(Ok(1)));
+    assert_eq!(loads(&pg), 4, "tenant 1 forgotten");
+    assert_eq!(run(&pg, 2, get(0)).await, Ok(Ok(1)));
+    assert_eq!(run(&pg, 1, get(0)).await, Ok(Ok(1)));
+    assert_eq!(loads(&pg), 4, "tenants 1 and 2 remembered");
+    assert_eq!(run(&pg, 3, get(0)).await, Ok(Ok(1)));
+    assert_eq!(loads(&pg), 5, "tenant 3 forgotten");
+    assert_eq!(pg.cached(), 2);
+    let none = Config {
+        cache_tenants: 0,
+        ..Config::default()
+    };
+    let pg = db.engine(1, none).await;
+    for _ in 0..3 {
+        run(&pg, 1, add(0, 1)).await.unwrap().unwrap();
+        run(&pg, 1, get(0)).await.unwrap().unwrap();
+    }
+    assert_eq!(pg.cached(), 0);
+    assert_eq!(loads(&pg), 6);
+}
+
+// Item 8 with SERIALIZABLE: two engines, each with 32 clients, move units between four cells of
+// one tenant, with and without the advisory lock. Every cell holds what the accepted moves left,
+// and both engines then read it.
+#[tokio::test(flavor = "multi_thread", worker_threads = 8)]
+async fn concurrent_engines_are_serial() {
+    let db = setup("contract_engines").await;
+    for (tenant, lock) in [(1, true), (2, false)] {
+        let engines = [
+            Arc::new(db.engine(4, config(1000, lock, None)).await),
+            Arc::new(db.engine(4, config(1000, lock, None)).await),
+        ];
+        for cell in 0..4 {
+            run(&engines[0], tenant, add(cell, 100)).await.unwrap().unwrap();
+        }
+        let mut tasks = Vec::new();
+        for client in 0..64_i64 {
+            let pg = engines[(client % 2) as usize].clone();
+            tasks.push(tokio::spawn(async move {
+                let mut moved = Vec::new();
+                for i in 0..8 {
+                    let (from, to) = ((client + i) % 4, (client + i + 1) % 4);
+                    let cmd = Cmd::Move {
+                        from,
+                        to,
+                        amount: 1,
+                    };
+                    if let Ok(Ok(_)) = pg.execute(actor(tenant), cmd, None).await {
+                        moved.push((from, to));
+                    }
+                    let _ = pg.execute(actor(tenant), get(from), None).await;
+                }
+                moved
+            }));
+        }
+        let mut expected = BTreeMap::from([(0, 100), (1, 100), (2, 100), (3, 100)]);
+        let mut accepted = 0;
+        for task in tasks {
+            for (from, to) in task.await.unwrap() {
+                *expected.get_mut(&from).unwrap() -= 1;
+                *expected.get_mut(&to).unwrap() += 1;
+                accepted += 1;
+            }
+        }
+        assert_eq!(accepted, 512, "lock {lock}");
+        assert_eq!(db.cells(tenant).await, expected, "lock {lock}");
+        for pg in &engines {
+            for (cell, v) in &expected {
+                assert_eq!(run(pg, tenant, get(*cell)).await, Ok(Ok(*v)), "lock {lock}");
+            }
+        }
+    }
+}
+
 // The role split: the tables belong to a role that cannot log in, and the engine's role reads
 // and writes their rows but cannot alter, drop or truncate them. `lockdown` refuses a
 // superuser and can run again; the engine starts on the tables it made.
@@ -651,6 +893,8 @@ async fn roles_keep_the_engine_to_rows() {
         "TRUNCATE cells",
         "ALTER TABLE cells ADD COLUMN x BIGINT",
         "DROP TABLE leanharbor_idempotency",
+        "DROP TABLE leanharbor_version",
+        "TRUNCATE leanharbor_version",
     ] {
         let e = engine.batch_execute(statement).await.unwrap_err();
         assert_eq!(

@@ -71,8 +71,8 @@ impl Storage for Calculator {
         store::load(rows).map(Owned::new)
     }
 
-    fn writes(ws: Option<kernel::Memory>) -> Vec<sql::Write> {
-        store::writes(ws)
+    fn writes(ws: &Option<kernel::Memory>) -> Vec<sql::Write> {
+        store::writes(ws.clone())
     }
 
     fn encode_reply(reply: &kernel::Reply) -> Vec<u8> {

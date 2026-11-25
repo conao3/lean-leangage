@@ -126,9 +126,9 @@ impl Storage for Cells {
             .collect()
     }
 
-    fn writes(ws: Vec<(i64, i64)>) -> Vec<Write> {
-        ws.into_iter()
-            .map(|(id, v)| Write::Put {
+    fn writes(ws: &Vec<(i64, i64)>) -> Vec<Write> {
+        ws.iter()
+            .map(|&(id, v)| Write::Put {
                 table: Nat::from(0_u64),
                 key_len: Nat::from(1_u64),
                 row: vec![Val::Int { v: id }, Val::Int { v }],
@@ -326,6 +326,7 @@ pub fn config(max_attempts: u32, tenant_lock: bool, hook: Option<Hook>) -> Confi
         max_attempts,
         tenant_lock,
         hook,
+        ..Config::default()
     }
 }
 

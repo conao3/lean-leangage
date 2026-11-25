@@ -49,7 +49,11 @@ impl Kernel for Rows {
         }
     }
 
-    fn apply(snap: Table, _: Table) -> Table {
+    fn apply(mut snap: Table, ws: Table) -> Table {
+        for row in ws {
+            snap.retain(|r| r[0] != row[0]);
+            snap.push(row);
+        }
         snap
     }
 
@@ -85,12 +89,12 @@ impl Storage for Rows {
         rows.into_iter().next()
     }
 
-    fn writes(ws: Table) -> Vec<Write> {
-        ws.into_iter()
+    fn writes(ws: &Table) -> Vec<Write> {
+        ws.iter()
             .map(|row| Write::Put {
                 table: Nat::from(0_u64),
                 key_len: Nat::from(1_u64),
-                row,
+                row: row.clone(),
             })
             .collect()
     }

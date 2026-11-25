@@ -55,7 +55,7 @@ pub trait Storage: Kernel {
     /// The snapshot of the rows of each table; `None` when a row is not one the kernel stores.
     fn load(rows: Vec<Vec<Vec<sql::Val>>>) -> Option<Self::Snapshot>;
     /// The rows a write set stores.
-    fn writes(ws: Self::WriteSet) -> Vec<sql::Write>;
+    fn writes(ws: &Self::WriteSet) -> Vec<sql::Write>;
     /// The stored form of a reply. Trusted: no theorem covers it.
     fn encode_reply(reply: &Self::Reply) -> Vec<u8>;
     /// The reply `encode_reply` stored; `None` for bytes it does not write.

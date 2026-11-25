@@ -2,11 +2,13 @@
 //! describes. It is trusted: no theorem covers this file.
 //!
 //! At start it creates the kernel's tables with the statements of the generated `create` and
-//! `render`. Each command runs in one `SERIALIZABLE` transaction: it reads the tenant's rows with
-//! the generated `select` of every table, builds the snapshot with the kernel's `load`, calls
+//! `render`. Each command runs in one `SERIALIZABLE` transaction: it reads the tenant's version,
+//! takes the snapshot it remembers for that version or else reads the tenant's rows with the
+//! generated `select` of every table and builds the snapshot with the kernel's `load`, calls
 //! `transition`, and sends the statements the generated `compile` makes of the generated `plan`
 //! of each write. The only other statements are the constant ones of this file: the transaction
-//! control, the advisory locks, and the framework's table `leanharbor_idempotency`.
+//! control, the advisory locks, and the framework's tables `leanharbor_idempotency` and
+//! `leanharbor_version`.
 //!
 //! The contract (the engine's side of `Storage.Stored`):
 //!
@@ -25,14 +27,23 @@
 //!    path), and fails if its write set stores a row.
 //! 7. A request without an idempotency key whose connection is lost during COMMIT, or whose
 //!    COMMIT fails with 57P01 or 57P02, fails with [`EngineError::CommitUnknown`].
+//! 8. A transaction whose write set stores a row advances the tenant's row of
+//!    `leanharbor_version` by one (from 0 when it has none). An attempt reads that row first and
+//!    runs the command on the snapshot the engine remembers for the tenant at that version, or,
+//!    when it remembers none, on the snapshot `load` builds of the rows it reads. After a commit
+//!    the engine remembers the snapshot `apply` computed, at the version the transaction left;
+//!    after a refusal, and on the read-only path, the snapshot the command ran on; after any
+//!    other end of the attempt, a COMMIT of unknown outcome included, nothing for the tenant.
+//!    It remembers at most [`Config::cache_tenants`] tenants and forgets the one it used least
+//!    recently.
 //!
 //! Every request runs in a task of its own, so a caller that stops waiting (a closed HTTP
 //! connection) does not interrupt an attempt between its lock and its unlock.
 
+use std::collections::HashMap;
 use std::future::Future;
-use std::marker::PhantomData;
 use std::pin::Pin;
-use std::sync::Arc;
+use std::sync::{Arc, Mutex};
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::Duration;
 
@@ -51,7 +62,15 @@ pub mod testing;
 const FRAMEWORK_DDL: &str = "CREATE TABLE IF NOT EXISTS leanharbor_idempotency (\
     tenant_id BIGINT NOT NULL, scope TEXT NOT NULL, key TEXT NOT NULL, \
     fingerprint BYTEA NOT NULL, reply BYTEA NOT NULL, PRIMARY KEY (tenant_id, scope, key))";
-const FRAMEWORK_TABLES: &[&str] = &["leanharbor_idempotency"];
+/// Each tenant's version: a transaction that writes the tenant's rows advances it by one.
+const VERSION_DDL: &str = "CREATE TABLE IF NOT EXISTS leanharbor_version (\
+    tenant_id BIGINT PRIMARY KEY, version BIGINT NOT NULL)";
+const FRAMEWORK_TABLES: &[&str] = &["leanharbor_idempotency", "leanharbor_version"];
+/// The tenant's version; no row is version 0.
+const VERSION: &str = "SELECT version FROM leanharbor_version WHERE tenant_id = $1";
+const ADVANCE: &str = "INSERT INTO leanharbor_version (tenant_id, version) VALUES ($1, 1) \
+    ON CONFLICT (tenant_id) DO UPDATE SET version = leanharbor_version.version + 1 \
+    RETURNING version";
 const STORED_REPLY: &str = "SELECT fingerprint, reply FROM leanharbor_idempotency \
     WHERE tenant_id = $1 AND scope = $2 AND key = $3";
 const STORE_REPLY: &str = "INSERT INTO leanharbor_idempotency \
@@ -74,7 +93,8 @@ pub enum Point {
     /// Before `BEGIN`, holding the tenant's advisory lock if [`Config::tenant_lock`]. Not on the
     /// read-only path.
     Locked,
-    /// The rows are read, `transition` has not run.
+    /// The version is read, and the rows unless the engine remembers the snapshot of that
+    /// version; `transition` has not run.
     Loaded,
     /// The writes and the stored reply are sent, `COMMIT` is not. Not on the read-only path.
     Written,
@@ -111,6 +131,8 @@ pub struct Config {
     /// Take the tenant's advisory lock before each write attempt. It spares retries;
     /// `SERIALIZABLE` keeps the commits serial without it.
     pub tenant_lock: bool,
+    /// Tenants whose snapshot the engine remembers at once; 0 remembers none.
+    pub cache_tenants: usize,
     pub hook: Option<Hook>,
 }
 
@@ -119,6 +141,7 @@ impl Default for Config {
         Config {
             max_attempts: 20,
             tenant_lock: true,
+            cache_tenants: 1024,
             hook: None,
         }
     }
@@ -135,6 +158,9 @@ pub struct Stats {
     pub replays: AtomicU64,
     /// Attempts on the read-only path, also counted in `attempts`.
     pub reads: AtomicU64,
+    /// Attempts that read the tenant's rows: the engine remembered no snapshot at the version
+    /// they read.
+    pub loads: AtomicU64,
 }
 
 /// Why an attempt ended without a decision to return.
@@ -275,40 +301,112 @@ fn values(row: &Row) -> Result<Vec<Val>, Failure> {
     Ok(vals)
 }
 
-/// What `transition` decided, with the statements that store an accepted command's writes.
+/// What `transition` decided, with the snapshot to remember if the attempt ends as it should:
+/// the one the command ran on after a refusal, the one `apply` computed after an acceptance.
 enum Decided<K: Kernel> {
-    Refused(K::Error),
+    Refused {
+        snap: K::Snapshot,
+        error: K::Error,
+    },
     Accepted {
+        snap: K::Snapshot,
         statements: Vec<(String, Vec<Val>)>,
         reply: K::Reply,
     },
 }
 
-/// Loads the snapshot, runs the command on it and compiles its writes. The snapshot stays in
-/// this function, which does not wait: a view of Lean's may stay on one thread.
+/// Runs the command on the snapshot, applies the writes of an accepted command to it and
+/// compiles them. A view of Lean's stays in this function, which does not wait: it may stay on
+/// one thread.
 fn decide<K: Storage>(
     tables: &[Tab],
     tv: i64,
-    rows: Vec<Vec<Vec<Val>>>,
+    mut snap: K::Snapshot,
     actor: &K::Principal,
     cmd: &K::Command,
 ) -> Result<Decided<K>, Failure> {
-    let mut snap = K::load(rows).ok_or_else(|| broken("the stored rows do not load"))?;
-    let decision = K::lend(&mut snap, |view| {
-        let decision = K::transition(actor, &view, cmd);
-        (view, decision)
+    let decision = K::lend(&mut snap, |view| match K::transition(actor, &view, cmd) {
+        Ok((ws, reply)) => {
+            let writes = K::writes(&ws);
+            (K::apply(view, ws), Ok((writes, reply)))
+        }
+        Err(e) => (view, Err(e)),
     });
-    let (ws, reply) = match decision {
+    let (writes, reply) = match decision {
         Ok(accepted) => accepted,
-        Err(e) => return Ok(Decided::Refused(e)),
+        Err(error) => return Ok(Decided::Refused { snap, error }),
     };
     let mut statements = Vec::new();
-    for write in K::writes(ws) {
+    for write in writes {
         let (q, ps) = sql::compile(tables.to_vec(), tv, sql::plan(write))
             .ok_or_else(|| broken("a write does not compile"))?;
         statements.push((sql::render(q), ps));
     }
-    Ok(Decided::Accepted { statements, reply })
+    Ok(Decided::Accepted {
+        snap,
+        statements,
+        reply,
+    })
+}
+
+/// A snapshot the engine remembers, with the tenant's version it stands for.
+struct Remembered<S> {
+    version: i64,
+    snap: S,
+    used: u64,
+}
+
+/// The snapshots the engine remembers, at most `capacity` tenants.
+struct Cache<S> {
+    capacity: usize,
+    clock: u64,
+    tenants: HashMap<u64, Remembered<S>>,
+}
+
+impl<S> Cache<S> {
+    /// The snapshot of the tenant at `version`, which the cache no longer holds. A snapshot of
+    /// an earlier version is forgotten.
+    fn take(&mut self, tenant: u64, version: i64) -> Option<S> {
+        let found = self.tenants.get(&tenant)?.version;
+        if found > version {
+            return None;
+        }
+        let entry = self.tenants.remove(&tenant)?;
+        (found == version).then_some(entry.snap)
+    }
+
+    /// Remembers the snapshot of the tenant at `version`, unless it holds one of a later
+    /// version, and forgets the tenant used least recently beyond the capacity.
+    fn put(&mut self, tenant: u64, version: i64, snap: S) {
+        if self.capacity == 0
+            || self
+                .tenants
+                .get(&tenant)
+                .is_some_and(|e| e.version > version)
+        {
+            return;
+        }
+        self.clock += 1;
+        let used = self.clock;
+        self.tenants.insert(
+            tenant,
+            Remembered {
+                version,
+                snap,
+                used,
+            },
+        );
+        if self.tenants.len() > self.capacity {
+            let oldest = self
+                .tenants
+                .iter()
+                .min_by_key(|(_, e)| e.used)
+                .map(|(t, _)| *t);
+            if let Some(t) = oldest {
+                self.tenants.remove(&t);
+            }
+        }
+    }
 }
 
 fn backoff(attempt: u32) -> Duration {
@@ -323,16 +421,16 @@ fn database(e: impl std::fmt::Display) -> EngineError {
     EngineError::Database(e.to_string())
 }
 
-struct Inner<K> {
+struct Inner<K: Kernel> {
     pool: Pool,
     tables: Vec<Tab>,
     config: Config,
     stats: Stats,
-    marker: PhantomData<fn() -> K>,
+    cache: Mutex<Cache<K::Snapshot>>,
 }
 
-/// The engine: a pool of connections to one database.
-pub struct PgEngine<K> {
+/// The engine: a pool of connections to one database, and the snapshots it remembers.
+pub struct PgEngine<K: Kernel> {
     inner: Arc<Inner<K>>,
 }
 
@@ -362,13 +460,18 @@ impl<K: Storage> PgEngine<K> {
             .max_size(size)
             .build()
             .map_err(database)?;
+        let cache = Mutex::new(Cache {
+            capacity: config.cache_tenants,
+            clock: 0,
+            tenants: HashMap::new(),
+        });
         Ok(PgEngine {
             inner: Arc::new(Inner {
                 pool,
                 tables,
                 config,
                 stats: Stats::default(),
-                marker: PhantomData,
+                cache,
             }),
         })
     }
@@ -381,6 +484,11 @@ impl<K: Storage> PgEngine<K> {
     pub fn idle(&self) -> usize {
         self.inner.pool.status().available
     }
+
+    /// Tenants whose snapshot the engine remembers.
+    pub fn cached(&self) -> usize {
+        self.inner.cache.lock().map_or(0, |c| c.tenants.len())
+    }
 }
 
 async fn create(
@@ -390,6 +498,7 @@ async fn create(
     client.batch_execute(SCHEMA_LOCK).await?;
     let created = async {
         client.execute(FRAMEWORK_DDL, &[]).await?;
+        client.execute(VERSION_DDL, &[]).await?;
         for t in tables {
             client
                 .execute(&sql::render(sql::create(t.clone())), &[])
@@ -442,6 +551,39 @@ impl<K: Storage> Inner<K> {
         })
         .await;
         Ok(())
+    }
+
+    /// The tenant's version, and the snapshot remembered for it or else the one `load` builds of
+    /// the rows of every table for the tenant, read by the generated `select`.
+    async fn snapshot(
+        &self,
+        tx: &deadpool_postgres::Transaction<'_>,
+        tenant: u64,
+        tv: i64,
+    ) -> Result<(i64, K::Snapshot), Failure> {
+        let st = tx.prepare_cached(VERSION).await?;
+        let version = match tx.query_opt(&st, &[&tv]).await? {
+            Some(row) => row.try_get(0)?,
+            None => 0,
+        };
+        let remembered = self
+            .cache
+            .lock()
+            .ok()
+            .and_then(|mut c| c.take(tenant, version));
+        if let Some(snap) = remembered {
+            return Ok((version, snap));
+        }
+        self.stats.loads.fetch_add(1, Ordering::Relaxed);
+        let rows = self.load(tx, tv).await?;
+        let snap = K::load(rows).ok_or_else(|| broken("the stored rows do not load"))?;
+        Ok((version, snap))
+    }
+
+    fn remember(&self, tenant: u64, version: i64, snap: K::Snapshot) {
+        if let Ok(mut c) = self.cache.lock() {
+            c.put(tenant, version, snap);
+        }
     }
 
     /// The rows of every table for the tenant, by the generated `select`.
@@ -557,20 +699,31 @@ impl<K: Storage> Inner<K> {
                 return Ok(Ok(reply));
             }
         }
-        let rows = self.load(&tx, tv).await?;
+        let (version, snap) = self.snapshot(&tx, tenant, tv).await?;
         self.fire(&tx, Point::Loaded, tenant).await?;
-        let (statements, reply) = match decide::<K>(&self.tables, tv, rows, actor, cmd)? {
-            Decided::Refused(e) => {
+        let (snap, statements, reply) = match decide::<K>(&self.tables, tv, snap, actor, cmd)? {
+            Decided::Refused { snap, error } => {
+                self.remember(tenant, version, snap);
                 tx.rollback().await?;
-                return Ok(Err(e));
+                return Ok(Err(error));
             }
-            Decided::Accepted { statements, reply } => (statements, reply),
+            Decided::Accepted {
+                snap,
+                statements,
+                reply,
+            } => (snap, statements, reply),
         };
         for (text, ps) in &statements {
             let st = tx.prepare_cached(text).await?;
             let ps = params(ps);
             tx.execute(&st, &refs(&ps)).await?;
         }
+        let version = if statements.is_empty() {
+            version
+        } else {
+            let st = tx.prepare_cached(ADVANCE).await?;
+            tx.query_one(&st, &[&tv]).await?.try_get(0)?
+        };
         if let Some(idem) = idem {
             let st = tx.prepare_cached(STORE_REPLY).await?;
             let bytes = K::encode_reply(&reply);
@@ -582,6 +735,7 @@ impl<K: Storage> Inner<K> {
         }
         self.fire(&tx, Point::Written, tenant).await?;
         tx.commit().await.map_err(commit_failure)?;
+        self.remember(tenant, version, snap);
         self.stats.commits.fetch_add(1, Ordering::Relaxed);
         Ok(Ok(reply))
     }
@@ -619,18 +773,25 @@ impl<K: Storage> Inner<K> {
             .deferrable(true)
             .start()
             .await?;
-        let rows = self.load(&tx, tv).await?;
-        self.fire(&tx, Point::Loaded, K::tenant(actor)).await?;
-        match decide::<K>(&self.tables, tv, rows, actor, cmd)? {
-            Decided::Refused(e) => {
+        let tenant = K::tenant(actor);
+        let (version, snap) = self.snapshot(&tx, tenant, tv).await?;
+        self.fire(&tx, Point::Loaded, tenant).await?;
+        match decide::<K>(&self.tables, tv, snap, actor, cmd)? {
+            Decided::Refused { snap, error } => {
+                self.remember(tenant, version, snap);
                 tx.rollback().await?;
-                Ok(Err(e))
+                Ok(Err(error))
             }
-            Decided::Accepted { statements, reply } => {
+            Decided::Accepted {
+                snap,
+                statements,
+                reply,
+            } => {
                 if !statements.is_empty() {
                     tx.rollback().await?;
                     return Err(broken("a read-only command wrote"));
                 }
+                self.remember(tenant, version, snap);
                 tx.commit().await?;
                 self.stats.commits.fetch_add(1, Ordering::Relaxed);
                 Ok(Ok(reply))

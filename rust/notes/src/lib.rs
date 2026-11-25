@@ -76,8 +76,8 @@ impl Storage for Notes {
         store::load(rows).map(Owned::new)
     }
 
-    fn writes(ws: Vec<kernel::Write>) -> Vec<sql::Write> {
-        store::writes(ws)
+    fn writes(ws: &Vec<kernel::Write>) -> Vec<sql::Write> {
+        store::writes(ws.clone())
     }
 
     /// The body the server sends for the reply.
