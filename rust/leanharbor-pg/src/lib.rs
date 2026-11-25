@@ -23,8 +23,8 @@
 //! 6. A command `read_only` accepts runs in a `SERIALIZABLE READ ONLY DEFERRABLE` transaction,
 //!    without the advisory lock and without an idempotency key (a keyed request takes the write
 //!    path), and fails if its write set stores a row.
-//! 7. A request without an idempotency key whose connection is lost during COMMIT fails with
-//!    [`EngineError::CommitUnknown`].
+//! 7. A request without an idempotency key whose connection is lost during COMMIT, or whose
+//!    COMMIT fails with 57P01 or 57P02, fails with [`EngineError::CommitUnknown`].
 //!
 //! Every request runs in a task of its own, so a caller that stops waiting (a closed HTTP
 //! connection) does not interrupt an attempt between its lock and its unlock.
@@ -200,13 +200,15 @@ impl Failure {
     }
 }
 
-/// A COMMIT that failed without a server's error code lost its connection, and may have
-/// committed.
+/// A COMMIT that failed without a server's error code, or because the server ended the
+/// connection, may have committed.
 fn commit_failure(e: tokio_postgres::Error) -> Failure {
-    if e.code().is_some() {
-        Failure::Postgres(e)
-    } else {
-        Failure::CommitLost
+    match e.code() {
+        None => Failure::CommitLost,
+        Some(c) if *c == SqlState::ADMIN_SHUTDOWN || *c == SqlState::CRASH_SHUTDOWN => {
+            Failure::CommitLost
+        }
+        Some(_) => Failure::Postgres(e),
     }
 }
 
