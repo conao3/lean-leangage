@@ -61,6 +61,7 @@
               pkgs.gnumake
               pkgs.go
               pkgs.lean4
+              pkgs.postgresql
               pkgs.python314
               pkgs.rust-analyzer
               pkgs.rustc

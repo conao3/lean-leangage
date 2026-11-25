@@ -1,0 +1,15 @@
+[package]
+name = "leanharbor-pg"
+description = "The engine that stores a Lean-proved kernel's snapshots in PostgreSQL"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+bytes = "1"
+deadpool-postgres = { version = "0.14", features = ["rt_tokio_1"] }
+leanfran = "=0.11.0"
+leanharbor = { path = "../leanharbor" }
+tokio = { version = "1", features = ["macros", "net", "rt-multi-thread", "time", "io-util", "sync"] }
+tokio-postgres = "0.7"

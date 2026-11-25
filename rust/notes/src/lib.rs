@@ -53,6 +53,10 @@ impl Kernel for Notes {
     fn apply(snap: Local<kernel::Snapshot>, ws: Vec<kernel::Write>) -> Local<kernel::Snapshot> {
         kernel::local::apply(snap, ws)
     }
+
+    fn read_only(cmd: &kernel::Command) -> bool {
+        kernel::read_only(cmd.clone())
+    }
 }
 
 #[derive(Deserialize)]
