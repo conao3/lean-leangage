@@ -1,6 +1,7 @@
 //! Times one command through the generated kernel, with the snapshot as a Rust value and as a
 //! Lean value, and through the memory engine, for tenants of several sizes, next to the same
-//! commands on a `HashMap` written by hand in Rust.
+//! commands on a `HashMap` written by hand in Rust. With `LEANHARBOR_DATABASE_URL`, also through
+//! the PostgreSQL engine on that database, one tenant per size.
 
 use std::collections::HashMap;
 use std::hint::black_box;
@@ -9,6 +10,7 @@ use std::time::Instant;
 use leanharbor::memory::MemoryEngine;
 use leanharbor::{Engine, Kernel};
 use leanharbor_calculator::{Calculator, kernel};
+use leanharbor_pg::{Config, PgEngine};
 
 fn handwritten(
     actor: &kernel::Principal,
@@ -143,6 +145,31 @@ fn main() {
             }
             per_op("memory engine", users, count, start);
         });
+
+        if let Ok(url) = std::env::var("LEANHARBOR_DATABASE_URL") {
+            let count = if users >= 1_000 { 200 } else { 2_000 };
+            let runtime = tokio::runtime::Builder::new_multi_thread()
+                .enable_all()
+                .build()
+                .expect("a runtime");
+            runtime.block_on(async {
+                let engine = PgEngine::<Calculator>::connect(&url, 1, Config::default())
+                    .await
+                    .expect("the engine connects");
+                let tenant = |actor: &kernel::Principal| kernel::Principal {
+                    org: users,
+                    user: actor.user,
+                };
+                for (actor, cmd) in &seed {
+                    let _ = engine.execute(tenant(actor), cmd.clone(), None).await;
+                }
+                let start = Instant::now();
+                for (actor, cmd) in &cmds[..count] {
+                    let _ = black_box(engine.execute(tenant(actor), cmd.clone(), None).await);
+                }
+                per_op("postgres engine", users, count, start);
+            });
+        }
 
         let mut plain = HashMap::new();
         for (actor, cmd) in &seed {

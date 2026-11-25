@@ -1,16 +1,17 @@
-"""The calculator: the kernel is `lean/Calculator/Kernel.lean`, generated to `kernel.py`."""
+"""The calculator: the kernel is `lean/Calculator/Kernel.lean` and its table
+`lean/Calculator/Store.lean`, generated to `kernel.py` and `store.py`."""
 
 from http import HTTPStatus
 from typing import Any
 
 from leanfran import Err, Local
-from leanharbor import Api, Kernel, Refused
+from leanharbor import Api, Kernel, Refused, Storage
 
-from leanharbor_calculator import kernel
+from leanharbor_calculator import kernel, store
 
 
 def _transition(
-    actor: kernel.Principal, snap: Local, cmd: kernel.Command
+    actor: kernel.Principal, snap: Local | kernel.Snapshot, cmd: kernel.Command
 ) -> tuple[kernel.Memory | None, kernel.Reply]:
     result = kernel.transition.local(actor, snap, cmd).get()
     if isinstance(result, Err):
@@ -23,6 +24,23 @@ KERNEL = Kernel(
     tenant=kernel.tenant,
     transition=_transition,
     apply=lambda snap, write: kernel.apply.local(snap.take(), write),
+    read_only=kernel.readOnly,
+)
+
+
+def _decode_reply(stored: bytes) -> kernel.Reply | None:
+    if len(stored) != 8:
+        return None
+    return kernel.Reply(v=int.from_bytes(stored, "big"))
+
+
+STORAGE = Storage(
+    kernel=KERNEL,
+    tables=store.tables,
+    load=store.load,
+    writes=store.writes,
+    encode_reply=lambda reply: reply.v.to_bytes(8, "big"),
+    decode_reply=_decode_reply,
 )
 
 
@@ -54,6 +72,19 @@ def decode_command(body: Any) -> kernel.Command:
     raise ValueError("not a calculator command")
 
 
+def fingerprint(cmd: kernel.Command) -> bytes:
+    """The command as the Rust calculator writes it (its `Debug` form), so that a key stored by
+    either server is replayed by the other."""
+    match cmd:
+        case kernel.Command_set(value=value):
+            return f"Set {{ value: {value} }}".encode()
+        case kernel.Command_apply(op=op, arg=arg):
+            return f"Apply {{ op: {op.value.capitalize()}, arg: {arg} }}".encode()
+        case kernel.Command_get():
+            return b"Get"
+    raise ValueError(cmd)
+
+
 API = Api(
     principal=lambda tenant, user: kernel.Principal(org=tenant, user=user),
     decode_command=decode_command,
@@ -62,6 +93,6 @@ API = Api(
         HTTPStatus.UNPROCESSABLE_ENTITY,
         bytes(kernel.encodeErrorArray(error)),
     ),
-    fingerprint=lambda cmd: repr(cmd).encode(),
+    fingerprint=fingerprint,
     scope=lambda actor: f"u{actor.user}",
 )

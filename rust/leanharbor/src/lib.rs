@@ -1,5 +1,6 @@
 //! The trusted shell around a kernel proved in Lean: an engine that runs one command at a time
-//! per tenant, bearer tokens, and the `/rpc` route. `sql` is the SQL compiler generated from
+//! per tenant, bearer tokens, and the `/rpc` route. `leanharbor-pg` holds the engine that stores
+//! the snapshots in PostgreSQL. `sql` is the SQL compiler generated from
 //! `lean/Leanharbor/Sql.lean`, `token_format` the functions that write and split tokens,
 //! generated from `lean/Leanharbor/Token.lean`, and `json_format` the JSON writer, generated from
 //! `lean/Leanharbor/Json.lean`.
@@ -41,16 +42,60 @@ pub trait Kernel: 'static {
         cmd: &Self::Command,
     ) -> Result<(Self::WriteSet, Self::Reply), Self::Error>;
     fn apply(snap: Self::View, ws: Self::WriteSet) -> Self::View;
+    /// Whether the command only reads: `ReadOnlySound` says it then writes nothing.
+    fn read_only(cmd: &Self::Command) -> bool;
 }
 
-/// Why a request did not reach the kernel's decision.
+/// The contract of `Leanharbor.Storage`: how a kernel's snapshots are stored in PostgreSQL,
+/// implemented by delegating to functions generated from Lean, and the bytes an engine stores
+/// for a reply under an idempotency key.
+pub trait Storage: Kernel {
+    /// The tables, in the order `load` receives their rows.
+    fn tables() -> Vec<sql::Tab>;
+    /// The snapshot of the rows of each table; `None` when a row is not one the kernel stores.
+    fn load(rows: Vec<Vec<Vec<sql::Val>>>) -> Option<Self::Snapshot>;
+    /// The rows a write set stores.
+    fn writes(ws: Self::WriteSet) -> Vec<sql::Write>;
+    /// The stored form of a reply. Trusted: no theorem covers it.
+    fn encode_reply(reply: &Self::Reply) -> Vec<u8>;
+    /// The reply `encode_reply` stored; `None` for bytes it does not write.
+    fn decode_reply(bytes: &[u8]) -> Option<Self::Reply>;
+}
+
+/// Why a request did not reach the kernel's decision, or its decision was not stored.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum EngineError {
     /// The idempotency key was used before with another command.
     IdempotencyConflict,
     /// The engine no longer runs commands: a command panicked while it held the snapshots.
     Stopped,
+    /// Every attempt failed to serialize or lost its connection; none committed, except that a
+    /// request with an idempotency key may have committed on an attempt whose COMMIT was lost.
+    RetriesExhausted,
+    /// The connection was lost during the COMMIT of a request without an idempotency key: it may
+    /// or may not have committed.
+    CommitUnknown,
+    /// The database failed the request, which did not commit.
+    Database(String),
+    /// The stored rows or reply do not decode, a write set does not compile, or a read-only
+    /// command wrote. Nothing was committed.
+    Broken(String),
 }
+
+impl std::fmt::Display for EngineError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            EngineError::IdempotencyConflict => write!(f, "idempotency key reused"),
+            EngineError::Stopped => write!(f, "engine stopped"),
+            EngineError::RetriesExhausted => write!(f, "retries exhausted"),
+            EngineError::CommitUnknown => write!(f, "commit outcome unknown"),
+            EngineError::Database(e) => write!(f, "database: {e}"),
+            EngineError::Broken(e) => write!(f, "engine: {e}"),
+        }
+    }
+}
+
+impl std::error::Error for EngineError {}
 
 /// The outer result is the engine's, the inner one the kernel's decision.
 pub type Executed<K> = Result<Result<<K as Kernel>::Reply, <K as Kernel>::Error>, EngineError>;

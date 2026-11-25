@@ -1,12 +1,19 @@
-//! The calculator: the kernel is `lean/Calculator/Kernel.lean`, generated to `src/generated/`.
+//! The calculator: the kernel is `lean/Calculator/Kernel.lean` and its table
+//! `lean/Calculator/Store.lean`, both generated to `src/generated/`.
 
 #[rustfmt::skip]
 pub mod generated;
+/// The calculator's table, generated from `Calculator.Store` with the kernel's types and the
+/// types of `leanharbor::sql`.
+#[rustfmt::skip]
+#[allow(dead_code, non_snake_case, non_camel_case_types, unused_imports, unused_parens, unused_qualifications, unsafe_op_in_unsafe_fn, clippy::all)]
+#[path = "generated/calculator_store.rs"]
+pub mod store;
 
 use axum::http::StatusCode;
 use leanfran::{Local, Owned};
-use leanharbor::Kernel;
 use leanharbor::http::Api;
+use leanharbor::{Kernel, Storage, sql};
 use serde::Deserialize;
 use serde_json::Value;
 
@@ -48,6 +55,33 @@ impl Kernel for Calculator {
 
     fn apply(snap: Local<kernel::Snapshot>, ws: Option<kernel::Memory>) -> Local<kernel::Snapshot> {
         kernel::local::apply(snap, ws)
+    }
+
+    fn read_only(cmd: &kernel::Command) -> bool {
+        kernel::read_only(cmd.clone())
+    }
+}
+
+impl Storage for Calculator {
+    fn tables() -> Vec<sql::Tab> {
+        store::tables()
+    }
+
+    fn load(rows: Vec<Vec<Vec<sql::Val>>>) -> Option<Owned<kernel::Snapshot>> {
+        store::load(rows).map(Owned::new)
+    }
+
+    fn writes(ws: Option<kernel::Memory>) -> Vec<sql::Write> {
+        store::writes(ws)
+    }
+
+    fn encode_reply(reply: &kernel::Reply) -> Vec<u8> {
+        reply.v.to_be_bytes().to_vec()
+    }
+
+    fn decode_reply(bytes: &[u8]) -> Option<kernel::Reply> {
+        let v = u64::from_be_bytes(bytes.try_into().ok()?);
+        Some(kernel::Reply { v })
     }
 }
 

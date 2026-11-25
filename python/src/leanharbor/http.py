@@ -13,7 +13,15 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
 
 from leanharbor import json_format
-from leanharbor.engine import IdempotencyConflict, MemoryEngine, Refused
+from leanharbor.engine import (
+    Broken,
+    CommitUnknown,
+    DatabaseError,
+    Engine,
+    IdempotencyConflict,
+    Refused,
+    RetriesExhausted,
+)
 from leanharbor.token import TokenError, Verifier
 
 
@@ -47,7 +55,7 @@ def error_body(message: str) -> bytes:
 
 
 def handle(
-    engine: MemoryEngine, api: Api, verifier: Verifier, headers: Any, body: bytes
+    engine: Engine, api: Api, verifier: Verifier, headers: Any, body: bytes
 ) -> tuple[int, bytes]:
     authorization = headers.get("Authorization")
     if authorization is None:
@@ -79,11 +87,19 @@ def handle(
         return api.encode_error(e.error)
     except IdempotencyConflict:
         return HTTPStatus.UNPROCESSABLE_ENTITY, error_body("idempotency key reused")
+    except RetriesExhausted:
+        return HTTPStatus.SERVICE_UNAVAILABLE, error_body("retries exhausted")
+    except DatabaseError:
+        return HTTPStatus.SERVICE_UNAVAILABLE, error_body("database error")
+    except CommitUnknown:
+        return HTTPStatus.INTERNAL_SERVER_ERROR, error_body("commit outcome unknown")
+    except Broken:
+        return HTTPStatus.INTERNAL_SERVER_ERROR, error_body("engine error")
     return HTTPStatus.OK, api.encode_reply(reply)
 
 
 def serve(
-    engine: MemoryEngine, api: Api, secret: bytes, host: str, port: int
+    engine: Engine, api: Api, secret: bytes, host: str, port: int
 ) -> ThreadingHTTPServer:
     verifier = Verifier(secret)
 

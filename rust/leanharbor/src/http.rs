@@ -8,6 +8,10 @@
 //! | refused by the kernel | chosen by [`Api::encode_error`] | chosen by [`Api::encode_error`] |
 //! | idempotency key reused for another command | 422 | `{"error":"idempotency key reused"}` |
 //! | the engine has stopped | 503 | `{"error":"engine stopped"}` |
+//! | every attempt failed to serialize or lost its connection | 503 | `{"error":"retries exhausted"}` |
+//! | the database failed the request | 503 | `{"error":"database error"}` |
+//! | COMMIT lost, without an idempotency key | 500 | `{"error":"commit outcome unknown"}` |
+//! | stored rows that do not load, or a write set that does not compile | 500 | `{"error":"engine error"}` |
 //!
 //! The `{"error": ...}` bodies are written by [`crate::json_format::write_array`], the JSON writer
 //! generated from `lean/Leanharbor/Json.lean`.
@@ -124,6 +128,14 @@ async fn rpc<K: Kernel, A: Api<K>, E: Engine<K>>(
             error(StatusCode::UNPROCESSABLE_ENTITY, "idempotency key reused")
         }
         Err(EngineError::Stopped) => error(StatusCode::SERVICE_UNAVAILABLE, "engine stopped"),
+        Err(EngineError::RetriesExhausted) => {
+            error(StatusCode::SERVICE_UNAVAILABLE, "retries exhausted")
+        }
+        Err(EngineError::Database(_)) => error(StatusCode::SERVICE_UNAVAILABLE, "database error"),
+        Err(EngineError::CommitUnknown) => {
+            error(StatusCode::INTERNAL_SERVER_ERROR, "commit outcome unknown")
+        }
+        Err(EngineError::Broken(_)) => error(StatusCode::INTERNAL_SERVER_ERROR, "engine error"),
     }
 }
 

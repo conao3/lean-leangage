@@ -41,4 +41,5 @@ KERNEL = Kernel(
     tenant=kernel.tenant,
     transition=_transition,
     apply=lambda snap, writes: kernel.apply.local(snap.take(), writes),
+    read_only=kernel.readOnly,
 )

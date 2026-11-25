@@ -7,6 +7,10 @@ use leanharbor::http::rpc_router;
 use leanharbor::memory::MemoryEngine;
 use leanharbor::token::{Claims, issue};
 use leanharbor_calculator::Calculator;
+use leanharbor_pg::{Config, PgEngine, lockdown};
+
+/// Connections of the PostgreSQL engine's pool.
+const POOL_SIZE: usize = 16;
 
 fn required(name: &str) -> String {
     std::env::var(name).unwrap_or_else(|_| {
@@ -37,10 +41,36 @@ async fn main() -> std::io::Result<()> {
         println!("{}", issue(&secret, claims));
         return Ok(());
     }
-    let engine = Arc::new(MemoryEngine::<Calculator>::new());
+    let database = std::env::var("LEANHARBOR_DATABASE_URL").ok();
+    if let Ok(roles) = std::env::var("LEANHARBOR_LOCKDOWN") {
+        let (Some(url), Some((owner, engine))) = (&database, roles.split_once(':')) else {
+            eprintln!("LEANHARBOR_LOCKDOWN=<owner>:<engine role> needs LEANHARBOR_DATABASE_URL");
+            std::process::exit(252)
+        };
+        if let Err(e) = lockdown::<Calculator>(url, owner, engine).await {
+            eprintln!("lockdown: {e}");
+            std::process::exit(255)
+        }
+        return Ok(());
+    }
+    let rpc = match database {
+        Some(url) => {
+            match PgEngine::<Calculator>::connect(&url, POOL_SIZE, Config::default()).await {
+                Ok(engine) => rpc_router::<Calculator, Calculator, _>(Arc::new(engine), secret),
+                Err(e) => {
+                    eprintln!("LEANHARBOR_DATABASE_URL: {e}");
+                    std::process::exit(255)
+                }
+            }
+        }
+        None => {
+            let engine = Arc::new(MemoryEngine::<Calculator>::new());
+            rpc_router::<Calculator, Calculator, _>(engine, secret)
+        }
+    };
     let router = Router::new()
         .route("/healthz", get(|| async { "ok" }))
-        .merge(rpc_router::<Calculator, Calculator, _>(engine, secret));
+        .merge(rpc);
     let listener = tokio::net::TcpListener::bind(required("LEANHARBOR_LISTEN")).await?;
     axum::serve(listener, router).await
 }
