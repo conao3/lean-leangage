@@ -38,9 +38,10 @@ func parse(t *testing.T, line string) (kernel.Principal, kernel.Command) {
 	return actor, nil
 }
 
-// The generated Go behind the memory engine against the kernel run natively by Lean
-// (`calculator-oracle`), on the shared command list.
-func TestGeneratedGoAgreesWithLean(t *testing.T) {
+// commands are the lines of the shared command list, and what the kernel run natively by
+// Lean (`calculator-oracle`) prints for each.
+func commands(t *testing.T) (lines, want []string) {
+	t.Helper()
 	path, ok := os.LookupEnv("LEANHARBOR_CALCULATOR_ORACLE")
 	if !ok {
 		t.Fatal("LEANHARBOR_CALCULATOR_ORACLE is required")
@@ -55,27 +56,36 @@ func TestGeneratedGoAgreesWithLean(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	lines := strings.Split(strings.TrimSuffix(string(text), "\n"), "\n")
+	lines = strings.Split(strings.TrimSuffix(string(text), "\n"), "\n")
 	if len(lines) != 5000 {
 		t.Fatalf("%d commands", len(lines))
 	}
-	want := strings.Split(strings.TrimSuffix(string(theirs), "\n"), "\n")
+	want = strings.Split(strings.TrimSuffix(string(theirs), "\n"), "\n")
 	if len(want) != len(lines) {
 		t.Fatalf("the oracle printed %d lines", len(want))
 	}
+	return lines, want
+}
+
+// answer is a decision as the oracle prints it.
+func answer(reply kernel.Reply, refusal *kernel.Error, err error) string {
+	if err != nil {
+		return "engine error: " + err.Error()
+	}
+	if refusal != nil {
+		return "error " + string(kernel.ErrorName(*refusal))
+	}
+	return fmt.Sprintf("ok %d", reply.V)
+}
+
+// The generated Go behind the memory engine against the kernel run natively by Lean, on the
+// shared command list.
+func TestGeneratedGoAgreesWithLean(t *testing.T) {
+	lines, want := commands(t)
 	engine := NewEngine()
 	for i, line := range lines {
 		actor, cmd := parse(t, line)
-		reply, refusal, err := engine.Execute(actor, cmd, nil)
-		if err != nil {
-			t.Fatal(err)
-		}
-		ours := ""
-		if refusal != nil {
-			ours = "error " + string(kernel.ErrorName(*refusal))
-		} else {
-			ours = fmt.Sprintf("ok %d", reply.V)
-		}
+		ours := answer(engine.Execute(actor, cmd, nil))
 		if ours != want[i] {
 			t.Fatalf("line %d: %s: got %s, want %s", i+1, line, ours, want[i])
 		}
