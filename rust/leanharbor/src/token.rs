@@ -1,8 +1,12 @@
 //! Bearer tokens: `v1.<tenant>.<user>.<expiry unix seconds>.<hex hmac-sha256>`, where the tag
-//! signs every byte before the last dot.
+//! signs every byte before the last dot. The bytes are written and split by functions generated
+//! from `lean/Leanharbor/Token.lean` (`crate::token_format`); this module computes and compares
+//! the tag and checks the expiry.
 
 use hmac::{Hmac, Mac};
 use sha2::Sha256;
+
+use crate::token_format;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Claims {
@@ -18,64 +22,32 @@ pub enum TokenError {
     Expired,
 }
 
-fn mac(secret: &[u8], payload: &str) -> Hmac<Sha256> {
+fn mac(secret: &[u8], payload: &[u8]) -> Hmac<Sha256> {
     let mut mac = Hmac::<Sha256>::new_from_slice(secret).expect("HMAC takes a key of any length");
-    mac.update(payload.as_bytes());
+    mac.update(payload);
     mac
 }
 
 pub fn issue(secret: &[u8], claims: Claims) -> String {
-    let payload = format!("v1.{}.{}.{}", claims.tenant, claims.user, claims.expiry);
-    let tag = mac(secret, &payload).finalize().into_bytes();
-    let hex: String = tag.iter().map(|b| format!("{b:02x}")).collect();
-    format!("{payload}.{hex}")
-}
-
-fn decimal(s: &str) -> Option<u64> {
-    let canonical =
-        !s.is_empty() && s.bytes().all(|b| b.is_ascii_digit()) && (s == "0" || !s.starts_with('0'));
-    if canonical { s.parse().ok() } else { None }
-}
-
-fn unhex(s: &str) -> Option<Vec<u8>> {
-    let digit = |b: u8| match b {
-        b'0'..=b'9' => Some(b - b'0'),
-        b'a'..=b'f' => Some(b - b'a' + 10),
-        _ => None,
-    };
-    let bytes = s.as_bytes();
-    if !bytes.len().is_multiple_of(2) {
-        return None;
-    }
-    bytes
-        .chunks(2)
-        .map(|pair| Some(digit(pair[0])? << 4 | digit(pair[1])?))
-        .collect()
+    let payload = token_format::encode_payload(claims.tenant, claims.user, claims.expiry);
+    let tag = mac(secret, &payload).finalize().into_bytes().to_vec();
+    String::from_utf8(token_format::join(payload, tag)).expect("a token is ASCII")
 }
 
 /// Accepts a token whose tag matches and whose expiry is not before `now`.
 pub fn verify(secret: &[u8], token: &str, now: u64) -> Result<Claims, TokenError> {
-    let (payload, hex) = token.rsplit_once('.').ok_or(TokenError::Malformed)?;
-    let parts: Vec<&str> = payload.split('.').collect();
-    let [version, tenant, user, expiry] = parts[..] else {
-        return Err(TokenError::Malformed);
-    };
-    if version != "v1" {
-        return Err(TokenError::Malformed);
-    }
-    let claims = Claims {
-        tenant: decimal(tenant).ok_or(TokenError::Malformed)?,
-        user: decimal(user).ok_or(TokenError::Malformed)?,
-        expiry: decimal(expiry).ok_or(TokenError::Malformed)?,
-    };
-    let tag = unhex(hex).ok_or(TokenError::Malformed)?;
-    mac(secret, payload)
-        .verify_slice(&tag)
+    let parsed = token_format::parse(token.as_bytes().to_vec()).ok_or(TokenError::Malformed)?;
+    mac(secret, &parsed.payload)
+        .verify_slice(&parsed.sig)
         .map_err(|_| TokenError::BadSignature)?;
-    if claims.expiry < now {
+    if parsed.exp < now {
         return Err(TokenError::Expired);
     }
-    Ok(claims)
+    Ok(Claims {
+        tenant: parsed.tenant,
+        user: parsed.user,
+        expiry: parsed.exp,
+    })
 }
 
 #[cfg(test)]
@@ -91,7 +63,10 @@ mod tests {
     #[test]
     fn round_trip() {
         let token = issue(b"secret", CLAIMS);
-        assert!(token.starts_with("v1.12.3.100."));
+        assert_eq!(
+            token,
+            "v1.12.3.100.92d8dbd227b10b563128870c7c8bdef0313f9c5ae04a1b121b159d263a14239b"
+        );
         assert_eq!(verify(b"secret", &token, 100), Ok(CLAIMS));
     }
 

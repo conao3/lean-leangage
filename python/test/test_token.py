@@ -6,7 +6,9 @@ CLAIMS = Claims(tenant=12, user=3, expiry=100)
 
 def test_round_trip() -> None:
     token = issue(b"secret", CLAIMS)
-    assert token.startswith("v1.12.3.100.")
+    assert token == (
+        "v1.12.3.100.92d8dbd227b10b563128870c7c8bdef0313f9c5ae04a1b121b159d263a14239b"
+    )
     assert verify(b"secret", token, 100) == CLAIMS
 
 

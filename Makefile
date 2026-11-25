@@ -1,7 +1,9 @@
 ORACLE := $(CURDIR)/lean/.lake/build/bin/calculator-oracle
 SQL_ORACLE := $(CURDIR)/lean/.lake/build/bin/sql-oracle
+TOKEN_ORACLE := $(CURDIR)/lean/.lake/build/bin/token-oracle
 GENERATED := rust/calculator/src/generated python/src/leanharbor_calculator/kernel.py go/calculator/kernel \
-	rust/leanharbor/src/generated python/src/leanharbor/sql.py go/leanharbor/sql
+	rust/leanharbor/src/generated python/src/leanharbor/sql.py go/leanharbor/sql \
+	python/src/leanharbor/token_format.py go/leanharbor/token
 
 .PHONY: all
 all: check
@@ -19,7 +21,7 @@ format-check:
 
 .PHONY: lean
 lean:
-	lake -d lean build --wfail Leanharbor Calculator calculator-oracle sql-oracle
+	lake -d lean build --wfail Leanharbor Calculator calculator-oracle sql-oracle token-oracle
 
 .PHONY: audit
 audit: lean
@@ -30,9 +32,11 @@ generate: lean
 	leanfran project generate --lake-dir lean --output-dir rust/calculator/src/generated --modules Calculator.Kernel --output text
 	leanfran-python module generate --module-name Calculator.Kernel --search-path lean/.lake/build/lib/lean --output-file python/src/leanharbor_calculator/kernel.py --output text
 	leanfran-go module generate --module-name Calculator.Kernel --search-path lean/.lake/build/lib/lean --output-dir go/calculator/kernel --output text
-	leanfran project generate --lake-dir lean --output-dir rust/leanharbor/src/generated --modules Leanharbor.Sql --output text
+	leanfran project generate --lake-dir lean --output-dir rust/leanharbor/src/generated --modules Leanharbor.Sql Leanharbor.Token --output text
 	leanfran-python module generate --module-name Leanharbor.Sql --search-path lean/.lake/build/lib/lean --output-file python/src/leanharbor/sql.py --output text
 	leanfran-go module generate --module-name Leanharbor.Sql --search-path lean/.lake/build/lib/lean --output-dir go/leanharbor/sql --output text
+	leanfran-python module generate --module-name Leanharbor.Token --search-path lean/.lake/build/lib/lean --output-file python/src/leanharbor/token_format.py --output text
+	leanfran-go module generate --module-name Leanharbor.Token --search-path lean/.lake/build/lib/lean --output-dir go/leanharbor/token --output text
 
 .PHONY: generated-check
 generated-check: generate
@@ -42,17 +46,17 @@ generated-check: generate
 .PHONY: rust
 rust: lean
 	cd rust && cargo clippy --all-targets -- -D warnings
-	cd rust && LEANHARBOR_CALCULATOR_ORACLE=$(ORACLE) LEANHARBOR_SQL_ORACLE=$(SQL_ORACLE) cargo test
+	cd rust && LEANHARBOR_CALCULATOR_ORACLE=$(ORACLE) LEANHARBOR_SQL_ORACLE=$(SQL_ORACLE) LEANHARBOR_TOKEN_ORACLE=$(TOKEN_ORACLE) cargo test
 
 .PHONY: python
 python: lean
 	cd python && uv sync --quiet
-	cd python && LEANHARBOR_CALCULATOR_ORACLE=$(ORACLE) LEANHARBOR_SQL_ORACLE=$(SQL_ORACLE) uv run pytest -q
+	cd python && LEANHARBOR_CALCULATOR_ORACLE=$(ORACLE) LEANHARBOR_SQL_ORACLE=$(SQL_ORACLE) LEANHARBOR_TOKEN_ORACLE=$(TOKEN_ORACLE) uv run pytest -q
 
 .PHONY: go
 go: lean
 	cd go && go vet ./...
-	cd go && LEANHARBOR_CALCULATOR_ORACLE=$(ORACLE) LEANHARBOR_SQL_ORACLE=$(SQL_ORACLE) go test -race -count=1 ./...
+	cd go && LEANHARBOR_CALCULATOR_ORACLE=$(ORACLE) LEANHARBOR_SQL_ORACLE=$(SQL_ORACLE) LEANHARBOR_TOKEN_ORACLE=$(TOKEN_ORACLE) go test -race -count=1 ./...
 
 .PHONY: bench
 bench:

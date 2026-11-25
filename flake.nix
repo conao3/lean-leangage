@@ -43,6 +43,8 @@
               "rust/leanharbor/src/generated/*"
               "python/src/leanharbor/sql.py"
               "go/leanharbor/sql/*"
+              "python/src/leanharbor/token_format.py"
+              "go/leanharbor/token/*"
             ];
           };
           devShells.default = pkgs.mkShell {

@@ -3,16 +3,16 @@ package leanharbor
 import (
 	"crypto/hmac"
 	"crypto/sha256"
-	"encoding/hex"
 	"errors"
-	"fmt"
-	"strconv"
-	"strings"
+
+	"github.com/conao3/lean-leanharbor/go/leanharbor/token"
 )
 
 // Claims are what a bearer token states. A token is
 // `v1.<tenant>.<user>.<expiry unix seconds>.<hex hmac-sha256>`, where the tag signs every byte
-// before the last dot.
+// before the last dot. The bytes are written and split by functions generated from
+// `lean/Leanharbor/Token.lean` (package token); this file computes and compares the tag and checks
+// the expiry.
 type Claims struct {
 	Tenant uint64
 	User   uint64
@@ -25,61 +25,28 @@ var (
 	ErrTokenExpired      = errors.New("token expired")
 )
 
-func tag(secret []byte, payload string) []byte {
+func tag(secret []byte, payload []byte) []byte {
 	mac := hmac.New(sha256.New, secret)
-	mac.Write([]byte(payload))
+	mac.Write(payload)
 	return mac.Sum(nil)
 }
 
 func Issue(secret []byte, claims Claims) string {
-	payload := fmt.Sprintf("v1.%d.%d.%d", claims.Tenant, claims.User, claims.Expiry)
-	return payload + "." + hex.EncodeToString(tag(secret, payload))
-}
-
-func decimal(s string) (uint64, bool) {
-	if s == "" || (s != "0" && s[0] == '0') {
-		return 0, false
-	}
-	for _, b := range []byte(s) {
-		if b < '0' || b > '9' {
-			return 0, false
-		}
-	}
-	n, err := strconv.ParseUint(s, 10, 64)
-	return n, err == nil
-}
-
-func unhex(s string) ([]byte, bool) {
-	if s != strings.ToLower(s) {
-		return nil, false
-	}
-	out, err := hex.DecodeString(s)
-	return out, err == nil
+	payload := token.EncodePayload(claims.Tenant, claims.User, claims.Expiry)
+	return string(token.Join(payload, tag(secret, payload)))
 }
 
 // Verify accepts a token whose tag matches and whose expiry is not before now.
-func Verify(secret []byte, token string, now uint64) (Claims, error) {
-	dot := strings.LastIndexByte(token, '.')
-	if dot < 0 {
+func Verify(secret []byte, tok string, now uint64) (Claims, error) {
+	parsed := token.Parse([]byte(tok))
+	if parsed == nil {
 		return Claims{}, ErrTokenMalformed
 	}
-	payload := token[:dot]
-	parts := strings.Split(payload, ".")
-	if len(parts) != 4 || parts[0] != "v1" {
-		return Claims{}, ErrTokenMalformed
-	}
-	tenant, okTenant := decimal(parts[1])
-	user, okUser := decimal(parts[2])
-	expiry, okExpiry := decimal(parts[3])
-	signature, okSignature := unhex(token[dot+1:])
-	if !okTenant || !okUser || !okExpiry || !okSignature {
-		return Claims{}, ErrTokenMalformed
-	}
-	if !hmac.Equal(tag(secret, payload), signature) {
+	if !hmac.Equal(tag(secret, parsed.Payload), parsed.Sig) {
 		return Claims{}, ErrTokenBadSignature
 	}
-	if expiry < now {
+	if parsed.Exp < now {
 		return Claims{}, ErrTokenExpired
 	}
-	return Claims{Tenant: tenant, User: user, Expiry: expiry}, nil
+	return Claims{Tenant: parsed.Tenant, User: parsed.User, Expiry: parsed.Exp}, nil
 }

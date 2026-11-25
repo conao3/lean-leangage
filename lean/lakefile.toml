@@ -14,3 +14,7 @@ root = "CalculatorOracle"
 [[lean_exe]]
 name = "sql-oracle"
 root = "SqlOracle"
+
+[[lean_exe]]
+name = "token-oracle"
+root = "TokenOracle"
