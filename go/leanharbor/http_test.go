@@ -16,10 +16,10 @@ func (counterApi) DecodeCommand(body []byte) (int, error) {
 	return strconv.Atoi(string(body))
 }
 
-func (counterApi) EncodeReply(reply int) any { return reply }
+func (counterApi) EncodeReply(reply int) []byte { return []byte(strconv.Itoa(reply)) }
 
-func (counterApi) EncodeError(refusal string) (int, any) {
-	return http.StatusConflict, map[string]string{"error": refusal}
+func (counterApi) EncodeError(refusal string) (int, []byte) {
+	return http.StatusConflict, ErrorBody(refusal)
 }
 
 func (counterApi) Fingerprint(cmd int) []byte { return []byte(strconv.Itoa(cmd)) }

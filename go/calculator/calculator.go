@@ -142,25 +142,12 @@ func (Calculator) DecodeCommand(body []byte) (kernel.Command, error) {
 	return nil, errors.New("not a calculator command")
 }
 
-func (Calculator) EncodeReply(reply kernel.Reply) any {
-	return map[string]uint64{"value": reply.V}
+func (Calculator) EncodeReply(reply kernel.Reply) []byte {
+	return kernel.EncodeReply(reply)
 }
 
-// ErrorName is the name of a refusal on the wire.
-func ErrorName(refusal kernel.Error) string {
-	switch refusal {
-	case kernel.ErrorOverflow():
-		return "overflow"
-	case kernel.ErrorUnderflow():
-		return "underflow"
-	case kernel.ErrorDivByZero():
-		return "division_by_zero"
-	}
-	panic(fmt.Sprintf("unknown refusal %v", refusal))
-}
-
-func (Calculator) EncodeError(refusal kernel.Error) (int, any) {
-	return http.StatusUnprocessableEntity, map[string]string{"error": ErrorName(refusal)}
+func (Calculator) EncodeError(refusal kernel.Error) (int, []byte) {
+	return http.StatusUnprocessableEntity, kernel.EncodeError(refusal)
 }
 
 func (Calculator) Fingerprint(cmd kernel.Command) []byte {

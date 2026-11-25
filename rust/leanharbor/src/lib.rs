@@ -1,8 +1,9 @@
 //! The trusted shell around a kernel proved in Lean: an engine that runs one command at a time
 //! per tenant, bearer tokens, and the `/rpc` route. `leanharbor-pg` holds the engine that stores
 //! the snapshots in PostgreSQL. `sql` is the SQL compiler generated from
-//! `lean/Leanharbor/Sql.lean`, and `token_format` the functions that write and split tokens,
-//! generated from `lean/Leanharbor/Token.lean`.
+//! `lean/Leanharbor/Sql.lean`, `token_format` the functions that write and split tokens,
+//! generated from `lean/Leanharbor/Token.lean`, and `json_format` the JSON writer, generated from
+//! `lean/Leanharbor/Json.lean`.
 
 #[rustfmt::skip]
 pub mod generated;
@@ -10,6 +11,7 @@ pub mod http;
 pub mod memory;
 pub mod token;
 
+pub use generated::leanharbor_json as json_format;
 pub use generated::leanharbor_sql as sql;
 pub use generated::leanharbor_token as token_format;
 

@@ -14,11 +14,19 @@ licensed under the Apache License, Version 2.0.
   crates/h5i-app-token/src/lib.rs and crates/h5i-app-token/proofs/TokenSpec.lean.
 - lean/Leanharbor/Sql/Isolation.lean is based on
   crates/h5i-app-core/proofs/H5iAppLib/Obligation.lean.
+- lean/Leanharbor/Obligation.lean is based on
+  crates/h5i-app-core/proofs/H5iAppLib/Obligation.lean.
+- audit/Audit/Obligations.lean is based on the obligation check of the gate program in
+  crates/h5i-app-cli/src/check.rs.
 - lean/Leanharbor/Store.lean is based on crates/h5i-app-core/proofs/H5iAppLib/Store.lean,
   crates/h5i-app-core/proofs/H5iAppLib/Obligation.lean and the theorems pg_served and
   pg_loaded_inv that crates/h5i-app-schema/src/lean.rs writes.
 - lean/Leanharbor/Authz.lean is based on crates/h5i-app-std/src/authz.rs.
 - lean/Leanharbor/AuthzProofs.lean is based on crates/h5i-app-std/proofs/AuthzSpecs.lean.
 - lean/Notes/Kernel.lean is based on examples/app/notes/kernel/src/lib.rs.
+- lean/Leanharbor/Json.lean is based on crates/h5i-app-json/src/lib.rs and
+  crates/h5i-app-json/proofs/JsonSpec.lean.
+- lean/Leanharbor/Json/Proofs.lean is based on crates/h5i-app-json/proofs/JsonSpec.lean and
+  crates/h5i-app-json/proofs/JsonProofs.lean.
 
 The files state what was changed.

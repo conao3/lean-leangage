@@ -2,10 +2,12 @@ ORACLE := $(CURDIR)/lean/.lake/build/bin/calculator-oracle
 SQL_ORACLE := $(CURDIR)/lean/.lake/build/bin/sql-oracle
 TOKEN_ORACLE := $(CURDIR)/lean/.lake/build/bin/token-oracle
 NOTES_ORACLE := $(CURDIR)/lean/.lake/build/bin/notes-oracle
+JSON_ORACLE := $(CURDIR)/lean/.lake/build/bin/json-oracle
 GENERATED := rust/calculator/src/generated python/src/leanharbor_calculator/kernel.py go/calculator/kernel \
 	python/src/leanharbor_calculator/store.py go/calculator/store \
 	rust/leanharbor/src/generated python/src/leanharbor/sql.py go/leanharbor/sql \
 	python/src/leanharbor/token_format.py go/leanharbor/token \
+	python/src/leanharbor/json_format.py go/leanharbor/jsonformat \
 	rust/notes/src/generated python/src/leanharbor_notes/kernel.py go/notes/kernel
 
 .PHONY: all
@@ -24,11 +26,20 @@ format-check:
 
 .PHONY: lean
 lean:
-	lake -d lean build --wfail Leanharbor Calculator Notes calculator-oracle sql-oracle token-oracle notes-oracle
+	lake -d lean build --wfail Leanharbor Calculator Notes calculator-oracle sql-oracle token-oracle notes-oracle json-oracle
 
 .PHONY: audit
 audit: lean
 	lake -d audit build --wfail
+	@for f in audit/fail/*.lean; do \
+	  expect="$$(sed -n 's/^-- expect: //p' "$$f")"; \
+	  if [ -z "$$expect" ]; then echo "$$f: no -- expect: line"; exit 1; fi; \
+	  if out="$$(lake -d audit env lean "$$f" 2>&1)"; then echo "$$f: built, but must fail"; exit 1; fi; \
+	  if [ "$$(printf '%s\n' "$$out" | grep -c ': error')" != 1 ] || ! printf '%s\n' "$$out" | grep -qF -- "$$expect"; then \
+	    printf '%s\n' "$$out"; echo "$$f: must fail with the one error: $$expect"; exit 1; \
+	  fi; \
+	  echo "$$f: fails with: $$expect"; \
+	done
 
 .PHONY: generate
 generate: lean
@@ -38,11 +49,13 @@ generate: lean
 	leanfran-go module generate --module-name Calculator.Kernel --search-path lean/.lake/build/lib/lean --output-dir go/calculator/kernel --output text
 	leanfran-python module generate --module-name Calculator.Store --search-path lean/.lake/build/lib/lean --output-file python/src/leanharbor_calculator/store.py --output text
 	leanfran-go module generate --module-name Calculator.Store --search-path lean/.lake/build/lib/lean --output-dir go/calculator/store --output text
-	leanfran project generate --lake-dir lean --output-dir rust/leanharbor/src/generated --modules Leanharbor.Sql Leanharbor.Token --output text
+	leanfran project generate --lake-dir lean --output-dir rust/leanharbor/src/generated --modules Leanharbor.Sql Leanharbor.Token Leanharbor.Json --output text
 	leanfran-python module generate --module-name Leanharbor.Sql --search-path lean/.lake/build/lib/lean --output-file python/src/leanharbor/sql.py --output text
 	leanfran-go module generate --module-name Leanharbor.Sql --search-path lean/.lake/build/lib/lean --output-dir go/leanharbor/sql --output text
 	leanfran-python module generate --module-name Leanharbor.Token --search-path lean/.lake/build/lib/lean --output-file python/src/leanharbor/token_format.py --output text
 	leanfran-go module generate --module-name Leanharbor.Token --search-path lean/.lake/build/lib/lean --output-dir go/leanharbor/token --output text
+	leanfran-python module generate --module-name Leanharbor.Json --search-path lean/.lake/build/lib/lean --output-file python/src/leanharbor/json_format.py --output text
+	leanfran-go module generate --module-name Leanharbor.Json --search-path lean/.lake/build/lib/lean --package jsonformat --output-dir go/leanharbor/jsonformat --output text
 	leanfran project generate --lake-dir lean --output-dir rust/notes/src/generated --modules Notes.Kernel --output text
 	leanfran-python module generate --module-name Notes.Kernel --search-path lean/.lake/build/lib/lean --output-file python/src/leanharbor_notes/kernel.py --output text
 	leanfran-go module generate --module-name Notes.Kernel --search-path lean/.lake/build/lib/lean --output-dir go/notes/kernel --output text
@@ -55,17 +68,17 @@ generated-check: generate
 .PHONY: rust
 rust: lean
 	cd rust && cargo clippy --all-targets -- -D warnings
-	cd rust && LEANHARBOR_CALCULATOR_ORACLE=$(ORACLE) LEANHARBOR_SQL_ORACLE=$(SQL_ORACLE) LEANHARBOR_TOKEN_ORACLE=$(TOKEN_ORACLE) LEANHARBOR_NOTES_ORACLE=$(NOTES_ORACLE) cargo test
+	cd rust && LEANHARBOR_CALCULATOR_ORACLE=$(ORACLE) LEANHARBOR_SQL_ORACLE=$(SQL_ORACLE) LEANHARBOR_TOKEN_ORACLE=$(TOKEN_ORACLE) LEANHARBOR_NOTES_ORACLE=$(NOTES_ORACLE) LEANHARBOR_JSON_ORACLE=$(JSON_ORACLE) cargo test
 
 .PHONY: python
 python: lean
 	cd python && uv sync --quiet
-	cd python && LEANHARBOR_CALCULATOR_ORACLE=$(ORACLE) LEANHARBOR_SQL_ORACLE=$(SQL_ORACLE) LEANHARBOR_TOKEN_ORACLE=$(TOKEN_ORACLE) LEANHARBOR_NOTES_ORACLE=$(NOTES_ORACLE) uv run pytest -q
+	cd python && LEANHARBOR_CALCULATOR_ORACLE=$(ORACLE) LEANHARBOR_SQL_ORACLE=$(SQL_ORACLE) LEANHARBOR_TOKEN_ORACLE=$(TOKEN_ORACLE) LEANHARBOR_NOTES_ORACLE=$(NOTES_ORACLE) LEANHARBOR_JSON_ORACLE=$(JSON_ORACLE) uv run pytest -q
 
 .PHONY: go
 go: lean
 	cd go && go vet ./...
-	cd go && LEANHARBOR_CALCULATOR_ORACLE=$(ORACLE) LEANHARBOR_SQL_ORACLE=$(SQL_ORACLE) LEANHARBOR_TOKEN_ORACLE=$(TOKEN_ORACLE) LEANHARBOR_NOTES_ORACLE=$(NOTES_ORACLE) go test -race -count=1 ./...
+	cd go && LEANHARBOR_CALCULATOR_ORACLE=$(ORACLE) LEANHARBOR_SQL_ORACLE=$(SQL_ORACLE) LEANHARBOR_TOKEN_ORACLE=$(TOKEN_ORACLE) LEANHARBOR_NOTES_ORACLE=$(NOTES_ORACLE) LEANHARBOR_JSON_ORACLE=$(JSON_ORACLE) go test -race -count=1 ./...
 
 .PHONY: bench
 bench:
