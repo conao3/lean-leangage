@@ -1,4 +1,5 @@
 import Assay
+import Audit.Except
 import Calculator.Proofs
 
 /-!
@@ -6,7 +7,6 @@ Breaks the calculator kernel in small ways and runs the theorems on each broken 
 build fails when a broken version satisfies every theorem.
 -/
 
-deriving instance DecidableEq for Except
 deriving instance DecidableEq for
   Calculator.Kernel.Principal, Calculator.Kernel.Snapshot, Calculator.Kernel.Command
 
