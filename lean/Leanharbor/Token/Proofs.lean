@@ -518,6 +518,20 @@ theorem numberAt_spec (s : String) {i j : Nat} (hj : j ≤ s.utf8ByteSize) :
     rw [Bool.eq_iff_iff, isDecimal_spec x s hj, beq_iff_eq]
   simp only [numberAt, number, hd, hb, length_slice (show j ≤ (bytesOf s).length by omega)]
 
+/-- `isDecimal_spec` on the first field after the version, as `parseString` calls it. -/
+theorem isDecimal_field (s : String) :
+    isDecimal (digitsFrom s (dotFrom s 0 + 1) (dotFrom s (dotFrom s 0 + 1)) 0) s (dotFrom s 0 + 1)
+        (dotFrom s (dotFrom s 0 + 1)) =
+      (decimal (digitsFrom s (dotFrom s 0 + 1) (dotFrom s (dotFrom s 0 + 1)) 0) ==
+        slice (bytesOf s) (dotFrom s 0 + 1) (dotFrom s (dotFrom s 0 + 1))) := by
+  rw [Bool.eq_iff_iff, isDecimal_spec _ s (dotFrom_le s _), beq_iff_eq]
+
+/-- `numberAt_spec` on the first field after the version, as `parseString` calls it. -/
+theorem numberAt_field (s : String) :
+    numberAt s (dotFrom s 0 + 1) (dotFrom s (dotFrom s 0 + 1)) =
+      number (slice (bytesOf s) (dotFrom s 0 + 1) (dotFrom s (dotFrom s 0 + 1))) :=
+  numberAt_spec s (dotFrom_le s _)
+
 theorem hexNibble_toNat_all : ∀ n, n < 256 → (hexNibble n.toUInt8).toNat = hexValue n.toUInt8 := by
   set_option maxRecDepth 100000 in decide
 

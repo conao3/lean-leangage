@@ -348,7 +348,8 @@ Proved in Lean, about the definitions that are generated and run:
   `encodeReply_spec` and `encodeError_spec` say of `encodeReply` and `encodeError`. The shells'
   own bodies (401, 400, a reused idempotency key, a stopped engine) are the tokens of
   `{"error": message}`, which each shell builds from the message, written by `writeArray` in
-  Rust and Python and by `write` in Go, whose messages need not be UTF-8.
+  Rust and Python and by `write` in Go, where `WriteArray` returns an error for a string that is
+  not UTF-8.
 
 Checked by `make check`, not proved:
 

@@ -119,9 +119,9 @@ instance (priority := high) tokenSampleableBytes : SampleableExt (List UInt8) :=
 
 #assay Leanharbor.Token.digitsFrom using Leanharbor.Token.digitsFrom_spec
 
-#assay Leanharbor.Token.isDecimal using Leanharbor.Token.isDecimal_spec
+#assay Leanharbor.Token.isDecimal using Leanharbor.Token.isDecimal_spec Leanharbor.Token.isDecimal_field
 
-#assay Leanharbor.Token.numberAt using Leanharbor.Token.numberAt_spec
+#assay Leanharbor.Token.numberAt using Leanharbor.Token.numberAt_spec Leanharbor.Token.numberAt_field
 
 #assay Leanharbor.Token.hexNibble using Leanharbor.Token.hexNibble_toNat
 
