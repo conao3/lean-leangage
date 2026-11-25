@@ -95,6 +95,16 @@ Proved in Lean, about the definitions that are generated and run:
   - `render_spec`, `valid_iff`, `compile_spec`, `select_spec`, `create_spec`, `plan_spec`: the
     generated functions equal definitions written another way (the text as lists of characters,
     the schema checks as propositions);
+  - against the model of PostgreSQL in `Leanharbor.Sql.Model`, on tables that `create` made:
+    - `compile_sound`: a compiled statement runs, the tables stay as `create` made them, the
+      tenant's rows change as `exec` says, and no other tenant's rows and no table outside the
+      schema change. `compileAll_sound` states the same for a list of statements;
+    - `select_sound`: a compiled `SELECT` returns the tenant's rows of the table that pass the
+      filter, each once, in any order. `lists_of_selects`: a `SELECT` of every table lists the
+      tenant's rows;
+    - `create_sound`: creating the tables of a valid schema in a database without them gives
+      tables that match the schema, with no row for any tenant, and changes no other table.
+      `create_kept`: tables that exist are kept as they are.
 - for the token functions `Leanharbor.Token` (`encodePayload`, `join`, `parse`), which the three
   servers call to issue and to read every bearer token:
   - `parse_join`: parsing the token that `join` makes of `encodePayload t u e` and any signature
@@ -145,12 +155,11 @@ holds for each of them:
 | Authentication | HMAC-SHA256 and the constant-time comparison of tags, the secret and its storage, the system clock and the expiry check, reading the token from the `Authorization` header |
 | Wire format | JSON decoding of commands and encoding of replies and refusals (`Api`) |
 | HTTP | axum, hyper and tokio (Rust); `http.server` (Python); `net/http` (Go) |
-| SQL | that PostgreSQL reads the text as `lexName_quote`'s lexer reads a quoted name; what each statement does to the tables, which no theorem states yet |
-| Specification | that `specStep` and the statements above say what a calculator should do; that `Valid`, `Accepts`, `sqlOf` and `renderSpec` say what the SQL compiler should do; that `v1.<tenant>.<user>.<expiry>.<hex>` with the signature over the bytes before the last dot is the token a client should send |
+| SQL | that PostgreSQL reads the text as `lexName_quote`'s lexer reads a quoted name; that PostgreSQL, sent `render q` with its parameters, fails or does to the tables what `run` says, and that a `SELECT` returns the rows `selected` says in some order (`ORDER BY` is not modeled); that values compare as Lean values do (text character by character, bytes byte by byte); that the tables were made by `create` of the same schema, since `CREATE TABLE IF NOT EXISTS` keeps a table of that name as it is |
+| Specification | that `specStep` and the statements above say what a calculator should do; that `Valid`, `Accepts`, `sqlOf`, `renderSpec`, `exec`, `view`, `Sel` and `Lists` say what the SQL compiler should do; that `v1.<tenant>.<user>.<expiry>.<hex>` with the signature over the bytes before the last dot is the token a client should send |
 
-State lives in the server's memory and is lost on restart. PostgreSQL storage, the model of
-PostgreSQL that `compile` is proved against, tenant isolation over that model, and proved
-authorization guards are designed and not yet built.
+State lives in the server's memory and is lost on restart. PostgreSQL storage, tenant isolation
+over the model of PostgreSQL, and proved authorization guards are designed and not yet built.
 
 ## Speed
 
@@ -248,7 +257,7 @@ of them refused, and checks that the snapshot still has one reference (`IsExclus
 
 | Path | Contents |
 |---|---|
-| [`lean/`](lean) | the Lake package: `Leanharbor` (the kernel contract, the SQL compiler, the token format and their proofs), `Calculator` (kernel and proofs), `calculator-oracle`, `sql-oracle` and `token-oracle` (the kernel, the SQL compiler and the token format as native programs) |
+| [`lean/`](lean) | the Lake package: `Leanharbor` (the kernel contract, the SQL compiler, a model of PostgreSQL, the token format, and their proofs), `Calculator` (kernel and proofs), `calculator-oracle`, `sql-oracle` and `token-oracle` (the kernel, the SQL compiler and the token format as native programs) |
 | [`audit/`](audit) | the leanassay audit and the axiom check |
 | [`rust/leanharbor`](rust/leanharbor) | the Rust shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler and token format (`src/generated/`) |
 | [`rust/calculator`](rust/calculator) | the generated kernel (`src/generated/`), the server, the benchmark, the differential test |
