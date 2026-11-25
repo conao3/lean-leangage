@@ -179,6 +179,26 @@ Proved in Lean, about the definitions that are generated and run:
   - `splitDot_spec`, `hexValue_spec`, `join_spec`, `value_decimal`, `number_decimal` and the
     others in `Leanharbor.Token.Proofs`: the generated helpers equal definitions written another
     way, or read back what they write.
+- for the JSON writer `Leanharbor.Json` (`escape`, `write`), which writes every JSON body that
+  the three servers send:
+  - `write_value`: `write` of the tokens of a JSON value is `Value.print` of the value, a printer
+    over the tree: `null`, `true`, `false`, numbers in decimal, quoted strings, and arrays and
+    objects with their elements and members separated by commas;
+  - `write_spec`: on any list of tokens, a document or not, `write` puts a comma before each token
+    that follows a value and does not close an array or an object, and writes each token as
+    `printToks` says;
+  - `lex_escape`: a JSON string lexer that reads `escape s` and then a quote returns `s` and the
+    bytes after that quote, whatever they are. So no byte of a string ends it early or changes
+    what it reads as;
+  - `escape_no_control`: an escaped string has no byte below 0x20;
+  - `escapeByte_spec`, `tokBytes_spec`, `writeFrom_spec`, `decimal_spec` and the others in
+    `Leanharbor.Json.Proofs`: the generated helpers equal definitions written another way.
+- for the calculator's bodies (`encodeReply`, `encodeError` in `Calculator.Kernel`), which the
+  three servers send for every accepted and refused command: `encodeReply_spec` and
+  `encodeError_spec` say that they are `Value.print` of `{"value": v}` and of
+  `{"error": name}`, with the names `overflow`, `underflow` and `division_by_zero`. The shells'
+  own bodies (401, 400, a reused idempotency key, a stopped engine) are `write` of the tokens of
+  `{"error": message}`, which each shell builds from the message.
 
 Checked by `make check`, not proved:
 
@@ -190,7 +210,10 @@ Checked by `make check`, not proved:
   the same on every input tried, 38 do not compile, and none satisfies every theorem while
   changing an output. The 11 functions of the token format are broken in 189 ways: 173 are
   rejected, 2 behave the same on every input tried, 14 do not compile, and none satisfies every
-  theorem while changing an output. It breaks the 6 functions of the calculator's table in 25 ways: 20 are
+  theorem while changing an output. The 7 functions of the JSON writer are broken in 243 ways:
+  217 are rejected, 26 do not compile, and none satisfies every theorem while changing an
+  output. The 5 functions that make the calculator's bodies are broken in 102 ways, and all 102
+  are rejected. It breaks the 6 functions of the calculator's table in 25 ways: 20 are
   rejected, 5 do not compile, and none satisfies every theorem while changing an output.
 - **The calculator's table, as PostgreSQL receives it.** `tables_create` evaluates, in Lean's
   kernel, the text of the statement that creates it:
@@ -203,7 +226,10 @@ Checked by `make check`, not proved:
   Go as in the compiler compiled natively by Lean. 3,000 token lines (985 issued tokens, 845
   accepted and 1,170 rejected ones: edited bytes, leading zeros, signs, numbers of 2^64 and more,
   uppercase hexadecimal, missing and extra fields) give the same fields and bytes in the generated
-  Rust, Python and Go as in the token functions compiled natively by Lean. The calculator's table functions are
+  Rust, Python and Go as in the token functions compiled natively by Lean. 3,000 token lists
+  (1,627 of them JSON documents; 4,903 strings and keys, of which 1,505 hold control bytes, 257 a
+  `"`, 265 a `\`, 2,992 bytes above 0x7f and 1,436 bytes that are not UTF-8) give the same bytes
+  in the generated Rust, Python and Go as in the writer compiled natively by Lean. The calculator's table functions are
   generated and compiled, and no differential test runs them.
 - **The code that runs is generated from the proved source.** The build regenerates the three
   targets and fails on a difference from the committed files.
@@ -218,11 +244,11 @@ holds for each of them:
 | Translation | leanfran's Rust, Python and Go backends and their runtimes, rustc, CPython, the Go compiler, Lean's kernel |
 | Engine | the memory engine: one command at a time per process, under one lock; replies stored per idempotency key |
 | Authentication | HMAC-SHA256 and the constant-time comparison of tags, the secret and its storage, the system clock and the expiry check, reading the token from the `Authorization` header, the table of accepted tokens (a token accepted once is recognised by its exact bytes and only its expiry is checked again) |
-| Wire format | JSON decoding of commands and encoding of replies and refusals (`Api`) |
+| Wire format | JSON decoding of commands (`Api`); that the shells send the bytes of `encodeReply` and `encodeError` as the body; the tokens each shell builds for its own `{"error": ...}` bodies |
 | HTTP | axum, hyper and tokio (Rust); `http.server` (Python); `net/http` (Go) |
 | SQL | that PostgreSQL reads the text as `lexName_quote`'s lexer reads a quoted name; that PostgreSQL, sent `render q` with its parameters, fails or does to the tables what `run` says, and that a `SELECT` returns the rows `selected` says in some order (`ORDER BY` is not modeled); that values compare as Lean values do (text character by character, bytes byte by byte); that the tables were made by `create` of the same schema, since `CREATE TABLE IF NOT EXISTS` keeps a table of that name as it is |
 | Storage | that an engine does what `Storage.Stored` says: it creates `tables` in a database without them, loads each commit's snapshot with `load` from the rows of the compiled `SELECT` of each table, and runs the statements compiled from `writes` of the accepted write set for the principal's tenant (`Kernel.tenant`, as the `Int64` with the same bits). No engine does this yet |
-| Specification | that `specStep` and the statements above say what a calculator should do; that `Valid`, `Accepts`, `sqlOf`, `renderSpec`, `exec`, `view`, `Sel` and `Lists` say what the SQL compiler should do; that `TenantIsolation`, `Storage`, `Loaded` and `Stored` say what storing a kernel should mean; that the calculator's `lookup` and `enc` say which rows a snapshot stands for; that `v1.<tenant>.<user>.<expiry>.<hex>` with the signature over the bytes before the last dot is the token a client should send |
+| Specification | that `specStep` and the statements above say what a calculator should do; that `Valid`, `Accepts`, `sqlOf`, `renderSpec`, `exec`, `view`, `Sel` and `Lists` say what the SQL compiler should do; that `TenantIsolation`, `Storage`, `Loaded` and `Stored` say what storing a kernel should mean; that the calculator's `lookup` and `enc` say which rows a snapshot stands for; that `v1.<tenant>.<user>.<expiry>.<hex>` with the signature over the bytes before the last dot is the token a client should send; that `Value.print` and `printToks` print JSON as RFC 8259 defines it, and `lexStr` reads a string as RFC 8259 does for the escapes `write` uses; that `replyValue` and `errorValue` are the bodies a client should read |
 
 State lives in the server's memory and is lost on restart. An engine that stores the snapshots
 in PostgreSQL and proved authorization guards are designed and not yet built.
@@ -324,16 +350,16 @@ of them refused, and checks that the snapshot still has one reference (`IsExclus
 
 | Path | Contents |
 |---|---|
-| [`lean/`](lean) | the Lake package: `Leanharbor` (the kernel contract, the SQL compiler, a model of PostgreSQL, tenant isolation, the storage of a kernel, the token format, and their proofs), `Calculator` (kernel, table and proofs), `calculator-oracle`, `sql-oracle` and `token-oracle` (the kernel, the SQL compiler and the token format as native programs) |
+| [`lean/`](lean) | the Lake package: `Leanharbor` (the kernel contract, the SQL compiler, a model of PostgreSQL, tenant isolation, the storage of a kernel, the token format, the JSON writer, and their proofs), `Calculator` (kernel, table and proofs), `calculator-oracle`, `sql-oracle`, `token-oracle` and `json-oracle` (the kernel, the SQL compiler, the token format and the JSON writer as native programs) |
 | [`audit/`](audit) | the leanassay audit and the axiom check |
-| [`rust/leanharbor`](rust/leanharbor) | the Rust shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler and token format (`src/generated/`) |
+| [`rust/leanharbor`](rust/leanharbor) | the Rust shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler, token format and JSON writer (`src/generated/`) |
 | [`rust/calculator`](rust/calculator) | the generated kernel and table (`src/generated/`), the server, the benchmark, the differential test |
-| [`python/`](python) | the Python shell (`leanharbor`, with the generated `sql.py` and `token_format.py`) and the calculator (`leanharbor_calculator`, with the generated `kernel.py` and `store.py`) |
-| [`go/leanharbor`](go/leanharbor) | the Go shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler (`sql/`) and token format (`token/`) |
+| [`python/`](python) | the Python shell (`leanharbor`, with the generated `sql.py`, `token_format.py` and `json_format.py`) and the calculator (`leanharbor_calculator`, with the generated `kernel.py` and `store.py`) |
+| [`go/leanharbor`](go/leanharbor) | the Go shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler (`sql/`), token format (`token/`) and JSON writer (`jsonformat/`) |
 | [`go/calculator`](go/calculator) | the generated kernel (`kernel/`) and table (`store/`), the server and the benchmark (`cmd/`), the differential test |
 | [`bench/`](bench) | servers without a kernel (axum, actix-web, `net/http`, gin, FastAPI, Flask) for the HTTP comparison |
 | [`docs/`](docs) | the measured runs (`speed.json`) and the charts drawn from them |
-| [`testdata/`](testdata) | the command list (`tools/gen-commands.py`), the statement list (`tools/gen-statements.py`) and the token list (`tools/gen-tokens.py`) of the differential tests |
+| [`testdata/`](testdata) | the command list (`tools/gen-commands.py`), the statement list (`tools/gen-statements.py`), the token list (`tools/gen-tokens.py`) and the JSON token lists (`tools/gen-json.py`) of the differential tests |
 
 ## Development
 

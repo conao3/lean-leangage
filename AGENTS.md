@@ -13,13 +13,16 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   tenant isolation, and `Leanharbor/Store.lean` the class `Row`, the storage of a kernel
   (`Storage`) and the theorems proved once for every storage. `Leanharbor/Token.lean` is the
   token format that is generated and `Leanharbor/Token/Proofs.lean` its theorems.
+  `Leanharbor/Json.lean` is the JSON writer that is generated and `Leanharbor/Json/Proofs.lean`
+  its specification (a printer over JSON values, a string lexer) and theorems.
   `Calculator/Kernel.lean` holds what is generated, `Calculator/Proofs.lean` the specifications
   and theorems; `Calculator/Store.lean` (generated) the calculator's table and row functions,
   `Calculator/Store/Proofs.lean` the calculator's `Storage` and its theorems.
-  `CalculatorOracle.lean`, `SqlOracle.lean` and `TokenOracle.lean` are the native programs the
-  differential tests compare against.
+  `CalculatorOracle.lean`, `SqlOracle.lean`, `TokenOracle.lean` and `JsonOracle.lean` are the
+  native programs the differential tests compare against.
 - `audit/`: a separate Lake package with leanassay (`Audit/Calculator.lean`, `Audit/Sql.lean`,
-  `Audit/Store.lean`, `Audit/Token.lean`) and the axiom check (`Audit/Axioms.lean`).
+  `Audit/Store.lean`, `Audit/Token.lean`, `Audit/Json.lean`) and the axiom check
+  (`Audit/Axioms.lean`).
 - `rust/`: Cargo workspace, edition 2024. `leanharbor` is the shell, `calculator` the example.
 - `python/`: uv project. `leanharbor` is the shell, `leanharbor_calculator` the example.
 - `go/`: Go module `github.com/conao3/lean-leanharbor/go`. `leanharbor` is the shell,
@@ -31,6 +34,10 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   the token format generated from `Leanharbor.Token` (`leanharbor::token_format`,
   `python/src/leanharbor/token_format.py`, `go/leanharbor/token/`), and its `token` module calls
   `encodePayload`, `join` and `parse` and computes and compares the HMAC and checks the expiry.
+  Each shell holds the JSON writer generated from `Leanharbor.Json` (`leanharbor::json_format`,
+  `python/src/leanharbor/json_format.py`, `go/leanharbor/jsonformat/`) and writes its own
+  `{"error": ...}` bodies with it; the calculator's replies and refusals are the bytes of the
+  generated `encodeReply` and `encodeError`.
 
 ## Lean and the host languages
 
@@ -53,7 +60,7 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   Run `make generate` after changing `lean/`.
 - When a function is added to a generated module, add a theorem about it and list it in the
   module's audit file (`audit/Audit/Calculator.lean`, `audit/Audit/Sql.lean`,
-  `audit/Audit/Store.lean`, `audit/Audit/Token.lean`) in the same change.
+  `audit/Audit/Store.lean`, `audit/Audit/Token.lean`, `audit/Audit/Json.lean`) in the same change.
   Theorems whose hypothesis fixes the result of the function (`transition a s c = .ok …`) cannot
   be run by leanassay; state the runnable form with `match` (`get_after_run`) and derive the
   other from it.
@@ -74,10 +81,11 @@ All commands run inside `nix develop`.
   tables to paste into the README. `bench/` holds the servers without a kernel that the HTTP
   measurement compares with; `make check` does not build them.
 - The differential tests read the oracles' paths from `LEANHARBOR_CALCULATOR_ORACLE`,
-  `LEANHARBOR_SQL_ORACLE` and `LEANHARBOR_TOKEN_ORACLE`; the Makefile sets them.
-  `testdata/sql-statements.txt` comes from `python3 tools/gen-statements.py 3000` and
-  `testdata/token-cases.txt` from `python3 tools/gen-tokens.py 3000`; their line formats are
-  described in `lean/SqlOracle.lean` and `lean/TokenOracle.lean`.
+  `LEANHARBOR_SQL_ORACLE`, `LEANHARBOR_TOKEN_ORACLE` and `LEANHARBOR_JSON_ORACLE`; the Makefile
+  sets them. `testdata/sql-statements.txt` comes from `python3 tools/gen-statements.py 3000`,
+  `testdata/token-cases.txt` from `python3 tools/gen-tokens.py 3000` and
+  `testdata/json-cases.txt` from `python3 tools/gen-json.py 3000`; their line formats are
+  described in `lean/SqlOracle.lean`, `lean/TokenOracle.lean` and `lean/JsonOracle.lean`.
 - A spec in a proofs module calls no generated function, so that `#assay` does not break it along
   with the function (`kindOf` in `Leanharbor.Sql.Proofs` beside the generated `valKind`).
 - The servers read `LEANHARBOR_SECRET` and `LEANHARBOR_LISTEN`; `LEANHARBOR_ISSUE=<org>:<user>`
