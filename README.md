@@ -94,7 +94,21 @@ Proved in Lean, about the definitions that are generated and run:
     every value of the same kinds;
   - `render_spec`, `valid_iff`, `compile_spec`, `select_spec`, `create_spec`, `plan_spec`: the
     generated functions equal definitions written another way (the text as lists of characters,
-    the schema checks as propositions).
+    the schema checks as propositions);
+- for the token functions `Leanharbor.Token` (`encodePayload`, `join`, `parse`), which the three
+  servers call to issue and to read every bearer token:
+  - `parse_join`: parsing the token that `join` makes of `encodePayload t u e` and any signature
+    gives back `t`, `u`, `e`, that payload and that signature;
+  - `parse_sound`, `parse_canon`: a token that `parse` accepts is `join` of its payload and its
+    signature, and the payload is `encodePayload` of the tenant, the user and the expiry that
+    `parse` returns. So a token has one spelling (no leading zero, sign, uppercase hexadecimal or
+    other version is accepted), and the bytes the shell checks the signature over are the bytes
+    before the last dot;
+  - `encodePayload_injective`: a payload determines the tenant, the user and the expiry, so a
+    signature over it binds one reading;
+  - `splitDot_spec`, `hexValue_spec`, `join_spec`, `value_decimal`, `number_decimal` and the
+    others in `Leanharbor.Token.Proofs`: the generated helpers equal definitions written another
+    way, or read back what they write.
 
 Checked by `make check`, not proved:
 
@@ -104,13 +118,18 @@ Checked by `make check`, not proved:
   input tried, 30 do not compile, and none satisfies every theorem while changing an output. The
   same check breaks the 26 functions of the SQL compiler in 285 ways: 241 are rejected, 6 behave
   the same on every input tried, 38 do not compile, and none satisfies every theorem while
-  changing an output.
+  changing an output. The 11 functions of the token format are broken in 189 ways: 173 are
+  rejected, 2 behave the same on every input tried, 14 do not compile, and none satisfies every
+  theorem while changing an output.
 - **The generated code computes what Lean computes.** 5,000 commands (698 refusals, values up
   to 2^64 − 1) run through the generated Rust, the generated Python and the generated Go give the
   same output as the kernel compiled natively by Lean. 3,024 lines of schemas and statements
   (1,189 compiled statements, 1,481 refused ones, names with `"`, non-ASCII and NUL, values up to
   the bounds of 64 bits) give the same SQL text and parameters in the generated Rust, Python and
-  Go as in the compiler compiled natively by Lean.
+  Go as in the compiler compiled natively by Lean. 3,000 token lines (985 issued tokens, 845
+  accepted and 1,170 rejected ones: edited bytes, leading zeros, signs, numbers of 2^64 and more,
+  uppercase hexadecimal, missing and extra fields) give the same fields and bytes in the generated
+  Rust, Python and Go as in the token functions compiled natively by Lean.
 - **The code that runs is generated from the proved source.** The build regenerates the three
   targets and fails on a difference from the committed files.
 - **No extra axioms.** Every theorem depends only on `propext`, `Classical.choice` and
@@ -123,11 +142,11 @@ holds for each of them:
 |---|---|
 | Translation | leanfran's Rust, Python and Go backends and their runtimes, rustc, CPython, the Go compiler, Lean's kernel |
 | Engine | the memory engine: one command at a time per process, under one lock; replies stored per idempotency key |
-| Authentication | the token format and its parser, HMAC-SHA256, the secret and its storage, the system clock |
+| Authentication | HMAC-SHA256 and the constant-time comparison of tags, the secret and its storage, the system clock and the expiry check, reading the token from the `Authorization` header |
 | Wire format | JSON decoding of commands and encoding of replies and refusals (`Api`) |
 | HTTP | axum, hyper and tokio (Rust); `http.server` (Python); `net/http` (Go) |
 | SQL | that PostgreSQL reads the text as `lexName_quote`'s lexer reads a quoted name; what each statement does to the tables, which no theorem states yet |
-| Specification | that `specStep` and the statements above say what a calculator should do; that `Valid`, `Accepts`, `sqlOf` and `renderSpec` say what the SQL compiler should do |
+| Specification | that `specStep` and the statements above say what a calculator should do; that `Valid`, `Accepts`, `sqlOf` and `renderSpec` say what the SQL compiler should do; that `v1.<tenant>.<user>.<expiry>.<hex>` with the signature over the bytes before the last dot is the token a client should send |
 
 State lives in the server's memory and is lost on restart. PostgreSQL storage, the model of
 PostgreSQL that `compile` is proved against, tenant isolation over that model, and proved
@@ -229,16 +248,16 @@ of them refused, and checks that the snapshot still has one reference (`IsExclus
 
 | Path | Contents |
 |---|---|
-| [`lean/`](lean) | the Lake package: `Leanharbor` (the kernel contract, the SQL compiler and its proofs), `Calculator` (kernel and proofs), `calculator-oracle` and `sql-oracle` (the kernel and the SQL compiler as native programs) |
+| [`lean/`](lean) | the Lake package: `Leanharbor` (the kernel contract, the SQL compiler, the token format and their proofs), `Calculator` (kernel and proofs), `calculator-oracle`, `sql-oracle` and `token-oracle` (the kernel, the SQL compiler and the token format as native programs) |
 | [`audit/`](audit) | the leanassay audit and the axiom check |
-| [`rust/leanharbor`](rust/leanharbor) | the Rust shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler (`src/generated/`) |
+| [`rust/leanharbor`](rust/leanharbor) | the Rust shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler and token format (`src/generated/`) |
 | [`rust/calculator`](rust/calculator) | the generated kernel (`src/generated/`), the server, the benchmark, the differential test |
-| [`python/`](python) | the Python shell (`leanharbor`, with the generated `sql.py`) and the calculator (`leanharbor_calculator`, with the generated `kernel.py`) |
-| [`go/leanharbor`](go/leanharbor) | the Go shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler (`sql/`) |
+| [`python/`](python) | the Python shell (`leanharbor`, with the generated `sql.py` and `token_format.py`) and the calculator (`leanharbor_calculator`, with the generated `kernel.py`) |
+| [`go/leanharbor`](go/leanharbor) | the Go shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler (`sql/`) and token format (`token/`) |
 | [`go/calculator`](go/calculator) | the generated kernel (`kernel/`), the server and the benchmark (`cmd/`), the differential test |
 | [`bench/`](bench) | servers without a kernel (axum, actix-web, `net/http`, gin, FastAPI, Flask) for the HTTP comparison |
 | [`docs/`](docs) | the measured runs (`speed.json`) and the charts drawn from them |
-| [`testdata/`](testdata) | the command list (`tools/gen-commands.py`) and the statement list (`tools/gen-statements.py`) of the differential tests |
+| [`testdata/`](testdata) | the command list (`tools/gen-commands.py`), the statement list (`tools/gen-statements.py`) and the token list (`tools/gen-tokens.py`) of the differential tests |
 
 ## Development
 
