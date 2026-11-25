@@ -1000,179 +1000,68 @@ from annotated_types import Ge, Gt, Le, Lt, MaxLen, MinLen  # noqa: E402
 from leanfran import marshal as _m  # noqa: E402
 from leanfran.marshal import Err, Lean, Local, Ok  # noqa: E402
 from leanfran.types import Char, Int8, Int16, Int32, Int64, Nat, UInt8, UInt16, UInt32, UInt64  # noqa: E402
+import leanharbor_notes.kernel as _ext0  # noqa: E402
+import leanharbor.sql as _ext1  # noqa: E402
 
 
-class Notes_Kernel_Member(_m.LeanModel):
-    "Lean `Notes.Kernel.Member`."
-    user: "UInt64"
-    admin: "bool"
 
 
-Notes_Kernel_Member.__lean__ = _m.StructInfo(Notes_Kernel_Member, _m.CtorInfo("mk", 0, 0, False, [_m.FieldInfo("user", _m.Scalar(0), _m.UIntD(64)), _m.FieldInfo("admin", _m.Scalar(8), _m.BOOL)], [], False), trivial=False)
 
 
-class Leanharbor_Sql_Val(_m.LeanInductive):
-    "Lean `Leanharbor.Sql.Val`."
-
-class Leanharbor_Sql_Val_int(_m.LeanModel, Leanharbor_Sql_Val):
-    v: "Int64"
 
 
-class Leanharbor_Sql_Val_bool(_m.LeanModel, Leanharbor_Sql_Val):
-    v: "bool"
 
 
-class Leanharbor_Sql_Val_text(_m.LeanModel, Leanharbor_Sql_Val):
-    v: "str"
 
 
-class Leanharbor_Sql_Val_bytes(_m.LeanModel, Leanharbor_Sql_Val):
-    v: "list[UInt8]"
 
 
-class Leanharbor_Sql_Val_null(_m.LeanModel, Leanharbor_Sql_Val):
-    pass
 
 
-_m.register_inductive(Leanharbor_Sql_Val, [(Leanharbor_Sql_Val_int, _m.CtorInfo("int", 0, 0, False, [_m.FieldInfo("v", _m.Scalar(0), _m.SIntD(64))], [], False)), (Leanharbor_Sql_Val_bool, _m.CtorInfo("bool", 1, 0, False, [_m.FieldInfo("v", _m.Scalar(0), _m.BOOL)], [], False)), (Leanharbor_Sql_Val_text, _m.CtorInfo("text", 2, 1, False, [_m.FieldInfo("v", _m.Obj(0), _m.STRING)], [], False)), (Leanharbor_Sql_Val_bytes, _m.CtorInfo("bytes", 3, 1, False, [_m.FieldInfo("v", _m.Obj(0), _m.ArrayD(_m.UIntD(8)))], [], False)), (Leanharbor_Sql_Val_null, _m.CtorInfo("null", 4, 0, True, [], [], False))])
 
 
-class Notes_Kernel_Note(_m.LeanModel):
-    "Lean `Notes.Kernel.Note`."
-    id: "UInt64"
-    owner: "UInt64"
-    shared: "bool"
-    body: "str"
 
 
-Notes_Kernel_Note.__lean__ = _m.StructInfo(Notes_Kernel_Note, _m.CtorInfo("mk", 0, 1, False, [_m.FieldInfo("id", _m.Scalar(8), _m.UIntD(64)), _m.FieldInfo("owner", _m.Scalar(16), _m.UIntD(64)), _m.FieldInfo("shared", _m.Scalar(24), _m.BOOL), _m.FieldInfo("body", _m.Obj(0), _m.STRING)], [], False), trivial=False)
+_D0 = _m.NamedD(globals(), "_ext0.Member")
+_D1 = _m.LeanType(_D0, "_ext0.Member")
+_D2 = _m.ListD(_m.NamedD(globals(), "_ext1.Val"))
+_D3 = _m.LeanType(_D2, "list[_ext1.Val]")
+_D4 = _m.ListD(_m.NamedD(globals(), "_ext0.Write"))
+_D5 = _m.LeanType(_D4, "list[_ext0.Write]")
+_D6 = _m.ListD(_m.NamedD(globals(), "_ext1.Write"))
+_D7 = _m.LeanType(_D6, "list[_ext1.Write]")
+_D8 = _m.ListD(_m.NamedD(globals(), "_ext1.Tab"))
+_D9 = _m.LeanType(_D8, "list[_ext1.Tab]")
+_D10 = _m.NamedD(globals(), "_ext0.Note")
+_D11 = _m.LeanType(_D10, "_ext0.Note")
+_D12 = _m.ListD(_m.ListD(_m.ListD(_m.NamedD(globals(), "_ext1.Val"))))
+_D13 = _m.LeanType(_D12, "list[list[list[_ext1.Val]]]")
+_D14 = _m.OptionD(_m.NamedD(globals(), "_ext0.Snapshot"))
+_D15 = _m.LeanType(_D14, "_ext0.Snapshot | None")
+_D16 = _m.OptionD(_m.NamedD(globals(), "_ext0.Member"))
+_D17 = _m.LeanType(_D16, "_ext0.Member | None")
+_D18 = _m.OptionD(_m.NamedD(globals(), "_ext0.Note"))
+_D19 = _m.LeanType(_D18, "_ext0.Note | None")
+_D20 = _m.NamedD(globals(), "_ext0.Write")
+_D21 = _m.LeanType(_D20, "_ext0.Write")
+_D22 = _m.NamedD(globals(), "_ext1.Write")
+_D23 = _m.LeanType(_D22, "_ext1.Write")
 
 
-class Notes_Kernel_Write(_m.LeanInductive):
-    "Lean `Notes.Kernel.Write`."
-
-class Notes_Kernel_Write_putMember(_m.LeanModel, Notes_Kernel_Write):
-    m: "Notes_Kernel_Member"
-
-
-class Notes_Kernel_Write_delMember(_m.LeanModel, Notes_Kernel_Write):
-    user: "UInt64"
-
-
-class Notes_Kernel_Write_putNote(_m.LeanModel, Notes_Kernel_Write):
-    n: "Notes_Kernel_Note"
-
-
-class Notes_Kernel_Write_delNote(_m.LeanModel, Notes_Kernel_Write):
-    id: "UInt64"
-
-
-_m.register_inductive(Notes_Kernel_Write, [(Notes_Kernel_Write_putMember, _m.CtorInfo("putMember", 0, 1, False, [_m.FieldInfo("m", _m.Obj(0), _m.NamedD(globals(), "Notes_Kernel_Member"))], [], False)), (Notes_Kernel_Write_delMember, _m.CtorInfo("delMember", 1, 0, False, [_m.FieldInfo("user", _m.Scalar(0), _m.UIntD(64))], [], False)), (Notes_Kernel_Write_putNote, _m.CtorInfo("putNote", 2, 1, False, [_m.FieldInfo("n", _m.Obj(0), _m.NamedD(globals(), "Notes_Kernel_Note"))], [], False)), (Notes_Kernel_Write_delNote, _m.CtorInfo("delNote", 3, 0, False, [_m.FieldInfo("id", _m.Scalar(0), _m.UIntD(64))], [], False))])
-
-
-class Leanharbor_Sql_Write(_m.LeanInductive):
-    "Lean `Leanharbor.Sql.Write`."
-
-class Leanharbor_Sql_Write_put(_m.LeanModel, Leanharbor_Sql_Write):
-    table: "Nat"
-    keyLen: "Nat"
-    row: "list[Leanharbor_Sql_Val]"
-
-
-class Leanharbor_Sql_Write_del_(_m.LeanModel, Leanharbor_Sql_Write):
-    table: "Nat"
-    key: "list[Leanharbor_Sql_Val]"
-
-
-class Leanharbor_Sql_Write_delWhere(_m.LeanModel, Leanharbor_Sql_Write):
-    table: "Nat"
-    col: "Nat"
-    val: "Leanharbor_Sql_Val"
-
-
-_m.register_inductive(Leanharbor_Sql_Write, [(Leanharbor_Sql_Write_put, _m.CtorInfo("put", 0, 3, False, [_m.FieldInfo("table", _m.Obj(0), _m.NAT), _m.FieldInfo("keyLen", _m.Obj(1), _m.NAT), _m.FieldInfo("row", _m.Obj(2), _m.ListD(_m.NamedD(globals(), "Leanharbor_Sql_Val")))], [], False)), (Leanharbor_Sql_Write_del_, _m.CtorInfo("del", 1, 2, False, [_m.FieldInfo("table", _m.Obj(0), _m.NAT), _m.FieldInfo("key", _m.Obj(1), _m.ListD(_m.NamedD(globals(), "Leanharbor_Sql_Val")))], [], False)), (Leanharbor_Sql_Write_delWhere, _m.CtorInfo("delWhere", 2, 3, False, [_m.FieldInfo("table", _m.Obj(0), _m.NAT), _m.FieldInfo("col", _m.Obj(1), _m.NAT), _m.FieldInfo("val", _m.Obj(2), _m.NamedD(globals(), "Leanharbor_Sql_Val"))], [], False))])
-
-
-class Leanharbor_Sql_Kind(_m.LeanEnum):
-    "Lean `Leanharbor.Sql.Kind`."
-    int = "int"
-    bool = "bool"
-    text = "text"
-    bytes = "bytes"
-
-
-Leanharbor_Sql_Kind.__lean__ = _m.EnumInfo(Leanharbor_Sql_Kind, plain=False)
-
-
-class Leanharbor_Sql_Col(_m.LeanModel):
-    "Lean `Leanharbor.Sql.Col`."
-    name: "str"
-    kind: "Leanharbor_Sql_Kind"
-    nullable: "bool"
-
-
-Leanharbor_Sql_Col.__lean__ = _m.StructInfo(Leanharbor_Sql_Col, _m.CtorInfo("mk", 0, 1, False, [_m.FieldInfo("name", _m.Obj(0), _m.STRING), _m.FieldInfo("kind", _m.Scalar(8), _m.NamedD(globals(), "Leanharbor_Sql_Kind")), _m.FieldInfo("nullable", _m.Scalar(9), _m.BOOL)], [], False), trivial=False)
-
-
-class Leanharbor_Sql_Tab(_m.LeanModel):
-    "Lean `Leanharbor.Sql.Tab`."
-    name: "str"
-    cols: "list[Leanharbor_Sql_Col]"
-    kl: "Nat"
-
-
-Leanharbor_Sql_Tab.__lean__ = _m.StructInfo(Leanharbor_Sql_Tab, _m.CtorInfo("mk", 0, 3, False, [_m.FieldInfo("name", _m.Obj(0), _m.STRING), _m.FieldInfo("cols", _m.Obj(1), _m.ListD(_m.NamedD(globals(), "Leanharbor_Sql_Col"))), _m.FieldInfo("kl", _m.Obj(2), _m.NAT)], [], False), trivial=False)
-
-
-class Notes_Kernel_Snapshot(_m.LeanModel):
-    "Lean `Notes.Kernel.Snapshot`."
-    members: "list[Notes_Kernel_Member]"
-    notes: "list[Notes_Kernel_Note]"
-
-
-Notes_Kernel_Snapshot.__lean__ = _m.StructInfo(Notes_Kernel_Snapshot, _m.CtorInfo("mk", 0, 2, False, [_m.FieldInfo("members", _m.Obj(0), _m.ListD(_m.NamedD(globals(), "Notes_Kernel_Member"))), _m.FieldInfo("notes", _m.Obj(1), _m.ListD(_m.NamedD(globals(), "Notes_Kernel_Note")))], [], False), trivial=False)
-
-
-_D0 = _m.NamedD(globals(), "Notes_Kernel_Member")
-_D1 = _m.LeanType(_D0, "Notes_Kernel_Member")
-_D2 = _m.ListD(_m.NamedD(globals(), "Leanharbor_Sql_Val"))
-_D3 = _m.LeanType(_D2, "list[Leanharbor_Sql_Val]")
-_D4 = _m.ListD(_m.NamedD(globals(), "Notes_Kernel_Write"))
-_D5 = _m.LeanType(_D4, "list[Notes_Kernel_Write]")
-_D6 = _m.ListD(_m.NamedD(globals(), "Leanharbor_Sql_Write"))
-_D7 = _m.LeanType(_D6, "list[Leanharbor_Sql_Write]")
-_D8 = _m.ListD(_m.NamedD(globals(), "Leanharbor_Sql_Tab"))
-_D9 = _m.LeanType(_D8, "list[Leanharbor_Sql_Tab]")
-_D10 = _m.NamedD(globals(), "Notes_Kernel_Note")
-_D11 = _m.LeanType(_D10, "Notes_Kernel_Note")
-_D12 = _m.ListD(_m.ListD(_m.ListD(_m.NamedD(globals(), "Leanharbor_Sql_Val"))))
-_D13 = _m.LeanType(_D12, "list[list[list[Leanharbor_Sql_Val]]]")
-_D14 = _m.OptionD(_m.NamedD(globals(), "Notes_Kernel_Snapshot"))
-_D15 = _m.LeanType(_D14, "Notes_Kernel_Snapshot | None")
-_D16 = _m.OptionD(_m.NamedD(globals(), "Notes_Kernel_Member"))
-_D17 = _m.LeanType(_D16, "Notes_Kernel_Member | None")
-_D18 = _m.OptionD(_m.NamedD(globals(), "Notes_Kernel_Note"))
-_D19 = _m.LeanType(_D18, "Notes_Kernel_Note | None")
-_D20 = _m.NamedD(globals(), "Notes_Kernel_Write")
-_D21 = _m.LeanType(_D20, "Notes_Kernel_Write")
-_D22 = _m.NamedD(globals(), "Leanharbor_Sql_Write")
-_D23 = _m.LeanType(_D22, "Leanharbor_Sql_Write")
-
-
-def _pub_memberRow(m: "Notes_Kernel_Member") -> "list[Leanharbor_Sql_Val]":
+def _pub_memberRow(m: "_ext0.Member") -> "list[_ext1.Val]":
     "Lean `Notes.Store.memberRow`."
     __a0 = _m.to_lean(_D0, m, "m")
     return _m.to_py(_D2, l_Notes_Store_memberRow(__a0))
 
 
-def _pub_memberRow__lean(m: "Notes_Kernel_Member | Lean[Notes_Kernel_Member]") -> "Lean[list[Leanharbor_Sql_Val]]":
+def _pub_memberRow__lean(m: "_ext0.Member | Lean[_ext0.Member]") -> "Lean[list[_ext1.Val]]":
     "Lean `Notes.Store.memberRow`, on handles."
     __a0 = _m.lean_arg(_D1, m, "m")
     _m.give(m)
     return _m.handle(_D3, l_Notes_Store_memberRow(__a0))
 
 
-def _pub_memberRow__local(m: "Notes_Kernel_Member | Lean[Notes_Kernel_Member] | Local[Notes_Kernel_Member]") -> "Local[list[Leanharbor_Sql_Val]]":
+def _pub_memberRow__local(m: "_ext0.Member | Lean[_ext0.Member] | Local[_ext0.Member]") -> "Local[list[_ext1.Val]]":
     "Lean `Notes.Store.memberRow`, on local handles."
     __a0 = _m.local_arg(_D1, m, "m", False)
     _m.give(m)
@@ -1182,20 +1071,20 @@ def _pub_memberRow__local(m: "Notes_Kernel_Member | Lean[Notes_Kernel_Member] | 
 
 
 _m.attach(globals(), ["memberRow"], _pub_memberRow, "Notes.Store.memberRow", _pub_memberRow__lean, {"m": _D1}, _D3, _pub_memberRow__local)
-def _pub_writes(ws: "list[Notes_Kernel_Write]") -> "list[Leanharbor_Sql_Write]":
+def _pub_writes(ws: "list[_ext0.Write]") -> "list[_ext1.Write]":
     "Lean `Notes.Store.writes`."
     __a0 = _m.to_lean(_D4, ws, "ws")
     return _m.to_py(_D6, l_Notes_Store_writes(__a0))
 
 
-def _pub_writes__lean(ws: "list[Notes_Kernel_Write] | Lean[list[Notes_Kernel_Write]]") -> "Lean[list[Leanharbor_Sql_Write]]":
+def _pub_writes__lean(ws: "list[_ext0.Write] | Lean[list[_ext0.Write]]") -> "Lean[list[_ext1.Write]]":
     "Lean `Notes.Store.writes`, on handles."
     __a0 = _m.lean_arg(_D5, ws, "ws")
     _m.give(ws)
     return _m.handle(_D7, l_Notes_Store_writes(__a0))
 
 
-def _pub_writes__local(ws: "list[Notes_Kernel_Write] | Lean[list[Notes_Kernel_Write]] | Local[list[Notes_Kernel_Write]]") -> "Local[list[Leanharbor_Sql_Write]]":
+def _pub_writes__local(ws: "list[_ext0.Write] | Lean[list[_ext0.Write]] | Local[list[_ext0.Write]]") -> "Local[list[_ext1.Write]]":
     "Lean `Notes.Store.writes`, on local handles."
     __a0 = _m.local_arg(_D5, ws, "ws", True)
     _m.give(ws)
@@ -1203,36 +1092,36 @@ def _pub_writes__local(ws: "list[Notes_Kernel_Write] | Lean[list[Notes_Kernel_Wr
 
 
 _m.attach(globals(), ["writes"], _pub_writes, "Notes.Store.writes", _pub_writes__lean, {"ws": _D5}, _D7, _pub_writes__local)
-def _pub_tables() -> "list[Leanharbor_Sql_Tab]":
+def _pub_tables() -> "list[_ext1.Tab]":
     "Lean `Notes.Store.tables`."
     return _m.to_py(_D8, l_Notes_Store_tables())
 
 
-def _pub_tables__lean() -> "Lean[list[Leanharbor_Sql_Tab]]":
+def _pub_tables__lean() -> "Lean[list[_ext1.Tab]]":
     "Lean `Notes.Store.tables`, on handles."
     return _m.handle(_D9, l_Notes_Store_tables())
 
 
-def _pub_tables__local() -> "Local[list[Leanharbor_Sql_Tab]]":
+def _pub_tables__local() -> "Local[list[_ext1.Tab]]":
     "Lean `Notes.Store.tables`, on local handles."
     return _m.local_handle(_D9, l_Notes_Store_tables())
 
 
 _m.attach(globals(), ["tables"], _pub_tables, "Notes.Store.tables", _pub_tables__lean, {}, _D9, _pub_tables__local)
-def _pub_noteRow(n: "Notes_Kernel_Note") -> "list[Leanharbor_Sql_Val]":
+def _pub_noteRow(n: "_ext0.Note") -> "list[_ext1.Val]":
     "Lean `Notes.Store.noteRow`."
     __a0 = _m.to_lean(_D10, n, "n")
     return _m.to_py(_D2, l_Notes_Store_noteRow(__a0))
 
 
-def _pub_noteRow__lean(n: "Notes_Kernel_Note | Lean[Notes_Kernel_Note]") -> "Lean[list[Leanharbor_Sql_Val]]":
+def _pub_noteRow__lean(n: "_ext0.Note | Lean[_ext0.Note]") -> "Lean[list[_ext1.Val]]":
     "Lean `Notes.Store.noteRow`, on handles."
     __a0 = _m.lean_arg(_D11, n, "n")
     _m.give(n)
     return _m.handle(_D3, l_Notes_Store_noteRow(__a0))
 
 
-def _pub_noteRow__local(n: "Notes_Kernel_Note | Lean[Notes_Kernel_Note] | Local[Notes_Kernel_Note]") -> "Local[list[Leanharbor_Sql_Val]]":
+def _pub_noteRow__local(n: "_ext0.Note | Lean[_ext0.Note] | Local[_ext0.Note]") -> "Local[list[_ext1.Val]]":
     "Lean `Notes.Store.noteRow`, on local handles."
     __a0 = _m.local_arg(_D11, n, "n", False)
     _m.give(n)
@@ -1242,20 +1131,20 @@ def _pub_noteRow__local(n: "Notes_Kernel_Note | Lean[Notes_Kernel_Note] | Local[
 
 
 _m.attach(globals(), ["noteRow"], _pub_noteRow, "Notes.Store.noteRow", _pub_noteRow__lean, {"n": _D11}, _D3, _pub_noteRow__local)
-def _pub_load(arg0: "list[list[list[Leanharbor_Sql_Val]]]") -> "Notes_Kernel_Snapshot | None":
+def _pub_load(arg0: "list[list[list[_ext1.Val]]]") -> "_ext0.Snapshot | None":
     "Lean `Notes.Store.load`."
     __a0 = _m.to_lean(_D12, arg0, "arg0")
     return _m.to_py(_D14, l_Notes_Store_load(__a0))
 
 
-def _pub_load__lean(arg0: "list[list[list[Leanharbor_Sql_Val]]] | Lean[list[list[list[Leanharbor_Sql_Val]]]]") -> "Lean[Notes_Kernel_Snapshot | None]":
+def _pub_load__lean(arg0: "list[list[list[_ext1.Val]]] | Lean[list[list[list[_ext1.Val]]]]") -> "Lean[_ext0.Snapshot | None]":
     "Lean `Notes.Store.load`, on handles."
     __a0 = _m.lean_arg(_D13, arg0, "arg0")
     _m.give(arg0)
     return _m.handle(_D15, l_Notes_Store_load(__a0))
 
 
-def _pub_load__local(arg0: "list[list[list[Leanharbor_Sql_Val]]] | Lean[list[list[list[Leanharbor_Sql_Val]]]] | Local[list[list[list[Leanharbor_Sql_Val]]]]") -> "Local[Notes_Kernel_Snapshot | None]":
+def _pub_load__local(arg0: "list[list[list[_ext1.Val]]] | Lean[list[list[list[_ext1.Val]]]] | Local[list[list[list[_ext1.Val]]]]") -> "Local[_ext0.Snapshot | None]":
     "Lean `Notes.Store.load`, on local handles."
     __a0 = _m.local_arg(_D13, arg0, "arg0", True)
     _m.give(arg0)
@@ -1263,20 +1152,20 @@ def _pub_load__local(arg0: "list[list[list[Leanharbor_Sql_Val]]] | Lean[list[lis
 
 
 _m.attach(globals(), ["load"], _pub_load, "Notes.Store.load", _pub_load__lean, {"arg0": _D13}, _D15, _pub_load__local)
-def _pub_memberOfRow(arg0: "list[Leanharbor_Sql_Val]") -> "Notes_Kernel_Member | None":
+def _pub_memberOfRow(arg0: "list[_ext1.Val]") -> "_ext0.Member | None":
     "Lean `Notes.Store.memberOfRow`."
     __a0 = _m.to_lean(_D2, arg0, "arg0")
     return _m.to_py(_D16, l_Notes_Store_memberOfRow(__a0))
 
 
-def _pub_memberOfRow__lean(arg0: "list[Leanharbor_Sql_Val] | Lean[list[Leanharbor_Sql_Val]]") -> "Lean[Notes_Kernel_Member | None]":
+def _pub_memberOfRow__lean(arg0: "list[_ext1.Val] | Lean[list[_ext1.Val]]") -> "Lean[_ext0.Member | None]":
     "Lean `Notes.Store.memberOfRow`, on handles."
     __a0 = _m.lean_arg(_D3, arg0, "arg0")
     _m.give(arg0)
     return _m.handle(_D17, l_Notes_Store_memberOfRow(__a0))
 
 
-def _pub_memberOfRow__local(arg0: "list[Leanharbor_Sql_Val] | Lean[list[Leanharbor_Sql_Val]] | Local[list[Leanharbor_Sql_Val]]") -> "Local[Notes_Kernel_Member | None]":
+def _pub_memberOfRow__local(arg0: "list[_ext1.Val] | Lean[list[_ext1.Val]] | Local[list[_ext1.Val]]") -> "Local[_ext0.Member | None]":
     "Lean `Notes.Store.memberOfRow`, on local handles."
     __a0 = _m.local_arg(_D3, arg0, "arg0", False)
     _m.give(arg0)
@@ -1286,20 +1175,20 @@ def _pub_memberOfRow__local(arg0: "list[Leanharbor_Sql_Val] | Lean[list[Leanharb
 
 
 _m.attach(globals(), ["memberOfRow"], _pub_memberOfRow, "Notes.Store.memberOfRow", _pub_memberOfRow__lean, {"arg0": _D3}, _D17, _pub_memberOfRow__local)
-def _pub_noteOfRow(arg0: "list[Leanharbor_Sql_Val]") -> "Notes_Kernel_Note | None":
+def _pub_noteOfRow(arg0: "list[_ext1.Val]") -> "_ext0.Note | None":
     "Lean `Notes.Store.noteOfRow`."
     __a0 = _m.to_lean(_D2, arg0, "arg0")
     return _m.to_py(_D18, l_Notes_Store_noteOfRow(__a0))
 
 
-def _pub_noteOfRow__lean(arg0: "list[Leanharbor_Sql_Val] | Lean[list[Leanharbor_Sql_Val]]") -> "Lean[Notes_Kernel_Note | None]":
+def _pub_noteOfRow__lean(arg0: "list[_ext1.Val] | Lean[list[_ext1.Val]]") -> "Lean[_ext0.Note | None]":
     "Lean `Notes.Store.noteOfRow`, on handles."
     __a0 = _m.lean_arg(_D3, arg0, "arg0")
     _m.give(arg0)
     return _m.handle(_D19, l_Notes_Store_noteOfRow(__a0))
 
 
-def _pub_noteOfRow__local(arg0: "list[Leanharbor_Sql_Val] | Lean[list[Leanharbor_Sql_Val]] | Local[list[Leanharbor_Sql_Val]]") -> "Local[Notes_Kernel_Note | None]":
+def _pub_noteOfRow__local(arg0: "list[_ext1.Val] | Lean[list[_ext1.Val]] | Local[list[_ext1.Val]]") -> "Local[_ext0.Note | None]":
     "Lean `Notes.Store.noteOfRow`, on local handles."
     __a0 = _m.local_arg(_D3, arg0, "arg0", True)
     _m.give(arg0)
@@ -1307,20 +1196,20 @@ def _pub_noteOfRow__local(arg0: "list[Leanharbor_Sql_Val] | Lean[list[Leanharbor
 
 
 _m.attach(globals(), ["noteOfRow"], _pub_noteOfRow, "Notes.Store.noteOfRow", _pub_noteOfRow__lean, {"arg0": _D3}, _D19, _pub_noteOfRow__local)
-def _pub_write(arg0: "Notes_Kernel_Write") -> "Leanharbor_Sql_Write":
+def _pub_write(arg0: "_ext0.Write") -> "_ext1.Write":
     "Lean `Notes.Store.write`."
     __a0 = _m.to_lean(_D20, arg0, "arg0")
     return _m.to_py(_D22, l_Notes_Store_write(__a0))
 
 
-def _pub_write__lean(arg0: "Notes_Kernel_Write | Lean[Notes_Kernel_Write]") -> "Lean[Leanharbor_Sql_Write]":
+def _pub_write__lean(arg0: "_ext0.Write | Lean[_ext0.Write]") -> "Lean[_ext1.Write]":
     "Lean `Notes.Store.write`, on handles."
     __a0 = _m.lean_arg(_D21, arg0, "arg0")
     _m.give(arg0)
     return _m.handle(_D23, l_Notes_Store_write(__a0))
 
 
-def _pub_write__local(arg0: "Notes_Kernel_Write | Lean[Notes_Kernel_Write] | Local[Notes_Kernel_Write]") -> "Local[Leanharbor_Sql_Write]":
+def _pub_write__local(arg0: "_ext0.Write | Lean[_ext0.Write] | Local[_ext0.Write]") -> "Local[_ext1.Write]":
     "Lean `Notes.Store.write`, on local handles."
     __a0 = _m.local_arg(_D21, arg0, "arg0", True)
     _m.give(arg0)

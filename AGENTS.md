@@ -64,7 +64,8 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   `--type-module Calculator.Kernel=leanharbor_calculator.kernel Leanharbor.Sql=leanharbor.sql`, so
   that `load` returns the kernel's `Snapshot` that `transition` takes and `writes` takes the
   write set `transition` returns. `leanharbor_calculator.STORAGE` fills a `leanharbor.Storage`
-  with it.
+  with it. The Python notes' tables are generated the same way, with
+  `Notes.Kernel=leanharbor_notes.kernel`.
 
 ## Lean and the host languages
 

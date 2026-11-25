@@ -62,7 +62,7 @@ generate: lean
 	leanfran-python module generate --module-name Notes.Kernel --search-path lean/.lake/build/lib/lean --output-file python/src/leanharbor_notes/kernel.py --output text
 	leanfran-go module generate --module-name Notes.Kernel --search-path lean/.lake/build/lib/lean --output-dir go/notes/kernel --output text
 	leanfran module generate --module-name Notes.Store --search-path lean/.lake/build/lib/lean --type-path Notes.Kernel=crate::generated::notes_kernel Leanharbor.Sql=::leanharbor::sql --output-file rust/notes/src/generated/notes_store.rs --output text
-	leanfran-python module generate --module-name Notes.Store --search-path lean/.lake/build/lib/lean --output-file python/src/leanharbor_notes/store.py --output text
+	leanfran-python module generate --module-name Notes.Store --search-path lean/.lake/build/lib/lean --type-module Notes.Kernel=leanharbor_notes.kernel Leanharbor.Sql=leanharbor.sql --output-file python/src/leanharbor_notes/store.py --output text
 	leanfran-go module generate --module-name Notes.Store --search-path lean/.lake/build/lib/lean --output-dir go/notes/store --output text
 
 .PHONY: generated-check
