@@ -376,10 +376,10 @@ Checked by `make check`, not proved:
   calculator, it breaks `transition`, `apply`, `compute` and the three functions of the trie in
   167 ways: 132 are rejected, 5 behave the same on every input tried, 30 do not compile, and none
   satisfies every theorem while changing an output. The same holds for the 26 functions of the SQL
-  compiler (285 ways: 241 rejected, 6 behave the same, 38 do not compile), the 11 functions of
-  the token format (189 ways: 173 rejected, 2 behave the same, 14 do not compile), the 7
-  functions of the JSON writer (243 ways: 217 rejected, 26 do not compile), the 5 functions that
-  make the calculator's bodies (102 ways, all rejected) and the 6 functions of the calculator's
+  compiler (285 ways: 241 rejected, 6 behave the same, 38 do not compile), the 20 functions of
+  the token format (453 ways: 355 rejected, 47 behave the same, 51 do not compile), the 15
+  functions of the JSON writer (524 ways: 454 rejected, 6 behave the same, 64 do not compile), the
+  8 functions that make the calculator's bodies (111 ways, all rejected) and the 6 functions of the calculator's
   table (25 ways: 20 rejected, 5 do not compile). For the guard, it
   breaks `guard`, `guardViewed` and the four checks in 28 ways and runs `guard_eq`,
   `guard_viewed_eq` and the lemmas about the checks on random kernels and policies: 22 are

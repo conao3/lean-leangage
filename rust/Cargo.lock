@@ -625,7 +625,7 @@ name = "leanharbor-calculator"
 version = "0.1.0"
 dependencies = [
  "axum",
- "hmac",
+ "hmac 0.12.1",
  "leanfran",
  "leanharbor",
  "leanharbor-notes",
