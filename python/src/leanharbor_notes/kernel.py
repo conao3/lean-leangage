@@ -18,10 +18,75 @@ from leanfran.runtime import (  # noqa: F401
     lean_py_extern,
     lean_nat_dec_le,
     lean_nat_dec_lt,
+    lean_string_data,
     lean_string_dec_eq,
     lean_string_utf8_byte_size,
+    lean_uint32_dec_eq,
     lean_uint64_dec_eq,
+    lean_uint64_dec_le,
 )
+
+def l_Notes_Kernel_insertNote(x_1, x_2):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_2)
+            if __t == 0:
+                x_3 = Ctor(1, [x_1, x_2])
+                return x_3
+            elif __t == 1:
+                x_4 = x_2.objs[0]
+                x_5 = x_2.objs[1]
+                x_6 = x_1.sc[8]
+                x_7 = x_4.sc[8]
+                x_8 = lean_uint64_dec_le(x_6, x_7)
+                __t = x_8
+                if __t == 0:
+                    lean_inc(x_5)
+                    lean_inc(x_4)
+                    x_16 = lean_is_shared(x_2)
+                    __t = x_16
+                    if __t == 0:
+                        x_17 = x_2.objs[1]
+                        lean_dec(x_17)
+                        x_18 = x_2.objs[0]
+                        lean_dec(x_18)
+                        x_10, x_11 = x_2, x_16
+                        __blk = 1
+                        continue
+                    elif __t == 1:
+                        lean_dec(x_2)
+                        x_10, x_11 = 0, x_16
+                        __blk = 1
+                        continue
+                    else:
+                        lean_internal_panic_unreachable()
+                elif __t == 1:
+                    x_19 = Ctor(1, [x_1, x_2])
+                    return x_19
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_12 = l_Notes_Kernel_insertNote(x_1, x_5)
+            __t = x_11
+            if __t == 0:
+                x_10.objs[1] = x_12
+                x_14 = x_10
+                __blk = 2
+                continue
+            elif __t == 1:
+                x_15 = Ctor(1, [x_4, x_12])
+                x_14 = x_15
+                __blk = 2
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 2:
+            return x_14
+        else:
+            lean_internal_panic_unreachable()
 
 def l_Notes_Kernel_readOnly(x_1):
     __t = lean_obj_tag(x_1)
@@ -37,6 +102,22 @@ def l_Notes_Kernel_readOnly(x_1):
     else:
         x_5 = 0
         return x_5
+
+def l_Notes_Kernel_sortNotes(x_1):
+    __t = lean_obj_tag(x_1)
+    if __t == 0:
+        return x_1
+    elif __t == 1:
+        x_2 = x_1.objs[0]
+        lean_inc(x_2)
+        x_3 = x_1.objs[1]
+        lean_inc(x_3)
+        lean_dec(x_1)
+        x_4 = l_Notes_Kernel_sortNotes(x_3)
+        x_5 = l_Notes_Kernel_insertNote(x_2, x_4)
+        return x_5
+    else:
+        lean_internal_panic_unreachable()
 
 def l_Notes_Kernel_isAdmin(x_1, x_2):
     x_3 = x_1.objs[0]
@@ -660,6 +741,84 @@ def l_Notes_Kernel_maxText():
         c.append(lean_mark_persistent(l_Notes_Kernel_maxText__init()))
     return c[0]
 
+def l_Notes_Kernel_sortMembers(x_1):
+    __t = lean_obj_tag(x_1)
+    if __t == 0:
+        return x_1
+    elif __t == 1:
+        x_2 = x_1.objs[0]
+        lean_inc(x_2)
+        x_3 = x_1.objs[1]
+        lean_inc(x_3)
+        lean_dec(x_1)
+        x_4 = l_Notes_Kernel_sortMembers(x_3)
+        x_5 = l_Notes_Kernel_insertMember(x_2, x_4)
+        return x_5
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Notes_Kernel_insertMember(x_1, x_2):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_2)
+            if __t == 0:
+                x_3 = Ctor(1, [x_1, x_2])
+                return x_3
+            elif __t == 1:
+                x_4 = x_2.objs[0]
+                x_5 = x_2.objs[1]
+                x_6 = x_1.sc[0]
+                x_7 = x_4.sc[0]
+                x_8 = lean_uint64_dec_le(x_6, x_7)
+                __t = x_8
+                if __t == 0:
+                    lean_inc(x_5)
+                    lean_inc(x_4)
+                    x_16 = lean_is_shared(x_2)
+                    __t = x_16
+                    if __t == 0:
+                        x_17 = x_2.objs[1]
+                        lean_dec(x_17)
+                        x_18 = x_2.objs[0]
+                        lean_dec(x_18)
+                        x_10, x_11 = x_2, x_16
+                        __blk = 1
+                        continue
+                    elif __t == 1:
+                        lean_dec(x_2)
+                        x_10, x_11 = 0, x_16
+                        __blk = 1
+                        continue
+                    else:
+                        lean_internal_panic_unreachable()
+                elif __t == 1:
+                    x_19 = Ctor(1, [x_1, x_2])
+                    return x_19
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_12 = l_Notes_Kernel_insertMember(x_1, x_5)
+            __t = x_11
+            if __t == 0:
+                x_10.objs[1] = x_12
+                x_14 = x_10
+                __blk = 2
+                continue
+            elif __t == 1:
+                x_15 = Ctor(1, [x_4, x_12])
+                x_14 = x_15
+                __blk = 2
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 2:
+            return x_14
+        else:
+            lean_internal_panic_unreachable()
+
 def l_Notes_Kernel_stored(x_1, x_2):
     __blk = 0
     while True:
@@ -1077,13 +1236,59 @@ def l_Notes_Kernel_textOk(x_1):
     x_4 = lean_nat_dec_lt(x_2, x_3)
     __t = x_4
     if __t == 0:
+        lean_dec(x_1)
         return x_4
     elif __t == 1:
         x_5 = 4096
         x_6 = lean_nat_dec_le(x_3, x_5)
-        return x_6
+        __t = x_6
+        if __t == 0:
+            lean_dec(x_1)
+            return x_6
+        elif __t == 1:
+            x_7 = lean_string_data(x_1)
+            x_8 = 0
+            x_9 = l_List_elem___at___00System_Uri_UriEscape_uriEscapeAsciiChar_spec__1(x_8, x_7)
+            lean_dec(x_7)
+            __t = x_9
+            if __t == 0:
+                return x_6
+            elif __t == 1:
+                x_10 = 0
+                return x_10
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
     else:
         lean_internal_panic_unreachable()
+
+def l_List_elem___at___00System_Uri_UriEscape_uriEscapeAsciiChar_spec__1(x_1, x_2):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_2)
+            if __t == 0:
+                x_3 = 0
+                return x_3
+            elif __t == 1:
+                x_4 = x_2.objs[0]
+                x_5 = x_2.objs[1]
+                x_6 = x_4
+                x_7 = lean_uint32_dec_eq(x_1, x_6)
+                __t = x_7
+                if __t == 0:
+                    x_1, x_2 = x_1, x_5
+                    __blk = 0
+                    continue
+                elif __t == 1:
+                    return x_7
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
 
 def l_Notes_Kernel_findNote(x_1, x_2):
     x_3 = l_List_find_x3f___at___00Notes_Kernel_findNote_spec__0(x_2, x_1)
@@ -1133,7 +1338,7 @@ def l_Notes_Kernel_handle(x_1, x_2, x_3):
             elif __t == 2:
                 x_49 = x_3.sc[8]
                 x_50 = x_3.objs[0]
-                lean_inc(x_50)
+                lean_inc_n(x_50, 2)
                 x_51 = x_3.sc[16]
                 lean_dec(x_3)
                 x_61 = l_Notes_Kernel_textOk(x_50)
@@ -1205,36 +1410,36 @@ def l_Notes_Kernel_handle(x_1, x_2, x_3):
                     lean_internal_panic_unreachable()
             elif __t == 5:
                 x_120 = x_2.objs[1]
-                x_130 = lean_is_shared(x_2)
-                __t = x_130
+                x_131 = lean_is_shared(x_2)
+                __t = x_131
                 if __t == 0:
-                    x_131 = x_2.objs[0]
-                    lean_dec(x_131)
-                    x_122, x_123 = x_2, x_130
+                    x_132 = x_2.objs[0]
+                    lean_dec(x_132)
+                    x_122, x_123 = x_2, x_131
                     __blk = 20
                     continue
                 elif __t == 1:
                     lean_inc(x_120)
                     lean_dec(x_2)
-                    x_122, x_123 = 0, x_130
+                    x_122, x_123 = 0, x_131
                     __blk = 20
                     continue
                 else:
                     lean_internal_panic_unreachable()
             elif __t == 6:
-                x_132 = x_2.objs[0]
-                x_142 = lean_is_shared(x_2)
-                __t = x_142
+                x_133 = x_2.objs[0]
+                x_144 = lean_is_shared(x_2)
+                __t = x_144
                 if __t == 0:
-                    x_143 = x_2.objs[1]
-                    lean_dec(x_143)
-                    x_134, x_135 = x_2, x_142
+                    x_145 = x_2.objs[1]
+                    lean_dec(x_145)
+                    x_135, x_136 = x_2, x_144
                     __blk = 22
                     continue
                 elif __t == 1:
-                    lean_inc(x_132)
+                    lean_inc(x_133)
                     lean_dec(x_2)
-                    x_134, x_135 = 0, x_142
+                    x_135, x_136 = 0, x_144
                     __blk = 22
                     continue
                 else:
@@ -1519,44 +1724,46 @@ def l_Notes_Kernel_handle(x_1, x_2, x_3):
             return x_114
         elif __blk == 20:
             x_124 = 0
-            x_125 = Ctor(2, [x_120])
+            x_125 = l_Notes_Kernel_sortNotes(x_120)
+            x_126 = Ctor(2, [x_125])
             __t = x_123
             if __t == 0:
-                x_122.objs[1] = x_125
+                x_122.objs[1] = x_126
                 x_122.objs[0] = x_124
-                x_127 = x_122
+                x_128 = x_122
                 __blk = 21
                 continue
             elif __t == 1:
-                x_129 = Ctor(0, [x_124, x_125])
-                x_127 = x_129
+                x_130 = Ctor(0, [x_124, x_126])
+                x_128 = x_130
                 __blk = 21
                 continue
             else:
                 lean_internal_panic_unreachable()
         elif __blk == 21:
-            x_128 = Ctor(1, [x_127])
-            return x_128
+            x_129 = Ctor(1, [x_128])
+            return x_129
         elif __blk == 22:
-            x_136 = 0
-            x_137 = Ctor(3, [x_132])
-            __t = x_135
+            x_137 = 0
+            x_138 = l_Notes_Kernel_sortMembers(x_133)
+            x_139 = Ctor(3, [x_138])
+            __t = x_136
             if __t == 0:
-                x_134.objs[1] = x_137
-                x_134.objs[0] = x_136
-                x_139 = x_134
+                x_135.objs[1] = x_139
+                x_135.objs[0] = x_137
+                x_141 = x_135
                 __blk = 23
                 continue
             elif __t == 1:
-                x_141 = Ctor(0, [x_136, x_137])
-                x_139 = x_141
+                x_143 = Ctor(0, [x_137, x_139])
+                x_141 = x_143
                 __blk = 23
                 continue
             else:
                 lean_internal_panic_unreachable()
         elif __blk == 23:
-            x_140 = Ctor(1, [x_139])
-            return x_140
+            x_142 = Ctor(1, [x_141])
+            return x_142
         else:
             lean_internal_panic_unreachable()
 
@@ -2543,6 +2750,17 @@ from leanfran.marshal import Err, Lean, Local, Ok  # noqa: E402
 from leanfran.types import Char, Int8, Int16, Int32, Int64, Nat, UInt8, UInt16, UInt32, UInt64  # noqa: E402
 
 
+class Note(_m.LeanModel):
+    "Lean `Notes.Kernel.Note`."
+    id: "UInt64"
+    owner: "UInt64"
+    shared: "bool"
+    body: "str"
+
+
+Note.__lean__ = _m.StructInfo(Note, _m.CtorInfo("mk", 0, 1, False, [_m.FieldInfo("id", _m.Scalar(8), _m.UIntD(64)), _m.FieldInfo("owner", _m.Scalar(16), _m.UIntD(64)), _m.FieldInfo("shared", _m.Scalar(24), _m.BOOL), _m.FieldInfo("body", _m.Obj(0), _m.STRING)], [], False), trivial=False)
+
+
 class Command(_m.LeanInductive):
     "Lean `Notes.Kernel.Command`."
 
@@ -2587,17 +2805,6 @@ class Member(_m.LeanModel):
 
 
 Member.__lean__ = _m.StructInfo(Member, _m.CtorInfo("mk", 0, 0, False, [_m.FieldInfo("user", _m.Scalar(0), _m.UIntD(64)), _m.FieldInfo("admin", _m.Scalar(8), _m.BOOL)], [], False), trivial=False)
-
-
-class Note(_m.LeanModel):
-    "Lean `Notes.Kernel.Note`."
-    id: "UInt64"
-    owner: "UInt64"
-    shared: "bool"
-    body: "str"
-
-
-Note.__lean__ = _m.StructInfo(Note, _m.CtorInfo("mk", 0, 1, False, [_m.FieldInfo("id", _m.Scalar(8), _m.UIntD(64)), _m.FieldInfo("owner", _m.Scalar(16), _m.UIntD(64)), _m.FieldInfo("shared", _m.Scalar(24), _m.BOOL), _m.FieldInfo("body", _m.Obj(0), _m.STRING)], [], False), trivial=False)
 
 
 class Snapshot(_m.LeanModel):
@@ -2699,512 +2906,600 @@ class Leanharbor_Authz_Guarded_Notes_Kernel_Error_denied(_m.LeanModel, Leanharbo
 _m.register_inductive(Leanharbor_Authz_Guarded_Notes_Kernel_Error, [(Leanharbor_Authz_Guarded_Notes_Kernel_Error_app, _m.CtorInfo("app", 0, 1, False, [_m.FieldInfo("e", _m.Obj(0), _m.NamedD(globals(), "Error"))], [], False)), (Leanharbor_Authz_Guarded_Notes_Kernel_Error_denied, _m.CtorInfo("denied", 1, 0, True, [], [], False))])
 
 
-_D0 = _m.NamedD(globals(), "Command")
-_D1 = _m.LeanType(_D0, "Command")
-_D2 = _m.BOOL
-_D3 = _m.LeanType(_D2, "bool")
-_D4 = _m.NamedD(globals(), "Snapshot")
-_D5 = _m.LeanType(_D4, "Snapshot")
-_D6 = _m.UIntD(64)
-_D7 = _m.LeanType(_D6, "UInt64")
-_D8 = _m.NamedD(globals(), "Write")
-_D9 = _m.LeanType(_D8, "Write")
-_D10 = _m.NamedD(globals(), "Principal")
-_D11 = _m.LeanType(_D10, "Principal")
-_D12 = _m.NAT
-_D13 = _m.LeanType(_D12, "Nat")
-_D14 = _m.NamedD(globals(), "Row")
-_D15 = _m.LeanType(_D14, "Row")
-_D16 = _m.NamedD(globals(), "Reply")
-_D17 = _m.LeanType(_D16, "Reply")
-_D18 = _m.ListD(_m.NamedD(globals(), "Row"))
-_D19 = _m.LeanType(_D18, "list[Row]")
-_D20 = _m.STRING
-_D21 = _m.LeanType(_D20, "str")
-_D22 = _m.ListD(_m.NamedD(globals(), "Note"))
-_D23 = _m.LeanType(_D22, "list[Note]")
-_D24 = _m.OptionD(_m.NamedD(globals(), "Note"))
-_D25 = _m.LeanType(_D24, "Note | None")
-_D26 = _m.ListD(_m.NamedD(globals(), "Member"))
-_D27 = _m.LeanType(_D26, "list[Member]")
-_D28 = _m.OptionD(_m.NamedD(globals(), "Member"))
-_D29 = _m.LeanType(_D28, "Member | None")
-_D30 = _m.NamedD(globals(), "Member")
-_D31 = _m.LeanType(_D30, "Member")
-_D32 = _m.ExceptD(globals(), _m.NamedD(globals(), "Error"), _m.ProdD(_m.ListD(_m.NamedD(globals(), "Write")), _m.NamedD(globals(), "Reply")), "Error", "tuple[list[Write], Reply]")
-_D33 = _m.LeanType(_D32, "Ok[tuple[list[Write], Reply]] | Err[Error]")
-_D34 = _m.ExceptD(globals(), _m.NamedD(globals(), "Leanharbor_Authz_Guarded_Notes_Kernel_Error"), _m.ProdD(_m.ListD(_m.NamedD(globals(), "Write")), _m.NamedD(globals(), "Reply")), "Leanharbor_Authz_Guarded_Notes_Kernel_Error", "tuple[list[Write], Reply]")
-_D35 = _m.LeanType(_D34, "Ok[tuple[list[Write], Reply]] | Err[Leanharbor_Authz_Guarded_Notes_Kernel_Error]")
-_D36 = _m.NamedD(globals(), "Note")
-_D37 = _m.LeanType(_D36, "Note")
+_D0 = _m.NamedD(globals(), "Note")
+_D1 = _m.LeanType(_D0, "Note")
+_D2 = _m.ListD(_m.NamedD(globals(), "Note"))
+_D3 = _m.LeanType(_D2, "list[Note]")
+_D4 = _m.NamedD(globals(), "Command")
+_D5 = _m.LeanType(_D4, "Command")
+_D6 = _m.BOOL
+_D7 = _m.LeanType(_D6, "bool")
+_D8 = _m.NamedD(globals(), "Snapshot")
+_D9 = _m.LeanType(_D8, "Snapshot")
+_D10 = _m.UIntD(64)
+_D11 = _m.LeanType(_D10, "UInt64")
+_D12 = _m.NamedD(globals(), "Write")
+_D13 = _m.LeanType(_D12, "Write")
+_D14 = _m.NamedD(globals(), "Principal")
+_D15 = _m.LeanType(_D14, "Principal")
+_D16 = _m.NAT
+_D17 = _m.LeanType(_D16, "Nat")
+_D18 = _m.ListD(_m.NamedD(globals(), "Member"))
+_D19 = _m.LeanType(_D18, "list[Member]")
+_D20 = _m.NamedD(globals(), "Row")
+_D21 = _m.LeanType(_D20, "Row")
+_D22 = _m.NamedD(globals(), "Reply")
+_D23 = _m.LeanType(_D22, "Reply")
+_D24 = _m.ListD(_m.NamedD(globals(), "Row"))
+_D25 = _m.LeanType(_D24, "list[Row]")
+_D26 = _m.STRING
+_D27 = _m.LeanType(_D26, "str")
+_D28 = _m.OptionD(_m.NamedD(globals(), "Note"))
+_D29 = _m.LeanType(_D28, "Note | None")
+_D30 = _m.OptionD(_m.NamedD(globals(), "Member"))
+_D31 = _m.LeanType(_D30, "Member | None")
+_D32 = _m.NamedD(globals(), "Member")
+_D33 = _m.LeanType(_D32, "Member")
+_D34 = _m.ExceptD(globals(), _m.NamedD(globals(), "Error"), _m.ProdD(_m.ListD(_m.NamedD(globals(), "Write")), _m.NamedD(globals(), "Reply")), "Error", "tuple[list[Write], Reply]")
+_D35 = _m.LeanType(_D34, "Ok[tuple[list[Write], Reply]] | Err[Error]")
+_D36 = _m.ExceptD(globals(), _m.NamedD(globals(), "Leanharbor_Authz_Guarded_Notes_Kernel_Error"), _m.ProdD(_m.ListD(_m.NamedD(globals(), "Write")), _m.NamedD(globals(), "Reply")), "Leanharbor_Authz_Guarded_Notes_Kernel_Error", "tuple[list[Write], Reply]")
+_D37 = _m.LeanType(_D36, "Ok[tuple[list[Write], Reply]] | Err[Leanharbor_Authz_Guarded_Notes_Kernel_Error]")
 _D38 = _m.ListD(_m.NamedD(globals(), "Write"))
 _D39 = _m.LeanType(_D38, "list[Write]")
 
 
+def _pub_insertNote(n: "Note", arg1: "list[Note]") -> "list[Note]":
+    "Lean `Notes.Kernel.insertNote`."
+    __a0 = _m.to_lean(_D0, n, "n")
+    __a1 = _m.to_lean(_D2, arg1, "arg1")
+    return _m.to_py(_D2, l_Notes_Kernel_insertNote(__a0, __a1))
+
+
+def _pub_insertNote__lean(n: "Note | Lean[Note]", arg1: "list[Note] | Lean[list[Note]]") -> "Lean[list[Note]]":
+    "Lean `Notes.Kernel.insertNote`, on handles."
+    __a0 = _m.lean_arg(_D1, n, "n")
+    __a1 = _m.lean_arg(_D3, arg1, "arg1")
+    _m.give(n, arg1)
+    return _m.handle(_D3, l_Notes_Kernel_insertNote(__a0, __a1))
+
+
+def _pub_insertNote__local(n: "Note | Lean[Note] | Local[Note]", arg1: "list[Note] | Lean[list[Note]] | Local[list[Note]]") -> "Local[list[Note]]":
+    "Lean `Notes.Kernel.insertNote`, on local handles."
+    __a0 = _m.local_arg(_D1, n, "n", True)
+    __a1 = _m.local_arg(_D3, arg1, "arg1", True)
+    _m.give(n, arg1)
+    return _m.local_handle(_D3, l_Notes_Kernel_insertNote(__a0, __a1))
+
+
+_m.attach(globals(), ["insertNote"], _pub_insertNote, "Notes.Kernel.insertNote", _pub_insertNote__lean, {"n": _D1, "arg1": _D3}, _D3, _pub_insertNote__local)
 def _pub_readOnly(arg0: "Command") -> "bool":
     "Lean `Notes.Kernel.readOnly`."
-    __a0 = _m.to_lean(_D0, arg0, "arg0")
-    return _m.to_py(_D2, l_Notes_Kernel_readOnly(__a0))
+    __a0 = _m.to_lean(_D4, arg0, "arg0")
+    return _m.to_py(_D6, l_Notes_Kernel_readOnly(__a0))
 
 
 def _pub_readOnly__lean(arg0: "Command | Lean[Command]") -> "Lean[bool]":
     "Lean `Notes.Kernel.readOnly`, on handles."
-    __a0 = _m.lean_arg(_D1, arg0, "arg0")
+    __a0 = _m.lean_arg(_D5, arg0, "arg0")
     _m.give(arg0)
-    return _m.handle(_D3, l_Notes_Kernel_readOnly(__a0))
+    return _m.handle(_D7, l_Notes_Kernel_readOnly(__a0))
 
 
 def _pub_readOnly__local(arg0: "Command | Lean[Command] | Local[Command]") -> "Local[bool]":
     "Lean `Notes.Kernel.readOnly`, on local handles."
-    __a0 = _m.local_arg(_D1, arg0, "arg0", False)
+    __a0 = _m.local_arg(_D5, arg0, "arg0", False)
     _m.give(arg0)
     __r = l_Notes_Kernel_readOnly(__a0)
     _m.local_done(arg0, __a0)
-    return _m.local_handle(_D3, __r)
+    return _m.local_handle(_D7, __r)
 
 
-_m.attach(globals(), ["readOnly"], _pub_readOnly, "Notes.Kernel.readOnly", _pub_readOnly__lean, {"arg0": _D1}, _D3, _pub_readOnly__local)
+_m.attach(globals(), ["readOnly"], _pub_readOnly, "Notes.Kernel.readOnly", _pub_readOnly__lean, {"arg0": _D5}, _D7, _pub_readOnly__local)
+def _pub_sortNotes(arg0: "list[Note]") -> "list[Note]":
+    "Lean `Notes.Kernel.sortNotes`."
+    __a0 = _m.to_lean(_D2, arg0, "arg0")
+    return _m.to_py(_D2, l_Notes_Kernel_sortNotes(__a0))
+
+
+def _pub_sortNotes__lean(arg0: "list[Note] | Lean[list[Note]]") -> "Lean[list[Note]]":
+    "Lean `Notes.Kernel.sortNotes`, on handles."
+    __a0 = _m.lean_arg(_D3, arg0, "arg0")
+    _m.give(arg0)
+    return _m.handle(_D3, l_Notes_Kernel_sortNotes(__a0))
+
+
+def _pub_sortNotes__local(arg0: "list[Note] | Lean[list[Note]] | Local[list[Note]]") -> "Local[list[Note]]":
+    "Lean `Notes.Kernel.sortNotes`, on local handles."
+    __a0 = _m.local_arg(_D3, arg0, "arg0", True)
+    _m.give(arg0)
+    return _m.local_handle(_D3, l_Notes_Kernel_sortNotes(__a0))
+
+
+_m.attach(globals(), ["sortNotes"], _pub_sortNotes, "Notes.Kernel.sortNotes", _pub_sortNotes__lean, {"arg0": _D3}, _D3, _pub_sortNotes__local)
 def _pub_isAdmin(s: "Snapshot", user: "UInt64") -> "bool":
     "Lean `Notes.Kernel.isAdmin`."
-    __a0 = _m.to_lean(_D4, s, "s")
-    __a1 = _m.to_lean(_D6, user, "user")
-    return _m.to_py(_D2, l_Notes_Kernel_isAdmin(__a0, __a1))
+    __a0 = _m.to_lean(_D8, s, "s")
+    __a1 = _m.to_lean(_D10, user, "user")
+    return _m.to_py(_D6, l_Notes_Kernel_isAdmin(__a0, __a1))
 
 
 def _pub_isAdmin__lean(s: "Snapshot | Lean[Snapshot]", user: "UInt64 | Lean[UInt64]") -> "Lean[bool]":
     "Lean `Notes.Kernel.isAdmin`, on handles."
-    __a0 = _m.lean_arg(_D5, s, "s")
-    __a1 = _m.lean_arg(_D7, user, "user")
+    __a0 = _m.lean_arg(_D9, s, "s")
+    __a1 = _m.lean_arg(_D11, user, "user")
     _m.give(s, user)
-    return _m.handle(_D3, l_Notes_Kernel_isAdmin(__a0, __a1))
+    return _m.handle(_D7, l_Notes_Kernel_isAdmin(__a0, __a1))
 
 
 def _pub_isAdmin__local(s: "Snapshot | Lean[Snapshot] | Local[Snapshot]", user: "UInt64 | Lean[UInt64] | Local[UInt64]") -> "Local[bool]":
     "Lean `Notes.Kernel.isAdmin`, on local handles."
-    __a0 = _m.local_arg(_D5, s, "s", False)
-    __a1 = _m.local_arg(_D7, user, "user", True)
+    __a0 = _m.local_arg(_D9, s, "s", False)
+    __a1 = _m.local_arg(_D11, user, "user", True)
     _m.give(s, user)
     __r = l_Notes_Kernel_isAdmin(__a0, __a1)
     _m.local_done(s, __a0)
-    return _m.local_handle(_D3, __r)
+    return _m.local_handle(_D7, __r)
 
 
-_m.attach(globals(), ["isAdmin"], _pub_isAdmin, "Notes.Kernel.isAdmin", _pub_isAdmin__lean, {"s": _D5, "user": _D7}, _D3, _pub_isAdmin__local)
+_m.attach(globals(), ["isAdmin"], _pub_isAdmin, "Notes.Kernel.isAdmin", _pub_isAdmin__lean, {"s": _D9, "user": _D11}, _D7, _pub_isAdmin__local)
 def _pub_applyWrite(s: "Snapshot", arg1: "Write") -> "Snapshot":
     "Lean `Notes.Kernel.applyWrite`."
-    __a0 = _m.to_lean(_D4, s, "s")
-    __a1 = _m.to_lean(_D8, arg1, "arg1")
-    return _m.to_py(_D4, l_Notes_Kernel_applyWrite(__a0, __a1))
+    __a0 = _m.to_lean(_D8, s, "s")
+    __a1 = _m.to_lean(_D12, arg1, "arg1")
+    return _m.to_py(_D8, l_Notes_Kernel_applyWrite(__a0, __a1))
 
 
 def _pub_applyWrite__lean(s: "Snapshot | Lean[Snapshot]", arg1: "Write | Lean[Write]") -> "Lean[Snapshot]":
     "Lean `Notes.Kernel.applyWrite`, on handles."
-    __a0 = _m.lean_arg(_D5, s, "s")
-    __a1 = _m.lean_arg(_D9, arg1, "arg1")
+    __a0 = _m.lean_arg(_D9, s, "s")
+    __a1 = _m.lean_arg(_D13, arg1, "arg1")
     _m.give(s, arg1)
-    return _m.handle(_D5, l_Notes_Kernel_applyWrite(__a0, __a1))
+    return _m.handle(_D9, l_Notes_Kernel_applyWrite(__a0, __a1))
 
 
 def _pub_applyWrite__local(s: "Snapshot | Lean[Snapshot] | Local[Snapshot]", arg1: "Write | Lean[Write] | Local[Write]") -> "Local[Snapshot]":
     "Lean `Notes.Kernel.applyWrite`, on local handles."
-    __a0 = _m.local_arg(_D5, s, "s", True)
-    __a1 = _m.local_arg(_D9, arg1, "arg1", True)
+    __a0 = _m.local_arg(_D9, s, "s", True)
+    __a1 = _m.local_arg(_D13, arg1, "arg1", True)
     _m.give(s, arg1)
-    return _m.local_handle(_D5, l_Notes_Kernel_applyWrite(__a0, __a1))
+    return _m.local_handle(_D9, l_Notes_Kernel_applyWrite(__a0, __a1))
 
 
-_m.attach(globals(), ["applyWrite"], _pub_applyWrite, "Notes.Kernel.applyWrite", _pub_applyWrite__lean, {"s": _D5, "arg1": _D9}, _D5, _pub_applyWrite__local)
+_m.attach(globals(), ["applyWrite"], _pub_applyWrite, "Notes.Kernel.applyWrite", _pub_applyWrite__lean, {"s": _D9, "arg1": _D13}, _D9, _pub_applyWrite__local)
 def _pub_tenant(a: "Principal") -> "UInt64":
     "Lean `Notes.Kernel.tenant`."
-    __a0 = _m.to_lean(_D10, a, "a")
-    return _m.to_py(_D6, l_Notes_Kernel_tenant(__a0))
+    __a0 = _m.to_lean(_D14, a, "a")
+    return _m.to_py(_D10, l_Notes_Kernel_tenant(__a0))
 
 
 def _pub_tenant__lean(a: "Principal | Lean[Principal]") -> "Lean[UInt64]":
     "Lean `Notes.Kernel.tenant`, on handles."
-    __a0 = _m.lean_arg(_D11, a, "a")
+    __a0 = _m.lean_arg(_D15, a, "a")
     _m.give(a)
-    return _m.handle(_D7, l_Notes_Kernel_tenant(__a0))
+    return _m.handle(_D11, l_Notes_Kernel_tenant(__a0))
 
 
 def _pub_tenant__local(a: "Principal | Lean[Principal] | Local[Principal]") -> "Local[UInt64]":
     "Lean `Notes.Kernel.tenant`, on local handles."
-    __a0 = _m.local_arg(_D11, a, "a", False)
+    __a0 = _m.local_arg(_D15, a, "a", False)
     _m.give(a)
     __r = l_Notes_Kernel_tenant(__a0)
     _m.local_done(a, __a0)
-    return _m.local_handle(_D7, __r)
+    return _m.local_handle(_D11, __r)
 
 
-_m.attach(globals(), ["tenant"], _pub_tenant, "Notes.Kernel.tenant", _pub_tenant__lean, {"a": _D11}, _D7, _pub_tenant__local)
+_m.attach(globals(), ["tenant"], _pub_tenant, "Notes.Kernel.tenant", _pub_tenant__lean, {"a": _D15}, _D11, _pub_tenant__local)
 def _pub_maxText() -> "Nat":
     "Lean `Notes.Kernel.maxText`."
-    return _m.to_py(_D12, l_Notes_Kernel_maxText())
+    return _m.to_py(_D16, l_Notes_Kernel_maxText())
 
 
 def _pub_maxText__lean() -> "Lean[Nat]":
     "Lean `Notes.Kernel.maxText`, on handles."
-    return _m.handle(_D13, l_Notes_Kernel_maxText())
+    return _m.handle(_D17, l_Notes_Kernel_maxText())
 
 
 def _pub_maxText__local() -> "Local[Nat]":
     "Lean `Notes.Kernel.maxText`, on local handles."
-    return _m.local_handle(_D13, l_Notes_Kernel_maxText())
+    return _m.local_handle(_D17, l_Notes_Kernel_maxText())
 
 
-_m.attach(globals(), ["maxText"], _pub_maxText, "Notes.Kernel.maxText", _pub_maxText__lean, {}, _D13, _pub_maxText__local)
+_m.attach(globals(), ["maxText"], _pub_maxText, "Notes.Kernel.maxText", _pub_maxText__lean, {}, _D17, _pub_maxText__local)
+def _pub_sortMembers(arg0: "list[Member]") -> "list[Member]":
+    "Lean `Notes.Kernel.sortMembers`."
+    __a0 = _m.to_lean(_D18, arg0, "arg0")
+    return _m.to_py(_D18, l_Notes_Kernel_sortMembers(__a0))
+
+
+def _pub_sortMembers__lean(arg0: "list[Member] | Lean[list[Member]]") -> "Lean[list[Member]]":
+    "Lean `Notes.Kernel.sortMembers`, on handles."
+    __a0 = _m.lean_arg(_D19, arg0, "arg0")
+    _m.give(arg0)
+    return _m.handle(_D19, l_Notes_Kernel_sortMembers(__a0))
+
+
+def _pub_sortMembers__local(arg0: "list[Member] | Lean[list[Member]] | Local[list[Member]]") -> "Local[list[Member]]":
+    "Lean `Notes.Kernel.sortMembers`, on local handles."
+    __a0 = _m.local_arg(_D19, arg0, "arg0", True)
+    _m.give(arg0)
+    return _m.local_handle(_D19, l_Notes_Kernel_sortMembers(__a0))
+
+
+_m.attach(globals(), ["sortMembers"], _pub_sortMembers, "Notes.Kernel.sortMembers", _pub_sortMembers__lean, {"arg0": _D19}, _D19, _pub_sortMembers__local)
 def _pub_stored(s: "Snapshot", arg1: "Row") -> "bool":
     "Lean `Notes.Kernel.stored`."
-    __a0 = _m.to_lean(_D4, s, "s")
-    __a1 = _m.to_lean(_D14, arg1, "arg1")
-    return _m.to_py(_D2, l_Notes_Kernel_stored(__a0, __a1))
+    __a0 = _m.to_lean(_D8, s, "s")
+    __a1 = _m.to_lean(_D20, arg1, "arg1")
+    return _m.to_py(_D6, l_Notes_Kernel_stored(__a0, __a1))
 
 
 def _pub_stored__lean(s: "Snapshot | Lean[Snapshot]", arg1: "Row | Lean[Row]") -> "Lean[bool]":
     "Lean `Notes.Kernel.stored`, on handles."
-    __a0 = _m.lean_arg(_D5, s, "s")
-    __a1 = _m.lean_arg(_D15, arg1, "arg1")
+    __a0 = _m.lean_arg(_D9, s, "s")
+    __a1 = _m.lean_arg(_D21, arg1, "arg1")
     _m.give(s, arg1)
-    return _m.handle(_D3, l_Notes_Kernel_stored(__a0, __a1))
+    return _m.handle(_D7, l_Notes_Kernel_stored(__a0, __a1))
 
 
 def _pub_stored__local(s: "Snapshot | Lean[Snapshot] | Local[Snapshot]", arg1: "Row | Lean[Row] | Local[Row]") -> "Local[bool]":
     "Lean `Notes.Kernel.stored`, on local handles."
-    __a0 = _m.local_arg(_D5, s, "s", False)
-    __a1 = _m.local_arg(_D15, arg1, "arg1", True)
+    __a0 = _m.local_arg(_D9, s, "s", False)
+    __a1 = _m.local_arg(_D21, arg1, "arg1", True)
     _m.give(s, arg1)
     __r = l_Notes_Kernel_stored(__a0, __a1)
     _m.local_done(s, __a0)
-    return _m.local_handle(_D3, __r)
+    return _m.local_handle(_D7, __r)
 
 
-_m.attach(globals(), ["stored"], _pub_stored, "Notes.Kernel.stored", _pub_stored__lean, {"s": _D5, "arg1": _D15}, _D3, _pub_stored__local)
+_m.attach(globals(), ["stored"], _pub_stored, "Notes.Kernel.stored", _pub_stored__lean, {"s": _D9, "arg1": _D21}, _D7, _pub_stored__local)
 def _pub_disclosed(arg0: "Reply") -> "list[Row]":
     "Lean `Notes.Kernel.disclosed`."
-    __a0 = _m.to_lean(_D16, arg0, "arg0")
-    return _m.to_py(_D18, l_Notes_Kernel_disclosed(__a0))
+    __a0 = _m.to_lean(_D22, arg0, "arg0")
+    return _m.to_py(_D24, l_Notes_Kernel_disclosed(__a0))
 
 
 def _pub_disclosed__lean(arg0: "Reply | Lean[Reply]") -> "Lean[list[Row]]":
     "Lean `Notes.Kernel.disclosed`, on handles."
-    __a0 = _m.lean_arg(_D17, arg0, "arg0")
+    __a0 = _m.lean_arg(_D23, arg0, "arg0")
     _m.give(arg0)
-    return _m.handle(_D19, l_Notes_Kernel_disclosed(__a0))
+    return _m.handle(_D25, l_Notes_Kernel_disclosed(__a0))
 
 
 def _pub_disclosed__local(arg0: "Reply | Lean[Reply] | Local[Reply]") -> "Local[list[Row]]":
     "Lean `Notes.Kernel.disclosed`, on local handles."
-    __a0 = _m.local_arg(_D17, arg0, "arg0", True)
+    __a0 = _m.local_arg(_D23, arg0, "arg0", True)
     _m.give(arg0)
-    return _m.local_handle(_D19, l_Notes_Kernel_disclosed(__a0))
+    return _m.local_handle(_D25, l_Notes_Kernel_disclosed(__a0))
 
 
-_m.attach(globals(), ["disclosed"], _pub_disclosed, "Notes.Kernel.disclosed", _pub_disclosed__lean, {"arg0": _D17}, _D19, _pub_disclosed__local)
+_m.attach(globals(), ["disclosed"], _pub_disclosed, "Notes.Kernel.disclosed", _pub_disclosed__lean, {"arg0": _D23}, _D25, _pub_disclosed__local)
 def _pub_textOk(t: "str") -> "bool":
     "Lean `Notes.Kernel.textOk`."
-    __a0 = _m.to_lean(_D20, t, "t")
-    return _m.to_py(_D2, l_Notes_Kernel_textOk(__a0))
+    __a0 = _m.to_lean(_D26, t, "t")
+    return _m.to_py(_D6, l_Notes_Kernel_textOk(__a0))
 
 
 def _pub_textOk__lean(t: "str | Lean[str]") -> "Lean[bool]":
     "Lean `Notes.Kernel.textOk`, on handles."
-    __a0 = _m.lean_arg(_D21, t, "t")
+    __a0 = _m.lean_arg(_D27, t, "t")
     _m.give(t)
-    return _m.handle(_D3, l_Notes_Kernel_textOk(__a0))
+    return _m.handle(_D7, l_Notes_Kernel_textOk(__a0))
 
 
 def _pub_textOk__local(t: "str | Lean[str] | Local[str]") -> "Local[bool]":
     "Lean `Notes.Kernel.textOk`, on local handles."
-    __a0 = _m.local_arg(_D21, t, "t", False)
+    __a0 = _m.local_arg(_D27, t, "t", True)
     _m.give(t)
-    __r = l_Notes_Kernel_textOk(__a0)
-    _m.local_done(t, __a0)
-    return _m.local_handle(_D3, __r)
+    return _m.local_handle(_D7, l_Notes_Kernel_textOk(__a0))
 
 
-_m.attach(globals(), ["textOk"], _pub_textOk, "Notes.Kernel.textOk", _pub_textOk__lean, {"t": _D21}, _D3, _pub_textOk__local)
+_m.attach(globals(), ["textOk"], _pub_textOk, "Notes.Kernel.textOk", _pub_textOk__lean, {"t": _D27}, _D7, _pub_textOk__local)
 def _pub_findNote(ns: "list[Note]", id: "UInt64") -> "Note | None":
     "Lean `Notes.Kernel.findNote`."
-    __a0 = _m.to_lean(_D22, ns, "ns")
-    __a1 = _m.to_lean(_D6, id, "id")
-    return _m.to_py(_D24, l_Notes_Kernel_findNote(__a0, __a1))
+    __a0 = _m.to_lean(_D2, ns, "ns")
+    __a1 = _m.to_lean(_D10, id, "id")
+    return _m.to_py(_D28, l_Notes_Kernel_findNote(__a0, __a1))
 
 
 def _pub_findNote__lean(ns: "list[Note] | Lean[list[Note]]", id: "UInt64 | Lean[UInt64]") -> "Lean[Note | None]":
     "Lean `Notes.Kernel.findNote`, on handles."
-    __a0 = _m.lean_arg(_D23, ns, "ns")
-    __a1 = _m.lean_arg(_D7, id, "id")
+    __a0 = _m.lean_arg(_D3, ns, "ns")
+    __a1 = _m.lean_arg(_D11, id, "id")
     _m.give(ns, id)
-    return _m.handle(_D25, l_Notes_Kernel_findNote(__a0, __a1))
+    return _m.handle(_D29, l_Notes_Kernel_findNote(__a0, __a1))
 
 
 def _pub_findNote__local(ns: "list[Note] | Lean[list[Note]] | Local[list[Note]]", id: "UInt64 | Lean[UInt64] | Local[UInt64]") -> "Local[Note | None]":
     "Lean `Notes.Kernel.findNote`, on local handles."
-    __a0 = _m.local_arg(_D23, ns, "ns", False)
-    __a1 = _m.local_arg(_D7, id, "id", True)
+    __a0 = _m.local_arg(_D3, ns, "ns", False)
+    __a1 = _m.local_arg(_D11, id, "id", True)
     _m.give(ns, id)
     __r = l_Notes_Kernel_findNote(__a0, __a1)
     _m.local_done(ns, __a0)
-    return _m.local_handle(_D25, __r)
+    return _m.local_handle(_D29, __r)
 
 
-_m.attach(globals(), ["findNote"], _pub_findNote, "Notes.Kernel.findNote", _pub_findNote__lean, {"ns": _D23, "id": _D7}, _D25, _pub_findNote__local)
+_m.attach(globals(), ["findNote"], _pub_findNote, "Notes.Kernel.findNote", _pub_findNote__lean, {"ns": _D3, "id": _D11}, _D29, _pub_findNote__local)
 def _pub_findMember(ms: "list[Member]", user: "UInt64") -> "Member | None":
     "Lean `Notes.Kernel.findMember`."
-    __a0 = _m.to_lean(_D26, ms, "ms")
-    __a1 = _m.to_lean(_D6, user, "user")
-    return _m.to_py(_D28, l_Notes_Kernel_findMember(__a0, __a1))
+    __a0 = _m.to_lean(_D18, ms, "ms")
+    __a1 = _m.to_lean(_D10, user, "user")
+    return _m.to_py(_D30, l_Notes_Kernel_findMember(__a0, __a1))
 
 
 def _pub_findMember__lean(ms: "list[Member] | Lean[list[Member]]", user: "UInt64 | Lean[UInt64]") -> "Lean[Member | None]":
     "Lean `Notes.Kernel.findMember`, on handles."
-    __a0 = _m.lean_arg(_D27, ms, "ms")
-    __a1 = _m.lean_arg(_D7, user, "user")
+    __a0 = _m.lean_arg(_D19, ms, "ms")
+    __a1 = _m.lean_arg(_D11, user, "user")
     _m.give(ms, user)
-    return _m.handle(_D29, l_Notes_Kernel_findMember(__a0, __a1))
+    return _m.handle(_D31, l_Notes_Kernel_findMember(__a0, __a1))
 
 
 def _pub_findMember__local(ms: "list[Member] | Lean[list[Member]] | Local[list[Member]]", user: "UInt64 | Lean[UInt64] | Local[UInt64]") -> "Local[Member | None]":
     "Lean `Notes.Kernel.findMember`, on local handles."
-    __a0 = _m.local_arg(_D27, ms, "ms", False)
-    __a1 = _m.local_arg(_D7, user, "user", True)
+    __a0 = _m.local_arg(_D19, ms, "ms", False)
+    __a1 = _m.local_arg(_D11, user, "user", True)
     _m.give(ms, user)
     __r = l_Notes_Kernel_findMember(__a0, __a1)
     _m.local_done(ms, __a0)
-    return _m.local_handle(_D29, __r)
+    return _m.local_handle(_D31, __r)
 
 
-_m.attach(globals(), ["findMember"], _pub_findMember, "Notes.Kernel.findMember", _pub_findMember__lean, {"ms": _D27, "user": _D7}, _D29, _pub_findMember__local)
+_m.attach(globals(), ["findMember"], _pub_findMember, "Notes.Kernel.findMember", _pub_findMember__lean, {"ms": _D19, "user": _D11}, _D31, _pub_findMember__local)
 def _pub_putMember(ms: "list[Member]", m: "Member") -> "list[Member]":
     "Lean `Notes.Kernel.putMember`."
-    __a0 = _m.to_lean(_D26, ms, "ms")
-    __a1 = _m.to_lean(_D30, m, "m")
-    return _m.to_py(_D26, l_Notes_Kernel_putMember(__a0, __a1))
+    __a0 = _m.to_lean(_D18, ms, "ms")
+    __a1 = _m.to_lean(_D32, m, "m")
+    return _m.to_py(_D18, l_Notes_Kernel_putMember(__a0, __a1))
 
 
 def _pub_putMember__lean(ms: "list[Member] | Lean[list[Member]]", m: "Member | Lean[Member]") -> "Lean[list[Member]]":
     "Lean `Notes.Kernel.putMember`, on handles."
-    __a0 = _m.lean_arg(_D27, ms, "ms")
-    __a1 = _m.lean_arg(_D31, m, "m")
+    __a0 = _m.lean_arg(_D19, ms, "ms")
+    __a1 = _m.lean_arg(_D33, m, "m")
     _m.give(ms, m)
-    return _m.handle(_D27, l_Notes_Kernel_putMember(__a0, __a1))
+    return _m.handle(_D19, l_Notes_Kernel_putMember(__a0, __a1))
 
 
 def _pub_putMember__local(ms: "list[Member] | Lean[list[Member]] | Local[list[Member]]", m: "Member | Lean[Member] | Local[Member]") -> "Local[list[Member]]":
     "Lean `Notes.Kernel.putMember`, on local handles."
-    __a0 = _m.local_arg(_D27, ms, "ms", True)
-    __a1 = _m.local_arg(_D31, m, "m", True)
+    __a0 = _m.local_arg(_D19, ms, "ms", True)
+    __a1 = _m.local_arg(_D33, m, "m", True)
     _m.give(ms, m)
-    return _m.local_handle(_D27, l_Notes_Kernel_putMember(__a0, __a1))
+    return _m.local_handle(_D19, l_Notes_Kernel_putMember(__a0, __a1))
 
 
-_m.attach(globals(), ["putMember"], _pub_putMember, "Notes.Kernel.putMember", _pub_putMember__lean, {"ms": _D27, "m": _D31}, _D27, _pub_putMember__local)
+_m.attach(globals(), ["putMember"], _pub_putMember, "Notes.Kernel.putMember", _pub_putMember__lean, {"ms": _D19, "m": _D33}, _D19, _pub_putMember__local)
 def _pub_handle(a: "Principal", s: "Snapshot", arg2: "Command") -> "Ok[tuple[list[Write], Reply]] | Err[Error]":
     "Lean `Notes.Kernel.handle`."
-    __a0 = _m.to_lean(_D10, a, "a")
-    __a1 = _m.to_lean(_D4, s, "s")
-    __a2 = _m.to_lean(_D0, arg2, "arg2")
-    return _m.to_py(_D32, l_Notes_Kernel_handle(__a0, __a1, __a2))
+    __a0 = _m.to_lean(_D14, a, "a")
+    __a1 = _m.to_lean(_D8, s, "s")
+    __a2 = _m.to_lean(_D4, arg2, "arg2")
+    return _m.to_py(_D34, l_Notes_Kernel_handle(__a0, __a1, __a2))
 
 
 def _pub_handle__lean(a: "Principal | Lean[Principal]", s: "Snapshot | Lean[Snapshot]", arg2: "Command | Lean[Command]") -> "Lean[Ok[tuple[list[Write], Reply]] | Err[Error]]":
     "Lean `Notes.Kernel.handle`, on handles."
-    __a0 = _m.lean_arg(_D11, a, "a")
-    __a1 = _m.lean_arg(_D5, s, "s")
-    __a2 = _m.lean_arg(_D1, arg2, "arg2")
+    __a0 = _m.lean_arg(_D15, a, "a")
+    __a1 = _m.lean_arg(_D9, s, "s")
+    __a2 = _m.lean_arg(_D5, arg2, "arg2")
     _m.give(a, s, arg2)
-    return _m.handle(_D33, l_Notes_Kernel_handle(__a0, __a1, __a2))
+    return _m.handle(_D35, l_Notes_Kernel_handle(__a0, __a1, __a2))
 
 
 def _pub_handle__local(a: "Principal | Lean[Principal] | Local[Principal]", s: "Snapshot | Lean[Snapshot] | Local[Snapshot]", arg2: "Command | Lean[Command] | Local[Command]") -> "Local[Ok[tuple[list[Write], Reply]] | Err[Error]]":
     "Lean `Notes.Kernel.handle`, on local handles."
-    __a0 = _m.local_arg(_D11, a, "a", False)
-    __a1 = _m.local_arg(_D5, s, "s", True)
-    __a2 = _m.local_arg(_D1, arg2, "arg2", True)
+    __a0 = _m.local_arg(_D15, a, "a", False)
+    __a1 = _m.local_arg(_D9, s, "s", True)
+    __a2 = _m.local_arg(_D5, arg2, "arg2", True)
     _m.give(a, s, arg2)
     __r = l_Notes_Kernel_handle(__a0, __a1, __a2)
     _m.local_done(a, __a0)
-    return _m.local_handle(_D33, __r)
+    return _m.local_handle(_D35, __r)
 
 
-_m.attach(globals(), ["handle"], _pub_handle, "Notes.Kernel.handle", _pub_handle__lean, {"a": _D11, "s": _D5, "arg2": _D1}, _D33, _pub_handle__local)
+_m.attach(globals(), ["handle"], _pub_handle, "Notes.Kernel.handle", _pub_handle__lean, {"a": _D15, "s": _D9, "arg2": _D5}, _D35, _pub_handle__local)
 def _pub_view(a: "Principal", s: "Snapshot") -> "Snapshot":
     "Lean `Notes.Kernel.view`."
-    __a0 = _m.to_lean(_D10, a, "a")
-    __a1 = _m.to_lean(_D4, s, "s")
-    return _m.to_py(_D4, l_Notes_Kernel_view(__a0, __a1))
+    __a0 = _m.to_lean(_D14, a, "a")
+    __a1 = _m.to_lean(_D8, s, "s")
+    return _m.to_py(_D8, l_Notes_Kernel_view(__a0, __a1))
 
 
 def _pub_view__lean(a: "Principal | Lean[Principal]", s: "Snapshot | Lean[Snapshot]") -> "Lean[Snapshot]":
     "Lean `Notes.Kernel.view`, on handles."
-    __a0 = _m.lean_arg(_D11, a, "a")
-    __a1 = _m.lean_arg(_D5, s, "s")
+    __a0 = _m.lean_arg(_D15, a, "a")
+    __a1 = _m.lean_arg(_D9, s, "s")
     _m.give(a, s)
-    return _m.handle(_D5, l_Notes_Kernel_view(__a0, __a1))
+    return _m.handle(_D9, l_Notes_Kernel_view(__a0, __a1))
 
 
 def _pub_view__local(a: "Principal | Lean[Principal] | Local[Principal]", s: "Snapshot | Lean[Snapshot] | Local[Snapshot]") -> "Local[Snapshot]":
     "Lean `Notes.Kernel.view`, on local handles."
-    __a0 = _m.local_arg(_D11, a, "a", False)
-    __a1 = _m.local_arg(_D5, s, "s", True)
+    __a0 = _m.local_arg(_D15, a, "a", False)
+    __a1 = _m.local_arg(_D9, s, "s", True)
     _m.give(a, s)
     __r = l_Notes_Kernel_view(__a0, __a1)
     _m.local_done(a, __a0)
-    return _m.local_handle(_D5, __r)
+    return _m.local_handle(_D9, __r)
 
 
-_m.attach(globals(), ["view"], _pub_view, "Notes.Kernel.view", _pub_view__lean, {"a": _D11, "s": _D5}, _D5, _pub_view__local)
+_m.attach(globals(), ["view"], _pub_view, "Notes.Kernel.view", _pub_view__lean, {"a": _D15, "s": _D9}, _D9, _pub_view__local)
 def _pub_init() -> "Snapshot":
     "Lean `Notes.Kernel.init`."
-    return _m.to_py(_D4, l_Notes_Kernel_init())
+    return _m.to_py(_D8, l_Notes_Kernel_init())
 
 
 def _pub_init__lean() -> "Lean[Snapshot]":
     "Lean `Notes.Kernel.init`, on handles."
-    return _m.handle(_D5, l_Notes_Kernel_init())
+    return _m.handle(_D9, l_Notes_Kernel_init())
 
 
 def _pub_init__local() -> "Local[Snapshot]":
     "Lean `Notes.Kernel.init`, on local handles."
-    return _m.local_handle(_D5, l_Notes_Kernel_init())
+    return _m.local_handle(_D9, l_Notes_Kernel_init())
 
 
-_m.attach(globals(), ["init"], _pub_init, "Notes.Kernel.init", _pub_init__lean, {}, _D5, _pub_init__local)
+_m.attach(globals(), ["init"], _pub_init, "Notes.Kernel.init", _pub_init__lean, {}, _D9, _pub_init__local)
+def _pub_insertMember(m: "Member", arg1: "list[Member]") -> "list[Member]":
+    "Lean `Notes.Kernel.insertMember`."
+    __a0 = _m.to_lean(_D32, m, "m")
+    __a1 = _m.to_lean(_D18, arg1, "arg1")
+    return _m.to_py(_D18, l_Notes_Kernel_insertMember(__a0, __a1))
+
+
+def _pub_insertMember__lean(m: "Member | Lean[Member]", arg1: "list[Member] | Lean[list[Member]]") -> "Lean[list[Member]]":
+    "Lean `Notes.Kernel.insertMember`, on handles."
+    __a0 = _m.lean_arg(_D33, m, "m")
+    __a1 = _m.lean_arg(_D19, arg1, "arg1")
+    _m.give(m, arg1)
+    return _m.handle(_D19, l_Notes_Kernel_insertMember(__a0, __a1))
+
+
+def _pub_insertMember__local(m: "Member | Lean[Member] | Local[Member]", arg1: "list[Member] | Lean[list[Member]] | Local[list[Member]]") -> "Local[list[Member]]":
+    "Lean `Notes.Kernel.insertMember`, on local handles."
+    __a0 = _m.local_arg(_D33, m, "m", True)
+    __a1 = _m.local_arg(_D19, arg1, "arg1", True)
+    _m.give(m, arg1)
+    return _m.local_handle(_D19, l_Notes_Kernel_insertMember(__a0, __a1))
+
+
+_m.attach(globals(), ["insertMember"], _pub_insertMember, "Notes.Kernel.insertMember", _pub_insertMember__lean, {"m": _D33, "arg1": _D19}, _D19, _pub_insertMember__local)
 def _pub_transition(a: "Principal", s: "Snapshot", c: "Command") -> "Ok[tuple[list[Write], Reply]] | Err[Leanharbor_Authz_Guarded_Notes_Kernel_Error]":
     "Lean `Notes.Kernel.transition`."
-    __a0 = _m.to_lean(_D10, a, "a")
-    __a1 = _m.to_lean(_D4, s, "s")
-    __a2 = _m.to_lean(_D0, c, "c")
-    return _m.to_py(_D34, l_Notes_Kernel_transition(__a0, __a1, __a2))
+    __a0 = _m.to_lean(_D14, a, "a")
+    __a1 = _m.to_lean(_D8, s, "s")
+    __a2 = _m.to_lean(_D4, c, "c")
+    return _m.to_py(_D36, l_Notes_Kernel_transition(__a0, __a1, __a2))
 
 
 def _pub_transition__lean(a: "Principal | Lean[Principal]", s: "Snapshot | Lean[Snapshot]", c: "Command | Lean[Command]") -> "Lean[Ok[tuple[list[Write], Reply]] | Err[Leanharbor_Authz_Guarded_Notes_Kernel_Error]]":
     "Lean `Notes.Kernel.transition`, on handles."
-    __a0 = _m.lean_arg(_D11, a, "a")
-    __a1 = _m.lean_arg(_D5, s, "s")
-    __a2 = _m.lean_arg(_D1, c, "c")
+    __a0 = _m.lean_arg(_D15, a, "a")
+    __a1 = _m.lean_arg(_D9, s, "s")
+    __a2 = _m.lean_arg(_D5, c, "c")
     _m.give(a, s, c)
-    return _m.handle(_D35, l_Notes_Kernel_transition(__a0, __a1, __a2))
+    return _m.handle(_D37, l_Notes_Kernel_transition(__a0, __a1, __a2))
 
 
 def _pub_transition__local(a: "Principal | Lean[Principal] | Local[Principal]", s: "Snapshot | Lean[Snapshot] | Local[Snapshot]", c: "Command | Lean[Command] | Local[Command]") -> "Local[Ok[tuple[list[Write], Reply]] | Err[Leanharbor_Authz_Guarded_Notes_Kernel_Error]]":
     "Lean `Notes.Kernel.transition`, on local handles."
-    __a0 = _m.local_arg(_D11, a, "a", True)
-    __a1 = _m.local_arg(_D5, s, "s", True)
-    __a2 = _m.local_arg(_D1, c, "c", True)
+    __a0 = _m.local_arg(_D15, a, "a", True)
+    __a1 = _m.local_arg(_D9, s, "s", True)
+    __a2 = _m.local_arg(_D5, c, "c", True)
     _m.give(a, s, c)
-    return _m.local_handle(_D35, l_Notes_Kernel_transition(__a0, __a1, __a2))
+    return _m.local_handle(_D37, l_Notes_Kernel_transition(__a0, __a1, __a2))
 
 
-_m.attach(globals(), ["transition"], _pub_transition, "Notes.Kernel.transition", _pub_transition__lean, {"a": _D11, "s": _D5, "c": _D1}, _D35, _pub_transition__local)
+_m.attach(globals(), ["transition"], _pub_transition, "Notes.Kernel.transition", _pub_transition__lean, {"a": _D15, "s": _D9, "c": _D5}, _D37, _pub_transition__local)
 def _pub_permits(a: "Principal", s: "Snapshot", arg2: "Write") -> "bool":
     "Lean `Notes.Kernel.permits`."
-    __a0 = _m.to_lean(_D10, a, "a")
-    __a1 = _m.to_lean(_D4, s, "s")
-    __a2 = _m.to_lean(_D8, arg2, "arg2")
-    return _m.to_py(_D2, l_Notes_Kernel_permits(__a0, __a1, __a2))
+    __a0 = _m.to_lean(_D14, a, "a")
+    __a1 = _m.to_lean(_D8, s, "s")
+    __a2 = _m.to_lean(_D12, arg2, "arg2")
+    return _m.to_py(_D6, l_Notes_Kernel_permits(__a0, __a1, __a2))
 
 
 def _pub_permits__lean(a: "Principal | Lean[Principal]", s: "Snapshot | Lean[Snapshot]", arg2: "Write | Lean[Write]") -> "Lean[bool]":
     "Lean `Notes.Kernel.permits`, on handles."
-    __a0 = _m.lean_arg(_D11, a, "a")
-    __a1 = _m.lean_arg(_D5, s, "s")
-    __a2 = _m.lean_arg(_D9, arg2, "arg2")
+    __a0 = _m.lean_arg(_D15, a, "a")
+    __a1 = _m.lean_arg(_D9, s, "s")
+    __a2 = _m.lean_arg(_D13, arg2, "arg2")
     _m.give(a, s, arg2)
-    return _m.handle(_D3, l_Notes_Kernel_permits(__a0, __a1, __a2))
+    return _m.handle(_D7, l_Notes_Kernel_permits(__a0, __a1, __a2))
 
 
 def _pub_permits__local(a: "Principal | Lean[Principal] | Local[Principal]", s: "Snapshot | Lean[Snapshot] | Local[Snapshot]", arg2: "Write | Lean[Write] | Local[Write]") -> "Local[bool]":
     "Lean `Notes.Kernel.permits`, on local handles."
-    __a0 = _m.local_arg(_D11, a, "a", False)
-    __a1 = _m.local_arg(_D5, s, "s", False)
-    __a2 = _m.local_arg(_D9, arg2, "arg2", False)
+    __a0 = _m.local_arg(_D15, a, "a", False)
+    __a1 = _m.local_arg(_D9, s, "s", False)
+    __a2 = _m.local_arg(_D13, arg2, "arg2", False)
     _m.give(a, s, arg2)
     __r = l_Notes_Kernel_permits(__a0, __a1, __a2)
     _m.local_done(a, __a0)
     _m.local_done(s, __a1)
     _m.local_done(arg2, __a2)
-    return _m.local_handle(_D3, __r)
+    return _m.local_handle(_D7, __r)
 
 
-_m.attach(globals(), ["permits"], _pub_permits, "Notes.Kernel.permits", _pub_permits__lean, {"a": _D11, "s": _D5, "arg2": _D9}, _D3, _pub_permits__local)
+_m.attach(globals(), ["permits"], _pub_permits, "Notes.Kernel.permits", _pub_permits__lean, {"a": _D15, "s": _D9, "arg2": _D13}, _D7, _pub_permits__local)
 def _pub_putNote(ns: "list[Note]", n: "Note") -> "list[Note]":
     "Lean `Notes.Kernel.putNote`."
-    __a0 = _m.to_lean(_D22, ns, "ns")
-    __a1 = _m.to_lean(_D36, n, "n")
-    return _m.to_py(_D22, l_Notes_Kernel_putNote(__a0, __a1))
+    __a0 = _m.to_lean(_D2, ns, "ns")
+    __a1 = _m.to_lean(_D0, n, "n")
+    return _m.to_py(_D2, l_Notes_Kernel_putNote(__a0, __a1))
 
 
 def _pub_putNote__lean(ns: "list[Note] | Lean[list[Note]]", n: "Note | Lean[Note]") -> "Lean[list[Note]]":
     "Lean `Notes.Kernel.putNote`, on handles."
-    __a0 = _m.lean_arg(_D23, ns, "ns")
-    __a1 = _m.lean_arg(_D37, n, "n")
+    __a0 = _m.lean_arg(_D3, ns, "ns")
+    __a1 = _m.lean_arg(_D1, n, "n")
     _m.give(ns, n)
-    return _m.handle(_D23, l_Notes_Kernel_putNote(__a0, __a1))
+    return _m.handle(_D3, l_Notes_Kernel_putNote(__a0, __a1))
 
 
 def _pub_putNote__local(ns: "list[Note] | Lean[list[Note]] | Local[list[Note]]", n: "Note | Lean[Note] | Local[Note]") -> "Local[list[Note]]":
     "Lean `Notes.Kernel.putNote`, on local handles."
-    __a0 = _m.local_arg(_D23, ns, "ns", True)
-    __a1 = _m.local_arg(_D37, n, "n", True)
+    __a0 = _m.local_arg(_D3, ns, "ns", True)
+    __a1 = _m.local_arg(_D1, n, "n", True)
     _m.give(ns, n)
-    return _m.local_handle(_D23, l_Notes_Kernel_putNote(__a0, __a1))
+    return _m.local_handle(_D3, l_Notes_Kernel_putNote(__a0, __a1))
 
 
-_m.attach(globals(), ["putNote"], _pub_putNote, "Notes.Kernel.putNote", _pub_putNote__lean, {"ns": _D23, "n": _D37}, _D23, _pub_putNote__local)
+_m.attach(globals(), ["putNote"], _pub_putNote, "Notes.Kernel.putNote", _pub_putNote__lean, {"ns": _D3, "n": _D1}, _D3, _pub_putNote__local)
 def _pub_visible(a: "Principal", s: "Snapshot", arg2: "Row") -> "bool":
     "Lean `Notes.Kernel.visible`."
-    __a0 = _m.to_lean(_D10, a, "a")
-    __a1 = _m.to_lean(_D4, s, "s")
-    __a2 = _m.to_lean(_D14, arg2, "arg2")
-    return _m.to_py(_D2, l_Notes_Kernel_visible(__a0, __a1, __a2))
+    __a0 = _m.to_lean(_D14, a, "a")
+    __a1 = _m.to_lean(_D8, s, "s")
+    __a2 = _m.to_lean(_D20, arg2, "arg2")
+    return _m.to_py(_D6, l_Notes_Kernel_visible(__a0, __a1, __a2))
 
 
 def _pub_visible__lean(a: "Principal | Lean[Principal]", s: "Snapshot | Lean[Snapshot]", arg2: "Row | Lean[Row]") -> "Lean[bool]":
     "Lean `Notes.Kernel.visible`, on handles."
-    __a0 = _m.lean_arg(_D11, a, "a")
-    __a1 = _m.lean_arg(_D5, s, "s")
-    __a2 = _m.lean_arg(_D15, arg2, "arg2")
+    __a0 = _m.lean_arg(_D15, a, "a")
+    __a1 = _m.lean_arg(_D9, s, "s")
+    __a2 = _m.lean_arg(_D21, arg2, "arg2")
     _m.give(a, s, arg2)
-    return _m.handle(_D3, l_Notes_Kernel_visible(__a0, __a1, __a2))
+    return _m.handle(_D7, l_Notes_Kernel_visible(__a0, __a1, __a2))
 
 
 def _pub_visible__local(a: "Principal | Lean[Principal] | Local[Principal]", s: "Snapshot | Lean[Snapshot] | Local[Snapshot]", arg2: "Row | Lean[Row] | Local[Row]") -> "Local[bool]":
     "Lean `Notes.Kernel.visible`, on local handles."
-    __a0 = _m.local_arg(_D11, a, "a", False)
-    __a1 = _m.local_arg(_D5, s, "s", False)
-    __a2 = _m.local_arg(_D15, arg2, "arg2", False)
+    __a0 = _m.local_arg(_D15, a, "a", False)
+    __a1 = _m.local_arg(_D9, s, "s", False)
+    __a2 = _m.local_arg(_D21, arg2, "arg2", False)
     _m.give(a, s, arg2)
     __r = l_Notes_Kernel_visible(__a0, __a1, __a2)
     _m.local_done(a, __a0)
     _m.local_done(s, __a1)
     _m.local_done(arg2, __a2)
-    return _m.local_handle(_D3, __r)
+    return _m.local_handle(_D7, __r)
 
 
-_m.attach(globals(), ["visible"], _pub_visible, "Notes.Kernel.visible", _pub_visible__lean, {"a": _D11, "s": _D5, "arg2": _D15}, _D3, _pub_visible__local)
+_m.attach(globals(), ["visible"], _pub_visible, "Notes.Kernel.visible", _pub_visible__lean, {"a": _D15, "s": _D9, "arg2": _D21}, _D7, _pub_visible__local)
 def _pub_apply(s: "Snapshot", ws: "list[Write]") -> "Snapshot":
     "Lean `Notes.Kernel.apply`."
-    __a0 = _m.to_lean(_D4, s, "s")
+    __a0 = _m.to_lean(_D8, s, "s")
     __a1 = _m.to_lean(_D38, ws, "ws")
-    return _m.to_py(_D4, l_Notes_Kernel_apply(__a0, __a1))
+    return _m.to_py(_D8, l_Notes_Kernel_apply(__a0, __a1))
 
 
 def _pub_apply__lean(s: "Snapshot | Lean[Snapshot]", ws: "list[Write] | Lean[list[Write]]") -> "Lean[Snapshot]":
     "Lean `Notes.Kernel.apply`, on handles."
-    __a0 = _m.lean_arg(_D5, s, "s")
+    __a0 = _m.lean_arg(_D9, s, "s")
     __a1 = _m.lean_arg(_D39, ws, "ws")
     _m.give(s, ws)
-    return _m.handle(_D5, l_Notes_Kernel_apply(__a0, __a1))
+    return _m.handle(_D9, l_Notes_Kernel_apply(__a0, __a1))
 
 
 def _pub_apply__local(s: "Snapshot | Lean[Snapshot] | Local[Snapshot]", ws: "list[Write] | Lean[list[Write]] | Local[list[Write]]") -> "Local[Snapshot]":
     "Lean `Notes.Kernel.apply`, on local handles."
-    __a0 = _m.local_arg(_D5, s, "s", True)
+    __a0 = _m.local_arg(_D9, s, "s", True)
     __a1 = _m.local_arg(_D39, ws, "ws", True)
     _m.give(s, ws)
-    return _m.local_handle(_D5, l_Notes_Kernel_apply(__a0, __a1))
+    return _m.local_handle(_D9, l_Notes_Kernel_apply(__a0, __a1))
 
 
-_m.attach(globals(), ["apply"], _pub_apply, "Notes.Kernel.apply", _pub_apply__lean, {"s": _D5, "ws": _D39}, _D5, _pub_apply__local)
+_m.attach(globals(), ["apply"], _pub_apply, "Notes.Kernel.apply", _pub_apply__lean, {"s": _D9, "ws": _D39}, _D9, _pub_apply__local)
 _m.finish(globals())
