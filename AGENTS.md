@@ -102,11 +102,12 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   check it.
 - In Go, every handle belongs to a `leanfran.Region`, and the calls of one region run one at a
   time. The memory engine gives each tenant a region and a lock, the PostgreSQL engine each
-  request a region, and a kernel's `Scoped` runs its calls in the region it is given with
-  `region.WithValues`, calling only `kernel.Handle.In(scope)` and `kernel.Value.In(scope)` inside
-  it. A handle that is neither closed nor taken keeps its Lean reference, and what it shares is
-  then copied instead of updated in place: close the reply, the snapshot an engine drops
-  (`Release`, `MemoryEngine.Close`) and the write set of the PostgreSQL engine (`Writes`). The
+  snapshot it loads a region, which stays with the snapshot while the engine remembers it, and a
+  kernel's `Scoped` runs its calls in the region it is given with `region.WithValues`, calling
+  only `kernel.Handle.In(scope)` and `kernel.Value.In(scope)` inside it. A handle that is neither
+  closed nor taken keeps its Lean reference, and what it shares is then copied instead of updated
+  in place: close the reply and the snapshot an engine drops (`Release`, `MemoryEngine.Close`,
+  `pg.Engine.Close`), and give the write set to `Apply`, which takes it; `Writes` reads it. The
   concurrent tests of `go/calculator` and `go/notes` and `TestPostgresEngineLeaksNoValue` count
   the leaks with `leanfran.TrackLeakedValues`.
 - Generated files (`rust/*/src/generated/`, `python/src/leanharbor_*/kernel.py`,

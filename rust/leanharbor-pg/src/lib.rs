@@ -27,15 +27,14 @@
 //!    path), and fails if its write set stores a row.
 //! 7. A request without an idempotency key whose connection is lost during COMMIT, or whose
 //!    COMMIT fails with 57P01 or 57P02, fails with [`EngineError::CommitUnknown`].
-//! 8. A transaction whose write set stores a row advances the tenant's row of
-//!    `leanharbor_version` by one (from 0 when it has none). An attempt reads that row first and
-//!    runs the command on the snapshot the engine remembers for the tenant at that version, or,
-//!    when it remembers none, on the snapshot `load` builds of the rows it reads. After a commit
-//!    the engine remembers the snapshot `apply` computed, at the version the transaction left;
-//!    after a refusal, and on the read-only path, the snapshot the command ran on; after any
-//!    other end of the attempt, a COMMIT of unknown outcome included, nothing for the tenant.
-//!    It remembers at most [`Config::cache_tenants`] tenants and forgets the one it used least
-//!    recently.
+//! 8. A transaction whose write set stores a row advances the tenant's row of `leanharbor_version`
+//!    by one (from 0 when it has none). An attempt reads that row first and runs the command on the
+//!    snapshot the engine remembers for the tenant at that version, or, when it remembers none, on
+//!    the snapshot `load` builds of the rows it reads. After a commit the engine remembers the
+//!    snapshot `apply` computed, at the version the transaction left; after a refusal, and on the
+//!    read-only path, the snapshot the command ran on; after any other end of the attempt, a COMMIT
+//!    of unknown outcome included, it drops the snapshot the attempt held. It remembers at most
+//!    [`Config::cache_tenants`] tenants and forgets the one it used least recently.
 //!
 //! Every request runs in a task of its own, so a caller that stops waiting (a closed HTTP
 //! connection) does not interrupt an attempt between its lock and its unlock.
