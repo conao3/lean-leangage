@@ -79,7 +79,9 @@ memory, and a server started again on the same database answers from them. An ad
 runs it with `LEANHARBOR_LOCKDOWN=<owner>:<engine role>` and the administrator's connection
 string: it creates the tables, gives them to the owner (made without the right to log in if it
 does not exist), lets the engine's role (which must exist and may not be a superuser) read and
-write their rows only, and exits:
+write their rows but not alter, drop or truncate them, grants it `USAGE` and `CREATE` on the
+schema (PostgreSQL checks `CREATE` before it finds that a table of `CREATE TABLE IF NOT EXISTS`
+exists, and the engine runs those statements at start), and exits:
 
 ```console
 $ LEANHARBOR_DATABASE_URL='host=/run/postgresql user=postgres dbname=calc' \
@@ -128,8 +130,10 @@ with the generated `select`, builds the snapshot with `load`, calls `transition`
 statements the generated `compile` makes of the generated `plan` of each write, with the values
 as parameters. Its other statements are constants of its own: the transaction control, the
 advisory locks, and the framework's table `leanharbor_idempotency`, which holds the reply of each
-command run under an idempotency key, per tenant, scope and key. Its contract is the list at the
-top of [`rust/leanharbor-pg/src/lib.rs`](rust/leanharbor-pg/src/lib.rs).
+command run under an idempotency key, per tenant, scope and key. `lockdown`, which an
+administrator runs, writes statements of its own around role names it checks against
+`[a-z_][a-z0-9_]*` and table names quoted by the generated `quote`. Its contract is the list at
+the top of [`rust/leanharbor-pg/src/lib.rs`](rust/leanharbor-pg/src/lib.rs).
 
 ## The notes
 
@@ -368,8 +372,9 @@ Checked by `make check`, not proved:
   Rust, Python and Go as in the token functions compiled natively by Lean. 3,000 token lists
   (1,627 of them JSON documents; 4,903 strings and keys, of which 1,505 hold control bytes, 257 a
   `"`, 265 a `\`, 2,992 bytes above 0x7f and 1,436 bytes that are not UTF-8) give the same bytes
-  in the generated Rust, Python and Go as in the writer compiled natively by Lean.
-- **PostgreSQL stores and reads the rows as the model says (assumption A4).** The same 5,000
+  in the generated Rust, Python and Go as in the writer compiled natively by Lean. The Python and
+  Go calculator's table functions are generated and compiled, and no differential test runs them.
+- **PostgreSQL stores and reads the rows as the model says.** The same 5,000
   calculator commands run through the PostgreSQL engine, on a server that the tests start in a
   temporary directory, give the same output as through the memory engine and as in Lean. Along the
   same commands, which mix three tenants, each command leaves every row but its own user's as it
@@ -378,7 +383,7 @@ Checked by `make check`, not proved:
   columns whose names hold `"`, read back as written; a text holding NUL, which PostgreSQL cannot
   store, fails the command (`rust/leanharbor-pg/tests/values.rs`). A calculator server started
   again on the same database answers from the rows the first one stored.
-- **The PostgreSQL engine keeps its contract (assumption A6).**
+- **The PostgreSQL engine keeps its contract.**
   [`rust/leanharbor-pg/tests/contract.rs`](rust/leanharbor-pg/tests/contract.rs) runs a small
   kernel written in Rust through the engine, with a hook the engine calls at three points of each
   attempt and a proxy that loses a COMMIT:
@@ -386,18 +391,20 @@ Checked by `make check`, not proved:
   | Item of the contract | Tests |
   |---|---|
   | 1. one attempt, one `SERIALIZABLE` transaction | `serialization_failures_retry_in_a_new_transaction` (three attempts, each `serializable` and read-write, with distinct virtual transaction ids) |
-  | 2. retries in a new transaction, at most 20 attempts | `serialization_failures_retry_in_a_new_transaction` (two forced 40001s: each retry reads the outside commits), `serialization_failures_exhaust_after_max_attempts`, `deadlocks_are_retried` (a real 40P01 between the advisory lock and a row lock), `killed_before_commit_retries_once` (the backend terminated at each point, with and without a key: one effect, a new connection) |
+  | 2. retries in a new transaction, at most 20 attempts | `serialization_failures_retry_in_a_new_transaction` (two forced 40001s: each retry reads the outside commits), `serialization_failures_exhaust_after_max_attempts`, `deadlocks_are_retried` (a real 40P01 between the advisory lock and a row lock), `killed_before_commit_retries_once` (the backend terminated at each point, with and without a key: one effect, on a new connection; without a key, a backend terminated just before COMMIT gives `CommitUnknown` and no effect) |
   | 3. a refusal rolls back | `refusals_write_nothing` (no row, no stored reply; the key runs the command once it is accepted) |
   | 4. writes and reply commit together | `replies_commit_with_the_writes` (COMMIT lost before: neither; after: both), `idempotency_keys_replay_and_conflict`, `concurrent_requests_with_one_key_run_once` (32 clients, with and without the lock: one commit, 31 replays) |
   | 5. advisory lock before `BEGIN`, released before the pool | `advisory_lock_is_held_around_the_transaction` (a queued request waits before reading the table, then reads the first commit without a retry), `advisory_locks_are_released` (after a commit, a refusal, a terminated backend, a failed request and a caller that stopped waiting) |
   | 6. read-only commands | `read_only_path` (`SERIALIZABLE READ ONLY DEFERRABLE`, no advisory lock, retried after a terminated backend, a command that claims to read only and writes fails, a keyed read takes the write path) |
   | 7. COMMIT lost without a key | `lost_commit_without_key_is_unknown` (`CommitUnknown`, not retried; one case committed, one did not), `lost_commit_with_key_runs_once` |
-  | with A5, commits are serial | `concurrent_moves_are_serial` (64 clients, 512 moves between four cells, with and without the lock: every cell holds what the accepted moves left) |
+  | with `SERIALIZABLE`, commits are serial | `concurrent_moves_are_serial` (64 clients, 512 moves between four cells, with and without the lock: every cell holds what the accepted moves left) |
   | the roles | `roles_keep_the_engine_to_rows` (the tables belong to a role that cannot log in; the engine's role cannot alter, drop or truncate them; a superuser is refused as the engine's role) |
 
-  Not tested: a restart of the database server while clients write, a crash of the host, network
+  A caller that stops waiting (a closed HTTP connection) does not cancel its command: the request
+  runs in a task of its own to its end, so its advisory lock is released, and it may commit. Not
+  tested: a restart of the database server while clients write, a crash of the host, network
   delays short of a closed connection, and a full table of serializable conflicts (53200), which
-  the engine retries.
+  the engine retries. The engine connects without TLS.
 - **The Rust notes server answers the guard's refusals with 403.** `rust/notes/tests/http.rs`
   sends denied writes, a read of a note the caller may not see (404) and a bad body (422).
 - **The code that runs is generated from the proved source.** The build regenerates the three
@@ -411,7 +418,7 @@ holds for each of them:
 | | Trusted |
 |---|---|
 | Translation | leanfran's Rust, Python and Go backends and their runtimes, rustc, CPython, the Go compiler, Lean's kernel |
-| Engine | the memory engine: one command at a time per process, under one lock; replies stored per idempotency key. The PostgreSQL engine (Rust): the seven items of its contract, PostgreSQL's `SERIALIZABLE` (its commits equal a serial order, A5) and its deferrable read-only snapshot, tokio-postgres and deadpool-postgres, the conversion of values to parameters of the type PostgreSQL inferred and of columns back to values, the stored form of replies (`Storage::encode_reply`), and that the engine's role is not a superuser and does not own the tables |
+| Engine | the memory engine: one command at a time per process, under one lock; replies stored per idempotency key. The PostgreSQL engine (Rust): the seven items of its contract, PostgreSQL's `SERIALIZABLE` (its commits equal a serial order) and its deferrable read-only snapshot, tokio-postgres and deadpool-postgres, the conversion of values to parameters of the type PostgreSQL inferred and of columns back to values, the stored form of replies (`Storage::encode_reply`), and that the engine's role is not a superuser and does not own the tables |
 | Authentication | HMAC-SHA256 and the constant-time comparison of tags, the secret and its storage, the system clock and the expiry check, reading the token from the `Authorization` header, the table of accepted tokens (a token accepted once is recognised by its exact bytes and only its expiry is checked again) |
 | Wire format | JSON decoding of commands (`Api`); that the shells send the bytes of `encodeReply` and `encodeError` as the body; the tokens each shell builds for its own `{"error": ...}` bodies |
 | HTTP | axum, hyper and tokio (Rust); `http.server` (Python); `net/http` (Go) |

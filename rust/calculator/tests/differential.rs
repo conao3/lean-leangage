@@ -89,8 +89,8 @@ async fn generated_rust_agrees_with_lean() {
 }
 
 /// The rows stored and read back in PostgreSQL give every command the reply the memory engine
-/// and Lean give it (assumption A4 of the design: PostgreSQL runs the statements as the model
-/// says).
+/// and Lean give it: PostgreSQL runs the generated statements as the model of `Leanharbor.Sql`
+/// says.
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn postgres_engine_agrees_with_memory_engine_and_lean() {
     let url = cluster()

@@ -440,14 +440,19 @@ async fn advisory_locks_are_released() {
         let r = r.clone();
         async move { r.notified().await }
     });
-    let blocked = db.engine(2, config(20, true, Some(hook))).await;
-    let dropped = tokio::time::timeout(
-        Duration::from_millis(200),
-        blocked.execute(actor(1), add(0, 100), None),
-    )
-    .await;
-    assert!(dropped.is_err(), "the caller stopped waiting");
-    assert_eq!(seen.at(Point::Written).len(), 1);
+    let blocked = Arc::new(db.engine(2, config(20, true, Some(hook))).await);
+    let caller = {
+        let blocked = blocked.clone();
+        tokio::spawn(async move { blocked.execute(actor(1), add(0, 100), None).await })
+    };
+    while seen.at(Point::Written).is_empty() {
+        tokio::time::sleep(Duration::from_millis(5)).await;
+    }
+    caller.abort();
+    assert!(
+        caller.await.unwrap_err().is_cancelled(),
+        "the caller stopped waiting"
+    );
     release.notify_one();
     assert_eq!(
         db.no_advisory_locks(Duration::from_secs(5)).await,
@@ -577,9 +582,9 @@ async fn lost_commit_with_key_runs_once() {
     assert_eq!(proxy.outcomes(), vec![Outcome::NotSent, Outcome::Committed]);
 }
 
-// With A5 (SERIALIZABLE commits equal a serial order): 64 clients move units between four cells
-// of one tenant, with and without the advisory lock. The total is kept, and each cell holds
-// what the accepted moves left there.
+// With PostgreSQL's SERIALIZABLE, whose commits equal a serial order: 64 clients move units
+// between four cells of one tenant, with and without the advisory lock. The total is kept, and
+// each cell holds what the accepted moves left there.
 #[tokio::test(flavor = "multi_thread", worker_threads = 8)]
 async fn concurrent_moves_are_serial() {
     let db = setup("contract_serial").await;
