@@ -20,7 +20,7 @@ the snapshot from the rows a `SELECT` of each table returned, or takes the snaps
 runs an accepted command, and stores its writes, with other tenants' statements in between.
 Proved once, for every storage:
 
-- `Storage.stored_view`: the tenant's rows are those of the snapshot that `apply` computed;
+- `Storage.stored_view`: the tenant's rows are those of the snapshot held;
 - `Storage.stored_load`: loading them gives back a snapshot that stands for the same rows;
 - `Storage.stored_inv`: a property kept by every accepted command and shared by snapshots that
   stand for the same rows holds on every snapshot loaded;
@@ -143,8 +143,8 @@ theorem lists_of_loaded {tv : Int64} {db : PgDb} {rows : List (List (List Val))}
     obtain ⟨q, ps, R0, hq, hs, hp⟩ := hl.2 t ht'
     exact ⟨q, ps, R0, hq, hs, by rw [getD_of_lt _ _ ht']; exact hp⟩
 
-/-- The tenant's rows are those of the snapshot that `apply` computed, and the tables stay as
-`create` made them. -/
+/-- The tenant's rows are those of the snapshot held, which `apply` computed or `load` built, and
+the tables stay as `create` made them. -/
 theorem stored_view {tv : Int64} {db : PgDb} {s : k.Snapshot} (h : st.Stored tv db s) :
     Matches st.tables db ∧ view st.tables tv db = st.enc s := by
   induction h with
@@ -180,7 +180,7 @@ theorem stored_view {tv : Int64} {db : PgDb} {s : k.Snapshot} (h : st.Stored tv 
     exact ⟨hm2, (ho _ (Ne.symm hne)).trans he⟩
 
 /-- Loading the tenant's rows gives back a snapshot that stands for the same database as the
-snapshot `apply` computed. -/
+snapshot held. -/
 theorem stored_load {tv : Int64} {db : PgDb} {s : k.Snapshot} {rows : List (List (List Val))}
     (h : st.Stored tv db s) (hl : st.Loaded tv db rows) :
     ∃ s', st.load rows = some s' ∧ st.enc s' = st.enc s := by

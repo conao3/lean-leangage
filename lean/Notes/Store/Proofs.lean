@@ -13,9 +13,9 @@ member and of the note.
 - `enc_apply`, `load_enc`: the obligations of `storage`;
 - `stored_keyed`, `stored_transition`: on PostgreSQL, every snapshot an engine stores and every
   snapshot it loads has unique keys, and the snapshot loaded from a tenant's rows answers every
-  command of every principal as the snapshot `apply` computed does;
+  command of every principal as the snapshot the engine holds does;
 - `stored_authorized`, `stored_noninterference`: the guard's theorems about the snapshot loaded
-  from the rows, stated against the snapshot `apply` computed;
+  from the rows, stated against the snapshot the engine holds;
 - `accepted_no_nul`: no body an accepted command writes holds NUL;
 - `stored_commit`: every commit goes through.
 
@@ -435,7 +435,7 @@ def storage : Storage kernel where
   load_enc := load_enc
 
 /-- On PostgreSQL, the snapshot loaded from a tenant's rows has unique keys and stands for the
-rows of the snapshot `apply` computed. -/
+rows of the snapshot the engine holds. -/
 theorem stored_load {tv : Int64} {db : PgDb} {s : Snapshot} {rows : List (List (List Val))}
     (h : storage.Stored tv db s) (hl : storage.Loaded tv db rows) :
     ∃ s', load rows = some s' ∧ enc s' = enc s ∧ Keyed s' := by
@@ -465,7 +465,7 @@ theorem stored_keyed {tv : Int64} {db : PgDb} {s : kernel.Snapshot} (h : storage
   | other _ _ _ _ ih => exact ih
 
 /-- On PostgreSQL, the snapshot loaded from a tenant's rows answers every command of every
-principal as the snapshot that `apply` computed does. -/
+principal as the snapshot the engine holds does. -/
 theorem stored_transition {tv : Int64} {db : PgDb} {s : Snapshot} {rows : List (List (List Val))}
     (h : storage.Stored tv db s) (hl : storage.Loaded tv db rows) :
     ∃ s', load rows = some s' ∧ ∀ a c, transition a s' c = transition a s c := by
@@ -474,7 +474,7 @@ theorem stored_transition {tv : Int64} {db : PgDb} {s : Snapshot} {rows : List (
   exact ⟨s', hs', transition_congr ⟨hk, stored_keyed h, hm, hn⟩⟩
 
 /-- On PostgreSQL, a command accepted on the snapshot loaded from a tenant's rows is authorized
-against the snapshot `apply` computed: a command that writes is `handle`'s result on it, with
+against the snapshot the engine holds: a command that writes is `handle`'s result on it, with
 every write permitted and every disclosed row stored and visible, before or after the command; a
 read-only command is `handle`'s result on the caller's view of it, with no writes and only rows
 stored and visible in the view. So the writes an engine stores are those the guard permits in the

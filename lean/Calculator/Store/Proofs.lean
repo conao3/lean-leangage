@@ -11,7 +11,7 @@ import Leanharbor.Store
 - `writes_compile`: every write set compiles, for every tenant;
 - `enc_apply`, `load_enc`: the obligations of `storage`;
 - `stored_lookup`, `stored_transition`: on PostgreSQL, the snapshot loaded from a tenant's rows
-  holds the numbers of the snapshot `apply` computed and answers every command as it does;
+  has the numbers of the snapshot the engine holds and answers every command as it does;
 - `stored_commit`: every commit goes through.
 
 The theorems that end in `_run` and `load_toRow`, `load_isSome` and `lookup_storeAll` are stated
@@ -303,7 +303,7 @@ theorem stored_lookup {tv : Int64} {db : PgDb} {s : Snapshot} {rows : List (List
   exact ⟨s', hs', lookup_of_enc he⟩
 
 /-- On PostgreSQL, the snapshot loaded from a tenant's rows answers every command of every
-principal as the snapshot that `apply` computed does. -/
+principal as the snapshot the engine holds does. -/
 theorem stored_transition {tv : Int64} {db : PgDb} {s : Snapshot} {rows : List (List (List Val))}
     (h : storage.Stored tv db s) (hl : storage.Loaded tv db rows) :
     ∃ s', load rows = some s' ∧ ∀ a c, transition a s' c = transition a s c := by

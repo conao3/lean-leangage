@@ -310,7 +310,7 @@ Proved in Lean, about the definitions that are generated and run:
   set, with statements compiled for other tenants in between. Two more of its rules are those of
   the snapshot an engine remembers: `loaded` holds the snapshot loaded from the rows, and `cached`
   runs an accepted command on the snapshot held, without a `SELECT`, and runs the statements of
-  its write set. For every derivation:
+  its write set. For every database and snapshot that `Stored` relates:
   - `stored_view`: the tenant's rows are those of the snapshot held, which `apply` computed or
     `load` built, and the tables stay as `create` made them;
   - `stored_load`: loading the tenant's rows gives back a snapshot that stands for the same rows;
@@ -328,7 +328,7 @@ Proved in Lean, about the definitions that are generated and run:
   - `enc_apply`, `load_enc`: the obligations of the calculator's `storage`, so the theorems above
     hold for the calculator;
   - `stored_lookup`, `stored_transition`: the snapshot loaded from a tenant's rows stores a number
-    for the same users, with the same values, as the snapshot `apply` computed, and answers every
+    for the same users, with the same values, as the snapshot the engine holds, and answers every
     command of every principal as that snapshot does. They compare the numbers the two snapshots
     hold; that the two are the same tree is not proved;
   - `stored_commit`: every commit goes through: the `SELECT` returns rows, they load, and every
@@ -344,10 +344,10 @@ Proved in Lean, about the definitions that are generated and run:
   - `stored_keyed`, `stored_load`: every snapshot an engine stores, and every snapshot it loads
     from a tenant's rows, has unique keys;
   - `stored_transition`: the snapshot loaded from a tenant's rows answers every command of every
-    principal as the snapshot `apply` computed does. The two may hold their rows in different
+    principal as the snapshot the engine holds does. The two may hold their rows in different
     orders; `transition_congr` makes the replies equal;
   - `stored_authorized`: a command accepted on the snapshot loaded from a tenant's rows is
-    authorized against the snapshot `apply` computed, as `transition_authorized` states it: a
+    authorized against the snapshot the engine holds, as `transition_authorized` states it: a
     command that writes is `handle`'s result on that snapshot with every write permitted and every
     disclosed row stored and visible, and a read-only command is `handle`'s result on the caller's
     view of it, with no writes. So every write set an engine stores is one the guard permits in
