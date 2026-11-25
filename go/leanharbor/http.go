@@ -92,6 +92,10 @@ func authenticate(verifier *Verifier, r *http.Request) (Claims, error) {
 // | refused by the kernel | chosen by Api.EncodeError | chosen by Api.EncodeError |
 // | idempotency key reused for another command | 422 | `{"error":"idempotency key reused"}` |
 // | the engine has stopped | 503 | `{"error":"engine stopped"}` |
+// | every attempt failed to serialize or lost its connection | 503 | `{"error":"retries exhausted"}` |
+// | the database failed the request | 503 | `{"error":"database error"}` |
+// | the COMMIT of a request without a key was lost | 500 | `{"error":"commit outcome unknown"}` |
+// | any other failure of the engine | 500 | `{"error":"engine error"}` |
 func RpcHandler[Principal, Command, Reply, Error any](
 	engine Engine[Principal, Command, Reply, Error],
 	api Api[Principal, Command, Reply, Error],
@@ -136,8 +140,16 @@ func RpcHandler[Principal, Command, Reply, Error any](
 		switch {
 		case errors.Is(err, ErrIdempotencyConflict):
 			fail(w, http.StatusUnprocessableEntity, "idempotency key reused")
-		case err != nil:
+		case errors.Is(err, ErrStopped):
 			fail(w, http.StatusServiceUnavailable, "engine stopped")
+		case errors.Is(err, ErrRetriesExhausted):
+			fail(w, http.StatusServiceUnavailable, "retries exhausted")
+		case errors.Is(err, ErrDatabase):
+			fail(w, http.StatusServiceUnavailable, "database error")
+		case errors.Is(err, ErrCommitUnknown):
+			fail(w, http.StatusInternalServerError, "commit outcome unknown")
+		case err != nil:
+			fail(w, http.StatusInternalServerError, "engine error")
 		case refusal != nil:
 			status, body := api.EncodeError(*refusal)
 			reply(w, status, body)

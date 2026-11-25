@@ -9,7 +9,8 @@ GENERATED := rust/calculator/src/generated python/src/leanharbor_calculator/kern
 	rust/leanharbor/src/generated python/src/leanharbor/sql.py go/leanharbor/sql \
 	python/src/leanharbor/token_format.py go/leanharbor/token \
 	python/src/leanharbor/json_format.py go/leanharbor/jsonformat \
-	rust/notes/src/generated python/src/leanharbor_notes/kernel.py go/notes/kernel
+	rust/notes/src/generated python/src/leanharbor_notes/kernel.py go/notes/kernel \
+	python/src/leanharbor_notes/store.py go/notes/store
 
 .PHONY: all
 all: check
@@ -49,7 +50,7 @@ generate: lean
 	leanfran-python module generate --module-name Calculator.Kernel --search-path lean/.lake/build/lib/lean --output-file python/src/leanharbor_calculator/kernel.py --output text
 	leanfran-go module generate --module-name Calculator.Kernel --search-path lean/.lake/build/lib/lean --output-dir go/calculator/kernel --output text
 	leanfran-python module generate --module-name Calculator.Store --search-path lean/.lake/build/lib/lean --type-module Calculator.Kernel=leanharbor_calculator.kernel Leanharbor.Sql=leanharbor.sql --output-file python/src/leanharbor_calculator/store.py --output text
-	leanfran-go module generate --module-name Calculator.Store --search-path lean/.lake/build/lib/lean --output-dir go/calculator/store --output text
+	leanfran-go module generate --module-name Calculator.Store --search-path lean/.lake/build/lib/lean --type-module Calculator.Kernel=github.com/conao3/lean-leanharbor/go/calculator/kernel --type-module Leanharbor.Sql=github.com/conao3/lean-leanharbor/go/leanharbor/sql --output-dir go/calculator/store --output text
 	leanfran project generate --lake-dir lean --output-dir rust/leanharbor/src/generated --modules Leanharbor.Sql Leanharbor.Token Leanharbor.Json --output text
 	leanfran-python module generate --module-name Leanharbor.Sql --search-path lean/.lake/build/lib/lean --output-file python/src/leanharbor/sql.py --output text
 	leanfran-go module generate --module-name Leanharbor.Sql --search-path lean/.lake/build/lib/lean --output-dir go/leanharbor/sql --output text
@@ -60,6 +61,9 @@ generate: lean
 	leanfran project generate --lake-dir lean --output-dir rust/notes/src/generated --modules Notes.Kernel --output text
 	leanfran-python module generate --module-name Notes.Kernel --search-path lean/.lake/build/lib/lean --output-file python/src/leanharbor_notes/kernel.py --output text
 	leanfran-go module generate --module-name Notes.Kernel --search-path lean/.lake/build/lib/lean --output-dir go/notes/kernel --output text
+	leanfran module generate --module-name Notes.Store --search-path lean/.lake/build/lib/lean --type-path Notes.Kernel=crate::generated::notes_kernel Leanharbor.Sql=::leanharbor::sql --output-file rust/notes/src/generated/notes_store.rs --output text
+	leanfran-python module generate --module-name Notes.Store --search-path lean/.lake/build/lib/lean --type-module Notes.Kernel=leanharbor_notes.kernel Leanharbor.Sql=leanharbor.sql --output-file python/src/leanharbor_notes/store.py --output text
+	leanfran-go module generate --module-name Notes.Store --search-path lean/.lake/build/lib/lean --output-dir go/notes/store --output text
 
 .PHONY: generated-check
 generated-check: generate
@@ -79,8 +83,9 @@ python: lean
 
 .PHONY: go
 go: lean
+	cd rust && cargo build --quiet --bin leanharbor-calculator
 	cd go && go vet ./...
-	cd go && LEANHARBOR_CALCULATOR_ORACLE=$(ORACLE) LEANHARBOR_SQL_ORACLE=$(SQL_ORACLE) LEANHARBOR_TOKEN_ORACLE=$(TOKEN_ORACLE) LEANHARBOR_NOTES_ORACLE=$(NOTES_ORACLE) LEANHARBOR_JSON_ORACLE=$(JSON_ORACLE) go test -race -count=1 ./...
+	cd go && LEANHARBOR_CALCULATOR_ORACLE=$(ORACLE) LEANHARBOR_SQL_ORACLE=$(SQL_ORACLE) LEANHARBOR_TOKEN_ORACLE=$(TOKEN_ORACLE) LEANHARBOR_NOTES_ORACLE=$(NOTES_ORACLE) LEANHARBOR_JSON_ORACLE=$(JSON_ORACLE) LEANHARBOR_RUST_CALCULATOR=$(RUST_CALCULATOR) go test -race -count=1 ./...
 
 .PHONY: bench
 bench:
