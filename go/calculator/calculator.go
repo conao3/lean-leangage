@@ -143,11 +143,11 @@ func (Calculator) DecodeCommand(body []byte) (kernel.Command, error) {
 }
 
 func (Calculator) EncodeReply(reply kernel.Reply) []byte {
-	return kernel.EncodeReply(reply)
+	return kernel.EncodeReplyArray(reply)
 }
 
 func (Calculator) EncodeError(refusal kernel.Error) (int, []byte) {
-	return http.StatusUnprocessableEntity, kernel.EncodeError(refusal)
+	return http.StatusUnprocessableEntity, kernel.EncodeErrorArray(refusal)
 }
 
 func (Calculator) Fingerprint(cmd kernel.Command) []byte {

@@ -1,8 +1,8 @@
 //! Bearer tokens: `v1.<tenant>.<user>.<expiry unix seconds>.<hex hmac-sha256>`, where the tag
 //! signs every byte before the last dot. The bytes are written and split by functions generated
-//! from `lean/Leanharbor/Token.lean` (`crate::token_format`); this module computes and compares
-//! the tag and checks the expiry. A [`Verifier`] remembers the tokens it accepted, so a token is
-//! split and its tag computed once.
+//! from `lean/Leanharbor/Token.lean` (`crate::token_format`: `encode_payload`, `join` and
+//! `parse_string`); this module computes and compares the tag and checks the expiry. A
+//! [`Verifier`] remembers the tokens it accepted, so a token is split and its tag computed once.
 
 use std::collections::HashMap;
 use std::sync::RwLock;
@@ -40,7 +40,7 @@ pub fn issue(secret: &[u8], claims: Claims) -> String {
 
 /// Accepts a token whose tag matches and whose expiry is not before `now`.
 pub fn verify(secret: &[u8], token: &str, now: u64) -> Result<Claims, TokenError> {
-    let parsed = token_format::parse(token.as_bytes().to_vec()).ok_or(TokenError::Malformed)?;
+    let parsed = token_format::parse_string(token).ok_or(TokenError::Malformed)?;
     mac(secret, &parsed.payload)
         .verify_slice(&parsed.sig)
         .map_err(|_| TokenError::BadSignature)?;

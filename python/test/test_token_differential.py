@@ -1,6 +1,7 @@
 """The generated Python token functions against the ones run natively by Lean (`token-oracle`).
 
-The line format is described in `lean/TokenOracle.lean`.
+The line format is described in `lean/TokenOracle.lean`. A token that is UTF-8 is also split by
+`parseString`, which must give what `parse` gives.
 """
 
 import os
@@ -21,13 +22,27 @@ def show(bs: list[int]) -> str:
     return "x" + bytes(bs).hex()
 
 
+def parsed(p: token_format.Parsed | token_format.ParsedArray | None) -> str:
+    if p is None:
+        return "none"
+    return f"parsed {p.tenant} {p.user} {p.exp} {show(p.payload)} {show(p.sig)}"
+
+
+def utf8(bs: list[int]) -> str | None:
+    try:
+        return bytes(bs).decode()
+    except UnicodeDecodeError:
+        return None
+
+
 def run(line: str) -> str:
     match line.split(" "):
         case ["parse", tok]:
-            p = token_format.parse(data(tok))
-            if p is None:
-                return "none"
-            return f"parsed {p.tenant} {p.user} {p.exp} {show(p.payload)} {show(p.sig)}"
+            out = parsed(token_format.parse(data(tok)))
+            text = utf8(data(tok))
+            if text is not None:
+                assert parsed(token_format.parseString(text)) == out, text
+            return out
         case ["issue", t, u, e, sig]:
             payload = token_format.encodePayload(int(t), int(u), int(e))
             return "token " + show(token_format.join(payload, data(sig)))
@@ -46,4 +61,8 @@ def test_generated_python_token_functions_agree_with_lean() -> None:
     ours = [run(line) for line in text_in.splitlines()]
     assert sum(line.startswith("parsed ") for line in ours) > 100
     assert sum(line == "none" for line in ours) > 100
+    tokens = [
+        line.split(" ")[1] for line in text_in.splitlines() if line.startswith("parse ")
+    ]
+    assert sum(utf8(data(tok)) is not None for tok in tokens) > 1000
     assert ours == oracle.splitlines()

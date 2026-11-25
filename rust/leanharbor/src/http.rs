@@ -9,7 +9,7 @@
 //! | idempotency key reused for another command | 422 | `{"error":"idempotency key reused"}` |
 //! | the engine has stopped | 503 | `{"error":"engine stopped"}` |
 //!
-//! The `{"error": ...}` bodies are written by [`crate::json_format::write`], the JSON writer
+//! The `{"error": ...}` bodies are written by [`crate::json_format::write_array`], the JSON writer
 //! generated from `lean/Leanharbor/Json.lean`.
 
 use std::marker::PhantomData;
@@ -25,7 +25,7 @@ use axum::response::{IntoResponse, Response};
 use axum::routing::post;
 use serde_json::Value;
 
-use crate::json_format::{self, Tok};
+use crate::json_format::{self, StrTok};
 use crate::{Engine, EngineError, Idempotency, Kernel, token};
 
 /// How a kernel's commands, replies and refusals appear on the wire, and who a token's holder
@@ -53,15 +53,15 @@ fn reply(status: StatusCode, body: Vec<u8>) -> Response {
 }
 
 fn error(status: StatusCode, message: &str) -> Response {
-    let body = json_format::write(vec![
-        Tok::ObjOpen,
-        Tok::Key {
-            s: b"error".to_vec(),
+    let body = json_format::write_array(vec![
+        StrTok::ObjOpen,
+        StrTok::Key {
+            s: "error".to_owned(),
         },
-        Tok::Str {
-            s: message.as_bytes().to_vec(),
+        StrTok::Str {
+            s: message.to_owned(),
         },
-        Tok::ObjClose,
+        StrTok::ObjClose,
     ]);
     reply(status, body)
 }

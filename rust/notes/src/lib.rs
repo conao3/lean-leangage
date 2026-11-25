@@ -8,7 +8,7 @@ use axum::http::StatusCode;
 use leanfran::{Local, Owned};
 use leanharbor::Kernel;
 use leanharbor::http::Api;
-use leanharbor::json_format::{self, Tok};
+use leanharbor::json_format::{self, StrTok};
 use serde::Deserialize;
 use serde_json::{Value, json};
 
@@ -90,30 +90,26 @@ pub fn refusal_name(refusal: &Refusal) -> &'static str {
 }
 
 /// The tokens of a JSON value made of objects, arrays, strings, booleans and numbers below 2^64.
-fn toks(value: &Value, out: &mut Vec<Tok>) {
+fn toks(value: &Value, out: &mut Vec<StrTok>) {
     match value {
-        Value::Null => out.push(Tok::Null),
-        Value::Bool(b) => out.push(Tok::Bool { b: *b }),
-        Value::Number(n) => out.push(Tok::Num {
+        Value::Null => out.push(StrTok::Null),
+        Value::Bool(b) => out.push(StrTok::Bool { b: *b }),
+        Value::Number(n) => out.push(StrTok::Num {
             n: n.as_u64().expect("the notes write numbers below 2^64"),
         }),
-        Value::String(s) => out.push(Tok::Str {
-            s: s.as_bytes().to_vec(),
-        }),
+        Value::String(s) => out.push(StrTok::Str { s: s.clone() }),
         Value::Array(items) => {
-            out.push(Tok::ArrOpen);
+            out.push(StrTok::ArrOpen);
             items.iter().for_each(|item| toks(item, out));
-            out.push(Tok::ArrClose);
+            out.push(StrTok::ArrClose);
         }
         Value::Object(fields) => {
-            out.push(Tok::ObjOpen);
+            out.push(StrTok::ObjOpen);
             for (key, field) in fields {
-                out.push(Tok::Key {
-                    s: key.as_bytes().to_vec(),
-                });
+                out.push(StrTok::Key { s: key.clone() });
                 toks(field, out);
             }
-            out.push(Tok::ObjClose);
+            out.push(StrTok::ObjClose);
         }
     }
 }
@@ -122,7 +118,7 @@ fn toks(value: &Value, out: &mut Vec<Tok>) {
 fn body(value: Value) -> Vec<u8> {
     let mut out = Vec::new();
     toks(&value, &mut out);
-    json_format::write(out)
+    json_format::write_array(out)
 }
 
 impl Api<Notes> for Notes {
