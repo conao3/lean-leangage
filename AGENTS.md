@@ -12,7 +12,10 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   tests compare against. `Notes/` and `NotesOracle.lean` are the example with a policy, in the
   same layout.
 - `audit/`: a separate Lake package with leanassay (`Audit/Calculator.lean`, `Audit/Authz.lean`,
-  `Audit/Notes*.lean`) and the axiom check (`Audit/Axioms.lean`).
+  `Audit/Notes*.lean`) and the axiom check (`Audit/Axioms.lean`). A file is built only when it is
+  in `roots` of `audit/lakefile.toml` or imported by `Audit.lean`. `#assay` derives instances
+  named after the short names of the types it samples, so two audit files whose types share a
+  short name (`Snapshot`) are separate roots and do not import each other.
 - `rust/`: Cargo workspace, edition 2024. `leanharbor` is the shell, `calculator` and `notes` the
   examples.
 - `python/`: uv project. `leanharbor` is the shell, `leanharbor_calculator` and `leanharbor_notes`

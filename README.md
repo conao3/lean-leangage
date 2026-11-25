@@ -81,9 +81,10 @@ and admins, after h5i's notes example. A note is visible to everyone if it is sh
 its owner and admins; the owner or an admin edits and deletes it, and its owner never changes.
 Admins add and remove members, and anyone may add the first member of an organization with none.
 
-`handle` decides what each command does and checks input and existence only. The policy is four
-Bool functions, `permits`, `visible`, `stored` and `view`, and the function the engine runs is
-`handle` behind the guard of [`lean/Leanharbor/Authz.lean`](lean/Leanharbor/Authz.lean):
+`handle` decides what each command does and checks input and existence only. The policy is the
+Bool functions `permits`, `visible` and `stored`, and `view`, the rows of a snapshot the caller may
+see. The function the engine runs is `handle` behind the guard of
+[`lean/Leanharbor/Authz.lean`](lean/Leanharbor/Authz.lean):
 
 ```lean
 def transition (a : Principal) (s : Snapshot) (c : Command) :
@@ -121,6 +122,7 @@ principal, snapshot and command:
 | `owner_may_put`, `owner_may_delete` | the guard denies no edit or delete by a note's owner and no creation under a free id |
 | `first_member` | anyone may add the first member of an organization with none |
 | `read_note_spec`, `list_notes_spec`, `list_members_spec` | in a snapshot with unique keys, `readNote` returns the note under the id when the caller may see it and `notFound` otherwise, and the listings return exactly the rows the caller may see, in order |
+| `rows_stored_run` | every row a reply returns is the row stored under its key in the caller's view |
 | `keyed_of_run` | every snapshot a tenant reaches has unique keys |
 | `findNote_applyWrite`, `findMember_applyWrite` | what each write does to the row stored under each key |
 | `ids_putNote`, `users_putMember` | a new row goes after the stored rows and a replaced row keeps its place |
