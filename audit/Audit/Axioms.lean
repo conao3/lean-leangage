@@ -26,5 +26,5 @@ elab "#assert_standard_axioms " mods:ident+ : command => do
   logInfo m!"{checked} theorems depend only on propext, Classical.choice and Quot.sound"
 
 #assert_standard_axioms Leanharbor.Kernel Leanharbor.Sql.Proofs Leanharbor.Sql.Sound
-  Leanharbor.Sql.Isolation Leanharbor.Store Leanharbor.Token.Proofs Calculator.Proofs
-  Calculator.Store.Proofs
+  Leanharbor.Sql.Isolation Leanharbor.Store Leanharbor.Token.Proofs Leanharbor.Json.Proofs
+  Calculator.Proofs Calculator.Store.Proofs

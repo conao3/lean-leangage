@@ -17,5 +17,9 @@ licensed under the Apache License, Version 2.0.
 - lean/Leanharbor/Store.lean is based on crates/h5i-app-core/proofs/H5iAppLib/Store.lean,
   crates/h5i-app-core/proofs/H5iAppLib/Obligation.lean and the theorems pg_served and
   pg_loaded_inv that crates/h5i-app-schema/src/lean.rs writes.
+- lean/Leanharbor/Json.lean is based on crates/h5i-app-json/src/lib.rs and
+  crates/h5i-app-json/proofs/JsonSpec.lean.
+- lean/Leanharbor/Json/Proofs.lean is based on crates/h5i-app-json/proofs/JsonSpec.lean and
+  crates/h5i-app-json/proofs/JsonProofs.lean.
 
 The files state what was changed.
