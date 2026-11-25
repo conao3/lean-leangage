@@ -49,9 +49,24 @@ T = 30.0
 
 
 def in_time(f: Any, *args: Any) -> Any:
-    """`f(*args)`, which must return within `T` seconds."""
-    with ThreadPoolExecutor(1) as pool:
-        return pool.submit(f, *args).result(timeout=T)
+    """`f(*args)`, which must return or raise `Refused` or an `EngineError` within `T` seconds.
+    It runs on a daemon thread, so a call that hangs fails the test and not the process's exit."""
+    box: dict[str, Any] = {}
+
+    def target() -> None:
+        try:
+            box["value"] = f(*args)
+        except (Refused, EngineError) as e:
+            box["error"] = e
+
+    thread = threading.Thread(target=target, daemon=True)
+    thread.start()
+    thread.join(T)
+    assert not thread.is_alive(), "in time"
+    if "error" in box:
+        raise box["error"]
+    assert "value" in box, "returned"
+    return box["value"]
 
 
 def run(engine: PgEngine, tenant: int, cmd: Any) -> Any:

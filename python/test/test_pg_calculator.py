@@ -249,8 +249,9 @@ def expected(answer: str) -> tuple[int, str]:
 
 # The Rust server makes the tables, and the two servers run on them at once: the commands of
 # the list go to the Rust and the Python server in turn, so each reads what the other stored, and
-# every reply is the one Lean gives. A key used on one server replays its reply on
-# the other, and the other refuses it with another command.
+# every reply is the one Lean gives. A key used with `set`, `apply` or `get` on one server
+# replays its reply on the other, which does not run the command again, and the other refuses it
+# with another command.
 def test_rust_and_python_servers_share_a_database() -> None:
     name = "calculator_shared"
     url = cluster().database(name)
@@ -269,17 +270,26 @@ def test_rust_and_python_servers_share_a_database() -> None:
             assert servers[i % 2].post(t, body(text)) == expected(answer), (i, text)
 
         a = token(9, 1)
-        add = {"cmd": "apply", "op": "add", "arg": 5}
-        for first, second, key in [(rust, python, "r"), (python, rust, "p")]:
-            assert first.post(a, add, key)[0] == 200
-            reply = first.post(a, {"cmd": "get"})
-            assert second.post(a, add, key) == reply, "replayed, not run again"
-            assert second.post(a, {"cmd": "get"}) == reply
-            assert second.post(a, {"cmd": "set", "value": 1}, key) == (
-                422,
-                '{"error":"idempotency key reused"}',
-            )
-        assert python.post(a, {"cmd": "get"}) == (200, '{"value":10}')
+        get = {"cmd": "get"}
+        keyed = [
+            {"cmd": "set", "value": 3},
+            {"cmd": "apply", "op": "add", "arg": 5},
+            get,
+        ]
+        for first, second, name in [(rust, python, "r"), (python, rust, "p")]:
+            for n, cmd in enumerate(keyed):
+                key = f"{name}{n}"
+                reply = first.post(a, cmd, key)
+                assert reply[0] == 200
+                first.post(a, {"cmd": "apply", "op": "add", "arg": 1})
+                state = first.post(a, get)
+                assert second.post(a, cmd, key) == reply, f"{cmd}: replayed, not run"
+                assert second.post(a, get) == state, f"{cmd}: replayed, not run"
+                assert second.post(a, {"cmd": "apply", "op": "mul", "arg": 2}, key) == (
+                    422,
+                    '{"error":"idempotency key reused"}',
+                )
+        assert python.post(a, get) == (200, '{"value":11}')
     finally:
         rust.stop()
         python.stop()
