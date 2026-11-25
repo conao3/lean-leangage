@@ -1,9 +1,9 @@
 package pg_test
 
-// Every kind of Val, NULL included, written by the engine and read back unchanged, in a table
-// whose name holds `"`, a space and a letter outside ASCII. An empty byte string, nil or not,
-// is stored as empty bytes and not as NULL. A text holding NUL, which PostgreSQL cannot store,
-// fails the command instead of storing something else.
+// Every kind of Val, NULL included, written by the engine and read back unchanged, before and
+// after a row is replaced, in a table whose name holds `"`, a space and a letter outside ASCII.
+// An empty byte string, nil or not, is stored as empty bytes and not as NULL. A text holding NUL,
+// which PostgreSQL cannot store, fails the command instead of storing something else.
 
 import (
 	"errors"
@@ -143,13 +143,20 @@ func TestEveryKindReadsBackAsWritten(t *testing.T) {
 			t.Fatalf("%s: %v %v %v", show(row), got, refusal, err)
 		}
 	}
+	read, _, err := e.Execute(1, rowsCmd{}, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got, want := shown(read), shown(rows); !slices.Equal(got, want) {
+		t.Fatalf("read back:\n%s\nwant:\n%s", strings.Join(got, "\n"), strings.Join(want, "\n"))
+	}
 	replaced := []sql.Val{int64Val(-1), sql.ValNull{}, sql.ValText{V: "new"}, sql.ValNull{}, int64Val(7)}
 	if _, _, err := e.Execute(1, rowsCmd{put: replaced}, nil); err != nil {
 		t.Fatal(err)
 	}
 	expected := slices.Clone(rows)
 	expected[1] = replaced
-	read, _, err := e.Execute(1, rowsCmd{}, nil)
+	read, _, err = e.Execute(1, rowsCmd{}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
