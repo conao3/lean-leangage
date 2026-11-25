@@ -48,7 +48,7 @@ generate: lean
 	leanfran-python module generate --module-name Calculator.Kernel --search-path lean/.lake/build/lib/lean --output-file python/src/leanharbor_calculator/kernel.py --output text
 	leanfran-go module generate --module-name Calculator.Kernel --search-path lean/.lake/build/lib/lean --output-dir go/calculator/kernel --output text
 	leanfran-python module generate --module-name Calculator.Store --search-path lean/.lake/build/lib/lean --output-file python/src/leanharbor_calculator/store.py --output text
-	leanfran-go module generate --module-name Calculator.Store --search-path lean/.lake/build/lib/lean --output-dir go/calculator/store --output text
+	leanfran-go module generate --module-name Calculator.Store --search-path lean/.lake/build/lib/lean --type-module Calculator.Kernel=github.com/conao3/lean-leanharbor/go/calculator/kernel --type-module Leanharbor.Sql=github.com/conao3/lean-leanharbor/go/leanharbor/sql --output-dir go/calculator/store --output text
 	leanfran project generate --lake-dir lean --output-dir rust/leanharbor/src/generated --modules Leanharbor.Sql Leanharbor.Token Leanharbor.Json --output text
 	leanfran-python module generate --module-name Leanharbor.Sql --search-path lean/.lake/build/lib/lean --output-file python/src/leanharbor/sql.py --output text
 	leanfran-go module generate --module-name Leanharbor.Sql --search-path lean/.lake/build/lib/lean --output-dir go/leanharbor/sql --output text

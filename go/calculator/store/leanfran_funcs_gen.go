@@ -3,78 +3,80 @@
 package store
 
 import (
+	lfmod0 "github.com/conao3/lean-leanharbor/go/calculator/kernel"
+	lfmod1 "github.com/conao3/lean-leanharbor/go/leanharbor/sql"
 	"github.com/conao3/leanfran-go"
 	"github.com/conao3/leanfran-go/rt"
 )
 
-func FromRow(a0 []LeanharborSqlVal) (*CalculatorKernelMemory, error) {
+func FromRow(a0 []lfmod1.Val) (*lfmod0.Memory, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	var _lfValidation leanfran.ValidationError
-	leanfran.CheckAt(&_lfValidation, _lfCodec8, a0, "arg0")
+	leanfran.CheckAt(&_lfValidation, _lfCodec1, a0, "arg0")
 	if len(_lfValidation.Issues) != 0 {
 		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
-		return leanfran.Zero[*CalculatorKernelMemory](), err
+		return leanfran.Zero[*lfmod0.Memory](), err
 	}
-	v0 := _lfCodec8.ToLean(a0)
+	v0 := _lfCodec1.ToLean(a0)
 	defer rt.Lean_dec(v0)
 	_lfResult := l_Calculator_Store_fromRow(v0)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec9.FromLean(_lfResult), nil
+	return _lfCodec3.FromLean(_lfResult), nil
 }
 
-func Load(a0 [][][]LeanharborSqlVal) (*CalculatorKernelSnapshot, error) {
+func Load(a0 [][][]lfmod1.Val) (*lfmod0.Snapshot, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	var _lfValidation leanfran.ValidationError
-	leanfran.CheckAt(&_lfValidation, _lfCodec11, a0, "arg0")
+	leanfran.CheckAt(&_lfValidation, _lfCodec5, a0, "arg0")
 	if len(_lfValidation.Issues) != 0 {
 		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
-		return leanfran.Zero[*CalculatorKernelSnapshot](), err
+		return leanfran.Zero[*lfmod0.Snapshot](), err
 	}
-	v0 := _lfCodec11.ToLean(a0)
+	v0 := _lfCodec5.ToLean(a0)
 	_lfResult := l_Calculator_Store_load(v0)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec12.FromLean(_lfResult), nil
+	return _lfCodec7.FromLean(_lfResult), nil
 }
 
-func StoreAll(a0 CalculatorKernelMemories, a1 []CalculatorKernelMemory) (CalculatorKernelMemories, error) {
+func StoreAll(a0 lfmod0.Memories, a1 []lfmod0.Memory) (lfmod0.Memories, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	var _lfValidation leanfran.ValidationError
-	leanfran.CheckAt(&_lfValidation, _lfCodecCalculatorKernelMemories, a0, "acc")
+	leanfran.CheckAt(&_lfValidation, _lfCodec8, a0, "acc")
 	if len(_lfValidation.Issues) != 0 {
 		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
-		return leanfran.Zero[CalculatorKernelMemories](), err
+		return leanfran.Zero[lfmod0.Memories](), err
 	}
-	v0 := _lfCodecCalculatorKernelMemories.ToLean(a0)
-	v1 := _lfCodec13.ToLean(a1)
+	v0 := _lfCodec8.ToLean(a0)
+	v1 := _lfCodec9.ToLean(a1)
 	defer rt.Lean_dec(v1)
 	_lfResult := l_Calculator_Store_storeAll(v0, v1)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodecCalculatorKernelMemories.FromLean(_lfResult), nil
+	return _lfCodec8.FromLean(_lfResult), nil
 }
 
-func Tables() []LeanharborSqlTab {
+func Tables() []lfmod1.Tab {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	_lfResult := l_Calculator_Store_tables()
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec14.FromLean(_lfResult)
+	return _lfCodec11.FromLean(_lfResult)
 }
 
-func ToRow(a0 CalculatorKernelMemory) []LeanharborSqlVal {
+func ToRow(a0 lfmod0.Memory) []lfmod1.Val {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	v0 := _lfCodecCalculatorKernelMemory.ToLean(a0)
+	v0 := _lfCodec2.ToLean(a0)
 	defer rt.Lean_dec(v0)
 	_lfResult := l_Calculator_Store_toRow(v0)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec8.FromLean(_lfResult)
+	return _lfCodec1.FromLean(_lfResult)
 }
 
-func Writes(a0 *CalculatorKernelMemory) []LeanharborSqlWrite {
+func Writes(a0 *lfmod0.Memory) []lfmod1.Write {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	v0 := _lfCodec9.ToLean(a0)
+	v0 := _lfCodec3.ToLean(a0)
 	defer rt.Lean_dec(v0)
 	_lfResult := l_Calculator_Store_writes(v0)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec15.FromLean(_lfResult)
+	return _lfCodec13.FromLean(_lfResult)
 }
 
 var Handle lfHandle
@@ -89,11 +91,11 @@ func (lfHandle) In(scope *leanfran.ValueScope) lfScopedHandle {
 	return lfScopedHandle{scope: scope}
 }
 
-func (lfHandle) FromRow(a0 leanfran.ValueInput[leanfran.ListType[LeanharborSqlVal]]) leanfran.Value[leanfran.OptionType[CalculatorKernelMemory]] {
+func (lfHandle) FromRow(a0 leanfran.ValueInput[leanfran.ListType[lfmod1.Val]]) leanfran.Value[leanfran.OptionType[lfmod0.Memory]] {
 	return lfScopedHandle{}.FromRow(a0)
 }
 
-func (api lfScopedHandle) FromRow(a0 leanfran.ValueInput[leanfran.ListType[LeanharborSqlVal]]) leanfran.Value[leanfran.OptionType[CalculatorKernelMemory]] {
+func (api lfScopedHandle) FromRow(a0 leanfran.ValueInput[leanfran.ListType[lfmod1.Val]]) leanfran.Value[leanfran.OptionType[lfmod0.Memory]] {
 	scope := api.scope
 	leanfran.BeginValueOperation(scope)
 	defer leanfran.EndValueOperation(scope)
@@ -101,28 +103,28 @@ func (api lfScopedHandle) FromRow(a0 leanfran.ValueInput[leanfran.ListType[Leanh
 	leanfran.AcquireValueInputs(inputs[:])
 	defer rt.Lean_dec(inputs[0].Lean())
 	raw := l_Calculator_Store_fromRow(inputs[0].Lean())
-	return leanfran.WrapValueIn[leanfran.OptionType[CalculatorKernelMemory]](scope, raw)
+	return leanfran.WrapValueIn[leanfran.OptionType[lfmod0.Memory]](scope, raw)
 }
 
-func (lfHandle) Load(a0 leanfran.ValueInput[leanfran.ListType[leanfran.ListType[leanfran.ListType[LeanharborSqlVal]]]]) leanfran.Value[leanfran.OptionType[CalculatorKernelSnapshot]] {
+func (lfHandle) Load(a0 leanfran.ValueInput[leanfran.ListType[leanfran.ListType[leanfran.ListType[lfmod1.Val]]]]) leanfran.Value[leanfran.OptionType[lfmod0.Snapshot]] {
 	return lfScopedHandle{}.Load(a0)
 }
 
-func (api lfScopedHandle) Load(a0 leanfran.ValueInput[leanfran.ListType[leanfran.ListType[leanfran.ListType[LeanharborSqlVal]]]]) leanfran.Value[leanfran.OptionType[CalculatorKernelSnapshot]] {
+func (api lfScopedHandle) Load(a0 leanfran.ValueInput[leanfran.ListType[leanfran.ListType[leanfran.ListType[lfmod1.Val]]]]) leanfran.Value[leanfran.OptionType[lfmod0.Snapshot]] {
 	scope := api.scope
 	leanfran.BeginValueOperation(scope)
 	defer leanfran.EndValueOperation(scope)
 	inputs := [1]leanfran.ValueUse{a0.Use()}
 	leanfran.AcquireValueInputs(inputs[:])
 	raw := l_Calculator_Store_load(inputs[0].Lean())
-	return leanfran.WrapValueIn[leanfran.OptionType[CalculatorKernelSnapshot]](scope, raw)
+	return leanfran.WrapValueIn[leanfran.OptionType[lfmod0.Snapshot]](scope, raw)
 }
 
-func (lfHandle) StoreAll(a0 leanfran.ValueInput[CalculatorKernelMemories], a1 leanfran.ValueInput[leanfran.ListType[CalculatorKernelMemory]]) leanfran.Value[CalculatorKernelMemories] {
+func (lfHandle) StoreAll(a0 leanfran.ValueInput[lfmod0.Memories], a1 leanfran.ValueInput[leanfran.ListType[lfmod0.Memory]]) leanfran.Value[lfmod0.Memories] {
 	return lfScopedHandle{}.StoreAll(a0, a1)
 }
 
-func (api lfScopedHandle) StoreAll(a0 leanfran.ValueInput[CalculatorKernelMemories], a1 leanfran.ValueInput[leanfran.ListType[CalculatorKernelMemory]]) leanfran.Value[CalculatorKernelMemories] {
+func (api lfScopedHandle) StoreAll(a0 leanfran.ValueInput[lfmod0.Memories], a1 leanfran.ValueInput[leanfran.ListType[lfmod0.Memory]]) leanfran.Value[lfmod0.Memories] {
 	scope := api.scope
 	leanfran.BeginValueOperation(scope)
 	defer leanfran.EndValueOperation(scope)
@@ -130,26 +132,26 @@ func (api lfScopedHandle) StoreAll(a0 leanfran.ValueInput[CalculatorKernelMemori
 	leanfran.AcquireValueInputs(inputs[:])
 	defer rt.Lean_dec(inputs[1].Lean())
 	raw := l_Calculator_Store_storeAll(inputs[0].Lean(), inputs[1].Lean())
-	return leanfran.WrapValueIn[CalculatorKernelMemories](scope, raw)
+	return leanfran.WrapValueIn[lfmod0.Memories](scope, raw)
 }
 
-func (lfHandle) Tables() leanfran.Value[leanfran.ListType[LeanharborSqlTab]] {
+func (lfHandle) Tables() leanfran.Value[leanfran.ListType[lfmod1.Tab]] {
 	return lfScopedHandle{}.Tables()
 }
 
-func (api lfScopedHandle) Tables() leanfran.Value[leanfran.ListType[LeanharborSqlTab]] {
+func (api lfScopedHandle) Tables() leanfran.Value[leanfran.ListType[lfmod1.Tab]] {
 	scope := api.scope
 	leanfran.BeginValueOperation(scope)
 	defer leanfran.EndValueOperation(scope)
 	raw := l_Calculator_Store_tables()
-	return leanfran.WrapValueIn[leanfran.ListType[LeanharborSqlTab]](scope, raw)
+	return leanfran.WrapValueIn[leanfran.ListType[lfmod1.Tab]](scope, raw)
 }
 
-func (lfHandle) ToRow(a0 leanfran.ValueInput[CalculatorKernelMemory]) leanfran.Value[leanfran.ListType[LeanharborSqlVal]] {
+func (lfHandle) ToRow(a0 leanfran.ValueInput[lfmod0.Memory]) leanfran.Value[leanfran.ListType[lfmod1.Val]] {
 	return lfScopedHandle{}.ToRow(a0)
 }
 
-func (api lfScopedHandle) ToRow(a0 leanfran.ValueInput[CalculatorKernelMemory]) leanfran.Value[leanfran.ListType[LeanharborSqlVal]] {
+func (api lfScopedHandle) ToRow(a0 leanfran.ValueInput[lfmod0.Memory]) leanfran.Value[leanfran.ListType[lfmod1.Val]] {
 	scope := api.scope
 	leanfran.BeginValueOperation(scope)
 	defer leanfran.EndValueOperation(scope)
@@ -157,14 +159,14 @@ func (api lfScopedHandle) ToRow(a0 leanfran.ValueInput[CalculatorKernelMemory]) 
 	leanfran.AcquireValueInputs(inputs[:])
 	defer rt.Lean_dec(inputs[0].Lean())
 	raw := l_Calculator_Store_toRow(inputs[0].Lean())
-	return leanfran.WrapValueIn[leanfran.ListType[LeanharborSqlVal]](scope, raw)
+	return leanfran.WrapValueIn[leanfran.ListType[lfmod1.Val]](scope, raw)
 }
 
-func (lfHandle) Writes(a0 leanfran.ValueInput[leanfran.OptionType[CalculatorKernelMemory]]) leanfran.Value[leanfran.ListType[LeanharborSqlWrite]] {
+func (lfHandle) Writes(a0 leanfran.ValueInput[leanfran.OptionType[lfmod0.Memory]]) leanfran.Value[leanfran.ListType[lfmod1.Write]] {
 	return lfScopedHandle{}.Writes(a0)
 }
 
-func (api lfScopedHandle) Writes(a0 leanfran.ValueInput[leanfran.OptionType[CalculatorKernelMemory]]) leanfran.Value[leanfran.ListType[LeanharborSqlWrite]] {
+func (api lfScopedHandle) Writes(a0 leanfran.ValueInput[leanfran.OptionType[lfmod0.Memory]]) leanfran.Value[leanfran.ListType[lfmod1.Write]] {
 	scope := api.scope
 	leanfran.BeginValueOperation(scope)
 	defer leanfran.EndValueOperation(scope)
@@ -172,5 +174,5 @@ func (api lfScopedHandle) Writes(a0 leanfran.ValueInput[leanfran.OptionType[Calc
 	leanfran.AcquireValueInputs(inputs[:])
 	defer rt.Lean_dec(inputs[0].Lean())
 	raw := l_Calculator_Store_writes(inputs[0].Lean())
-	return leanfran.WrapValueIn[leanfran.ListType[LeanharborSqlWrite]](scope, raw)
+	return leanfran.WrapValueIn[leanfran.ListType[lfmod1.Write]](scope, raw)
 }
