@@ -80,17 +80,37 @@ Proved in Lean, about the definitions that are generated and run:
 - the six theorems above, for the calculator kernel. The three shells call `transition` and
   `apply`;
 - `Leanharbor.Kernel.Run.inv`: a property that holds for the initial snapshot and is kept by
-  every accepted command holds in every snapshot a tenant can reach.
+  every accepted command holds in every snapshot a tenant can reach;
+- for the SQL compiler `Leanharbor.Sql` (`plan`, `compile`, `select`, `create`, `render`,
+  `valid`), which is generated to the three shells and which no server calls yet:
+  - `lexName_quote`: a quoted name followed by any character but `"` reads back as exactly that
+    name, under PostgreSQL's rule for quoted identifiers written as a lexer on characters;
+  - `compile_params`, `select_params`: the parameters of every compiled statement are the tenant
+    (`$1`), then the statement's values in order;
+  - `compile_placeholders`, `select_placeholders`: the compiled statement refers to `$1` … `$n`
+    for its `n` parameters, each once and in order. The statement is the `Sql` value that `render`
+    prints, and `render_spec` fixes the text of each part;
+  - `compile_erase`, `select_erase`: the compiled statement is the same for every tenant and for
+    every value of the same kinds;
+  - `render_spec`, `valid_iff`, `compile_spec`, `select_spec`, `create_spec`, `plan_spec`: the
+    generated functions equal definitions written another way (the text as lists of characters,
+    the schema checks as propositions).
 
 Checked by `make check`, not proved:
 
 - **The theorems constrain the kernel.** [leanassay](https://github.com/conao3/lean-leanassay)
   breaks `transition`, `apply`, `compute` and the three functions of the trie in 167 small ways
   and runs the theorems on each broken version: 132 are rejected, 5 behave the same on every
-  input tried, 30 do not compile, and none satisfies every theorem while changing an output.
+  input tried, 30 do not compile, and none satisfies every theorem while changing an output. The
+  same check breaks the 26 functions of the SQL compiler in 285 ways: 241 are rejected, 6 behave
+  the same on every input tried, 38 do not compile, and none satisfies every theorem while
+  changing an output.
 - **The generated code computes what Lean computes.** 5,000 commands (698 refusals, values up
   to 2^64 − 1) run through the generated Rust, the generated Python and the generated Go give the
-  same output as the kernel compiled natively by Lean.
+  same output as the kernel compiled natively by Lean. 3,024 lines of schemas and statements
+  (1,189 compiled statements, 1,481 refused ones, names with `"`, non-ASCII and NUL, values up to
+  the bounds of 64 bits) give the same SQL text and parameters in the generated Rust, Python and
+  Go as in the compiler compiled natively by Lean.
 - **The code that runs is generated from the proved source.** The build regenerates the three
   targets and fails on a difference from the committed files.
 - **No extra axioms.** Every theorem depends only on `propext`, `Classical.choice` and
@@ -106,10 +126,12 @@ holds for each of them:
 | Authentication | the token format and its parser, HMAC-SHA256, the secret and its storage, the system clock |
 | Wire format | JSON decoding of commands and encoding of replies and refusals (`Api`) |
 | HTTP | axum, hyper and tokio (Rust); `http.server` (Python); `net/http` (Go) |
-| Specification | that `specStep` and the statements above say what a calculator should do |
+| SQL | that PostgreSQL reads the text as `lexName_quote`'s lexer reads a quoted name; what each statement does to the tables, which no theorem states yet |
+| Specification | that `specStep` and the statements above say what a calculator should do; that `Valid`, `Accepts`, `sqlOf` and `renderSpec` say what the SQL compiler should do |
 
-State lives in the server's memory and is lost on restart. PostgreSQL storage with proved SQL
-generation and tenant isolation, and proved authorization guards are designed and not yet built.
+State lives in the server's memory and is lost on restart. PostgreSQL storage, the model of
+PostgreSQL that `compile` is proved against, tenant isolation over that model, and proved
+authorization guards are designed and not yet built.
 
 ## Speed
 
@@ -207,16 +229,16 @@ of them refused, and checks that the snapshot still has one reference (`IsExclus
 
 | Path | Contents |
 |---|---|
-| [`lean/`](lean) | the Lake package: `Leanharbor` (the kernel contract), `Calculator` (kernel and proofs), `calculator-oracle` (the kernel as a native program) |
+| [`lean/`](lean) | the Lake package: `Leanharbor` (the kernel contract, the SQL compiler and its proofs), `Calculator` (kernel and proofs), `calculator-oracle` and `sql-oracle` (the kernel and the SQL compiler as native programs) |
 | [`audit/`](audit) | the leanassay audit and the axiom check |
-| [`rust/leanharbor`](rust/leanharbor) | the Rust shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc` |
+| [`rust/leanharbor`](rust/leanharbor) | the Rust shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler (`src/generated/`) |
 | [`rust/calculator`](rust/calculator) | the generated kernel (`src/generated/`), the server, the benchmark, the differential test |
-| [`python/`](python) | the Python shell (`leanharbor`) and the calculator (`leanharbor_calculator`, with the generated `kernel.py`) |
-| [`go/leanharbor`](go/leanharbor) | the Go shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc` |
+| [`python/`](python) | the Python shell (`leanharbor`, with the generated `sql.py`) and the calculator (`leanharbor_calculator`, with the generated `kernel.py`) |
+| [`go/leanharbor`](go/leanharbor) | the Go shell: `Kernel`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler (`sql/`) |
 | [`go/calculator`](go/calculator) | the generated kernel (`kernel/`), the server and the benchmark (`cmd/`), the differential test |
 | [`bench/`](bench) | servers without a kernel (axum, actix-web, `net/http`, gin, FastAPI, Flask) for the HTTP comparison |
 | [`docs/`](docs) | the measured runs (`speed.json`) and the charts drawn from them |
-| [`testdata/`](testdata) | the command list of the differential tests (`tools/gen-commands.py`) |
+| [`testdata/`](testdata) | the command list (`tools/gen-commands.py`) and the statement list (`tools/gen-statements.py`) of the differential tests |
 
 ## Development
 
@@ -230,4 +252,4 @@ nix run                            # the Rust calculator server
 
 ## License
 
-[Apache-2.0](LICENSE).
+[Apache-2.0](LICENSE). The SQL compiler is based on h5i; see [`NOTICE`](NOTICE).

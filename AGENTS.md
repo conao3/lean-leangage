@@ -5,16 +5,20 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
 
 ## Layout
 
-- `lean/`: Lake package `leanharbor`, Lean 4.35.0, core only (no Mathlib). `Leanharbor/` is the
-  contract, `Calculator/Kernel.lean` holds what is generated, `Calculator/Proofs.lean` the
-  specifications and theorems, `CalculatorOracle.lean` the native program the differential
-  tests compare against.
-- `audit/`: a separate Lake package with leanassay (`Audit/Calculator.lean`) and the axiom check
-  (`Audit/Axioms.lean`).
+- `lean/`: Lake package `leanharbor`, Lean 4.35.0, core only (no Mathlib). `Leanharbor/Kernel.lean`
+  is the contract, `Leanharbor/Sql.lean` the SQL compiler that is generated and
+  `Leanharbor/Sql/Proofs.lean` its specifications and theorems. `Calculator/Kernel.lean` holds
+  what is generated, `Calculator/Proofs.lean` the specifications and theorems.
+  `CalculatorOracle.lean` and `SqlOracle.lean` are the native programs the differential tests
+  compare against.
+- `audit/`: a separate Lake package with leanassay (`Audit/Calculator.lean`, `Audit/Sql.lean`) and
+  the axiom check (`Audit/Axioms.lean`).
 - `rust/`: Cargo workspace, edition 2024. `leanharbor` is the shell, `calculator` the example.
 - `python/`: uv project. `leanharbor` is the shell, `leanharbor_calculator` the example.
 - `go/`: Go module `github.com/conao3/lean-leanharbor/go`. `leanharbor` is the shell,
   `calculator` the example, with the server and the benchmark under `calculator/cmd/`.
+- Each shell holds the SQL compiler generated from `Leanharbor.Sql`: `rust/leanharbor/src/generated/`
+  (`leanharbor::sql`), `python/src/leanharbor/sql.py` and `go/leanharbor/sql/`.
 
 ## Lean and the host languages
 
@@ -32,10 +36,10 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   updating in place. `rust/calculator/tests/in_place.rs` and `go/calculator/in_place_test.go`
   check it.
 - Generated files (`rust/calculator/src/generated/`, `python/src/leanharbor_calculator/kernel.py`,
-  `go/calculator/kernel/`) are committed and never edited. Run `make generate` after changing
-  `lean/`.
-- When a function is added to a generated module, add a theorem about it and list it in
-  `audit/Audit/Calculator.lean` in the same change. Theorems whose hypothesis fixes the result
+  `go/calculator/kernel/`, and the SQL compiler in each shell) are committed and never edited.
+  Run `make generate` after changing `lean/`.
+- When a function is added to a generated module, add a theorem about it and list it in the
+  module's audit file (`audit/Audit/Calculator.lean`, `audit/Audit/Sql.lean`) in the same change. Theorems whose hypothesis fixes the result
   of the function (`transition a s c = .ok …`) cannot be run by leanassay; state the runnable
   form with `match` (`get_after_run`) and derive the other from it.
 - The README states what is proved, what is checked and what is trusted. Keep its numbers equal
@@ -54,8 +58,11 @@ All commands run inside `nix develop`.
   `docs/speed.json`; `python3 tools/speed-charts.py` draws `docs/speed-*.svg` and prints the
   tables to paste into the README. `bench/` holds the servers without a kernel that the HTTP
   measurement compares with; `make check` does not build them.
-- The differential tests read the oracle's path from `LEANHARBOR_CALCULATOR_ORACLE`; the
-  Makefile sets it.
+- The differential tests read the oracles' paths from `LEANHARBOR_CALCULATOR_ORACLE` and
+  `LEANHARBOR_SQL_ORACLE`; the Makefile sets them. `testdata/sql-statements.txt` comes from
+  `python3 tools/gen-statements.py 3000`, and its line format is described in `lean/SqlOracle.lean`.
+- A spec in a proofs module calls no generated function, so that `#assay` does not break it along
+  with the function (`kindOf` in `Leanharbor.Sql.Proofs` beside the generated `valKind`).
 - The servers read `LEANHARBOR_SECRET` and `LEANHARBOR_LISTEN`; `LEANHARBOR_ISSUE=<org>:<user>`
   prints a one-day token and exits.
 
