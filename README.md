@@ -82,7 +82,10 @@ that is the same for every kernel. A handler passes bytes through 3 generated fu
    bytes and compares it with the tag.
 2. `request` takes the claims, the time and the body. It refuses an expired token, reads the body
    with the JSON reader of [`lean/Leangage/Json/Read.lean`](lean/Leangage/Json/Read.lean) and
-   gives the command and the principal the engine runs, or the answer (401, 400, 413).
+   gives the command and the principal the engine runs, or the answer (401, 400, 413). A body
+   that is a command written without a space, with its members in the order of the spellings
+   below, is recognised by its bytes (`spelled`), and `decode_text` proves that the reader
+   decides the same for it.
 3. `respond` gives the status and the body for the kernel's reply or refusal, and `failed` for a
    failure of the engine.
 
@@ -512,6 +515,11 @@ Proved in Lean, about the definitions that are generated and run:
   - `decode_encode`, `request_encode`: a body whose bytes are `Value.print` of
     `encodeCommand c`, sent with a token that has not expired, gives the engine the command `c`
     for the principal of the token's tenant and user (`request_actor`);
+  - `spelled_spec`, `decode_text`: `spelled`, which compares the bytes of a body with those of
+    a command written without a space and reads the digits of its number, gives `c` exactly for
+    the bodies whose bytes are `Value.print` of `encodeCommand c`, and `decode`, which takes
+    the command of such a body from `spelled`, decides for every body what the JSON reader
+    decides (`decodeText`);
   - `decode_ok_iff`, `decodeItems_ok_iff`, `decodeMembers_ok_iff`: a body is decoded to `c`
     exactly when it reads as the items of an object with as many members as `c` has fields and
     with each field among them. So the members may come in any order, and an object with another
@@ -568,8 +576,8 @@ Checked by `make check`, not proved:
   functions of the JSON writer (524 ways: 454 rejected, 6 behave the same, 64 don't compile), the
   8 functions that make the calculator's bodies (111 ways, all rejected), the 4 functions of
   `Leangage.Http` that it can break (95 ways: 89 rejected, 6 don't compile; `refuse` is one
-  constructor applied to its arguments, and it makes no broken version of it), the 12 functions
-  of `Calculator.Wire` (426 ways: 403 rejected, 1 behaves the same, 22 don't compile), the 6
+  constructor applied to its arguments, and it makes no broken version of it), the 15 functions
+  of `Calculator.Wire` (466 ways: 441 rejected, 2 behave the same, 23 don't compile), the 6
   functions of the calculator's table (25 ways: 20 rejected, 5 don't compile) and the 8 functions of the notes'
   tables (46 ways: 30 rejected, 16 don't compile). For the guard, it breaks `guard`, `guardViewed` and the 4 checks in 28 ways and runs `guard_eq`,
   `guard_viewed_eq` and the lemmas about the checks on random kernels and policies: 22 are
