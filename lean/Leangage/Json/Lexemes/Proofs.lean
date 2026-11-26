@@ -6,8 +6,9 @@ import Leangage.Token.Proofs
 # What the functions on the tokens of a JSON text guarantee
 
 The JSON library of a server is trusted to hand over the tokens of the text it reads, in the
-order of the document: for a number the text of its token, for a string and a key their text. The
-theorems of the kernels' functions on the wire start from those tokens.
+order of the document: for a number the text of its token, for a string and a key their text. For
+the bytes `Json.writeArray toks` writes, those are `toks.map Lexeme.ofStrTok`. The theorems of the
+kernels' functions on the wire start from those tokens.
 
 - `numberOf_iff`: a number token has the value `n` exactly when its text is the decimal of `n`,
   digits without a sign, a fraction, an exponent or a leading zero, so no text that spells 2^64
@@ -107,6 +108,18 @@ theorem scalar_spec (lexeme : Lexeme) : scalar lexeme = scalarOf lexeme := by
 /-- The token of the decimal of a `UInt64` is that number. -/
 theorem scalar_decimalText (n : UInt64) : scalar (.number (decimalText n)) = some (.num n) := by
   simp [scalar, numberOf_decimalText]
+
+/-- The token a JSON library hands over for a token of the writer: a number as its decimal. -/
+def Lexeme.ofStrTok : StrTok → Lexeme
+  | .null => .null
+  | .bool b => .bool b
+  | .num n => .number (decimalText n)
+  | .str s => .str s
+  | .key s => .key s
+  | .arrOpen => .arrOpen
+  | .arrClose => .arrClose
+  | .objOpen => .objOpen
+  | .objClose => .objClose
 
 /-- The tokens of an object with the given members. -/
 def objectLexemes (ms : List (String × Lexeme)) : List Lexeme :=

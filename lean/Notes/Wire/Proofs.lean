@@ -33,7 +33,8 @@ stored reply (`Leangage.Json.Lexemes.Proofs`); the theorems start from those tok
   `refusalName`.
 - `decodeReply_encode`, `replyOf_lexemes`, `decodeReply_spec`: `encodeReply` writes `Value.print`
   of `replyValue r` for a reply, which an engine stores under an idempotency key, and
-  `decodeReply` reads the tokens of that text (`replyLexemes r`) back as `r`.
+  `decodeReply` reads the tokens of that text (`(replyToks r).map Lexeme.ofStrTok`, the tokens
+  `encodeReply` writes with a number as its decimal) back as `r`.
   `decodeReply_none`: stored bytes the JSON library refuses are no reply.
 - `fingerprint_spec`: the fingerprint of a command is the text `fingerprintText` gives, such as
   `PutNote { id: 7, body: "text", shared: true }` with the body escaped as in a JSON string.
@@ -501,11 +502,27 @@ theorem replyOf_lexemes (r : Reply) : replyOf (replyLexemes r) = some r := by
     have := membersOf_lexemes ms []
     simp_all [replyLexemes, replyOf]
 
-/-- The tokens of the text `encodeReply` writes for a reply are read back as the reply. The JSON
-library that reads the stored bytes is trusted to hand over `replyLexemes r` for the bytes
-`Value.print (replyValue r)`, which `encodeReply r` is (`encodeReply_spec`). -/
-theorem decodeReply_encode (r : Reply) : decodeReply (some (replyLexemes r)) = some r :=
-  replyOf_lexemes r
+theorem replyLexemes_replyToks (r : Reply) : replyLexemes r = (replyToks r).map Lexeme.ofStrTok := by
+  cases r with
+  | done => rfl
+  | found n => simp [replyLexemes, replyToks, noteLexemes, noteToks, Lexeme.ofStrTok]
+  | notes ns =>
+    simp only [replyLexemes, replyToks, List.map_cons, List.map_append, List.map_flatMap, Lexeme.ofStrTok,
+      List.map_nil]
+    congr
+  | members ms =>
+    simp only [replyLexemes, replyToks, List.map_cons, List.map_append, List.map_flatMap, Lexeme.ofStrTok,
+      List.map_nil]
+    congr
+
+/-- The tokens of the text `encodeReply` writes for a reply are read back as the reply:
+`encodeReply r` is `Json.writeArray (replyToks r)`, and the JSON library that reads the stored
+bytes is trusted to hand over the tokens of the writer, a number as its decimal
+(`Lexeme.ofStrTok`). -/
+theorem decodeReply_encode (r : Reply) :
+    decodeReply (some ((replyToks r).map Lexeme.ofStrTok)) = some r := by
+  rw [← replyLexemes_replyToks]
+  exact replyOf_lexemes r
 
 /-- The reply of the tokens of a stored reply. -/
 theorem decodeReply_spec (lexemes : List Lexeme) : decodeReply (some lexemes) = replyOf lexemes := rfl
