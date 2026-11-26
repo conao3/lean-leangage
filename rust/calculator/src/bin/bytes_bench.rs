@@ -8,22 +8,31 @@
 //! does it: `body_of`, which reads the body with serde_json into tokens, with the generated
 //! `wire::request`, and the generated `wire::respond`. (d) also times `body_of` alone, a copy of
 //! the tokens it gives, `wire::request` on such a copy with a token that is valid and with one
-//! that has expired (which answers before it decodes), and prints the calls per second.
+//! that has expired (which answers before it decodes), and prints the calls per second. (f) times
+//! what the server does for one request without a socket: the router of `POST /rpc` called in
+//! process, which checks the token, reads the body, runs the command on the memory engine and
+//! makes the answer.
 
 use std::hint::black_box;
-use std::time::Instant;
+use std::sync::Arc;
+use std::time::{Instant, SystemTime, UNIX_EPOCH};
+
+use axum::body::Body;
+use axum::http::Request;
 
 use hmac::{Hmac, Mac};
 use leangage::Storage;
-use leangage::http::body_of;
+use leangage::http::{body_of, rpc_router};
 use leangage::http_format;
 use leangage::json_format::{self, StrTok, Tok};
+use leangage::memory::MemoryEngine;
 use leangage::token::{self, Claims};
 use leangage::token_format;
-use leangage_calculator::{kernel, wire};
+use leangage_calculator::{Calculator, kernel, wire};
 use leangage_notes::{Notes, kernel as notes};
 use serde::Deserialize;
 use sha2::Sha256;
+use tower::ServiceExt;
 
 const ROUNDS: usize = 7;
 
@@ -350,4 +359,55 @@ fn main() {
             black_box(wire::respond(Ok(black_box(&reply).clone())));
         },
     );
+
+    let secret = b"bench-secret".to_vec();
+    let expiry = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map_or(0, |d| d.as_secs())
+        + 86_400;
+    let bearer = format!(
+        "Bearer {}",
+        token::issue(
+            &secret,
+            Claims {
+                tenant: 1,
+                user: 7,
+                expiry,
+            },
+        )
+    );
+    let router = rpc_router::<Calculator, Calculator, _>(
+        Arc::new(MemoryEngine::<Calculator>::new()),
+        secret,
+    );
+    let runtime = tokio::runtime::Builder::new_current_thread()
+        .build()
+        .expect("a runtime");
+    for (label, body) in [
+        ("get", r#"{"cmd":"get"}"#),
+        ("apply", r#"{"cmd":"apply","op":"div","arg":1}"#),
+    ] {
+        let call = || {
+            let request = Request::post("/rpc")
+                .header("authorization", &bearer)
+                .header("content-type", "application/json")
+                .body(Body::from(body))
+                .expect("a request");
+            runtime
+                .block_on(router.clone().oneshot(request))
+                .expect("an answer")
+        };
+        assert_eq!(call().status(), 200);
+        let mut rounds = Vec::new();
+        for _ in 0..ROUNDS {
+            rounds.push(per_op(50_000, &mut || {
+                black_box(call());
+            }));
+        }
+        let line = show(&mut rounds);
+        println!(
+            "(f) rpc handler, {label:<6} {line}  {:.0} calls/s",
+            1e9 / rounds[0]
+        );
+    }
 }

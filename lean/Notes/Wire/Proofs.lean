@@ -209,39 +209,39 @@ theorem decodeMembers_ok_iff (ms : List (String × Scalar)) (c : Command) :
       simp [decodeMembers, hk, hl]
 
 /-- The tokens of the JSON text that spells a command decode to it. -/
-theorem decode_encode (c : Command) : decode (lexemesOf c) = .ok c := by
-  rw [decode, lexemesOf, object_objectLexemes, scalars_lexFields]
+theorem decode_encode (c : Command) : decode (encode (lexemesOf c)) = .ok c := by
+  rw [decode, lexemes_encode, lexemesOf, object_objectLexemes, scalars_lexFields]
   exact decodeMembers_fields c
 
 /-- `decode` accepts, as the command `c`, exactly the tokens of an object whose members are the
 fields of `c` in some order. -/
-theorem decode_ok_iff (lexemes : List Lexeme) (c : Command) :
-    decode lexemes = .ok c ↔
-      ∃ ms, object lexemes = some ms ∧ ms.length = (fields c).length ∧ ∀ m ∈ fields c, m ∈ ms := by
+theorem decode_ok_iff (tokens : Tokens) (c : Command) :
+    decode tokens = .ok c ↔
+      ∃ ms, object tokens.lexemes = some ms ∧ ms.length = (fields c).length ∧ ∀ m ∈ fields c, m ∈ ms := by
   unfold decode
-  cases h : object lexemes with
+  cases h : object tokens.lexemes with
   | none => simp
   | some ms => simp [decodeMembers_ok_iff]
 
 /-- `decode` decides on the members `object` gives, and refuses tokens without members. -/
-theorem decode_spec (lexemes : List Lexeme) :
-    decode lexemes =
-      match object lexemes with
+theorem decode_spec (tokens : Tokens) :
+    decode tokens =
+      match object tokens.lexemes with
       | some ms => decodeMembers ms
       | none => .error .notCommand := rfl
 
 /-- Tokens that are not those of an object whose values are values by themselves are no command. -/
-theorem decode_not_object {lexemes : List Lexeme} (h : object lexemes = none) :
-    decode lexemes = .error .notCommand := by
+theorem decode_not_object {tokens : Tokens} (h : object tokens.lexemes = none) :
+    decode tokens = .error .notCommand := by
   simp [decode, h]
 
 /-- The tokens of an object decode as its members. -/
 theorem decode_object (ms : List (String × Lexeme)) :
-    decode (objectLexemes ms) =
+    decode (encode (objectLexemes ms)) =
       match scalars ms with
       | some xs => decodeMembers xs
       | none => .error .notCommand := by
-  rw [decode, object_objectLexemes]
+  rw [decode, lexemes_encode, object_objectLexemes]
   cases scalars ms <;> rfl
 
 /-- An object without the member `cmd` is refused as that, and no other. -/
@@ -288,13 +288,13 @@ theorem request_expired {exp now : UInt64} (h : exp < now) (tenant user : UInt64
 its tokens decode to, for the principal the token claims, or 400 with the message of
 the refusal. -/
 theorem request_json {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64)
-    (lexemes : List Lexeme) :
-    request tenant user exp now (.json lexemes) =
-      match decode lexemes with
+    (tokens : Tokens) :
+    request tenant user exp now (.json tokens) =
+      match decode tokens with
       | .ok cmd => .ok ⟨⟨tenant, user⟩, cmd⟩
       | .error e => .error (Http.refuse 400 (refusalMessage e)) := by
   simp only [request, Http.admit_json h]
-  cases decode lexemes <;> rfl
+  cases decode tokens <;> rfl
 
 /-- A request with a token that has not expired and a body without tokens. -/
 theorem request_not_json {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64) :
@@ -310,7 +310,7 @@ value that spells the command `c` gives the engine `c` for the principal of the 
 user. -/
 theorem request_encode {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64)
     (c : Command) :
-    request tenant user exp now (.json (lexemesOf c)) = .ok ⟨⟨tenant, user⟩, c⟩ := by
+    request tenant user exp now (.json (encode (lexemesOf c))) = .ok ⟨⟨tenant, user⟩, c⟩ := by
   rw [request_json h, decode_encode c]
 
 theorem request_actor_run (tenant user exp now : UInt64) (body : Http.Body) :
@@ -344,9 +344,9 @@ theorem request_refusal {tenant user exp now : UInt64} {body : Http.Body} {r : H
     cases h
     exact ⟨by simp [Http.refuse_status], _, Http.refuse_body _ _⟩
   · cases body with
-    | json lexemes =>
+    | json tokens =>
       rw [request_json he] at h
-      cases hd : decode lexemes with
+      cases hd : decode tokens with
       | ok cmd => simp [hd] at h
       | error e =>
         simp only [hd, Except.error.injEq] at h
@@ -518,14 +518,14 @@ theorem replyLexemes_replyToks (r : Reply) : replyLexemes r = (replyToks r).map 
 /-- The tokens of the text `encodeReply` writes for a reply are read back as the reply:
 `encodeReply r` is `Json.writeArray (replyToks r)`, and the JSON library that reads the stored
 bytes is trusted to hand over the tokens of the writer, a number as its decimal
-(`Lexeme.ofStrTok`). -/
+(`Lexeme.ofStrTok`), packed by `encode`. -/
 theorem decodeReply_encode (r : Reply) :
-    decodeReply (some ((replyToks r).map Lexeme.ofStrTok)) = some r := by
-  rw [← replyLexemes_replyToks]
+    decodeReply (some (encode ((replyToks r).map Lexeme.ofStrTok))) = some r := by
+  rw [← replyLexemes_replyToks, decodeReply, lexemes_encode]
   exact replyOf_lexemes r
 
 /-- The reply of the tokens of a stored reply. -/
-theorem decodeReply_spec (lexemes : List Lexeme) : decodeReply (some lexemes) = replyOf lexemes := rfl
+theorem decodeReply_spec (tokens : Tokens) : decodeReply (some tokens) = replyOf tokens.lexemes := rfl
 
 /-- Stored bytes the JSON library refuses are read back as no reply. -/
 theorem decodeReply_none : decodeReply none = none := rfl

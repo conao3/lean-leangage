@@ -18,7 +18,7 @@ leangage-pg = { path = "../leangage-pg" }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 tokio = { version = "1", features = ["macros", "net", "rt-multi-thread"] }
+tower = { version = "0.5", features = ["util"] }
 
 [dev-dependencies]
 tokio-postgres = "0.7"
-tower = { version = "0.5", features = ["util"] }

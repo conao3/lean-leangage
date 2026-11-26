@@ -5,11 +5,14 @@ import Leangage.Token.Proofs
 /-!
 # What the functions on the tokens of a JSON text guarantee
 
-The JSON library of a server is trusted to hand over the tokens of the text it reads, in the
-order of the document: for a number the text of its token, for a string and a key their text. For
-the bytes `Json.writeArray toks` writes, those are `toks.map Lexeme.ofStrTok`. The theorems of the
+The JSON library of a server and its conversion are trusted to hand over the tokens of the text
+they read, in the order of the document: for a number the text of its token, for a string and a
+key their text, packed as `encode` packs them. For the bytes `Json.writeArray toks` writes, those
+are `encode (toks.map Lexeme.ofStrTok)`. The theorems of the
 kernels' functions on the wire start from those tokens.
 
+- `lexemes_encode`: `Tokens.lexemes` gives back the tokens that `encode` packs, so the kernels'
+  functions read the tokens the conversion saw.
 - `numberOf_iff`: a number token has the value `n` exactly when its text is the decimal of `n`,
   digits without a sign, a fraction, an exponent or a leading zero, so no text that spells 2^64
   or more has a value. `numberOf_decimalText` reads the decimal of every `UInt64`, and
@@ -120,6 +123,46 @@ def Lexeme.ofStrTok : StrTok → Lexeme
   | .arrClose => .arrClose
   | .objOpen => .objOpen
   | .objClose => .objClose
+
+/-- The character for the kind of a token. -/
+def kindOf : Lexeme → Char
+  | .null => 'n'
+  | .bool true => 't'
+  | .bool false => 'f'
+  | .number _ => '#'
+  | .str _ => 's'
+  | .key _ => 'k'
+  | .arrOpen => '['
+  | .arrClose => ']'
+  | .objOpen => '{'
+  | .objClose => '}'
+
+/-- The text of a number, a string and a key. -/
+def textOf : Lexeme → Option String
+  | .number text => some text
+  | .str s => some s
+  | .key s => some s
+  | _ => none
+
+/-- The tokens as a server's conversion hands them over: the kinds as one text, and the texts of
+the numbers, the strings and the keys. -/
+def encode (lexemes : List Lexeme) : Tokens :=
+  ⟨String.ofList (lexemes.map kindOf), lexemes.filterMap textOf⟩
+
+theorem zip_encode (lexemes : List Lexeme) : zip (lexemes.map kindOf) (lexemes.filterMap textOf) = lexemes := by
+  induction lexemes with
+  | nil => rfl
+  | cons l ls ih =>
+    cases l with
+    | bool b => cases b <;> simp [kindOf, textOf, zip, List.filterMap_cons, ih]
+    | _ => simp [kindOf, textOf, zip, List.filterMap_cons, ih]
+
+/-- The tokens a conversion hands over are read back one by one. -/
+theorem lexemes_encode (lexemes : List Lexeme) : (encode lexemes).lexemes = lexemes := by
+  simp [encode, Tokens.lexemes, zip_encode]
+
+/-- `Tokens.lexemes` is `zip` on the characters of the kinds. -/
+theorem lexemes_spec (tokens : Tokens) : tokens.lexemes = zip tokens.kinds.toList tokens.texts := rfl
 
 /-- The tokens of an object with the given members. -/
 def objectLexemes (ms : List (String × Lexeme)) : List Lexeme :=

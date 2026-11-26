@@ -10,17 +10,17 @@ import (
 func Members(a0 []leanfran.Pair[string, Scalar], a1 []Lexeme) (*[]leanfran.Pair[string, Scalar], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	var _lfValidation leanfran.ValidationError
-	leanfran.CheckAt(&_lfValidation, _lfCodec4, a0, "acc")
-	leanfran.CheckAt(&_lfValidation, _lfCodec5, a1, "arg1")
+	leanfran.CheckAt(&_lfValidation, _lfCodec5, a0, "acc")
+	leanfran.CheckAt(&_lfValidation, _lfCodec6, a1, "arg1")
 	if len(_lfValidation.Issues) != 0 {
 		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
 		return leanfran.Zero[*[]leanfran.Pair[string, Scalar]](), err
 	}
-	v0 := _lfCodec4.ToLean(a0)
-	v1 := _lfCodec5.ToLean(a1)
+	v0 := _lfCodec5.ToLean(a0)
+	v1 := _lfCodec6.ToLean(a1)
 	_lfResult := l_Leangage_Json_Lexemes_members(v0, v1)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec6.FromLean(_lfResult), nil
+	return _lfCodec7.FromLean(_lfResult), nil
 }
 
 func NumberOf(a0 string) (*uint64, error) {
@@ -35,21 +35,21 @@ func NumberOf(a0 string) (*uint64, error) {
 	defer rt.Lean_dec(v0)
 	_lfResult := l_Leangage_Json_Lexemes_numberOf(v0)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec7.FromLean(_lfResult), nil
+	return _lfCodec8.FromLean(_lfResult), nil
 }
 
 func Object(a0 []Lexeme) (*[]leanfran.Pair[string, Scalar], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	var _lfValidation leanfran.ValidationError
-	leanfran.CheckAt(&_lfValidation, _lfCodec5, a0, "arg0")
+	leanfran.CheckAt(&_lfValidation, _lfCodec6, a0, "arg0")
 	if len(_lfValidation.Issues) != 0 {
 		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
 		return leanfran.Zero[*[]leanfran.Pair[string, Scalar]](), err
 	}
-	v0 := _lfCodec5.ToLean(a0)
+	v0 := _lfCodec6.ToLean(a0)
 	_lfResult := l_Leangage_Json_Lexemes_object(v0)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec6.FromLean(_lfResult), nil
+	return _lfCodec7.FromLean(_lfResult), nil
 }
 
 func Scalar2(a0 Lexeme) (*Scalar, error) {
@@ -63,7 +63,37 @@ func Scalar2(a0 Lexeme) (*Scalar, error) {
 	v0 := _lfCodecLexeme.ToLean(a0)
 	_lfResult := l_Leangage_Json_Lexemes_scalar(v0)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec8.FromLean(_lfResult), nil
+	return _lfCodec9.FromLean(_lfResult), nil
+}
+
+func TokensLexemes(a0 Tokens) ([]Lexeme, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodecTokens, a0, "tokens")
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[[]Lexeme](), err
+	}
+	v0 := _lfCodecTokens.ToLean(a0)
+	_lfResult := l_Leangage_Json_Lexemes_Tokens_lexemes(v0)
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec6.FromLean(_lfResult), nil
+}
+
+func Zip(a0 []rune, a1 []string) ([]Lexeme, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodec11, a0, "arg0")
+	leanfran.CheckAt(&_lfValidation, _lfCodec3, a1, "arg1")
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[[]Lexeme](), err
+	}
+	v0 := _lfCodec11.ToLean(a0)
+	v1 := _lfCodec3.ToLean(a1)
+	_lfResult := l_Leangage_Json_Lexemes_zip(v0, v1)
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec6.FromLean(_lfResult), nil
 }
 
 var Handle lfHandle
@@ -129,4 +159,30 @@ func (api lfScopedHandle) Scalar(a0 leanfran.ValueInput[Lexeme]) leanfran.Value[
 	op.Acquire(inputs[:])
 	raw := l_Leangage_Json_Lexemes_scalar(inputs[0].Lean())
 	return leanfran.WrapValueIn[leanfran.OptionType[Scalar]](op, raw)
+}
+
+func (lfHandle) TokensLexemes(a0 leanfran.ValueInput[Tokens]) leanfran.Value[leanfran.ListType[Lexeme]] {
+	return lfScopedHandle{}.TokensLexemes(a0)
+}
+
+func (api lfScopedHandle) TokensLexemes(a0 leanfran.ValueInput[Tokens]) leanfran.Value[leanfran.ListType[Lexeme]] {
+	inputs := [1]leanfran.ValueUse{a0.Use()}
+	op := leanfran.BeginValueOperation(api.scope, inputs[:])
+	defer op.End()
+	op.Acquire(inputs[:])
+	raw := l_Leangage_Json_Lexemes_Tokens_lexemes(inputs[0].Lean())
+	return leanfran.WrapValueIn[leanfran.ListType[Lexeme]](op, raw)
+}
+
+func (lfHandle) Zip(a0 leanfran.ValueInput[leanfran.ListType[leanfran.CharType]], a1 leanfran.ValueInput[leanfran.ListType[string]]) leanfran.Value[leanfran.ListType[Lexeme]] {
+	return lfScopedHandle{}.Zip(a0, a1)
+}
+
+func (api lfScopedHandle) Zip(a0 leanfran.ValueInput[leanfran.ListType[leanfran.CharType]], a1 leanfran.ValueInput[leanfran.ListType[string]]) leanfran.Value[leanfran.ListType[Lexeme]] {
+	inputs := [2]leanfran.ValueUse{a0.Use(), a1.Use()}
+	op := leanfran.BeginValueOperation(api.scope, inputs[:])
+	defer op.End()
+	op.Acquire(inputs[:])
+	raw := l_Leangage_Json_Lexemes_zip(inputs[0].Lean(), inputs[1].Lean())
+	return leanfran.WrapValueIn[leanfran.ListType[Lexeme]](op, raw)
 }

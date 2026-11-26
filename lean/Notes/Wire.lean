@@ -83,8 +83,8 @@ def decodeMembers (ms : List (String × Scalar)) : Except Refusal Command :=
   | some _ => .error .notCommand
 
 /-- The command that the tokens of a JSON text spell. -/
-def decode (lexemes : List Lexeme) : Except Refusal Command :=
-  match object lexemes with
+def decode (tokens : Tokens) : Except Refusal Command :=
+  match object tokens.lexemes with
   | some ms => decodeMembers ms
   | none => .error .notCommand
 
@@ -98,8 +98,8 @@ expiry `exp`, at the time `now`; or the answer to the request. -/
 def request (tenant user exp now : UInt64) (body : Http.Body) : Except Http.Response Call :=
   match Http.admit exp now body with
   | .error r => .error r
-  | .ok lexemes =>
-    match decode lexemes with
+  | .ok tokens =>
+    match decode tokens with
     | .error e => .error (Http.refuse 400 (refusalMessage e))
     | .ok cmd => .ok ⟨⟨tenant, user⟩, cmd⟩
 
@@ -187,10 +187,10 @@ def replyOf : List Lexeme → Option Reply
 
 /-- The reply that the tokens of a stored reply spell, the tokens being those a JSON library reads
 from the bytes `encodeReply` wrote; `none` stands for bytes the library refuses. -/
-def decodeReply (stored : Option (List Lexeme)) : Option Reply :=
+def decodeReply (stored : Option Tokens) : Option Reply :=
   match stored with
   | none => none
-  | some lexemes => replyOf lexemes
+  | some tokens => replyOf tokens.lexemes
 
 /-- `acc` followed by `true` or `false` and ` }`. -/
 def pushFlag (acc : Array UInt8) (b : Bool) : Array UInt8 :=

@@ -83,6 +83,18 @@ instance (priority := high) wireShrinkableLexemes : Shrinkable (List Lexeme) := 
 instance (priority := high) wireSampleableLexemes : SampleableExt (List Lexeme) :=
   SampleableExt.selfContained
 
+instance (priority := high) wireArbitraryTokens : Arbitrary Tokens where
+  arbitrary := do
+    let tokens := encode (← bodyLexemes)
+    Gen.elements
+      [tokens, tokens, tokens, tokens, ⟨tokens.kinds, tokens.texts.drop 1⟩, ⟨tokens.kinds ++ "s", tokens.texts⟩,
+        ⟨tokens.kinds, tokens.texts ++ ["x"]⟩]
+      (by simp)
+
+instance : Shrinkable Tokens := ⟨fun _ => []⟩
+
+instance (priority := high) wireSampleableTokens : SampleableExt Tokens := SampleableExt.selfContained
+
 deriving instance DecidableEq for Principal, Command, Call
 
 #assay Calculator.Wire.decodeMembers

@@ -1989,33 +1989,35 @@ pub(crate) unsafe fn l_Calculator_Wire_decode(mut x_1: Obj) -> Obj {
 let mut x_2: Obj = rt::lean_box(0);
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-let mut x_6: Obj = rt::lean_box(0);
-let mut x_7: u8 = 0;
-let mut x_9: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: u8 = 0;
 let mut x_10: Obj = rt::lean_box(0);
-let mut x_11: u8 = 0;
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_12: u8 = 0;
 let mut __blk: u32 = 0;
 'body: loop { match __blk {
 0 => {
 x_2 = l_Calculator_Wire_spelled(x_1);
 match rt::lean_obj_tag(x_2) {
 0 => {
-x_3 = l_Calculator_Wire_decodeObject(x_1);
-return x_3;
+x_3 = l_Leangage_Json_Lexemes_Tokens_lexemes(x_1);
+x_4 = l_Calculator_Wire_decodeObject(x_3);
+return x_4;
 }
 1 => {
-rt::lean_dec(x_1);
-x_4 = rt::lean_ctor_get(x_2, 0);
-x_11 = (!rt::lean_is_exclusive(x_2)) as u8;
-match x_11 as u32 {
+rt::lean_dec_ref(x_1);
+x_5 = rt::lean_ctor_get(x_2, 0);
+x_12 = (!rt::lean_is_exclusive(x_2)) as u8;
+match x_12 as u32 {
 0 => {
-{ let t_0 = x_2; let t_1 = x_11; x_6 = t_0; x_7 = t_1; }
+{ let t_0 = x_2; let t_1 = x_12; x_7 = t_0; x_8 = t_1; }
 __blk = 1; continue 'body;
 }
 1 => {
-rt::lean_inc(x_4);
+rt::lean_inc(x_5);
 rt::lean_dec(x_2);
-{ let t_0 = rt::lean_box(0); let t_1 = x_11; x_6 = t_0; x_7 = t_1; }
+{ let t_0 = rt::lean_box(0); let t_1 = x_12; x_7 = t_0; x_8 = t_1; }
 __blk = 1; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
@@ -2025,21 +2027,21 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-match x_7 as u32 {
+match x_8 as u32 {
 0 => {
-{ let t_0 = x_6; x_9 = t_0; }
+{ let t_0 = x_7; x_10 = t_0; }
 __blk = 2; continue 'body;
 }
 1 => {
-x_10 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_10, 0, x_4);
-{ let t_0 = x_10; x_9 = t_0; }
+x_11 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_11, 0, x_5);
+{ let t_0 = x_11; x_10 = t_0; }
 __blk = 2; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 2 => {
-return x_9;
+return x_10;
 }
 _ => rt::lean_internal_panic_unreachable(),
 } }
@@ -2050,53 +2052,53 @@ pub(crate) unsafe fn l_Calculator_Wire_spelled(mut x_1: Obj) -> Obj {
 let mut x_2: Obj = rt::lean_box(0);
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-let mut x_5: Obj = rt::lean_box(0);
+let mut x_5: u8 = 0;
 let mut x_6: Obj = rt::lean_box(0);
-let mut x_7: Obj = rt::lean_box(0);
+let mut x_7: u8 = 0;
 let mut x_8: Obj = rt::lean_box(0);
-let mut x_9: Obj = rt::lean_box(0);
+let mut x_9: u8 = 0;
 let mut x_10: Obj = rt::lean_box(0);
 let mut x_11: Obj = rt::lean_box(0);
 let mut x_12: Obj = rt::lean_box(0);
-let mut x_13: u8 = 0;
+let mut x_13: Obj = rt::lean_box(0);
 let mut x_14: Obj = rt::lean_box(0);
 let mut x_15: Obj = rt::lean_box(0);
-let mut x_16: u8 = 0;
+let mut x_16: Obj = rt::lean_box(0);
 let mut x_17: Obj = rt::lean_box(0);
 let mut x_18: Obj = rt::lean_box(0);
 let mut x_19: Obj = rt::lean_box(0);
-let mut x_20: Obj = rt::lean_box(0);
+let mut x_20: u8 = 0;
 let mut x_21: Obj = rt::lean_box(0);
 let mut x_22: Obj = rt::lean_box(0);
-let mut x_23: Obj = rt::lean_box(0);
+let mut x_23: u8 = 0;
 let mut x_24: Obj = rt::lean_box(0);
 let mut x_25: Obj = rt::lean_box(0);
-let mut x_26: Obj = rt::lean_box(0);
+let mut x_26: u8 = 0;
 let mut x_27: Obj = rt::lean_box(0);
 let mut x_28: Obj = rt::lean_box(0);
 let mut x_29: Obj = rt::lean_box(0);
-let mut x_30: u8 = 0;
-let mut x_31: Obj = rt::lean_box(0);
+let mut x_30: Obj = rt::lean_box(0);
 let mut x_32: Obj = rt::lean_box(0);
 let mut x_33: u8 = 0;
 let mut x_34: Obj = rt::lean_box(0);
-let mut x_35: Obj = rt::lean_box(0);
-let mut x_36: u8 = 0;
+let mut x_35: u64 = 0;
 let mut x_37: Obj = rt::lean_box(0);
 let mut x_38: Obj = rt::lean_box(0);
-let mut x_39: Obj = rt::lean_box(0);
+let mut x_39: u8 = 0;
 let mut x_40: Obj = rt::lean_box(0);
+let mut x_41: Obj = rt::lean_box(0);
 let mut x_42: Obj = rt::lean_box(0);
-let mut x_43: u8 = 0;
+let mut x_43: Obj = rt::lean_box(0);
 let mut x_44: Obj = rt::lean_box(0);
-let mut x_45: u64 = 0;
+let mut x_45: Obj = rt::lean_box(0);
+let mut x_46: Obj = rt::lean_box(0);
 let mut x_47: Obj = rt::lean_box(0);
 let mut x_48: Obj = rt::lean_box(0);
-let mut x_49: u8 = 0;
-let mut x_50: Obj = rt::lean_box(0);
+let mut x_49: Obj = rt::lean_box(0);
+let mut x_50: u8 = 0;
 let mut x_51: Obj = rt::lean_box(0);
 let mut x_52: Obj = rt::lean_box(0);
-let mut x_53: Obj = rt::lean_box(0);
+let mut x_53: u8 = 0;
 let mut x_54: Obj = rt::lean_box(0);
 let mut x_55: Obj = rt::lean_box(0);
 let mut x_56: Obj = rt::lean_box(0);
@@ -2110,36 +2112,36 @@ let mut x_63: Obj = rt::lean_box(0);
 let mut x_64: Obj = rt::lean_box(0);
 let mut x_65: Obj = rt::lean_box(0);
 let mut x_66: Obj = rt::lean_box(0);
-let mut x_67: u8 = 0;
+let mut x_67: Obj = rt::lean_box(0);
 let mut x_68: Obj = rt::lean_box(0);
 let mut x_69: Obj = rt::lean_box(0);
-let mut x_70: u8 = 0;
+let mut x_70: Obj = rt::lean_box(0);
 let mut x_71: Obj = rt::lean_box(0);
-let mut x_72: Obj = rt::lean_box(0);
-let mut x_73: u8 = 0;
+let mut x_72: u8 = 0;
+let mut x_73: Obj = rt::lean_box(0);
 let mut x_74: Obj = rt::lean_box(0);
-let mut x_75: Obj = rt::lean_box(0);
-let mut x_76: u8 = 0;
+let mut x_75: u8 = 0;
+let mut x_76: Obj = rt::lean_box(0);
 let mut x_77: Obj = rt::lean_box(0);
-let mut x_78: Obj = rt::lean_box(0);
+let mut x_78: u8 = 0;
 let mut x_79: Obj = rt::lean_box(0);
 let mut x_80: Obj = rt::lean_box(0);
-let mut x_81: Obj = rt::lean_box(0);
+let mut x_81: u8 = 0;
 let mut x_82: Obj = rt::lean_box(0);
 let mut x_83: Obj = rt::lean_box(0);
+let mut x_84: Obj = rt::lean_box(0);
 let mut x_85: Obj = rt::lean_box(0);
-let mut x_86: u8 = 0;
+let mut x_86: Obj = rt::lean_box(0);
 let mut x_87: Obj = rt::lean_box(0);
-let mut x_88: u8 = 0;
-let mut x_89: u64 = 0;
-let mut x_91: Obj = rt::lean_box(0);
+let mut x_88: Obj = rt::lean_box(0);
+let mut x_90: Obj = rt::lean_box(0);
+let mut x_91: u8 = 0;
 let mut x_92: Obj = rt::lean_box(0);
 let mut x_93: u8 = 0;
-let mut x_94: Obj = rt::lean_box(0);
-let mut x_95: Obj = rt::lean_box(0);
+let mut x_94: u64 = 0;
 let mut x_96: Obj = rt::lean_box(0);
 let mut x_97: Obj = rt::lean_box(0);
-let mut x_98: Obj = rt::lean_box(0);
+let mut x_98: u8 = 0;
 let mut x_99: Obj = rt::lean_box(0);
 let mut x_100: Obj = rt::lean_box(0);
 let mut x_101: Obj = rt::lean_box(0);
@@ -2147,135 +2149,87 @@ let mut x_102: Obj = rt::lean_box(0);
 let mut x_103: Obj = rt::lean_box(0);
 let mut x_104: Obj = rt::lean_box(0);
 let mut x_105: Obj = rt::lean_box(0);
-let mut x_106: Obj = rt::lean_box(0);
-let mut x_107: Obj = rt::lean_box(0);
-let mut x_108: Obj = rt::lean_box(0);
-let mut x_109: Obj = rt::lean_box(0);
-let mut x_110: Obj = rt::lean_box(0);
 let mut __blk: u32 = 0;
 'body: loop { match __blk {
 0 => {
-match rt::lean_obj_tag(x_1) {
-1 => {
 x_2 = rt::lean_ctor_get(x_1, 0);
-match rt::lean_obj_tag(x_2) {
-7 => {
 x_3 = rt::lean_ctor_get(x_1, 1);
+x_4 = l_Calculator_Wire_spelled___closed__0();
+x_5 = rt::lean_string_dec_eq(x_2, x_4);
+match x_5 as u32 {
+0 => {
+x_6 = l_Calculator_Wire_spelled___closed__1();
+x_7 = rt::lean_string_dec_eq(x_2, x_6);
+match x_7 as u32 {
+0 => {
+x_8 = l_Calculator_Wire_spelled___closed__2();
+x_9 = rt::lean_string_dec_eq(x_2, x_8);
+match x_9 as u32 {
+0 => {
+x_10 = rt::lean_box(0);
+return x_10;
+}
+1 => {
 match rt::lean_obj_tag(x_3) {
 1 => {
-x_4 = rt::lean_ctor_get(x_3, 0);
-match rt::lean_obj_tag(x_4) {
-4 => {
-x_5 = rt::lean_ctor_get(x_3, 1);
-match rt::lean_obj_tag(x_5) {
+x_11 = rt::lean_ctor_get(x_3, 1);
+match rt::lean_obj_tag(x_11) {
 1 => {
-x_6 = rt::lean_ctor_get(x_5, 0);
-match rt::lean_obj_tag(x_6) {
-3 => {
-x_7 = rt::lean_ctor_get(x_5, 1);
-match rt::lean_obj_tag(x_7) {
+x_12 = rt::lean_ctor_get(x_11, 1);
+match rt::lean_obj_tag(x_12) {
 1 => {
-x_8 = rt::lean_ctor_get(x_7, 0);
-match rt::lean_obj_tag(x_8) {
-8 => {
-x_9 = rt::lean_ctor_get(x_7, 1);
-match rt::lean_obj_tag(x_9) {
+x_13 = rt::lean_ctor_get(x_12, 1);
+match rt::lean_obj_tag(x_13) {
+1 => {
+x_14 = rt::lean_ctor_get(x_13, 1);
+match rt::lean_obj_tag(x_14) {
 0 => {
-x_10 = rt::lean_ctor_get(x_4, 0);
-x_11 = rt::lean_ctor_get(x_6, 0);
-x_12 = l_Calculator_Wire_decodeMembers___closed__1();
-x_13 = rt::lean_string_dec_eq(x_10, x_12);
-match x_13 as u32 {
+x_15 = rt::lean_ctor_get(x_3, 0);
+x_16 = rt::lean_ctor_get(x_11, 0);
+x_17 = rt::lean_ctor_get(x_12, 0);
+x_18 = rt::lean_ctor_get(x_13, 0);
+x_19 = l_Calculator_Wire_decodeMembers___closed__1();
+x_20 = rt::lean_string_dec_eq(x_15, x_19);
+match x_20 as u32 {
 0 => {
-x_14 = rt::lean_box(0);
-return x_14;
+x_21 = rt::lean_box(0);
+return x_21;
 }
 1 => {
-x_15 = l_Calculator_Wire_decodeMembers___closed__5();
-x_16 = rt::lean_string_dec_eq(x_11, x_15);
-match x_16 as u32 {
+x_22 = l_Calculator_Wire_decodeMembers___closed__3();
+x_23 = rt::lean_string_dec_eq(x_16, x_22);
+match x_23 as u32 {
 0 => {
-x_17 = rt::lean_box(0);
-return x_17;
+x_24 = rt::lean_box(0);
+return x_24;
 }
 1 => {
-x_18 = l_Calculator_Wire_spelled___closed__0();
-return x_18;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => {
-x_19 = rt::lean_box(0);
-return x_19;
-}
-}
-}
-4 => {
-x_20 = rt::lean_ctor_get(x_7, 1);
-match rt::lean_obj_tag(x_20) {
-1 => {
-x_21 = rt::lean_ctor_get(x_20, 0);
-match rt::lean_obj_tag(x_21) {
-2 => {
-x_22 = rt::lean_ctor_get(x_20, 1);
-match rt::lean_obj_tag(x_22) {
-1 => {
-x_23 = rt::lean_ctor_get(x_22, 0);
-match rt::lean_obj_tag(x_23) {
-8 => {
-x_24 = rt::lean_ctor_get(x_22, 1);
-match rt::lean_obj_tag(x_24) {
+x_25 = l_Calculator_Wire_decodeMembers___closed__10();
+x_26 = rt::lean_string_dec_eq(x_17, x_25);
+match x_26 as u32 {
 0 => {
-x_25 = rt::lean_ctor_get(x_4, 0);
-x_26 = rt::lean_ctor_get(x_6, 0);
-x_27 = rt::lean_ctor_get(x_8, 0);
-x_28 = rt::lean_ctor_get(x_21, 0);
-x_29 = l_Calculator_Wire_decodeMembers___closed__1();
-x_30 = rt::lean_string_dec_eq(x_25, x_29);
-match x_30 as u32 {
-0 => {
-x_31 = rt::lean_box(0);
-return x_31;
+x_27 = rt::lean_box(0);
+return x_27;
 }
 1 => {
-x_32 = l_Calculator_Wire_decodeMembers___closed__3();
-x_33 = rt::lean_string_dec_eq(x_26, x_32);
-match x_33 as u32 {
+x_28 = l_Leangage_Json_Lexemes_numberOf(x_18);
+match rt::lean_obj_tag(x_28) {
 0 => {
-x_34 = rt::lean_box(0);
-return x_34;
+x_29 = rt::lean_box(0);
+return x_29;
 }
 1 => {
-x_35 = l_Calculator_Wire_decodeMembers___closed__10();
-x_36 = rt::lean_string_dec_eq(x_27, x_35);
-match x_36 as u32 {
+x_30 = rt::lean_ctor_get(x_28, 0);
+x_39 = (!rt::lean_is_exclusive(x_28)) as u8;
+match x_39 as u32 {
 0 => {
-x_37 = rt::lean_box(0);
-return x_37;
-}
-1 => {
-x_38 = l_Leangage_Json_Lexemes_numberOf(x_28);
-match rt::lean_obj_tag(x_38) {
-0 => {
-x_39 = rt::lean_box(0);
-return x_39;
-}
-1 => {
-x_40 = rt::lean_ctor_get(x_38, 0);
-x_49 = (!rt::lean_is_exclusive(x_38)) as u8;
-match x_49 as u32 {
-0 => {
-{ let t_0 = x_38; let t_1 = x_49; x_42 = t_0; x_43 = t_1; }
+{ let t_0 = x_28; let t_1 = x_39; x_32 = t_0; x_33 = t_1; }
 __blk = 1; continue 'body;
 }
 1 => {
-rt::lean_inc(x_40);
-rt::lean_dec(x_38);
-{ let t_0 = rt::lean_box(0); let t_1 = x_49; x_42 = t_0; x_43 = t_1; }
+rt::lean_inc(x_30);
+rt::lean_dec(x_28);
+{ let t_0 = rt::lean_box(0); let t_1 = x_39; x_32 = t_0; x_33 = t_1; }
 __blk = 1; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
@@ -2294,112 +2248,183 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 }
 _ => {
-x_50 = rt::lean_box(0);
-return x_50;
+x_40 = rt::lean_box(0);
+return x_40;
 }
 }
 }
 _ => {
+x_41 = rt::lean_box(0);
+return x_41;
+}
+}
+}
+_ => {
+x_42 = rt::lean_box(0);
+return x_42;
+}
+}
+}
+_ => {
+x_43 = rt::lean_box(0);
+return x_43;
+}
+}
+}
+_ => {
+x_44 = rt::lean_box(0);
+return x_44;
+}
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+match rt::lean_obj_tag(x_3) {
+1 => {
+x_45 = rt::lean_ctor_get(x_3, 1);
+match rt::lean_obj_tag(x_45) {
+1 => {
+x_46 = rt::lean_ctor_get(x_45, 1);
+match rt::lean_obj_tag(x_46) {
+0 => {
+x_47 = rt::lean_ctor_get(x_3, 0);
+x_48 = rt::lean_ctor_get(x_45, 0);
+x_49 = l_Calculator_Wire_decodeMembers___closed__1();
+x_50 = rt::lean_string_dec_eq(x_47, x_49);
+match x_50 as u32 {
+0 => {
 x_51 = rt::lean_box(0);
 return x_51;
 }
+1 => {
+x_52 = l_Calculator_Wire_decodeMembers___closed__5();
+x_53 = rt::lean_string_dec_eq(x_48, x_52);
+match x_53 as u32 {
+0 => {
+x_54 = rt::lean_box(0);
+return x_54;
+}
+1 => {
+x_55 = l_Calculator_Wire_spelled___closed__3();
+return x_55;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
 }
 }
 _ => {
-x_52 = rt::lean_box(0);
-return x_52;
+x_56 = rt::lean_box(0);
+return x_56;
 }
 }
 }
-3 => {
-x_53 = rt::lean_ctor_get(x_20, 1);
-match rt::lean_obj_tag(x_53) {
+_ => {
+x_57 = rt::lean_box(0);
+return x_57;
+}
+}
+}
+_ => {
+x_58 = rt::lean_box(0);
+return x_58;
+}
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
 1 => {
-x_54 = rt::lean_ctor_get(x_53, 0);
-match rt::lean_obj_tag(x_54) {
-4 => {
-x_55 = rt::lean_ctor_get(x_53, 1);
-match rt::lean_obj_tag(x_55) {
+match rt::lean_obj_tag(x_3) {
 1 => {
-x_56 = rt::lean_ctor_get(x_55, 0);
-match rt::lean_obj_tag(x_56) {
-2 => {
-x_57 = rt::lean_ctor_get(x_55, 1);
-match rt::lean_obj_tag(x_57) {
-1 => {
-x_58 = rt::lean_ctor_get(x_57, 0);
-match rt::lean_obj_tag(x_58) {
-8 => {
-x_59 = rt::lean_ctor_get(x_57, 1);
+x_59 = rt::lean_ctor_get(x_3, 1);
 match rt::lean_obj_tag(x_59) {
+1 => {
+x_60 = rt::lean_ctor_get(x_59, 1);
+match rt::lean_obj_tag(x_60) {
+1 => {
+x_61 = rt::lean_ctor_get(x_60, 1);
+match rt::lean_obj_tag(x_61) {
+1 => {
+x_62 = rt::lean_ctor_get(x_61, 1);
+match rt::lean_obj_tag(x_62) {
+1 => {
+x_63 = rt::lean_ctor_get(x_62, 1);
+match rt::lean_obj_tag(x_63) {
+1 => {
+x_64 = rt::lean_ctor_get(x_63, 1);
+match rt::lean_obj_tag(x_64) {
 0 => {
-x_60 = rt::lean_ctor_get(x_4, 0);
-x_61 = rt::lean_ctor_get(x_6, 0);
-x_62 = rt::lean_ctor_get(x_8, 0);
-x_63 = rt::lean_ctor_get(x_21, 0);
-x_64 = rt::lean_ctor_get(x_54, 0);
-x_65 = rt::lean_ctor_get(x_56, 0);
-x_66 = l_Calculator_Wire_decodeMembers___closed__1();
-x_67 = rt::lean_string_dec_eq(x_60, x_66);
-match x_67 as u32 {
+x_65 = rt::lean_ctor_get(x_3, 0);
+x_66 = rt::lean_ctor_get(x_59, 0);
+x_67 = rt::lean_ctor_get(x_60, 0);
+x_68 = rt::lean_ctor_get(x_61, 0);
+x_69 = rt::lean_ctor_get(x_62, 0);
+x_70 = rt::lean_ctor_get(x_63, 0);
+x_71 = l_Calculator_Wire_decodeMembers___closed__1();
+x_72 = rt::lean_string_dec_eq(x_65, x_71);
+match x_72 as u32 {
 0 => {
-x_68 = rt::lean_box(0);
-return x_68;
+x_73 = rt::lean_box(0);
+return x_73;
 }
 1 => {
-x_69 = l_Calculator_Wire_decodeMembers___closed__4();
-x_70 = rt::lean_string_dec_eq(x_61, x_69);
-match x_70 as u32 {
+x_74 = l_Calculator_Wire_decodeMembers___closed__4();
+x_75 = rt::lean_string_dec_eq(x_66, x_74);
+match x_75 as u32 {
 0 => {
-x_71 = rt::lean_box(0);
-return x_71;
+x_76 = rt::lean_box(0);
+return x_76;
 }
 1 => {
-x_72 = l_Calculator_Wire_decodeMembers___closed__7();
-x_73 = rt::lean_string_dec_eq(x_62, x_72);
-match x_73 as u32 {
-0 => {
-x_74 = rt::lean_box(0);
-return x_74;
-}
-1 => {
-x_75 = l_Calculator_Wire_decodeMembers___closed__8();
-x_76 = rt::lean_string_dec_eq(x_64, x_75);
-match x_76 as u32 {
-0 => {
-x_77 = rt::lean_box(0);
-return x_77;
-}
-1 => {
-x_78 = l_Calculator_Wire_opNamed(x_63);
-match rt::lean_obj_tag(x_78) {
+x_77 = l_Calculator_Wire_decodeMembers___closed__7();
+x_78 = rt::lean_string_dec_eq(x_67, x_77);
+match x_78 as u32 {
 0 => {
 x_79 = rt::lean_box(0);
 return x_79;
 }
 1 => {
-x_80 = rt::lean_ctor_get(x_78, 0);
-rt::lean_inc(x_80);
-rt::lean_dec_ref(x_78);
-x_81 = l_Leangage_Json_Lexemes_numberOf(x_65);
-match rt::lean_obj_tag(x_81) {
+x_80 = l_Calculator_Wire_decodeMembers___closed__8();
+x_81 = rt::lean_string_dec_eq(x_69, x_80);
+match x_81 as u32 {
 0 => {
-rt::lean_dec(x_80);
 x_82 = rt::lean_box(0);
 return x_82;
 }
 1 => {
-x_83 = rt::lean_ctor_get(x_81, 0);
-x_93 = (!rt::lean_is_exclusive(x_81)) as u8;
-match x_93 as u32 {
+x_83 = l_Calculator_Wire_opNamed(x_68);
+match rt::lean_obj_tag(x_83) {
 0 => {
-{ let t_0 = x_81; let t_1 = x_93; x_85 = t_0; x_86 = t_1; }
+x_84 = rt::lean_box(0);
+return x_84;
+}
+1 => {
+x_85 = rt::lean_ctor_get(x_83, 0);
+rt::lean_inc(x_85);
+rt::lean_dec_ref(x_83);
+x_86 = l_Leangage_Json_Lexemes_numberOf(x_70);
+match rt::lean_obj_tag(x_86) {
+0 => {
+rt::lean_dec(x_85);
+x_87 = rt::lean_box(0);
+return x_87;
+}
+1 => {
+x_88 = rt::lean_ctor_get(x_86, 0);
+x_98 = (!rt::lean_is_exclusive(x_86)) as u8;
+match x_98 as u32 {
+0 => {
+{ let t_0 = x_86; let t_1 = x_98; x_90 = t_0; x_91 = t_1; }
 __blk = 3; continue 'body;
 }
 1 => {
-rt::lean_inc(x_83);
-rt::lean_dec(x_81);
-{ let t_0 = rt::lean_box(0); let t_1 = x_93; x_85 = t_0; x_86 = t_1; }
+rt::lean_inc(x_88);
+rt::lean_dec(x_86);
+{ let t_0 = rt::lean_box(0); let t_1 = x_98; x_90 = t_0; x_91 = t_1; }
 __blk = 3; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
@@ -2421,36 +2446,6 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 }
 _ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => {
-x_94 = rt::lean_box(0);
-return x_94;
-}
-}
-}
-_ => {
-x_95 = rt::lean_box(0);
-return x_95;
-}
-}
-}
-_ => {
-x_96 = rt::lean_box(0);
-return x_96;
-}
-}
-}
-_ => {
-x_97 = rt::lean_box(0);
-return x_97;
-}
-}
-}
-_ => {
-x_98 = rt::lean_box(0);
-return x_98;
-}
 }
 }
 _ => {
@@ -2495,85 +2490,101 @@ return x_105;
 }
 }
 }
-_ => {
-x_106 = rt::lean_box(0);
-return x_106;
-}
-}
-}
-_ => {
-x_107 = rt::lean_box(0);
-return x_107;
-}
-}
-}
-_ => {
-x_108 = rt::lean_box(0);
-return x_108;
-}
-}
-}
-_ => {
-x_109 = rt::lean_box(0);
-return x_109;
-}
-}
-}
-_ => {
-x_110 = rt::lean_box(0);
-return x_110;
-}
+_ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-x_44 = rt::lean_alloc_ctor(0, 0, 0 * core::mem::size_of::<usize>() as u32 + 8);
-x_45 = rt::lean_unbox_uint64(x_40);
-rt::lean_dec(x_40);
-rt::lean_ctor_set_uint64(x_44, 0 * core::mem::size_of::<usize>() as u32 + 0, x_45);
-match x_43 as u32 {
+x_34 = rt::lean_alloc_ctor(0, 0, 0 * core::mem::size_of::<usize>() as u32 + 8);
+x_35 = rt::lean_unbox_uint64(x_30);
+rt::lean_dec(x_30);
+rt::lean_ctor_set_uint64(x_34, 0 * core::mem::size_of::<usize>() as u32 + 0, x_35);
+match x_33 as u32 {
 0 => {
-rt::lean_ctor_set(x_42, 0, x_44);
-{ let t_0 = x_42; x_47 = t_0; }
+rt::lean_ctor_set(x_32, 0, x_34);
+{ let t_0 = x_32; x_37 = t_0; }
 __blk = 2; continue 'body;
 }
 1 => {
-x_48 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_48, 0, x_44);
-{ let t_0 = x_48; x_47 = t_0; }
+x_38 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_38, 0, x_34);
+{ let t_0 = x_38; x_37 = t_0; }
 __blk = 2; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 2 => {
-return x_47;
+return x_37;
 }
 3 => {
-x_87 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 9);
-x_88 = rt::lean_unbox(x_80) as u8;
-rt::lean_dec(x_80);
-rt::lean_ctor_set_uint8(x_87, 0 * core::mem::size_of::<usize>() as u32 + 8, x_88);
-x_89 = rt::lean_unbox_uint64(x_83);
-rt::lean_dec(x_83);
-rt::lean_ctor_set_uint64(x_87, 0 * core::mem::size_of::<usize>() as u32 + 0, x_89);
-match x_86 as u32 {
+x_92 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 9);
+x_93 = rt::lean_unbox(x_85) as u8;
+rt::lean_dec(x_85);
+rt::lean_ctor_set_uint8(x_92, 0 * core::mem::size_of::<usize>() as u32 + 8, x_93);
+x_94 = rt::lean_unbox_uint64(x_88);
+rt::lean_dec(x_88);
+rt::lean_ctor_set_uint64(x_92, 0 * core::mem::size_of::<usize>() as u32 + 0, x_94);
+match x_91 as u32 {
 0 => {
-rt::lean_ctor_set(x_85, 0, x_87);
-{ let t_0 = x_85; x_91 = t_0; }
+rt::lean_ctor_set(x_90, 0, x_92);
+{ let t_0 = x_90; x_96 = t_0; }
 __blk = 4; continue 'body;
 }
 1 => {
-x_92 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_92, 0, x_87);
-{ let t_0 = x_92; x_91 = t_0; }
+x_97 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_97, 0, x_92);
+{ let t_0 = x_97; x_96 = t_0; }
 __blk = 4; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 4 => {
-return x_91;
+return x_96;
 }
 _ => rt::lean_internal_panic_unreachable(),
 } }
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Wire_spelled___closed__0_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("{ksksk#}", 8, 8);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_spelled___closed__0() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Wire_spelled___closed__0_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Wire_spelled___closed__1_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("{ks}", 4, 4);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_spelled___closed__1() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Wire_spelled___closed__1_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Wire_spelled___closed__2_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("{ksk#}", 6, 6);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_spelled___closed__2() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Wire_spelled___closed__2_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
@@ -2587,37 +2598,6 @@ pub(crate) unsafe fn l_Calculator_Wire_decodeMembers___closed__1() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
   let v = l_Calculator_Wire_decodeMembers___closed__1_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Calculator_Wire_decodeMembers___closed__5_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-x_1 = rt::lean_mk_string_unchecked("get", 3, 3);
-return x_1;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Calculator_Wire_decodeMembers___closed__5() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Calculator_Wire_decodeMembers___closed__5_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Calculator_Wire_spelled___closed__0_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: Obj = rt::lean_box(0);
-x_1 = rt::lean_box(2);
-x_2 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_2, 0, x_1);
-return x_2;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Calculator_Wire_spelled___closed__0() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Calculator_Wire_spelled___closed__0_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
@@ -2940,6 +2920,36 @@ _ => rt::lean_internal_panic_unreachable(),
 
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Wire_decodeMembers___closed__5_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("get", 3, 3);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_decodeMembers___closed__5() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Wire_decodeMembers___closed__5_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Wire_spelled___closed__3_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(2);
+x_2 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_2, 0, x_1);
+return x_2;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_spelled___closed__3() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Wire_spelled___closed__3_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
 unsafe fn l_Calculator_Wire_decodeMembers___closed__4_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 x_1 = rt::lean_mk_string_unchecked("apply", 5, 5);
@@ -3171,6 +3181,463 @@ pub(crate) unsafe fn l_Calculator_Wire_opNamed___closed__7() -> Obj {
   let v = l_Calculator_Wire_opNamed___closed__7_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leangage_Json_Lexemes_Tokens_lexemes(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+x_2 = rt::lean_ctor_get(x_1, 0);
+rt::lean_inc_ref(x_2);
+x_3 = rt::lean_ctor_get(x_1, 1);
+rt::lean_inc(x_3);
+rt::lean_dec_ref(x_1);
+x_4 = rt::lean_string_data(x_2);
+x_5 = l_Leangage_Json_Lexemes_zip(x_4, x_3);
+return x_5;
+}
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leangage_Json_Lexemes_zip(mut x_1: Obj, mut x_2: Obj) -> Obj {
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: u8 = 0;
+let mut x_9: u32 = 0;
+let mut x_10: u32 = 0;
+let mut x_11: u8 = 0;
+let mut x_12: u32 = 0;
+let mut x_13: u32 = 0;
+let mut x_14: u8 = 0;
+let mut x_15: u32 = 0;
+let mut x_16: u32 = 0;
+let mut x_17: u8 = 0;
+let mut x_18: u32 = 0;
+let mut x_19: u32 = 0;
+let mut x_20: u8 = 0;
+let mut x_21: u32 = 0;
+let mut x_22: u32 = 0;
+let mut x_23: u8 = 0;
+let mut x_24: u32 = 0;
+let mut x_25: u32 = 0;
+let mut x_26: u8 = 0;
+let mut x_27: u32 = 0;
+let mut x_28: u32 = 0;
+let mut x_29: u8 = 0;
+let mut x_30: Obj = rt::lean_box(0);
+let mut x_31: Obj = rt::lean_box(0);
+let mut x_32: Obj = rt::lean_box(0);
+let mut x_34: Obj = rt::lean_box(0);
+let mut x_35: u8 = 0;
+let mut x_36: u32 = 0;
+let mut x_37: u32 = 0;
+let mut x_38: u8 = 0;
+let mut x_39: u32 = 0;
+let mut x_40: u32 = 0;
+let mut x_41: u8 = 0;
+let mut x_42: Obj = rt::lean_box(0);
+let mut x_43: Obj = rt::lean_box(0);
+let mut x_45: Obj = rt::lean_box(0);
+let mut x_46: Obj = rt::lean_box(0);
+let mut x_47: Obj = rt::lean_box(0);
+let mut x_48: Obj = rt::lean_box(0);
+let mut x_50: Obj = rt::lean_box(0);
+let mut x_51: Obj = rt::lean_box(0);
+let mut x_52: Obj = rt::lean_box(0);
+let mut x_53: Obj = rt::lean_box(0);
+let mut x_55: Obj = rt::lean_box(0);
+let mut x_56: Obj = rt::lean_box(0);
+let mut x_57: u8 = 0;
+let mut x_58: Obj = rt::lean_box(0);
+let mut x_59: Obj = rt::lean_box(0);
+let mut x_61: Obj = rt::lean_box(0);
+let mut x_62: Obj = rt::lean_box(0);
+let mut x_63: Obj = rt::lean_box(0);
+let mut x_64: Obj = rt::lean_box(0);
+let mut x_66: Obj = rt::lean_box(0);
+let mut x_67: Obj = rt::lean_box(0);
+let mut x_68: Obj = rt::lean_box(0);
+let mut x_69: Obj = rt::lean_box(0);
+let mut x_71: Obj = rt::lean_box(0);
+let mut x_72: Obj = rt::lean_box(0);
+let mut x_73: Obj = rt::lean_box(0);
+let mut x_74: Obj = rt::lean_box(0);
+let mut x_76: Obj = rt::lean_box(0);
+let mut x_77: Obj = rt::lean_box(0);
+let mut x_78: Obj = rt::lean_box(0);
+let mut x_79: Obj = rt::lean_box(0);
+let mut x_81: Obj = rt::lean_box(0);
+let mut x_82: Obj = rt::lean_box(0);
+let mut x_83: Obj = rt::lean_box(0);
+let mut x_84: Obj = rt::lean_box(0);
+let mut x_86: Obj = rt::lean_box(0);
+let mut x_87: Obj = rt::lean_box(0);
+let mut x_88: Obj = rt::lean_box(0);
+let mut x_89: Obj = rt::lean_box(0);
+let mut x_91: Obj = rt::lean_box(0);
+let mut x_92: Obj = rt::lean_box(0);
+let mut x_93: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+match rt::lean_obj_tag(x_1) {
+0 => {
+rt::lean_dec(x_2);
+x_3 = rt::lean_box(0);
+return x_3;
+}
+1 => {
+x_4 = rt::lean_ctor_get(x_1, 0);
+x_5 = rt::lean_ctor_get(x_1, 1);
+x_93 = (!rt::lean_is_exclusive(x_1)) as u8;
+match x_93 as u32 {
+0 => {
+{ let t_0 = x_1; let t_1 = x_93; x_7 = t_0; x_8 = t_1; }
+__blk = 1; continue 'body;
+}
+1 => {
+rt::lean_inc(x_5);
+rt::lean_inc(x_4);
+rt::lean_dec(x_1);
+{ let t_0 = rt::lean_box(0); let t_1 = x_93; x_7 = t_0; x_8 = t_1; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_9 = 123u32;
+x_10 = rt::lean_unbox_uint32(x_4);
+x_11 = rt::lean_uint32_dec_eq(x_10, x_9);
+match x_11 as u32 {
+0 => {
+x_12 = 125u32;
+x_13 = rt::lean_unbox_uint32(x_4);
+x_14 = rt::lean_uint32_dec_eq(x_13, x_12);
+match x_14 as u32 {
+0 => {
+x_15 = 91u32;
+x_16 = rt::lean_unbox_uint32(x_4);
+x_17 = rt::lean_uint32_dec_eq(x_16, x_15);
+match x_17 as u32 {
+0 => {
+x_18 = 93u32;
+x_19 = rt::lean_unbox_uint32(x_4);
+x_20 = rt::lean_uint32_dec_eq(x_19, x_18);
+match x_20 as u32 {
+0 => {
+x_21 = 110u32;
+x_22 = rt::lean_unbox_uint32(x_4);
+x_23 = rt::lean_uint32_dec_eq(x_22, x_21);
+match x_23 as u32 {
+0 => {
+x_24 = 116u32;
+x_25 = rt::lean_unbox_uint32(x_4);
+x_26 = rt::lean_uint32_dec_eq(x_25, x_24);
+match x_26 as u32 {
+0 => {
+x_27 = 102u32;
+x_28 = rt::lean_unbox_uint32(x_4);
+x_29 = rt::lean_uint32_dec_eq(x_28, x_27);
+match x_29 as u32 {
+0 => {
+rt::lean_del_object(x_7);
+match rt::lean_obj_tag(x_2) {
+0 => {
+rt::lean_dec(x_4);
+{ let t_0 = x_5; let t_1 = x_2; x_1 = t_0; x_2 = t_1; }
+__blk = 0; continue 'body;
+}
+1 => {
+x_31 = rt::lean_ctor_get(x_2, 0);
+x_32 = rt::lean_ctor_get(x_2, 1);
+x_57 = (!rt::lean_is_exclusive(x_2)) as u8;
+match x_57 as u32 {
+0 => {
+{ let t_0 = x_2; let t_1 = x_57; x_34 = t_0; x_35 = t_1; }
+__blk = 2; continue 'body;
+}
+1 => {
+rt::lean_inc(x_32);
+rt::lean_inc(x_31);
+rt::lean_dec(x_2);
+{ let t_0 = rt::lean_box(0); let t_1 = x_57; x_34 = t_0; x_35 = t_1; }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+rt::lean_dec(x_4);
+x_58 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 1);
+rt::lean_ctor_set_uint8(x_58, 0 * core::mem::size_of::<usize>() as u32 + 0, x_26);
+x_59 = l_Leangage_Json_Lexemes_zip(x_5, x_2);
+match x_8 as u32 {
+0 => {
+rt::lean_ctor_set(x_7, 1, x_59);
+rt::lean_ctor_set(x_7, 0, x_58);
+{ let t_0 = x_7; x_61 = t_0; }
+__blk = 6; continue 'body;
+}
+1 => {
+x_62 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_62, 0, x_58); rt::lean_ctor_set(x_62, 1, x_59);
+{ let t_0 = x_62; x_61 = t_0; }
+__blk = 6; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+rt::lean_dec(x_4);
+x_63 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 1);
+rt::lean_ctor_set_uint8(x_63, 0 * core::mem::size_of::<usize>() as u32 + 0, x_26);
+x_64 = l_Leangage_Json_Lexemes_zip(x_5, x_2);
+match x_8 as u32 {
+0 => {
+rt::lean_ctor_set(x_7, 1, x_64);
+rt::lean_ctor_set(x_7, 0, x_63);
+{ let t_0 = x_7; x_66 = t_0; }
+__blk = 7; continue 'body;
+}
+1 => {
+x_67 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_67, 0, x_63); rt::lean_ctor_set(x_67, 1, x_64);
+{ let t_0 = x_67; x_66 = t_0; }
+__blk = 7; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+rt::lean_dec(x_4);
+x_68 = rt::lean_box(0);
+x_69 = l_Leangage_Json_Lexemes_zip(x_5, x_2);
+match x_8 as u32 {
+0 => {
+rt::lean_ctor_set(x_7, 1, x_69);
+rt::lean_ctor_set(x_7, 0, x_68);
+{ let t_0 = x_7; x_71 = t_0; }
+__blk = 8; continue 'body;
+}
+1 => {
+x_72 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_72, 0, x_68); rt::lean_ctor_set(x_72, 1, x_69);
+{ let t_0 = x_72; x_71 = t_0; }
+__blk = 8; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+rt::lean_dec(x_4);
+x_73 = rt::lean_box(6);
+x_74 = l_Leangage_Json_Lexemes_zip(x_5, x_2);
+match x_8 as u32 {
+0 => {
+rt::lean_ctor_set(x_7, 1, x_74);
+rt::lean_ctor_set(x_7, 0, x_73);
+{ let t_0 = x_7; x_76 = t_0; }
+__blk = 9; continue 'body;
+}
+1 => {
+x_77 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_77, 0, x_73); rt::lean_ctor_set(x_77, 1, x_74);
+{ let t_0 = x_77; x_76 = t_0; }
+__blk = 9; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+rt::lean_dec(x_4);
+x_78 = rt::lean_box(5);
+x_79 = l_Leangage_Json_Lexemes_zip(x_5, x_2);
+match x_8 as u32 {
+0 => {
+rt::lean_ctor_set(x_7, 1, x_79);
+rt::lean_ctor_set(x_7, 0, x_78);
+{ let t_0 = x_7; x_81 = t_0; }
+__blk = 10; continue 'body;
+}
+1 => {
+x_82 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_82, 0, x_78); rt::lean_ctor_set(x_82, 1, x_79);
+{ let t_0 = x_82; x_81 = t_0; }
+__blk = 10; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+rt::lean_dec(x_4);
+x_83 = rt::lean_box(8);
+x_84 = l_Leangage_Json_Lexemes_zip(x_5, x_2);
+match x_8 as u32 {
+0 => {
+rt::lean_ctor_set(x_7, 1, x_84);
+rt::lean_ctor_set(x_7, 0, x_83);
+{ let t_0 = x_7; x_86 = t_0; }
+__blk = 11; continue 'body;
+}
+1 => {
+x_87 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_87, 0, x_83); rt::lean_ctor_set(x_87, 1, x_84);
+{ let t_0 = x_87; x_86 = t_0; }
+__blk = 11; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+rt::lean_dec(x_4);
+x_88 = rt::lean_box(7);
+x_89 = l_Leangage_Json_Lexemes_zip(x_5, x_2);
+match x_8 as u32 {
+0 => {
+rt::lean_ctor_set(x_7, 1, x_89);
+rt::lean_ctor_set(x_7, 0, x_88);
+{ let t_0 = x_7; x_91 = t_0; }
+__blk = 12; continue 'body;
+}
+1 => {
+x_92 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_92, 0, x_88); rt::lean_ctor_set(x_92, 1, x_89);
+{ let t_0 = x_92; x_91 = t_0; }
+__blk = 12; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+x_36 = 107u32;
+x_37 = rt::lean_unbox_uint32(x_4);
+x_38 = rt::lean_uint32_dec_eq(x_37, x_36);
+match x_38 as u32 {
+0 => {
+x_39 = 115u32;
+x_40 = rt::lean_unbox_uint32(x_4);
+rt::lean_dec(x_4);
+x_41 = rt::lean_uint32_dec_eq(x_40, x_39);
+match x_41 as u32 {
+0 => {
+x_42 = rt::lean_alloc_ctor(2, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_42, 0, x_31);
+x_43 = l_Leangage_Json_Lexemes_zip(x_5, x_32);
+match x_35 as u32 {
+0 => {
+rt::lean_ctor_set(x_34, 1, x_43);
+rt::lean_ctor_set(x_34, 0, x_42);
+{ let t_0 = x_34; x_45 = t_0; }
+__blk = 3; continue 'body;
+}
+1 => {
+x_46 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_46, 0, x_42); rt::lean_ctor_set(x_46, 1, x_43);
+{ let t_0 = x_46; x_45 = t_0; }
+__blk = 3; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_47 = rt::lean_alloc_ctor(3, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_47, 0, x_31);
+x_48 = l_Leangage_Json_Lexemes_zip(x_5, x_32);
+match x_35 as u32 {
+0 => {
+rt::lean_ctor_set(x_34, 1, x_48);
+rt::lean_ctor_set(x_34, 0, x_47);
+{ let t_0 = x_34; x_50 = t_0; }
+__blk = 4; continue 'body;
+}
+1 => {
+x_51 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_51, 0, x_47); rt::lean_ctor_set(x_51, 1, x_48);
+{ let t_0 = x_51; x_50 = t_0; }
+__blk = 4; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+rt::lean_dec(x_4);
+x_52 = rt::lean_alloc_ctor(4, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_52, 0, x_31);
+x_53 = l_Leangage_Json_Lexemes_zip(x_5, x_32);
+match x_35 as u32 {
+0 => {
+rt::lean_ctor_set(x_34, 1, x_53);
+rt::lean_ctor_set(x_34, 0, x_52);
+{ let t_0 = x_34; x_55 = t_0; }
+__blk = 5; continue 'body;
+}
+1 => {
+x_56 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_56, 0, x_52); rt::lean_ctor_set(x_56, 1, x_53);
+{ let t_0 = x_56; x_55 = t_0; }
+__blk = 5; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+3 => {
+return x_45;
+}
+4 => {
+return x_50;
+}
+5 => {
+return x_55;
+}
+6 => {
+return x_61;
+}
+7 => {
+return x_66;
+}
+8 => {
+return x_71;
+}
+9 => {
+return x_76;
+}
+10 => {
+return x_81;
+}
+11 => {
+return x_86;
+}
+12 => {
+return x_91;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Calculator_Wire_decodeObject(mut x_1: Obj) -> Obj {
@@ -5352,11 +5819,11 @@ pub fn decode_object(lexemes: Vec<::leangage::json_lexemes::Lexeme>) -> Result<c
     }
 }
 
-#[doc = "Lean: `Calculator.Wire.spelled : List Leangage.Json.Lexemes.Lexeme → Option Calculator.Kernel.Command` (module `Calculator.Wire`)."]
+#[doc = "Lean: `Calculator.Wire.spelled : Leangage.Json.Lexemes.Tokens → Option Calculator.Kernel.Command` (module `Calculator.Wire`)."]
 #[::leanfran::exported("Calculator.Wire.spelled")]
-pub fn spelled(arg0: Vec<::leangage::json_lexemes::Lexeme>) -> Option<crate::generated::calculator_kernel::Command> {
+pub fn spelled(tokens: ::leangage::json_lexemes::Tokens) -> Option<crate::generated::calculator_kernel::Command> {
     unsafe {
-        let __a0: Obj = rt::list_to_lean(arg0, |v0| rt::ToLean::to_lean(v0));
+        let __a0: Obj = rt::ToLean::to_lean(tokens);
         let __r: Obj = l_Calculator_Wire_spelled(__a0);
         rt::lean_dec(__a0); let __v = rt::option_from_lean(__r, |v0| <crate::generated::calculator_kernel::Command as rt::FromLean>::from_lean(v0));
         rt::lean_dec(__r);
@@ -5364,11 +5831,11 @@ pub fn spelled(arg0: Vec<::leangage::json_lexemes::Lexeme>) -> Option<crate::gen
     }
 }
 
-#[doc = "Lean: `Calculator.Wire.decode : List Leangage.Json.Lexemes.Lexeme → Except Calculator.Wire.Refusal Calculator.Kernel.Command` (module `Calculator.Wire`)."]
+#[doc = "Lean: `Calculator.Wire.decode : Leangage.Json.Lexemes.Tokens → Except Calculator.Wire.Refusal Calculator.Kernel.Command` (module `Calculator.Wire`)."]
 #[::leanfran::exported("Calculator.Wire.decode")]
-pub fn decode(lexemes: Vec<::leangage::json_lexemes::Lexeme>) -> Result<crate::generated::calculator_kernel::Command, Refusal> {
+pub fn decode(tokens: ::leangage::json_lexemes::Tokens) -> Result<crate::generated::calculator_kernel::Command, Refusal> {
     unsafe {
-        let __a0: Obj = rt::list_to_lean(lexemes, |v0| rt::ToLean::to_lean(v0));
+        let __a0: Obj = rt::ToLean::to_lean(tokens);
         let __r: Obj = l_Calculator_Wire_decode(__a0);
         let __v = rt::except_from_lean(__r, |v0| <Refusal as rt::FromLean>::from_lean(v0), |v0| <crate::generated::calculator_kernel::Command as rt::FromLean>::from_lean(v0));
         rt::lean_dec(__r);
@@ -5456,18 +5923,18 @@ pub mod lean {
             rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`spelled` on handles. Lean: `Calculator.Wire.spelled : List Leangage.Json.Lexemes.Lexeme → Option Calculator.Kernel.Command` (module `Calculator.Wire`)."]
-    pub fn spelled(arg0: impl rt::IntoLean<rt::List<::leangage::json_lexemes::Lexeme>>) -> rt::Lean<Option<crate::generated::calculator_kernel::Command>> {
+    #[doc = "`spelled` on handles. Lean: `Calculator.Wire.spelled : Leangage.Json.Lexemes.Tokens → Option Calculator.Kernel.Command` (module `Calculator.Wire`)."]
+    pub fn spelled(tokens: impl rt::IntoLean<::leangage::json_lexemes::Tokens>) -> rt::Lean<Option<crate::generated::calculator_kernel::Command>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<::leangage::json_lexemes::Lexeme>>::into_obj(arg0);
+            let __a0: Obj = rt::IntoLean::<::leangage::json_lexemes::Tokens>::into_obj(tokens);
             let __r: Obj = l_Calculator_Wire_spelled(__a0);
             rt::lean_dec(__a0); rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`decode` on handles. Lean: `Calculator.Wire.decode : List Leangage.Json.Lexemes.Lexeme → Except Calculator.Wire.Refusal Calculator.Kernel.Command` (module `Calculator.Wire`)."]
-    pub fn decode(lexemes: impl rt::IntoLean<rt::List<::leangage::json_lexemes::Lexeme>>) -> rt::Lean<Result<crate::generated::calculator_kernel::Command, Refusal>> {
+    #[doc = "`decode` on handles. Lean: `Calculator.Wire.decode : Leangage.Json.Lexemes.Tokens → Except Calculator.Wire.Refusal Calculator.Kernel.Command` (module `Calculator.Wire`)."]
+    pub fn decode(tokens: impl rt::IntoLean<::leangage::json_lexemes::Tokens>) -> rt::Lean<Result<crate::generated::calculator_kernel::Command, Refusal>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<::leangage::json_lexemes::Lexeme>>::into_obj(lexemes);
+            let __a0: Obj = rt::IntoLean::<::leangage::json_lexemes::Tokens>::into_obj(tokens);
             let __r: Obj = l_Calculator_Wire_decode(__a0);
             rt::Lean::from_owned(__r)
         }
@@ -5554,18 +6021,18 @@ pub mod local {
             rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`spelled` on handles. Lean: `Calculator.Wire.spelled : List Leangage.Json.Lexemes.Lexeme → Option Calculator.Kernel.Command` (module `Calculator.Wire`)."]
-    pub fn spelled(arg0: impl rt::IntoLean<rt::List<::leangage::json_lexemes::Lexeme>>) -> rt::Local<Option<crate::generated::calculator_kernel::Command>> {
+    #[doc = "`spelled` on handles. Lean: `Calculator.Wire.spelled : Leangage.Json.Lexemes.Tokens → Option Calculator.Kernel.Command` (module `Calculator.Wire`)."]
+    pub fn spelled(tokens: impl rt::IntoLean<::leangage::json_lexemes::Tokens>) -> rt::Local<Option<crate::generated::calculator_kernel::Command>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<::leangage::json_lexemes::Lexeme>>::into_obj(arg0);
+            let __a0: Obj = rt::IntoLean::<::leangage::json_lexemes::Tokens>::into_obj(tokens);
             let __r: Obj = l_Calculator_Wire_spelled(__a0);
             rt::lean_dec(__a0); rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`decode` on handles. Lean: `Calculator.Wire.decode : List Leangage.Json.Lexemes.Lexeme → Except Calculator.Wire.Refusal Calculator.Kernel.Command` (module `Calculator.Wire`)."]
-    pub fn decode(lexemes: impl rt::IntoLean<rt::List<::leangage::json_lexemes::Lexeme>>) -> rt::Local<Result<crate::generated::calculator_kernel::Command, Refusal>> {
+    #[doc = "`decode` on handles. Lean: `Calculator.Wire.decode : Leangage.Json.Lexemes.Tokens → Except Calculator.Wire.Refusal Calculator.Kernel.Command` (module `Calculator.Wire`)."]
+    pub fn decode(tokens: impl rt::IntoLean<::leangage::json_lexemes::Tokens>) -> rt::Local<Result<crate::generated::calculator_kernel::Command, Refusal>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<::leangage::json_lexemes::Lexeme>>::into_obj(lexemes);
+            let __a0: Obj = rt::IntoLean::<::leangage::json_lexemes::Tokens>::into_obj(tokens);
             let __r: Obj = l_Calculator_Wire_decode(__a0);
             rt::Local::from_owned(__r)
         }

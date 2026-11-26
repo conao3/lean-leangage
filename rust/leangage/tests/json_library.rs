@@ -1,4 +1,4 @@
-//! What serde_json does, through `json_text::lexemes` and the generated `json_lexemes::number_of`,
+//! What serde_json does, through `json_text::tokens` and the generated `json_lexemes::number_of`,
 //! with the texts on which the JSON libraries of the three servers differ or might: `None` for a
 //! text it refuses, and the tokens of a text it reads.
 
@@ -41,7 +41,12 @@ fn item(lexeme: Lexeme) -> Item {
 type Case = (&'static str, Vec<u8>, Option<Vec<Item>>);
 
 fn read(bytes: &[u8]) -> Option<Vec<Item>> {
-    json_text::lexemes(bytes).map(|lexemes| lexemes.into_iter().map(item).collect())
+    json_text::tokens(bytes).map(|tokens| {
+        json_lexemes::tokens_lexemes(tokens)
+            .into_iter()
+            .map(item)
+            .collect()
+    })
 }
 
 fn nested(depth: usize) -> Vec<u8> {

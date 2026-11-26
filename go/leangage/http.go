@@ -65,11 +65,11 @@ func bodyOf(w http.ResponseWriter, r *http.Request) httpformat.Body {
 // BodyOf is the bytes of a body as the generated functions take them: its tokens, or that it is
 // not a JSON text.
 func BodyOf(body []byte) httpformat.Body {
-	lexemes, ok := Lexemes(body)
+	tokens, ok := Tokens(body)
 	if !ok {
 		return httpformat.BodyNotJson{}
 	}
-	return httpformat.BodyJson{Lexemes: lexemes}
+	return httpformat.BodyJson{Tokens: tokens}
 }
 
 // failure is the failure a generated answer is made of.

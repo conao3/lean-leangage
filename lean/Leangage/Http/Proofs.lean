@@ -140,8 +140,8 @@ theorem admit_expired {exp now : UInt64} (h : exp < now) (body : Body) :
   simp [admit, h]
 
 /-- The tokens of a body pass with a token that has not expired. -/
-theorem admit_json {exp now : UInt64} (h : ¬exp < now) (lexemes : List Json.Lexemes.Lexeme) :
-    admit exp now (.json lexemes) = .ok lexemes := by
+theorem admit_json {exp now : UInt64} (h : ¬exp < now) (tokens : Json.Lexemes.Tokens) :
+    admit exp now (.json tokens) = .ok tokens := by
   simp [admit, h]
 
 /-- A body without tokens, with a token that has not expired. -/

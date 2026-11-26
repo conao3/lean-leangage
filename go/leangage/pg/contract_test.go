@@ -396,11 +396,15 @@ type cellsApi struct{}
 
 func (cellsApi) Request(tenant, user, _, _ uint64, body httpformat.Body) (actor, cmd, *httpformat.Response) {
 	read, ok := body.(httpformat.BodyJson)
-	if !ok || len(read.Lexemes) != 6 {
+	if !ok {
+		return actor{}, nil, &httpformat.Response{Status: 400}
+	}
+	lexemes, _ := jsonlexemes.TokensLexemes(read.Tokens)
+	if len(lexemes) != 6 {
 		return actor{}, nil, &httpformat.Response{Status: 400}
 	}
 	number := func(i int) int64 {
-		text, _ := read.Lexemes[i].(jsonlexemes.LexemeNumber)
+		text, _ := lexemes[i].(jsonlexemes.LexemeNumber)
 		n, _ := strconv.ParseInt(text.Text, 10, 64)
 		return n
 	}

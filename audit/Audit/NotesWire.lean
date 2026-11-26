@@ -96,6 +96,18 @@ instance (priority := high) notesWireShrinkableLexemes : Shrinkable (List Lexeme
 instance (priority := high) notesWireSampleableLexemes : SampleableExt (List Lexeme) :=
   SampleableExt.selfContained
 
+instance (priority := high) notesWireArbitraryTokens : Arbitrary Tokens where
+  arbitrary := do
+    let tokens := encode (← bodyLexemes)
+    Gen.elements
+      [tokens, tokens, tokens, tokens, ⟨tokens.kinds, tokens.texts.drop 1⟩, ⟨tokens.kinds ++ "s", tokens.texts⟩,
+        ⟨tokens.kinds, tokens.texts ++ ["x"]⟩]
+      (by simp)
+
+instance : Shrinkable Tokens := ⟨fun _ => []⟩
+
+instance (priority := high) notesWireSampleableTokens : SampleableExt Tokens := SampleableExt.selfContained
+
 instance (priority := high) notesWireArbitraryGuarded : Arbitrary (Authz.Guarded Error) where
   arbitrary := Gen.elements [.denied, .app .notFound, .app .badText] (by decide)
 

@@ -1,4 +1,4 @@
-//! The tokens `json_text::lexemes` reads with serde_json, the generated functions on requests and
+//! The tokens `json_text::tokens` reads with serde_json, the generated functions on requests and
 //! responses and the calculator's functions on the wire against those run natively by Lean
 //! (`request-oracle`), on the shared lines. The line format is described in
 //! `lean/RequestOracle.lean`. A fingerprint is compared with the `Debug` form of the command and
@@ -142,7 +142,7 @@ fn run(line: &str, counts: &mut Counts) -> String {
     match words.as_slice() {
         ["tokens", b] => {
             counts.texts += 1;
-            match json_text::lexemes(&bytes(b)) {
+            match json_text::tokens(&bytes(b)).map(json_lexemes::tokens_lexemes) {
                 Some(lexemes) => {
                     counts.read += 1;
                     let mut out = vec!["tokens".to_owned()];

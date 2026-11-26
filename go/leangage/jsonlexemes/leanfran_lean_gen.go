@@ -26,6 +26,25 @@ func compute_L_Leangage_Json_Lexemes_scalar___closed__1() rt.V {
 	return x_2
 }
 
+func core_L_Leangage_Json_Lexemes_Tokens_lexemes(frame *rt.Tail, x_1 rt.V) rt.V {
+	var x_2 rt.V
+	_ = x_2
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	var x_5 rt.V
+	_ = x_5
+	x_2 = rt.Lean_ctor_get(x_1, 0)
+	rt.Lean_inc(x_2)
+	x_3 = rt.Lean_ctor_get(x_1, 1)
+	rt.Lean_inc(x_3)
+	rt.Lean_dec(x_1)
+	x_4 = l_String_toList(x_2)
+	rt.TailCall(frame, tail_L_Leangage_Json_Lexemes_zip, []rt.V{x_4, x_3})
+	return rt.V{}
+}
+
 func core_L_Leangage_Json_Lexemes_numberOf(frame *rt.Tail, x_1 rt.V) rt.V {
 	var x_2 rt.V
 	_ = x_2
@@ -90,6 +109,12 @@ func init() {
 	defer rt.SetInitializing(false)
 	value_L_Leangage_Json_Lexemes_scalar___closed__0 = rt.Lean_mark_persistent(compute_L_Leangage_Json_Lexemes_scalar___closed__0())
 	value_L_Leangage_Json_Lexemes_scalar___closed__1 = rt.Lean_mark_persistent(compute_L_Leangage_Json_Lexemes_scalar___closed__1())
+}
+
+func l_Leangage_Json_Lexemes_Tokens_lexemes(x_1 rt.V) rt.V {
+	frame := rt.AcquireTail()
+	defer rt.ReleaseTail(frame)
+	return frame.Result(core_L_Leangage_Json_Lexemes_Tokens_lexemes(frame, x_1))
 }
 
 func l_Leangage_Json_Lexemes_members(x_1 rt.V, x_2 rt.V) rt.V {
@@ -494,6 +519,528 @@ func l_Leangage_Json_Lexemes_scalar___closed__0() rt.V {
 
 func l_Leangage_Json_Lexemes_scalar___closed__1() rt.V {
 	return value_L_Leangage_Json_Lexemes_scalar___closed__1
+}
+
+func l_Leangage_Json_Lexemes_zip(x_1 rt.V, x_2 rt.V) rt.V {
+	var x_3 rt.V
+	_ = x_3
+	var x_4 rt.V
+	_ = x_4
+	var x_5 rt.V
+	_ = x_5
+	var x_7 rt.V
+	_ = x_7
+	var x_8 uint8
+	_ = x_8
+	var x_9 uint32
+	_ = x_9
+	var x_10 uint32
+	_ = x_10
+	var x_11 uint8
+	_ = x_11
+	var x_12 uint32
+	_ = x_12
+	var x_13 uint32
+	_ = x_13
+	var x_14 uint8
+	_ = x_14
+	var x_15 uint32
+	_ = x_15
+	var x_16 uint32
+	_ = x_16
+	var x_17 uint8
+	_ = x_17
+	var x_18 uint32
+	_ = x_18
+	var x_19 uint32
+	_ = x_19
+	var x_20 uint8
+	_ = x_20
+	var x_21 uint32
+	_ = x_21
+	var x_22 uint32
+	_ = x_22
+	var x_23 uint8
+	_ = x_23
+	var x_24 uint32
+	_ = x_24
+	var x_25 uint32
+	_ = x_25
+	var x_26 uint8
+	_ = x_26
+	var x_27 uint32
+	_ = x_27
+	var x_28 uint32
+	_ = x_28
+	var x_29 uint8
+	_ = x_29
+	var x_30 rt.V
+	_ = x_30
+	var x_31 rt.V
+	_ = x_31
+	var x_32 rt.V
+	_ = x_32
+	var x_34 rt.V
+	_ = x_34
+	var x_35 uint8
+	_ = x_35
+	var x_36 uint32
+	_ = x_36
+	var x_37 uint32
+	_ = x_37
+	var x_38 uint8
+	_ = x_38
+	var x_39 uint32
+	_ = x_39
+	var x_40 uint32
+	_ = x_40
+	var x_41 uint8
+	_ = x_41
+	var x_42 rt.V
+	_ = x_42
+	var x_43 rt.V
+	_ = x_43
+	var x_45 rt.V
+	_ = x_45
+	var x_46 rt.V
+	_ = x_46
+	var x_47 rt.V
+	_ = x_47
+	var x_48 rt.V
+	_ = x_48
+	var x_50 rt.V
+	_ = x_50
+	var x_51 rt.V
+	_ = x_51
+	var x_52 rt.V
+	_ = x_52
+	var x_53 rt.V
+	_ = x_53
+	var x_55 rt.V
+	_ = x_55
+	var x_56 rt.V
+	_ = x_56
+	var x_57 uint8
+	_ = x_57
+	var x_58 rt.V
+	_ = x_58
+	var x_59 rt.V
+	_ = x_59
+	var x_61 rt.V
+	_ = x_61
+	var x_62 rt.V
+	_ = x_62
+	var x_63 rt.V
+	_ = x_63
+	var x_64 rt.V
+	_ = x_64
+	var x_66 rt.V
+	_ = x_66
+	var x_67 rt.V
+	_ = x_67
+	var x_68 rt.V
+	_ = x_68
+	var x_69 rt.V
+	_ = x_69
+	var x_71 rt.V
+	_ = x_71
+	var x_72 rt.V
+	_ = x_72
+	var x_73 rt.V
+	_ = x_73
+	var x_74 rt.V
+	_ = x_74
+	var x_76 rt.V
+	_ = x_76
+	var x_77 rt.V
+	_ = x_77
+	var x_78 rt.V
+	_ = x_78
+	var x_79 rt.V
+	_ = x_79
+	var x_81 rt.V
+	_ = x_81
+	var x_82 rt.V
+	_ = x_82
+	var x_83 rt.V
+	_ = x_83
+	var x_84 rt.V
+	_ = x_84
+	var x_86 rt.V
+	_ = x_86
+	var x_87 rt.V
+	_ = x_87
+	var x_88 rt.V
+	_ = x_88
+	var x_89 rt.V
+	_ = x_89
+	var x_91 rt.V
+	_ = x_91
+	var x_92 rt.V
+	_ = x_92
+	var x_93 uint8
+	_ = x_93
+_start:
+	switch rt.Lean_obj_tag(x_1) {
+	case 0:
+		rt.Lean_dec(x_2)
+		x_3 = rt.Lean_box(0)
+		return x_3
+	case 1:
+		x_4 = rt.Lean_ctor_get(x_1, 0)
+		x_5 = rt.Lean_ctor_get(x_1, 1)
+		x_93 = rt.Bool(!rt.Lean_is_exclusive(x_1))
+		switch x_93 {
+		case 0:
+			x_7, x_8 = x_1, x_93
+			goto _jp_6
+		case 1:
+			rt.Lean_inc(x_5)
+			rt.Lean_inc(x_4)
+			rt.Lean_dec(x_1)
+			x_7, x_8 = rt.V{}, x_93
+			goto _jp_6
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_6:
+	x_9 = 123
+	x_10 = uint32(rt.Lean_unbox(x_4))
+	x_11 = l_UInt32_decEq(x_10, x_9)
+	switch x_11 {
+	case 0:
+		x_12 = 125
+		x_13 = uint32(rt.Lean_unbox(x_4))
+		x_14 = l_UInt32_decEq(x_13, x_12)
+		switch x_14 {
+		case 0:
+			x_15 = 91
+			x_16 = uint32(rt.Lean_unbox(x_4))
+			x_17 = l_UInt32_decEq(x_16, x_15)
+			switch x_17 {
+			case 0:
+				x_18 = 93
+				x_19 = uint32(rt.Lean_unbox(x_4))
+				x_20 = l_UInt32_decEq(x_19, x_18)
+				switch x_20 {
+				case 0:
+					x_21 = 110
+					x_22 = uint32(rt.Lean_unbox(x_4))
+					x_23 = l_UInt32_decEq(x_22, x_21)
+					switch x_23 {
+					case 0:
+						x_24 = 116
+						x_25 = uint32(rt.Lean_unbox(x_4))
+						x_26 = l_UInt32_decEq(x_25, x_24)
+						switch x_26 {
+						case 0:
+							x_27 = 102
+							x_28 = uint32(rt.Lean_unbox(x_4))
+							x_29 = l_UInt32_decEq(x_28, x_27)
+							switch x_29 {
+							case 0:
+								switch rt.Lean_obj_tag(x_2) {
+								case 0:
+									rt.Lean_dec(x_4)
+									x_1 = x_5
+									goto _start
+								case 1:
+									x_31 = rt.Lean_ctor_get(x_2, 0)
+									x_32 = rt.Lean_ctor_get(x_2, 1)
+									x_57 = rt.Bool(!rt.Lean_is_exclusive(x_2))
+									switch x_57 {
+									case 0:
+										x_34, x_35 = x_2, x_57
+										goto _jp_33
+									case 1:
+										rt.Lean_inc(x_32)
+										rt.Lean_inc(x_31)
+										rt.Lean_dec(x_2)
+										x_34, x_35 = rt.V{}, x_57
+										goto _jp_33
+									default:
+										rt.Lean_internal_panic_unreachable()
+										return rt.V{}
+									}
+								default:
+									rt.Lean_internal_panic_unreachable()
+									return rt.V{}
+								}
+							case 1:
+								rt.Lean_dec(x_4)
+								x_58 = rt.Lean_alloc_ctor(1, 0, 1)
+								rt.Lean_ctor_set_uint8(x_58, 0, x_26)
+								x_59 = l_Leangage_Json_Lexemes_zip(x_5, x_2)
+								switch x_8 {
+								case 0:
+									rt.Lean_ctor_set(x_7, 1, x_59)
+									rt.Lean_ctor_set(x_7, 0, x_58)
+									x_61 = x_7
+									goto _jp_60
+								case 1:
+									x_62 = rt.Lean_alloc_ctor(1, 2, 0)
+									rt.Lean_ctor_set(x_62, 0, x_58)
+									rt.Lean_ctor_set(x_62, 1, x_59)
+									x_61 = x_62
+									goto _jp_60
+								default:
+									rt.Lean_internal_panic_unreachable()
+									return rt.V{}
+								}
+							default:
+								rt.Lean_internal_panic_unreachable()
+								return rt.V{}
+							}
+						case 1:
+							rt.Lean_dec(x_4)
+							x_63 = rt.Lean_alloc_ctor(1, 0, 1)
+							rt.Lean_ctor_set_uint8(x_63, 0, x_26)
+							x_64 = l_Leangage_Json_Lexemes_zip(x_5, x_2)
+							switch x_8 {
+							case 0:
+								rt.Lean_ctor_set(x_7, 1, x_64)
+								rt.Lean_ctor_set(x_7, 0, x_63)
+								x_66 = x_7
+								goto _jp_65
+							case 1:
+								x_67 = rt.Lean_alloc_ctor(1, 2, 0)
+								rt.Lean_ctor_set(x_67, 0, x_63)
+								rt.Lean_ctor_set(x_67, 1, x_64)
+								x_66 = x_67
+								goto _jp_65
+							default:
+								rt.Lean_internal_panic_unreachable()
+								return rt.V{}
+							}
+						default:
+							rt.Lean_internal_panic_unreachable()
+							return rt.V{}
+						}
+					case 1:
+						rt.Lean_dec(x_4)
+						x_68 = rt.Lean_box(0)
+						x_69 = l_Leangage_Json_Lexemes_zip(x_5, x_2)
+						switch x_8 {
+						case 0:
+							rt.Lean_ctor_set(x_7, 1, x_69)
+							rt.Lean_ctor_set(x_7, 0, x_68)
+							x_71 = x_7
+							goto _jp_70
+						case 1:
+							x_72 = rt.Lean_alloc_ctor(1, 2, 0)
+							rt.Lean_ctor_set(x_72, 0, x_68)
+							rt.Lean_ctor_set(x_72, 1, x_69)
+							x_71 = x_72
+							goto _jp_70
+						default:
+							rt.Lean_internal_panic_unreachable()
+							return rt.V{}
+						}
+					default:
+						rt.Lean_internal_panic_unreachable()
+						return rt.V{}
+					}
+				case 1:
+					rt.Lean_dec(x_4)
+					x_73 = rt.Lean_box(6)
+					x_74 = l_Leangage_Json_Lexemes_zip(x_5, x_2)
+					switch x_8 {
+					case 0:
+						rt.Lean_ctor_set(x_7, 1, x_74)
+						rt.Lean_ctor_set(x_7, 0, x_73)
+						x_76 = x_7
+						goto _jp_75
+					case 1:
+						x_77 = rt.Lean_alloc_ctor(1, 2, 0)
+						rt.Lean_ctor_set(x_77, 0, x_73)
+						rt.Lean_ctor_set(x_77, 1, x_74)
+						x_76 = x_77
+						goto _jp_75
+					default:
+						rt.Lean_internal_panic_unreachable()
+						return rt.V{}
+					}
+				default:
+					rt.Lean_internal_panic_unreachable()
+					return rt.V{}
+				}
+			case 1:
+				rt.Lean_dec(x_4)
+				x_78 = rt.Lean_box(5)
+				x_79 = l_Leangage_Json_Lexemes_zip(x_5, x_2)
+				switch x_8 {
+				case 0:
+					rt.Lean_ctor_set(x_7, 1, x_79)
+					rt.Lean_ctor_set(x_7, 0, x_78)
+					x_81 = x_7
+					goto _jp_80
+				case 1:
+					x_82 = rt.Lean_alloc_ctor(1, 2, 0)
+					rt.Lean_ctor_set(x_82, 0, x_78)
+					rt.Lean_ctor_set(x_82, 1, x_79)
+					x_81 = x_82
+					goto _jp_80
+				default:
+					rt.Lean_internal_panic_unreachable()
+					return rt.V{}
+				}
+			default:
+				rt.Lean_internal_panic_unreachable()
+				return rt.V{}
+			}
+		case 1:
+			rt.Lean_dec(x_4)
+			x_83 = rt.Lean_box(8)
+			x_84 = l_Leangage_Json_Lexemes_zip(x_5, x_2)
+			switch x_8 {
+			case 0:
+				rt.Lean_ctor_set(x_7, 1, x_84)
+				rt.Lean_ctor_set(x_7, 0, x_83)
+				x_86 = x_7
+				goto _jp_85
+			case 1:
+				x_87 = rt.Lean_alloc_ctor(1, 2, 0)
+				rt.Lean_ctor_set(x_87, 0, x_83)
+				rt.Lean_ctor_set(x_87, 1, x_84)
+				x_86 = x_87
+				goto _jp_85
+			default:
+				rt.Lean_internal_panic_unreachable()
+				return rt.V{}
+			}
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	case 1:
+		rt.Lean_dec(x_4)
+		x_88 = rt.Lean_box(7)
+		x_89 = l_Leangage_Json_Lexemes_zip(x_5, x_2)
+		switch x_8 {
+		case 0:
+			rt.Lean_ctor_set(x_7, 1, x_89)
+			rt.Lean_ctor_set(x_7, 0, x_88)
+			x_91 = x_7
+			goto _jp_90
+		case 1:
+			x_92 = rt.Lean_alloc_ctor(1, 2, 0)
+			rt.Lean_ctor_set(x_92, 0, x_88)
+			rt.Lean_ctor_set(x_92, 1, x_89)
+			x_91 = x_92
+			goto _jp_90
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_33:
+	x_36 = 107
+	x_37 = uint32(rt.Lean_unbox(x_4))
+	x_38 = l_UInt32_decEq(x_37, x_36)
+	switch x_38 {
+	case 0:
+		x_39 = 115
+		x_40 = uint32(rt.Lean_unbox(x_4))
+		rt.Lean_dec(x_4)
+		x_41 = l_UInt32_decEq(x_40, x_39)
+		switch x_41 {
+		case 0:
+			x_42 = rt.Lean_alloc_ctor(2, 1, 0)
+			rt.Lean_ctor_set(x_42, 0, x_31)
+			x_43 = l_Leangage_Json_Lexemes_zip(x_5, x_32)
+			switch x_35 {
+			case 0:
+				rt.Lean_ctor_set(x_34, 1, x_43)
+				rt.Lean_ctor_set(x_34, 0, x_42)
+				x_45 = x_34
+				goto _jp_44
+			case 1:
+				x_46 = rt.Lean_alloc_ctor(1, 2, 0)
+				rt.Lean_ctor_set(x_46, 0, x_42)
+				rt.Lean_ctor_set(x_46, 1, x_43)
+				x_45 = x_46
+				goto _jp_44
+			default:
+				rt.Lean_internal_panic_unreachable()
+				return rt.V{}
+			}
+		case 1:
+			x_47 = rt.Lean_alloc_ctor(3, 1, 0)
+			rt.Lean_ctor_set(x_47, 0, x_31)
+			x_48 = l_Leangage_Json_Lexemes_zip(x_5, x_32)
+			switch x_35 {
+			case 0:
+				rt.Lean_ctor_set(x_34, 1, x_48)
+				rt.Lean_ctor_set(x_34, 0, x_47)
+				x_50 = x_34
+				goto _jp_49
+			case 1:
+				x_51 = rt.Lean_alloc_ctor(1, 2, 0)
+				rt.Lean_ctor_set(x_51, 0, x_47)
+				rt.Lean_ctor_set(x_51, 1, x_48)
+				x_50 = x_51
+				goto _jp_49
+			default:
+				rt.Lean_internal_panic_unreachable()
+				return rt.V{}
+			}
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	case 1:
+		rt.Lean_dec(x_4)
+		x_52 = rt.Lean_alloc_ctor(4, 1, 0)
+		rt.Lean_ctor_set(x_52, 0, x_31)
+		x_53 = l_Leangage_Json_Lexemes_zip(x_5, x_32)
+		switch x_35 {
+		case 0:
+			rt.Lean_ctor_set(x_34, 1, x_53)
+			rt.Lean_ctor_set(x_34, 0, x_52)
+			x_55 = x_34
+			goto _jp_54
+		case 1:
+			x_56 = rt.Lean_alloc_ctor(1, 2, 0)
+			rt.Lean_ctor_set(x_56, 0, x_52)
+			rt.Lean_ctor_set(x_56, 1, x_53)
+			x_55 = x_56
+			goto _jp_54
+		default:
+			rt.Lean_internal_panic_unreachable()
+			return rt.V{}
+		}
+	default:
+		rt.Lean_internal_panic_unreachable()
+		return rt.V{}
+	}
+_jp_44:
+	return x_45
+_jp_49:
+	return x_50
+_jp_54:
+	return x_55
+_jp_60:
+	return x_61
+_jp_65:
+	return x_66
+_jp_70:
+	return x_71
+_jp_75:
+	return x_76
+_jp_80:
+	return x_81
+_jp_85:
+	return x_86
+_jp_90:
+	return x_91
 }
 
 func l_Leangage_Token_digitsFrom(x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V) rt.V {
@@ -920,8 +1467,16 @@ func l_String_getUTF8Byte(x_1 rt.V, x_2 rt.V) uint8 {
 	return rt.Lean_string_get_byte_fast(x_1, x_2)
 }
 
+func l_String_toList(x_1 rt.V) rt.V {
+	return rt.Lean_string_data(x_1)
+}
+
 func l_String_utf8ByteSize(x_1 rt.V) rt.V {
 	return rt.Lean_string_utf8_byte_size(x_1)
+}
+
+func l_UInt32_decEq(x_1 uint32, x_2 uint32) uint8 {
+	return rt.Lean_uint32_dec_eq(x_1, x_2)
 }
 
 func l_UInt64_ofNat(x_1 rt.V) uint64 {
@@ -946,6 +1501,10 @@ func l_UInt8_toNat(x_1 uint8) rt.V {
 
 func tail_L_Leangage_Json_Lexemes_members(_ *rt.Tail, args []rt.V) rt.V {
 	return l_Leangage_Json_Lexemes_members(args[0], args[1])
+}
+
+func tail_L_Leangage_Json_Lexemes_zip(_ *rt.Tail, args []rt.V) rt.V {
+	return l_Leangage_Json_Lexemes_zip(args[0], args[1])
 }
 
 func tail_L_Leangage_Token_numberAt(_ *rt.Tail, args []rt.V) rt.V {

@@ -27,7 +27,7 @@ from leangage.engine import (
     Refused,
     RetriesExhausted,
 )
-from leangage.json_text import lexemes
+from leangage.json_text import tokens
 from leangage.token import Claims, Verifier
 
 
@@ -58,10 +58,10 @@ FAILURES: list[tuple[type[EngineError], http_format.Failure]] = [
 
 def body_of(data: bytes) -> http_format.Body:
     """The body as the generated functions take it."""
-    tokens = lexemes(data)
-    if tokens is None:
+    read = tokens(data)
+    if read is None:
         return http_format.Body_notJson()
-    return http_format.Body_json.model_construct(lexemes=tokens)
+    return http_format.Body_json(tokens=read)
 
 
 def handle(

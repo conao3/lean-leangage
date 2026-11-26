@@ -93,23 +93,17 @@ theorem decodeObject_spec (lexemes : List Lexeme) :
       | some ms => decodeMembers ms
       | none => .error .notCommand := rfl
 
-/-- A command `spelled` gives is the command `decodeObject` gives. -/
-theorem spelled_sound {lexemes : List Lexeme} {c : Command} (h : spelled lexemes = some c) :
-    decodeObject lexemes = .ok c := by
+/-- A command `spelled` gives is the command `decodeObject` gives for the tokens one by one. -/
+theorem spelled_sound {tokens : Tokens} {c : Command} (h : spelled tokens = some c) :
+    decodeObject tokens.lexemes = .ok c := by
+  obtain ⟨kinds, texts⟩ := tokens
   unfold spelled at h
+  simp only at h
   split at h
-  · split at h <;> try cases h
-    split at h <;> cases h
-    subst_vars
-    rfl
-  · split at h <;> try cases h
+  · rename_i hk
+    subst hk
     split at h <;> try cases h
     split at h <;> try cases h
-    split at h <;> cases h
-    rename_i hn
-    subst_vars
-    simp [decodeObject, object, members, scalar, hn, decodeMembers, List.lookup]
-  · split at h <;> try cases h
     split at h <;> try cases h
     split at h <;> try cases h
     split at h <;> try cases h
@@ -117,27 +111,55 @@ theorem spelled_sound {lexemes : List Lexeme} {c : Command} (h : spelled lexemes
     split at h <;> cases h
     rename_i hop _ _ hn
     subst_vars
-    simp [decodeObject, object, members, scalar, hn, hop, decodeMembers, List.lookup]
-  · cases h
+    have hl : "{ksksk#}".toList = ['{', 'k', 's', 'k', 's', 'k', '#', '}'] := by decide
+    simp [Tokens.lexemes, hl, zip, decodeObject, object, members, scalar, hn, hop, decodeMembers,
+      List.lookup]
+  · split at h
+    · rename_i hk
+      subst hk
+      split at h <;> try cases h
+      split at h <;> try cases h
+      split at h <;> cases h
+      subst_vars
+      have hl : "{ks}".toList = ['{', 'k', 's', '}'] := by decide
+      simp [Tokens.lexemes, hl, zip, decodeObject, object, members, scalar, decodeMembers, List.lookup]
+    · split at h
+      · rename_i hk
+        subst hk
+        split at h <;> try cases h
+        split at h <;> try cases h
+        split at h <;> try cases h
+        split at h <;> try cases h
+        split at h <;> cases h
+        rename_i hn
+        subst_vars
+        have hl : "{ksk#}".toList = ['{', 'k', 's', 'k', '#', '}'] := by decide
+        simp [Tokens.lexemes, hl, zip, decodeObject, object, members, scalar, hn, decodeMembers,
+          List.lookup]
+      · cases h
 
-/-- `decode` is `decodeObject` on every list of tokens. -/
-theorem decode_eq (lexemes : List Lexeme) : decode lexemes = decodeObject lexemes := by
+/-- `decode` is `decodeObject` of the tokens one by one, on every body. -/
+theorem decode_eq (tokens : Tokens) : decode tokens = decodeObject tokens.lexemes := by
   unfold decode
-  cases h : spelled lexemes with
+  cases h : spelled tokens with
   | none => rfl
   | some c => exact (spelled_sound h).symm
 
 /-- `spelled` reads the tokens of the JSON text that spells a command. -/
-theorem spelled_lexemesOf (c : Command) : spelled (lexemesOf c) = some c := by
+theorem spelled_lexemesOf (c : Command) : spelled (encode (lexemesOf c)) = some c := by
   cases c with
-  | set n => simp [lexemesOf, lexFields, objectLexemes, spelled, numberOf_decimalText]
+  | set n =>
+    simp [lexemesOf, lexFields, objectLexemes, encode, kindOf, textOf, spelled, numberOf_decimalText,
+      List.filterMap_cons]
   | apply op n =>
-    cases op <;> simp [lexemesOf, lexFields, objectLexemes, spelled, numberOf_decimalText, opName, opNamed]
-  | get => simp [lexemesOf, lexFields, objectLexemes, spelled]
+    cases op <;>
+      simp [lexemesOf, lexFields, objectLexemes, encode, kindOf, textOf, spelled, numberOf_decimalText, opName,
+        opNamed, List.filterMap_cons]
+  | get => simp [lexemesOf, lexFields, objectLexemes, encode, kindOf, textOf, spelled, List.filterMap_cons]
 
 /-- The tokens of the JSON text that spells a command decode to it. -/
-theorem decode_encode (c : Command) : decode (lexemesOf c) = .ok c := by
-  rw [decode_eq, decodeObject, lexemesOf, object_objectLexemes, scalars_lexFields]
+theorem decode_encode (c : Command) : decode (encode (lexemesOf c)) = .ok c := by
+  rw [decode_eq, lexemes_encode, decodeObject, lexemesOf, object_objectLexemes, scalars_lexFields]
   exact decodeMembers_fields c
 
 theorem lookup_mem {k : String} {v : Scalar} :
@@ -307,35 +329,35 @@ theorem decodeMembers_ok_iff (ms : List (String × Scalar)) (c : Command) :
 
 /-- `decode` accepts, as the command `c`, exactly the tokens of an object whose members are the
 fields of `c` in some order. -/
-theorem decode_ok_iff (lexemes : List Lexeme) (c : Command) :
-    decode lexemes = .ok c ↔
-      ∃ ms, object lexemes = some ms ∧ ms.length = (fields c).length ∧ ∀ m ∈ fields c, m ∈ ms := by
+theorem decode_ok_iff (tokens : Tokens) (c : Command) :
+    decode tokens = .ok c ↔
+      ∃ ms, object tokens.lexemes = some ms ∧ ms.length = (fields c).length ∧ ∀ m ∈ fields c, m ∈ ms := by
   rw [decode_eq]
   unfold decodeObject
-  cases h : object lexemes with
+  cases h : object tokens.lexemes with
   | none => simp
   | some ms => simp [decodeMembers_ok_iff]
 
 /-- `decode` decides on the members `object` gives, and refuses tokens without members. -/
-theorem decode_spec (lexemes : List Lexeme) :
-    decode lexemes =
-      match object lexemes with
+theorem decode_spec (tokens : Tokens) :
+    decode tokens =
+      match object tokens.lexemes with
       | some ms => decodeMembers ms
       | none => .error .notCommand :=
-  decode_eq lexemes
+  decode_eq tokens
 
 /-- Tokens that are not those of an object whose values are values by themselves are no command. -/
-theorem decode_not_object {lexemes : List Lexeme} (h : object lexemes = none) :
-    decode lexemes = .error .notCommand := by
+theorem decode_not_object {tokens : Tokens} (h : object tokens.lexemes = none) :
+    decode tokens = .error .notCommand := by
   simp [decode_eq, decodeObject, h]
 
 /-- The tokens of an object decode as its members. -/
 theorem decode_object (ms : List (String × Lexeme)) :
-    decode (objectLexemes ms) =
+    decode (encode (objectLexemes ms)) =
       match scalars ms with
       | some xs => decodeMembers xs
       | none => .error .notCommand := by
-  rw [decode_eq, decodeObject, object_objectLexemes]
+  rw [decode_eq, lexemes_encode, decodeObject, object_objectLexemes]
   cases scalars ms <;> rfl
 
 /-- An object without the member `cmd` is refused as that, and no other. -/
@@ -424,13 +446,13 @@ theorem request_expired {exp now : UInt64} (h : exp < now) (tenant user : UInt64
 its tokens decode to, for the principal the token claims, or 400 with the message of
 the refusal. -/
 theorem request_json {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64)
-    (lexemes : List Lexeme) :
-    request tenant user exp now (.json lexemes) =
-      match decode lexemes with
+    (tokens : Tokens) :
+    request tenant user exp now (.json tokens) =
+      match decode tokens with
       | .ok cmd => .ok ⟨⟨tenant, user⟩, cmd⟩
       | .error e => .error (Http.refuse 400 (refusalMessage e)) := by
   simp only [request, Http.admit_json h]
-  cases decode lexemes <;> rfl
+  cases decode tokens <;> rfl
 
 /-- A request with a token that has not expired and a body without tokens. -/
 theorem request_not_json {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64) :
@@ -446,7 +468,7 @@ value that spells the command `c` gives the engine `c` for the principal of the 
 user. -/
 theorem request_encode {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64)
     (c : Command) :
-    request tenant user exp now (.json (lexemesOf c)) = .ok ⟨⟨tenant, user⟩, c⟩ := by
+    request tenant user exp now (.json (encode (lexemesOf c))) = .ok ⟨⟨tenant, user⟩, c⟩ := by
   rw [request_json h, decode_encode c]
 
 theorem request_actor_run (tenant user exp now : UInt64) (body : Http.Body) :
@@ -480,9 +502,9 @@ theorem request_refusal {tenant user exp now : UInt64} {body : Http.Body} {r : H
     cases h
     exact ⟨by simp [Http.refuse_status], _, Http.refuse_body _ _⟩
   · cases body with
-    | json lexemes =>
+    | json tokens =>
       rw [request_json he] at h
-      cases hd : decode lexemes with
+      cases hd : decode tokens with
       | ok cmd => simp [hd] at h
       | error e =>
         simp only [hd, Except.error.injEq] at h

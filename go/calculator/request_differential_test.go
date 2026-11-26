@@ -79,9 +79,13 @@ func showLexeme(t *testing.T, lexeme jsonlexemes.Lexeme) string {
 
 func showTokens(t *testing.T, input []byte) string {
 	t.Helper()
-	lexemes, ok := leangage.Lexemes(input)
+	tokens, ok := leangage.Tokens(input)
 	if !ok {
 		return "none"
+	}
+	lexemes, err := jsonlexemes.TokensLexemes(tokens)
+	if err != nil {
+		t.Fatal(err)
 	}
 	words := []string{"tokens"}
 	for _, lexeme := range lexemes {

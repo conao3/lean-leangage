@@ -22,10 +22,12 @@ func (counterApi) Request(tenant, user, expiry, now uint64, body httpformat.Body
 	if answer, ok := errors.AsType[*leanfran.ExceptError[httpformat.Response]](err); ok {
 		return who{}, 0, &answer.Value
 	}
-	if read, ok := body.(httpformat.BodyJson); ok && len(read.Lexemes) == 1 {
-		if number, ok := read.Lexemes[0].(jsonlexemes.LexemeNumber); ok {
-			if cmd, err := strconv.Atoi(number.Text); err == nil {
-				return who{tenant, user}, cmd, nil
+	if read, ok := body.(httpformat.BodyJson); ok {
+		if lexemes, _ := jsonlexemes.TokensLexemes(read.Tokens); len(lexemes) == 1 {
+			if number, ok := lexemes[0].(jsonlexemes.LexemeNumber); ok {
+				if cmd, err := strconv.Atoi(number.Text); err == nil {
+					return who{tenant, user}, cmd, nil
+				}
 			}
 		}
 	}

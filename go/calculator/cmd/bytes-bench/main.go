@@ -5,7 +5,10 @@
 // WriteArray) in alternating rounds. (d) times the reading of one request body into a command,
 // written without a space and with a space after each colon and comma, and (e) the answer to an accepted command, each written by hand with encoding/json and as the
 // calculator server does it: the tokens of leangage.BodyOf given to the generated wire.Request, and
-// the generated wire.Respond.
+// the generated wire.Respond. (f) times what the calculator server does for one request without a
+// socket: the handler of `POST /rpc` (the token check, the body, the generated request, the memory
+// engine and the answer) called with a request and a response writer in memory, for the bodies
+// tools/measure.py sends, with the allocations of one call.
 package main
 
 import (
@@ -14,6 +17,9 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
+	"io"
+	"net/http"
+	"runtime"
 	"slices"
 	"strconv"
 	"strings"
@@ -21,6 +27,7 @@ import (
 
 	"github.com/conao3/leanfran-go"
 
+	"github.com/conao3/lean-leangage/go/calculator"
 	"github.com/conao3/lean-leangage/go/calculator/kernel"
 	"github.com/conao3/lean-leangage/go/calculator/wire"
 	"github.com/conao3/lean-leangage/go/leangage"
@@ -163,6 +170,49 @@ func notesStrToks() []jsonformat.StrTok {
 	return append(out, jsonformat.StrTokArrClose{}, jsonformat.StrTokObjClose{})
 }
 
+// answer is a response writer that keeps the status and counts the bytes of the body.
+type answer struct {
+	header http.Header
+	status int
+	size   int
+}
+
+func (a *answer) Header() http.Header { return a.header }
+
+func (a *answer) WriteHeader(status int) { a.status = status }
+
+func (a *answer) Write(body []byte) (int, error) {
+	a.size += len(body)
+	return len(body), nil
+}
+
+// rpc prints the time, the rate and the allocations of one call of the handler with the body.
+func rpc(label string, handler http.Handler, header, body string) {
+	call := func(text string) *answer {
+		request := &http.Request{
+			Method: "POST",
+			Header: http.Header{"Authorization": {header}},
+			Body:   io.NopCloser(strings.NewReader(text)),
+		}
+		out := &answer{header: http.Header{}}
+		handler.ServeHTTP(out, request)
+		return out
+	}
+	if out := call(body); out.status != 200 || out.size == 0 {
+		panic("the rpc handler")
+	}
+	const iterations = 100_000
+	var times []float64
+	var before, after runtime.MemStats
+	runtime.ReadMemStats(&before)
+	for range rounds {
+		times = append(times, perOp(iterations, func() { sink = call(body) }))
+	}
+	runtime.ReadMemStats(&after)
+	allocs := float64(after.Mallocs-before.Mallocs) / float64(rounds*iterations)
+	fmt.Printf("%-22s %s  %8.0f calls/s  %5.1f allocations\n", label, show(times), 1e9/slices.Min(times), allocs)
+}
+
 func must[T any](value T, err error) T {
 	if err != nil {
 		panic(err)
@@ -247,4 +297,8 @@ func main() {
 	compareAs("(e) answer", "by hand", "generated", 100_000,
 		func() { sink = httpformat.Response{Status: 200, Body: kernel.EncodeReplyArray(reply)} },
 		func() { sink = wire.Respond(accepted) })
+
+	handler := leangage.RpcHandler(calculator.NewEngine(), calculator.Calculator{}, secret)
+	rpc("(f) rpc handler, get", handler, header, `{"cmd":"get"}`)
+	rpc("    apply", handler, header, `{"cmd":"apply","op":"div","arg":1}`)
 }

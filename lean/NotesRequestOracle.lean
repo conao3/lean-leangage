@@ -1,5 +1,6 @@
 import Leangage.Http
 import Oracle.JsonText
+import Leangage.Json.Lexemes.Proofs
 import Notes.Wire
 
 /-!
@@ -122,7 +123,7 @@ def body : String → Option Http.Body
   | "unreadable" => some .unreadable
   | s => do
     match Oracle.JsonText.lexemes (← bytes s) with
-    | some lexemes => return .json lexemes
+    | some lexemes => return .json (Json.Lexemes.encode lexemes)
     | none => return .notJson
 
 def refusal : String → Option (Authz.Guarded Error)
@@ -147,7 +148,7 @@ def run (line : String) : Option String :=
   | ["scope", user] => do
     return "text " ++ showText (Notes.Wire.scope ⟨0, ← number user⟩)
   | ["stored", b] => do
-    match Notes.Wire.decodeReply (Oracle.JsonText.lexemes (← bytes b)) with
+    match Notes.Wire.decodeReply ((Oracle.JsonText.lexemes (← bytes b)).map Json.Lexemes.encode) with
     | some r => return s!"reply {showReply r}"
     | none => return "none"
   | _ => none

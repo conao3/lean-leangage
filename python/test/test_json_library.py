@@ -1,4 +1,4 @@
-"""What `leangage.json_text.lexemes` gives for the texts on which the JSON libraries of the three
+"""What `leangage.json_text.tokens` gives for the texts on which the JSON libraries of the three
 servers differ, and for those each must refuse.
 
 Each case is a name, the bytes of a body and the tokens in the format of
@@ -6,7 +6,8 @@ Each case is a name, the bytes of a body and the tokens in the format of
 """
 
 import pytest
-from leangage.json_text import lexemes
+from leangage import json_lexemes
+from leangage.json_text import tokens
 from test_request_differential import show_token
 
 CASES: list[tuple[str, bytes, str | None]] = [
@@ -45,8 +46,8 @@ CASES: list[tuple[str, bytes, str | None]] = [
 
 @pytest.mark.parametrize(("name", "body", "want"), CASES, ids=[c[0] for c in CASES])
 def test_json_library(name: str, body: bytes, want: str | None) -> None:
-    tokens = lexemes(body)
+    read = tokens(body)
     got = None
-    if tokens is not None:
-        got = " ".join(show_token(t) for t in tokens)
+    if read is not None:
+        got = " ".join(show_token(t) for t in json_lexemes.Tokens.lexemes(read))
     assert got == want

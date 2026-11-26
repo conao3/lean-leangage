@@ -217,7 +217,7 @@ fn run(line: &str, counts: &mut Counts) -> String {
                 "serde_json on {line}"
             );
             assert_eq!(
-                wire::decode_reply(json_text::lexemes(&answer.body)),
+                wire::decode_reply(json_text::tokens(&answer.body)),
                 Some(reply),
                 "read back: {line}"
             );
@@ -254,7 +254,7 @@ fn run(line: &str, counts: &mut Counts) -> String {
             assert_eq!(scope, format!("u{user}"), "the stored form");
             format!("text {}", show(scope.as_bytes()))
         }
-        ["stored", b] => match wire::decode_reply(json_text::lexemes(&bytes(b))) {
+        ["stored", b] => match wire::decode_reply(json_text::tokens(&bytes(b))) {
             Some(reply) => {
                 counts.stored += 1;
                 format!("reply {}", show_reply(&reply))

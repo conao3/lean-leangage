@@ -42,8 +42,11 @@ GO = [
 
 LOOKUP = [
     (r"\.get\(", "a member looked up by name"),
-    (r"(?<!')\[\s*[\"']", "a member looked up by name"),
-    (r"[!=]=\s*[\"']|[\"']\s*[!=]=", "a comparison with a text"),
+    (r"[\w)\]]\[\s*[\"']", "a member looked up by name"),
+    (
+        r"[!=]=\s*(\"|'[^']{2,}')|(\"|'[^']{2,}')\s*[!=]=",
+        "a comparison with a text",
+    ),
     (r"json_format|jsonformat", "the JSON writer"),
     STATUS,
 ]
@@ -77,7 +80,7 @@ FILES = [
         "rust/leangage/src/http.rs",
         [
             "verifier.admit(", "A::request(", "A::respond(", "A::fingerprint(", "A::scope(", "http_format::failed(",
-            "json_text::lexemes(",
+            "json_text::tokens(",
         ],
         RUST,
         None,
@@ -98,7 +101,7 @@ FILES = [
         "rust/notes/src/lib.rs",
         [
             "wire::request(", "wire::respond(", "wire::fingerprint(", "wire::scope(", "wire::encode_reply(",
-            "wire::decode_reply(", "json_text::lexemes(",
+            "wire::decode_reply(", "json_text::tokens(",
         ],
         RUST,
         None,
@@ -107,7 +110,7 @@ FILES = [
         "python/src/leangage/http.py",
         [
             "verifier.admit(", "api.request(", "api.respond(", "api.fingerprint(", "api.scope(", "http_format.failed(",
-            "lexemes(data)",
+            "tokens(data)",
         ],
         PYTHON,
         None,
@@ -128,7 +131,7 @@ FILES = [
         "go/leangage/http.go",
         [
             "verifier.Admit(", "api.Request(", "api.Respond(", "api.Fingerprint(", "api.Scope(", "httpformat.Failed(",
-            "Lexemes(",
+            "Tokens(",
         ],
         GO,
         None,
@@ -153,7 +156,10 @@ FILES = [
     ),
     (
         "python/src/leangage/json_text.py",
-        ["json.loads(", "object_pairs_hook=", "parse_int=", "parse_float=", "parse_constant="],
+        [
+            "DECODER = json.JSONDecoder(", "DECODER.decode(",
+            "object_pairs_hook=", "parse_int=", "parse_float=", "parse_constant=",
+        ],
         PYTHON_TEXT,
         None,
     ),

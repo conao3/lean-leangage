@@ -12,9 +12,13 @@ import (
 
 func showLibraryTokens(t *testing.T, body []byte) string {
 	t.Helper()
-	lexemes, ok := Lexemes(body)
+	tokens, ok := Tokens(body)
 	if !ok {
 		return "none"
+	}
+	lexemes, err := jsonlexemes.TokensLexemes(tokens)
+	if err != nil {
+		t.Fatal(err)
 	}
 	var words []string
 	for _, lexeme := range lexemes {
@@ -57,7 +61,7 @@ func nested(depth int) (string, string) {
 		strings.TrimSuffix(strings.Repeat("[ ", depth)+strings.Repeat("] ", depth), " ")
 }
 
-// What encoding/json and Lexemes do with the texts on which the JSON libraries of the servers'
+// What encoding/json and Tokens do with the texts on which the JSON libraries of the servers'
 // languages differ, and with those at the edges of the grammar. The tokens are written as in
 // `lean/RequestOracle.lean`, and `none` is a refused body. encoding/json reads the escape of a
 // surrogate outside a pair as U+FFFD, and refuses arrays nested deeper than 10,000.

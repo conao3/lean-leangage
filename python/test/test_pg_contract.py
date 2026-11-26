@@ -360,7 +360,7 @@ def cells_api() -> Api:
     def request(tenant: int, user: int, expiry: int, now: int, body: Any) -> Any:
         cell, delta = (
             int(token.text)
-            for token in body.lexemes
+            for token in json_lexemes.Tokens.lexemes(body.tokens)
             if isinstance(token, json_lexemes.Lexeme_number)
         )
         return Ok(value=Call(Actor(tenant, user), Add(cell, delta)))

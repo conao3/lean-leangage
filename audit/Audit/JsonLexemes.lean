@@ -65,6 +65,15 @@ instance (priority := high) lexemesShrinkableList : Shrinkable (List Lexeme) := 
 
 instance (priority := high) lexemesSampleableList : SampleableExt (List Lexeme) := SampleableExt.selfContained
 
+instance (priority := high) lexemesArbitraryTokens : Arbitrary Tokens where
+  arbitrary := do
+    let tokens := encode (← lexemesGen)
+    Gen.elements [tokens, tokens, ⟨tokens.kinds, tokens.texts.drop 1⟩, ⟨tokens.kinds ++ "?", tokens.texts⟩] (by simp)
+
+instance : Shrinkable Tokens := ⟨fun _ => []⟩
+
+instance (priority := high) lexemesSampleableTokens : SampleableExt Tokens := SampleableExt.selfContained
+
 instance (priority := high) lexemesArbitraryMembers : Arbitrary (List (String × Lexeme)) where
   arbitrary := do
     let a ← lexemeGen
@@ -76,6 +85,11 @@ instance (priority := high) lexemesShrinkableMembers : Shrinkable (List (String 
 
 instance (priority := high) lexemesSampleableMembers : SampleableExt (List (String × Lexeme)) :=
   SampleableExt.selfContained
+
+#assay Leangage.Json.Lexemes.zip using Leangage.Json.Lexemes.zip_encode
+
+#assay Leangage.Json.Lexemes.Tokens.lexemes
+  using Leangage.Json.Lexemes.lexemes_spec Leangage.Json.Lexemes.lexemes_encode
 
 #assay Leangage.Json.Lexemes.numberOf
   using Leangage.Json.Lexemes.numberOf_iff Leangage.Json.Lexemes.numberOf_decimalText

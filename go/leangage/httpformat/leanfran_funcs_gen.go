@@ -8,13 +8,13 @@ import (
 	"github.com/conao3/leanfran-go/rt"
 )
 
-func Admit(a0 uint64, a1 uint64, a2 Body) ([]lfmod0.Lexeme, error) {
+func Admit(a0 uint64, a1 uint64, a2 Body) (lfmod0.Tokens, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	var _lfValidation leanfran.ValidationError
 	leanfran.CheckAt(&_lfValidation, _lfCodecBody, a2, "body")
 	if len(_lfValidation.Issues) != 0 {
 		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
-		return leanfran.Zero[[]lfmod0.Lexeme](), err
+		return leanfran.Zero[lfmod0.Tokens](), err
 	}
 	v0 := _lfCodec0.ToLean(a0)
 	v1 := _lfCodec0.ToLean(a1)
@@ -23,20 +23,20 @@ func Admit(a0 uint64, a1 uint64, a2 Body) ([]lfmod0.Lexeme, error) {
 	defer rt.Lean_dec(_lfResult)
 	if rt.Lean_obj_tag(_lfResult) == 0 {
 		err := &leanfran.ExceptError[Response]{Value: _lfCodecResponse.FromLean(rt.Lean_ctor_get(_lfResult, 0))}
-		return leanfran.Zero[[]lfmod0.Lexeme](), err
+		return leanfran.Zero[lfmod0.Tokens](), err
 	}
-	return _lfCodec4.FromLean(rt.Lean_ctor_get(_lfResult, 0)), nil
+	return _lfCodec3.FromLean(rt.Lean_ctor_get(_lfResult, 0)), nil
 }
 
 func Authenticate(a0 *string) (Bearer, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	var _lfValidation leanfran.ValidationError
-	leanfran.CheckAt(&_lfValidation, _lfCodec7, a0, "header")
+	leanfran.CheckAt(&_lfValidation, _lfCodec6, a0, "header")
 	if len(_lfValidation.Issues) != 0 {
 		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
 		return leanfran.Zero[Bearer](), err
 	}
-	v0 := _lfCodec7.ToLean(a0)
+	v0 := _lfCodec6.ToLean(a0)
 	_lfResult := l_Leangage_Http_authenticate(v0)
 	defer rt.Lean_dec(_lfResult)
 	if rt.Lean_obj_tag(_lfResult) == 0 {
@@ -49,15 +49,15 @@ func Authenticate(a0 *string) (Bearer, error) {
 func BearerToken(a0 string) (*string, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	var _lfValidation leanfran.ValidationError
-	leanfran.CheckAt(&_lfValidation, _lfCodec6, a0, "header")
+	leanfran.CheckAt(&_lfValidation, _lfCodec5, a0, "header")
 	if len(_lfValidation.Issues) != 0 {
 		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
 		return leanfran.Zero[*string](), err
 	}
-	v0 := _lfCodec6.ToLean(a0)
+	v0 := _lfCodec5.ToLean(a0)
 	_lfResult := l_Leangage_Http_bearerToken(v0)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec7.FromLean(_lfResult), nil
+	return _lfCodec6.FromLean(_lfResult), nil
 }
 
 func Failed(a0 Failure) Response {
@@ -71,13 +71,13 @@ func Failed(a0 Failure) Response {
 func Refuse(a0 uint16, a1 string) (Response, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	var _lfValidation leanfran.ValidationError
-	leanfran.CheckAt(&_lfValidation, _lfCodec6, a1, "message")
+	leanfran.CheckAt(&_lfValidation, _lfCodec5, a1, "message")
 	if len(_lfValidation.Issues) != 0 {
 		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
 		return leanfran.Zero[Response](), err
 	}
-	v0 := _lfCodec5.ToLean(a0)
-	v1 := _lfCodec6.ToLean(a1)
+	v0 := _lfCodec4.ToLean(a0)
+	v1 := _lfCodec5.ToLean(a1)
 	_lfResult := l_Leangage_Http_refuse(uint16(rt.Lean_unbox(v0)), v1)
 	defer rt.Lean_dec(_lfResult)
 	return _lfCodecResponse.FromLean(_lfResult), nil
@@ -95,11 +95,11 @@ func (lfHandle) In(scope *leanfran.ValueScope) lfScopedHandle {
 	return lfScopedHandle{scope: scope}
 }
 
-func (lfHandle) Admit(a0 leanfran.ValueInput[uint64], a1 leanfran.ValueInput[uint64], a2 leanfran.ValueInput[Body]) (leanfran.Value[leanfran.ListType[lfmod0.Lexeme]], error) {
+func (lfHandle) Admit(a0 leanfran.ValueInput[uint64], a1 leanfran.ValueInput[uint64], a2 leanfran.ValueInput[Body]) (leanfran.Value[lfmod0.Tokens], error) {
 	return lfScopedHandle{}.Admit(a0, a1, a2)
 }
 
-func (api lfScopedHandle) Admit(a0 leanfran.ValueInput[uint64], a1 leanfran.ValueInput[uint64], a2 leanfran.ValueInput[Body]) (leanfran.Value[leanfran.ListType[lfmod0.Lexeme]], error) {
+func (api lfScopedHandle) Admit(a0 leanfran.ValueInput[uint64], a1 leanfran.ValueInput[uint64], a2 leanfran.ValueInput[Body]) (leanfran.Value[lfmod0.Tokens], error) {
 	inputs := [3]leanfran.ValueUse{a0.Use(), a1.Use(), a2.Use()}
 	op := leanfran.BeginValueOperation(api.scope, inputs[:])
 	defer op.End()
@@ -109,9 +109,9 @@ func (api lfScopedHandle) Admit(a0 leanfran.ValueInput[uint64], a1 leanfran.Valu
 	if rt.Lean_obj_tag(raw) == 0 {
 		_lfCodecsOnce.Do(_lfBuildCodecs)
 		err := &leanfran.ExceptError[Response]{Value: _lfCodecResponse.FromLean(rt.Lean_ctor_get(raw, 0))}
-		return leanfran.Value[leanfran.ListType[lfmod0.Lexeme]]{}, err
+		return leanfran.Value[lfmod0.Tokens]{}, err
 	}
-	return leanfran.WrapValueIn[leanfran.ListType[lfmod0.Lexeme]](op, leanfran.OwnValueField(raw, 0)), nil
+	return leanfran.WrapValueIn[lfmod0.Tokens](op, leanfran.OwnValueField(raw, 0)), nil
 }
 
 func (lfHandle) Authenticate(a0 leanfran.ValueInput[leanfran.OptionType[string]]) (leanfran.Value[Bearer], error) {

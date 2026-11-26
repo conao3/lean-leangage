@@ -1,4 +1,4 @@
-"""The tokens `leangage.json_text.lexemes` reads, the functions on requests and responses and the
+"""The tokens `leangage.json_text.tokens` reads, the functions on requests and responses and the
 calculator's functions on the wire against those run natively by Lean (`request-oracle`).
 
 The line format is described in `lean/RequestOracle.lean`.
@@ -11,7 +11,7 @@ from pathlib import Path
 from leanfran import Err, Ok
 from leangage import http_format, json_lexemes
 from leangage.http import body_of
-from leangage.json_text import lexemes
+from leangage.json_text import tokens
 from leangage_calculator import kernel, wire
 
 CASES = Path(__file__).parents[2] / "testdata" / "request-cases.txt"
@@ -105,10 +105,12 @@ def show_auth(result: Ok | Err) -> str:
 def run(line: str) -> str:
     match line.split(" "):
         case ["tokens", b]:
-            tokens = lexemes(data(b))
-            if tokens is None:
+            read = tokens(data(b))
+            if read is None:
                 return "none"
-            return " ".join(["tokens"] + [show_token(t) for t in tokens])
+            return " ".join(
+                ["tokens"] + [show_token(t) for t in json_lexemes.Tokens.lexemes(read)]
+            )
         case ["auth", "-"]:
             return show_auth(http_format.authenticate(None))
         case ["auth", h]:

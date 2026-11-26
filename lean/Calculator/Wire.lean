@@ -15,9 +15,10 @@ the operations `add`, `sub`, `mul` and `div`, and `{"cmd":"get"}`. Its members m
 order; an object with another member, or with a member twice, is not a command.
 
 `decode` reads the tokens of a body. For a command whose members come in the order above,
-`spelled` gives the command from the tokens one by one; for every other list of tokens
-`decodeObject` collects the members and looks each up by its name. `Calculator.Wire.Proofs`
-proves that `decode` is `decodeObject` on every list of tokens.
+`spelled` gives the command from the kinds of the tokens, compared as one text, and their texts;
+for every other body `decodeObject` collects the members of the tokens one by one and looks each
+up by its name. `Calculator.Wire.Proofs` proves that `decode` is `decodeObject` of the tokens on
+every body.
 -/
 
 namespace Calculator.Wire
@@ -85,41 +86,49 @@ def decodeObject (lexemes : List Lexeme) : Except Refusal Command :=
 
 /-- The command of the tokens of a command whose members come in the order `cmd`, `value` or
 `cmd`, `op`, `arg`. -/
-def spelled : List Lexeme → Option Command
-  | [.objOpen, .key k, .str name, .objClose] =>
-    if k = "cmd" then if name = "get" then some .get else none else none
-  | [.objOpen, .key k, .str name, .key kv, .number text, .objClose] =>
-    if k = "cmd" then
-      if name = "set" then
-        if kv = "value" then
-          match numberOf text with
-          | some n => some (.set n)
-          | none => none
+def spelled (tokens : Tokens) : Option Command :=
+  if tokens.kinds = "{ksksk#}" then
+    match tokens.texts with
+    | [k, name, ko, op, ka, text] =>
+      if k = "cmd" then
+        if name = "apply" then
+          if ko = "op" then
+            if ka = "arg" then
+              match opNamed op with
+              | some op =>
+                match numberOf text with
+                | some n => some (.apply op n)
+                | none => none
+              | none => none
+            else none
+          else none
         else none
       else none
-    else none
-  | [.objOpen, .key k, .str name, .key ko, .str op, .key ka, .number text, .objClose] =>
-    if k = "cmd" then
-      if name = "apply" then
-        if ko = "op" then
-          if ka = "arg" then
-            match opNamed op with
-            | some op =>
-              match numberOf text with
-              | some n => some (.apply op n)
-              | none => none
+    | _ => none
+  else if tokens.kinds = "{ks}" then
+    match tokens.texts with
+    | [k, name] => if k = "cmd" then if name = "get" then some .get else none else none
+    | _ => none
+  else if tokens.kinds = "{ksk#}" then
+    match tokens.texts with
+    | [k, name, kv, text] =>
+      if k = "cmd" then
+        if name = "set" then
+          if kv = "value" then
+            match numberOf text with
+            | some n => some (.set n)
             | none => none
           else none
         else none
       else none
-    else none
-  | _ => none
+    | _ => none
+  else none
 
 /-- The command that the tokens of a JSON text spell. -/
-def decode (lexemes : List Lexeme) : Except Refusal Command :=
-  match spelled lexemes with
+def decode (tokens : Tokens) : Except Refusal Command :=
+  match spelled tokens with
   | some cmd => .ok cmd
-  | none => decodeObject lexemes
+  | none => decodeObject tokens.lexemes
 
 /-- What a refused body is answered with. -/
 def refusalMessage : Refusal → String
@@ -133,8 +142,8 @@ expiry `exp`, at the time `now`; or the answer to the request. -/
 def request (tenant user exp now : UInt64) (body : Http.Body) : Except Http.Response Call :=
   match Http.admit exp now body with
   | .error r => .error r
-  | .ok lexemes =>
-    match decode lexemes with
+  | .ok tokens =>
+    match decode tokens with
     | .error e => .error (Http.refuse 400 (refusalMessage e))
     | .ok cmd => .ok ⟨⟨tenant, user⟩, cmd⟩
 

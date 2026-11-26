@@ -5,10 +5,13 @@ bytes of a notes list of 20 notes with bodies of 200 bytes. Each line times the 
 lists (`parse`, `encodeReply`, `write`) and the functions over strings and arrays
 (`authenticate`, `encodeReplyArray`, `writeArray`) in alternating rounds. (d) times the reading
 of one request body into a command, written by hand with `json` and as the calculator server
-does it: `json` and `leangage.json_text.lexemes` for the tokens, then the generated
+does it: `json` and `leangage.json_text.tokens` for the tokens, then the generated
 `wire.request`. It prints calls per second (higher is better) for a body without spaces and for
 the same body as `json.dumps` writes it, and the time of each stage of the server's path. (e)
 times the answer to an accepted command, written by hand and as the generated `wire.respond`.
+(f) times what the server does for one `POST /rpc` once the request is read from the socket:
+`leangage.http.handle` with the `Authorization` header and the body, on the memory engine, for
+the bodies `{"cmd":"get"}` and `{"cmd":"apply","op":"div","arg":1}`.
 """
 
 import hashlib
@@ -18,11 +21,11 @@ import time
 from collections.abc import Callable
 
 from leanfran import Ok
-from leangage import http_format, json_format, token, token_format
-from leangage.http import body_of
-from leangage.json_text import lexemes
+from leangage import MemoryEngine, http_format, json_format, token, token_format
+from leangage.http import body_of, handle
+from leangage.json_text import tokens
 
-from leangage_calculator import kernel, wire
+from leangage_calculator import API, KERNEL, kernel, wire
 
 ROUNDS = 5
 
@@ -207,13 +210,13 @@ def main() -> None:
     request_rate("compact", json.dumps(fields, separators=(",", ":")).encode(), command)
     request_rate("spaced", request, command)
     text = request.decode()
-    tokens = lexemes(request)
-    assert tokens is not None
+    read = tokens(request)
+    assert read is not None
     body = body_of(request)
     stages: list[tuple[str, Callable[[], object]]] = [
         ("json.loads", lambda: json.loads(text)),
-        ("lexemes", lambda: lexemes(request)),
-        ("Body_json", lambda: http_format.Body_json.model_construct(lexemes=tokens)),
+        ("tokens", lambda: tokens(request)),
+        ("Body_json", lambda: http_format.Body_json(tokens=read)),
         ("parse and conversion", lambda: body_of(request)),
         ("generated request", lambda: wire.request(1, 42, 1, 0, body)),
         ("request.lean", lambda: wire.request.lean(1, 42, 1, 0, body)),
@@ -230,6 +233,25 @@ def main() -> None:
         lambda: wire.respond(Ok(value=reply)),
         ("by hand", "generated"),
     )
+
+    engine = MemoryEngine(KERNEL)
+    verifier = token.Verifier(secret)
+    headers = {"Authorization": header}
+    assert (
+        bytes(handle(engine, API, verifier, headers, b'{"cmd":"set","value":6}').body)
+        == b'{"value":6}'
+    )
+    for name, rpc in [
+        ("get", b'{"cmd":"get"}'),
+        ("apply", b'{"cmd":"apply","op":"div","arg":1}'),
+    ]:
+        assert handle(engine, API, verifier, headers, rpc).status == 200
+        rounds = [
+            per_op(2_000, lambda rpc=rpc: handle(engine, API, verifier, headers, rpc))
+            for _ in range(ROUNDS)
+        ]
+        label = "(f) rpc handler" if name == "get" else "   "
+        print(f"{label:<16} {name:<6} {show(rounds)}  {1e9 / rounds[0]:>8.0f} calls/s")
 
 
 if __name__ == "__main__":
