@@ -1,18 +1,17 @@
 """The JSON text of a body as the tokens the generated functions take.
 
-`tokens` reads the text with `json` and gives its tokens in the order of the document as a
-`Tokens`: one character for the kind of each token (`{`, `}`, `[`, `]`, `n`, `t`, `f`, `#` for a
-number, `s` for a string, `k` for a key) and the texts of the numbers, the strings and the keys;
-a member that comes twice is two members. It gives `None` for bytes that `json` refuses: bytes
-that are not UTF-8, a text that is not JSON, `NaN` and `Infinity`, a nesting deeper than the
-interpreter's stack takes (`RecursionError`), and a string with the escape of a surrogate outside
-a pair. What the tokens mean is decided by the functions generated from
-`lean/Leangage/Json/Lexemes.lean` and from the kernel's module.
+`tokens` reads the text with `json` and packs its tokens, in the order of the document, into one
+text: one character for the kind of each token (`{`, `}`, `[`, `]`, `n`, `t`, `f`, `#` for a
+number, `s` for a string, `k` for a key), a line feed, and the texts of the numbers, the strings
+and the keys, each but the last after the count of its characters and a colon; a member that
+comes twice is two members. It gives `None` for bytes that `json` refuses: bytes that are not
+UTF-8, a text that is not JSON, `NaN` and `Infinity`, a nesting deeper than the interpreter's
+stack takes (`RecursionError`), and a string with the escape of a surrogate outside a pair. What
+the tokens mean is decided by the functions generated from `lean/Leangage/Json/Lexemes.lean` and
+from the kernel's module.
 """
 
 import json
-
-from leangage.json_lexemes import Tokens
 
 
 class Number(str):
@@ -41,7 +40,7 @@ DECODER = json.JSONDecoder(
 )
 
 
-def tokens(data: bytes) -> Tokens | None:
+def tokens(data: bytes) -> str | None:
     """The tokens of the JSON text `data`, or `None` for bytes `json` refuses."""
     try:
         kinds: list[str] = []
@@ -74,7 +73,14 @@ def tokens(data: bytes) -> Tokens | None:
                 kinds.append("t" if v else "f")
             else:
                 kinds.append("n")
-        "".join(texts).encode()
-        return Tokens(kinds="".join(kinds), texts=texts)
+        kinds.append("\n")
+        if texts:
+            last = texts.pop()
+            for text in texts:
+                kinds.append(f"{len(text)}:{text}")
+            kinds.append(last)
+        packed = "".join(kinds)
+        packed.encode()
+        return packed
     except (ValueError, RecursionError):
         return None

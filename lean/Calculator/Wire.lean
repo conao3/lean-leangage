@@ -33,6 +33,8 @@ structure Call where
 
 /-- Why a body is not a command. -/
 inductive Refusal where
+  /-- The packed text is that of no list of tokens. -/
+  | notJson
   | notCommand
   /-- A JSON object without the member `cmd`. -/
   | missingCmd
@@ -85,54 +87,42 @@ def decodeObject (lexemes : List Lexeme) : Except Refusal Command :=
   | some ms => decodeMembers ms
   | none => .error .notCommand
 
-/-- The command of the tokens of a command whose members come in the order `cmd`, `value` or
-`cmd`, `op`, `arg`. -/
-def spelled (tokens : Tokens) : Option Command :=
-  if tokens.kinds = "{ksksk#}" then
-    match tokens.texts with
-    | [k, name, ko, op, ka, text] =>
-      if k = "cmd" then
-        if name = "apply" then
-          if ko = "op" then
-            if ka = "arg" then
-              match opNamed op with
-              | some op =>
-                match numberOf text with
-                | some n => some (.apply op n)
-                | none => none
-              | none => none
-            else none
-          else none
-        else none
-      else none
-    | _ => none
-  else if tokens.kinds = "{ks}" then
-    match tokens.texts with
-    | [k, name] => if k = "cmd" then if name = "get" then some .get else none else none
-    | _ => none
-  else if tokens.kinds = "{ksk#}" then
-    match tokens.texts with
-    | [k, name, kv, text] =>
-      if k = "cmd" then
-        if name = "set" then
-          if kv = "value" then
-            match numberOf text with
-            | some n => some (.set n)
-            | none => none
-          else none
-        else none
-      else none
-    | _ => none
+/-- The number at the end of a packed text that starts with `start`. -/
+def numbered (start packed : String) : Option UInt64 :=
+  if packed.startsWith start then Token.numberAt packed start.utf8ByteSize packed.utf8ByteSize
   else none
 
-/-- The command that the tokens of a JSON text spell. -/
-def decode (tokens : Tokens) : Except Refusal Command :=
-  match spelled tokens with
+/-- The command of the packed tokens of a command whose members come in the order `cmd`, `value`
+or `cmd`, `op`, `arg`. -/
+def spelled (packed : String) : Option Command :=
+  match numbered "{ksksk#}\n3:cmd5:apply2:op3:add3:arg" packed with
+  | some n => some (.apply .add n)
+  | none =>
+    match numbered "{ksksk#}\n3:cmd5:apply2:op3:sub3:arg" packed with
+    | some n => some (.apply .sub n)
+    | none =>
+      match numbered "{ksksk#}\n3:cmd5:apply2:op3:mul3:arg" packed with
+      | some n => some (.apply .mul n)
+      | none =>
+        match numbered "{ksksk#}\n3:cmd5:apply2:op3:div3:arg" packed with
+        | some n => some (.apply .div n)
+        | none =>
+          match numbered "{ksk#}\n3:cmd3:set5:value" packed with
+          | some n => some (.set n)
+          | none => if packed = "{ks}\n3:cmdget" then some .get else none
+
+/-- The command that the packed tokens of a JSON text spell. -/
+def decode (packed : String) : Except Refusal Command :=
+  match spelled packed with
   | some cmd => .ok cmd
-  | none => decodeObject tokens.lexemes
+  | none =>
+    match unpack packed with
+    | some lexemes => decodeObject lexemes
+    | none => .error .notJson
 
 /-- What a refused body is answered with. -/
 def refusalMessage : Refusal → String
+  | .notJson => "body is not JSON"
   | .notCommand => "not a calculator command"
   | .missingCmd => "missing field `cmd`"
   | .badValue => "`value` must be an integer below 2^64"
@@ -143,8 +133,8 @@ expiry `exp`, at the time `now`; or the answer to the request. -/
 def request (tenant user exp now : UInt64) (body : Http.Body) : Except Http.Response Call :=
   match Http.admit exp now body with
   | .error r => .error r
-  | .ok tokens =>
-    match decode tokens with
+  | .ok packed =>
+    match decode packed with
     | .error e => .error (Http.refuse 400 (refusalMessage e))
     | .ok cmd => .ok ⟨⟨tenant, user⟩, cmd⟩
 

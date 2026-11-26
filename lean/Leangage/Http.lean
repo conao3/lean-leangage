@@ -24,7 +24,7 @@ deriving DecidableEq, Repr
 /-- The body of a request as the server read it. -/
 inductive Body where
   /-- The tokens of the JSON text of the body, in the order of the document. -/
-  | json (tokens : Json.Lexemes.Tokens)
+  | json (packed : String)
   /-- The JSON library refused the bytes. -/
   | notJson
   /-- The body is longer than the server reads. -/
@@ -77,11 +77,11 @@ def authenticate (header : Option String) : Except Response Bearer :=
       | some p => .ok ⟨p.tenant, p.user, p.exp, p.payload, p.sig⟩
 
 /-- The tokens of the body of a request whose token expires at `exp`, at the time `now`. -/
-def admit (exp now : UInt64) (body : Body) : Except Response Json.Lexemes.Tokens :=
+def admit (exp now : UInt64) (body : Body) : Except Response String :=
   if exp < now then .error (refuse 401 "token expired")
   else
     match body with
-    | .json tokens => .ok tokens
+    | .json packed => .ok packed
     | .notJson => .error (refuse 400 "body is not JSON")
     | .tooLarge => .error (refuse 413 "request body too large")
     | .unreadable => .error (refuse 400 "request body cannot be read")

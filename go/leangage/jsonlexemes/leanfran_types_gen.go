@@ -6,49 +6,56 @@ import (
 	"github.com/conao3/leanfran-go"
 	"github.com/conao3/leanfran-go/rt"
 	"github.com/conao3/leanfran-go/schema"
+	"math/big"
 	"sync"
 )
 
 var _lfCodecLexeme leanfran.Codec[Lexeme]
 var _lfCodecScalar leanfran.Codec[Scalar]
-var _lfCodecTokens leanfran.Codec[Tokens]
 var _lfCodec0 leanfran.Codec[bool]
 var _lfCodec1 leanfran.Codec[string]
 var _lfCodec2 leanfran.Codec[uint64]
-var _lfCodec3 leanfran.Codec[[]string]
-var _lfCodec4 leanfran.Codec[leanfran.Pair[string, Scalar]]
-var _lfCodec5 leanfran.Codec[[]leanfran.Pair[string, Scalar]]
-var _lfCodec6 leanfran.Codec[[]Lexeme]
-var _lfCodec7 leanfran.Codec[*[]leanfran.Pair[string, Scalar]]
-var _lfCodec8 leanfran.Codec[*uint64]
-var _lfCodec9 leanfran.Codec[*Scalar]
-var _lfCodec10 leanfran.Codec[rune]
-var _lfCodec11 leanfran.Codec[[]rune]
+var _lfCodec3 leanfran.Codec[rune]
+var _lfCodec4 leanfran.Codec[[]rune]
+var _lfCodec5 leanfran.Codec[*big.Int]
+var _lfCodec6 leanfran.Codec[leanfran.Pair[string, Scalar]]
+var _lfCodec7 leanfran.Codec[[]leanfran.Pair[string, Scalar]]
+var _lfCodec8 leanfran.Codec[[]Lexeme]
+var _lfCodec9 leanfran.Codec[*[]leanfran.Pair[string, Scalar]]
+var _lfCodec10 leanfran.Codec[*uint64]
+var _lfCodec11 leanfran.Codec[*Scalar]
+var _lfCodec12 leanfran.Codec[leanfran.Pair[[]rune, []rune]]
+var _lfCodec13 leanfran.Codec[*leanfran.Pair[[]rune, []rune]]
+var _lfCodec14 leanfran.Codec[[]string]
+var _lfCodec15 leanfran.Codec[*[]string]
+var _lfCodec16 leanfran.Codec[*[]Lexeme]
 var _lfDescLexeme schema.Desc
 var _lfDescScalar schema.Desc
-var _lfDescTokens schema.Desc
 
 var _lfCodecsOnce sync.Once
 
 func _lfBuildCodecs() {
 	_lfCodecLexeme = leanfran.Ref(descLexeme, toLexeme, fromLexeme, checkLexeme)
 	_lfCodecScalar = leanfran.Ref(descScalar, toScalar, fromScalar, checkScalar)
-	_lfCodecTokens = leanfran.Ref(descTokens, toTokens, fromTokens, checkTokens)
 	_lfCodec0 = leanfran.Bool()
 	_lfCodec1 = leanfran.String()
 	_lfCodec2 = leanfran.Fixed[uint64]("uint", 64)
-	_lfCodec3 = leanfran.Sequence("list", _lfCodec1)
-	_lfCodec4 = leanfran.Product(_lfCodec1, _lfCodecScalar)
-	_lfCodec5 = leanfran.Sequence("list", _lfCodec4)
-	_lfCodec6 = leanfran.Sequence("list", _lfCodecLexeme)
-	_lfCodec7 = leanfran.Option(_lfCodec5)
-	_lfCodec8 = leanfran.Option(_lfCodec2)
-	_lfCodec9 = leanfran.Option(_lfCodecScalar)
-	_lfCodec10 = leanfran.Char()
-	_lfCodec11 = leanfran.Sequence("list", _lfCodec10)
+	_lfCodec3 = leanfran.Char()
+	_lfCodec4 = leanfran.Sequence("list", _lfCodec3)
+	_lfCodec5 = leanfran.Big("nat", "")
+	_lfCodec6 = leanfran.Product(_lfCodec1, _lfCodecScalar)
+	_lfCodec7 = leanfran.Sequence("list", _lfCodec6)
+	_lfCodec8 = leanfran.Sequence("list", _lfCodecLexeme)
+	_lfCodec9 = leanfran.Option(_lfCodec7)
+	_lfCodec10 = leanfran.Option(_lfCodec2)
+	_lfCodec11 = leanfran.Option(_lfCodecScalar)
+	_lfCodec12 = leanfran.Product(_lfCodec4, _lfCodec4)
+	_lfCodec13 = leanfran.Option(_lfCodec12)
+	_lfCodec14 = leanfran.Sequence("list", _lfCodec1)
+	_lfCodec15 = leanfran.Option(_lfCodec14)
+	_lfCodec16 = leanfran.Option(_lfCodec8)
 	_lfDescLexeme = schema.Desc{Name: "Lexeme", Kind: "inductive", Variants: []schema.Variant{{Name: "null", Tag: 0, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "bool", Tag: 1, Objects: 0, ScalarBytes: 1, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "b", Desc: _lfCodec0.Desc, Slot: "u8", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "number", Tag: 2, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "text", Desc: _lfCodec1.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "str", Tag: 3, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "s", Desc: _lfCodec1.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "key", Tag: 4, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "s", Desc: _lfCodec1.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "arrOpen", Tag: 5, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "arrClose", Tag: 6, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "objOpen", Tag: 7, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "objClose", Tag: 8, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}}}
 	_lfDescScalar = schema.Desc{Name: "Scalar", Kind: "inductive", Variants: []schema.Variant{{Name: "null", Tag: 0, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "bool", Tag: 1, Objects: 0, ScalarBytes: 1, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "b", Desc: _lfCodec0.Desc, Slot: "u8", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "num", Tag: 2, Objects: 0, ScalarBytes: 8, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "n", Desc: _lfCodec2.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "number", Tag: 3, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "str", Tag: 4, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "s", Desc: _lfCodec1.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}}}
-	_lfDescTokens = schema.Desc{Name: "Tokens", Kind: "struct", Variants: []schema.Variant{{Name: "mk", Tag: 0, Objects: 2, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "kinds", Desc: _lfCodec1.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "texts", Desc: _lfCodec3.Desc, Slot: "obj", Offset: 1, Flat: false, OmitNone: false, Bounds: nil}}}}}
 }
 
 func init() { _lfCodecsOnce.Do(_lfBuildCodecs) }
@@ -1045,61 +1052,6 @@ func UnmarshalScalar(data []byte) (Scalar, error) {
 	return leanfran.UnmarshalJSON(_lfCodecScalar, data, "Scalar")
 }
 
-func descTokens() *schema.Desc { return &_lfDescTokens }
-
-func LeanfranCodecTokens() leanfran.Codec[Tokens] {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return _lfCodecTokens
-}
-
-type Tokens struct {
-	Kinds string
-	Texts []string
-}
-
-func toTokens(v Tokens) rt.V {
-	r := rt.Lean_alloc_ctor(0, 2, 0)
-	rt.Lean_ctor_set(r, 0, _lfCodec1.ToLean(v.Kinds))
-	rt.Lean_ctor_set(r, 1, _lfCodec3.ToLean(v.Texts))
-	return r
-}
-
-func fromTokens(v rt.V) Tokens {
-	return Tokens{Kinds: _lfCodec1.FromLean(rt.Lean_ctor_get(v, 0)), Texts: _lfCodec3.FromLean(rt.Lean_ctor_get(v, 1))}
-}
-
-func checkTokens(e *leanfran.ValidationError, v Tokens) {
-	leanfran.CheckAt(e, _lfCodec1, v.Kinds, "kinds")
-	leanfran.CheckAt(e, _lfCodec3, v.Texts, "texts")
-}
-
-func (v Tokens) LeanfranDesc() *schema.Desc { _lfCodecsOnce.Do(_lfBuildCodecs); return descTokens() }
-
-func (v Tokens) Validate() error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecTokens, v, "Tokens")
-}
-
-func (v Tokens) MarshalJSON() ([]byte, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecTokens, v, "Tokens")
-}
-
-func (v Tokens) JSONSchema(target string) (map[string]any, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descTokens(), target)
-}
-
-func (v *Tokens) UnmarshalJSON(data []byte) error {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecTokens, data, "Tokens")
-	if err != nil {
-		return err
-	}
-	*v = out
-	return nil
-}
-
 var Value lfValue
 
 type lfValue struct{}
@@ -1112,13 +1064,31 @@ func (lfValue) In(scope *leanfran.ValueScope) lfScopedValue {
 	return lfScopedValue{scope: scope}
 }
 
+func (lfValue) NewBool(v bool) leanfran.Value[bool] {
+	return lfScopedValue{}.NewBool(v)
+}
+
+func (api lfScopedValue) NewBool(v bool) leanfran.Value[bool] {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewUncheckedValueIn[bool](api.scope, _lfCodec0, v)
+}
+
+func (lfValue) ReadBool(v leanfran.Value[bool]) bool {
+	return lfScopedValue{}.ReadBool(v)
+}
+
+func (api lfScopedValue) ReadBool(v leanfran.Value[bool]) bool {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec0, v)
+}
+
 func (lfValue) NewChar(v rune) (leanfran.Value[leanfran.CharType], error) {
 	return lfScopedValue{}.NewChar(v)
 }
 
 func (api lfScopedValue) NewChar(v rune) (leanfran.Value[leanfran.CharType], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.CharType](api.scope, _lfCodec10, v, "Char")
+	return leanfran.NewValueIn[leanfran.CharType](api.scope, _lfCodec3, v, "Char")
 }
 
 func (lfValue) ReadChar(v leanfran.Value[leanfran.CharType]) rune {
@@ -1127,7 +1097,7 @@ func (lfValue) ReadChar(v leanfran.Value[leanfran.CharType]) rune {
 
 func (api lfScopedValue) ReadChar(v leanfran.Value[leanfran.CharType]) rune {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec10, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec3, v)
 }
 
 func (lfValue) NewLexeme(v Lexeme) (leanfran.Value[Lexeme], error) {
@@ -1154,7 +1124,7 @@ func (lfValue) NewListChar(v []rune) (leanfran.Value[leanfran.ListType[leanfran.
 
 func (api lfScopedValue) NewListChar(v []rune) (leanfran.Value[leanfran.ListType[leanfran.CharType]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.ListType[leanfran.CharType]](api.scope, _lfCodec11, v, "ListChar")
+	return leanfran.NewValueIn[leanfran.ListType[leanfran.CharType]](api.scope, _lfCodec4, v, "ListChar")
 }
 
 func (lfValue) ReadListChar(v leanfran.Value[leanfran.ListType[leanfran.CharType]]) []rune {
@@ -1163,7 +1133,7 @@ func (lfValue) ReadListChar(v leanfran.Value[leanfran.ListType[leanfran.CharType
 
 func (api lfScopedValue) ReadListChar(v leanfran.Value[leanfran.ListType[leanfran.CharType]]) []rune {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec11, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec4, v)
 }
 
 func (lfValue) NewListLexeme(v []Lexeme) (leanfran.Value[leanfran.ListType[Lexeme]], error) {
@@ -1172,7 +1142,7 @@ func (lfValue) NewListLexeme(v []Lexeme) (leanfran.Value[leanfran.ListType[Lexem
 
 func (api lfScopedValue) NewListLexeme(v []Lexeme) (leanfran.Value[leanfran.ListType[Lexeme]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.ListType[Lexeme]](api.scope, _lfCodec6, v, "ListLexeme")
+	return leanfran.NewValueIn[leanfran.ListType[Lexeme]](api.scope, _lfCodec8, v, "ListLexeme")
 }
 
 func (lfValue) ReadListLexeme(v leanfran.Value[leanfran.ListType[Lexeme]]) []Lexeme {
@@ -1181,7 +1151,7 @@ func (lfValue) ReadListLexeme(v leanfran.Value[leanfran.ListType[Lexeme]]) []Lex
 
 func (api lfScopedValue) ReadListLexeme(v leanfran.Value[leanfran.ListType[Lexeme]]) []Lexeme {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec6, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec8, v)
 }
 
 func (lfValue) NewListPairStringScalar(v []leanfran.Pair[string, Scalar]) (leanfran.Value[leanfran.ListType[leanfran.PairType[string, Scalar]]], error) {
@@ -1190,7 +1160,7 @@ func (lfValue) NewListPairStringScalar(v []leanfran.Pair[string, Scalar]) (leanf
 
 func (api lfScopedValue) NewListPairStringScalar(v []leanfran.Pair[string, Scalar]) (leanfran.Value[leanfran.ListType[leanfran.PairType[string, Scalar]]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.ListType[leanfran.PairType[string, Scalar]]](api.scope, _lfCodec5, v, "ListPairStringScalar")
+	return leanfran.NewValueIn[leanfran.ListType[leanfran.PairType[string, Scalar]]](api.scope, _lfCodec7, v, "ListPairStringScalar")
 }
 
 func (lfValue) ReadListPairStringScalar(v leanfran.Value[leanfran.ListType[leanfran.PairType[string, Scalar]]]) []leanfran.Pair[string, Scalar] {
@@ -1199,7 +1169,7 @@ func (lfValue) ReadListPairStringScalar(v leanfran.Value[leanfran.ListType[leanf
 
 func (api lfScopedValue) ReadListPairStringScalar(v leanfran.Value[leanfran.ListType[leanfran.PairType[string, Scalar]]]) []leanfran.Pair[string, Scalar] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec5, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec7, v)
 }
 
 func (lfValue) NewListString(v []string) (leanfran.Value[leanfran.ListType[string]], error) {
@@ -1208,7 +1178,7 @@ func (lfValue) NewListString(v []string) (leanfran.Value[leanfran.ListType[strin
 
 func (api lfScopedValue) NewListString(v []string) (leanfran.Value[leanfran.ListType[string]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.ListType[string]](api.scope, _lfCodec3, v, "ListString")
+	return leanfran.NewValueIn[leanfran.ListType[string]](api.scope, _lfCodec14, v, "ListString")
 }
 
 func (lfValue) ReadListString(v leanfran.Value[leanfran.ListType[string]]) []string {
@@ -1217,7 +1187,43 @@ func (lfValue) ReadListString(v leanfran.Value[leanfran.ListType[string]]) []str
 
 func (api lfScopedValue) ReadListString(v leanfran.Value[leanfran.ListType[string]]) []string {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec3, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec14, v)
+}
+
+func (lfValue) NewNat(v *big.Int) (leanfran.Value[leanfran.NatType], error) {
+	return lfScopedValue{}.NewNat(v)
+}
+
+func (api lfScopedValue) NewNat(v *big.Int) (leanfran.Value[leanfran.NatType], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[leanfran.NatType](api.scope, _lfCodec5, v, "Nat")
+}
+
+func (lfValue) ReadNat(v leanfran.Value[leanfran.NatType]) *big.Int {
+	return lfScopedValue{}.ReadNat(v)
+}
+
+func (api lfScopedValue) ReadNat(v leanfran.Value[leanfran.NatType]) *big.Int {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec5, v)
+}
+
+func (lfValue) NewOptionListLexeme(v *[]Lexeme) (leanfran.Value[leanfran.OptionType[leanfran.ListType[Lexeme]]], error) {
+	return lfScopedValue{}.NewOptionListLexeme(v)
+}
+
+func (api lfScopedValue) NewOptionListLexeme(v *[]Lexeme) (leanfran.Value[leanfran.OptionType[leanfran.ListType[Lexeme]]], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[leanfran.OptionType[leanfran.ListType[Lexeme]]](api.scope, _lfCodec16, v, "OptionListLexeme")
+}
+
+func (lfValue) ReadOptionListLexeme(v leanfran.Value[leanfran.OptionType[leanfran.ListType[Lexeme]]]) *[]Lexeme {
+	return lfScopedValue{}.ReadOptionListLexeme(v)
+}
+
+func (api lfScopedValue) ReadOptionListLexeme(v leanfran.Value[leanfran.OptionType[leanfran.ListType[Lexeme]]]) *[]Lexeme {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec16, v)
 }
 
 func (lfValue) NewOptionListPairStringScalar(v *[]leanfran.Pair[string, Scalar]) (leanfran.Value[leanfran.OptionType[leanfran.ListType[leanfran.PairType[string, Scalar]]]], error) {
@@ -1226,7 +1232,7 @@ func (lfValue) NewOptionListPairStringScalar(v *[]leanfran.Pair[string, Scalar])
 
 func (api lfScopedValue) NewOptionListPairStringScalar(v *[]leanfran.Pair[string, Scalar]) (leanfran.Value[leanfran.OptionType[leanfran.ListType[leanfran.PairType[string, Scalar]]]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.OptionType[leanfran.ListType[leanfran.PairType[string, Scalar]]]](api.scope, _lfCodec7, v, "OptionListPairStringScalar")
+	return leanfran.NewValueIn[leanfran.OptionType[leanfran.ListType[leanfran.PairType[string, Scalar]]]](api.scope, _lfCodec9, v, "OptionListPairStringScalar")
 }
 
 func (lfValue) ReadOptionListPairStringScalar(v leanfran.Value[leanfran.OptionType[leanfran.ListType[leanfran.PairType[string, Scalar]]]]) *[]leanfran.Pair[string, Scalar] {
@@ -1235,7 +1241,43 @@ func (lfValue) ReadOptionListPairStringScalar(v leanfran.Value[leanfran.OptionTy
 
 func (api lfScopedValue) ReadOptionListPairStringScalar(v leanfran.Value[leanfran.OptionType[leanfran.ListType[leanfran.PairType[string, Scalar]]]]) *[]leanfran.Pair[string, Scalar] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec7, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec9, v)
+}
+
+func (lfValue) NewOptionListString(v *[]string) (leanfran.Value[leanfran.OptionType[leanfran.ListType[string]]], error) {
+	return lfScopedValue{}.NewOptionListString(v)
+}
+
+func (api lfScopedValue) NewOptionListString(v *[]string) (leanfran.Value[leanfran.OptionType[leanfran.ListType[string]]], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[leanfran.OptionType[leanfran.ListType[string]]](api.scope, _lfCodec15, v, "OptionListString")
+}
+
+func (lfValue) ReadOptionListString(v leanfran.Value[leanfran.OptionType[leanfran.ListType[string]]]) *[]string {
+	return lfScopedValue{}.ReadOptionListString(v)
+}
+
+func (api lfScopedValue) ReadOptionListString(v leanfran.Value[leanfran.OptionType[leanfran.ListType[string]]]) *[]string {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec15, v)
+}
+
+func (lfValue) NewOptionPairListCharListChar(v *leanfran.Pair[[]rune, []rune]) (leanfran.Value[leanfran.OptionType[leanfran.PairType[leanfran.ListType[leanfran.CharType], leanfran.ListType[leanfran.CharType]]]], error) {
+	return lfScopedValue{}.NewOptionPairListCharListChar(v)
+}
+
+func (api lfScopedValue) NewOptionPairListCharListChar(v *leanfran.Pair[[]rune, []rune]) (leanfran.Value[leanfran.OptionType[leanfran.PairType[leanfran.ListType[leanfran.CharType], leanfran.ListType[leanfran.CharType]]]], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[leanfran.OptionType[leanfran.PairType[leanfran.ListType[leanfran.CharType], leanfran.ListType[leanfran.CharType]]]](api.scope, _lfCodec13, v, "OptionPairListCharListChar")
+}
+
+func (lfValue) ReadOptionPairListCharListChar(v leanfran.Value[leanfran.OptionType[leanfran.PairType[leanfran.ListType[leanfran.CharType], leanfran.ListType[leanfran.CharType]]]]) *leanfran.Pair[[]rune, []rune] {
+	return lfScopedValue{}.ReadOptionPairListCharListChar(v)
+}
+
+func (api lfScopedValue) ReadOptionPairListCharListChar(v leanfran.Value[leanfran.OptionType[leanfran.PairType[leanfran.ListType[leanfran.CharType], leanfran.ListType[leanfran.CharType]]]]) *leanfran.Pair[[]rune, []rune] {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec13, v)
 }
 
 func (lfValue) NewOptionScalar(v *Scalar) (leanfran.Value[leanfran.OptionType[Scalar]], error) {
@@ -1244,7 +1286,7 @@ func (lfValue) NewOptionScalar(v *Scalar) (leanfran.Value[leanfran.OptionType[Sc
 
 func (api lfScopedValue) NewOptionScalar(v *Scalar) (leanfran.Value[leanfran.OptionType[Scalar]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.OptionType[Scalar]](api.scope, _lfCodec9, v, "OptionScalar")
+	return leanfran.NewValueIn[leanfran.OptionType[Scalar]](api.scope, _lfCodec11, v, "OptionScalar")
 }
 
 func (lfValue) ReadOptionScalar(v leanfran.Value[leanfran.OptionType[Scalar]]) *Scalar {
@@ -1253,7 +1295,7 @@ func (lfValue) ReadOptionScalar(v leanfran.Value[leanfran.OptionType[Scalar]]) *
 
 func (api lfScopedValue) ReadOptionScalar(v leanfran.Value[leanfran.OptionType[Scalar]]) *Scalar {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec9, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec11, v)
 }
 
 func (lfValue) NewOptionUInt64(v *uint64) leanfran.Value[leanfran.OptionType[uint64]] {
@@ -1262,7 +1304,7 @@ func (lfValue) NewOptionUInt64(v *uint64) leanfran.Value[leanfran.OptionType[uin
 
 func (api lfScopedValue) NewOptionUInt64(v *uint64) leanfran.Value[leanfran.OptionType[uint64]] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[leanfran.OptionType[uint64]](api.scope, _lfCodec8, v)
+	return leanfran.NewUncheckedValueIn[leanfran.OptionType[uint64]](api.scope, _lfCodec10, v)
 }
 
 func (lfValue) ReadOptionUInt64(v leanfran.Value[leanfran.OptionType[uint64]]) *uint64 {
@@ -1271,7 +1313,25 @@ func (lfValue) ReadOptionUInt64(v leanfran.Value[leanfran.OptionType[uint64]]) *
 
 func (api lfScopedValue) ReadOptionUInt64(v leanfran.Value[leanfran.OptionType[uint64]]) *uint64 {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec8, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec10, v)
+}
+
+func (lfValue) NewPairListCharListChar(v leanfran.Pair[[]rune, []rune]) (leanfran.Value[leanfran.PairType[leanfran.ListType[leanfran.CharType], leanfran.ListType[leanfran.CharType]]], error) {
+	return lfScopedValue{}.NewPairListCharListChar(v)
+}
+
+func (api lfScopedValue) NewPairListCharListChar(v leanfran.Pair[[]rune, []rune]) (leanfran.Value[leanfran.PairType[leanfran.ListType[leanfran.CharType], leanfran.ListType[leanfran.CharType]]], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[leanfran.PairType[leanfran.ListType[leanfran.CharType], leanfran.ListType[leanfran.CharType]]](api.scope, _lfCodec12, v, "PairListCharListChar")
+}
+
+func (lfValue) ReadPairListCharListChar(v leanfran.Value[leanfran.PairType[leanfran.ListType[leanfran.CharType], leanfran.ListType[leanfran.CharType]]]) leanfran.Pair[[]rune, []rune] {
+	return lfScopedValue{}.ReadPairListCharListChar(v)
+}
+
+func (api lfScopedValue) ReadPairListCharListChar(v leanfran.Value[leanfran.PairType[leanfran.ListType[leanfran.CharType], leanfran.ListType[leanfran.CharType]]]) leanfran.Pair[[]rune, []rune] {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec12, v)
 }
 
 func (lfValue) NewPairStringScalar(v leanfran.Pair[string, Scalar]) (leanfran.Value[leanfran.PairType[string, Scalar]], error) {
@@ -1280,7 +1340,7 @@ func (lfValue) NewPairStringScalar(v leanfran.Pair[string, Scalar]) (leanfran.Va
 
 func (api lfScopedValue) NewPairStringScalar(v leanfran.Pair[string, Scalar]) (leanfran.Value[leanfran.PairType[string, Scalar]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.PairType[string, Scalar]](api.scope, _lfCodec4, v, "PairStringScalar")
+	return leanfran.NewValueIn[leanfran.PairType[string, Scalar]](api.scope, _lfCodec6, v, "PairStringScalar")
 }
 
 func (lfValue) ReadPairStringScalar(v leanfran.Value[leanfran.PairType[string, Scalar]]) leanfran.Pair[string, Scalar] {
@@ -1289,7 +1349,7 @@ func (lfValue) ReadPairStringScalar(v leanfran.Value[leanfran.PairType[string, S
 
 func (api lfScopedValue) ReadPairStringScalar(v leanfran.Value[leanfran.PairType[string, Scalar]]) leanfran.Pair[string, Scalar] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec4, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec6, v)
 }
 
 func (lfValue) NewScalar(v Scalar) (leanfran.Value[Scalar], error) {
@@ -1326,24 +1386,6 @@ func (lfValue) ReadString(v leanfran.Value[string]) string {
 func (api lfScopedValue) ReadString(v leanfran.Value[string]) string {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	return leanfran.ReadValueIn(api.scope, _lfCodec1, v)
-}
-
-func (lfValue) NewTokens(v Tokens) (leanfran.Value[Tokens], error) {
-	return lfScopedValue{}.NewTokens(v)
-}
-
-func (api lfScopedValue) NewTokens(v Tokens) (leanfran.Value[Tokens], error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[Tokens](api.scope, _lfCodecTokens, v, "Tokens")
-}
-
-func (lfValue) ReadTokens(v leanfran.Value[Tokens]) Tokens {
-	return lfScopedValue{}.ReadTokens(v)
-}
-
-func (api lfScopedValue) ReadTokens(v leanfran.Value[Tokens]) Tokens {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodecTokens, v)
 }
 
 func (lfValue) NewUInt64(v uint64) leanfran.Value[uint64] {

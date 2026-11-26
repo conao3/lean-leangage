@@ -109,7 +109,7 @@ def run(line: str) -> str:
             if read is None:
                 return "none"
             return " ".join(
-                ["tokens"] + [show_token(t) for t in json_lexemes.Tokens.lexemes(read)]
+                ["tokens"] + [show_token(t) for t in json_lexemes.unpack(read)]
             )
         case ["auth", "-"]:
             return show_auth(http_format.authenticate(None))

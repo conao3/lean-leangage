@@ -96,22 +96,21 @@ instance (priority := high) notesWireShrinkableLexemes : Shrinkable (List Lexeme
 instance (priority := high) notesWireSampleableLexemes : SampleableExt (List Lexeme) :=
   SampleableExt.selfContained
 
-instance (priority := high) notesWireArbitraryTokens : Arbitrary Tokens where
+instance (priority := high) notesWireArbitraryString : Arbitrary String where
   arbitrary := do
-    let tokens := encode (← bodyLexemes)
+    let packed := pack (← bodyLexemes)
+    let text ← noteText
     Gen.elements
-      [tokens, tokens, tokens, tokens, ⟨tokens.kinds, tokens.texts.drop 1⟩, ⟨tokens.kinds ++ "s", tokens.texts⟩,
-        ⟨tokens.kinds, tokens.texts ++ ["x"]⟩]
+      [packed, packed, packed, packed, packed ++ "x", packed.dropEnd 1 |>.toString, text,
+        "{ks}\n3:cmdlist_notes", "{ks}\n03:cmdlist_notes", "{ks}\n9:cmdlist_notes"]
       (by simp)
 
-instance : Shrinkable Tokens := ⟨fun _ => []⟩
-
-instance (priority := high) notesWireSampleableTokens : SampleableExt Tokens := SampleableExt.selfContained
+instance (priority := high) notesWireSampleableString : SampleableExt String := SampleableExt.selfContained
 
 instance (priority := high) notesWireArbitraryBody : Arbitrary Http.Body where
   arbitrary := do
-    let tokens ← (Arbitrary.arbitrary : Gen Tokens)
-    Gen.elements [.json tokens, .json tokens, .json tokens, .notJson, .tooLarge, .unreadable] (by simp)
+    let packed ← (Arbitrary.arbitrary : Gen String)
+    Gen.elements [.json packed, .json packed, .json packed, .notJson, .tooLarge, .unreadable] (by simp)
 
 instance : Shrinkable Http.Body := ⟨fun _ => []⟩
 

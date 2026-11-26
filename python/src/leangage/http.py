@@ -61,7 +61,7 @@ def body_of(data: bytes) -> http_format.Body:
     read = tokens(data)
     if read is None:
         return http_format.Body_notJson()
-    return http_format.Body_json(tokens=read)
+    return http_format.Body_json(packed=read)
 
 
 def handle(

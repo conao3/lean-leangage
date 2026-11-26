@@ -83,7 +83,7 @@ func showTokens(t *testing.T, input []byte) string {
 	if !ok {
 		return "none"
 	}
-	lexemes, err := jsonlexemes.TokensLexemes(tokens)
+	lexemes, err := unpacked(tokens)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -255,4 +255,13 @@ func TestUpperCaseMemberNameIsNotCmd(t *testing.T) {
 	if err != nil || call.Cmd != kernel.Command(kernel.CommandGet{}) {
 		t.Fatalf("got %v %v", call, err)
 	}
+}
+
+// unpacked is the tokens of a packed text, one by one.
+func unpacked(packed string) ([]jsonlexemes.Lexeme, error) {
+	lexemes, err := jsonlexemes.Unpack(packed)
+	if err != nil || lexemes == nil {
+		return nil, err
+	}
+	return *lexemes, nil
 }

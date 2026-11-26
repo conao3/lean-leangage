@@ -49,5 +49,5 @@ def test_json_library(name: str, body: bytes, want: str | None) -> None:
     read = tokens(body)
     got = None
     if read is not None:
-        got = " ".join(show_token(t) for t in json_lexemes.Tokens.lexemes(read))
+        got = " ".join(show_token(t) for t in json_lexemes.unpack(read))
     assert got == want

@@ -105,7 +105,7 @@ def body : String → Option Http.Body
   | "unreadable" => some .unreadable
   | s => do
     match Oracle.JsonText.lexemes (← bytes s) with
-    | some lexemes => return .json (Json.Lexemes.encode lexemes)
+    | some lexemes => return .json (Json.Lexemes.pack lexemes)
     | none => return .notJson
 
 def refusal : String → Option Error

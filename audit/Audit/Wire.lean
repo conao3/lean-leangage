@@ -59,10 +59,6 @@ instance (priority := high) wireShrinkableMembers : Shrinkable (List (String × 
 instance (priority := high) wireSampleableMembers : SampleableExt (List (String × Scalar)) :=
   SampleableExt.selfContained
 
-instance (priority := high) wireArbitraryNames : Arbitrary String where
-  arbitrary := Gen.elements ["add", "sub", "mul", "div", "pow", "", "ad", "Add", "add "] (by decide)
-
-instance (priority := high) wireSampleableNames : SampleableExt String := SampleableExt.selfContained
 
 def bodyLexemes : Gen (List Lexeme) := do
   let ls := lexemesOf (← commandGen)
@@ -83,22 +79,22 @@ instance (priority := high) wireShrinkableLexemes : Shrinkable (List Lexeme) := 
 instance (priority := high) wireSampleableLexemes : SampleableExt (List Lexeme) :=
   SampleableExt.selfContained
 
-instance (priority := high) wireArbitraryTokens : Arbitrary Tokens where
+instance (priority := high) wireArbitraryString : Arbitrary String where
   arbitrary := do
-    let tokens := encode (← bodyLexemes)
+    let packed := pack (← bodyLexemes)
+    let name ← Gen.elements ["add", "sub", "mul", "div", "pow", "", "ad", "Add", "add "] (by decide)
     Gen.elements
-      [tokens, tokens, tokens, tokens, ⟨tokens.kinds, tokens.texts.drop 1⟩, ⟨tokens.kinds ++ "s", tokens.texts⟩,
-        ⟨tokens.kinds, tokens.texts ++ ["x"]⟩]
+      [packed, packed, packed, packed, packed ++ "0", packed ++ "x", packed.dropEnd 1 |>.toString, name, name,
+        "{ks}\n3:cmdget", "{ks}\n03:cmdget", "{ksk#}\n3:cmd3:set5:value", "{ksk#}\n3:cmd3:set5:value01",
+        "{ksksk#}\n3:cmd5:apply2:op3:pow3:arg1", "{ksk#}\n3:cmd3:set5:value18446744073709551616"]
       (by simp)
 
-instance : Shrinkable Tokens := ⟨fun _ => []⟩
-
-instance (priority := high) wireSampleableTokens : SampleableExt Tokens := SampleableExt.selfContained
+instance (priority := high) wireSampleableString : SampleableExt String := SampleableExt.selfContained
 
 instance (priority := high) wireArbitraryBody : Arbitrary Http.Body where
   arbitrary := do
-    let tokens ← (Arbitrary.arbitrary : Gen Tokens)
-    Gen.elements [.json tokens, .json tokens, .json tokens, .notJson, .tooLarge, .unreadable] (by simp)
+    let packed ← (Arbitrary.arbitrary : Gen String)
+    Gen.elements [.json packed, .json packed, .json packed, .notJson, .tooLarge, .unreadable] (by simp)
 
 instance : Shrinkable Http.Body := ⟨fun _ => []⟩
 
@@ -113,8 +109,9 @@ deriving instance DecidableEq for Principal, Command, Call
 
 #assay Calculator.Wire.decodeObject using Calculator.Wire.decodeObject_spec
 
-#assay Calculator.Wire.spelled Calculator.Wire.decode
-  using Calculator.Wire.spelled_lexemesOf Calculator.Wire.decode_eq Calculator.Wire.decode_encode
+#assay Calculator.Wire.numbered Calculator.Wire.spelled Calculator.Wire.decode
+  using Calculator.Wire.spelled_lexemesOf Calculator.Wire.spelled_iff Calculator.Wire.decode_eq
+    Calculator.Wire.decode_encode
 
 #assay Calculator.Wire.opNamed using Calculator.Wire.opNamed_spec
 

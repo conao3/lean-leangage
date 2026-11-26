@@ -43,13 +43,6 @@ inductive Scalar where
   | str (s : String)
 deriving DecidableEq, Repr
 
-/-- The tokens of a JSON text as a server's conversion hands them over: one character for each
-token, and the texts of the numbers, the strings and the keys, in the order of the document. -/
-structure Tokens where
-  kinds : String
-  texts : List String
-deriving DecidableEq, Repr
-
 /-- The tokens with the given kinds, the texts taken in order: a kind that is none of the others
 is a number, and a number, a string or a key without a text left is no token. -/
 def zip : List Char → List String → List Lexeme
@@ -70,9 +63,57 @@ def zip : List Char → List String → List Lexeme
         else if c = 's' then .str text :: zip cs rest
         else .number text :: zip cs rest
 
-/-- The tokens, one by one. -/
-def Tokens.lexemes (tokens : Tokens) : List Lexeme :=
-  zip tokens.kinds.toList tokens.texts
+/-- Whether the character is the kind of a token. -/
+def isKind (c : Char) : Bool :=
+  c = '{' || c = '}' || c = '[' || c = ']' || c = 'n' || c = 't' || c = 'f' || c = '#' || c = 's' ||
+    c = 'k'
+
+/-- Whether the kind is that of a token with a text: a number, a string or a key. -/
+def hasText (c : Char) : Bool :=
+  c = '#' || c = 's' || c = 'k'
+
+/-- The characters before the first `stop` and those after it. -/
+def splitAt (stop : Char) : List Char → Option (List Char × List Char)
+  | [] => none
+  | c :: cs =>
+    if c = stop then some ([], cs)
+    else
+      match splitAt stop cs with
+      | some (before, after) => some (c :: before, after)
+      | none => none
+
+/-- The number that decimal digits spell. -/
+def lengthOf (digits : List Char) : Nat :=
+  digits.foldl (fun acc c => acc * 10 + (c.toNat - 48)) 0
+
+/-- The given count of texts in the characters: each text but the last comes after the count of
+its characters in decimal and a colon, and the last text is the characters that are left. -/
+def texts : Nat → List Char → Option (List String)
+  | 0, cs => if cs.isEmpty then some [] else none
+  | 1, cs => some [String.ofList cs]
+  | count + 2, cs =>
+    match splitAt ':' cs with
+    | none => none
+    | some (digits, rest) =>
+      let length := lengthOf digits
+      if digits = Nat.toDigits 10 length ∧ length ≤ rest.length then
+        match texts (count + 1) (rest.drop length) with
+        | some ts => some (String.ofList (rest.take length) :: ts)
+        | none => none
+      else none
+
+/-- The tokens of a packed text: the kinds of the tokens, a line feed, and the texts of the
+numbers, the strings and the keys as `texts` reads them. `none` for a text that no list of tokens
+is packed to. -/
+def unpack (packed : String) : Option (List Lexeme) :=
+  match splitAt '\n' packed.toList with
+  | none => none
+  | some (kinds, rest) =>
+    if kinds.all isKind then
+      match texts (kinds.countP hasText) rest with
+      | some ts => some (zip kinds ts)
+      | none => none
+    else none
 
 /-- The value of a number token whose text is the decimal of a `UInt64`. -/
 def numberOf (text : String) : Option UInt64 :=

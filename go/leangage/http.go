@@ -69,7 +69,7 @@ func BodyOf(body []byte) httpformat.Body {
 	if !ok {
 		return httpformat.BodyNotJson{}
 	}
-	return httpformat.BodyJson{Tokens: tokens}
+	return httpformat.BodyJson{Packed: tokens}
 }
 
 // failure is the failure a generated answer is made of.

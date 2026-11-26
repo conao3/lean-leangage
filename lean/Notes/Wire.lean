@@ -35,6 +35,8 @@ structure Call where
 
 /-- Why a body is not a command. -/
 inductive Refusal where
+  /-- The packed text is that of no list of tokens. -/
+  | notJson
   | notCommand
   /-- A JSON object without the member `cmd`. -/
   | missingCmd
@@ -83,13 +85,17 @@ def decodeMembers (ms : List (String × Scalar)) : Except Refusal Command :=
   | some _ => .error .notCommand
 
 /-- The command that the tokens of a JSON text spell. -/
-def decode (tokens : Tokens) : Except Refusal Command :=
-  match object tokens.lexemes with
-  | some ms => decodeMembers ms
-  | none => .error .notCommand
+def decode (packed : String) : Except Refusal Command :=
+  match unpack packed with
+  | none => .error .notJson
+  | some lexemes =>
+    match object lexemes with
+    | some ms => decodeMembers ms
+    | none => .error .notCommand
 
 /-- What a refused body is answered with. -/
 def refusalMessage : Refusal → String
+  | .notJson => "body is not JSON"
   | .notCommand => "not a notes command"
   | .missingCmd => "missing field `cmd`"
 
@@ -98,8 +104,8 @@ expiry `exp`, at the time `now`; or the answer to the request. -/
 def request (tenant user exp now : UInt64) (body : Http.Body) : Except Http.Response Call :=
   match Http.admit exp now body with
   | .error r => .error r
-  | .ok tokens =>
-    match decode tokens with
+  | .ok packed =>
+    match decode packed with
     | .error e => .error (Http.refuse 400 (refusalMessage e))
     | .ok cmd => .ok ⟨⟨tenant, user⟩, cmd⟩
 
@@ -187,10 +193,13 @@ def replyOf : List Lexeme → Option Reply
 
 /-- The reply that the tokens of a stored reply spell, the tokens being those a JSON library reads
 from the bytes `encodeReply` wrote; `none` stands for bytes the library refuses. -/
-def decodeReply (stored : Option Tokens) : Option Reply :=
+def decodeReply (stored : Option String) : Option Reply :=
   match stored with
   | none => none
-  | some tokens => replyOf tokens.lexemes
+  | some packed =>
+    match unpack packed with
+    | some lexemes => replyOf lexemes
+    | none => none
 
 /-- `acc` followed by `true` or `false` and ` }`. -/
 def pushFlag (acc : Array UInt8) (b : Bool) : Array UInt8 :=

@@ -3883,7 +3883,7 @@ unsafe impl rt::IntoLean<Response> for Response {
 #[doc = "Lean type `Leangage.Http.Body` (module `Leangage.Http`)."]
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum Body {
-    Json{ tokens: crate::generated::leangage_json_lexemes::Tokens },
+    Json{ packed: String },
     NotJson,
     TooLarge,
     Unreadable,
@@ -3891,7 +3891,7 @@ pub enum Body {
 impl rt::ToLean for Body {
     unsafe fn to_lean(self) -> Obj {
         match self {
-            Body::Json { tokens: f0 } => { let o = rt::lean_alloc_ctor(0, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(o, 0, rt::ToLean::to_lean(f0)); o },
+            Body::Json { packed: f0 } => { let o = rt::lean_alloc_ctor(0, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(o, 0, rt::ToLean::to_lean(f0)); o },
             Body::NotJson => rt::lean_box(1),
             Body::TooLarge => rt::lean_box(2),
             Body::Unreadable => rt::lean_box(3),
@@ -3901,7 +3901,7 @@ impl rt::ToLean for Body {
 impl rt::FromLean for Body {
     unsafe fn from_lean(o: Obj) -> Self {
         match rt::lean_obj_tag(o) {
-            0 => Body::Json { tokens: <crate::generated::leangage_json_lexemes::Tokens as rt::FromLean>::from_lean(rt::lean_ctor_get(o, 0)) },
+            0 => Body::Json { packed: <String as rt::FromLean>::from_lean(rt::lean_ctor_get(o, 0)) },
             1 => Body::NotJson,
             2 => Body::TooLarge,
             3 => Body::Unreadable,
@@ -3964,15 +3964,15 @@ pub fn failed(arg0: Failure) -> Response {
     }
 }
 
-#[doc = "Lean: `Leangage.Http.admit : UInt64 → UInt64 → Leangage.Http.Body → Except Leangage.Http.Response Leangage.Json.Lexemes.Tokens` (module `Leangage.Http`)."]
+#[doc = "Lean: `Leangage.Http.admit : UInt64 → UInt64 → Leangage.Http.Body → Except Leangage.Http.Response String` (module `Leangage.Http`)."]
 #[::leanfran::exported("Leangage.Http.admit")]
-pub fn admit(exp: u64, now: u64, body: Body) -> Result<crate::generated::leangage_json_lexemes::Tokens, Response> {
+pub fn admit(exp: u64, now: u64, body: Body) -> Result<String, Response> {
     unsafe {
         let __a0: u64 = exp;
         let __a1: u64 = now;
         let __a2: Obj = rt::ToLean::to_lean(body);
         let __r: Obj = l_Leangage_Http_admit(__a0, __a1, __a2);
-        let __v = rt::except_from_lean(__r, |v0| <Response as rt::FromLean>::from_lean(v0), |v0| <crate::generated::leangage_json_lexemes::Tokens as rt::FromLean>::from_lean(v0));
+        let __v = rt::except_from_lean(__r, |v0| <Response as rt::FromLean>::from_lean(v0), |v0| <String as rt::FromLean>::from_lean(v0));
         rt::lean_dec(__r);
         __v
     }
@@ -4027,8 +4027,8 @@ pub mod lean {
             rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`admit` on handles. Lean: `Leangage.Http.admit : UInt64 → UInt64 → Leangage.Http.Body → Except Leangage.Http.Response Leangage.Json.Lexemes.Tokens` (module `Leangage.Http`)."]
-    pub fn admit(exp: impl rt::IntoLean<u64>, now: impl rt::IntoLean<u64>, body: impl rt::IntoLean<Body>) -> rt::Lean<Result<crate::generated::leangage_json_lexemes::Tokens, Response>> {
+    #[doc = "`admit` on handles. Lean: `Leangage.Http.admit : UInt64 → UInt64 → Leangage.Http.Body → Except Leangage.Http.Response String` (module `Leangage.Http`)."]
+    pub fn admit(exp: impl rt::IntoLean<u64>, now: impl rt::IntoLean<u64>, body: impl rt::IntoLean<Body>) -> rt::Lean<Result<String, Response>> {
         unsafe {
             let __a0: u64 = { let o = rt::IntoLean::<u64>::into_obj(exp); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
             let __a1: u64 = { let o = rt::IntoLean::<u64>::into_obj(now); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
@@ -4076,8 +4076,8 @@ pub mod local {
             rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`admit` on handles. Lean: `Leangage.Http.admit : UInt64 → UInt64 → Leangage.Http.Body → Except Leangage.Http.Response Leangage.Json.Lexemes.Tokens` (module `Leangage.Http`)."]
-    pub fn admit(exp: impl rt::IntoLean<u64>, now: impl rt::IntoLean<u64>, body: impl rt::IntoLean<Body>) -> rt::Local<Result<crate::generated::leangage_json_lexemes::Tokens, Response>> {
+    #[doc = "`admit` on handles. Lean: `Leangage.Http.admit : UInt64 → UInt64 → Leangage.Http.Body → Except Leangage.Http.Response String` (module `Leangage.Http`)."]
+    pub fn admit(exp: impl rt::IntoLean<u64>, now: impl rt::IntoLean<u64>, body: impl rt::IntoLean<Body>) -> rt::Local<Result<String, Response>> {
         unsafe {
             let __a0: u64 = { let o = rt::IntoLean::<u64>::into_obj(exp); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
             let __a1: u64 = { let o = rt::IntoLean::<u64>::into_obj(now); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };

@@ -2602,7 +2602,6 @@ from annotated_types import Ge, Gt, Le, Lt, MaxLen, MinLen  # noqa: E402
 from leanfran import marshal as _m  # noqa: E402
 from leanfran.marshal import Err, Lean, Local, Ok  # noqa: E402
 from leanfran.types import Char, Int8, Int16, Int32, Int64, Nat, UInt8, UInt16, UInt32, UInt64  # noqa: E402
-import leangage.json_lexemes as _ext0  # noqa: E402
 
 
 class Failure(_m.LeanEnum):
@@ -2628,13 +2627,11 @@ class Response(_m.LeanModel):
 Response.__lean__ = _m.StructInfo(Response, _m.CtorInfo("mk", 0, 1, False, [_m.FieldInfo("status", _m.Scalar(8), _m.UIntD(16)), _m.FieldInfo("body", _m.Obj(0), _m.ArrayD(_m.UIntD(8)))], [], False), trivial=False)
 
 
-
-
 class Body(_m.LeanInductive):
     "Lean `Leangage.Http.Body`."
 
 class Body_json(_m.LeanModel, Body):
-    tokens: "_ext0.Tokens"
+    packed: "str"
 
 
 class Body_notJson(_m.LeanModel, Body):
@@ -2649,7 +2646,7 @@ class Body_unreadable(_m.LeanModel, Body):
     pass
 
 
-_m.register_inductive(Body, [(Body_json, _m.CtorInfo("json", 0, 1, False, [_m.FieldInfo("tokens", _m.Obj(0), _m.NamedD(globals(), "_ext0.Tokens"))], [], False)), (Body_notJson, _m.CtorInfo("notJson", 1, 0, True, [], [], False)), (Body_tooLarge, _m.CtorInfo("tooLarge", 2, 0, True, [], [], False)), (Body_unreadable, _m.CtorInfo("unreadable", 3, 0, True, [], [], False))])
+_m.register_inductive(Body, [(Body_json, _m.CtorInfo("json", 0, 1, False, [_m.FieldInfo("packed", _m.Obj(0), _m.STRING)], [], False)), (Body_notJson, _m.CtorInfo("notJson", 1, 0, True, [], [], False)), (Body_tooLarge, _m.CtorInfo("tooLarge", 2, 0, True, [], [], False)), (Body_unreadable, _m.CtorInfo("unreadable", 3, 0, True, [], [], False))])
 
 
 class Bearer(_m.LeanModel):
@@ -2672,8 +2669,8 @@ _D4 = _m.UIntD(64)
 _D5 = _m.LeanType(_D4, "UInt64")
 _D6 = _m.NamedD(globals(), "Body")
 _D7 = _m.LeanType(_D6, "Body")
-_D8 = _m.ExceptD(globals(), _m.NamedD(globals(), "Response"), _m.NamedD(globals(), "_ext0.Tokens"), "Response", "_ext0.Tokens")
-_D9 = _m.LeanType(_D8, "Ok[_ext0.Tokens] | Err[Response]")
+_D8 = _m.ExceptD(globals(), _m.NamedD(globals(), "Response"), _m.STRING, "Response", "str")
+_D9 = _m.LeanType(_D8, "Ok[str] | Err[Response]")
 _D10 = _m.STRING
 _D11 = _m.LeanType(_D10, "str")
 _D12 = _m.OptionD(_m.STRING)
@@ -2705,7 +2702,7 @@ def _pub_failed__local(arg0: "Failure | Lean[Failure] | Local[Failure]") -> "Loc
 
 
 _m.attach(globals(), ["failed"], _pub_failed, "Leangage.Http.failed", _pub_failed__lean, {"arg0": _D1}, _D3, _pub_failed__local)
-def _pub_admit(exp: "UInt64", now: "UInt64", body: "Body") -> "Ok[_ext0.Tokens] | Err[Response]":
+def _pub_admit(exp: "UInt64", now: "UInt64", body: "Body") -> "Ok[str] | Err[Response]":
     "Lean `Leangage.Http.admit`."
     __a0 = _m.to_lean(_D4, exp, "exp")
     __a1 = _m.to_lean(_D4, now, "now")
@@ -2713,7 +2710,7 @@ def _pub_admit(exp: "UInt64", now: "UInt64", body: "Body") -> "Ok[_ext0.Tokens] 
     return _m.to_py(_D8, l_Leangage_Http_admit(__a0, __a1, __a2))
 
 
-def _pub_admit__lean(exp: "UInt64 | Lean[UInt64]", now: "UInt64 | Lean[UInt64]", body: "Body | Lean[Body]") -> "Lean[Ok[_ext0.Tokens] | Err[Response]]":
+def _pub_admit__lean(exp: "UInt64 | Lean[UInt64]", now: "UInt64 | Lean[UInt64]", body: "Body | Lean[Body]") -> "Lean[Ok[str] | Err[Response]]":
     "Lean `Leangage.Http.admit`, on handles."
     __a0 = _m.lean_arg(_D5, exp, "exp")
     __a1 = _m.lean_arg(_D5, now, "now")
@@ -2722,7 +2719,7 @@ def _pub_admit__lean(exp: "UInt64 | Lean[UInt64]", now: "UInt64 | Lean[UInt64]",
     return _m.handle(_D9, l_Leangage_Http_admit(__a0, __a1, __a2))
 
 
-def _pub_admit__local(exp: "UInt64 | Lean[UInt64] | Local[UInt64]", now: "UInt64 | Lean[UInt64] | Local[UInt64]", body: "Body | Lean[Body] | Local[Body]") -> "Local[Ok[_ext0.Tokens] | Err[Response]]":
+def _pub_admit__local(exp: "UInt64 | Lean[UInt64] | Local[UInt64]", now: "UInt64 | Lean[UInt64] | Local[UInt64]", body: "Body | Lean[Body] | Local[Body]") -> "Local[Ok[str] | Err[Response]]":
     "Lean `Leangage.Http.admit`, on local handles."
     __a0 = _m.local_arg(_D5, exp, "exp", True)
     __a1 = _m.local_arg(_D5, now, "now", True)

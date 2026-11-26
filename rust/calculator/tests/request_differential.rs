@@ -142,7 +142,7 @@ fn run(line: &str, counts: &mut Counts) -> String {
     match words.as_slice() {
         ["tokens", b] => {
             counts.texts += 1;
-            match json_text::tokens(&bytes(b)).map(json_lexemes::tokens_lexemes) {
+            match json_text::tokens(&bytes(b)).and_then(json_lexemes::unpack) {
                 Some(lexemes) => {
                     counts.read += 1;
                     let mut out = vec!["tokens".to_owned()];

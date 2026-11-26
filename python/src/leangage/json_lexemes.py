@@ -16,6 +16,9 @@ from leanfran.runtime import (  # noqa: F401
     lean_mark_persistent,
     lean_internal_panic_unreachable,
     lean_py_extern,
+    lean_array_push,
+    lean_array_to_list,
+    lean_mk_empty_array_with_capacity,
     lean_nat_add,
     lean_nat_dec_eq,
     lean_nat_dec_le,
@@ -26,14 +29,93 @@ from leanfran.runtime import (  # noqa: F401
     lean_nat_sub,
     lean_string_data,
     lean_string_get_byte_fast,
+    lean_string_mk,
     lean_string_utf8_byte_size,
     lean_uint32_dec_eq,
+    lean_uint32_to_nat,
     lean_uint64_of_nat,
     lean_uint64_to_nat,
     lean_uint8_dec_eq,
     lean_uint8_of_nat,
     lean_uint8_to_nat,
 )
+
+def l_Leangage_Json_Lexemes_isKind(x_1):
+    x_2 = 123
+    x_3 = lean_uint32_dec_eq(x_1, x_2)
+    __t = x_3
+    if __t == 0:
+        x_4 = 125
+        x_5 = lean_uint32_dec_eq(x_1, x_4)
+        __t = x_5
+        if __t == 0:
+            x_6 = 91
+            x_7 = lean_uint32_dec_eq(x_1, x_6)
+            __t = x_7
+            if __t == 0:
+                x_8 = 93
+                x_9 = lean_uint32_dec_eq(x_1, x_8)
+                __t = x_9
+                if __t == 0:
+                    x_10 = 110
+                    x_11 = lean_uint32_dec_eq(x_1, x_10)
+                    __t = x_11
+                    if __t == 0:
+                        x_12 = 116
+                        x_13 = lean_uint32_dec_eq(x_1, x_12)
+                        __t = x_13
+                        if __t == 0:
+                            x_14 = 102
+                            x_15 = lean_uint32_dec_eq(x_1, x_14)
+                            __t = x_15
+                            if __t == 0:
+                                x_16 = 35
+                                x_17 = lean_uint32_dec_eq(x_1, x_16)
+                                __t = x_17
+                                if __t == 0:
+                                    x_18 = 115
+                                    x_19 = lean_uint32_dec_eq(x_1, x_18)
+                                    __t = x_19
+                                    if __t == 0:
+                                        x_20 = 107
+                                        x_21 = lean_uint32_dec_eq(x_1, x_20)
+                                        return x_21
+                                    elif __t == 1:
+                                        return x_19
+                                    else:
+                                        lean_internal_panic_unreachable()
+                                elif __t == 1:
+                                    return x_17
+                                else:
+                                    lean_internal_panic_unreachable()
+                            elif __t == 1:
+                                return x_15
+                            else:
+                                lean_internal_panic_unreachable()
+                        elif __t == 1:
+                            return x_13
+                        else:
+                            lean_internal_panic_unreachable()
+                    elif __t == 1:
+                        return x_11
+                    else:
+                        lean_internal_panic_unreachable()
+                elif __t == 1:
+                    return x_9
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 1:
+                return x_7
+            else:
+                lean_internal_panic_unreachable()
+        elif __t == 1:
+            return x_5
+        else:
+            lean_internal_panic_unreachable()
+    elif __t == 1:
+        return x_3
+    else:
+        lean_internal_panic_unreachable()
 
 def l_Leangage_Json_Lexemes_object(x_1):
     __t = lean_obj_tag(x_1)
@@ -914,15 +996,956 @@ def l_Leangage_Json_Lexemes_zip(x_1, x_2):
         else:
             lean_internal_panic_unreachable()
 
-def l_Leangage_Json_Lexemes_Tokens_lexemes(x_1):
-    x_2 = x_1.objs[0]
-    lean_inc(x_2)
-    x_3 = x_1.objs[1]
-    lean_inc(x_3)
+def l_Leangage_Json_Lexemes_lengthOf(x_1):
+    x_2 = 0
+    x_3 = l_List_foldl___at___00Leangage_Json_Lexemes_lengthOf_spec__0(x_2, x_1)
+    return x_3
+
+def l_List_foldl___at___00Leangage_Json_Lexemes_lengthOf_spec__0(x_1, x_2):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_2)
+            if __t == 0:
+                return x_1
+            elif __t == 1:
+                x_3 = x_2.objs[0]
+                x_4 = x_2.objs[1]
+                x_5 = 10
+                x_6 = lean_nat_mul(x_1, x_5)
+                lean_dec(x_1)
+                x_7 = x_3
+                x_8 = lean_uint32_to_nat(x_7)
+                x_9 = 48
+                x_10 = lean_nat_sub(x_8, x_9)
+                lean_dec(x_8)
+                x_11 = lean_nat_add(x_6, x_10)
+                lean_dec(x_10)
+                lean_dec(x_6)
+                x_1, x_2 = x_11, x_4
+                __blk = 0
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leangage_Json_Lexemes_splitAt(x_1, x_2):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_2)
+            if __t == 0:
+                x_3 = 0
+                return x_3
+            elif __t == 1:
+                x_4 = x_2.objs[0]
+                x_5 = x_2.objs[1]
+                x_35 = lean_is_shared(x_2)
+                __t = x_35
+                if __t == 0:
+                    x_7, x_8 = x_2, x_35
+                    __blk = 1
+                    continue
+                elif __t == 1:
+                    lean_inc(x_5)
+                    lean_inc(x_4)
+                    lean_dec(x_2)
+                    x_7, x_8 = 0, x_35
+                    __blk = 1
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_9 = x_4
+            x_10 = lean_uint32_dec_eq(x_9, x_1)
+            __t = x_10
+            if __t == 0:
+                x_11 = l_Leangage_Json_Lexemes_splitAt(x_1, x_5)
+                __t = lean_obj_tag(x_11)
+                if __t == 0:
+                    lean_dec(x_4)
+                    return x_11
+                elif __t == 1:
+                    x_12 = x_11.objs[0]
+                    x_31 = lean_is_shared(x_11)
+                    __t = x_31
+                    if __t == 0:
+                        x_14, x_15 = x_11, x_31
+                        __blk = 2
+                        continue
+                    elif __t == 1:
+                        lean_inc(x_12)
+                        lean_dec(x_11)
+                        x_14, x_15 = 0, x_31
+                        __blk = 2
+                        continue
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 1:
+                lean_dec(x_4)
+                x_32 = 0
+                x_33 = Ctor(0, [x_32, x_5])
+                x_34 = Ctor(1, [x_33])
+                return x_34
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 2:
+            x_16 = x_12.objs[0]
+            x_17 = x_12.objs[1]
+            x_30 = lean_is_shared(x_12)
+            __t = x_30
+            if __t == 0:
+                x_19, x_20 = x_12, x_30
+                __blk = 3
+                continue
+            elif __t == 1:
+                lean_inc(x_17)
+                lean_inc(x_16)
+                lean_dec(x_12)
+                x_19, x_20 = 0, x_30
+                __blk = 3
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 3:
+            __t = x_8
+            if __t == 0:
+                x_7.objs[1] = x_16
+                x_22 = x_7
+                __blk = 4
+                continue
+            elif __t == 1:
+                x_29 = Ctor(1, [x_4, x_16])
+                x_22 = x_29
+                __blk = 4
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 4:
+            __t = x_20
+            if __t == 0:
+                x_19.objs[0] = x_22
+                x_24 = x_19
+                __blk = 5
+                continue
+            elif __t == 1:
+                x_28 = Ctor(0, [x_22, x_17])
+                x_24 = x_28
+                __blk = 5
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 5:
+            __t = x_15
+            if __t == 0:
+                x_14.objs[0] = x_24
+                x_26 = x_14
+                __blk = 6
+                continue
+            elif __t == 1:
+                x_27 = Ctor(1, [x_24])
+                x_26 = x_27
+                __blk = 6
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 6:
+            return x_26
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leangage_Json_Lexemes_unpack(x_1):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_2 = 10
+            x_3 = lean_string_data(x_1)
+            x_4 = l_Leangage_Json_Lexemes_splitAt(x_2, x_3)
+            __t = lean_obj_tag(x_4)
+            if __t == 0:
+                x_5 = 0
+                return x_5
+            elif __t == 1:
+                x_6 = x_4.objs[0]
+                lean_inc(x_6)
+                lean_dec(x_4)
+                x_7 = x_6.objs[0]
+                lean_inc(x_7)
+                x_8 = x_6.objs[1]
+                lean_inc(x_8)
+                lean_dec(x_6)
+                x_9 = l_List_all___at___00Leangage_Json_Lexemes_unpack_spec__0(x_7)
+                __t = x_9
+                if __t == 0:
+                    lean_dec(x_8)
+                    lean_dec(x_7)
+                    x_10 = 0
+                    return x_10
+                elif __t == 1:
+                    x_11 = 0
+                    x_12 = l_List_countP_go___at___00Leangage_Json_Lexemes_unpack_spec__1(x_7, x_11)
+                    x_13 = l_Leangage_Json_Lexemes_texts(x_12, x_8)
+                    lean_dec(x_12)
+                    __t = lean_obj_tag(x_13)
+                    if __t == 0:
+                        lean_dec(x_7)
+                        x_14 = 0
+                        return x_14
+                    elif __t == 1:
+                        x_15 = x_13.objs[0]
+                        x_23 = lean_is_shared(x_13)
+                        __t = x_23
+                        if __t == 0:
+                            x_17, x_18 = x_13, x_23
+                            __blk = 1
+                            continue
+                        elif __t == 1:
+                            lean_inc(x_15)
+                            lean_dec(x_13)
+                            x_17, x_18 = 0, x_23
+                            __blk = 1
+                            continue
+                        else:
+                            lean_internal_panic_unreachable()
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_19 = l_Leangage_Json_Lexemes_zip(x_7, x_15)
+            __t = x_18
+            if __t == 0:
+                x_17.objs[0] = x_19
+                x_21 = x_17
+                __blk = 2
+                continue
+            elif __t == 1:
+                x_22 = Ctor(1, [x_19])
+                x_21 = x_22
+                __blk = 2
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 2:
+            return x_21
+        else:
+            lean_internal_panic_unreachable()
+
+def l_List_all___at___00Leangage_Json_Lexemes_unpack_spec__0(x_1):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_1)
+            if __t == 0:
+                x_2 = 1
+                return x_2
+            elif __t == 1:
+                x_3 = x_1.objs[0]
+                x_4 = x_1.objs[1]
+                x_5 = x_3
+                x_6 = l_Leangage_Json_Lexemes_isKind(x_5)
+                __t = x_6
+                if __t == 0:
+                    return x_6
+                elif __t == 1:
+                    x_1 = x_4
+                    __blk = 0
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
+def l_List_countP_go___at___00Leangage_Json_Lexemes_unpack_spec__1(x_1, x_2):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_1)
+            if __t == 0:
+                return x_2
+            elif __t == 1:
+                x_3 = x_1.objs[0]
+                x_4 = x_1.objs[1]
+                x_5 = x_3
+                x_6 = l_Leangage_Json_Lexemes_hasText(x_5)
+                __t = x_6
+                if __t == 0:
+                    x_1, x_2 = x_4, x_2
+                    __blk = 0
+                    continue
+                elif __t == 1:
+                    x_8 = 1
+                    x_9 = lean_nat_add(x_2, x_8)
+                    lean_dec(x_2)
+                    x_1, x_2 = x_4, x_9
+                    __blk = 0
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leangage_Json_Lexemes_hasText(x_1):
+    x_2 = 35
+    x_3 = lean_uint32_dec_eq(x_1, x_2)
+    __t = x_3
+    if __t == 0:
+        x_4 = 115
+        x_5 = lean_uint32_dec_eq(x_1, x_4)
+        __t = x_5
+        if __t == 0:
+            x_6 = 107
+            x_7 = lean_uint32_dec_eq(x_1, x_6)
+            return x_7
+        elif __t == 1:
+            return x_5
+        else:
+            lean_internal_panic_unreachable()
+    elif __t == 1:
+        return x_3
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Leangage_Json_Lexemes_texts(x_1, x_2):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_3 = 0
+            x_4 = lean_nat_dec_eq(x_1, x_3)
+            __t = x_4
+            if __t == 1:
+                x_5 = l_List_isEmpty___redArg(x_2)
+                lean_dec(x_2)
+                __t = x_5
+                if __t == 0:
+                    x_6 = 0
+                    return x_6
+                elif __t == 1:
+                    x_7 = l_Leangage_Json_Lexemes_texts___closed__0()
+                    return x_7
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 0:
+                x_8 = 1
+                x_9 = lean_nat_sub(x_1, x_8)
+                x_10 = lean_nat_dec_eq(x_9, x_3)
+                __t = x_10
+                if __t == 1:
+                    lean_dec(x_9)
+                    x_11 = lean_string_mk(x_2)
+                    x_12 = 0
+                    x_13 = Ctor(1, [x_11, x_12])
+                    x_14 = Ctor(1, [x_13])
+                    return x_14
+                elif __t == 0:
+                    x_15 = 58
+                    x_16 = l_Leangage_Json_Lexemes_splitAt(x_15, x_2)
+                    __t = lean_obj_tag(x_16)
+                    if __t == 0:
+                        lean_dec(x_9)
+                        x_17 = 0
+                        return x_17
+                    elif __t == 1:
+                        x_18 = x_16.objs[0]
+                        lean_inc(x_18)
+                        lean_dec(x_16)
+                        x_19 = x_18.objs[0]
+                        x_20 = x_18.objs[1]
+                        x_51 = lean_is_shared(x_18)
+                        __t = x_51
+                        if __t == 0:
+                            x_22, x_23 = x_18, x_51
+                            __blk = 1
+                            continue
+                        elif __t == 1:
+                            lean_inc(x_20)
+                            lean_inc(x_19)
+                            lean_dec(x_18)
+                            x_22, x_23 = 0, x_51
+                            __blk = 1
+                            continue
+                        else:
+                            lean_internal_panic_unreachable()
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_24 = l_Leangage_Json_Lexemes_lengthOf(x_19)
+            x_25 = Closure(l_instDecidableEqChar___boxed, 2, [])
+            x_26 = 10
+            lean_inc(x_24)
+            x_27 = l_Nat_toDigits(x_26, x_24)
+            x_28 = l_instDecidableEqList___redArg(x_25, x_19, x_27)
+            __t = x_28
+            if __t == 0:
+                lean_dec(x_24)
+                lean_dec(x_20)
+                lean_dec(x_9)
+                x_29 = 0
+                return x_29
+            elif __t == 1:
+                x_30 = l_List_lengthTR___redArg(x_20)
+                x_31 = lean_nat_dec_le(x_24, x_30)
+                lean_dec(x_30)
+                __t = x_31
+                if __t == 0:
+                    lean_dec(x_24)
+                    lean_dec(x_20)
+                    lean_dec(x_9)
+                    x_32 = 0
+                    return x_32
+                elif __t == 1:
+                    x_33 = lean_nat_sub(x_9, x_8)
+                    lean_dec(x_9)
+                    x_34 = lean_nat_add(x_33, x_8)
+                    lean_dec(x_33)
+                    lean_inc(x_24)
+                    x_35 = l_List_drop___redArg(x_24, x_20)
+                    x_36 = l_Leangage_Json_Lexemes_texts(x_34, x_35)
+                    lean_dec(x_34)
+                    __t = lean_obj_tag(x_36)
+                    if __t == 0:
+                        lean_dec(x_24)
+                        lean_dec(x_20)
+                        return x_36
+                    elif __t == 1:
+                        x_37 = x_36.objs[0]
+                        x_50 = lean_is_shared(x_36)
+                        __t = x_50
+                        if __t == 0:
+                            x_39, x_40 = x_36, x_50
+                            __blk = 2
+                            continue
+                        elif __t == 1:
+                            lean_inc(x_37)
+                            lean_dec(x_36)
+                            x_39, x_40 = 0, x_50
+                            __blk = 2
+                            continue
+                        else:
+                            lean_internal_panic_unreachable()
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 2:
+            x_41 = l_Leangage_Json_Lexemes_texts___closed__1()
+            lean_inc(x_20)
+            x_42 = l___private_Init_Data_List_Impl_0__List_takeTR_go___redArg(x_20, x_20, x_24, x_41)
+            lean_dec(x_20)
+            x_43 = lean_string_mk(x_42)
+            __t = x_23
+            if __t == 0:
+                x_22.tag = 1
+                x_22.objs[1] = x_37
+                x_22.objs[0] = x_43
+                x_45 = x_22
+                __blk = 3
+                continue
+            elif __t == 1:
+                x_49 = Ctor(1, [x_43, x_37])
+                x_45 = x_49
+                __blk = 3
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 3:
+            __t = x_40
+            if __t == 0:
+                x_39.objs[0] = x_45
+                x_47 = x_39
+                __blk = 4
+                continue
+            elif __t == 1:
+                x_48 = Ctor(1, [x_45])
+                x_47 = x_48
+                __blk = 4
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 4:
+            return x_47
+        else:
+            lean_internal_panic_unreachable()
+
+def l_List_isEmpty___redArg(x_1):
+    __t = lean_obj_tag(x_1)
+    if __t == 0:
+        x_2 = 1
+        return x_2
+    elif __t == 1:
+        x_3 = 0
+        return x_3
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Leangage_Json_Lexemes_texts___closed__0__init():
+    x_1 = 0
+    x_2 = Ctor(1, [x_1])
+    return x_2
+l_Leangage_Json_Lexemes_texts___closed__0__cell = []
+def l_Leangage_Json_Lexemes_texts___closed__0():
+    c = l_Leangage_Json_Lexemes_texts___closed__0__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leangage_Json_Lexemes_texts___closed__0__init()))
+    return c[0]
+
+def l_instDecidableEqChar___boxed(x_1, x_2):
+    x_3 = x_1
     lean_dec(x_1)
-    x_4 = lean_string_data(x_2)
-    x_5 = l_Leangage_Json_Lexemes_zip(x_4, x_3)
+    x_4 = x_2
+    lean_dec(x_2)
+    x_5 = l_instDecidableEqChar(x_3, x_4)
+    x_6 = x_5
+    return x_6
+
+def l_instDecidableEqChar(x_1, x_2):
+    x_3 = lean_uint32_dec_eq(x_1, x_2)
+    return x_3
+
+def l_Nat_toDigits(x_1, x_2):
+    x_3 = 1
+    x_4 = lean_nat_add(x_2, x_3)
+    x_5 = 0
+    x_6 = l_Nat_toDigitsCore(x_1, x_4, x_2, x_5)
+    return x_6
+
+def l_Nat_toDigitsCore(x_1, x_2, x_3, x_4):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_5 = 0
+            x_6 = lean_nat_dec_eq(x_2, x_5)
+            __t = x_6
+            if __t == 1:
+                lean_dec(x_3)
+                lean_dec(x_2)
+                return x_4
+            elif __t == 0:
+                x_7 = lean_nat_mod(x_3, x_1)
+                x_8 = l_Nat_digitChar(x_7)
+                lean_dec(x_7)
+                x_9 = lean_nat_div(x_3, x_1)
+                lean_dec(x_3)
+                x_10 = lean_nat_dec_eq(x_9, x_5)
+                __t = x_10
+                if __t == 0:
+                    x_11 = 1
+                    x_12 = lean_nat_sub(x_2, x_11)
+                    lean_dec(x_2)
+                    x_13 = x_8
+                    x_14 = Ctor(1, [x_13, x_4])
+                    x_1, x_2, x_3, x_4 = x_1, x_12, x_9, x_14
+                    __blk = 0
+                    continue
+                elif __t == 1:
+                    lean_dec(x_9)
+                    lean_dec(x_2)
+                    x_16 = x_8
+                    x_17 = Ctor(1, [x_16, x_4])
+                    return x_17
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Nat_digitChar(x_1):
+    x_2 = 0
+    x_3 = lean_nat_dec_eq(x_1, x_2)
+    __t = x_3
+    if __t == 0:
+        x_4 = 1
+        x_5 = lean_nat_dec_eq(x_1, x_4)
+        __t = x_5
+        if __t == 0:
+            x_6 = 2
+            x_7 = lean_nat_dec_eq(x_1, x_6)
+            __t = x_7
+            if __t == 0:
+                x_8 = 3
+                x_9 = lean_nat_dec_eq(x_1, x_8)
+                __t = x_9
+                if __t == 0:
+                    x_10 = 4
+                    x_11 = lean_nat_dec_eq(x_1, x_10)
+                    __t = x_11
+                    if __t == 0:
+                        x_12 = 5
+                        x_13 = lean_nat_dec_eq(x_1, x_12)
+                        __t = x_13
+                        if __t == 0:
+                            x_14 = 6
+                            x_15 = lean_nat_dec_eq(x_1, x_14)
+                            __t = x_15
+                            if __t == 0:
+                                x_16 = 7
+                                x_17 = lean_nat_dec_eq(x_1, x_16)
+                                __t = x_17
+                                if __t == 0:
+                                    x_18 = 8
+                                    x_19 = lean_nat_dec_eq(x_1, x_18)
+                                    __t = x_19
+                                    if __t == 0:
+                                        x_20 = 9
+                                        x_21 = lean_nat_dec_eq(x_1, x_20)
+                                        __t = x_21
+                                        if __t == 0:
+                                            x_22 = 10
+                                            x_23 = lean_nat_dec_eq(x_1, x_22)
+                                            __t = x_23
+                                            if __t == 0:
+                                                x_24 = 11
+                                                x_25 = lean_nat_dec_eq(x_1, x_24)
+                                                __t = x_25
+                                                if __t == 0:
+                                                    x_26 = 12
+                                                    x_27 = lean_nat_dec_eq(x_1, x_26)
+                                                    __t = x_27
+                                                    if __t == 0:
+                                                        x_28 = 13
+                                                        x_29 = lean_nat_dec_eq(x_1, x_28)
+                                                        __t = x_29
+                                                        if __t == 0:
+                                                            x_30 = 14
+                                                            x_31 = lean_nat_dec_eq(x_1, x_30)
+                                                            __t = x_31
+                                                            if __t == 0:
+                                                                x_32 = 15
+                                                                x_33 = lean_nat_dec_eq(x_1, x_32)
+                                                                __t = x_33
+                                                                if __t == 0:
+                                                                    x_34 = 42
+                                                                    return x_34
+                                                                elif __t == 1:
+                                                                    x_35 = 102
+                                                                    return x_35
+                                                                else:
+                                                                    lean_internal_panic_unreachable()
+                                                            elif __t == 1:
+                                                                x_36 = 101
+                                                                return x_36
+                                                            else:
+                                                                lean_internal_panic_unreachable()
+                                                        elif __t == 1:
+                                                            x_37 = 100
+                                                            return x_37
+                                                        else:
+                                                            lean_internal_panic_unreachable()
+                                                    elif __t == 1:
+                                                        x_38 = 99
+                                                        return x_38
+                                                    else:
+                                                        lean_internal_panic_unreachable()
+                                                elif __t == 1:
+                                                    x_39 = 98
+                                                    return x_39
+                                                else:
+                                                    lean_internal_panic_unreachable()
+                                            elif __t == 1:
+                                                x_40 = 97
+                                                return x_40
+                                            else:
+                                                lean_internal_panic_unreachable()
+                                        elif __t == 1:
+                                            x_41 = 57
+                                            return x_41
+                                        else:
+                                            lean_internal_panic_unreachable()
+                                    elif __t == 1:
+                                        x_42 = 56
+                                        return x_42
+                                    else:
+                                        lean_internal_panic_unreachable()
+                                elif __t == 1:
+                                    x_43 = 55
+                                    return x_43
+                                else:
+                                    lean_internal_panic_unreachable()
+                            elif __t == 1:
+                                x_44 = 54
+                                return x_44
+                            else:
+                                lean_internal_panic_unreachable()
+                        elif __t == 1:
+                            x_45 = 53
+                            return x_45
+                        else:
+                            lean_internal_panic_unreachable()
+                    elif __t == 1:
+                        x_46 = 52
+                        return x_46
+                    else:
+                        lean_internal_panic_unreachable()
+                elif __t == 1:
+                    x_47 = 51
+                    return x_47
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 1:
+                x_48 = 50
+                return x_48
+            else:
+                lean_internal_panic_unreachable()
+        elif __t == 1:
+            x_49 = 49
+            return x_49
+        else:
+            lean_internal_panic_unreachable()
+    elif __t == 1:
+        x_50 = 48
+        return x_50
+    else:
+        lean_internal_panic_unreachable()
+
+def l_instDecidableEqList___redArg(x_1, x_2, x_3):
+    __t = lean_obj_tag(x_2)
+    if __t == 0:
+        lean_dec(x_1)
+        __t = lean_obj_tag(x_3)
+        if __t == 0:
+            x_4 = 1
+            return x_4
+        elif __t == 1:
+            lean_dec(x_3)
+            x_5 = 0
+            return x_5
+        else:
+            lean_internal_panic_unreachable()
+    elif __t == 1:
+        __t = lean_obj_tag(x_3)
+        if __t == 0:
+            lean_dec(x_2)
+            lean_dec(x_1)
+            x_6 = 0
+            return x_6
+        elif __t == 1:
+            x_7 = x_2.objs[0]
+            lean_inc(x_7)
+            x_8 = x_2.objs[1]
+            lean_inc(x_8)
+            lean_dec(x_2)
+            x_9 = x_3.objs[0]
+            lean_inc(x_9)
+            x_10 = x_3.objs[1]
+            lean_inc(x_10)
+            lean_dec(x_3)
+            lean_inc(x_1)
+            x_11 = lean_apply(x_1, [x_7, x_9])
+            x_12 = x_11
+            __t = x_12
+            if __t == 0:
+                lean_dec(x_10)
+                lean_dec(x_8)
+                lean_dec(x_1)
+                x_13 = x_11
+                return x_13
+            elif __t == 1:
+                x_14 = l_List_hasDecEq___redArg(x_1, x_8, x_10)
+                return x_14
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+    else:
+        lean_internal_panic_unreachable()
+
+def l_List_hasDecEq___redArg(x_1, x_2, x_3):
+    x_4 = Closure(l_instBEqOfDecidableEq___redArg___lam__0___boxed, 3, [x_1])
+    x_5 = l_List_beq___redArg(x_4, x_2, x_3)
     return x_5
+
+def l_instBEqOfDecidableEq___redArg___lam__0___boxed(x_1, x_2, x_3):
+    x_4 = l_instBEqOfDecidableEq___redArg___lam__0(x_1, x_2, x_3)
+    x_5 = x_4
+    return x_5
+
+def l_instBEqOfDecidableEq___redArg___lam__0(x_1, x_2, x_3):
+    x_4 = lean_apply(x_1, [x_2, x_3])
+    x_5 = x_4
+    return x_5
+
+def l_List_beq___redArg(x_1, x_2, x_3):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_2)
+            if __t == 0:
+                lean_dec(x_1)
+                __t = lean_obj_tag(x_3)
+                if __t == 0:
+                    x_4 = 1
+                    return x_4
+                elif __t == 1:
+                    lean_dec(x_3)
+                    x_5 = 0
+                    return x_5
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 1:
+                __t = lean_obj_tag(x_3)
+                if __t == 0:
+                    lean_dec(x_2)
+                    lean_dec(x_1)
+                    x_6 = 0
+                    return x_6
+                elif __t == 1:
+                    x_7 = x_2.objs[0]
+                    lean_inc(x_7)
+                    x_8 = x_2.objs[1]
+                    lean_inc(x_8)
+                    lean_dec(x_2)
+                    x_9 = x_3.objs[0]
+                    lean_inc(x_9)
+                    x_10 = x_3.objs[1]
+                    lean_inc(x_10)
+                    lean_dec(x_3)
+                    lean_inc(x_1)
+                    x_11 = lean_apply(x_1, [x_7, x_9])
+                    x_12 = x_11
+                    __t = x_12
+                    if __t == 0:
+                        lean_dec(x_10)
+                        lean_dec(x_8)
+                        lean_dec(x_1)
+                        x_13 = x_11
+                        return x_13
+                    elif __t == 1:
+                        x_1, x_2, x_3 = x_1, x_8, x_10
+                        __blk = 0
+                        continue
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
+def l_List_lengthTR___redArg(x_1):
+    x_2 = 0
+    x_3 = l_List_lengthTRAux___redArg(x_1, x_2)
+    return x_3
+
+def l_List_lengthTRAux___redArg(x_1, x_2):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_1)
+            if __t == 0:
+                return x_2
+            elif __t == 1:
+                x_3 = x_1.objs[1]
+                x_4 = 1
+                x_5 = lean_nat_add(x_2, x_4)
+                lean_dec(x_2)
+                x_1, x_2 = x_3, x_5
+                __blk = 0
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
+def l_List_drop___redArg(x_1, x_2):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_3 = 0
+            x_4 = lean_nat_dec_eq(x_1, x_3)
+            __t = x_4
+            if __t == 1:
+                lean_dec(x_1)
+                lean_inc(x_2)
+                return x_2
+            elif __t == 0:
+                __t = lean_obj_tag(x_2)
+                if __t == 0:
+                    lean_dec(x_1)
+                    return x_2
+                elif __t == 1:
+                    x_5 = x_2.objs[1]
+                    x_6 = 1
+                    x_7 = lean_nat_sub(x_1, x_6)
+                    lean_dec(x_1)
+                    x_1, x_2 = x_7, x_5
+                    __blk = 0
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leangage_Json_Lexemes_texts___closed__1__init():
+    x_1 = 0
+    x_2 = lean_mk_empty_array_with_capacity(x_1)
+    return x_2
+l_Leangage_Json_Lexemes_texts___closed__1__cell = []
+def l_Leangage_Json_Lexemes_texts___closed__1():
+    c = l_Leangage_Json_Lexemes_texts___closed__1__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leangage_Json_Lexemes_texts___closed__1__init()))
+    return c[0]
+
+def l___private_Init_Data_List_Impl_0__List_takeTR_go___redArg(x_1, x_2, x_3, x_4):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_2)
+            if __t == 0:
+                lean_dec(x_4)
+                lean_dec(x_3)
+                lean_inc(x_1)
+                return x_1
+            elif __t == 1:
+                x_5 = x_2.objs[0]
+                lean_inc(x_5)
+                x_6 = x_2.objs[1]
+                lean_inc(x_6)
+                lean_dec(x_2)
+                x_7 = 0
+                x_8 = lean_nat_dec_eq(x_3, x_7)
+                __t = x_8
+                if __t == 1:
+                    lean_dec(x_6)
+                    lean_dec(x_5)
+                    lean_dec(x_3)
+                    x_9 = lean_array_to_list(x_4)
+                    return x_9
+                elif __t == 0:
+                    x_10 = 1
+                    x_11 = lean_nat_sub(x_3, x_10)
+                    lean_dec(x_3)
+                    x_12 = lean_array_push(x_4, x_5)
+                    x_1, x_2, x_3, x_4 = x_1, x_6, x_11, x_12
+                    __blk = 0
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
 
 
 # Public types and functions
@@ -1004,169 +2027,285 @@ class Scalar_str(_m.LeanModel, Scalar):
 _m.register_inductive(Scalar, [(Scalar_null, _m.CtorInfo("null", 0, 0, True, [], [], False)), (Scalar_bool, _m.CtorInfo("bool", 1, 0, False, [_m.FieldInfo("b", _m.Scalar(0), _m.BOOL)], [], False)), (Scalar_num, _m.CtorInfo("num", 2, 0, False, [_m.FieldInfo("n", _m.Scalar(0), _m.UIntD(64))], [], False)), (Scalar_number, _m.CtorInfo("number", 3, 0, True, [], [], False)), (Scalar_str, _m.CtorInfo("str", 4, 1, False, [_m.FieldInfo("s", _m.Obj(0), _m.STRING)], [], False))])
 
 
-class Tokens(_m.LeanModel):
-    "Lean `Leangage.Json.Lexemes.Tokens`."
-    kinds: "str"
-    texts: "list[str]"
+_D0 = _m.CHAR
+_D1 = _m.LeanType(_D0, "Char")
+_D2 = _m.BOOL
+_D3 = _m.LeanType(_D2, "bool")
+_D4 = _m.ListD(_m.NamedD(globals(), "Lexeme"))
+_D5 = _m.LeanType(_D4, "list[Lexeme]")
+_D6 = _m.OptionD(_m.ListD(_m.ProdD(_m.STRING, _m.NamedD(globals(), "Scalar"))))
+_D7 = _m.LeanType(_D6, "list[tuple[str, Scalar]] | None")
+_D8 = _m.ListD(_m.CHAR)
+_D9 = _m.LeanType(_D8, "list[Char]")
+_D10 = _m.ListD(_m.STRING)
+_D11 = _m.LeanType(_D10, "list[str]")
+_D12 = _m.NAT
+_D13 = _m.LeanType(_D12, "Nat")
+_D14 = _m.STRING
+_D15 = _m.LeanType(_D14, "str")
+_D16 = _m.OptionD(_m.UIntD(64))
+_D17 = _m.LeanType(_D16, "UInt64 | None")
+_D18 = _m.OptionD(_m.ProdD(_m.ListD(_m.CHAR), _m.ListD(_m.CHAR)))
+_D19 = _m.LeanType(_D18, "tuple[list[Char], list[Char]] | None")
+_D20 = _m.OptionD(_m.ListD(_m.NamedD(globals(), "Lexeme")))
+_D21 = _m.LeanType(_D20, "list[Lexeme] | None")
+_D22 = _m.ListD(_m.ProdD(_m.STRING, _m.NamedD(globals(), "Scalar")))
+_D23 = _m.LeanType(_D22, "list[tuple[str, Scalar]]")
+_D24 = _m.OptionD(_m.ListD(_m.STRING))
+_D25 = _m.LeanType(_D24, "list[str] | None")
+_D26 = _m.NamedD(globals(), "Lexeme")
+_D27 = _m.LeanType(_D26, "Lexeme")
+_D28 = _m.OptionD(_m.NamedD(globals(), "Scalar"))
+_D29 = _m.LeanType(_D28, "Scalar | None")
 
 
-Tokens.__lean__ = _m.StructInfo(Tokens, _m.CtorInfo("mk", 0, 2, False, [_m.FieldInfo("kinds", _m.Obj(0), _m.STRING), _m.FieldInfo("texts", _m.Obj(1), _m.ListD(_m.STRING))], [], False), trivial=False)
+def _pub_isKind(c: "Char") -> "bool":
+    "Lean `Leangage.Json.Lexemes.isKind`."
+    __a0 = _m.to_lean(_D0, c, "c")
+    return _m.to_py(_D2, l_Leangage_Json_Lexemes_isKind(__a0))
 
 
-_D0 = _m.ListD(_m.NamedD(globals(), "Lexeme"))
-_D1 = _m.LeanType(_D0, "list[Lexeme]")
-_D2 = _m.OptionD(_m.ListD(_m.ProdD(_m.STRING, _m.NamedD(globals(), "Scalar"))))
-_D3 = _m.LeanType(_D2, "list[tuple[str, Scalar]] | None")
-_D4 = _m.ListD(_m.CHAR)
-_D5 = _m.LeanType(_D4, "list[Char]")
-_D6 = _m.ListD(_m.STRING)
-_D7 = _m.LeanType(_D6, "list[str]")
-_D8 = _m.STRING
-_D9 = _m.LeanType(_D8, "str")
-_D10 = _m.OptionD(_m.UIntD(64))
-_D11 = _m.LeanType(_D10, "UInt64 | None")
-_D12 = _m.ListD(_m.ProdD(_m.STRING, _m.NamedD(globals(), "Scalar")))
-_D13 = _m.LeanType(_D12, "list[tuple[str, Scalar]]")
-_D14 = _m.NamedD(globals(), "Tokens")
-_D15 = _m.LeanType(_D14, "Tokens")
-_D16 = _m.NamedD(globals(), "Lexeme")
-_D17 = _m.LeanType(_D16, "Lexeme")
-_D18 = _m.OptionD(_m.NamedD(globals(), "Scalar"))
-_D19 = _m.LeanType(_D18, "Scalar | None")
+def _pub_isKind__lean(c: "Char | Lean[Char]") -> "Lean[bool]":
+    "Lean `Leangage.Json.Lexemes.isKind`, on handles."
+    __a0 = _m.lean_arg(_D1, c, "c")
+    _m.give(c)
+    return _m.handle(_D3, l_Leangage_Json_Lexemes_isKind(__a0))
 
 
+def _pub_isKind__local(c: "Char | Lean[Char] | Local[Char]") -> "Local[bool]":
+    "Lean `Leangage.Json.Lexemes.isKind`, on local handles."
+    __a0 = _m.local_arg(_D1, c, "c", True)
+    _m.give(c)
+    return _m.local_handle(_D3, l_Leangage_Json_Lexemes_isKind(__a0))
+
+
+_m.attach(globals(), ["isKind"], _pub_isKind, "Leangage.Json.Lexemes.isKind", _pub_isKind__lean, {"c": _D1}, _D3, _pub_isKind__local)
 def _pub_object(arg0: "list[Lexeme]") -> "list[tuple[str, Scalar]] | None":
     "Lean `Leangage.Json.Lexemes.object`."
-    __a0 = _m.to_lean(_D0, arg0, "arg0")
-    return _m.to_py(_D2, l_Leangage_Json_Lexemes_object(__a0))
+    __a0 = _m.to_lean(_D4, arg0, "arg0")
+    return _m.to_py(_D6, l_Leangage_Json_Lexemes_object(__a0))
 
 
 def _pub_object__lean(arg0: "list[Lexeme] | Lean[list[Lexeme]]") -> "Lean[list[tuple[str, Scalar]] | None]":
     "Lean `Leangage.Json.Lexemes.object`, on handles."
-    __a0 = _m.lean_arg(_D1, arg0, "arg0")
+    __a0 = _m.lean_arg(_D5, arg0, "arg0")
     _m.give(arg0)
-    return _m.handle(_D3, l_Leangage_Json_Lexemes_object(__a0))
+    return _m.handle(_D7, l_Leangage_Json_Lexemes_object(__a0))
 
 
 def _pub_object__local(arg0: "list[Lexeme] | Lean[list[Lexeme]] | Local[list[Lexeme]]") -> "Local[list[tuple[str, Scalar]] | None]":
     "Lean `Leangage.Json.Lexemes.object`, on local handles."
-    __a0 = _m.local_arg(_D1, arg0, "arg0", True)
+    __a0 = _m.local_arg(_D5, arg0, "arg0", True)
     _m.give(arg0)
-    return _m.local_handle(_D3, l_Leangage_Json_Lexemes_object(__a0))
+    return _m.local_handle(_D7, l_Leangage_Json_Lexemes_object(__a0))
 
 
-_m.attach(globals(), ["object"], _pub_object, "Leangage.Json.Lexemes.object", _pub_object__lean, {"arg0": _D1}, _D3, _pub_object__local)
+_m.attach(globals(), ["object"], _pub_object, "Leangage.Json.Lexemes.object", _pub_object__lean, {"arg0": _D5}, _D7, _pub_object__local)
 def _pub_zip(arg0: "list[Char]", arg1: "list[str]") -> "list[Lexeme]":
     "Lean `Leangage.Json.Lexemes.zip`."
-    __a0 = _m.to_lean(_D4, arg0, "arg0")
-    __a1 = _m.to_lean(_D6, arg1, "arg1")
-    return _m.to_py(_D0, l_Leangage_Json_Lexemes_zip(__a0, __a1))
+    __a0 = _m.to_lean(_D8, arg0, "arg0")
+    __a1 = _m.to_lean(_D10, arg1, "arg1")
+    return _m.to_py(_D4, l_Leangage_Json_Lexemes_zip(__a0, __a1))
 
 
 def _pub_zip__lean(arg0: "list[Char] | Lean[list[Char]]", arg1: "list[str] | Lean[list[str]]") -> "Lean[list[Lexeme]]":
     "Lean `Leangage.Json.Lexemes.zip`, on handles."
-    __a0 = _m.lean_arg(_D5, arg0, "arg0")
-    __a1 = _m.lean_arg(_D7, arg1, "arg1")
+    __a0 = _m.lean_arg(_D9, arg0, "arg0")
+    __a1 = _m.lean_arg(_D11, arg1, "arg1")
     _m.give(arg0, arg1)
-    return _m.handle(_D1, l_Leangage_Json_Lexemes_zip(__a0, __a1))
+    return _m.handle(_D5, l_Leangage_Json_Lexemes_zip(__a0, __a1))
 
 
 def _pub_zip__local(arg0: "list[Char] | Lean[list[Char]] | Local[list[Char]]", arg1: "list[str] | Lean[list[str]] | Local[list[str]]") -> "Local[list[Lexeme]]":
     "Lean `Leangage.Json.Lexemes.zip`, on local handles."
-    __a0 = _m.local_arg(_D5, arg0, "arg0", True)
-    __a1 = _m.local_arg(_D7, arg1, "arg1", True)
+    __a0 = _m.local_arg(_D9, arg0, "arg0", True)
+    __a1 = _m.local_arg(_D11, arg1, "arg1", True)
     _m.give(arg0, arg1)
-    return _m.local_handle(_D1, l_Leangage_Json_Lexemes_zip(__a0, __a1))
+    return _m.local_handle(_D5, l_Leangage_Json_Lexemes_zip(__a0, __a1))
 
 
-_m.attach(globals(), ["zip"], _pub_zip, "Leangage.Json.Lexemes.zip", _pub_zip__lean, {"arg0": _D5, "arg1": _D7}, _D1, _pub_zip__local)
+_m.attach(globals(), ["zip"], _pub_zip, "Leangage.Json.Lexemes.zip", _pub_zip__lean, {"arg0": _D9, "arg1": _D11}, _D5, _pub_zip__local)
+def _pub_lengthOf(digits: "list[Char]") -> "Nat":
+    "Lean `Leangage.Json.Lexemes.lengthOf`."
+    __a0 = _m.to_lean(_D8, digits, "digits")
+    return _m.to_py(_D12, l_Leangage_Json_Lexemes_lengthOf(__a0))
+
+
+def _pub_lengthOf__lean(digits: "list[Char] | Lean[list[Char]]") -> "Lean[Nat]":
+    "Lean `Leangage.Json.Lexemes.lengthOf`, on handles."
+    __a0 = _m.lean_arg(_D9, digits, "digits")
+    _m.give(digits)
+    return _m.handle(_D13, l_Leangage_Json_Lexemes_lengthOf(__a0))
+
+
+def _pub_lengthOf__local(digits: "list[Char] | Lean[list[Char]] | Local[list[Char]]") -> "Local[Nat]":
+    "Lean `Leangage.Json.Lexemes.lengthOf`, on local handles."
+    __a0 = _m.local_arg(_D9, digits, "digits", False)
+    _m.give(digits)
+    __r = l_Leangage_Json_Lexemes_lengthOf(__a0)
+    _m.local_done(digits, __a0)
+    return _m.local_handle(_D13, __r)
+
+
+_m.attach(globals(), ["lengthOf"], _pub_lengthOf, "Leangage.Json.Lexemes.lengthOf", _pub_lengthOf__lean, {"digits": _D9}, _D13, _pub_lengthOf__local)
 def _pub_numberOf(text: "str") -> "UInt64 | None":
     "Lean `Leangage.Json.Lexemes.numberOf`."
-    __a0 = _m.to_lean(_D8, text, "text")
-    return _m.to_py(_D10, l_Leangage_Json_Lexemes_numberOf(__a0))
+    __a0 = _m.to_lean(_D14, text, "text")
+    return _m.to_py(_D16, l_Leangage_Json_Lexemes_numberOf(__a0))
 
 
 def _pub_numberOf__lean(text: "str | Lean[str]") -> "Lean[UInt64 | None]":
     "Lean `Leangage.Json.Lexemes.numberOf`, on handles."
-    __a0 = _m.lean_arg(_D9, text, "text")
+    __a0 = _m.lean_arg(_D15, text, "text")
     _m.give(text)
-    return _m.handle(_D11, l_Leangage_Json_Lexemes_numberOf(__a0))
+    return _m.handle(_D17, l_Leangage_Json_Lexemes_numberOf(__a0))
 
 
 def _pub_numberOf__local(text: "str | Lean[str] | Local[str]") -> "Local[UInt64 | None]":
     "Lean `Leangage.Json.Lexemes.numberOf`, on local handles."
-    __a0 = _m.local_arg(_D9, text, "text", False)
+    __a0 = _m.local_arg(_D15, text, "text", False)
     _m.give(text)
     __r = l_Leangage_Json_Lexemes_numberOf(__a0)
     _m.local_done(text, __a0)
-    return _m.local_handle(_D11, __r)
+    return _m.local_handle(_D17, __r)
 
 
-_m.attach(globals(), ["numberOf"], _pub_numberOf, "Leangage.Json.Lexemes.numberOf", _pub_numberOf__lean, {"text": _D9}, _D11, _pub_numberOf__local)
+_m.attach(globals(), ["numberOf"], _pub_numberOf, "Leangage.Json.Lexemes.numberOf", _pub_numberOf__lean, {"text": _D15}, _D17, _pub_numberOf__local)
+def _pub_splitAt(stop: "Char", arg1: "list[Char]") -> "tuple[list[Char], list[Char]] | None":
+    "Lean `Leangage.Json.Lexemes.splitAt`."
+    __a0 = _m.to_lean(_D0, stop, "stop")
+    __a1 = _m.to_lean(_D8, arg1, "arg1")
+    return _m.to_py(_D18, l_Leangage_Json_Lexemes_splitAt(__a0, __a1))
+
+
+def _pub_splitAt__lean(stop: "Char | Lean[Char]", arg1: "list[Char] | Lean[list[Char]]") -> "Lean[tuple[list[Char], list[Char]] | None]":
+    "Lean `Leangage.Json.Lexemes.splitAt`, on handles."
+    __a0 = _m.lean_arg(_D1, stop, "stop")
+    __a1 = _m.lean_arg(_D9, arg1, "arg1")
+    _m.give(stop, arg1)
+    return _m.handle(_D19, l_Leangage_Json_Lexemes_splitAt(__a0, __a1))
+
+
+def _pub_splitAt__local(stop: "Char | Lean[Char] | Local[Char]", arg1: "list[Char] | Lean[list[Char]] | Local[list[Char]]") -> "Local[tuple[list[Char], list[Char]] | None]":
+    "Lean `Leangage.Json.Lexemes.splitAt`, on local handles."
+    __a0 = _m.local_arg(_D1, stop, "stop", True)
+    __a1 = _m.local_arg(_D9, arg1, "arg1", True)
+    _m.give(stop, arg1)
+    return _m.local_handle(_D19, l_Leangage_Json_Lexemes_splitAt(__a0, __a1))
+
+
+_m.attach(globals(), ["splitAt"], _pub_splitAt, "Leangage.Json.Lexemes.splitAt", _pub_splitAt__lean, {"stop": _D1, "arg1": _D9}, _D19, _pub_splitAt__local)
+def _pub_unpack(packed: "str") -> "list[Lexeme] | None":
+    "Lean `Leangage.Json.Lexemes.unpack`."
+    __a0 = _m.to_lean(_D14, packed, "packed")
+    return _m.to_py(_D20, l_Leangage_Json_Lexemes_unpack(__a0))
+
+
+def _pub_unpack__lean(packed: "str | Lean[str]") -> "Lean[list[Lexeme] | None]":
+    "Lean `Leangage.Json.Lexemes.unpack`, on handles."
+    __a0 = _m.lean_arg(_D15, packed, "packed")
+    _m.give(packed)
+    return _m.handle(_D21, l_Leangage_Json_Lexemes_unpack(__a0))
+
+
+def _pub_unpack__local(packed: "str | Lean[str] | Local[str]") -> "Local[list[Lexeme] | None]":
+    "Lean `Leangage.Json.Lexemes.unpack`, on local handles."
+    __a0 = _m.local_arg(_D15, packed, "packed", True)
+    _m.give(packed)
+    return _m.local_handle(_D21, l_Leangage_Json_Lexemes_unpack(__a0))
+
+
+_m.attach(globals(), ["unpack"], _pub_unpack, "Leangage.Json.Lexemes.unpack", _pub_unpack__lean, {"packed": _D15}, _D21, _pub_unpack__local)
 def _pub_members(acc: "list[tuple[str, Scalar]]", arg1: "list[Lexeme]") -> "list[tuple[str, Scalar]] | None":
     "Lean `Leangage.Json.Lexemes.members`."
-    __a0 = _m.to_lean(_D12, acc, "acc")
-    __a1 = _m.to_lean(_D0, arg1, "arg1")
-    return _m.to_py(_D2, l_Leangage_Json_Lexemes_members(__a0, __a1))
+    __a0 = _m.to_lean(_D22, acc, "acc")
+    __a1 = _m.to_lean(_D4, arg1, "arg1")
+    return _m.to_py(_D6, l_Leangage_Json_Lexemes_members(__a0, __a1))
 
 
 def _pub_members__lean(acc: "list[tuple[str, Scalar]] | Lean[list[tuple[str, Scalar]]]", arg1: "list[Lexeme] | Lean[list[Lexeme]]") -> "Lean[list[tuple[str, Scalar]] | None]":
     "Lean `Leangage.Json.Lexemes.members`, on handles."
-    __a0 = _m.lean_arg(_D13, acc, "acc")
-    __a1 = _m.lean_arg(_D1, arg1, "arg1")
+    __a0 = _m.lean_arg(_D23, acc, "acc")
+    __a1 = _m.lean_arg(_D5, arg1, "arg1")
     _m.give(acc, arg1)
-    return _m.handle(_D3, l_Leangage_Json_Lexemes_members(__a0, __a1))
+    return _m.handle(_D7, l_Leangage_Json_Lexemes_members(__a0, __a1))
 
 
 def _pub_members__local(acc: "list[tuple[str, Scalar]] | Lean[list[tuple[str, Scalar]]] | Local[list[tuple[str, Scalar]]]", arg1: "list[Lexeme] | Lean[list[Lexeme]] | Local[list[Lexeme]]") -> "Local[list[tuple[str, Scalar]] | None]":
     "Lean `Leangage.Json.Lexemes.members`, on local handles."
-    __a0 = _m.local_arg(_D13, acc, "acc", True)
-    __a1 = _m.local_arg(_D1, arg1, "arg1", True)
+    __a0 = _m.local_arg(_D23, acc, "acc", True)
+    __a1 = _m.local_arg(_D5, arg1, "arg1", True)
     _m.give(acc, arg1)
-    return _m.local_handle(_D3, l_Leangage_Json_Lexemes_members(__a0, __a1))
+    return _m.local_handle(_D7, l_Leangage_Json_Lexemes_members(__a0, __a1))
 
 
-_m.attach(globals(), ["members"], _pub_members, "Leangage.Json.Lexemes.members", _pub_members__lean, {"acc": _D13, "arg1": _D1}, _D3, _pub_members__local)
-def _pub_Tokens_lexemes(tokens: "Tokens") -> "list[Lexeme]":
-    "Lean `Leangage.Json.Lexemes.Tokens.lexemes`."
-    __a0 = _m.to_lean(_D14, tokens, "tokens")
-    return _m.to_py(_D0, l_Leangage_Json_Lexemes_Tokens_lexemes(__a0))
+_m.attach(globals(), ["members"], _pub_members, "Leangage.Json.Lexemes.members", _pub_members__lean, {"acc": _D23, "arg1": _D5}, _D7, _pub_members__local)
+def _pub_hasText(c: "Char") -> "bool":
+    "Lean `Leangage.Json.Lexemes.hasText`."
+    __a0 = _m.to_lean(_D0, c, "c")
+    return _m.to_py(_D2, l_Leangage_Json_Lexemes_hasText(__a0))
 
 
-def _pub_Tokens_lexemes__lean(tokens: "Tokens | Lean[Tokens]") -> "Lean[list[Lexeme]]":
-    "Lean `Leangage.Json.Lexemes.Tokens.lexemes`, on handles."
-    __a0 = _m.lean_arg(_D15, tokens, "tokens")
-    _m.give(tokens)
-    return _m.handle(_D1, l_Leangage_Json_Lexemes_Tokens_lexemes(__a0))
+def _pub_hasText__lean(c: "Char | Lean[Char]") -> "Lean[bool]":
+    "Lean `Leangage.Json.Lexemes.hasText`, on handles."
+    __a0 = _m.lean_arg(_D1, c, "c")
+    _m.give(c)
+    return _m.handle(_D3, l_Leangage_Json_Lexemes_hasText(__a0))
 
 
-def _pub_Tokens_lexemes__local(tokens: "Tokens | Lean[Tokens] | Local[Tokens]") -> "Local[list[Lexeme]]":
-    "Lean `Leangage.Json.Lexemes.Tokens.lexemes`, on local handles."
-    __a0 = _m.local_arg(_D15, tokens, "tokens", True)
-    _m.give(tokens)
-    return _m.local_handle(_D1, l_Leangage_Json_Lexemes_Tokens_lexemes(__a0))
+def _pub_hasText__local(c: "Char | Lean[Char] | Local[Char]") -> "Local[bool]":
+    "Lean `Leangage.Json.Lexemes.hasText`, on local handles."
+    __a0 = _m.local_arg(_D1, c, "c", True)
+    _m.give(c)
+    return _m.local_handle(_D3, l_Leangage_Json_Lexemes_hasText(__a0))
 
 
-_m.attach(globals(), ["Tokens", "lexemes"], _pub_Tokens_lexemes, "Leangage.Json.Lexemes.Tokens.lexemes", _pub_Tokens_lexemes__lean, {"tokens": _D15}, _D1, _pub_Tokens_lexemes__local)
+_m.attach(globals(), ["hasText"], _pub_hasText, "Leangage.Json.Lexemes.hasText", _pub_hasText__lean, {"c": _D1}, _D3, _pub_hasText__local)
+def _pub_texts(arg0: "Nat", arg1: "list[Char]") -> "list[str] | None":
+    "Lean `Leangage.Json.Lexemes.texts`."
+    __a0 = _m.to_lean(_D12, arg0, "arg0")
+    __a1 = _m.to_lean(_D8, arg1, "arg1")
+    return _m.to_py(_D24, l_Leangage_Json_Lexemes_texts(__a0, __a1))
+
+
+def _pub_texts__lean(arg0: "Nat | Lean[Nat]", arg1: "list[Char] | Lean[list[Char]]") -> "Lean[list[str] | None]":
+    "Lean `Leangage.Json.Lexemes.texts`, on handles."
+    __a0 = _m.lean_arg(_D13, arg0, "arg0")
+    __a1 = _m.lean_arg(_D9, arg1, "arg1")
+    _m.give(arg0, arg1)
+    return _m.handle(_D25, l_Leangage_Json_Lexemes_texts(__a0, __a1))
+
+
+def _pub_texts__local(arg0: "Nat | Lean[Nat] | Local[Nat]", arg1: "list[Char] | Lean[list[Char]] | Local[list[Char]]") -> "Local[list[str] | None]":
+    "Lean `Leangage.Json.Lexemes.texts`, on local handles."
+    __a0 = _m.local_arg(_D13, arg0, "arg0", False)
+    __a1 = _m.local_arg(_D9, arg1, "arg1", True)
+    _m.give(arg0, arg1)
+    __r = l_Leangage_Json_Lexemes_texts(__a0, __a1)
+    _m.local_done(arg0, __a0)
+    return _m.local_handle(_D25, __r)
+
+
+_m.attach(globals(), ["texts"], _pub_texts, "Leangage.Json.Lexemes.texts", _pub_texts__lean, {"arg0": _D13, "arg1": _D9}, _D25, _pub_texts__local)
 def _pub_scalar(arg0: "Lexeme") -> "Scalar | None":
     "Lean `Leangage.Json.Lexemes.scalar`."
-    __a0 = _m.to_lean(_D16, arg0, "arg0")
-    return _m.to_py(_D18, l_Leangage_Json_Lexemes_scalar(__a0))
+    __a0 = _m.to_lean(_D26, arg0, "arg0")
+    return _m.to_py(_D28, l_Leangage_Json_Lexemes_scalar(__a0))
 
 
 def _pub_scalar__lean(arg0: "Lexeme | Lean[Lexeme]") -> "Lean[Scalar | None]":
     "Lean `Leangage.Json.Lexemes.scalar`, on handles."
-    __a0 = _m.lean_arg(_D17, arg0, "arg0")
+    __a0 = _m.lean_arg(_D27, arg0, "arg0")
     _m.give(arg0)
-    return _m.handle(_D19, l_Leangage_Json_Lexemes_scalar(__a0))
+    return _m.handle(_D29, l_Leangage_Json_Lexemes_scalar(__a0))
 
 
 def _pub_scalar__local(arg0: "Lexeme | Lean[Lexeme] | Local[Lexeme]") -> "Local[Scalar | None]":
     "Lean `Leangage.Json.Lexemes.scalar`, on local handles."
-    __a0 = _m.local_arg(_D17, arg0, "arg0", True)
+    __a0 = _m.local_arg(_D27, arg0, "arg0", True)
     _m.give(arg0)
-    return _m.local_handle(_D19, l_Leangage_Json_Lexemes_scalar(__a0))
+    return _m.local_handle(_D29, l_Leangage_Json_Lexemes_scalar(__a0))
 
 
-_m.attach(globals(), ["scalar"], _pub_scalar, "Leangage.Json.Lexemes.scalar", _pub_scalar__lean, {"arg0": _D17}, _D19, _pub_scalar__local)
+_m.attach(globals(), ["scalar"], _pub_scalar, "Leangage.Json.Lexemes.scalar", _pub_scalar__lean, {"arg0": _D27}, _D29, _pub_scalar__local)
 _m.finish(globals())

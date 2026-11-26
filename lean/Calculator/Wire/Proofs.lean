@@ -96,74 +96,166 @@ theorem decodeObject_spec (lexemes : List Lexeme) :
       | some ms => decodeMembers ms
       | none => .error .notCommand := rfl
 
-/-- A command `spelled` gives is the command `decodeObject` gives for the tokens one by one. -/
-theorem spelled_sound {tokens : Tokens} {c : Command} (h : spelled tokens = some c) :
-    decodeObject tokens.lexemes = .ok c := by
-  obtain ⟨kinds, texts⟩ := tokens
-  unfold spelled at h
-  simp only at h
-  split at h
-  · rename_i hk
-    subst hk
-    split at h <;> try cases h
-    split at h <;> try cases h
-    split at h <;> try cases h
-    split at h <;> try cases h
-    split at h <;> try cases h
-    split at h <;> try cases h
-    split at h <;> cases h
-    rename_i hop _ _ hn
-    subst_vars
-    have hl : "{ksksk#}".toList = ['{', 'k', 's', 'k', 's', 'k', '#', '}'] := by decide
-    simp [Tokens.lexemes, hl, zip, decodeObject, object, members, scalar, hn, hop, decodeMembers,
-      List.lookup]
-  · split at h
-    · rename_i hk
-      subst hk
-      split at h <;> try cases h
-      split at h <;> try cases h
-      split at h <;> cases h
-      subst_vars
-      have hl : "{ks}".toList = ['{', 'k', 's', '}'] := by decide
-      simp [Tokens.lexemes, hl, zip, decodeObject, object, members, scalar, decodeMembers, List.lookup]
-    · split at h
-      · rename_i hk
-        subst hk
-        split at h <;> try cases h
-        split at h <;> try cases h
-        split at h <;> try cases h
-        split at h <;> try cases h
-        split at h <;> cases h
-        rename_i hn
-        subst_vars
-        have hl : "{ksk#}".toList = ['{', 'k', 's', 'k', '#', '}'] := by decide
-        simp [Tokens.lexemes, hl, zip, decodeObject, object, members, scalar, hn, decodeMembers,
-          List.lookup]
-      · cases h
+/-- `numbered` gives the number `n` exactly for the text that is `start` and the decimal of `n`. -/
+theorem numbered_iff (start packed : String) (n : UInt64) :
+    numbered start packed = some n ↔ packed = start ++ decimalText n := by
+  have slice_rest : ∀ r : List UInt8, bytesOf packed = bytesOf start ++ r →
+      Token.slice (bytesOf packed) start.utf8ByteSize packed.utf8ByteSize = r := by
+    intro r hr
+    have hl := Token.length_bytesOf packed
+    have hs := Token.length_bytesOf start
+    rw [Token.slice, ← hl, ← hs, hr]
+    simp
+  unfold numbered
+  constructor
+  · intro h
+    split at h
+    · rename_i hs
+      obtain ⟨r, hr⟩ := (startsWith_iff _ _).mp hs
+      rw [Token.numberAt_spec packed (Nat.le_refl _), slice_rest r hr] at h
+      apply bytesOf_injective
+      rw [hr, bytesOf_append, bytesOf_decimalText, Token.number_canon h]
+    · cases h
+  · intro h
+    have hb : bytesOf packed = bytesOf start ++ Token.decimal n.toNat := by
+      rw [h, bytesOf_append, bytesOf_decimalText]
+    simp only [(startsWith_iff _ _).mpr ⟨_, hb⟩, ↓reduceIte]
+    rw [Token.numberAt_spec packed (Nat.le_refl _), slice_rest _ hb, Token.number_decimal]
 
-/-- `decode` is `decodeObject` of the tokens one by one, on every body. -/
-theorem decode_eq (tokens : Tokens) : decode tokens = decodeObject tokens.lexemes := by
-  unfold decode
-  cases h : spelled tokens with
-  | none => rfl
-  | some c => exact (spelled_sound h).symm
+theorem prefix_clash {a b x y : List UInt8} (k : Nat) (ha : k ≤ a.length) (hb : k ≤ b.length)
+    (hne : a.take k ≠ b.take k) : a ++ x ≠ b ++ y := by
+  intro h
+  have := congrArg (List.take k) h
+  rw [List.take_append_of_le_length ha, List.take_append_of_le_length hb] at this
+  exact hne this
 
-/-- `spelled` reads the tokens of the JSON text that spells a command. -/
-theorem spelled_lexemesOf (c : Command) : spelled (encode (lexemesOf c)) = some c := by
+/-- `numbered` gives no number for a text whose bytes differ from those of `start` early on. -/
+theorem numbered_none {start packed : String} {a x : List UInt8} (h : bytesOf packed = a ++ x)
+    (k : Nat) (ha : k ≤ a.length) (hb : k ≤ (bytesOf start).length)
+    (hne : a.take k ≠ (bytesOf start).take k) : numbered start packed = none := by
+  unfold numbered
+  split
+  · rename_i hs
+    obtain ⟨r, hr⟩ := (startsWith_iff _ _).mp hs
+    exact absurd (h.symm.trans hr) (prefix_clash k ha hb hne)
+  · rfl
+
+/-- The packed text of the tokens of a command whose members come in the usual order. -/
+def canonical : Command → String
+  | .set n => "{ksk#}\n3:cmd3:set5:value" ++ decimalText n
+  | .apply .add n => "{ksksk#}\n3:cmd5:apply2:op3:add3:arg" ++ decimalText n
+  | .apply .sub n => "{ksksk#}\n3:cmd5:apply2:op3:sub3:arg" ++ decimalText n
+  | .apply .mul n => "{ksksk#}\n3:cmd5:apply2:op3:mul3:arg" ++ decimalText n
+  | .apply .div n => "{ksksk#}\n3:cmd5:apply2:op3:div3:arg" ++ decimalText n
+  | .get => "{ks}\n3:cmdget"
+
+theorem pack_lexemesOf (c : Command) : pack (lexemesOf c) = canonical c := by
+  have h2 : Nat.toDigits 10 2 = ['2'] := by decide
+  have h3 : Nat.toDigits 10 3 = ['3'] := by decide
+  have h5 : Nat.toDigits 10 5 = ['5'] := by decide
+  rw [← String.toList_inj]
   cases c with
   | set n =>
-    simp [lexemesOf, lexFields, objectLexemes, encode, kindOf, textOf, spelled, numberOf_decimalText,
-      List.filterMap_cons]
+    simp [pack, lexemesOf, lexFields, objectLexemes, kindOf, textOf, packTexts, canonical, decimalText,
+      List.filterMap_cons, h3, h5]
   | apply op n =>
     cases op <;>
-      simp [lexemesOf, lexFields, objectLexemes, encode, kindOf, textOf, spelled, numberOf_decimalText, opName,
-        opNamed, List.filterMap_cons]
-  | get => simp [lexemesOf, lexFields, objectLexemes, encode, kindOf, textOf, spelled, List.filterMap_cons]
+      simp [pack, lexemesOf, lexFields, objectLexemes, kindOf, textOf, packTexts, canonical, decimalText,
+        List.filterMap_cons, opName, h2, h3, h5]
+  | get =>
+    simp [pack, lexemesOf, lexFields, objectLexemes, kindOf, textOf, packTexts, canonical,
+      List.filterMap_cons, h3]
+
+/-- `spelled` gives the command `c` exactly for the packed text of the tokens of `c` with its
+members in the usual order. -/
+theorem spelled_iff (packed : String) (c : Command) : spelled packed = some c ↔ packed = canonical c := by
+  constructor
+  · intro h
+    unfold spelled at h
+    split at h
+    · rename_i n hn; cases h; exact (numbered_iff _ _ n).mp hn
+    · split at h
+      · rename_i n hn; cases h; exact (numbered_iff _ _ n).mp hn
+      · split at h
+        · rename_i n hn; cases h; exact (numbered_iff _ _ n).mp hn
+        · split at h
+          · rename_i n hn; cases h; exact (numbered_iff _ _ n).mp hn
+          · split at h
+            · rename_i n hn; cases h; exact (numbered_iff _ _ n).mp hn
+            · split at h
+              · rename_i hg; cases h; exact hg
+              · cases h
+  · intro h
+    subst h
+    unfold spelled
+    cases c with
+    | set n =>
+      have hb : bytesOf (canonical (.set n)) = bytesOf "{ksk#}\n3:cmd3:set5:value" ++ Token.decimal n.toNat := by
+        rw [canonical, bytesOf_append, bytesOf_decimalText]
+      rw [numbered_none hb 5 (by decide) (by decide) (by decide), numbered_none hb 5 (by decide) (by decide) (by decide), numbered_none hb 5 (by decide) (by decide) (by decide), numbered_none hb 5 (by decide) (by decide) (by decide)]
+      simp only [canonical]
+      rw [(numbered_iff _ _ n).mpr rfl]
+    | apply op n =>
+      cases op with
+      | add =>
+        have hb : bytesOf (canonical (.apply .add n)) = bytesOf "{ksksk#}\n3:cmd5:apply2:op3:add3:arg" ++ Token.decimal n.toNat := by
+          rw [canonical, bytesOf_append, bytesOf_decimalText]
+        simp only [canonical]
+        rw [(numbered_iff _ _ n).mpr rfl]
+      | sub =>
+        have hb : bytesOf (canonical (.apply .sub n)) = bytesOf "{ksksk#}\n3:cmd5:apply2:op3:sub3:arg" ++ Token.decimal n.toNat := by
+          rw [canonical, bytesOf_append, bytesOf_decimalText]
+        rw [numbered_none hb 30 (by decide) (by decide) (by decide)]
+        simp only [canonical]
+        rw [(numbered_iff _ _ n).mpr rfl]
+      | mul =>
+        have hb : bytesOf (canonical (.apply .mul n)) = bytesOf "{ksksk#}\n3:cmd5:apply2:op3:mul3:arg" ++ Token.decimal n.toNat := by
+          rw [canonical, bytesOf_append, bytesOf_decimalText]
+        rw [numbered_none hb 30 (by decide) (by decide) (by decide), numbered_none hb 30 (by decide) (by decide) (by decide)]
+        simp only [canonical]
+        rw [(numbered_iff _ _ n).mpr rfl]
+      | div =>
+        have hb : bytesOf (canonical (.apply .div n)) = bytesOf "{ksksk#}\n3:cmd5:apply2:op3:div3:arg" ++ Token.decimal n.toNat := by
+          rw [canonical, bytesOf_append, bytesOf_decimalText]
+        rw [numbered_none hb 30 (by decide) (by decide) (by decide), numbered_none hb 30 (by decide) (by decide) (by decide), numbered_none hb 30 (by decide) (by decide) (by decide)]
+        simp only [canonical]
+        rw [(numbered_iff _ _ n).mpr rfl]
+    | get =>
+      have hb : bytesOf (canonical .get) = bytesOf "{ks}\n3:cmdget" ++ [] := by simp [canonical]
+      rw [numbered_none hb 5 (by decide) (by decide) (by decide), numbered_none hb 5 (by decide) (by decide) (by decide), numbered_none hb 5 (by decide) (by decide) (by decide), numbered_none hb 5 (by decide) (by decide) (by decide), numbered_none hb 5 (by decide) (by decide) (by decide)]
+      simp [canonical]
+
+/-- A command `spelled` gives is the command of the tokens the packed text unpacks to. -/
+theorem spelled_sound {packed : String} {c : Command} (h : spelled packed = some c) :
+    unpack packed = some (lexemesOf c) := by
+  rw [(spelled_iff packed c).mp h, ← pack_lexemesOf, unpack_pack]
+
+theorem decodeObject_lexemesOf (c : Command) : decodeObject (lexemesOf c) = .ok c := by
+  rw [decodeObject, lexemesOf, object_objectLexemes, scalars_lexFields]
+  exact decodeMembers_fields c
+
+/-- `decode` decides on the tokens a packed text unpacks to, and refuses a text that no list of
+tokens packs to as no JSON. -/
+theorem decode_eq (packed : String) :
+    decode packed =
+      match unpack packed with
+      | some lexemes => decodeObject lexemes
+      | none => .error .notJson := by
+  unfold decode
+  cases h : spelled packed with
+  | none => rfl
+  | some c =>
+    simp only [spelled_sound h]
+    exact (decodeObject_lexemesOf c).symm
+
+/-- `spelled` reads the packed tokens of the JSON text that spells a command. -/
+theorem spelled_lexemesOf (c : Command) : spelled (pack (lexemesOf c)) = some c :=
+  (spelled_iff _ c).mpr (pack_lexemesOf c)
 
 /-- The tokens of the JSON text that spells a command decode to it. -/
-theorem decode_encode (c : Command) : decode (encode (lexemesOf c)) = .ok c := by
-  rw [decode_eq, lexemes_encode, decodeObject, lexemesOf, object_objectLexemes, scalars_lexFields]
-  exact decodeMembers_fields c
+theorem decode_encode (c : Command) : decode (pack (lexemesOf c)) = .ok c := by
+  rw [decode_eq, unpack_pack]
+  exact decodeObject_lexemesOf c
 
 theorem lookup_mem {k : String} {v : Scalar} :
     ∀ {ms : List (String × Scalar)}, ms.lookup k = some v → (k, v) ∈ ms
@@ -330,38 +422,74 @@ theorem decodeMembers_ok_iff (ms : List (String × Scalar)) (c : Command) :
       subst h1
       rfl
 
-/-- `decode` accepts, as the command `c`, exactly the tokens of an object whose members are the
-fields of `c` in some order. -/
-theorem decode_ok_iff (tokens : Tokens) (c : Command) :
-    decode tokens = .ok c ↔
-      ∃ ms, object tokens.lexemes = some ms ∧ ms.length = (fields c).length ∧ ∀ m ∈ fields c, m ∈ ms := by
-  rw [decode_eq]
-  unfold decodeObject
-  cases h : object tokens.lexemes with
-  | none => simp
-  | some ms => simp [decodeMembers_ok_iff]
+theorem decodeMembers_ne_notJson (ms : List (String × Scalar)) :
+    decodeMembers ms ≠ .error .notJson := by
+  unfold decodeMembers
+  repeat' split
+  all_goals simp
 
-/-- `decode` decides on the members `object` gives, and refuses tokens without members. -/
-theorem decode_spec (tokens : Tokens) :
-    decode tokens =
-      match object tokens.lexemes with
-      | some ms => decodeMembers ms
-      | none => .error .notCommand :=
-  decode_eq tokens
+/-- `decode` accepts, as the command `c`, exactly the packed tokens of an object whose members are
+the fields of `c` in some order. -/
+theorem decode_ok_iff (packed : String) (c : Command) :
+    decode packed = .ok c ↔
+      ∃ lexemes ms, unpack packed = some lexemes ∧ object lexemes = some ms ∧
+        ms.length = (fields c).length ∧ ∀ m ∈ fields c, m ∈ ms := by
+  rw [decode_eq]
+  cases hu : unpack packed with
+  | none => simp
+  | some lexemes =>
+    simp only [decodeObject]
+    cases h : object lexemes with
+    | none => simp [h]
+    | some ms => simp [h, decodeMembers_ok_iff]
+
+/-- `decode` decides on the members `object` gives for the tokens a packed text unpacks to,
+refuses tokens without members as no command and a text that no list of tokens packs to as no
+JSON. -/
+theorem decode_spec (packed : String) :
+    decode packed =
+      match unpack packed with
+      | some lexemes =>
+        match object lexemes with
+        | some ms => decodeMembers ms
+        | none => .error .notCommand
+      | none => .error .notJson := decode_eq packed
+
+/-- A text that no list of tokens packs to is refused as no JSON. -/
+theorem decode_malformed {packed : String} (h : unpack packed = none) :
+    decode packed = .error .notJson := by
+  rw [decode_spec, h]
+
+/-- `notJson` is the refusal of the texts that no list of tokens packs to, and of no other. -/
+theorem decode_notJson_iff (packed : String) :
+    decode packed = .error .notJson ↔ ∀ lexemes, packed ≠ pack lexemes := by
+  rw [decode_spec]
+  constructor
+  · intro h lexemes hp
+    rw [hp, unpack_pack] at h
+    simp only at h
+    split at h
+    · exact absurd h (decodeMembers_ne_notJson _)
+    · cases h
+  · intro h
+    cases hu : unpack packed with
+    | none => rfl
+    | some lexemes => exact absurd (unpack_some hu) (h lexemes)
 
 /-- Tokens that are not those of an object whose values are values by themselves are no command. -/
-theorem decode_not_object {tokens : Tokens} (h : object tokens.lexemes = none) :
-    decode tokens = .error .notCommand := by
-  simp [decode_eq, decodeObject, h]
+theorem decode_not_object {lexemes : List Lexeme} (h : object lexemes = none) :
+    decode (pack lexemes) = .error .notCommand := by
+  rw [decode_spec, unpack_pack]
+  simp [h]
 
-/-- The tokens of an object decode as its members. -/
+/-- The packed tokens of an object decode as its members. -/
 theorem decode_object (ms : List (String × Lexeme)) :
-    decode (encode (objectLexemes ms)) =
+    decode (pack (objectLexemes ms)) =
       match scalars ms with
       | some xs => decodeMembers xs
       | none => .error .notCommand := by
-  rw [decode_eq, lexemes_encode, decodeObject, object_objectLexemes]
-  cases scalars ms <;> rfl
+  rw [decode_spec, unpack_pack]
+  simp only [object_objectLexemes]
 
 /-- An object without the member `cmd` is refused as that, and no other. -/
 theorem decodeMembers_missingCmd_iff (ms : List (String × Scalar)) :
@@ -432,6 +560,7 @@ theorem decodeMembers_badArg_iff (ms : List (String × Scalar)) :
 theorem refusalMessage_spec (e : Refusal) :
     (refusalMessage e).toList =
       match e with
+      | .notJson => "body is not JSON".toList
       | .notCommand => "not a calculator command".toList
       | .missingCmd => "missing field `cmd`".toList
       | .badValue => "`value` must be an integer below 2^64".toList
@@ -449,13 +578,13 @@ theorem request_expired {exp now : UInt64} (h : exp < now) (tenant user : UInt64
 its tokens decode to, for the principal the token claims, or 400 with the message of
 the refusal. -/
 theorem request_json {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64)
-    (tokens : Tokens) :
-    request tenant user exp now (.json tokens) =
-      match decode tokens with
+    (packed : String) :
+    request tenant user exp now (.json packed) =
+      match decode packed with
       | .ok cmd => .ok ⟨⟨tenant, user⟩, cmd⟩
       | .error e => .error (Http.refuse 400 (refusalMessage e)) := by
   simp only [request, Http.admit_json h]
-  cases decode tokens <;> rfl
+  cases decode packed <;> rfl
 
 /-- A request with a token that has not expired and a body without tokens. -/
 theorem request_not_json {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64) :
@@ -471,7 +600,7 @@ value that spells the command `c` gives the engine `c` for the principal of the 
 user. -/
 theorem request_encode {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64)
     (c : Command) :
-    request tenant user exp now (.json (encode (lexemesOf c))) = .ok ⟨⟨tenant, user⟩, c⟩ := by
+    request tenant user exp now (.json (pack (lexemesOf c))) = .ok ⟨⟨tenant, user⟩, c⟩ := by
   rw [request_json h, decode_encode c]
 
 theorem request_actor_run (tenant user exp now : UInt64) (body : Http.Body) :
@@ -505,9 +634,9 @@ theorem request_refusal {tenant user exp now : UInt64} {body : Http.Body} {r : H
     cases h
     exact ⟨by simp [Http.refuse_status], _, Http.refuse_body _ _⟩
   · cases body with
-    | json tokens =>
+    | json packed =>
       rw [request_json he] at h
-      cases hd : decode tokens with
+      cases hd : decode packed with
       | ok cmd => simp [hd] at h
       | error e =>
         simp only [hd, Except.error.injEq] at h

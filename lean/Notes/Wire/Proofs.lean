@@ -209,40 +209,80 @@ theorem decodeMembers_ok_iff (ms : List (String × Scalar)) (c : Command) :
       simp [decodeMembers, hk, hl]
 
 /-- The tokens of the JSON text that spells a command decode to it. -/
-theorem decode_encode (c : Command) : decode (encode (lexemesOf c)) = .ok c := by
-  rw [decode, lexemes_encode, lexemesOf, object_objectLexemes, scalars_lexFields]
+theorem decode_encode (c : Command) : decode (pack (lexemesOf c)) = .ok c := by
+  simp only [decode, unpack_pack, lexemesOf, object_objectLexemes, scalars_lexFields]
   exact decodeMembers_fields c
 
-/-- `decode` accepts, as the command `c`, exactly the tokens of an object whose members are the
-fields of `c` in some order. -/
-theorem decode_ok_iff (tokens : Tokens) (c : Command) :
-    decode tokens = .ok c ↔
-      ∃ ms, object tokens.lexemes = some ms ∧ ms.length = (fields c).length ∧ ∀ m ∈ fields c, m ∈ ms := by
-  unfold decode
-  cases h : object tokens.lexemes with
-  | none => simp
-  | some ms => simp [decodeMembers_ok_iff]
+theorem decodeMembers_ne_notJson (ms : List (String × Scalar)) :
+    decodeMembers ms ≠ .error .notJson := by
+  unfold decodeMembers
+  repeat' split
+  all_goals simp
 
-/-- `decode` decides on the members `object` gives, and refuses tokens without members. -/
-theorem decode_spec (tokens : Tokens) :
-    decode tokens =
-      match object tokens.lexemes with
-      | some ms => decodeMembers ms
-      | none => .error .notCommand := rfl
+/-- `decode` accepts, as the command `c`, exactly the packed tokens of an object whose members are
+the fields of `c` in some order. -/
+theorem decode_ok_iff (packed : String) (c : Command) :
+    decode packed = .ok c ↔
+      ∃ lexemes ms, unpack packed = some lexemes ∧ object lexemes = some ms ∧
+        ms.length = (fields c).length ∧ ∀ m ∈ fields c, m ∈ ms := by
+  unfold decode
+  cases hu : unpack packed with
+  | none => simp
+  | some lexemes =>
+    skip
+    cases h : object lexemes with
+    | none => simp [h]
+    | some ms => simp [h, decodeMembers_ok_iff]
+
+/-- `decode` decides on the members `object` gives for the tokens a packed text unpacks to,
+refuses tokens without members as no command and a text that no list of tokens packs to as no
+JSON. -/
+theorem decode_spec (packed : String) :
+    decode packed =
+      match unpack packed with
+      | some lexemes =>
+        match object lexemes with
+        | some ms => decodeMembers ms
+        | none => .error .notCommand
+      | none => .error .notJson := by
+  unfold decode
+  cases unpack packed <;> rfl
+
+/-- A text that no list of tokens packs to is refused as no JSON. -/
+theorem decode_malformed {packed : String} (h : unpack packed = none) :
+    decode packed = .error .notJson := by
+  rw [decode_spec, h]
+
+/-- `notJson` is the refusal of the texts that no list of tokens packs to, and of no other. -/
+theorem decode_notJson_iff (packed : String) :
+    decode packed = .error .notJson ↔ ∀ lexemes, packed ≠ pack lexemes := by
+  rw [decode_spec]
+  constructor
+  · intro h lexemes hp
+    rw [hp, unpack_pack] at h
+    simp only at h
+    split at h
+    · exact absurd h (decodeMembers_ne_notJson _)
+    · cases h
+  · intro h
+    cases hu : unpack packed with
+    | none => rfl
+    | some lexemes => exact absurd (unpack_some hu) (h lexemes)
 
 /-- Tokens that are not those of an object whose values are values by themselves are no command. -/
-theorem decode_not_object {tokens : Tokens} (h : object tokens.lexemes = none) :
-    decode tokens = .error .notCommand := by
-  simp [decode, h]
+theorem decode_not_object {lexemes : List Lexeme} (h : object lexemes = none) :
+    decode (pack lexemes) = .error .notCommand := by
+  rw [decode_spec, unpack_pack]
+  simp [h]
 
-/-- The tokens of an object decode as its members. -/
+/-- The packed tokens of an object decode as its members. -/
 theorem decode_object (ms : List (String × Lexeme)) :
-    decode (encode (objectLexemes ms)) =
+    decode (pack (objectLexemes ms)) =
       match scalars ms with
       | some xs => decodeMembers xs
       | none => .error .notCommand := by
-  rw [decode, lexemes_encode, object_objectLexemes]
-  cases scalars ms <;> rfl
+  rw [decode_spec, unpack_pack]
+  simp only [object_objectLexemes]
 
 /-- An object without the member `cmd` is refused as that, and no other. -/
 theorem decodeMembers_missingCmd_iff (ms : List (String × Scalar)) :
@@ -266,6 +306,7 @@ theorem decodeMembers_notCommand_iff (ms : List (String × Scalar)) :
   | ok c => simp
   | error e =>
     cases e with
+    | notJson => exact absurd h (decodeMembers_ne_notJson ms)
     | notCommand => simp
     | missingCmd => simp
 
@@ -273,6 +314,7 @@ theorem decodeMembers_notCommand_iff (ms : List (String × Scalar)) :
 theorem refusalMessage_spec (e : Refusal) :
     (refusalMessage e).toList =
       match e with
+      | .notJson => "body is not JSON".toList
       | .notCommand => "not a notes command".toList
       | .missingCmd => "missing field `cmd`".toList := by
   cases e <;> rfl
@@ -288,13 +330,13 @@ theorem request_expired {exp now : UInt64} (h : exp < now) (tenant user : UInt64
 its tokens decode to, for the principal the token claims, or 400 with the message of
 the refusal. -/
 theorem request_json {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64)
-    (tokens : Tokens) :
-    request tenant user exp now (.json tokens) =
-      match decode tokens with
+    (packed : String) :
+    request tenant user exp now (.json packed) =
+      match decode packed with
       | .ok cmd => .ok ⟨⟨tenant, user⟩, cmd⟩
       | .error e => .error (Http.refuse 400 (refusalMessage e)) := by
   simp only [request, Http.admit_json h]
-  cases decode tokens <;> rfl
+  cases decode packed <;> rfl
 
 /-- A request with a token that has not expired and a body without tokens. -/
 theorem request_not_json {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64) :
@@ -310,7 +352,7 @@ value that spells the command `c` gives the engine `c` for the principal of the 
 user. -/
 theorem request_encode {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64)
     (c : Command) :
-    request tenant user exp now (.json (encode (lexemesOf c))) = .ok ⟨⟨tenant, user⟩, c⟩ := by
+    request tenant user exp now (.json (pack (lexemesOf c))) = .ok ⟨⟨tenant, user⟩, c⟩ := by
   rw [request_json h, decode_encode c]
 
 theorem request_actor_run (tenant user exp now : UInt64) (body : Http.Body) :
@@ -344,9 +386,9 @@ theorem request_refusal {tenant user exp now : UInt64} {body : Http.Body} {r : H
     cases h
     exact ⟨by simp [Http.refuse_status], _, Http.refuse_body _ _⟩
   · cases body with
-    | json tokens =>
+    | json packed =>
       rw [request_json he] at h
-      cases hd : decode tokens with
+      cases hd : decode packed with
       | ok cmd => simp [hd] at h
       | error e =>
         simp only [hd, Except.error.injEq] at h
@@ -518,14 +560,17 @@ theorem replyLexemes_replyToks (r : Reply) : replyLexemes r = (replyToks r).map 
 /-- The tokens of the text `encodeReply` writes for a reply are read back as the reply:
 `encodeReply r` is `Json.writeArray (replyToks r)`, and the JSON library that reads the stored
 bytes is trusted to hand over the tokens of the writer, a number as its decimal
-(`Lexeme.ofStrTok`), packed by `encode`. -/
+(`Lexeme.ofStrTok`), packed by `pack`. -/
 theorem decodeReply_encode (r : Reply) :
-    decodeReply (some (encode ((replyToks r).map Lexeme.ofStrTok))) = some r := by
-  rw [← replyLexemes_replyToks, decodeReply, lexemes_encode]
+    decodeReply (some (pack ((replyToks r).map Lexeme.ofStrTok))) = some r := by
+  simp only [← replyLexemes_replyToks, decodeReply, unpack_pack]
   exact replyOf_lexemes r
 
 /-- The reply of the tokens of a stored reply. -/
-theorem decodeReply_spec (tokens : Tokens) : decodeReply (some tokens) = replyOf tokens.lexemes := rfl
+theorem decodeReply_spec (packed : String) :
+    decodeReply (some packed) = (unpack packed).bind replyOf := by
+  simp only [decodeReply]
+  cases unpack packed <;> rfl
 
 /-- Stored bytes the JSON library refuses are read back as no reply. -/
 theorem decodeReply_none : decodeReply none = none := rfl

@@ -71,7 +71,7 @@ pub fn failure(error: &EngineError) -> Failure {
 /// The body as the generated functions take it.
 pub fn body_of(bytes: &[u8]) -> Body {
     match json_text::tokens(bytes) {
-        Some(tokens) => Body::Json { tokens },
+        Some(packed) => Body::Json { packed },
         None => Body::NotJson,
     }
 }

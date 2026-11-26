@@ -216,7 +216,7 @@ def main() -> None:
     stages: list[tuple[str, Callable[[], object]]] = [
         ("json.loads", lambda: json.loads(text)),
         ("tokens", lambda: tokens(request)),
-        ("Body_json", lambda: http_format.Body_json(tokens=read)),
+        ("Body_json", lambda: http_format.Body_json(packed=read)),
         ("parse and conversion", lambda: body_of(request)),
         ("generated request", lambda: wire.request(1, 42, 1, 0, body)),
         ("request.lean", lambda: wire.request.lean(1, 42, 1, 0, body)),

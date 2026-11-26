@@ -399,7 +399,7 @@ func (cellsApi) Request(tenant, user, _, _ uint64, body httpformat.Body) (actor,
 	if !ok {
 		return actor{}, nil, &httpformat.Response{Status: 400}
 	}
-	lexemes, _ := jsonlexemes.TokensLexemes(read.Tokens)
+	lexemes, _ := unpacked(read.Packed)
 	if len(lexemes) != 6 {
 		return actor{}, nil, &httpformat.Response{Status: 400}
 	}
@@ -852,4 +852,13 @@ func TestConcurrentEnginesAreSerial(t *testing.T) {
 			}
 		}
 	}
+}
+
+// unpacked is the tokens of a packed text, one by one.
+func unpacked(packed string) ([]jsonlexemes.Lexeme, error) {
+	lexemes, err := jsonlexemes.Unpack(packed)
+	if err != nil || lexemes == nil {
+		return nil, err
+	}
+	return *lexemes, nil
 }

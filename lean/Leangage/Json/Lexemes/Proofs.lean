@@ -7,12 +7,13 @@ import Leangage.Token.Proofs
 
 The JSON library of a server and its conversion are trusted to hand over the tokens of the text
 they read, in the order of the document: for a number the text of its token, for a string and a
-key their text, packed as `encode` packs them. For the bytes `Json.writeArray toks` writes, those
-are `encode (toks.map Lexeme.ofStrTok)`. The theorems of the
+key their text, packed into one text as `pack` packs them. For the bytes `Json.writeArray toks`
+writes, that text is `pack (toks.map Lexeme.ofStrTok)`. The theorems of the
 kernels' functions on the wire start from those tokens.
 
-- `lexemes_encode`: `Tokens.lexemes` gives back the tokens that `encode` packs, so the kernels'
-  functions read the tokens the conversion saw.
+- `unpack_pack`, `unpack_iff`: `unpack` gives back the tokens that `pack` packs into one text,
+  so the kernels' functions read the tokens the conversion saw, and it gives tokens for no other
+  text (`texts_packTexts`, `lengthOf_toDigits`).
 - `numberOf_iff`: a number token has the value `n` exactly when its text is the decimal of `n`,
   digits without a sign, a fraction, an exponent or a leading zero, so no text that spells 2^64
   or more has a value. `numberOf_decimalText` reads the decimal of every `UInt64`, and
@@ -37,6 +38,27 @@ theorem bytesOf_injective {s t : String} (h : bytesOf s = bytesOf t) : s = t := 
 
 theorem ofList_bytes (cs : List Char) : bytesOf (String.ofList cs) = cs.flatMap String.utf8EncodeChar := by
   simp [bytesOf, String.ofList, List.utf8Encode]
+
+theorem bytesOf_append (a b : String) : bytesOf (a ++ b) = bytesOf a ++ bytesOf b := by
+  simp [bytesOf, String.toByteArray_append, ByteArray.data_append]
+
+/-- A text starts with another exactly when its bytes start with the bytes of the other. -/
+theorem startsWith_iff (s p : String) :
+    s.startsWith p = true ↔ ∃ r, bytesOf s = bytesOf p ++ r := by
+  rw [String.startsWith_string_iff]
+  constructor
+  · rintro ⟨t, ht⟩
+    refine ⟨bytesOf (String.ofList t), ?_⟩
+    have hs : s = p ++ String.ofList t := by
+      rw [← String.toList_inj, String.toList_append, String.toList_ofList, ht]
+    conv => lhs; rw [hs]
+    exact bytesOf_append _ _
+  · rintro ⟨r, hr⟩
+    apply List.isPrefix_of_utf8Encode_append_eq_utf8Encode (ByteArray.mk r.toArray)
+    rw [String.utf8Encode_toList, String.utf8Encode_toList]
+    apply ByteArray.ext
+    rw [ByteArray.data_append, ← Array.toList_inj]
+    simpa [bytesOf] using hr.symm
 
 /-- The decimal digits of a number, as text. -/
 def decimalText (n : UInt64) : String :=
@@ -144,10 +166,17 @@ def textOf : Lexeme → Option String
   | .key s => some s
   | _ => none
 
-/-- The tokens as a server's conversion hands them over: the kinds as one text, and the texts of
-the numbers, the strings and the keys. -/
-def encode (lexemes : List Lexeme) : Tokens :=
-  ⟨String.ofList (lexemes.map kindOf), lexemes.filterMap textOf⟩
+/-- The texts as a server's conversion packs them: each text but the last after the count of its
+characters in decimal and a colon. -/
+def packTexts : List String → List Char
+  | [] => []
+  | [t] => t.toList
+  | t :: t' :: ts => Nat.toDigits 10 t.toList.length ++ ':' :: (t.toList ++ packTexts (t' :: ts))
+
+/-- The tokens as a server's conversion hands them over, in one text: the kinds of the tokens, a
+line feed, and the texts of the numbers, the strings and the keys. -/
+def pack (lexemes : List Lexeme) : String :=
+  String.ofList (lexemes.map kindOf ++ '\n' :: packTexts (lexemes.filterMap textOf))
 
 theorem zip_encode (lexemes : List Lexeme) : zip (lexemes.map kindOf) (lexemes.filterMap textOf) = lexemes := by
   induction lexemes with
@@ -157,12 +186,190 @@ theorem zip_encode (lexemes : List Lexeme) : zip (lexemes.map kindOf) (lexemes.f
     | bool b => cases b <;> simp [kindOf, textOf, zip, List.filterMap_cons, ih]
     | _ => simp [kindOf, textOf, zip, List.filterMap_cons, ih]
 
-/-- The tokens a conversion hands over are read back one by one. -/
-theorem lexemes_encode (lexemes : List Lexeme) : (encode lexemes).lexemes = lexemes := by
-  simp [encode, Tokens.lexemes, zip_encode]
+theorem splitAt_append {stop : Char} {a : List Char} (b : List Char) (h : stop ∉ a) :
+    splitAt stop (a ++ stop :: b) = some (a, b) := by
+  induction a with
+  | nil => simp [splitAt]
+  | cons c a ih =>
+    have hc : c ≠ stop := fun e => h (e ▸ List.mem_cons_self ..)
+    simp [splitAt, hc, ih (fun m => h (List.mem_cons_of_mem _ m))]
 
-/-- `Tokens.lexemes` is `zip` on the characters of the kinds. -/
-theorem lexemes_spec (tokens : Tokens) : tokens.lexemes = zip tokens.kinds.toList tokens.texts := rfl
+theorem splitAt_some {stop : Char} {l a b : List Char} (h : splitAt stop l = some (a, b)) :
+    l = a ++ stop :: b := by
+  induction l generalizing a with
+  | nil => simp [splitAt] at h
+  | cons c l ih =>
+    unfold splitAt at h
+    split at h
+    · rename_i hc
+      cases h
+      simp [hc]
+    · split at h
+      · rename_i before after hs
+        cases h
+        simp [ih hs]
+      · cases h
+
+theorem lengthOf_snoc (cs : List Char) (c : Char) :
+    lengthOf (cs ++ [c]) = lengthOf cs * 10 + (c.toNat - 48) := by
+  simp [lengthOf]
+
+/-- The decimal digits of a number spell it. -/
+theorem lengthOf_toDigits (n : Nat) : lengthOf (Nat.toDigits 10 n) = n := by
+  induction n using Nat.strongRecOn with
+  | ind n ih =>
+    have hd : ∀ d, d < 10 → (Nat.digitChar d).toNat - 48 = d := by decide
+    rw [Nat.toDigits_eq_ite (by decide)]
+    by_cases h : n < 10
+    · simp [h, lengthOf, hd n h]
+    · simp only [h, ↓reduceIte]
+      rw [lengthOf_snoc, ih (n / 10) (by omega), hd (n % 10) (Nat.mod_lt _ (by decide))]
+      omega
+
+theorem colon_not_mem_toDigits (n : Nat) : ':' ∉ Nat.toDigits 10 n := fun h => by
+  have := Nat.isDigit_of_mem_toDigits (by decide) (by decide) h
+  simp at this
+
+/-- `texts` reads back the texts that `packTexts` packs. -/
+theorem texts_packTexts (ts : List String) : texts ts.length (packTexts ts) = some ts := by
+  induction ts with
+  | nil => simp [texts, packTexts]
+  | cons t ts ih =>
+    cases ts with
+    | nil => simp [texts, packTexts]
+    | cons t' ts =>
+      simp only [List.length_cons, packTexts] at ih ⊢
+      rw [texts, splitAt_append _ (colon_not_mem_toDigits _)]
+      simp only [lengthOf_toDigits, List.length_append, Nat.le_add_right, and_self, ↓reduceIte,
+        List.drop_left', List.take_left']
+      simp [ih]
+
+theorem kindOf_ne_lf (lexeme : Lexeme) : kindOf lexeme ≠ '\n' := by
+  cases lexeme with
+  | bool b => cases b <;> decide
+  | _ => simp [kindOf]
+
+theorem isKind_kindOf (lexeme : Lexeme) : isKind (kindOf lexeme) = true := by
+  cases lexeme with
+  | bool b => cases b <;> decide
+  | _ => simp [kindOf, isKind]
+
+theorem countP_kinds (lexemes : List Lexeme) :
+    (lexemes.map kindOf).countP hasText = (lexemes.filterMap textOf).length := by
+  induction lexemes with
+  | nil => rfl
+  | cons l ls ih =>
+    cases l with
+    | bool b => cases b <;> simp [kindOf, textOf, hasText, List.filterMap_cons, ih]
+    | _ => simp [kindOf, textOf, hasText, List.filterMap_cons, ih]
+
+/-- The packed text of a list of tokens is read back as that list. -/
+theorem unpack_pack (lexemes : List Lexeme) : unpack (pack lexemes) = some lexemes := by
+  have hlf : '\n' ∉ lexemes.map kindOf := by
+    intro h
+    obtain ⟨l, _, hl⟩ := List.mem_map.mp h
+    exact kindOf_ne_lf l hl
+  have hk : (lexemes.map kindOf).all isKind = true := by
+    simp [List.all_eq_true, isKind_kindOf]
+  simp only [unpack, pack, String.toList_ofList, splitAt_append _ hlf, hk, ↓reduceIte, countP_kinds,
+    texts_packTexts, zip_encode]
+
+theorem texts_some (count : Nat) :
+    ∀ {cs : List Char} {ts : List String}, texts count cs = some ts →
+      cs = packTexts ts ∧ ts.length = count := by
+  induction count with
+  | zero =>
+    intro cs ts h
+    unfold texts at h
+    split at h
+    · cases h
+      rename_i he
+      exact ⟨by simpa [packTexts] using he, rfl⟩
+    · cases h
+  | succ n ih =>
+    intro cs ts h
+    cases n with
+    | zero =>
+      unfold texts at h
+      cases h
+      simp [packTexts]
+    | succ m =>
+      unfold texts at h
+      split at h
+      · cases h
+      · rename_i digits rest hs
+        simp only at h
+        split at h
+        · rename_i hc
+          split at h
+          · rename_i ts' ht
+            cases h
+            obtain ⟨h1, h2⟩ := ih ht
+            have hsplit := splitAt_some hs
+            cases ts' with
+            | nil => simp at h2
+            | cons t' ts'' =>
+              refine ⟨?_, by simp [h2]⟩
+              rw [packTexts, String.toList_ofList, List.length_take, Nat.min_eq_left hc.2, ← hc.1, ← h1,
+                List.take_append_drop, hsplit]
+          · cases h
+        · cases h
+
+theorem zip_kinds (kinds : List Char) :
+    ∀ ts : List String, kinds.all isKind = true → ts.length = kinds.countP hasText →
+      (zip kinds ts).map kindOf = kinds ∧ (zip kinds ts).filterMap textOf = ts := by
+  induction kinds with
+  | nil =>
+    intro ts _ hl
+    cases ts with
+    | nil => exact ⟨rfl, rfl⟩
+    | cons t ts => simp at hl
+  | cons c cs ih =>
+    intro ts hk hl
+    simp only [List.all_cons, Bool.and_eq_true] at hk
+    obtain ⟨hc, hcs⟩ := hk
+    simp only [isKind, Bool.or_eq_true, decide_eq_true_eq] at hc
+    rcases hc with ((((((((h | h) | h) | h) | h) | h) | h) | h) | h) | h <;> subst h
+    all_goals first
+      | (have := ih ts hcs (by simpa [hasText] using hl)
+         simp [zip, kindOf, textOf, List.filterMap_cons, this.1, this.2]; done)
+      | (cases ts with
+         | nil => simp [hasText] at hl
+         | cons t ts =>
+           have := ih ts hcs (by simpa [hasText] using hl)
+           simp [zip, kindOf, textOf, this.1, this.2])
+
+/-- A text that `unpack` gives tokens for is the packed text of those tokens. -/
+theorem unpack_some {packed : String} {lexemes : List Lexeme} (h : unpack packed = some lexemes) :
+    packed = pack lexemes := by
+  unfold unpack at h
+  split at h
+  · cases h
+  · rename_i kinds rest hs
+    split at h
+    · rename_i hk
+      split at h
+      · rename_i ts ht
+        cases h
+        obtain ⟨h1, h2⟩ := texts_some _ ht
+        obtain ⟨z1, z2⟩ := zip_kinds kinds ts hk h2
+        rw [pack, z1, z2, ← h1, ← splitAt_some hs, String.ofList_toList]
+      · cases h
+    · cases h
+
+/-- `unpack` gives the tokens `lexemes` exactly for the packed text of `lexemes`. -/
+theorem unpack_iff (packed : String) (lexemes : List Lexeme) :
+    unpack packed = some lexemes ↔ packed = pack lexemes :=
+  ⟨unpack_some, fun h => h ▸ unpack_pack lexemes⟩
+
+/-- A text for which `unpack` gives tokens is the packed text of those tokens. -/
+theorem unpack_spec (packed : String) :
+    match unpack packed with
+    | some lexemes => packed = pack lexemes
+    | none => True := by
+  cases h : unpack packed with
+  | none => trivial
+  | some lexemes => exact unpack_some h
 
 /-- The tokens of an object with the given members. -/
 def objectLexemes (ms : List (String × Lexeme)) : List Lexeme :=

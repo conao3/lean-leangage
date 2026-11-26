@@ -168,7 +168,10 @@ FILES = [
     ),
     (
         "go/leangage/json_text.go",
-        ["jsontext.NewDecoder(", "decoder.ReadToken()", "jsontext.AllowDuplicateNames(true)", "utf8.Valid("],
+        [
+            "jsontext.NewDecoder(", "decoder.ReadToken()", "decoder.ReadValue()",
+            "jsontext.AllowDuplicateNames(true)", "utf8.Valid(",
+        ],
         GO_TEXT,
         None,
     ),

@@ -41,8 +41,9 @@ fn item(lexeme: Lexeme) -> Item {
 type Case = (&'static str, Vec<u8>, Option<Vec<Item>>);
 
 fn read(bytes: &[u8]) -> Option<Vec<Item>> {
-    json_text::tokens(bytes).map(|tokens| {
-        json_lexemes::tokens_lexemes(tokens)
+    json_text::tokens(bytes).map(|packed| {
+        json_lexemes::unpack(packed)
+            .expect("a packed text")
             .into_iter()
             .map(item)
             .collect()

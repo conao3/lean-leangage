@@ -28,10 +28,6 @@ def numberText : Gen String := do
       "00", "", "a", "é"]
     (by simp)
 
-instance (priority := high) lexemesArbitraryString : Arbitrary String where
-  arbitrary := numberText
-
-instance (priority := high) lexemesSampleableString : SampleableExt String := SampleableExt.selfContained
 
 def lexemeGen : Gen Lexeme := do
   let text ← numberText
@@ -65,14 +61,18 @@ instance (priority := high) lexemesShrinkableList : Shrinkable (List Lexeme) := 
 
 instance (priority := high) lexemesSampleableList : SampleableExt (List Lexeme) := SampleableExt.selfContained
 
-instance (priority := high) lexemesArbitraryTokens : Arbitrary Tokens where
-  arbitrary := do
-    let tokens := encode (← lexemesGen)
-    Gen.elements [tokens, tokens, ⟨tokens.kinds, tokens.texts.drop 1⟩, ⟨tokens.kinds ++ "?", tokens.texts⟩] (by simp)
+def packedText : Gen String := do
+  let packed := pack (← lexemesGen)
+  Gen.elements
+    [packed, packed, packed, packed ++ "x", packed.dropEnd 1 |>.toString, "?" ++ packed, "0" ++ packed,
+      "{ks}\n3:cmdget", "{ks}\n03:cmdget", "{ks}\n9:cmdget", "{ks}\n:cmdget", "{ks}\ncmdget", "{}\nx",
+      "{}\n", "{}", "{q}\n", "s\n", "#\n7", "ss\n0:", "kk\n1:é1"]
+    (by simp)
 
-instance : Shrinkable Tokens := ⟨fun _ => []⟩
+instance (priority := high) lexemesArbitraryString : Arbitrary String where
+  arbitrary := Gen.frequency numberText [(1, numberText), (2, packedText)]
 
-instance (priority := high) lexemesSampleableTokens : SampleableExt Tokens := SampleableExt.selfContained
+instance (priority := high) lexemesSampleableString : SampleableExt String := SampleableExt.selfContained
 
 instance (priority := high) lexemesArbitraryMembers : Arbitrary (List (String × Lexeme)) where
   arbitrary := do
@@ -88,8 +88,10 @@ instance (priority := high) lexemesSampleableMembers : SampleableExt (List (Stri
 
 #assay Leangage.Json.Lexemes.zip using Leangage.Json.Lexemes.zip_encode
 
-#assay Leangage.Json.Lexemes.Tokens.lexemes
-  using Leangage.Json.Lexemes.lexemes_spec Leangage.Json.Lexemes.lexemes_encode
+#assay Leangage.Json.Lexemes.isKind Leangage.Json.Lexemes.hasText Leangage.Json.Lexemes.splitAt
+    Leangage.Json.Lexemes.lengthOf Leangage.Json.Lexemes.texts Leangage.Json.Lexemes.unpack
+  using Leangage.Json.Lexemes.unpack_pack Leangage.Json.Lexemes.unpack_spec
+    Leangage.Json.Lexemes.texts_packTexts Leangage.Json.Lexemes.lengthOf_toDigits
 
 #assay Leangage.Json.Lexemes.numberOf
   using Leangage.Json.Lexemes.numberOf_iff Leangage.Json.Lexemes.numberOf_decimalText
