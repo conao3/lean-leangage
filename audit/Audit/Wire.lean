@@ -11,7 +11,7 @@ a member removed, added, repeated or holding another value. The bodies are the t
 spellings of the commands and lists of tokens close to one. The numbers are few, so that two commands are often the same.
 -/
 
-open Plausible Calculator.Kernel Calculator.Wire Leangage Leangage.Json.Items
+open Plausible Calculator.Kernel Calculator.Wire Leangage Leangage.Json.Lexemes
 
 instance (priority := high) wireArbitraryUInt64 : Arbitrary UInt64 where
   arbitrary := Gen.elements [0, 1, 2, 9, 10, 99, 100, 18446744073709551615] (by decide)
@@ -36,62 +36,33 @@ instance : Shrinkable Command := ⟨fun _ => []⟩
 
 instance (priority := high) wireSampleableCommand : SampleableExt Command := SampleableExt.selfContained
 
-def otherItem : Gen Item :=
-  Gen.elements [.null, .bool true, .number, .num 7, .str [103, 101, 116], .str [112, 111, 119], .arrOpen,
-    .objClose] (by decide)
+def otherScalar : Gen Scalar :=
+  Gen.elements [.null, .bool true, .number, .num 7, .str "get", .str "pow"] (by decide)
 
-instance (priority := high) wireArbitraryItem : Arbitrary Item where
-  arbitrary := Gen.elements
-    [.null, .bool true, .bool false, .num 7, .number, .str [103], .key [103], .arrOpen, .arrClose,
-      .objOpen, .objClose] (by decide)
-
-instance : Shrinkable Item := ⟨fun _ => []⟩
-
-instance (priority := high) wireSampleableItem : SampleableExt Item := SampleableExt.selfContained
-
-def membersGen : Gen (List (List UInt8 × Item)) := do
+def membersGen : Gen (List (String × Scalar)) := do
   let ms := fields (← commandGen)
-  let other ← otherItem
+  let other ← otherScalar
   let i := (← Gen.choose Nat 0 2 (Nat.zero_le _)).val
   Gen.elements
     [ms, ms, ms.reverse, ms.drop 1 ++ ms.take 1, ms.drop 2 ++ ms.take 2, ms.drop 1, ms.take 1, ms.take 2,
-      ms ++ [([120], other)], ([120], other) :: ms, ms ++ ms.take 1, ms.take 1 ++ ms,
-      (ms.take i ++ ms.drop (i + 1)), ms.set i (((ms.getD i ([], .null)).1), other),
-      ms.set i ([67, 77, 68], (ms.getD i ([], .null)).2), []]
+      ms ++ [("x", other)], ("x", other) :: ms, ms ++ ms.take 1, ms.take 1 ++ ms,
+      (ms.take i ++ ms.drop (i + 1)), ms.set i (((ms.getD i ("", .null)).1), other),
+      ms.set i ("CMD", (ms.getD i ("", .null)).2), []]
     (by simp)
 
-instance (priority := high) wireArbitraryMembers : Arbitrary (List (List UInt8 × Item)) where
+instance (priority := high) wireArbitraryMembers : Arbitrary (List (String × Scalar)) where
   arbitrary := membersGen
 
-instance (priority := high) wireShrinkableMembers : Shrinkable (List (List UInt8 × Item)) :=
+instance (priority := high) wireShrinkableMembers : Shrinkable (List (String × Scalar)) :=
   ⟨fun _ => []⟩
 
-instance (priority := high) wireSampleableMembers : SampleableExt (List (List UInt8 × Item)) :=
+instance (priority := high) wireSampleableMembers : SampleableExt (List (String × Scalar)) :=
   SampleableExt.selfContained
 
-instance (priority := high) wireArbitraryItems : Arbitrary (List Item) where
-  arbitrary := do
-    let items := objectItems (← membersGen)
-    Gen.elements [items, items, items, items.drop 1, items.dropLast, .arrOpen :: items, items ++ [.null], []]
-      (by simp)
+instance (priority := high) wireArbitraryNames : Arbitrary String where
+  arbitrary := Gen.elements ["add", "sub", "mul", "div", "pow", "", "ad", "Add", "add "] (by decide)
 
-instance (priority := high) wireShrinkableItems : Shrinkable (List Item) := ⟨fun _ => []⟩
-
-instance (priority := high) wireSampleableItems : SampleableExt (List Item) := SampleableExt.selfContained
-
-instance (priority := high) wireArbitraryBytes : Arbitrary (List UInt8) where
-  arbitrary := Gen.elements
-    [[97, 100, 100], [115, 117, 98], [109, 117, 108], [100, 105, 118], [112, 111, 119], [], [97, 100],
-      [65, 100, 100], [97, 100, 100, 32]] (by decide)
-
-instance (priority := high) wireSampleableBytes : SampleableExt (List UInt8) := SampleableExt.selfContained
-
-def lexemesOf : Command → List Lexeme
-  | .set n => [.objOpen, .key "cmd", .str "set", .key "value", .number (toString n.toNat), .objClose]
-  | .apply op n =>
-    [.objOpen, .key "cmd", .str "apply", .key "op", .str (String.ofList (opName op)), .key "arg",
-      .number (toString n.toNat), .objClose]
-  | .get => [.objOpen, .key "cmd", .str "get", .objClose]
+instance (priority := high) wireSampleableNames : SampleableExt String := SampleableExt.selfContained
 
 def bodyLexemes : Gen (List Lexeme) := do
   let ls := lexemesOf (← commandGen)
@@ -119,9 +90,10 @@ deriving instance DecidableEq for Principal, Command, Call
     Calculator.Wire.decodeMembers_missingCmd_iff Calculator.Wire.decodeMembers_badValue_iff
     Calculator.Wire.decodeMembers_badArg_iff
 
-#assay Calculator.Wire.scalar Calculator.Wire.members Calculator.Wire.decodeItems
-  using Calculator.Wire.decodeItems_object Calculator.Wire.decodeItems_fields
-    Calculator.Wire.scalar_spec
+#assay Calculator.Wire.decodeObject using Calculator.Wire.decodeObject_spec
+
+#assay Calculator.Wire.spelled Calculator.Wire.decode
+  using Calculator.Wire.spelled_lexemesOf Calculator.Wire.decode_eq Calculator.Wire.decode_encode
 
 #assay Calculator.Wire.opNamed using Calculator.Wire.opNamed_spec
 

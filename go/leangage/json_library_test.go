@@ -7,44 +7,46 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/conao3/lean-leangage/go/leangage/jsonitems"
+	"github.com/conao3/lean-leangage/go/leangage/jsonlexemes"
 )
 
-func showLibraryItems(t *testing.T, body []byte) string {
+func showLibraryTokens(t *testing.T, body []byte) string {
 	t.Helper()
 	lexemes, ok := Lexemes(body)
 	if !ok {
 		return "none"
 	}
-	items, err := jsonitems.Items(lexemes)
-	if err != nil {
-		t.Fatal(err)
-	}
 	var words []string
-	for _, item := range items {
-		switch item := item.(type) {
-		case jsonitems.ItemNull:
+	for _, lexeme := range lexemes {
+		switch lexeme := lexeme.(type) {
+		case jsonlexemes.LexemeNull:
 			words = append(words, "n")
-		case jsonitems.ItemBool:
-			words = append(words, map[bool]string{true: "t", false: "f"}[item.B])
-		case jsonitems.ItemNum:
-			words = append(words, "u"+strconv.FormatUint(item.N, 10))
-		case jsonitems.ItemNumber:
-			words = append(words, "#")
-		case jsonitems.ItemStr:
-			words = append(words, "sx"+hex.EncodeToString(item.S))
-		case jsonitems.ItemKey:
-			words = append(words, "kx"+hex.EncodeToString(item.S))
-		case jsonitems.ItemArrOpen:
+		case jsonlexemes.LexemeBool:
+			words = append(words, map[bool]string{true: "t", false: "f"}[lexeme.B])
+		case jsonlexemes.LexemeNumber:
+			n, err := jsonlexemes.NumberOf(lexeme.Text)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if n == nil {
+				words = append(words, "#")
+			} else {
+				words = append(words, "u"+strconv.FormatUint(*n, 10))
+			}
+		case jsonlexemes.LexemeStr:
+			words = append(words, "sx"+hex.EncodeToString([]byte(lexeme.S)))
+		case jsonlexemes.LexemeKey:
+			words = append(words, "kx"+hex.EncodeToString([]byte(lexeme.S)))
+		case jsonlexemes.LexemeArrOpen:
 			words = append(words, "[")
-		case jsonitems.ItemArrClose:
+		case jsonlexemes.LexemeArrClose:
 			words = append(words, "]")
-		case jsonitems.ItemObjOpen:
+		case jsonlexemes.LexemeObjOpen:
 			words = append(words, "{")
-		case jsonitems.ItemObjClose:
+		case jsonlexemes.LexemeObjClose:
 			words = append(words, "}")
 		default:
-			t.Fatalf("bad item %#v", item)
+			t.Fatalf("bad token %#v", lexeme)
 		}
 	}
 	return strings.Join(words, " ")
@@ -56,7 +58,7 @@ func nested(depth int) (string, string) {
 }
 
 // What encoding/json and Lexemes do with the texts on which the JSON libraries of the servers'
-// languages differ, and with those at the edges of the grammar. The items are written as in
+// languages differ, and with those at the edges of the grammar. The tokens are written as in
 // `lean/RequestOracle.lean`, and `none` is a refused body. encoding/json reads the escape of a
 // surrogate outside a pair as U+FFFD, and refuses arrays nested deeper than 10,000.
 func TestEncodingJsonOnEdgeCases(t *testing.T) {
@@ -95,7 +97,7 @@ func TestEncodingJsonOnEdgeCases(t *testing.T) {
 		{"spaces only", " \n", "none"},
 	}
 	for _, c := range cases {
-		if got := showLibraryItems(t, []byte(c.body)); got != c.want {
+		if got := showLibraryTokens(t, []byte(c.body)); got != c.want {
 			if len(got) > 80 {
 				got = fmt.Sprintf("%s… (%d bytes)", got[:80], len(got))
 			}

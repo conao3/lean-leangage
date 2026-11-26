@@ -9,7 +9,7 @@ import subprocess
 from pathlib import Path
 
 from leanfran import Err, Ok
-from leangage import http_format, json_items
+from leangage import http_format, json_lexemes
 from leangage.http import body_of
 from leangage.json_text import lexemes
 from leangage_calculator import kernel, wire
@@ -45,29 +45,28 @@ def show(value: bytes | list[int]) -> str:
     return "x" + bytes(value).hex()
 
 
-def show_item(item: json_items.Item) -> str:
-    match item:
-        case json_items.Item_null():
+def show_token(token: json_lexemes.Lexeme) -> str:
+    match token:
+        case json_lexemes.Lexeme_null():
             return "n"
-        case json_items.Item_bool(b=b):
+        case json_lexemes.Lexeme_bool(b=b):
             return "t" if b else "f"
-        case json_items.Item_num(n=n):
-            return f"u{n}"
-        case json_items.Item_number():
-            return "#"
-        case json_items.Item_str(s=s):
-            return "s" + show(s)
-        case json_items.Item_key(s=s):
-            return "k" + show(s)
-        case json_items.Item_arrOpen():
+        case json_lexemes.Lexeme_number(text=text):
+            n = json_lexemes.numberOf(text)
+            return "#" if n is None else f"u{n}"
+        case json_lexemes.Lexeme_str(s=s):
+            return "s" + show(s.encode())
+        case json_lexemes.Lexeme_key(s=s):
+            return "k" + show(s.encode())
+        case json_lexemes.Lexeme_arrOpen():
             return "["
-        case json_items.Item_arrClose():
+        case json_lexemes.Lexeme_arrClose():
             return "]"
-        case json_items.Item_objOpen():
+        case json_lexemes.Lexeme_objOpen():
             return "{"
-        case json_items.Item_objClose():
+        case json_lexemes.Lexeme_objClose():
             return "}"
-    raise ValueError(item)
+    raise ValueError(token)
 
 
 def show_response(head: str, r: http_format.Response) -> str:
@@ -105,13 +104,11 @@ def show_auth(result: Ok | Err) -> str:
 
 def run(line: str) -> str:
     match line.split(" "):
-        case ["items", b]:
+        case ["tokens", b]:
             tokens = lexemes(data(b))
             if tokens is None:
                 return "none"
-            return " ".join(
-                ["items"] + [show_item(i) for i in json_items.items(tokens)]
-            )
+            return " ".join(["tokens"] + [show_token(t) for t in tokens])
         case ["auth", "-"]:
             return show_auth(http_format.authenticate(None))
         case ["auth", h]:

@@ -1,6 +1,6 @@
 import Leangage.Token
 import Leangage.Json
-import Leangage.Json.Items
+import Leangage.Json.Lexemes
 
 /-!
 # Requests and responses
@@ -24,7 +24,7 @@ deriving DecidableEq, Repr
 /-- The body of a request as the server read it. -/
 inductive Body where
   /-- The tokens of the JSON text of the body, in the order of the document. -/
-  | json (lexemes : List Json.Items.Lexeme)
+  | json (lexemes : List Json.Lexemes.Lexeme)
   /-- The JSON library refused the bytes. -/
   | notJson
   /-- The body is longer than the server reads. -/
@@ -76,12 +76,12 @@ def authenticate (header : Option String) : Except Response Bearer :=
       | none => .error (refuse 401 "malformed token")
       | some p => .ok ⟨p.tenant, p.user, p.exp, p.payload, p.sig⟩
 
-/-- The items of the body of a request whose token expires at `exp`, at the time `now`. -/
-def admit (exp now : UInt64) (body : Body) : Except Response (List Json.Items.Item) :=
+/-- The tokens of the body of a request whose token expires at `exp`, at the time `now`. -/
+def admit (exp now : UInt64) (body : Body) : Except Response (List Json.Lexemes.Lexeme) :=
   if exp < now then .error (refuse 401 "token expired")
   else
     match body with
-    | .json lexemes => .ok (Json.Items.items lexemes)
+    | .json lexemes => .ok lexemes
     | .notJson => .error (refuse 400 "body is not JSON")
     | .tooLarge => .error (refuse 413 "request body too large")
     | .unreadable => .error (refuse 400 "request body cannot be read")

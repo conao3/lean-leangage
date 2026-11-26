@@ -12,7 +12,7 @@ spellings of the commands and of the replies, and lists of tokens close to one. 
 often the same.
 -/
 
-open Plausible Notes.Kernel Notes.Wire Leangage Leangage.Json.Items
+open Plausible Notes.Kernel Notes.Wire Leangage Leangage.Json.Lexemes
 
 instance (priority := high) notesWireArbitraryUInt64 : Arbitrary UInt64 where
   arbitrary := Gen.elements [0, 1, 2, 9, 10, 99, 100, 18446744073709551615] (by decide)
@@ -44,78 +44,37 @@ instance : Shrinkable Command := ⟨fun _ => []⟩
 
 instance (priority := high) notesWireSampleableCommand : SampleableExt Command := SampleableExt.selfContained
 
-def otherItem : Gen Item :=
-  Gen.elements
-    [.null, .bool true, .number, .num 7, .str [108, 105, 115, 116, 95, 110, 111, 116, 101, 115], .str [255],
-      .str [112, 117, 116], .arrOpen, .objClose] (by decide)
+def otherScalar : Gen Scalar :=
+  Gen.elements [.null, .bool true, .number, .num 7, .str "list_notes", .str "é", .str "put"] (by decide)
 
-instance (priority := high) notesWireArbitraryItem : Arbitrary Item where
-  arbitrary := Gen.elements
-    [.null, .bool true, .bool false, .num 7, .number, .str [103], .key [103], .arrOpen, .arrClose,
-      .objOpen, .objClose] (by decide)
-
-instance : Shrinkable Item := ⟨fun _ => []⟩
-
-instance (priority := high) notesWireSampleableItem : SampleableExt Item := SampleableExt.selfContained
-
-def membersGen : Gen (List (List UInt8 × Item)) := do
+def membersGen : Gen (List (String × Scalar)) := do
   let ms := fields (← commandGen)
-  let other ← otherItem
+  let other ← otherScalar
   let i := (← Gen.choose Nat 0 3 (Nat.zero_le _)).val
   Gen.elements
     [ms, ms, ms.reverse, ms.drop 1 ++ ms.take 1, ms.drop 2 ++ ms.take 2, ms.drop 1, ms.take 1, ms.take 2,
-      ms ++ [([120], other)], ([120], other) :: ms, ms ++ ms.take 1, ms.take 1 ++ ms,
-      (ms.take i ++ ms.drop (i + 1)), ms.set i (((ms.getD i ([], .null)).1), other),
-      ms.set i ([67, 77, 68], (ms.getD i ([], .null)).2), []]
+      ms ++ [("x", other)], ("x", other) :: ms, ms ++ ms.take 1, ms.take 1 ++ ms,
+      (ms.take i ++ ms.drop (i + 1)), ms.set i (((ms.getD i ("", .null)).1), other),
+      ms.set i ("CMD", (ms.getD i ("", .null)).2), []]
     (by simp)
 
-instance (priority := high) notesWireArbitraryMembers : Arbitrary (List (List UInt8 × Item)) where
+instance (priority := high) notesWireArbitraryMembers : Arbitrary (List (String × Scalar)) where
   arbitrary := membersGen
 
-instance (priority := high) notesWireShrinkableMembers : Shrinkable (List (List UInt8 × Item)) :=
+instance (priority := high) notesWireShrinkableMembers : Shrinkable (List (String × Scalar)) :=
   ⟨fun _ => []⟩
 
-instance (priority := high) notesWireSampleableMembers : SampleableExt (List (List UInt8 × Item)) :=
+instance (priority := high) notesWireSampleableMembers : SampleableExt (List (String × Scalar)) :=
   SampleableExt.selfContained
-
-instance (priority := high) notesWireArbitraryItems : Arbitrary (List Item) where
-  arbitrary := do
-    let items := objectItems (← membersGen)
-    Gen.elements [items, items, items, items.drop 1, items.dropLast, .arrOpen :: items, items ++ [.null], []]
-      (by simp)
-
-instance (priority := high) notesWireShrinkableItems : Shrinkable (List Item) := ⟨fun _ => []⟩
-
-instance (priority := high) notesWireSampleableItems : SampleableExt (List Item) := SampleableExt.selfContained
-
-def flag (b : Bool) : Lexeme := .bool b
-
-def lexemesOf : Command → List Lexeme
-  | .addMember user admin =>
-    [.objOpen, .key "cmd", .str "add_member", .key "user", .number (toString user.toNat), .key "admin",
-      flag admin, .objClose]
-  | .removeMember user =>
-    [.objOpen, .key "cmd", .str "remove_member", .key "user", .number (toString user.toNat), .objClose]
-  | .putNote id body shared =>
-    [.objOpen, .key "cmd", .str "put_note", .key "id", .number (toString id.toNat), .key "body", .str body,
-      .key "shared", flag shared, .objClose]
-  | .deleteNote id => [.objOpen, .key "cmd", .str "delete_note", .key "id", .number (toString id.toNat), .objClose]
-  | .readNote id => [.objOpen, .key "cmd", .str "read_note", .key "id", .number (toString id.toNat), .objClose]
-  | .listNotes => [.objOpen, .key "cmd", .str "list_notes", .objClose]
-  | .listMembers => [.objOpen, .key "cmd", .str "list_members", .objClose]
-
-def noteLexemes (n : UInt64) (body : String) (b : Bool) : List Lexeme :=
-  [.objOpen, .key "body", .str body, .key "id", .number (toString n.toNat), .key "owner",
-    .number (toString n.toNat), .key "shared", flag b, .objClose]
 
 def bodyLexemes : Gen (List Lexeme) := do
   let ls := lexemesOf (← commandGen)
   let n ← (Arbitrary.arbitrary : Gen UInt64)
   let b ← Gen.chooseAny Bool
   let text ← noteText
-  let note := noteLexemes n text b
+  let note := noteLexemes ⟨n, n, b, text⟩
   let member : List Lexeme :=
-    [.objOpen, .key "admin", flag b, .key "user", .number (toString n.toNat), .objClose]
+    [.objOpen, .key "admin", Lexeme.bool b, .key "user", .number (toString n.toNat), .objClose]
   Gen.elements
     [ls, ls, ls, ls.drop 1, ls.dropLast, ls ++ ls, .arrOpen :: ls, [], [.objOpen, .objClose],
       [.objOpen, .key "cmd", .str "list_notes", .key "cmd", .str "list_notes", .objClose],
@@ -147,14 +106,11 @@ instance (priority := high) notesWireSampleableGuarded : SampleableExt (Authz.Gu
 
 deriving instance DecidableEq for Principal, Command, Call
 
-#assay Notes.Wire.textOf using Notes.Wire.textOf_bytesOf
-
 #assay Notes.Wire.decodeMembers
   using Notes.Wire.decodeMembers_fields Notes.Wire.decodeMembers_ok_iff
     Notes.Wire.decodeMembers_missingCmd_iff
 
-#assay Notes.Wire.scalar Notes.Wire.members Notes.Wire.decodeItems
-  using Notes.Wire.decodeItems_object Notes.Wire.decodeItems_fields Notes.Wire.scalar_spec
+#assay Notes.Wire.decode using Notes.Wire.decode_encode Notes.Wire.decode_spec
 
 #assay Notes.Wire.refusalMessage using Notes.Wire.refusalMessage_spec
 
@@ -166,10 +122,10 @@ deriving instance DecidableEq for Principal, Command, Call
     Notes.Wire.respond
   using Notes.Wire.respond_ok Notes.Wire.respond_error Notes.Wire.encodeReply_spec
 
-#assay Notes.Wire.noteOf Notes.Wire.notesItems Notes.Wire.membersItems Notes.Wire.decodeReplyItems
-  using Notes.Wire.decodeReplyItems_value Notes.Wire.noteOf_note
+#assay Notes.Wire.noteOf Notes.Wire.notesOf Notes.Wire.membersOf Notes.Wire.replyOf
+  using Notes.Wire.replyOf_lexemes Notes.Wire.noteOf_note
 
-#assay Notes.Wire.decodeReply using Notes.Wire.decodeReply_spec Notes.Wire.decodeReply_none
+#assay Notes.Wire.decodeReply using Notes.Wire.decodeReply_encode Notes.Wire.decodeReply_spec Notes.Wire.decodeReply_none
 
 #assay Notes.Wire.pushFlag Notes.Wire.fingerprint
   using Notes.Wire.fingerprint_spec Notes.Wire.fingerprint_injective

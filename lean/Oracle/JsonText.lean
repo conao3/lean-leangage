@@ -1,4 +1,4 @@
-import Leangage.Json.Items
+import Leangage.Json.Lexemes
 
 /-!
 # A JSON reader for the oracles
@@ -12,7 +12,22 @@ surrogate outside a pair is refused. Only the oracle executables import this mod
 
 namespace Oracle.JsonText
 
-open Leangage.Json.Items
+open Leangage.Json.Lexemes
+
+/-- One token of a JSON text as the loop reads it: a string and a key as their bytes. -/
+inductive Item where
+  | null
+  | bool (b : Bool)
+  | num (n : UInt64)
+  /-- A number that is not the decimal of a `UInt64`. -/
+  | number
+  | str (s : List UInt8)
+  | key (s : List UInt8)
+  | arrOpen
+  | arrClose
+  | objOpen
+  | objClose
+deriving DecidableEq, Repr
 
 /-- The place in the grammar after the bytes read so far. -/
 inductive At where

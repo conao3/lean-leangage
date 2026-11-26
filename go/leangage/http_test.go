@@ -11,7 +11,7 @@ import (
 	"github.com/conao3/leanfran-go"
 
 	"github.com/conao3/lean-leangage/go/leangage/httpformat"
-	"github.com/conao3/lean-leangage/go/leangage/jsonitems"
+	"github.com/conao3/lean-leangage/go/leangage/jsonlexemes"
 )
 
 // counterApi reads a body that is one number in decimal, written by hand.
@@ -23,7 +23,7 @@ func (counterApi) Request(tenant, user, expiry, now uint64, body httpformat.Body
 		return who{}, 0, &answer.Value
 	}
 	if read, ok := body.(httpformat.BodyJson); ok && len(read.Lexemes) == 1 {
-		if number, ok := read.Lexemes[0].(jsonitems.LexemeNumber); ok {
+		if number, ok := read.Lexemes[0].(jsonlexemes.LexemeNumber); ok {
 			if cmd, err := strconv.Atoi(number.Text); err == nil {
 				return who{tenant, user}, cmd, nil
 			}

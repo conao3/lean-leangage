@@ -5,6 +5,1110 @@ use ::leanfran::runtime as rt;
 use rt::Obj;
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Notes_Wire_notesOf(mut x_1: Obj, mut x_2: Obj) -> Obj {
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_13: Obj = rt::lean_box(0);
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: Obj = rt::lean_box(0);
+let mut x_16: Obj = rt::lean_box(0);
+let mut x_17: Obj = rt::lean_box(0);
+let mut x_18: Obj = rt::lean_box(0);
+let mut x_19: Obj = rt::lean_box(0);
+let mut x_20: Obj = rt::lean_box(0);
+let mut x_21: Obj = rt::lean_box(0);
+let mut x_22: Obj = rt::lean_box(0);
+let mut x_23: Obj = rt::lean_box(0);
+let mut x_24: Obj = rt::lean_box(0);
+let mut x_25: Obj = rt::lean_box(0);
+let mut x_26: Obj = rt::lean_box(0);
+let mut x_27: Obj = rt::lean_box(0);
+let mut x_28: Obj = rt::lean_box(0);
+let mut x_29: Obj = rt::lean_box(0);
+let mut x_30: Obj = rt::lean_box(0);
+let mut x_31: Obj = rt::lean_box(0);
+let mut x_32: Obj = rt::lean_box(0);
+let mut x_33: Obj = rt::lean_box(0);
+let mut x_34: Obj = rt::lean_box(0);
+let mut x_35: Obj = rt::lean_box(0);
+let mut x_36: Obj = rt::lean_box(0);
+let mut x_37: u8 = 0;
+let mut x_38: Obj = rt::lean_box(0);
+let mut x_40: Obj = rt::lean_box(0);
+let mut x_41: u8 = 0;
+let mut x_42: Obj = rt::lean_box(0);
+let mut x_43: Obj = rt::lean_box(0);
+let mut x_44: Obj = rt::lean_box(0);
+let mut x_46: Obj = rt::lean_box(0);
+let mut x_47: Obj = rt::lean_box(0);
+let mut x_48: Obj = rt::lean_box(0);
+let mut x_49: u8 = 0;
+let mut x_50: Obj = rt::lean_box(0);
+let mut x_51: Obj = rt::lean_box(0);
+let mut x_52: Obj = rt::lean_box(0);
+let mut x_53: Obj = rt::lean_box(0);
+let mut x_54: Obj = rt::lean_box(0);
+let mut x_55: Obj = rt::lean_box(0);
+let mut x_56: Obj = rt::lean_box(0);
+let mut x_57: Obj = rt::lean_box(0);
+let mut x_58: Obj = rt::lean_box(0);
+let mut x_59: Obj = rt::lean_box(0);
+let mut x_60: Obj = rt::lean_box(0);
+let mut x_61: Obj = rt::lean_box(0);
+let mut x_62: Obj = rt::lean_box(0);
+let mut x_63: Obj = rt::lean_box(0);
+let mut x_64: Obj = rt::lean_box(0);
+let mut x_65: Obj = rt::lean_box(0);
+let mut x_66: Obj = rt::lean_box(0);
+let mut x_67: Obj = rt::lean_box(0);
+let mut x_68: Obj = rt::lean_box(0);
+let mut x_69: Obj = rt::lean_box(0);
+let mut x_70: Obj = rt::lean_box(0);
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+match rt::lean_obj_tag(x_2) {
+1 => {
+x_3 = rt::lean_ctor_get(x_2, 0);
+match rt::lean_obj_tag(x_3) {
+6 => {
+x_4 = rt::lean_ctor_get(x_2, 1);
+rt::lean_inc(x_4);
+rt::lean_dec_ref(x_2);
+match rt::lean_obj_tag(x_4) {
+1 => {
+x_5 = rt::lean_ctor_get(x_4, 0);
+match rt::lean_obj_tag(x_5) {
+8 => {
+x_6 = rt::lean_ctor_get(x_4, 1);
+rt::lean_inc(x_6);
+rt::lean_dec_ref(x_4);
+match rt::lean_obj_tag(x_6) {
+0 => {
+x_7 = l_List_reverse___redArg(x_1);
+x_8 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_8, 0, x_7);
+return x_8;
+}
+_ => {
+rt::lean_dec(x_6);
+rt::lean_dec(x_1);
+x_9 = rt::lean_box(0);
+return x_9;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_4);
+rt::lean_dec(x_1);
+x_10 = rt::lean_box(0);
+return x_10;
+}
+}
+}
+_ => {
+rt::lean_dec(x_4);
+rt::lean_dec(x_1);
+x_11 = rt::lean_box(0);
+return x_11;
+}
+}
+}
+7 => {
+x_12 = rt::lean_ctor_get(x_2, 1);
+rt::lean_inc(x_12);
+rt::lean_dec_ref(x_2);
+match rt::lean_obj_tag(x_12) {
+1 => {
+x_13 = rt::lean_ctor_get(x_12, 0);
+rt::lean_inc(x_13);
+match rt::lean_obj_tag(x_13) {
+4 => {
+x_14 = rt::lean_ctor_get(x_12, 1);
+rt::lean_inc(x_14);
+rt::lean_dec_ref(x_12);
+match rt::lean_obj_tag(x_14) {
+1 => {
+x_15 = rt::lean_ctor_get(x_14, 0);
+rt::lean_inc(x_15);
+match rt::lean_obj_tag(x_15) {
+3 => {
+x_16 = rt::lean_ctor_get(x_14, 1);
+rt::lean_inc(x_16);
+rt::lean_dec_ref(x_14);
+match rt::lean_obj_tag(x_16) {
+1 => {
+x_17 = rt::lean_ctor_get(x_16, 0);
+rt::lean_inc(x_17);
+match rt::lean_obj_tag(x_17) {
+4 => {
+x_18 = rt::lean_ctor_get(x_16, 1);
+rt::lean_inc(x_18);
+rt::lean_dec_ref(x_16);
+match rt::lean_obj_tag(x_18) {
+1 => {
+x_19 = rt::lean_ctor_get(x_18, 0);
+rt::lean_inc(x_19);
+match rt::lean_obj_tag(x_19) {
+2 => {
+x_20 = rt::lean_ctor_get(x_18, 1);
+rt::lean_inc(x_20);
+rt::lean_dec_ref(x_18);
+match rt::lean_obj_tag(x_20) {
+1 => {
+x_21 = rt::lean_ctor_get(x_20, 0);
+rt::lean_inc(x_21);
+match rt::lean_obj_tag(x_21) {
+4 => {
+x_22 = rt::lean_ctor_get(x_20, 1);
+rt::lean_inc(x_22);
+rt::lean_dec_ref(x_20);
+match rt::lean_obj_tag(x_22) {
+1 => {
+x_23 = rt::lean_ctor_get(x_22, 0);
+rt::lean_inc(x_23);
+match rt::lean_obj_tag(x_23) {
+2 => {
+x_24 = rt::lean_ctor_get(x_22, 1);
+rt::lean_inc(x_24);
+rt::lean_dec_ref(x_22);
+match rt::lean_obj_tag(x_24) {
+1 => {
+x_25 = rt::lean_ctor_get(x_24, 0);
+rt::lean_inc(x_25);
+match rt::lean_obj_tag(x_25) {
+4 => {
+x_26 = rt::lean_ctor_get(x_24, 1);
+rt::lean_inc(x_26);
+rt::lean_dec_ref(x_24);
+match rt::lean_obj_tag(x_26) {
+1 => {
+x_27 = rt::lean_ctor_get(x_26, 0);
+rt::lean_inc(x_27);
+match rt::lean_obj_tag(x_27) {
+1 => {
+x_28 = rt::lean_ctor_get(x_26, 1);
+rt::lean_inc(x_28);
+rt::lean_dec_ref(x_26);
+match rt::lean_obj_tag(x_28) {
+1 => {
+x_29 = rt::lean_ctor_get(x_28, 0);
+match rt::lean_obj_tag(x_29) {
+8 => {
+x_30 = rt::lean_ctor_get(x_13, 0);
+rt::lean_inc_ref(x_30);
+rt::lean_dec_ref(x_13);
+x_31 = rt::lean_ctor_get(x_15, 0);
+rt::lean_inc_ref(x_31);
+rt::lean_dec_ref(x_15);
+x_32 = rt::lean_ctor_get(x_17, 0);
+rt::lean_inc_ref(x_32);
+rt::lean_dec_ref(x_17);
+x_33 = rt::lean_ctor_get(x_19, 0);
+rt::lean_inc_ref(x_33);
+rt::lean_dec_ref(x_19);
+x_34 = rt::lean_ctor_get(x_21, 0);
+rt::lean_inc_ref(x_34);
+rt::lean_dec_ref(x_21);
+x_35 = rt::lean_ctor_get(x_23, 0);
+rt::lean_inc_ref(x_35);
+rt::lean_dec_ref(x_23);
+x_36 = rt::lean_ctor_get(x_25, 0);
+rt::lean_inc_ref(x_36);
+rt::lean_dec_ref(x_25);
+x_37 = rt::lean_ctor_get_uint8(x_27, 0 * core::mem::size_of::<usize>() as u32 + 0);
+rt::lean_dec_ref(x_27);
+x_38 = rt::lean_ctor_get(x_28, 1);
+x_49 = (!rt::lean_is_exclusive(x_28)) as u8;
+match x_49 as u32 {
+0 => {
+x_50 = rt::lean_ctor_get(x_28, 0);
+rt::lean_dec(x_50);
+{ let t_0 = x_28; let t_1 = x_49; x_40 = t_0; x_41 = t_1; }
+__blk = 1; continue 'body;
+}
+1 => {
+rt::lean_inc(x_38);
+rt::lean_dec(x_28);
+{ let t_0 = rt::lean_box(0); let t_1 = x_49; x_40 = t_0; x_41 = t_1; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => {
+rt::lean_dec_ref(x_28);
+rt::lean_dec_ref(x_27);
+rt::lean_dec_ref(x_25);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_19);
+rt::lean_dec_ref(x_17);
+rt::lean_dec_ref(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_51 = rt::lean_box(0);
+return x_51;
+}
+}
+}
+_ => {
+rt::lean_dec(x_28);
+rt::lean_dec_ref(x_27);
+rt::lean_dec_ref(x_25);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_19);
+rt::lean_dec_ref(x_17);
+rt::lean_dec_ref(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_52 = rt::lean_box(0);
+return x_52;
+}
+}
+}
+_ => {
+rt::lean_dec(x_27);
+rt::lean_dec_ref(x_26);
+rt::lean_dec_ref(x_25);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_19);
+rt::lean_dec_ref(x_17);
+rt::lean_dec_ref(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_53 = rt::lean_box(0);
+return x_53;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_25);
+rt::lean_dec(x_26);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_19);
+rt::lean_dec_ref(x_17);
+rt::lean_dec_ref(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_54 = rt::lean_box(0);
+return x_54;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_24);
+rt::lean_dec(x_25);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_19);
+rt::lean_dec_ref(x_17);
+rt::lean_dec_ref(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_55 = rt::lean_box(0);
+return x_55;
+}
+}
+}
+_ => {
+rt::lean_dec(x_24);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_19);
+rt::lean_dec_ref(x_17);
+rt::lean_dec_ref(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_56 = rt::lean_box(0);
+return x_56;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_22);
+rt::lean_dec(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_19);
+rt::lean_dec_ref(x_17);
+rt::lean_dec_ref(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_57 = rt::lean_box(0);
+return x_57;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_21);
+rt::lean_dec(x_22);
+rt::lean_dec_ref(x_19);
+rt::lean_dec_ref(x_17);
+rt::lean_dec_ref(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_58 = rt::lean_box(0);
+return x_58;
+}
+}
+}
+_ => {
+rt::lean_dec(x_21);
+rt::lean_dec_ref(x_20);
+rt::lean_dec_ref(x_19);
+rt::lean_dec_ref(x_17);
+rt::lean_dec_ref(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_59 = rt::lean_box(0);
+return x_59;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_19);
+rt::lean_dec(x_20);
+rt::lean_dec_ref(x_17);
+rt::lean_dec_ref(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_60 = rt::lean_box(0);
+return x_60;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_18);
+rt::lean_dec(x_19);
+rt::lean_dec_ref(x_17);
+rt::lean_dec_ref(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_61 = rt::lean_box(0);
+return x_61;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_17);
+rt::lean_dec(x_18);
+rt::lean_dec_ref(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_62 = rt::lean_box(0);
+return x_62;
+}
+}
+}
+_ => {
+rt::lean_dec(x_17);
+rt::lean_dec_ref(x_16);
+rt::lean_dec_ref(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_63 = rt::lean_box(0);
+return x_63;
+}
+}
+}
+_ => {
+rt::lean_dec(x_16);
+rt::lean_dec_ref(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_64 = rt::lean_box(0);
+return x_64;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_14);
+rt::lean_dec(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_65 = rt::lean_box(0);
+return x_65;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_14);
+rt::lean_dec(x_1);
+x_66 = rt::lean_box(0);
+return x_66;
+}
+}
+}
+_ => {
+rt::lean_dec(x_13);
+rt::lean_dec_ref(x_12);
+rt::lean_dec(x_1);
+x_67 = rt::lean_box(0);
+return x_67;
+}
+}
+}
+_ => {
+rt::lean_dec(x_12);
+rt::lean_dec(x_1);
+x_68 = rt::lean_box(0);
+return x_68;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_2);
+rt::lean_dec(x_1);
+x_69 = rt::lean_box(0);
+return x_69;
+}
+}
+}
+_ => {
+rt::lean_dec(x_2);
+rt::lean_dec(x_1);
+x_70 = rt::lean_box(0);
+return x_70;
+}
+}
+}
+1 => {
+x_42 = l_Notes_Wire_noteOf(x_30, x_31, x_32, x_33, x_34, x_35, x_36, x_37);
+rt::lean_dec_ref(x_36);
+rt::lean_dec_ref(x_35);
+rt::lean_dec_ref(x_34);
+rt::lean_dec_ref(x_33);
+rt::lean_dec_ref(x_32);
+rt::lean_dec_ref(x_30);
+match rt::lean_obj_tag(x_42) {
+0 => {
+rt::lean_del_object(x_40);
+rt::lean_dec(x_38);
+rt::lean_dec(x_1);
+x_43 = rt::lean_box(0);
+return x_43;
+}
+1 => {
+x_44 = rt::lean_ctor_get(x_42, 0);
+rt::lean_inc(x_44);
+rt::lean_dec_ref(x_42);
+match x_41 as u32 {
+0 => {
+rt::lean_ctor_set(x_40, 1, x_1);
+rt::lean_ctor_set(x_40, 0, x_44);
+{ let t_0 = x_40; x_46 = t_0; }
+__blk = 2; continue 'body;
+}
+1 => {
+x_48 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_48, 0, x_44); rt::lean_ctor_set(x_48, 1, x_1);
+{ let t_0 = x_48; x_46 = t_0; }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+{ let t_0 = x_46; let t_1 = x_38; x_1 = t_0; x_2 = t_1; }
+__blk = 0; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_List_reverse___redArg(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+x_2 = rt::lean_box(0);
+x_3 = l_List_reverseAux___redArg(x_1, x_2);
+return x_3;
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_List_reverseAux___redArg(mut x_1: Obj, mut x_2: Obj) -> Obj {
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: u8 = 0;
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_12: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+match rt::lean_obj_tag(x_1) {
+0 => {
+return x_2;
+}
+1 => {
+x_3 = rt::lean_ctor_get(x_1, 0);
+x_4 = rt::lean_ctor_get(x_1, 1);
+x_12 = (!rt::lean_is_exclusive(x_1)) as u8;
+match x_12 as u32 {
+0 => {
+{ let t_0 = x_1; let t_1 = x_12; x_6 = t_0; x_7 = t_1; }
+__blk = 1; continue 'body;
+}
+1 => {
+rt::lean_inc(x_4);
+rt::lean_inc(x_3);
+rt::lean_dec(x_1);
+{ let t_0 = rt::lean_box(0); let t_1 = x_12; x_6 = t_0; x_7 = t_1; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+match x_7 as u32 {
+0 => {
+rt::lean_ctor_set(x_6, 1, x_2);
+{ let t_0 = x_6; x_9 = t_0; }
+__blk = 2; continue 'body;
+}
+1 => {
+x_11 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_11, 0, x_3); rt::lean_ctor_set(x_11, 1, x_2);
+{ let t_0 = x_11; x_9 = t_0; }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+{ let t_0 = x_4; let t_1 = x_9; x_1 = t_0; x_2 = t_1; }
+__blk = 0; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Notes_Wire_noteOf(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj, mut x_5: Obj, mut x_6: Obj, mut x_7: Obj, mut x_8: u8) -> Obj {
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: u8 = 0;
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_13: u8 = 0;
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: Obj = rt::lean_box(0);
+let mut x_16: u8 = 0;
+let mut x_17: Obj = rt::lean_box(0);
+let mut x_18: Obj = rt::lean_box(0);
+let mut x_19: u8 = 0;
+let mut x_20: Obj = rt::lean_box(0);
+let mut x_21: Obj = rt::lean_box(0);
+let mut x_22: Obj = rt::lean_box(0);
+let mut x_23: Obj = rt::lean_box(0);
+let mut x_24: Obj = rt::lean_box(0);
+let mut x_26: Obj = rt::lean_box(0);
+let mut x_27: u8 = 0;
+let mut x_28: Obj = rt::lean_box(0);
+let mut x_29: u64 = 0;
+let mut x_30: u64 = 0;
+let mut x_32: Obj = rt::lean_box(0);
+let mut x_33: Obj = rt::lean_box(0);
+let mut x_34: u8 = 0;
+let mut x_35: Obj = rt::lean_box(0);
+let mut x_36: Obj = rt::lean_box(0);
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+x_9 = l_Notes_Wire_decodeMembers___closed__13();
+x_10 = rt::lean_string_dec_eq(x_1, x_9);
+match x_10 as u32 {
+0 => {
+rt::lean_dec_ref(x_2);
+x_11 = rt::lean_box(0);
+return x_11;
+}
+1 => {
+x_12 = l_Notes_Wire_decodeMembers___closed__12();
+x_13 = rt::lean_string_dec_eq(x_3, x_12);
+match x_13 as u32 {
+0 => {
+rt::lean_dec_ref(x_2);
+x_14 = rt::lean_box(0);
+return x_14;
+}
+1 => {
+x_15 = l_Notes_Wire_noteToks___closed__2();
+x_16 = rt::lean_string_dec_eq(x_5, x_15);
+match x_16 as u32 {
+0 => {
+rt::lean_dec_ref(x_2);
+x_17 = rt::lean_box(0);
+return x_17;
+}
+1 => {
+x_18 = l_Notes_Wire_decodeMembers___closed__14();
+x_19 = rt::lean_string_dec_eq(x_7, x_18);
+match x_19 as u32 {
+0 => {
+rt::lean_dec_ref(x_2);
+x_20 = rt::lean_box(0);
+return x_20;
+}
+1 => {
+x_21 = l_Leangage_Json_Lexemes_numberOf(x_4);
+match rt::lean_obj_tag(x_21) {
+1 => {
+x_22 = rt::lean_ctor_get(x_21, 0);
+rt::lean_inc(x_22);
+rt::lean_dec_ref(x_21);
+x_23 = l_Leangage_Json_Lexemes_numberOf(x_6);
+match rt::lean_obj_tag(x_23) {
+1 => {
+x_24 = rt::lean_ctor_get(x_23, 0);
+x_34 = (!rt::lean_is_exclusive(x_23)) as u8;
+match x_34 as u32 {
+0 => {
+{ let t_0 = x_23; let t_1 = x_34; x_26 = t_0; x_27 = t_1; }
+__blk = 1; continue 'body;
+}
+1 => {
+rt::lean_inc(x_24);
+rt::lean_dec(x_23);
+{ let t_0 = rt::lean_box(0); let t_1 = x_34; x_26 = t_0; x_27 = t_1; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => {
+rt::lean_dec(x_23);
+rt::lean_dec(x_22);
+rt::lean_dec_ref(x_2);
+x_35 = rt::lean_box(0);
+return x_35;
+}
+}
+}
+_ => {
+rt::lean_dec(x_21);
+rt::lean_dec_ref(x_2);
+x_36 = rt::lean_box(0);
+return x_36;
+}
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_28 = rt::lean_alloc_ctor(0, 1, 0 * core::mem::size_of::<usize>() as u32 + 17); rt::lean_ctor_set(x_28, 0, x_2);
+x_29 = rt::lean_unbox_uint64(x_22);
+rt::lean_dec(x_22);
+rt::lean_ctor_set_uint64(x_28, 1 * core::mem::size_of::<usize>() as u32 + 0, x_29);
+x_30 = rt::lean_unbox_uint64(x_24);
+rt::lean_dec(x_24);
+rt::lean_ctor_set_uint64(x_28, 1 * core::mem::size_of::<usize>() as u32 + 8, x_30);
+rt::lean_ctor_set_uint8(x_28, 1 * core::mem::size_of::<usize>() as u32 + 16, x_8);
+match x_27 as u32 {
+0 => {
+rt::lean_ctor_set(x_26, 0, x_28);
+{ let t_0 = x_26; x_32 = t_0; }
+__blk = 2; continue 'body;
+}
+1 => {
+x_33 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_33, 0, x_28);
+{ let t_0 = x_33; x_32 = t_0; }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+return x_32;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Notes_Wire_decodeMembers___closed__13_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("body", 4, 4);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__13() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Notes_Wire_decodeMembers___closed__13_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Notes_Wire_decodeMembers___closed__12_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("id", 2, 2);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__12() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Notes_Wire_decodeMembers___closed__12_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Notes_Wire_noteToks___closed__2_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("owner", 5, 5);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Notes_Wire_noteToks___closed__2() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Notes_Wire_noteToks___closed__2_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Notes_Wire_decodeMembers___closed__14_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("shared", 6, 6);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__14() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Notes_Wire_decodeMembers___closed__14_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leangage_Json_Lexemes_numberOf(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+x_2 = rt::lean_unsigned_to_nat(0u32);
+x_3 = rt::lean_string_utf8_byte_size(x_1);
+x_4 = l_Leangage_Token_numberAt(x_1, x_2, x_3);
+return x_4;
+}
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leangage_Token_numberAt(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj) -> Obj {
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: u8 = 0;
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: u64 = 0;
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_12: u8 = 0;
+let mut x_13: Obj = rt::lean_box(0);
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: Obj = rt::lean_box(0);
+x_4 = rt::lean_nat_sub(x_3, x_2);
+x_5 = rt::lean_unsigned_to_nat(20u32);
+x_6 = rt::lean_nat_dec_le(x_4, x_5);
+rt::lean_dec(x_4);
+match x_6 as u32 {
+0 => {
+rt::lean_dec(x_3);
+rt::lean_dec(x_2);
+x_7 = rt::lean_box(0);
+return x_7;
+}
+1 => {
+x_8 = rt::lean_unsigned_to_nat(0u32);
+rt::lean_inc(x_2);
+x_9 = l_Leangage_Token_digitsFrom(x_1, x_2, x_3, x_8);
+x_10 = rt::lean_uint64_of_nat(x_9);
+rt::lean_dec(x_9);
+x_11 = rt::lean_uint64_to_nat(x_10);
+x_12 = l_Leangage_Token_isDecimal(x_11, x_1, x_2, x_3);
+match x_12 as u32 {
+0 => {
+x_13 = rt::lean_box(0);
+return x_13;
+}
+1 => {
+x_14 = rt::lean_box_uint64(x_10);
+x_15 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_15, 0, x_14);
+return x_15;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leangage_Token_digitsFrom(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj) -> Obj {
+let mut x_5: u8 = 0;
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: u8 = 0;
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_13: u8 = 0;
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: Obj = rt::lean_box(0);
+let mut x_16: Obj = rt::lean_box(0);
+let mut x_17: Obj = rt::lean_box(0);
+let mut x_18: Obj = rt::lean_box(0);
+let mut x_19: u8 = 0;
+let mut x_20: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+x_5 = rt::lean_nat_dec_lt(x_2, x_3);
+match x_5 as u32 {
+0 => {
+rt::lean_dec(x_2);
+return x_4;
+}
+1 => {
+x_6 = rt::lean_string_utf8_byte_size(x_1);
+x_7 = rt::lean_nat_dec_lt(x_2, x_6);
+match x_7 as u32 {
+0 => {
+rt::lean_dec(x_2);
+return x_4;
+}
+1 => {
+x_8 = rt::lean_unsigned_to_nat(1u32);
+x_9 = rt::lean_nat_add(x_2, x_8);
+x_10 = rt::lean_unsigned_to_nat(10u32);
+x_11 = rt::lean_nat_mul(x_4, x_10);
+rt::lean_dec(x_4);
+match x_7 as u32 {
+0 => {
+rt::lean_dec(x_2);
+x_19 = 0u8;
+{ let t_0 = x_19; x_13 = t_0; }
+__blk = 1; continue 'body;
+}
+1 => {
+x_20 = rt::lean_string_get_byte_fast(x_1, x_2);
+{ let t_0 = x_20; x_13 = t_0; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_14 = rt::lean_uint8_to_nat(x_13);
+x_15 = rt::lean_unsigned_to_nat(48u32);
+x_16 = rt::lean_nat_sub(x_14, x_15);
+x_17 = rt::lean_nat_add(x_11, x_16);
+rt::lean_dec(x_16);
+rt::lean_dec(x_11);
+{ let t_0 = x_1; let t_1 = x_9; let t_2 = x_3; let t_3 = x_17; x_1 = t_0; x_2 = t_1; x_3 = t_2; x_4 = t_3; }
+__blk = 0; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+
+
+
+
+
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leangage_Token_isDecimal(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj) -> u8 {
+let mut x_6: u8 = 0;
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: u8 = 0;
+let mut x_10: u8 = 0;
+let mut x_11: u8 = 0;
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_13: u8 = 0;
+let mut x_15: u8 = 0;
+let mut x_16: Obj = rt::lean_box(0);
+let mut x_17: Obj = rt::lean_box(0);
+let mut x_18: Obj = rt::lean_box(0);
+let mut x_19: u8 = 0;
+let mut x_20: u8 = 0;
+let mut x_21: Obj = rt::lean_box(0);
+let mut x_22: Obj = rt::lean_box(0);
+let mut x_23: Obj = rt::lean_box(0);
+let mut x_24: u8 = 0;
+let mut x_25: Obj = rt::lean_box(0);
+let mut x_26: Obj = rt::lean_box(0);
+let mut x_27: Obj = rt::lean_box(0);
+let mut x_28: u8 = 0;
+let mut x_29: u8 = 0;
+let mut x_30: u8 = 0;
+let mut x_31: Obj = rt::lean_box(0);
+let mut x_32: Obj = rt::lean_box(0);
+let mut x_33: u8 = 0;
+let mut x_34: Obj = rt::lean_box(0);
+let mut x_35: u8 = 0;
+let mut x_36: u8 = 0;
+let mut x_37: u8 = 0;
+let mut x_38: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+x_11 = rt::lean_nat_dec_le(x_4, x_3);
+match x_11 as u32 {
+0 => {
+x_12 = rt::lean_unsigned_to_nat(10u32);
+x_13 = rt::lean_nat_dec_lt(x_1, x_12);
+match x_13 as u32 {
+0 => {
+x_25 = rt::lean_unsigned_to_nat(1u32);
+x_26 = rt::lean_nat_sub(x_4, x_25);
+x_27 = rt::lean_string_utf8_byte_size(x_2);
+x_28 = rt::lean_nat_dec_lt(x_26, x_27);
+match x_28 as u32 {
+0 => {
+rt::lean_dec(x_26);
+x_29 = 0u8;
+{ let t_0 = x_29; x_15 = t_0; }
+__blk = 2; continue 'body;
+}
+1 => {
+x_30 = rt::lean_string_get_byte_fast(x_2, x_26);
+{ let t_0 = x_30; x_15 = t_0; }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_31 = rt::lean_unsigned_to_nat(1u32);
+x_32 = rt::lean_nat_add(x_3, x_31);
+x_33 = rt::lean_nat_dec_eq(x_4, x_32);
+rt::lean_dec(x_32);
+rt::lean_dec(x_4);
+match x_33 as u32 {
+0 => {
+rt::lean_dec(x_3);
+rt::lean_dec(x_1);
+return x_11;
+}
+1 => {
+x_34 = rt::lean_string_utf8_byte_size(x_2);
+x_35 = rt::lean_nat_dec_lt(x_3, x_34);
+match x_35 as u32 {
+0 => {
+rt::lean_dec(x_3);
+x_36 = 0u8;
+{ let t_0 = x_36; x_6 = t_0; }
+__blk = 1; continue 'body;
+}
+1 => {
+x_37 = rt::lean_string_get_byte_fast(x_2, x_3);
+{ let t_0 = x_37; x_6 = t_0; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+rt::lean_dec(x_4);
+rt::lean_dec(x_3);
+rt::lean_dec(x_1);
+x_38 = 0u8;
+return x_38;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_7 = rt::lean_unsigned_to_nat(48u32);
+x_8 = rt::lean_nat_add(x_1, x_7);
+rt::lean_dec(x_1);
+x_9 = rt::lean_uint8_of_nat(x_8);
+rt::lean_dec(x_8);
+x_10 = rt::lean_uint8_dec_eq(x_6, x_9);
+return x_10;
+}
+2 => {
+x_16 = rt::lean_nat_mod(x_1, x_12);
+x_17 = rt::lean_unsigned_to_nat(48u32);
+x_18 = rt::lean_nat_add(x_16, x_17);
+rt::lean_dec(x_16);
+x_19 = rt::lean_uint8_of_nat(x_18);
+rt::lean_dec(x_18);
+x_20 = rt::lean_uint8_dec_eq(x_15, x_19);
+match x_20 as u32 {
+0 => {
+rt::lean_dec(x_4);
+rt::lean_dec(x_3);
+rt::lean_dec(x_1);
+return x_13;
+}
+1 => {
+x_21 = rt::lean_nat_div(x_1, x_12);
+rt::lean_dec(x_1);
+x_22 = rt::lean_unsigned_to_nat(1u32);
+x_23 = rt::lean_nat_sub(x_4, x_22);
+rt::lean_dec(x_4);
+{ let t_0 = x_21; let t_1 = x_2; let t_2 = x_3; let t_3 = x_23; x_1 = t_0; x_2 = t_1; x_3 = t_2; x_4 = t_3; }
+__blk = 0; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+
+
+
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Notes_Wire_respond(mut x_1: Obj) -> Obj {
 let mut x_2: Obj = rt::lean_box(0);
 let mut x_3: Obj = rt::lean_box(0);
@@ -423,7 +1527,6 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 
 
-
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Leangage_Json_pushDecimal(mut x_1: Obj, mut x_2: Obj) -> Obj {
 let mut x_3: Obj = rt::lean_box(0);
@@ -471,11 +1574,6 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 }
 
-
-
-
-
-
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Leangage_Json_pushEscaped(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj) -> Obj {
 let mut x_4: Obj = rt::lean_box(0);
@@ -509,8 +1607,6 @@ _ => rt::lean_internal_panic_unreachable(),
 _ => rt::lean_internal_panic_unreachable(),
 } }
 }
-
-
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Leangage_Json_pushEscapedByte(mut x_1: Obj, mut x_2: u8) -> Obj {
@@ -790,8 +1886,6 @@ _ => rt::lean_internal_panic_unreachable(),
 
 
 
-
-
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Leangage_Token_hexDigit(mut x_1: Obj) -> u8 {
 let mut x_2: Obj = rt::lean_box(0);
@@ -1003,7 +2097,7 @@ x_3 = rt::lean_ctor_get(x_1, 0);
 x_4 = rt::lean_box(7);
 x_5 = l_Notes_Wire_replyToks___closed__7();
 x_6 = l_Notes_Wire_noteToks(x_3);
-x_7 = l_Notes_Wire_noteToks___closed__8();
+x_7 = l_Notes_Wire_noteToks___closed__5();
 x_8 = l_List_appendTR___redArg(x_6, x_7);
 x_9 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_9, 0, x_5); rt::lean_ctor_set(x_9, 1, x_8);
 x_10 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_10, 0, x_4); rt::lean_ctor_set(x_10, 1, x_9);
@@ -1082,7 +2176,7 @@ unsafe fn l_Notes_Wire_replyToks___closed__3_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: Obj = rt::lean_box(0);
 let mut x_3: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_noteToks___closed__8();
+x_1 = l_Notes_Wire_noteToks___closed__5();
 x_2 = l_Notes_Wire_replyToks___closed__2();
 x_3 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_3, 0, x_2); rt::lean_ctor_set(x_3, 1, x_1);
 return x_3;
@@ -1096,7 +2190,7 @@ pub(crate) unsafe fn l_Notes_Wire_replyToks___closed__3() -> Obj {
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_noteToks___closed__8_init() -> Obj {
+unsafe fn l_Notes_Wire_noteToks___closed__5_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: Obj = rt::lean_box(0);
 let mut x_3: Obj = rt::lean_box(0);
@@ -1106,10 +2200,10 @@ x_3 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); r
 return x_3;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_noteToks___closed__8() -> Obj {
+pub(crate) unsafe fn l_Notes_Wire_noteToks___closed__5() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_noteToks___closed__8_init();
+  let v = l_Notes_Wire_noteToks___closed__5_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
@@ -1220,19 +2314,19 @@ x_3 = rt::lean_ctor_get_uint64(x_1, 1 * core::mem::size_of::<usize>() as u32 + 8
 x_4 = rt::lean_ctor_get_uint8(x_1, 1 * core::mem::size_of::<usize>() as u32 + 16);
 x_5 = rt::lean_ctor_get(x_1, 0);
 x_6 = rt::lean_box(7);
-x_7 = l_Notes_Wire_noteToks___closed__1();
+x_7 = l_Notes_Wire_noteToks___closed__0();
 rt::lean_inc_ref(x_5);
 x_8 = rt::lean_alloc_ctor(3, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_8, 0, x_5);
-x_9 = l_Notes_Wire_noteToks___closed__3();
+x_9 = l_Notes_Wire_noteToks___closed__1();
 x_10 = rt::lean_alloc_ctor(2, 0, 0 * core::mem::size_of::<usize>() as u32 + 8);
 rt::lean_ctor_set_uint64(x_10, 0 * core::mem::size_of::<usize>() as u32 + 0, x_2);
-x_11 = l_Notes_Wire_noteToks___closed__5();
+x_11 = l_Notes_Wire_noteToks___closed__3();
 x_12 = rt::lean_alloc_ctor(2, 0, 0 * core::mem::size_of::<usize>() as u32 + 8);
 rt::lean_ctor_set_uint64(x_12, 0 * core::mem::size_of::<usize>() as u32 + 0, x_3);
-x_13 = l_Notes_Wire_noteToks___closed__7();
+x_13 = l_Notes_Wire_noteToks___closed__4();
 x_14 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 1);
 rt::lean_ctor_set_uint8(x_14, 0 * core::mem::size_of::<usize>() as u32 + 0, x_4);
-x_15 = l_Notes_Wire_noteToks___closed__8();
+x_15 = l_Notes_Wire_noteToks___closed__5();
 x_16 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_16, 0, x_14); rt::lean_ctor_set(x_16, 1, x_15);
 x_17 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_17, 0, x_13); rt::lean_ctor_set(x_17, 1, x_16);
 x_18 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_18, 0, x_12); rt::lean_ctor_set(x_18, 1, x_17);
@@ -1246,10 +2340,26 @@ return x_24;
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Notes_Wire_noteToks___closed__0_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: Obj = rt::lean_box(0);
+x_1 = l_Notes_Wire_decodeMembers___closed__13();
+x_2 = rt::lean_alloc_ctor(4, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_2, 0, x_1);
+return x_2;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Notes_Wire_noteToks___closed__0() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Notes_Wire_noteToks___closed__0_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
 unsafe fn l_Notes_Wire_noteToks___closed__1_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_noteToks___closed__0();
+x_1 = l_Notes_Wire_decodeMembers___closed__12();
 x_2 = rt::lean_alloc_ctor(4, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_2, 0, x_1);
 return x_2;
 }
@@ -1258,20 +2368,6 @@ pub(crate) unsafe fn l_Notes_Wire_noteToks___closed__1() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
   let v = l_Notes_Wire_noteToks___closed__1_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_noteToks___closed__0_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-x_1 = rt::lean_mk_string_unchecked("body", 4, 4);
-return x_1;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_noteToks___closed__0() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_noteToks___closed__0_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
@@ -1292,76 +2388,18 @@ pub(crate) unsafe fn l_Notes_Wire_noteToks___closed__3() -> Obj {
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_noteToks___closed__2_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-x_1 = rt::lean_mk_string_unchecked("id", 2, 2);
-return x_1;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_noteToks___closed__2() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_noteToks___closed__2_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_noteToks___closed__5_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_noteToks___closed__4();
-x_2 = rt::lean_alloc_ctor(4, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_2, 0, x_1);
-return x_2;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_noteToks___closed__5() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_noteToks___closed__5_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
 unsafe fn l_Notes_Wire_noteToks___closed__4_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
-x_1 = rt::lean_mk_string_unchecked("owner", 5, 5);
-return x_1;
+let mut x_2: Obj = rt::lean_box(0);
+x_1 = l_Notes_Wire_decodeMembers___closed__14();
+x_2 = rt::lean_alloc_ctor(4, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_2, 0, x_1);
+return x_2;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
 pub(crate) unsafe fn l_Notes_Wire_noteToks___closed__4() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
   let v = l_Notes_Wire_noteToks___closed__4_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_noteToks___closed__7_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_noteToks___closed__6();
-x_2 = rt::lean_alloc_ctor(4, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_2, 0, x_1);
-return x_2;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_noteToks___closed__7() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_noteToks___closed__7_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_noteToks___closed__6_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-x_1 = rt::lean_mk_string_unchecked("shared", 6, 6);
-return x_1;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_noteToks___closed__6() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_noteToks___closed__6_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
@@ -1372,77 +2410,6 @@ let mut x_4: Obj = rt::lean_box(0);
 x_3 = l_List_reverse___redArg(x_1);
 x_4 = l_List_reverseAux___redArg(x_3, x_2);
 return x_4;
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_List_reverse___redArg(mut x_1: Obj) -> Obj {
-let mut x_2: Obj = rt::lean_box(0);
-let mut x_3: Obj = rt::lean_box(0);
-x_2 = rt::lean_box(0);
-x_3 = l_List_reverseAux___redArg(x_1, x_2);
-return x_3;
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_List_reverseAux___redArg(mut x_1: Obj, mut x_2: Obj) -> Obj {
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-let mut x_6: Obj = rt::lean_box(0);
-let mut x_7: u8 = 0;
-let mut x_9: Obj = rt::lean_box(0);
-let mut x_10: Obj = rt::lean_box(0);
-let mut x_11: Obj = rt::lean_box(0);
-let mut x_12: u8 = 0;
-let mut __blk: u32 = 0;
-'body: loop { match __blk {
-0 => {
-match rt::lean_obj_tag(x_1) {
-0 => {
-return x_2;
-}
-1 => {
-x_3 = rt::lean_ctor_get(x_1, 0);
-x_4 = rt::lean_ctor_get(x_1, 1);
-x_12 = (!rt::lean_is_exclusive(x_1)) as u8;
-match x_12 as u32 {
-0 => {
-{ let t_0 = x_1; let t_1 = x_12; x_6 = t_0; x_7 = t_1; }
-__blk = 1; continue 'body;
-}
-1 => {
-rt::lean_inc(x_4);
-rt::lean_inc(x_3);
-rt::lean_dec(x_1);
-{ let t_0 = rt::lean_box(0); let t_1 = x_12; x_6 = t_0; x_7 = t_1; }
-__blk = 1; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-1 => {
-match x_7 as u32 {
-0 => {
-rt::lean_ctor_set(x_6, 1, x_2);
-{ let t_0 = x_6; x_9 = t_0; }
-__blk = 2; continue 'body;
-}
-1 => {
-x_11 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_11, 0, x_3); rt::lean_ctor_set(x_11, 1, x_2);
-{ let t_0 = x_11; x_9 = t_0; }
-__blk = 2; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-2 => {
-{ let t_0 = x_4; let t_1 = x_9; x_1 = t_0; x_2 = t_1; }
-__blk = 0; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-} }
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
@@ -1559,7 +2526,7 @@ unsafe fn l_Notes_Wire_replyToks___closed__11_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: Obj = rt::lean_box(0);
 let mut x_3: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_noteToks___closed__8();
+x_1 = l_Notes_Wire_noteToks___closed__5();
 x_2 = rt::lean_box(6);
 x_3 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_3, 0, x_2); rt::lean_ctor_set(x_3, 1, x_1);
 return x_3;
@@ -1651,13 +2618,13 @@ let mut x_14: Obj = rt::lean_box(0);
 x_2 = rt::lean_ctor_get_uint64(x_1, 0 * core::mem::size_of::<usize>() as u32 + 0);
 x_3 = rt::lean_ctor_get_uint8(x_1, 0 * core::mem::size_of::<usize>() as u32 + 8);
 x_4 = rt::lean_box(7);
-x_5 = l_Notes_Wire_memberToks___closed__1();
+x_5 = l_Notes_Wire_memberToks___closed__0();
 x_6 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 1);
 rt::lean_ctor_set_uint8(x_6, 0 * core::mem::size_of::<usize>() as u32 + 0, x_3);
-x_7 = l_Notes_Wire_memberToks___closed__3();
+x_7 = l_Notes_Wire_memberToks___closed__1();
 x_8 = rt::lean_alloc_ctor(2, 0, 0 * core::mem::size_of::<usize>() as u32 + 8);
 rt::lean_ctor_set_uint64(x_8, 0 * core::mem::size_of::<usize>() as u32 + 0, x_2);
-x_9 = l_Notes_Wire_noteToks___closed__8();
+x_9 = l_Notes_Wire_noteToks___closed__5();
 x_10 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_10, 0, x_8); rt::lean_ctor_set(x_10, 1, x_9);
 x_11 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_11, 0, x_7); rt::lean_ctor_set(x_11, 1, x_10);
 x_12 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_12, 0, x_6); rt::lean_ctor_set(x_12, 1, x_11);
@@ -1667,10 +2634,40 @@ return x_14;
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Notes_Wire_memberToks___closed__0_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: Obj = rt::lean_box(0);
+x_1 = l_Notes_Wire_decodeMembers___closed__16();
+x_2 = rt::lean_alloc_ctor(4, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_2, 0, x_1);
+return x_2;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Notes_Wire_memberToks___closed__0() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Notes_Wire_memberToks___closed__0_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Notes_Wire_decodeMembers___closed__16_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("admin", 5, 5);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__16() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Notes_Wire_decodeMembers___closed__16_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
 unsafe fn l_Notes_Wire_memberToks___closed__1_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_memberToks___closed__0();
+x_1 = l_Notes_Wire_decodeMembers___closed__15();
 x_2 = rt::lean_alloc_ctor(4, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_2, 0, x_1);
 return x_2;
 }
@@ -1683,46 +2680,16 @@ pub(crate) unsafe fn l_Notes_Wire_memberToks___closed__1() -> Obj {
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_memberToks___closed__0_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-x_1 = rt::lean_mk_string_unchecked("admin", 5, 5);
-return x_1;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_memberToks___closed__0() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_memberToks___closed__0_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_memberToks___closed__3_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_memberToks___closed__2();
-x_2 = rt::lean_alloc_ctor(4, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_2, 0, x_1);
-return x_2;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_memberToks___closed__3() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_memberToks___closed__3_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_memberToks___closed__2_init() -> Obj {
+unsafe fn l_Notes_Wire_decodeMembers___closed__15_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 x_1 = rt::lean_mk_string_unchecked("user", 4, 4);
 return x_1;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_memberToks___closed__2() -> Obj {
+pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__15() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_memberToks___closed__2_init();
+  let v = l_Notes_Wire_decodeMembers___closed__15_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
@@ -2069,7 +3036,6 @@ _ => rt::lean_internal_panic_unreachable(),
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
-
 
 
 
@@ -2976,3043 +3942,6 @@ pub(crate) unsafe fn l_Notes_Wire_fingerprint___closed__9() -> Obj {
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeReplyItems(mut x_1: Obj) -> Obj {
-let mut x_2: Obj = rt::lean_box(0);
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-let mut x_5: Obj = rt::lean_box(0);
-let mut x_6: Obj = rt::lean_box(0);
-let mut x_7: u8 = 0;
-let mut x_8: Obj = rt::lean_box(0);
-let mut x_9: Obj = rt::lean_box(0);
-let mut x_10: Obj = rt::lean_box(0);
-let mut x_11: Obj = rt::lean_box(0);
-let mut x_12: Obj = rt::lean_box(0);
-let mut x_13: Obj = rt::lean_box(0);
-let mut x_14: u8 = 0;
-let mut x_15: Obj = rt::lean_box(0);
-let mut x_16: Obj = rt::lean_box(0);
-let mut x_17: Obj = rt::lean_box(0);
-let mut x_18: Obj = rt::lean_box(0);
-let mut x_19: Obj = rt::lean_box(0);
-let mut x_20: Obj = rt::lean_box(0);
-let mut x_21: Obj = rt::lean_box(0);
-let mut x_22: Obj = rt::lean_box(0);
-let mut x_23: Obj = rt::lean_box(0);
-let mut x_24: Obj = rt::lean_box(0);
-let mut x_25: Obj = rt::lean_box(0);
-let mut x_26: Obj = rt::lean_box(0);
-let mut x_27: Obj = rt::lean_box(0);
-let mut x_28: Obj = rt::lean_box(0);
-let mut x_29: Obj = rt::lean_box(0);
-let mut x_30: Obj = rt::lean_box(0);
-let mut x_31: Obj = rt::lean_box(0);
-let mut x_32: Obj = rt::lean_box(0);
-let mut x_33: Obj = rt::lean_box(0);
-let mut x_34: Obj = rt::lean_box(0);
-let mut x_35: Obj = rt::lean_box(0);
-let mut x_36: Obj = rt::lean_box(0);
-let mut x_37: Obj = rt::lean_box(0);
-let mut x_38: Obj = rt::lean_box(0);
-let mut x_39: Obj = rt::lean_box(0);
-let mut x_40: Obj = rt::lean_box(0);
-let mut x_41: Obj = rt::lean_box(0);
-let mut x_42: Obj = rt::lean_box(0);
-let mut x_43: Obj = rt::lean_box(0);
-let mut x_44: Obj = rt::lean_box(0);
-let mut x_45: Obj = rt::lean_box(0);
-let mut x_46: u64 = 0;
-let mut x_47: Obj = rt::lean_box(0);
-let mut x_48: u64 = 0;
-let mut x_49: Obj = rt::lean_box(0);
-let mut x_51: Obj = rt::lean_box(0);
-let mut x_52: u8 = 0;
-let mut x_53: u8 = 0;
-let mut x_54: Obj = rt::lean_box(0);
-let mut x_55: Obj = rt::lean_box(0);
-let mut x_56: u8 = 0;
-let mut x_57: Obj = rt::lean_box(0);
-let mut x_58: Obj = rt::lean_box(0);
-let mut x_59: Obj = rt::lean_box(0);
-let mut x_60: Obj = rt::lean_box(0);
-let mut x_62: Obj = rt::lean_box(0);
-let mut x_63: u8 = 0;
-let mut x_65: Obj = rt::lean_box(0);
-let mut x_67: Obj = rt::lean_box(0);
-let mut x_68: Obj = rt::lean_box(0);
-let mut x_69: Obj = rt::lean_box(0);
-let mut x_70: u8 = 0;
-let mut x_71: u8 = 0;
-let mut x_72: Obj = rt::lean_box(0);
-let mut x_73: Obj = rt::lean_box(0);
-let mut x_74: Obj = rt::lean_box(0);
-let mut x_75: Obj = rt::lean_box(0);
-let mut x_76: Obj = rt::lean_box(0);
-let mut x_77: Obj = rt::lean_box(0);
-let mut x_78: Obj = rt::lean_box(0);
-let mut x_79: Obj = rt::lean_box(0);
-let mut x_80: Obj = rt::lean_box(0);
-let mut x_81: Obj = rt::lean_box(0);
-let mut x_82: Obj = rt::lean_box(0);
-let mut x_83: Obj = rt::lean_box(0);
-let mut x_84: Obj = rt::lean_box(0);
-let mut x_85: Obj = rt::lean_box(0);
-let mut x_86: Obj = rt::lean_box(0);
-let mut x_87: Obj = rt::lean_box(0);
-let mut x_88: Obj = rt::lean_box(0);
-let mut x_89: Obj = rt::lean_box(0);
-let mut x_90: Obj = rt::lean_box(0);
-let mut x_91: Obj = rt::lean_box(0);
-let mut x_92: Obj = rt::lean_box(0);
-let mut x_93: Obj = rt::lean_box(0);
-let mut x_95: Obj = rt::lean_box(0);
-let mut x_96: u8 = 0;
-let mut x_97: Obj = rt::lean_box(0);
-let mut x_98: Obj = rt::lean_box(0);
-let mut x_99: Obj = rt::lean_box(0);
-let mut x_100: Obj = rt::lean_box(0);
-let mut x_101: u8 = 0;
-let mut x_102: Obj = rt::lean_box(0);
-let mut x_103: u8 = 0;
-let mut x_104: Obj = rt::lean_box(0);
-let mut x_105: Obj = rt::lean_box(0);
-let mut x_106: Obj = rt::lean_box(0);
-let mut x_107: Obj = rt::lean_box(0);
-let mut x_109: Obj = rt::lean_box(0);
-let mut x_110: u8 = 0;
-let mut x_112: Obj = rt::lean_box(0);
-let mut x_114: Obj = rt::lean_box(0);
-let mut x_115: Obj = rt::lean_box(0);
-let mut x_116: Obj = rt::lean_box(0);
-let mut x_117: u8 = 0;
-let mut x_118: Obj = rt::lean_box(0);
-let mut x_119: Obj = rt::lean_box(0);
-let mut x_120: Obj = rt::lean_box(0);
-let mut x_122: Obj = rt::lean_box(0);
-let mut x_123: u8 = 0;
-let mut x_125: Obj = rt::lean_box(0);
-let mut x_127: Obj = rt::lean_box(0);
-let mut x_128: Obj = rt::lean_box(0);
-let mut x_129: Obj = rt::lean_box(0);
-let mut x_130: u8 = 0;
-let mut x_131: u8 = 0;
-let mut x_132: Obj = rt::lean_box(0);
-let mut x_133: Obj = rt::lean_box(0);
-let mut x_134: Obj = rt::lean_box(0);
-let mut x_135: Obj = rt::lean_box(0);
-let mut x_136: Obj = rt::lean_box(0);
-let mut x_137: Obj = rt::lean_box(0);
-let mut __blk: u32 = 0;
-'body: loop { match __blk {
-0 => {
-match rt::lean_obj_tag(x_1) {
-1 => {
-x_2 = rt::lean_ctor_get(x_1, 0);
-match rt::lean_obj_tag(x_2) {
-8 => {
-x_3 = rt::lean_ctor_get(x_1, 1);
-rt::lean_inc(x_3);
-rt::lean_dec_ref(x_1);
-match rt::lean_obj_tag(x_3) {
-1 => {
-x_4 = rt::lean_ctor_get(x_3, 0);
-rt::lean_inc(x_4);
-match rt::lean_obj_tag(x_4) {
-5 => {
-x_5 = rt::lean_ctor_get(x_3, 1);
-rt::lean_inc(x_5);
-rt::lean_dec_ref(x_3);
-match rt::lean_obj_tag(x_5) {
-1 => {
-x_6 = rt::lean_ctor_get(x_5, 0);
-match rt::lean_obj_tag(x_6) {
-1 => {
-x_7 = rt::lean_ctor_get_uint8(x_6, 0 * core::mem::size_of::<usize>() as u32 + 0);
-match x_7 as u32 {
-1 => {
-x_8 = rt::lean_ctor_get(x_5, 1);
-rt::lean_inc(x_8);
-rt::lean_dec_ref(x_5);
-match rt::lean_obj_tag(x_8) {
-1 => {
-x_9 = rt::lean_ctor_get(x_8, 0);
-match rt::lean_obj_tag(x_9) {
-9 => {
-x_10 = rt::lean_ctor_get(x_8, 1);
-rt::lean_inc(x_10);
-rt::lean_dec_ref(x_8);
-match rt::lean_obj_tag(x_10) {
-0 => {
-x_11 = rt::lean_ctor_get(x_4, 0);
-rt::lean_inc(x_11);
-rt::lean_dec_ref(x_4);
-x_12 = rt::lean_alloc_closure(l_instDecidableEqUInt8___boxed as *const (), 2, 0);
-x_13 = l_Notes_Wire_decodeReplyItems___closed__2();
-x_14 = l_instDecidableEqList___redArg(x_12, x_11, x_13);
-match x_14 as u32 {
-0 => {
-x_15 = rt::lean_box(0);
-return x_15;
-}
-1 => {
-x_16 = l_Notes_Wire_decodeReplyItems___closed__3();
-return x_16;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => {
-rt::lean_dec(x_10);
-rt::lean_dec_ref(x_4);
-x_17 = rt::lean_box(0);
-return x_17;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_8);
-rt::lean_dec_ref(x_4);
-x_18 = rt::lean_box(0);
-return x_18;
-}
-}
-}
-_ => {
-rt::lean_dec(x_8);
-rt::lean_dec_ref(x_4);
-x_19 = rt::lean_box(0);
-return x_19;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_5);
-rt::lean_dec_ref(x_4);
-x_20 = rt::lean_box(0);
-return x_20;
-}
-}
-}
-8 => {
-x_21 = rt::lean_ctor_get(x_5, 1);
-rt::lean_inc(x_21);
-rt::lean_dec_ref(x_5);
-match rt::lean_obj_tag(x_21) {
-1 => {
-x_22 = rt::lean_ctor_get(x_21, 0);
-rt::lean_inc(x_22);
-match rt::lean_obj_tag(x_22) {
-5 => {
-x_23 = rt::lean_ctor_get(x_21, 1);
-rt::lean_inc(x_23);
-rt::lean_dec_ref(x_21);
-match rt::lean_obj_tag(x_23) {
-1 => {
-x_24 = rt::lean_ctor_get(x_23, 0);
-rt::lean_inc(x_24);
-match rt::lean_obj_tag(x_24) {
-4 => {
-x_25 = rt::lean_ctor_get(x_23, 1);
-rt::lean_inc(x_25);
-rt::lean_dec_ref(x_23);
-match rt::lean_obj_tag(x_25) {
-1 => {
-x_26 = rt::lean_ctor_get(x_25, 0);
-rt::lean_inc(x_26);
-match rt::lean_obj_tag(x_26) {
-5 => {
-x_27 = rt::lean_ctor_get(x_25, 1);
-rt::lean_inc(x_27);
-rt::lean_dec_ref(x_25);
-match rt::lean_obj_tag(x_27) {
-1 => {
-x_28 = rt::lean_ctor_get(x_27, 0);
-rt::lean_inc(x_28);
-match rt::lean_obj_tag(x_28) {
-2 => {
-x_29 = rt::lean_ctor_get(x_27, 1);
-rt::lean_inc(x_29);
-rt::lean_dec_ref(x_27);
-match rt::lean_obj_tag(x_29) {
-1 => {
-x_30 = rt::lean_ctor_get(x_29, 0);
-rt::lean_inc(x_30);
-match rt::lean_obj_tag(x_30) {
-5 => {
-x_31 = rt::lean_ctor_get(x_29, 1);
-rt::lean_inc(x_31);
-rt::lean_dec_ref(x_29);
-match rt::lean_obj_tag(x_31) {
-1 => {
-x_32 = rt::lean_ctor_get(x_31, 0);
-rt::lean_inc(x_32);
-match rt::lean_obj_tag(x_32) {
-2 => {
-x_33 = rt::lean_ctor_get(x_31, 1);
-rt::lean_inc(x_33);
-rt::lean_dec_ref(x_31);
-match rt::lean_obj_tag(x_33) {
-1 => {
-x_34 = rt::lean_ctor_get(x_33, 0);
-rt::lean_inc(x_34);
-match rt::lean_obj_tag(x_34) {
-5 => {
-x_35 = rt::lean_ctor_get(x_33, 1);
-rt::lean_inc(x_35);
-rt::lean_dec_ref(x_33);
-match rt::lean_obj_tag(x_35) {
-1 => {
-x_36 = rt::lean_ctor_get(x_35, 0);
-rt::lean_inc(x_36);
-match rt::lean_obj_tag(x_36) {
-1 => {
-x_37 = rt::lean_ctor_get(x_35, 1);
-rt::lean_inc(x_37);
-rt::lean_dec_ref(x_35);
-match rt::lean_obj_tag(x_37) {
-1 => {
-x_38 = rt::lean_ctor_get(x_37, 0);
-match rt::lean_obj_tag(x_38) {
-9 => {
-x_39 = rt::lean_ctor_get(x_37, 1);
-rt::lean_inc(x_39);
-rt::lean_dec_ref(x_37);
-match rt::lean_obj_tag(x_39) {
-1 => {
-x_40 = rt::lean_ctor_get(x_39, 0);
-match rt::lean_obj_tag(x_40) {
-9 => {
-x_41 = rt::lean_ctor_get(x_39, 1);
-rt::lean_inc(x_41);
-rt::lean_dec_ref(x_39);
-match rt::lean_obj_tag(x_41) {
-0 => {
-x_42 = rt::lean_ctor_get(x_4, 0);
-rt::lean_inc(x_42);
-rt::lean_dec_ref(x_4);
-x_43 = rt::lean_ctor_get(x_22, 0);
-rt::lean_inc(x_43);
-rt::lean_dec_ref(x_22);
-x_44 = rt::lean_ctor_get(x_24, 0);
-rt::lean_inc(x_44);
-rt::lean_dec_ref(x_24);
-x_45 = rt::lean_ctor_get(x_26, 0);
-rt::lean_inc(x_45);
-rt::lean_dec_ref(x_26);
-x_46 = rt::lean_ctor_get_uint64(x_28, 0 * core::mem::size_of::<usize>() as u32 + 0);
-rt::lean_dec_ref(x_28);
-x_47 = rt::lean_ctor_get(x_30, 0);
-rt::lean_inc(x_47);
-rt::lean_dec_ref(x_30);
-x_48 = rt::lean_ctor_get_uint64(x_32, 0 * core::mem::size_of::<usize>() as u32 + 0);
-rt::lean_dec_ref(x_32);
-x_49 = rt::lean_ctor_get(x_34, 0);
-x_71 = (!rt::lean_is_exclusive(x_34)) as u8;
-match x_71 as u32 {
-0 => {
-{ let t_0 = x_34; let t_1 = x_71; x_51 = t_0; x_52 = t_1; }
-__blk = 1; continue 'body;
-}
-1 => {
-rt::lean_inc(x_49);
-rt::lean_dec(x_34);
-{ let t_0 = rt::lean_box(0); let t_1 = x_71; x_51 = t_0; x_52 = t_1; }
-__blk = 1; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => {
-rt::lean_dec(x_41);
-rt::lean_dec_ref(x_36);
-rt::lean_dec_ref(x_34);
-rt::lean_dec_ref(x_32);
-rt::lean_dec_ref(x_30);
-rt::lean_dec_ref(x_28);
-rt::lean_dec_ref(x_26);
-rt::lean_dec_ref(x_24);
-rt::lean_dec_ref(x_22);
-rt::lean_dec_ref(x_4);
-x_72 = rt::lean_box(0);
-return x_72;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_39);
-rt::lean_dec_ref(x_36);
-rt::lean_dec_ref(x_34);
-rt::lean_dec_ref(x_32);
-rt::lean_dec_ref(x_30);
-rt::lean_dec_ref(x_28);
-rt::lean_dec_ref(x_26);
-rt::lean_dec_ref(x_24);
-rt::lean_dec_ref(x_22);
-rt::lean_dec_ref(x_4);
-x_73 = rt::lean_box(0);
-return x_73;
-}
-}
-}
-_ => {
-rt::lean_dec(x_39);
-rt::lean_dec_ref(x_36);
-rt::lean_dec_ref(x_34);
-rt::lean_dec_ref(x_32);
-rt::lean_dec_ref(x_30);
-rt::lean_dec_ref(x_28);
-rt::lean_dec_ref(x_26);
-rt::lean_dec_ref(x_24);
-rt::lean_dec_ref(x_22);
-rt::lean_dec_ref(x_4);
-x_74 = rt::lean_box(0);
-return x_74;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_37);
-rt::lean_dec_ref(x_36);
-rt::lean_dec_ref(x_34);
-rt::lean_dec_ref(x_32);
-rt::lean_dec_ref(x_30);
-rt::lean_dec_ref(x_28);
-rt::lean_dec_ref(x_26);
-rt::lean_dec_ref(x_24);
-rt::lean_dec_ref(x_22);
-rt::lean_dec_ref(x_4);
-x_75 = rt::lean_box(0);
-return x_75;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_36);
-rt::lean_dec(x_37);
-rt::lean_dec_ref(x_34);
-rt::lean_dec_ref(x_32);
-rt::lean_dec_ref(x_30);
-rt::lean_dec_ref(x_28);
-rt::lean_dec_ref(x_26);
-rt::lean_dec_ref(x_24);
-rt::lean_dec_ref(x_22);
-rt::lean_dec_ref(x_4);
-x_76 = rt::lean_box(0);
-return x_76;
-}
-}
-}
-_ => {
-rt::lean_dec(x_36);
-rt::lean_dec_ref(x_35);
-rt::lean_dec_ref(x_34);
-rt::lean_dec_ref(x_32);
-rt::lean_dec_ref(x_30);
-rt::lean_dec_ref(x_28);
-rt::lean_dec_ref(x_26);
-rt::lean_dec_ref(x_24);
-rt::lean_dec_ref(x_22);
-rt::lean_dec_ref(x_4);
-x_77 = rt::lean_box(0);
-return x_77;
-}
-}
-}
-_ => {
-rt::lean_dec(x_35);
-rt::lean_dec_ref(x_34);
-rt::lean_dec_ref(x_32);
-rt::lean_dec_ref(x_30);
-rt::lean_dec_ref(x_28);
-rt::lean_dec_ref(x_26);
-rt::lean_dec_ref(x_24);
-rt::lean_dec_ref(x_22);
-rt::lean_dec_ref(x_4);
-x_78 = rt::lean_box(0);
-return x_78;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_33);
-rt::lean_dec(x_34);
-rt::lean_dec_ref(x_32);
-rt::lean_dec_ref(x_30);
-rt::lean_dec_ref(x_28);
-rt::lean_dec_ref(x_26);
-rt::lean_dec_ref(x_24);
-rt::lean_dec_ref(x_22);
-rt::lean_dec_ref(x_4);
-x_79 = rt::lean_box(0);
-return x_79;
-}
-}
-}
-_ => {
-rt::lean_dec(x_33);
-rt::lean_dec_ref(x_32);
-rt::lean_dec_ref(x_30);
-rt::lean_dec_ref(x_28);
-rt::lean_dec_ref(x_26);
-rt::lean_dec_ref(x_24);
-rt::lean_dec_ref(x_22);
-rt::lean_dec_ref(x_4);
-x_80 = rt::lean_box(0);
-return x_80;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_31);
-rt::lean_dec(x_32);
-rt::lean_dec_ref(x_30);
-rt::lean_dec_ref(x_28);
-rt::lean_dec_ref(x_26);
-rt::lean_dec_ref(x_24);
-rt::lean_dec_ref(x_22);
-rt::lean_dec_ref(x_4);
-x_81 = rt::lean_box(0);
-return x_81;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_30);
-rt::lean_dec(x_31);
-rt::lean_dec_ref(x_28);
-rt::lean_dec_ref(x_26);
-rt::lean_dec_ref(x_24);
-rt::lean_dec_ref(x_22);
-rt::lean_dec_ref(x_4);
-x_82 = rt::lean_box(0);
-return x_82;
-}
-}
-}
-_ => {
-rt::lean_dec(x_30);
-rt::lean_dec_ref(x_29);
-rt::lean_dec_ref(x_28);
-rt::lean_dec_ref(x_26);
-rt::lean_dec_ref(x_24);
-rt::lean_dec_ref(x_22);
-rt::lean_dec_ref(x_4);
-x_83 = rt::lean_box(0);
-return x_83;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_28);
-rt::lean_dec(x_29);
-rt::lean_dec_ref(x_26);
-rt::lean_dec_ref(x_24);
-rt::lean_dec_ref(x_22);
-rt::lean_dec_ref(x_4);
-x_84 = rt::lean_box(0);
-return x_84;
-}
-}
-}
-_ => {
-rt::lean_dec(x_28);
-rt::lean_dec_ref(x_27);
-rt::lean_dec_ref(x_26);
-rt::lean_dec_ref(x_24);
-rt::lean_dec_ref(x_22);
-rt::lean_dec_ref(x_4);
-x_85 = rt::lean_box(0);
-return x_85;
-}
-}
-}
-_ => {
-rt::lean_dec(x_27);
-rt::lean_dec_ref(x_26);
-rt::lean_dec_ref(x_24);
-rt::lean_dec_ref(x_22);
-rt::lean_dec_ref(x_4);
-x_86 = rt::lean_box(0);
-return x_86;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_25);
-rt::lean_dec(x_26);
-rt::lean_dec_ref(x_24);
-rt::lean_dec_ref(x_22);
-rt::lean_dec_ref(x_4);
-x_87 = rt::lean_box(0);
-return x_87;
-}
-}
-}
-_ => {
-rt::lean_dec(x_25);
-rt::lean_dec_ref(x_24);
-rt::lean_dec_ref(x_22);
-rt::lean_dec_ref(x_4);
-x_88 = rt::lean_box(0);
-return x_88;
-}
-}
-}
-_ => {
-rt::lean_dec(x_24);
-rt::lean_dec_ref(x_23);
-rt::lean_dec_ref(x_22);
-rt::lean_dec_ref(x_4);
-x_89 = rt::lean_box(0);
-return x_89;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_22);
-rt::lean_dec(x_23);
-rt::lean_dec_ref(x_4);
-x_90 = rt::lean_box(0);
-return x_90;
-}
-}
-}
-_ => {
-rt::lean_dec(x_22);
-rt::lean_dec_ref(x_21);
-rt::lean_dec_ref(x_4);
-x_91 = rt::lean_box(0);
-return x_91;
-}
-}
-}
-_ => {
-rt::lean_dec(x_21);
-rt::lean_dec_ref(x_4);
-x_92 = rt::lean_box(0);
-return x_92;
-}
-}
-}
-6 => {
-x_93 = rt::lean_ctor_get(x_4, 0);
-x_131 = (!rt::lean_is_exclusive(x_4)) as u8;
-match x_131 as u32 {
-0 => {
-{ let t_0 = x_4; let t_1 = x_131; x_95 = t_0; x_96 = t_1; }
-__blk = 5; continue 'body;
-}
-1 => {
-rt::lean_inc(x_93);
-rt::lean_dec(x_4);
-{ let t_0 = rt::lean_box(0); let t_1 = x_131; x_95 = t_0; x_96 = t_1; }
-__blk = 5; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => {
-rt::lean_dec_ref(x_5);
-rt::lean_dec_ref(x_4);
-x_132 = rt::lean_box(0);
-return x_132;
-}
-}
-}
-_ => {
-rt::lean_dec(x_5);
-rt::lean_dec_ref(x_4);
-x_133 = rt::lean_box(0);
-return x_133;
-}
-}
-}
-_ => {
-rt::lean_dec(x_4);
-rt::lean_dec_ref(x_3);
-x_134 = rt::lean_box(0);
-return x_134;
-}
-}
-}
-_ => {
-rt::lean_dec(x_3);
-x_135 = rt::lean_box(0);
-return x_135;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_1);
-x_136 = rt::lean_box(0);
-return x_136;
-}
-}
-}
-_ => {
-rt::lean_dec(x_1);
-x_137 = rt::lean_box(0);
-return x_137;
-}
-}
-}
-1 => {
-x_53 = rt::lean_ctor_get_uint8(x_36, 0 * core::mem::size_of::<usize>() as u32 + 0);
-rt::lean_dec_ref(x_36);
-x_54 = rt::lean_alloc_closure(l_instDecidableEqUInt8___boxed as *const (), 2, 0);
-x_55 = l_Notes_Wire_decodeMembers___closed__24();
-x_56 = l_instDecidableEqList___redArg(x_54, x_42, x_55);
-match x_56 as u32 {
-0 => {
-rt::lean_del_object(x_51);
-rt::lean_dec(x_49);
-rt::lean_dec(x_47);
-rt::lean_dec(x_45);
-rt::lean_dec(x_44);
-rt::lean_dec(x_43);
-x_57 = rt::lean_box(0);
-return x_57;
-}
-1 => {
-x_58 = l_Notes_Wire_noteOf(x_43, x_44, x_45, x_46, x_47, x_48, x_49, x_53);
-match rt::lean_obj_tag(x_58) {
-0 => {
-rt::lean_del_object(x_51);
-x_59 = rt::lean_box(0);
-return x_59;
-}
-1 => {
-x_60 = rt::lean_ctor_get(x_58, 0);
-x_70 = (!rt::lean_is_exclusive(x_58)) as u8;
-match x_70 as u32 {
-0 => {
-{ let t_0 = x_58; let t_1 = x_70; x_62 = t_0; x_63 = t_1; }
-__blk = 2; continue 'body;
-}
-1 => {
-rt::lean_inc(x_60);
-rt::lean_dec(x_58);
-{ let t_0 = rt::lean_box(0); let t_1 = x_70; x_62 = t_0; x_63 = t_1; }
-__blk = 2; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-2 => {
-match x_52 as u32 {
-0 => {
-rt::lean_ctor_set_tag(x_51, 1);
-rt::lean_ctor_set(x_51, 0, x_60);
-{ let t_0 = x_51; x_65 = t_0; }
-__blk = 3; continue 'body;
-}
-1 => {
-x_69 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_69, 0, x_60);
-{ let t_0 = x_69; x_65 = t_0; }
-__blk = 3; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-3 => {
-match x_63 as u32 {
-0 => {
-rt::lean_ctor_set(x_62, 0, x_65);
-{ let t_0 = x_62; x_67 = t_0; }
-__blk = 4; continue 'body;
-}
-1 => {
-x_68 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_68, 0, x_65);
-{ let t_0 = x_68; x_67 = t_0; }
-__blk = 4; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-4 => {
-return x_67;
-}
-5 => {
-x_97 = rt::lean_ctor_get(x_5, 1);
-rt::lean_inc(x_97);
-rt::lean_dec_ref(x_5);
-x_98 = rt::lean_alloc_closure(l_instDecidableEqUInt8___boxed as *const (), 2, 0);
-x_99 = rt::lean_box(0);
-x_100 = l_Notes_Wire_decodeMembers___closed__43();
-rt::lean_inc(x_93);
-rt::lean_inc_ref(x_98);
-x_101 = l_instDecidableEqList___redArg(x_98, x_93, x_100);
-match x_101 as u32 {
-0 => {
-x_102 = l_Notes_Wire_decodeMembers___closed__54();
-x_103 = l_instDecidableEqList___redArg(x_98, x_93, x_102);
-match x_103 as u32 {
-0 => {
-rt::lean_dec(x_97);
-rt::lean_del_object(x_95);
-x_104 = rt::lean_box(0);
-return x_104;
-}
-1 => {
-x_105 = l_Notes_Wire_membersItems(x_99, x_97);
-match rt::lean_obj_tag(x_105) {
-0 => {
-rt::lean_del_object(x_95);
-x_106 = rt::lean_box(0);
-return x_106;
-}
-1 => {
-x_107 = rt::lean_ctor_get(x_105, 0);
-x_117 = (!rt::lean_is_exclusive(x_105)) as u8;
-match x_117 as u32 {
-0 => {
-{ let t_0 = x_105; let t_1 = x_117; x_109 = t_0; x_110 = t_1; }
-__blk = 6; continue 'body;
-}
-1 => {
-rt::lean_inc(x_107);
-rt::lean_dec(x_105);
-{ let t_0 = rt::lean_box(0); let t_1 = x_117; x_109 = t_0; x_110 = t_1; }
-__blk = 6; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-1 => {
-rt::lean_dec_ref(x_98);
-rt::lean_dec(x_93);
-x_118 = l_Notes_Wire_notesItems(x_99, x_97);
-match rt::lean_obj_tag(x_118) {
-0 => {
-rt::lean_del_object(x_95);
-x_119 = rt::lean_box(0);
-return x_119;
-}
-1 => {
-x_120 = rt::lean_ctor_get(x_118, 0);
-x_130 = (!rt::lean_is_exclusive(x_118)) as u8;
-match x_130 as u32 {
-0 => {
-{ let t_0 = x_118; let t_1 = x_130; x_122 = t_0; x_123 = t_1; }
-__blk = 9; continue 'body;
-}
-1 => {
-rt::lean_inc(x_120);
-rt::lean_dec(x_118);
-{ let t_0 = rt::lean_box(0); let t_1 = x_130; x_122 = t_0; x_123 = t_1; }
-__blk = 9; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-6 => {
-match x_96 as u32 {
-0 => {
-rt::lean_ctor_set_tag(x_95, 3);
-rt::lean_ctor_set(x_95, 0, x_107);
-{ let t_0 = x_95; x_112 = t_0; }
-__blk = 7; continue 'body;
-}
-1 => {
-x_116 = rt::lean_alloc_ctor(3, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_116, 0, x_107);
-{ let t_0 = x_116; x_112 = t_0; }
-__blk = 7; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-7 => {
-match x_110 as u32 {
-0 => {
-rt::lean_ctor_set(x_109, 0, x_112);
-{ let t_0 = x_109; x_114 = t_0; }
-__blk = 8; continue 'body;
-}
-1 => {
-x_115 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_115, 0, x_112);
-{ let t_0 = x_115; x_114 = t_0; }
-__blk = 8; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-8 => {
-return x_114;
-}
-9 => {
-match x_96 as u32 {
-0 => {
-rt::lean_ctor_set_tag(x_95, 2);
-rt::lean_ctor_set(x_95, 0, x_120);
-{ let t_0 = x_95; x_125 = t_0; }
-__blk = 10; continue 'body;
-}
-1 => {
-x_129 = rt::lean_alloc_ctor(2, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_129, 0, x_120);
-{ let t_0 = x_129; x_125 = t_0; }
-__blk = 10; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-10 => {
-match x_123 as u32 {
-0 => {
-rt::lean_ctor_set(x_122, 0, x_125);
-{ let t_0 = x_122; x_127 = t_0; }
-__blk = 11; continue 'body;
-}
-1 => {
-x_128 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_128, 0, x_125);
-{ let t_0 = x_128; x_127 = t_0; }
-__blk = 11; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-11 => {
-return x_127;
-}
-_ => rt::lean_internal_panic_unreachable(),
-} }
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_instDecidableEqUInt8___boxed(mut x_1: Obj, mut x_2: Obj) -> Obj {
-let mut x_3: u8 = 0;
-let mut x_4: u8 = 0;
-let mut x_5: u8 = 0;
-let mut x_6: Obj = rt::lean_box(0);
-x_3 = rt::lean_unbox(x_1) as u8;
-x_4 = rt::lean_unbox(x_2) as u8;
-x_5 = l_instDecidableEqUInt8(x_3, x_4);
-x_6 = rt::lean_box(x_5 as usize);
-return x_6;
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_instDecidableEqUInt8(mut x_1: u8, mut x_2: u8) -> u8 {
-let mut x_3: u8 = 0;
-x_3 = rt::lean_uint8_dec_eq(x_1, x_2);
-return x_3;
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeReplyItems___closed__2_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeReplyItems___closed__1();
-x_2 = 100u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeReplyItems___closed__2() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeReplyItems___closed__2_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeReplyItems___closed__1_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeReplyItems___closed__0();
-x_2 = 111u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeReplyItems___closed__1() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeReplyItems___closed__1_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeReplyItems___closed__0_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__21();
-x_2 = 110u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeReplyItems___closed__0() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeReplyItems___closed__0_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__21_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = rt::lean_box(0);
-x_2 = 101u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__21() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__21_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_instDecidableEqList___redArg(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj) -> u8 {
-let mut x_4: u8 = 0;
-let mut x_5: u8 = 0;
-let mut x_6: u8 = 0;
-let mut x_7: Obj = rt::lean_box(0);
-let mut x_8: Obj = rt::lean_box(0);
-let mut x_9: Obj = rt::lean_box(0);
-let mut x_10: Obj = rt::lean_box(0);
-let mut x_11: Obj = rt::lean_box(0);
-let mut x_12: u8 = 0;
-let mut x_13: u8 = 0;
-let mut x_14: u8 = 0;
-match rt::lean_obj_tag(x_2) {
-0 => {
-rt::lean_dec_ref(x_1);
-match rt::lean_obj_tag(x_3) {
-0 => {
-x_4 = 1u8;
-return x_4;
-}
-1 => {
-rt::lean_dec_ref(x_3);
-x_5 = 0u8;
-return x_5;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-1 => {
-match rt::lean_obj_tag(x_3) {
-0 => {
-rt::lean_dec_ref(x_2);
-rt::lean_dec_ref(x_1);
-x_6 = 0u8;
-return x_6;
-}
-1 => {
-x_7 = rt::lean_ctor_get(x_2, 0);
-rt::lean_inc(x_7);
-x_8 = rt::lean_ctor_get(x_2, 1);
-rt::lean_inc(x_8);
-rt::lean_dec_ref(x_2);
-x_9 = rt::lean_ctor_get(x_3, 0);
-rt::lean_inc(x_9);
-x_10 = rt::lean_ctor_get(x_3, 1);
-rt::lean_inc(x_10);
-rt::lean_dec_ref(x_3);
-rt::lean_inc_ref(x_1);
-x_11 = rt::lean_apply_2(x_1, x_7, x_9);
-x_12 = rt::lean_unbox(x_11) as u8;
-match x_12 as u32 {
-0 => {
-rt::lean_dec(x_10);
-rt::lean_dec(x_8);
-rt::lean_dec_ref(x_1);
-x_13 = rt::lean_unbox(x_11) as u8;
-return x_13;
-}
-1 => {
-x_14 = l_List_hasDecEq___redArg(x_1, x_8, x_10);
-return x_14;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_List_hasDecEq___redArg(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj) -> u8 {
-let mut x_4: Obj = rt::lean_box(0);
-let mut x_5: u8 = 0;
-x_4 = rt::lean_alloc_closure(l_instBEqOfDecidableEq___redArg___lam__0___boxed as *const (), 3, 1); rt::lean_closure_set(x_4, 0, x_1);
-x_5 = l_List_beq___redArg(x_4, x_2, x_3);
-return x_5;
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_instBEqOfDecidableEq___redArg___lam__0___boxed(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj) -> Obj {
-let mut x_4: u8 = 0;
-let mut x_5: Obj = rt::lean_box(0);
-x_4 = l_instBEqOfDecidableEq___redArg___lam__0(x_1, x_2, x_3);
-x_5 = rt::lean_box(x_4 as usize);
-return x_5;
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_instBEqOfDecidableEq___redArg___lam__0(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj) -> u8 {
-let mut x_4: Obj = rt::lean_box(0);
-let mut x_5: u8 = 0;
-x_4 = rt::lean_apply_2(x_1, x_2, x_3);
-x_5 = rt::lean_unbox(x_4) as u8;
-return x_5;
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_List_beq___redArg(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj) -> u8 {
-let mut x_4: u8 = 0;
-let mut x_5: u8 = 0;
-let mut x_6: u8 = 0;
-let mut x_7: Obj = rt::lean_box(0);
-let mut x_8: Obj = rt::lean_box(0);
-let mut x_9: Obj = rt::lean_box(0);
-let mut x_10: Obj = rt::lean_box(0);
-let mut x_11: Obj = rt::lean_box(0);
-let mut x_12: u8 = 0;
-let mut x_13: u8 = 0;
-let mut x_14: u8 = 0;
-let mut __blk: u32 = 0;
-'body: loop { match __blk {
-0 => {
-match rt::lean_obj_tag(x_2) {
-0 => {
-rt::lean_dec_ref(x_1);
-match rt::lean_obj_tag(x_3) {
-0 => {
-x_4 = 1u8;
-return x_4;
-}
-1 => {
-rt::lean_dec_ref(x_3);
-x_5 = 0u8;
-return x_5;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-1 => {
-match rt::lean_obj_tag(x_3) {
-0 => {
-rt::lean_dec_ref(x_2);
-rt::lean_dec_ref(x_1);
-x_6 = 0u8;
-return x_6;
-}
-1 => {
-x_7 = rt::lean_ctor_get(x_2, 0);
-rt::lean_inc(x_7);
-x_8 = rt::lean_ctor_get(x_2, 1);
-rt::lean_inc(x_8);
-rt::lean_dec_ref(x_2);
-x_9 = rt::lean_ctor_get(x_3, 0);
-rt::lean_inc(x_9);
-x_10 = rt::lean_ctor_get(x_3, 1);
-rt::lean_inc(x_10);
-rt::lean_dec_ref(x_3);
-rt::lean_inc_ref(x_1);
-x_11 = rt::lean_apply_2(x_1, x_7, x_9);
-x_12 = rt::lean_unbox(x_11) as u8;
-match x_12 as u32 {
-0 => {
-rt::lean_dec(x_10);
-rt::lean_dec(x_8);
-rt::lean_dec_ref(x_1);
-x_13 = rt::lean_unbox(x_11) as u8;
-return x_13;
-}
-1 => {
-{ let t_0 = x_1; let t_1 = x_8; let t_2 = x_10; x_1 = t_0; x_2 = t_1; x_3 = t_2; }
-__blk = 0; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-} }
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeReplyItems___closed__3_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: Obj = rt::lean_box(0);
-x_1 = rt::lean_box(0);
-x_2 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_2, 0, x_1);
-return x_2;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeReplyItems___closed__3() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeReplyItems___closed__3_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__24_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__23();
-x_2 = 110u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__24() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__24_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__23_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__22();
-x_2 = 111u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__23() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__23_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__22_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__21();
-x_2 = 116u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__22() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__22_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_noteOf(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: u64, mut x_5: Obj, mut x_6: u64, mut x_7: Obj, mut x_8: u8) -> Obj {
-let mut x_9: Obj = rt::lean_box(0);
-let mut x_10: Obj = rt::lean_box(0);
-let mut x_11: u8 = 0;
-let mut x_12: Obj = rt::lean_box(0);
-let mut x_13: Obj = rt::lean_box(0);
-let mut x_14: u8 = 0;
-let mut x_15: Obj = rt::lean_box(0);
-let mut x_16: Obj = rt::lean_box(0);
-let mut x_17: u8 = 0;
-let mut x_18: Obj = rt::lean_box(0);
-let mut x_19: Obj = rt::lean_box(0);
-let mut x_20: u8 = 0;
-let mut x_21: Obj = rt::lean_box(0);
-let mut x_22: Obj = rt::lean_box(0);
-let mut x_23: Obj = rt::lean_box(0);
-let mut x_24: Obj = rt::lean_box(0);
-let mut x_26: Obj = rt::lean_box(0);
-let mut x_27: u8 = 0;
-let mut x_28: Obj = rt::lean_box(0);
-let mut x_30: Obj = rt::lean_box(0);
-let mut x_31: Obj = rt::lean_box(0);
-let mut x_32: u8 = 0;
-let mut __blk: u32 = 0;
-'body: loop { match __blk {
-0 => {
-x_9 = rt::lean_alloc_closure(l_instDecidableEqUInt8___boxed as *const (), 2, 0);
-x_10 = l_Notes_Wire_decodeMembers___closed__66();
-rt::lean_inc_ref(x_9);
-x_11 = l_instDecidableEqList___redArg(x_9, x_1, x_10);
-match x_11 as u32 {
-0 => {
-rt::lean_dec_ref(x_9);
-rt::lean_dec(x_7);
-rt::lean_dec(x_5);
-rt::lean_dec(x_3);
-rt::lean_dec(x_2);
-x_12 = rt::lean_box(0);
-return x_12;
-}
-1 => {
-x_13 = l_Notes_Wire_decodeMembers___closed__62();
-rt::lean_inc_ref(x_9);
-x_14 = l_instDecidableEqList___redArg(x_9, x_3, x_13);
-match x_14 as u32 {
-0 => {
-rt::lean_dec_ref(x_9);
-rt::lean_dec(x_7);
-rt::lean_dec(x_5);
-rt::lean_dec(x_2);
-x_15 = rt::lean_box(0);
-return x_15;
-}
-1 => {
-x_16 = l_Notes_Wire_noteOf___closed__2();
-rt::lean_inc_ref(x_9);
-x_17 = l_instDecidableEqList___redArg(x_9, x_5, x_16);
-match x_17 as u32 {
-0 => {
-rt::lean_dec_ref(x_9);
-rt::lean_dec(x_7);
-rt::lean_dec(x_2);
-x_18 = rt::lean_box(0);
-return x_18;
-}
-1 => {
-x_19 = l_Notes_Wire_decodeMembers___closed__71();
-x_20 = l_instDecidableEqList___redArg(x_9, x_7, x_19);
-match x_20 as u32 {
-0 => {
-rt::lean_dec(x_2);
-x_21 = rt::lean_box(0);
-return x_21;
-}
-1 => {
-x_22 = l_Notes_Wire_textOf(x_2);
-match rt::lean_obj_tag(x_22) {
-0 => {
-x_23 = rt::lean_box(0);
-return x_23;
-}
-1 => {
-x_24 = rt::lean_ctor_get(x_22, 0);
-x_32 = (!rt::lean_is_exclusive(x_22)) as u8;
-match x_32 as u32 {
-0 => {
-{ let t_0 = x_22; let t_1 = x_32; x_26 = t_0; x_27 = t_1; }
-__blk = 1; continue 'body;
-}
-1 => {
-rt::lean_inc(x_24);
-rt::lean_dec(x_22);
-{ let t_0 = rt::lean_box(0); let t_1 = x_32; x_26 = t_0; x_27 = t_1; }
-__blk = 1; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-1 => {
-x_28 = rt::lean_alloc_ctor(0, 1, 0 * core::mem::size_of::<usize>() as u32 + 17); rt::lean_ctor_set(x_28, 0, x_24);
-rt::lean_ctor_set_uint64(x_28, 1 * core::mem::size_of::<usize>() as u32 + 0, x_4);
-rt::lean_ctor_set_uint64(x_28, 1 * core::mem::size_of::<usize>() as u32 + 8, x_6);
-rt::lean_ctor_set_uint8(x_28, 1 * core::mem::size_of::<usize>() as u32 + 16, x_8);
-match x_27 as u32 {
-0 => {
-rt::lean_ctor_set(x_26, 0, x_28);
-{ let t_0 = x_26; x_30 = t_0; }
-__blk = 2; continue 'body;
-}
-1 => {
-x_31 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_31, 0, x_28);
-{ let t_0 = x_31; x_30 = t_0; }
-__blk = 2; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-2 => {
-return x_30;
-}
-_ => rt::lean_internal_panic_unreachable(),
-} }
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__66_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__65();
-x_2 = 98u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__66() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__66_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__65_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__64();
-x_2 = 111u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__65() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__65_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__64_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__63();
-x_2 = 100u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__64() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__64_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__63_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = rt::lean_box(0);
-x_2 = 121u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__63() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__63_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__62_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__1();
-x_2 = 105u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__62() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__62_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__1_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = rt::lean_box(0);
-x_2 = 100u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__1() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__1_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_noteOf___closed__2_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_noteOf___closed__1();
-x_2 = 111u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_noteOf___closed__2() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_noteOf___closed__2_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_noteOf___closed__1_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_noteOf___closed__0();
-x_2 = 119u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_noteOf___closed__1() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_noteOf___closed__1_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_noteOf___closed__0_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__6();
-x_2 = 110u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_noteOf___closed__0() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_noteOf___closed__0_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__6_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__5();
-x_2 = 101u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__6() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__6_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__5_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = rt::lean_box(0);
-x_2 = 114u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__5() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__5_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__71_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__70();
-x_2 = 115u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__71() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__71_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__70_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__69();
-x_2 = 104u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__70() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__70_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__69_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__68();
-x_2 = 97u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__69() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__69_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__68_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__67();
-x_2 = 114u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__68() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__68_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__67_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__1();
-x_2 = 101u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__67() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__67_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_textOf(mut x_1: Obj) -> Obj {
-let mut x_2: Obj = rt::lean_box(0);
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: u8 = 0;
-let mut x_5: Obj = rt::lean_box(0);
-let mut x_6: Obj = rt::lean_box(0);
-let mut x_7: Obj = rt::lean_box(0);
-x_2 = rt::lean_array_mk(x_1);
-x_3 = rt::lean_byte_array_mk(x_2);
-x_4 = rt::lean_string_validate_utf8(x_3);
-match x_4 as u32 {
-0 => {
-rt::lean_dec_ref(x_3);
-x_5 = rt::lean_box(0);
-return x_5;
-}
-1 => {
-x_6 = rt::lean_string_from_utf8_unchecked(x_3);
-x_7 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_7, 0, x_6);
-return x_7;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-
-
-
-
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__43_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__42();
-x_2 = 110u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__43() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__43_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__42_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__41();
-x_2 = 111u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__42() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__42_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__41_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__40();
-x_2 = 116u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__41() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__41_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__40_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__39();
-x_2 = 101u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__40() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__40_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__39_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = rt::lean_box(0);
-x_2 = 115u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__39() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__39_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__54_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__53();
-x_2 = 109u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__54() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__54_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__53_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__52();
-x_2 = 101u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__53() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__53_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__52_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__51();
-x_2 = 109u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__52() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__52_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__51_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__50();
-x_2 = 98u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__51() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__51_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__50_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__49();
-x_2 = 101u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__50() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__50_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__49_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__39();
-x_2 = 114u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__49() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__49_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_membersItems(mut x_1: Obj, mut x_2: Obj) -> Obj {
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-let mut x_5: Obj = rt::lean_box(0);
-let mut x_6: Obj = rt::lean_box(0);
-let mut x_7: Obj = rt::lean_box(0);
-let mut x_8: Obj = rt::lean_box(0);
-let mut x_9: Obj = rt::lean_box(0);
-let mut x_10: Obj = rt::lean_box(0);
-let mut x_11: Obj = rt::lean_box(0);
-let mut x_12: Obj = rt::lean_box(0);
-let mut x_13: Obj = rt::lean_box(0);
-let mut x_14: Obj = rt::lean_box(0);
-let mut x_15: Obj = rt::lean_box(0);
-let mut x_16: Obj = rt::lean_box(0);
-let mut x_17: Obj = rt::lean_box(0);
-let mut x_18: Obj = rt::lean_box(0);
-let mut x_19: Obj = rt::lean_box(0);
-let mut x_20: Obj = rt::lean_box(0);
-let mut x_21: Obj = rt::lean_box(0);
-let mut x_22: Obj = rt::lean_box(0);
-let mut x_23: u8 = 0;
-let mut x_24: Obj = rt::lean_box(0);
-let mut x_25: u64 = 0;
-let mut x_26: Obj = rt::lean_box(0);
-let mut x_28: Obj = rt::lean_box(0);
-let mut x_29: u8 = 0;
-let mut x_30: Obj = rt::lean_box(0);
-let mut x_31: Obj = rt::lean_box(0);
-let mut x_32: u8 = 0;
-let mut x_33: Obj = rt::lean_box(0);
-let mut x_34: Obj = rt::lean_box(0);
-let mut x_35: u8 = 0;
-let mut x_36: Obj = rt::lean_box(0);
-let mut x_37: Obj = rt::lean_box(0);
-let mut x_39: Obj = rt::lean_box(0);
-let mut x_40: Obj = rt::lean_box(0);
-let mut x_41: Obj = rt::lean_box(0);
-let mut x_42: u8 = 0;
-let mut x_43: Obj = rt::lean_box(0);
-let mut x_44: Obj = rt::lean_box(0);
-let mut x_45: Obj = rt::lean_box(0);
-let mut x_46: Obj = rt::lean_box(0);
-let mut x_47: Obj = rt::lean_box(0);
-let mut x_48: Obj = rt::lean_box(0);
-let mut x_49: Obj = rt::lean_box(0);
-let mut x_50: Obj = rt::lean_box(0);
-let mut x_51: Obj = rt::lean_box(0);
-let mut x_52: Obj = rt::lean_box(0);
-let mut x_53: Obj = rt::lean_box(0);
-let mut x_54: Obj = rt::lean_box(0);
-let mut x_55: Obj = rt::lean_box(0);
-let mut __blk: u32 = 0;
-'body: loop { match __blk {
-0 => {
-match rt::lean_obj_tag(x_2) {
-1 => {
-x_3 = rt::lean_ctor_get(x_2, 0);
-match rt::lean_obj_tag(x_3) {
-7 => {
-x_4 = rt::lean_ctor_get(x_2, 1);
-rt::lean_inc(x_4);
-rt::lean_dec_ref(x_2);
-match rt::lean_obj_tag(x_4) {
-1 => {
-x_5 = rt::lean_ctor_get(x_4, 0);
-match rt::lean_obj_tag(x_5) {
-9 => {
-x_6 = rt::lean_ctor_get(x_4, 1);
-rt::lean_inc(x_6);
-rt::lean_dec_ref(x_4);
-match rt::lean_obj_tag(x_6) {
-0 => {
-x_7 = l_List_reverse___redArg(x_1);
-x_8 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_8, 0, x_7);
-return x_8;
-}
-_ => {
-rt::lean_dec(x_6);
-rt::lean_dec(x_1);
-x_9 = rt::lean_box(0);
-return x_9;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_4);
-rt::lean_dec(x_1);
-x_10 = rt::lean_box(0);
-return x_10;
-}
-}
-}
-_ => {
-rt::lean_dec(x_4);
-rt::lean_dec(x_1);
-x_11 = rt::lean_box(0);
-return x_11;
-}
-}
-}
-8 => {
-x_12 = rt::lean_ctor_get(x_2, 1);
-rt::lean_inc(x_12);
-rt::lean_dec_ref(x_2);
-match rt::lean_obj_tag(x_12) {
-1 => {
-x_13 = rt::lean_ctor_get(x_12, 0);
-rt::lean_inc(x_13);
-match rt::lean_obj_tag(x_13) {
-5 => {
-x_14 = rt::lean_ctor_get(x_12, 1);
-rt::lean_inc(x_14);
-rt::lean_dec_ref(x_12);
-match rt::lean_obj_tag(x_14) {
-1 => {
-x_15 = rt::lean_ctor_get(x_14, 0);
-rt::lean_inc(x_15);
-match rt::lean_obj_tag(x_15) {
-1 => {
-x_16 = rt::lean_ctor_get(x_14, 1);
-rt::lean_inc(x_16);
-rt::lean_dec_ref(x_14);
-match rt::lean_obj_tag(x_16) {
-1 => {
-x_17 = rt::lean_ctor_get(x_16, 0);
-rt::lean_inc(x_17);
-match rt::lean_obj_tag(x_17) {
-5 => {
-x_18 = rt::lean_ctor_get(x_16, 1);
-rt::lean_inc(x_18);
-rt::lean_dec_ref(x_16);
-match rt::lean_obj_tag(x_18) {
-1 => {
-x_19 = rt::lean_ctor_get(x_18, 0);
-rt::lean_inc(x_19);
-match rt::lean_obj_tag(x_19) {
-2 => {
-x_20 = rt::lean_ctor_get(x_18, 1);
-rt::lean_inc(x_20);
-rt::lean_dec_ref(x_18);
-match rt::lean_obj_tag(x_20) {
-1 => {
-x_21 = rt::lean_ctor_get(x_20, 0);
-match rt::lean_obj_tag(x_21) {
-9 => {
-x_22 = rt::lean_ctor_get(x_13, 0);
-rt::lean_inc(x_22);
-rt::lean_dec_ref(x_13);
-x_23 = rt::lean_ctor_get_uint8(x_15, 0 * core::mem::size_of::<usize>() as u32 + 0);
-rt::lean_dec_ref(x_15);
-x_24 = rt::lean_ctor_get(x_17, 0);
-rt::lean_inc(x_24);
-rt::lean_dec_ref(x_17);
-x_25 = rt::lean_ctor_get_uint64(x_19, 0 * core::mem::size_of::<usize>() as u32 + 0);
-rt::lean_dec_ref(x_19);
-x_26 = rt::lean_ctor_get(x_20, 1);
-x_42 = (!rt::lean_is_exclusive(x_20)) as u8;
-match x_42 as u32 {
-0 => {
-x_43 = rt::lean_ctor_get(x_20, 0);
-rt::lean_dec(x_43);
-{ let t_0 = x_20; let t_1 = x_42; x_28 = t_0; x_29 = t_1; }
-__blk = 1; continue 'body;
-}
-1 => {
-rt::lean_inc(x_26);
-rt::lean_dec(x_20);
-{ let t_0 = rt::lean_box(0); let t_1 = x_42; x_28 = t_0; x_29 = t_1; }
-__blk = 1; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => {
-rt::lean_dec_ref(x_20);
-rt::lean_dec_ref(x_19);
-rt::lean_dec_ref(x_17);
-rt::lean_dec_ref(x_15);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_44 = rt::lean_box(0);
-return x_44;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_19);
-rt::lean_dec(x_20);
-rt::lean_dec_ref(x_17);
-rt::lean_dec_ref(x_15);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_45 = rt::lean_box(0);
-return x_45;
-}
-}
-}
-_ => {
-rt::lean_dec(x_19);
-rt::lean_dec_ref(x_18);
-rt::lean_dec_ref(x_17);
-rt::lean_dec_ref(x_15);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_46 = rt::lean_box(0);
-return x_46;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_17);
-rt::lean_dec(x_18);
-rt::lean_dec_ref(x_15);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_47 = rt::lean_box(0);
-return x_47;
-}
-}
-}
-_ => {
-rt::lean_dec(x_17);
-rt::lean_dec_ref(x_16);
-rt::lean_dec_ref(x_15);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_48 = rt::lean_box(0);
-return x_48;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_15);
-rt::lean_dec(x_16);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_49 = rt::lean_box(0);
-return x_49;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_14);
-rt::lean_dec(x_15);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_50 = rt::lean_box(0);
-return x_50;
-}
-}
-}
-_ => {
-rt::lean_dec(x_14);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_51 = rt::lean_box(0);
-return x_51;
-}
-}
-}
-_ => {
-rt::lean_dec(x_13);
-rt::lean_dec_ref(x_12);
-rt::lean_dec(x_1);
-x_52 = rt::lean_box(0);
-return x_52;
-}
-}
-}
-_ => {
-rt::lean_dec(x_12);
-rt::lean_dec(x_1);
-x_53 = rt::lean_box(0);
-return x_53;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_2);
-rt::lean_dec(x_1);
-x_54 = rt::lean_box(0);
-return x_54;
-}
-}
-}
-_ => {
-rt::lean_dec(x_2);
-rt::lean_dec(x_1);
-x_55 = rt::lean_box(0);
-return x_55;
-}
-}
-}
-1 => {
-x_30 = rt::lean_alloc_closure(l_instDecidableEqUInt8___boxed as *const (), 2, 0);
-x_31 = l_Notes_Wire_decodeMembers___closed__78();
-rt::lean_inc_ref(x_30);
-x_32 = l_instDecidableEqList___redArg(x_30, x_22, x_31);
-match x_32 as u32 {
-0 => {
-rt::lean_dec_ref(x_30);
-rt::lean_del_object(x_28);
-rt::lean_dec(x_26);
-rt::lean_dec(x_24);
-rt::lean_dec(x_1);
-x_33 = rt::lean_box(0);
-return x_33;
-}
-1 => {
-x_34 = l_Notes_Wire_decodeMembers___closed__73();
-x_35 = l_instDecidableEqList___redArg(x_30, x_24, x_34);
-match x_35 as u32 {
-0 => {
-rt::lean_del_object(x_28);
-rt::lean_dec(x_26);
-rt::lean_dec(x_1);
-x_36 = rt::lean_box(0);
-return x_36;
-}
-1 => {
-x_37 = rt::lean_alloc_ctor(0, 0, 0 * core::mem::size_of::<usize>() as u32 + 9);
-rt::lean_ctor_set_uint64(x_37, 0 * core::mem::size_of::<usize>() as u32 + 0, x_25);
-rt::lean_ctor_set_uint8(x_37, 0 * core::mem::size_of::<usize>() as u32 + 8, x_23);
-match x_29 as u32 {
-0 => {
-rt::lean_ctor_set(x_28, 1, x_1);
-rt::lean_ctor_set(x_28, 0, x_37);
-{ let t_0 = x_28; x_39 = t_0; }
-__blk = 2; continue 'body;
-}
-1 => {
-x_41 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_41, 0, x_37); rt::lean_ctor_set(x_41, 1, x_1);
-{ let t_0 = x_41; x_39 = t_0; }
-__blk = 2; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-2 => {
-{ let t_0 = x_39; let t_1 = x_26; x_1 = t_0; x_2 = t_1; }
-__blk = 0; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-} }
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__78_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__77();
-x_2 = 97u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__78() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__78_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__77_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__76();
-x_2 = 100u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__77() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__77_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__76_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__75();
-x_2 = 109u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__76() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__76_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__75_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__74();
-x_2 = 105u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__75() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__75_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__74_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = rt::lean_box(0);
-x_2 = 110u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__74() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__74_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__73_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__72();
-x_2 = 117u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__73() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__73_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__72_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__6();
-x_2 = 115u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__72() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__72_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_notesItems(mut x_1: Obj, mut x_2: Obj) -> Obj {
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-let mut x_5: Obj = rt::lean_box(0);
-let mut x_6: Obj = rt::lean_box(0);
-let mut x_7: Obj = rt::lean_box(0);
-let mut x_8: Obj = rt::lean_box(0);
-let mut x_9: Obj = rt::lean_box(0);
-let mut x_10: Obj = rt::lean_box(0);
-let mut x_11: Obj = rt::lean_box(0);
-let mut x_12: Obj = rt::lean_box(0);
-let mut x_13: Obj = rt::lean_box(0);
-let mut x_14: Obj = rt::lean_box(0);
-let mut x_15: Obj = rt::lean_box(0);
-let mut x_16: Obj = rt::lean_box(0);
-let mut x_17: Obj = rt::lean_box(0);
-let mut x_18: Obj = rt::lean_box(0);
-let mut x_19: Obj = rt::lean_box(0);
-let mut x_20: Obj = rt::lean_box(0);
-let mut x_21: Obj = rt::lean_box(0);
-let mut x_22: Obj = rt::lean_box(0);
-let mut x_23: Obj = rt::lean_box(0);
-let mut x_24: Obj = rt::lean_box(0);
-let mut x_25: Obj = rt::lean_box(0);
-let mut x_26: Obj = rt::lean_box(0);
-let mut x_27: Obj = rt::lean_box(0);
-let mut x_28: Obj = rt::lean_box(0);
-let mut x_29: Obj = rt::lean_box(0);
-let mut x_30: Obj = rt::lean_box(0);
-let mut x_31: Obj = rt::lean_box(0);
-let mut x_32: Obj = rt::lean_box(0);
-let mut x_33: u64 = 0;
-let mut x_34: Obj = rt::lean_box(0);
-let mut x_35: u64 = 0;
-let mut x_36: Obj = rt::lean_box(0);
-let mut x_37: u8 = 0;
-let mut x_38: Obj = rt::lean_box(0);
-let mut x_40: Obj = rt::lean_box(0);
-let mut x_41: u8 = 0;
-let mut x_42: Obj = rt::lean_box(0);
-let mut x_43: Obj = rt::lean_box(0);
-let mut x_44: Obj = rt::lean_box(0);
-let mut x_46: Obj = rt::lean_box(0);
-let mut x_47: Obj = rt::lean_box(0);
-let mut x_48: Obj = rt::lean_box(0);
-let mut x_49: u8 = 0;
-let mut x_50: Obj = rt::lean_box(0);
-let mut x_51: Obj = rt::lean_box(0);
-let mut x_52: Obj = rt::lean_box(0);
-let mut x_53: Obj = rt::lean_box(0);
-let mut x_54: Obj = rt::lean_box(0);
-let mut x_55: Obj = rt::lean_box(0);
-let mut x_56: Obj = rt::lean_box(0);
-let mut x_57: Obj = rt::lean_box(0);
-let mut x_58: Obj = rt::lean_box(0);
-let mut x_59: Obj = rt::lean_box(0);
-let mut x_60: Obj = rt::lean_box(0);
-let mut x_61: Obj = rt::lean_box(0);
-let mut x_62: Obj = rt::lean_box(0);
-let mut x_63: Obj = rt::lean_box(0);
-let mut x_64: Obj = rt::lean_box(0);
-let mut x_65: Obj = rt::lean_box(0);
-let mut x_66: Obj = rt::lean_box(0);
-let mut x_67: Obj = rt::lean_box(0);
-let mut x_68: Obj = rt::lean_box(0);
-let mut x_69: Obj = rt::lean_box(0);
-let mut x_70: Obj = rt::lean_box(0);
-let mut __blk: u32 = 0;
-'body: loop { match __blk {
-0 => {
-match rt::lean_obj_tag(x_2) {
-1 => {
-x_3 = rt::lean_ctor_get(x_2, 0);
-match rt::lean_obj_tag(x_3) {
-7 => {
-x_4 = rt::lean_ctor_get(x_2, 1);
-rt::lean_inc(x_4);
-rt::lean_dec_ref(x_2);
-match rt::lean_obj_tag(x_4) {
-1 => {
-x_5 = rt::lean_ctor_get(x_4, 0);
-match rt::lean_obj_tag(x_5) {
-9 => {
-x_6 = rt::lean_ctor_get(x_4, 1);
-rt::lean_inc(x_6);
-rt::lean_dec_ref(x_4);
-match rt::lean_obj_tag(x_6) {
-0 => {
-x_7 = l_List_reverse___redArg(x_1);
-x_8 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_8, 0, x_7);
-return x_8;
-}
-_ => {
-rt::lean_dec(x_6);
-rt::lean_dec(x_1);
-x_9 = rt::lean_box(0);
-return x_9;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_4);
-rt::lean_dec(x_1);
-x_10 = rt::lean_box(0);
-return x_10;
-}
-}
-}
-_ => {
-rt::lean_dec(x_4);
-rt::lean_dec(x_1);
-x_11 = rt::lean_box(0);
-return x_11;
-}
-}
-}
-8 => {
-x_12 = rt::lean_ctor_get(x_2, 1);
-rt::lean_inc(x_12);
-rt::lean_dec_ref(x_2);
-match rt::lean_obj_tag(x_12) {
-1 => {
-x_13 = rt::lean_ctor_get(x_12, 0);
-rt::lean_inc(x_13);
-match rt::lean_obj_tag(x_13) {
-5 => {
-x_14 = rt::lean_ctor_get(x_12, 1);
-rt::lean_inc(x_14);
-rt::lean_dec_ref(x_12);
-match rt::lean_obj_tag(x_14) {
-1 => {
-x_15 = rt::lean_ctor_get(x_14, 0);
-rt::lean_inc(x_15);
-match rt::lean_obj_tag(x_15) {
-4 => {
-x_16 = rt::lean_ctor_get(x_14, 1);
-rt::lean_inc(x_16);
-rt::lean_dec_ref(x_14);
-match rt::lean_obj_tag(x_16) {
-1 => {
-x_17 = rt::lean_ctor_get(x_16, 0);
-rt::lean_inc(x_17);
-match rt::lean_obj_tag(x_17) {
-5 => {
-x_18 = rt::lean_ctor_get(x_16, 1);
-rt::lean_inc(x_18);
-rt::lean_dec_ref(x_16);
-match rt::lean_obj_tag(x_18) {
-1 => {
-x_19 = rt::lean_ctor_get(x_18, 0);
-rt::lean_inc(x_19);
-match rt::lean_obj_tag(x_19) {
-2 => {
-x_20 = rt::lean_ctor_get(x_18, 1);
-rt::lean_inc(x_20);
-rt::lean_dec_ref(x_18);
-match rt::lean_obj_tag(x_20) {
-1 => {
-x_21 = rt::lean_ctor_get(x_20, 0);
-rt::lean_inc(x_21);
-match rt::lean_obj_tag(x_21) {
-5 => {
-x_22 = rt::lean_ctor_get(x_20, 1);
-rt::lean_inc(x_22);
-rt::lean_dec_ref(x_20);
-match rt::lean_obj_tag(x_22) {
-1 => {
-x_23 = rt::lean_ctor_get(x_22, 0);
-rt::lean_inc(x_23);
-match rt::lean_obj_tag(x_23) {
-2 => {
-x_24 = rt::lean_ctor_get(x_22, 1);
-rt::lean_inc(x_24);
-rt::lean_dec_ref(x_22);
-match rt::lean_obj_tag(x_24) {
-1 => {
-x_25 = rt::lean_ctor_get(x_24, 0);
-rt::lean_inc(x_25);
-match rt::lean_obj_tag(x_25) {
-5 => {
-x_26 = rt::lean_ctor_get(x_24, 1);
-rt::lean_inc(x_26);
-rt::lean_dec_ref(x_24);
-match rt::lean_obj_tag(x_26) {
-1 => {
-x_27 = rt::lean_ctor_get(x_26, 0);
-rt::lean_inc(x_27);
-match rt::lean_obj_tag(x_27) {
-1 => {
-x_28 = rt::lean_ctor_get(x_26, 1);
-rt::lean_inc(x_28);
-rt::lean_dec_ref(x_26);
-match rt::lean_obj_tag(x_28) {
-1 => {
-x_29 = rt::lean_ctor_get(x_28, 0);
-match rt::lean_obj_tag(x_29) {
-9 => {
-x_30 = rt::lean_ctor_get(x_13, 0);
-rt::lean_inc(x_30);
-rt::lean_dec_ref(x_13);
-x_31 = rt::lean_ctor_get(x_15, 0);
-rt::lean_inc(x_31);
-rt::lean_dec_ref(x_15);
-x_32 = rt::lean_ctor_get(x_17, 0);
-rt::lean_inc(x_32);
-rt::lean_dec_ref(x_17);
-x_33 = rt::lean_ctor_get_uint64(x_19, 0 * core::mem::size_of::<usize>() as u32 + 0);
-rt::lean_dec_ref(x_19);
-x_34 = rt::lean_ctor_get(x_21, 0);
-rt::lean_inc(x_34);
-rt::lean_dec_ref(x_21);
-x_35 = rt::lean_ctor_get_uint64(x_23, 0 * core::mem::size_of::<usize>() as u32 + 0);
-rt::lean_dec_ref(x_23);
-x_36 = rt::lean_ctor_get(x_25, 0);
-rt::lean_inc(x_36);
-rt::lean_dec_ref(x_25);
-x_37 = rt::lean_ctor_get_uint8(x_27, 0 * core::mem::size_of::<usize>() as u32 + 0);
-rt::lean_dec_ref(x_27);
-x_38 = rt::lean_ctor_get(x_28, 1);
-x_49 = (!rt::lean_is_exclusive(x_28)) as u8;
-match x_49 as u32 {
-0 => {
-x_50 = rt::lean_ctor_get(x_28, 0);
-rt::lean_dec(x_50);
-{ let t_0 = x_28; let t_1 = x_49; x_40 = t_0; x_41 = t_1; }
-__blk = 1; continue 'body;
-}
-1 => {
-rt::lean_inc(x_38);
-rt::lean_dec(x_28);
-{ let t_0 = rt::lean_box(0); let t_1 = x_49; x_40 = t_0; x_41 = t_1; }
-__blk = 1; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => {
-rt::lean_dec_ref(x_28);
-rt::lean_dec_ref(x_27);
-rt::lean_dec_ref(x_25);
-rt::lean_dec_ref(x_23);
-rt::lean_dec_ref(x_21);
-rt::lean_dec_ref(x_19);
-rt::lean_dec_ref(x_17);
-rt::lean_dec_ref(x_15);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_51 = rt::lean_box(0);
-return x_51;
-}
-}
-}
-_ => {
-rt::lean_dec(x_28);
-rt::lean_dec_ref(x_27);
-rt::lean_dec_ref(x_25);
-rt::lean_dec_ref(x_23);
-rt::lean_dec_ref(x_21);
-rt::lean_dec_ref(x_19);
-rt::lean_dec_ref(x_17);
-rt::lean_dec_ref(x_15);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_52 = rt::lean_box(0);
-return x_52;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_26);
-rt::lean_dec(x_27);
-rt::lean_dec_ref(x_25);
-rt::lean_dec_ref(x_23);
-rt::lean_dec_ref(x_21);
-rt::lean_dec_ref(x_19);
-rt::lean_dec_ref(x_17);
-rt::lean_dec_ref(x_15);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_53 = rt::lean_box(0);
-return x_53;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_25);
-rt::lean_dec(x_26);
-rt::lean_dec_ref(x_23);
-rt::lean_dec_ref(x_21);
-rt::lean_dec_ref(x_19);
-rt::lean_dec_ref(x_17);
-rt::lean_dec_ref(x_15);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_54 = rt::lean_box(0);
-return x_54;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_24);
-rt::lean_dec(x_25);
-rt::lean_dec_ref(x_23);
-rt::lean_dec_ref(x_21);
-rt::lean_dec_ref(x_19);
-rt::lean_dec_ref(x_17);
-rt::lean_dec_ref(x_15);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_55 = rt::lean_box(0);
-return x_55;
-}
-}
-}
-_ => {
-rt::lean_dec(x_24);
-rt::lean_dec_ref(x_23);
-rt::lean_dec_ref(x_21);
-rt::lean_dec_ref(x_19);
-rt::lean_dec_ref(x_17);
-rt::lean_dec_ref(x_15);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_56 = rt::lean_box(0);
-return x_56;
-}
-}
-}
-_ => {
-rt::lean_dec(x_23);
-rt::lean_dec_ref(x_22);
-rt::lean_dec_ref(x_21);
-rt::lean_dec_ref(x_19);
-rt::lean_dec_ref(x_17);
-rt::lean_dec_ref(x_15);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_57 = rt::lean_box(0);
-return x_57;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_21);
-rt::lean_dec(x_22);
-rt::lean_dec_ref(x_19);
-rt::lean_dec_ref(x_17);
-rt::lean_dec_ref(x_15);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_58 = rt::lean_box(0);
-return x_58;
-}
-}
-}
-_ => {
-rt::lean_dec(x_21);
-rt::lean_dec_ref(x_20);
-rt::lean_dec_ref(x_19);
-rt::lean_dec_ref(x_17);
-rt::lean_dec_ref(x_15);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_59 = rt::lean_box(0);
-return x_59;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_19);
-rt::lean_dec(x_20);
-rt::lean_dec_ref(x_17);
-rt::lean_dec_ref(x_15);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_60 = rt::lean_box(0);
-return x_60;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_18);
-rt::lean_dec(x_19);
-rt::lean_dec_ref(x_17);
-rt::lean_dec_ref(x_15);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_61 = rt::lean_box(0);
-return x_61;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_17);
-rt::lean_dec(x_18);
-rt::lean_dec_ref(x_15);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_62 = rt::lean_box(0);
-return x_62;
-}
-}
-}
-_ => {
-rt::lean_dec(x_17);
-rt::lean_dec_ref(x_16);
-rt::lean_dec_ref(x_15);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_63 = rt::lean_box(0);
-return x_63;
-}
-}
-}
-_ => {
-rt::lean_dec(x_16);
-rt::lean_dec_ref(x_15);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_64 = rt::lean_box(0);
-return x_64;
-}
-}
-}
-_ => {
-rt::lean_dec(x_15);
-rt::lean_dec_ref(x_14);
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_1);
-x_65 = rt::lean_box(0);
-return x_65;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_13);
-rt::lean_dec(x_14);
-rt::lean_dec(x_1);
-x_66 = rt::lean_box(0);
-return x_66;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_12);
-rt::lean_dec(x_13);
-rt::lean_dec(x_1);
-x_67 = rt::lean_box(0);
-return x_67;
-}
-}
-}
-_ => {
-rt::lean_dec(x_12);
-rt::lean_dec(x_1);
-x_68 = rt::lean_box(0);
-return x_68;
-}
-}
-}
-_ => {
-rt::lean_dec_ref(x_2);
-rt::lean_dec(x_1);
-x_69 = rt::lean_box(0);
-return x_69;
-}
-}
-}
-_ => {
-rt::lean_dec(x_2);
-rt::lean_dec(x_1);
-x_70 = rt::lean_box(0);
-return x_70;
-}
-}
-}
-1 => {
-x_42 = l_Notes_Wire_noteOf(x_30, x_31, x_32, x_33, x_34, x_35, x_36, x_37);
-match rt::lean_obj_tag(x_42) {
-0 => {
-rt::lean_del_object(x_40);
-rt::lean_dec(x_38);
-rt::lean_dec(x_1);
-x_43 = rt::lean_box(0);
-return x_43;
-}
-1 => {
-x_44 = rt::lean_ctor_get(x_42, 0);
-rt::lean_inc(x_44);
-rt::lean_dec_ref(x_42);
-match x_41 as u32 {
-0 => {
-rt::lean_ctor_set(x_40, 1, x_1);
-rt::lean_ctor_set(x_40, 0, x_44);
-{ let t_0 = x_40; x_46 = t_0; }
-__blk = 2; continue 'body;
-}
-1 => {
-x_48 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_48, 0, x_44); rt::lean_ctor_set(x_48, 1, x_1);
-{ let t_0 = x_48; x_46 = t_0; }
-__blk = 2; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-2 => {
-{ let t_0 = x_46; let t_1 = x_38; x_1 = t_0; x_2 = t_1; }
-__blk = 0; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-} }
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_scalar(mut x_1: Obj) -> u8 {
-let mut x_2: u8 = 0;
-let mut x_3: u8 = 0;
-let mut x_4: u8 = 0;
-let mut x_5: u8 = 0;
-let mut x_6: u8 = 0;
-let mut x_7: u8 = 0;
-let mut x_8: u8 = 0;
-match rt::lean_obj_tag(x_1) {
-0 => {
-x_2 = 1u8;
-return x_2;
-}
-1 => {
-x_3 = 1u8;
-return x_3;
-}
-2 => {
-x_4 = 1u8;
-return x_4;
-}
-3 => {
-x_5 = 1u8;
-return x_5;
-}
-4 => {
-x_6 = 1u8;
-return x_6;
-}
-5 => {
-x_7 = 0u8;
-return x_7;
-}
-_ => {
-x_8 = 0u8;
-return x_8;
-}
-}
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Notes_Wire_decodeMembers(mut x_1: Obj) -> Obj {
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_5: Obj = rt::lean_box(0);
@@ -6025,137 +3954,133 @@ let mut x_14: Obj = rt::lean_box(0);
 let mut x_15: Obj = rt::lean_box(0);
 let mut x_16: Obj = rt::lean_box(0);
 let mut x_17: Obj = rt::lean_box(0);
-let mut x_18: Obj = rt::lean_box(0);
-let mut x_19: u8 = 0;
-let mut x_20: Obj = rt::lean_box(0);
-let mut x_21: u8 = 0;
-let mut x_22: Obj = rt::lean_box(0);
-let mut x_23: u8 = 0;
-let mut x_24: Obj = rt::lean_box(0);
-let mut x_25: u8 = 0;
-let mut x_26: Obj = rt::lean_box(0);
-let mut x_27: u8 = 0;
-let mut x_28: Obj = rt::lean_box(0);
-let mut x_29: u8 = 0;
-let mut x_30: Obj = rt::lean_box(0);
-let mut x_31: u8 = 0;
+let mut x_18: u8 = 0;
+let mut x_19: Obj = rt::lean_box(0);
+let mut x_20: u8 = 0;
+let mut x_21: Obj = rt::lean_box(0);
+let mut x_22: u8 = 0;
+let mut x_23: Obj = rt::lean_box(0);
+let mut x_24: u8 = 0;
+let mut x_25: Obj = rt::lean_box(0);
+let mut x_26: u8 = 0;
+let mut x_27: Obj = rt::lean_box(0);
+let mut x_28: u8 = 0;
+let mut x_29: Obj = rt::lean_box(0);
+let mut x_30: u8 = 0;
+let mut x_31: Obj = rt::lean_box(0);
 let mut x_32: Obj = rt::lean_box(0);
 let mut x_33: Obj = rt::lean_box(0);
-let mut x_34: Obj = rt::lean_box(0);
-let mut x_35: u8 = 0;
+let mut x_34: u8 = 0;
+let mut x_35: Obj = rt::lean_box(0);
 let mut x_36: Obj = rt::lean_box(0);
 let mut x_37: Obj = rt::lean_box(0);
 let mut x_38: Obj = rt::lean_box(0);
-let mut x_39: Obj = rt::lean_box(0);
-let mut x_40: u8 = 0;
+let mut x_39: u8 = 0;
+let mut x_40: Obj = rt::lean_box(0);
 let mut x_41: Obj = rt::lean_box(0);
 let mut x_42: Obj = rt::lean_box(0);
 let mut x_43: Obj = rt::lean_box(0);
-let mut x_44: Obj = rt::lean_box(0);
-let mut x_45: u8 = 0;
+let mut x_44: u8 = 0;
+let mut x_45: Obj = rt::lean_box(0);
 let mut x_46: Obj = rt::lean_box(0);
 let mut x_47: Obj = rt::lean_box(0);
 let mut x_48: Obj = rt::lean_box(0);
-let mut x_49: Obj = rt::lean_box(0);
-let mut x_51: Obj = rt::lean_box(0);
-let mut x_52: u8 = 0;
-let mut x_53: u64 = 0;
-let mut x_55: Obj = rt::lean_box(0);
-let mut x_56: u8 = 0;
-let mut x_58: Obj = rt::lean_box(0);
+let mut x_50: Obj = rt::lean_box(0);
+let mut x_51: u8 = 0;
+let mut x_52: u64 = 0;
+let mut x_54: Obj = rt::lean_box(0);
+let mut x_55: u8 = 0;
+let mut x_57: Obj = rt::lean_box(0);
+let mut x_59: Obj = rt::lean_box(0);
 let mut x_60: Obj = rt::lean_box(0);
 let mut x_61: Obj = rt::lean_box(0);
-let mut x_62: Obj = rt::lean_box(0);
+let mut x_62: u8 = 0;
 let mut x_63: u8 = 0;
-let mut x_64: u8 = 0;
+let mut x_64: Obj = rt::lean_box(0);
 let mut x_65: Obj = rt::lean_box(0);
-let mut x_66: Obj = rt::lean_box(0);
-let mut x_67: u8 = 0;
+let mut x_66: u8 = 0;
+let mut x_67: Obj = rt::lean_box(0);
 let mut x_68: Obj = rt::lean_box(0);
 let mut x_69: Obj = rt::lean_box(0);
 let mut x_70: Obj = rt::lean_box(0);
-let mut x_71: Obj = rt::lean_box(0);
-let mut x_73: Obj = rt::lean_box(0);
-let mut x_74: u8 = 0;
-let mut x_75: u64 = 0;
-let mut x_77: Obj = rt::lean_box(0);
-let mut x_78: u8 = 0;
-let mut x_80: Obj = rt::lean_box(0);
+let mut x_72: Obj = rt::lean_box(0);
+let mut x_73: u8 = 0;
+let mut x_74: u64 = 0;
+let mut x_76: Obj = rt::lean_box(0);
+let mut x_77: u8 = 0;
+let mut x_79: Obj = rt::lean_box(0);
+let mut x_81: Obj = rt::lean_box(0);
 let mut x_82: Obj = rt::lean_box(0);
 let mut x_83: Obj = rt::lean_box(0);
-let mut x_84: Obj = rt::lean_box(0);
+let mut x_84: u8 = 0;
 let mut x_85: u8 = 0;
-let mut x_86: u8 = 0;
+let mut x_86: Obj = rt::lean_box(0);
 let mut x_87: Obj = rt::lean_box(0);
-let mut x_88: Obj = rt::lean_box(0);
-let mut x_89: u8 = 0;
+let mut x_88: u8 = 0;
+let mut x_89: Obj = rt::lean_box(0);
 let mut x_90: Obj = rt::lean_box(0);
 let mut x_91: Obj = rt::lean_box(0);
 let mut x_92: Obj = rt::lean_box(0);
-let mut x_93: Obj = rt::lean_box(0);
-let mut x_94: u64 = 0;
+let mut x_93: u64 = 0;
+let mut x_94: Obj = rt::lean_box(0);
 let mut x_95: Obj = rt::lean_box(0);
 let mut x_96: Obj = rt::lean_box(0);
 let mut x_97: Obj = rt::lean_box(0);
 let mut x_98: Obj = rt::lean_box(0);
 let mut x_99: Obj = rt::lean_box(0);
 let mut x_100: Obj = rt::lean_box(0);
-let mut x_101: Obj = rt::lean_box(0);
-let mut x_102: u8 = 0;
-let mut x_103: Obj = rt::lean_box(0);
-let mut x_104: Obj = rt::lean_box(0);
+let mut x_102: Obj = rt::lean_box(0);
+let mut x_103: u8 = 0;
+let mut x_104: u8 = 0;
 let mut x_105: Obj = rt::lean_box(0);
 let mut x_107: Obj = rt::lean_box(0);
-let mut x_108: u8 = 0;
-let mut x_109: Obj = rt::lean_box(0);
+let mut x_108: Obj = rt::lean_box(0);
+let mut x_109: u8 = 0;
+let mut x_110: Obj = rt::lean_box(0);
 let mut x_111: Obj = rt::lean_box(0);
-let mut x_112: Obj = rt::lean_box(0);
-let mut x_113: u8 = 0;
+let mut x_112: u8 = 0;
+let mut x_113: Obj = rt::lean_box(0);
 let mut x_114: Obj = rt::lean_box(0);
 let mut x_115: Obj = rt::lean_box(0);
-let mut x_116: u8 = 0;
-let mut x_117: Obj = rt::lean_box(0);
+let mut x_116: Obj = rt::lean_box(0);
 let mut x_118: Obj = rt::lean_box(0);
-let mut x_119: Obj = rt::lean_box(0);
-let mut x_120: Obj = rt::lean_box(0);
+let mut x_119: u8 = 0;
+let mut x_120: u64 = 0;
 let mut x_122: Obj = rt::lean_box(0);
 let mut x_123: u8 = 0;
-let mut x_124: u64 = 0;
-let mut x_126: Obj = rt::lean_box(0);
-let mut x_127: u8 = 0;
+let mut x_125: Obj = rt::lean_box(0);
+let mut x_127: Obj = rt::lean_box(0);
+let mut x_128: Obj = rt::lean_box(0);
 let mut x_129: Obj = rt::lean_box(0);
-let mut x_131: Obj = rt::lean_box(0);
+let mut x_130: u8 = 0;
+let mut x_131: u8 = 0;
 let mut x_132: Obj = rt::lean_box(0);
 let mut x_133: Obj = rt::lean_box(0);
 let mut x_134: u8 = 0;
-let mut x_135: u8 = 0;
+let mut x_135: Obj = rt::lean_box(0);
 let mut x_136: Obj = rt::lean_box(0);
 let mut x_137: Obj = rt::lean_box(0);
-let mut x_138: u8 = 0;
-let mut x_139: Obj = rt::lean_box(0);
+let mut x_138: Obj = rt::lean_box(0);
+let mut x_139: u64 = 0;
 let mut x_140: Obj = rt::lean_box(0);
 let mut x_141: Obj = rt::lean_box(0);
 let mut x_142: Obj = rt::lean_box(0);
-let mut x_143: u64 = 0;
 let mut x_144: Obj = rt::lean_box(0);
-let mut x_145: Obj = rt::lean_box(0);
-let mut x_146: Obj = rt::lean_box(0);
-let mut x_148: Obj = rt::lean_box(0);
-let mut x_149: u8 = 0;
-let mut x_150: u8 = 0;
-let mut x_151: Obj = rt::lean_box(0);
-let mut x_153: Obj = rt::lean_box(0);
-let mut x_154: Obj = rt::lean_box(0);
-let mut x_155: u8 = 0;
-let mut x_156: Obj = rt::lean_box(0);
+let mut x_145: u8 = 0;
+let mut x_146: u8 = 0;
+let mut x_147: Obj = rt::lean_box(0);
+let mut x_149: Obj = rt::lean_box(0);
+let mut x_150: Obj = rt::lean_box(0);
+let mut x_151: u8 = 0;
+let mut x_152: Obj = rt::lean_box(0);
 let mut __blk: u32 = 0;
 'body: loop { match __blk {
 0 => {
-x_12 = l_Notes_Wire_decodeMembers___closed__3();
+x_12 = l_Notes_Wire_decodeMembers___closed__1();
 x_13 = l_List_lookup___at___00Notes_Wire_decodeMembers_spec__0___redArg(x_12, x_1);
 match rt::lean_obj_tag(x_13) {
 0 => {
-x_14 = l_Notes_Wire_decodeMembers___closed__4();
+x_14 = l_Notes_Wire_decodeMembers___closed__2();
 return x_14;
 }
 1 => {
@@ -6165,65 +4090,54 @@ rt::lean_dec_ref(x_13);
 match rt::lean_obj_tag(x_15) {
 4 => {
 x_16 = rt::lean_ctor_get(x_15, 0);
-rt::lean_inc_n(x_16, 2);
+rt::lean_inc_ref(x_16);
 rt::lean_dec_ref(x_15);
-x_17 = rt::lean_alloc_closure(l_instDecidableEqUInt8___boxed as *const (), 2, 0);
-x_18 = l_Notes_Wire_decodeMembers___closed__14();
-rt::lean_inc_ref(x_17);
-x_19 = l_instDecidableEqList___redArg(x_17, x_16, x_18);
-match x_19 as u32 {
+x_17 = l_Notes_Wire_decodeMembers___closed__3();
+x_18 = rt::lean_string_dec_eq(x_16, x_17);
+match x_18 as u32 {
 0 => {
-x_20 = l_Notes_Wire_decodeMembers___closed__20();
-rt::lean_inc(x_16);
-rt::lean_inc_ref(x_17);
-x_21 = l_instDecidableEqList___redArg(x_17, x_16, x_20);
-match x_21 as u32 {
+x_19 = l_Notes_Wire_decodeMembers___closed__4();
+x_20 = rt::lean_string_dec_eq(x_16, x_19);
+match x_20 as u32 {
 0 => {
-x_22 = l_Notes_Wire_decodeMembers___closed__28();
-rt::lean_inc(x_16);
-rt::lean_inc_ref(x_17);
-x_23 = l_instDecidableEqList___redArg(x_17, x_16, x_22);
-match x_23 as u32 {
+x_21 = l_Notes_Wire_decodeMembers___closed__5();
+x_22 = rt::lean_string_dec_eq(x_16, x_21);
+match x_22 as u32 {
 0 => {
-x_24 = l_Notes_Wire_decodeMembers___closed__34();
-rt::lean_inc(x_16);
-rt::lean_inc_ref(x_17);
-x_25 = l_instDecidableEqList___redArg(x_17, x_16, x_24);
-match x_25 as u32 {
+x_23 = l_Notes_Wire_decodeMembers___closed__6();
+x_24 = rt::lean_string_dec_eq(x_16, x_23);
+match x_24 as u32 {
 0 => {
-x_26 = l_Notes_Wire_decodeMembers___closed__38();
-rt::lean_inc(x_16);
-rt::lean_inc_ref(x_17);
-x_27 = l_instDecidableEqList___redArg(x_17, x_16, x_26);
-match x_27 as u32 {
+x_25 = l_Notes_Wire_decodeMembers___closed__7();
+x_26 = rt::lean_string_dec_eq(x_16, x_25);
+match x_26 as u32 {
 0 => {
-x_28 = l_Notes_Wire_decodeMembers___closed__48();
-rt::lean_inc(x_16);
-rt::lean_inc_ref(x_17);
-x_29 = l_instDecidableEqList___redArg(x_17, x_16, x_28);
-match x_29 as u32 {
+x_27 = l_Notes_Wire_decodeMembers___closed__8();
+x_28 = rt::lean_string_dec_eq(x_16, x_27);
+match x_28 as u32 {
 0 => {
-x_30 = l_Notes_Wire_decodeMembers___closed__59();
-x_31 = l_instDecidableEqList___redArg(x_17, x_16, x_30);
-match x_31 as u32 {
+x_29 = l_Notes_Wire_decodeMembers___closed__9();
+x_30 = rt::lean_string_dec_eq(x_16, x_29);
+rt::lean_dec_ref(x_16);
+match x_30 as u32 {
 0 => {
-x_32 = l_Notes_Wire_decodeMembers___closed__0();
-return x_32;
+x_31 = l_Notes_Wire_decodeMembers___closed__0();
+return x_31;
 }
 1 => {
-x_33 = l_List_lengthTR___redArg(x_1);
-x_34 = rt::lean_unsigned_to_nat(1u32);
-x_35 = rt::lean_nat_dec_eq(x_33, x_34);
-rt::lean_dec(x_33);
-match x_35 as u32 {
+x_32 = l_List_lengthTR___redArg(x_1);
+x_33 = rt::lean_unsigned_to_nat(1u32);
+x_34 = rt::lean_nat_dec_eq(x_32, x_33);
+rt::lean_dec(x_32);
+match x_34 as u32 {
 0 => {
-x_36 = l_Notes_Wire_decodeMembers___closed__0();
+x_35 = l_Notes_Wire_decodeMembers___closed__0();
+return x_35;
+}
+1 => {
+x_36 = l_Notes_Wire_decodeMembers___closed__10();
 return x_36;
 }
-1 => {
-x_37 = l_Notes_Wire_decodeMembers___closed__60();
-return x_37;
-}
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
@@ -6231,21 +4145,20 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-rt::lean_dec_ref(x_17);
-rt::lean_dec(x_16);
-x_38 = l_List_lengthTR___redArg(x_1);
-x_39 = rt::lean_unsigned_to_nat(1u32);
-x_40 = rt::lean_nat_dec_eq(x_38, x_39);
-rt::lean_dec(x_38);
-match x_40 as u32 {
+rt::lean_dec_ref(x_16);
+x_37 = l_List_lengthTR___redArg(x_1);
+x_38 = rt::lean_unsigned_to_nat(1u32);
+x_39 = rt::lean_nat_dec_eq(x_37, x_38);
+rt::lean_dec(x_37);
+match x_39 as u32 {
 0 => {
-x_41 = l_Notes_Wire_decodeMembers___closed__0();
+x_40 = l_Notes_Wire_decodeMembers___closed__0();
+return x_40;
+}
+1 => {
+x_41 = l_Notes_Wire_decodeMembers___closed__11();
 return x_41;
 }
-1 => {
-x_42 = l_Notes_Wire_decodeMembers___closed__61();
-return x_42;
-}
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
@@ -6253,40 +4166,39 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-rt::lean_dec_ref(x_17);
-rt::lean_dec(x_16);
-x_43 = l_List_lengthTR___redArg(x_1);
-x_44 = rt::lean_unsigned_to_nat(2u32);
-x_45 = rt::lean_nat_dec_eq(x_43, x_44);
-rt::lean_dec(x_43);
-match x_45 as u32 {
+rt::lean_dec_ref(x_16);
+x_42 = l_List_lengthTR___redArg(x_1);
+x_43 = rt::lean_unsigned_to_nat(2u32);
+x_44 = rt::lean_nat_dec_eq(x_42, x_43);
+rt::lean_dec(x_42);
+match x_44 as u32 {
 0 => {
-x_46 = l_Notes_Wire_decodeMembers___closed__0();
-return x_46;
+x_45 = l_Notes_Wire_decodeMembers___closed__0();
+return x_45;
 }
 1 => {
-x_47 = l_Notes_Wire_decodeMembers___closed__62();
-x_48 = l_List_lookup___at___00Notes_Wire_decodeMembers_spec__0___redArg(x_47, x_1);
-match rt::lean_obj_tag(x_48) {
+x_46 = l_Notes_Wire_decodeMembers___closed__12();
+x_47 = l_List_lookup___at___00Notes_Wire_decodeMembers_spec__0___redArg(x_46, x_1);
+match rt::lean_obj_tag(x_47) {
 1 => {
-x_49 = rt::lean_ctor_get(x_48, 0);
-x_64 = (!rt::lean_is_exclusive(x_48)) as u8;
-match x_64 as u32 {
+x_48 = rt::lean_ctor_get(x_47, 0);
+x_63 = (!rt::lean_is_exclusive(x_47)) as u8;
+match x_63 as u32 {
 0 => {
-{ let t_0 = x_48; let t_1 = x_64; x_51 = t_0; x_52 = t_1; }
+{ let t_0 = x_47; let t_1 = x_63; x_50 = t_0; x_51 = t_1; }
 __blk = 6; continue 'body;
 }
 1 => {
-rt::lean_inc(x_49);
-rt::lean_dec(x_48);
-{ let t_0 = rt::lean_box(0); let t_1 = x_64; x_51 = t_0; x_52 = t_1; }
+rt::lean_inc(x_48);
+rt::lean_dec(x_47);
+{ let t_0 = rt::lean_box(0); let t_1 = x_63; x_50 = t_0; x_51 = t_1; }
 __blk = 6; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 _ => {
-rt::lean_dec(x_48);
+rt::lean_dec(x_47);
 { }
 __blk = 1; continue 'body;
 }
@@ -6299,40 +4211,39 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-rt::lean_dec_ref(x_17);
-rt::lean_dec(x_16);
-x_65 = l_List_lengthTR___redArg(x_1);
-x_66 = rt::lean_unsigned_to_nat(2u32);
-x_67 = rt::lean_nat_dec_eq(x_65, x_66);
-rt::lean_dec(x_65);
-match x_67 as u32 {
+rt::lean_dec_ref(x_16);
+x_64 = l_List_lengthTR___redArg(x_1);
+x_65 = rt::lean_unsigned_to_nat(2u32);
+x_66 = rt::lean_nat_dec_eq(x_64, x_65);
+rt::lean_dec(x_64);
+match x_66 as u32 {
 0 => {
-x_68 = l_Notes_Wire_decodeMembers___closed__0();
-return x_68;
+x_67 = l_Notes_Wire_decodeMembers___closed__0();
+return x_67;
 }
 1 => {
-x_69 = l_Notes_Wire_decodeMembers___closed__62();
-x_70 = l_List_lookup___at___00Notes_Wire_decodeMembers_spec__0___redArg(x_69, x_1);
-match rt::lean_obj_tag(x_70) {
+x_68 = l_Notes_Wire_decodeMembers___closed__12();
+x_69 = l_List_lookup___at___00Notes_Wire_decodeMembers_spec__0___redArg(x_68, x_1);
+match rt::lean_obj_tag(x_69) {
 1 => {
-x_71 = rt::lean_ctor_get(x_70, 0);
-x_86 = (!rt::lean_is_exclusive(x_70)) as u8;
-match x_86 as u32 {
+x_70 = rt::lean_ctor_get(x_69, 0);
+x_85 = (!rt::lean_is_exclusive(x_69)) as u8;
+match x_85 as u32 {
 0 => {
-{ let t_0 = x_70; let t_1 = x_86; x_73 = t_0; x_74 = t_1; }
+{ let t_0 = x_69; let t_1 = x_85; x_72 = t_0; x_73 = t_1; }
 __blk = 10; continue 'body;
 }
 1 => {
-rt::lean_inc(x_71);
-rt::lean_dec(x_70);
-{ let t_0 = rt::lean_box(0); let t_1 = x_86; x_73 = t_0; x_74 = t_1; }
+rt::lean_inc(x_70);
+rt::lean_dec(x_69);
+{ let t_0 = rt::lean_box(0); let t_1 = x_85; x_72 = t_0; x_73 = t_1; }
 __blk = 10; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 _ => {
-rt::lean_dec(x_70);
+rt::lean_dec(x_69);
 { }
 __blk = 2; continue 'body;
 }
@@ -6345,96 +4256,63 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-rt::lean_dec_ref(x_17);
-rt::lean_dec(x_16);
-x_87 = l_List_lengthTR___redArg(x_1);
-x_88 = rt::lean_unsigned_to_nat(4u32);
-x_89 = rt::lean_nat_dec_eq(x_87, x_88);
-rt::lean_dec(x_87);
-match x_89 as u32 {
+rt::lean_dec_ref(x_16);
+x_86 = l_List_lengthTR___redArg(x_1);
+x_87 = rt::lean_unsigned_to_nat(4u32);
+x_88 = rt::lean_nat_dec_eq(x_86, x_87);
+rt::lean_dec(x_86);
+match x_88 as u32 {
 0 => {
-x_90 = l_Notes_Wire_decodeMembers___closed__0();
-return x_90;
+x_89 = l_Notes_Wire_decodeMembers___closed__0();
+return x_89;
 }
 1 => {
-x_91 = l_Notes_Wire_decodeMembers___closed__62();
-x_92 = l_List_lookup___at___00Notes_Wire_decodeMembers_spec__0___redArg(x_91, x_1);
+x_90 = l_Notes_Wire_decodeMembers___closed__12();
+x_91 = l_List_lookup___at___00Notes_Wire_decodeMembers_spec__0___redArg(x_90, x_1);
+match rt::lean_obj_tag(x_91) {
+1 => {
+x_92 = rt::lean_ctor_get(x_91, 0);
+rt::lean_inc(x_92);
+rt::lean_dec_ref(x_91);
 match rt::lean_obj_tag(x_92) {
-1 => {
-x_93 = rt::lean_ctor_get(x_92, 0);
-rt::lean_inc(x_93);
-rt::lean_dec_ref(x_92);
-match rt::lean_obj_tag(x_93) {
 2 => {
-x_94 = rt::lean_ctor_get_uint64(x_93, 0 * core::mem::size_of::<usize>() as u32 + 0);
-rt::lean_dec_ref(x_93);
-x_95 = l_Notes_Wire_decodeMembers___closed__66();
-x_96 = l_List_lookup___at___00Notes_Wire_decodeMembers_spec__0___redArg(x_95, x_1);
+x_93 = rt::lean_ctor_get_uint64(x_92, 0 * core::mem::size_of::<usize>() as u32 + 0);
+rt::lean_dec_ref(x_92);
+x_94 = l_Notes_Wire_decodeMembers___closed__13();
+x_95 = l_List_lookup___at___00Notes_Wire_decodeMembers_spec__0___redArg(x_94, x_1);
+match rt::lean_obj_tag(x_95) {
+1 => {
+x_96 = rt::lean_ctor_get(x_95, 0);
+rt::lean_inc(x_96);
+rt::lean_dec_ref(x_95);
 match rt::lean_obj_tag(x_96) {
-1 => {
-x_97 = rt::lean_ctor_get(x_96, 0);
-rt::lean_inc(x_97);
-rt::lean_dec_ref(x_96);
-match rt::lean_obj_tag(x_97) {
 4 => {
-x_98 = rt::lean_ctor_get(x_97, 0);
-rt::lean_inc(x_98);
+x_97 = rt::lean_ctor_get(x_96, 0);
+rt::lean_inc_ref(x_97);
+rt::lean_dec_ref(x_96);
+x_98 = l_Notes_Wire_decodeMembers___closed__14();
+x_99 = l_List_lookup___at___00Notes_Wire_decodeMembers_spec__0___redArg(x_98, x_1);
+match rt::lean_obj_tag(x_99) {
+1 => {
+x_100 = rt::lean_ctor_get(x_99, 0);
+x_109 = (!rt::lean_is_exclusive(x_99)) as u8;
+match x_109 as u32 {
+0 => {
+{ let t_0 = x_99; let t_1 = x_109; x_102 = t_0; x_103 = t_1; }
+__blk = 14; continue 'body;
+}
+1 => {
+rt::lean_inc(x_100);
+rt::lean_dec(x_99);
+{ let t_0 = rt::lean_box(0); let t_1 = x_109; x_102 = t_0; x_103 = t_1; }
+__blk = 14; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => {
+rt::lean_dec(x_99);
 rt::lean_dec_ref(x_97);
-x_99 = l_Notes_Wire_decodeMembers___closed__71();
-x_100 = l_List_lookup___at___00Notes_Wire_decodeMembers_spec__0___redArg(x_99, x_1);
-match rt::lean_obj_tag(x_100) {
-1 => {
-x_101 = rt::lean_ctor_get(x_100, 0);
-rt::lean_inc(x_101);
-rt::lean_dec_ref(x_100);
-match rt::lean_obj_tag(x_101) {
-1 => {
-x_102 = rt::lean_ctor_get_uint8(x_101, 0 * core::mem::size_of::<usize>() as u32 + 0);
-rt::lean_dec_ref(x_101);
-x_103 = l_Notes_Wire_textOf(x_98);
-match rt::lean_obj_tag(x_103) {
-0 => {
-x_104 = l_Notes_Wire_decodeMembers___closed__0();
-return x_104;
-}
-1 => {
-x_105 = rt::lean_ctor_get(x_103, 0);
-x_113 = (!rt::lean_is_exclusive(x_103)) as u8;
-match x_113 as u32 {
-0 => {
-{ let t_0 = x_103; let t_1 = x_113; x_107 = t_0; x_108 = t_1; }
-__blk = 14; continue 'body;
-}
-1 => {
-rt::lean_inc(x_105);
-rt::lean_dec(x_103);
-{ let t_0 = rt::lean_box(0); let t_1 = x_113; x_107 = t_0; x_108 = t_1; }
-__blk = 14; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => {
-rt::lean_dec(x_101);
-rt::lean_dec(x_98);
-{ }
-__blk = 3; continue 'body;
-}
-}
-}
-_ => {
-rt::lean_dec(x_100);
-rt::lean_dec(x_98);
-{ }
-__blk = 3; continue 'body;
-}
-}
-}
-_ => {
-rt::lean_dec(x_97);
 { }
 __blk = 3; continue 'body;
 }
@@ -6448,7 +4326,7 @@ __blk = 3; continue 'body;
 }
 }
 _ => {
-rt::lean_dec(x_93);
+rt::lean_dec(x_95);
 { }
 __blk = 3; continue 'body;
 }
@@ -6461,6 +4339,13 @@ __blk = 3; continue 'body;
 }
 }
 }
+_ => {
+rt::lean_dec(x_91);
+{ }
+__blk = 3; continue 'body;
+}
+}
+}
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
@@ -6468,40 +4353,39 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-rt::lean_dec_ref(x_17);
-rt::lean_dec(x_16);
-x_114 = l_List_lengthTR___redArg(x_1);
-x_115 = rt::lean_unsigned_to_nat(2u32);
-x_116 = rt::lean_nat_dec_eq(x_114, x_115);
-rt::lean_dec(x_114);
-match x_116 as u32 {
+rt::lean_dec_ref(x_16);
+x_110 = l_List_lengthTR___redArg(x_1);
+x_111 = rt::lean_unsigned_to_nat(2u32);
+x_112 = rt::lean_nat_dec_eq(x_110, x_111);
+rt::lean_dec(x_110);
+match x_112 as u32 {
 0 => {
-x_117 = l_Notes_Wire_decodeMembers___closed__0();
-return x_117;
+x_113 = l_Notes_Wire_decodeMembers___closed__0();
+return x_113;
 }
 1 => {
-x_118 = l_Notes_Wire_decodeMembers___closed__73();
-x_119 = l_List_lookup___at___00Notes_Wire_decodeMembers_spec__0___redArg(x_118, x_1);
-match rt::lean_obj_tag(x_119) {
+x_114 = l_Notes_Wire_decodeMembers___closed__15();
+x_115 = l_List_lookup___at___00Notes_Wire_decodeMembers_spec__0___redArg(x_114, x_1);
+match rt::lean_obj_tag(x_115) {
 1 => {
-x_120 = rt::lean_ctor_get(x_119, 0);
-x_135 = (!rt::lean_is_exclusive(x_119)) as u8;
-match x_135 as u32 {
+x_116 = rt::lean_ctor_get(x_115, 0);
+x_131 = (!rt::lean_is_exclusive(x_115)) as u8;
+match x_131 as u32 {
 0 => {
-{ let t_0 = x_119; let t_1 = x_135; x_122 = t_0; x_123 = t_1; }
+{ let t_0 = x_115; let t_1 = x_131; x_118 = t_0; x_119 = t_1; }
 __blk = 16; continue 'body;
 }
 1 => {
-rt::lean_inc(x_120);
-rt::lean_dec(x_119);
-{ let t_0 = rt::lean_box(0); let t_1 = x_135; x_122 = t_0; x_123 = t_1; }
+rt::lean_inc(x_116);
+rt::lean_dec(x_115);
+{ let t_0 = rt::lean_box(0); let t_1 = x_131; x_118 = t_0; x_119 = t_1; }
 __blk = 16; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 _ => {
-rt::lean_dec(x_119);
+rt::lean_dec(x_115);
 { }
 __blk = 4; continue 'body;
 }
@@ -6514,65 +4398,64 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-rt::lean_dec_ref(x_17);
-rt::lean_dec(x_16);
-x_136 = l_List_lengthTR___redArg(x_1);
-x_137 = rt::lean_unsigned_to_nat(3u32);
-x_138 = rt::lean_nat_dec_eq(x_136, x_137);
-rt::lean_dec(x_136);
-match x_138 as u32 {
+rt::lean_dec_ref(x_16);
+x_132 = l_List_lengthTR___redArg(x_1);
+x_133 = rt::lean_unsigned_to_nat(3u32);
+x_134 = rt::lean_nat_dec_eq(x_132, x_133);
+rt::lean_dec(x_132);
+match x_134 as u32 {
 0 => {
-x_139 = l_Notes_Wire_decodeMembers___closed__0();
-return x_139;
+x_135 = l_Notes_Wire_decodeMembers___closed__0();
+return x_135;
 }
 1 => {
-x_140 = l_Notes_Wire_decodeMembers___closed__73();
+x_136 = l_Notes_Wire_decodeMembers___closed__15();
+x_137 = l_List_lookup___at___00Notes_Wire_decodeMembers_spec__0___redArg(x_136, x_1);
+match rt::lean_obj_tag(x_137) {
+1 => {
+x_138 = rt::lean_ctor_get(x_137, 0);
+rt::lean_inc(x_138);
+rt::lean_dec_ref(x_137);
+match rt::lean_obj_tag(x_138) {
+2 => {
+x_139 = rt::lean_ctor_get_uint64(x_138, 0 * core::mem::size_of::<usize>() as u32 + 0);
+rt::lean_dec_ref(x_138);
+x_140 = l_Notes_Wire_decodeMembers___closed__16();
 x_141 = l_List_lookup___at___00Notes_Wire_decodeMembers_spec__0___redArg(x_140, x_1);
 match rt::lean_obj_tag(x_141) {
 1 => {
 x_142 = rt::lean_ctor_get(x_141, 0);
-rt::lean_inc(x_142);
-rt::lean_dec_ref(x_141);
-match rt::lean_obj_tag(x_142) {
-2 => {
-x_143 = rt::lean_ctor_get_uint64(x_142, 0 * core::mem::size_of::<usize>() as u32 + 0);
-rt::lean_dec_ref(x_142);
-x_144 = l_Notes_Wire_decodeMembers___closed__78();
-x_145 = l_List_lookup___at___00Notes_Wire_decodeMembers_spec__0___redArg(x_144, x_1);
-match rt::lean_obj_tag(x_145) {
-1 => {
-x_146 = rt::lean_ctor_get(x_145, 0);
-x_155 = (!rt::lean_is_exclusive(x_145)) as u8;
-match x_155 as u32 {
+x_151 = (!rt::lean_is_exclusive(x_141)) as u8;
+match x_151 as u32 {
 0 => {
-{ let t_0 = x_145; let t_1 = x_155; x_148 = t_0; x_149 = t_1; }
+{ let t_0 = x_141; let t_1 = x_151; x_144 = t_0; x_145 = t_1; }
 __blk = 20; continue 'body;
 }
 1 => {
-rt::lean_inc(x_146);
-rt::lean_dec(x_145);
-{ let t_0 = rt::lean_box(0); let t_1 = x_155; x_148 = t_0; x_149 = t_1; }
+rt::lean_inc(x_142);
+rt::lean_dec(x_141);
+{ let t_0 = rt::lean_box(0); let t_1 = x_151; x_144 = t_0; x_145 = t_1; }
 __blk = 20; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 _ => {
-rt::lean_dec(x_145);
-{ }
-__blk = 5; continue 'body;
-}
-}
-}
-_ => {
-rt::lean_dec(x_142);
-{ }
-__blk = 5; continue 'body;
-}
-}
-}
-_ => {
 rt::lean_dec(x_141);
+{ }
+__blk = 5; continue 'body;
+}
+}
+}
+_ => {
+rt::lean_dec(x_138);
+{ }
+__blk = 5; continue 'body;
+}
+}
+}
+_ => {
+rt::lean_dec(x_137);
 { }
 __blk = 5; continue 'body;
 }
@@ -6586,8 +4469,8 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 _ => {
 rt::lean_dec(x_15);
-x_156 = l_Notes_Wire_decodeMembers___closed__0();
-return x_156;
+x_152 = l_Notes_Wire_decodeMembers___closed__0();
+return x_152;
 }
 }
 }
@@ -6615,238 +4498,251 @@ x_11 = l_Notes_Wire_decodeMembers___closed__0();
 return x_11;
 }
 6 => {
-match rt::lean_obj_tag(x_49) {
+match rt::lean_obj_tag(x_48) {
 2 => {
-x_53 = rt::lean_ctor_get_uint64(x_49, 0 * core::mem::size_of::<usize>() as u32 + 0);
-x_63 = (!rt::lean_is_exclusive(x_49)) as u8;
-match x_63 as u32 {
+x_52 = rt::lean_ctor_get_uint64(x_48, 0 * core::mem::size_of::<usize>() as u32 + 0);
+x_62 = (!rt::lean_is_exclusive(x_48)) as u8;
+match x_62 as u32 {
 0 => {
-{ let t_0 = x_49; let t_1 = x_63; x_55 = t_0; x_56 = t_1; }
+{ let t_0 = x_48; let t_1 = x_62; x_54 = t_0; x_55 = t_1; }
 __blk = 7; continue 'body;
 }
 1 => {
-rt::lean_dec(x_49);
-{ let t_0 = rt::lean_box(0); let t_1 = x_63; x_55 = t_0; x_56 = t_1; }
+rt::lean_dec(x_48);
+{ let t_0 = rt::lean_box(0); let t_1 = x_62; x_54 = t_0; x_55 = t_1; }
 __blk = 7; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 _ => {
-rt::lean_del_object(x_51);
-rt::lean_dec(x_49);
+rt::lean_del_object(x_50);
+rt::lean_dec(x_48);
 { }
 __blk = 1; continue 'body;
 }
 }
 }
 7 => {
-match x_56 as u32 {
+match x_55 as u32 {
 0 => {
-rt::lean_ctor_set_tag(x_55, 4);
-{ let t_0 = x_55; x_58 = t_0; }
+rt::lean_ctor_set_tag(x_54, 4);
+{ let t_0 = x_54; x_57 = t_0; }
 __blk = 8; continue 'body;
 }
 1 => {
-x_62 = rt::lean_alloc_ctor(4, 0, 0 * core::mem::size_of::<usize>() as u32 + 8);
-rt::lean_ctor_set_uint64(x_62, 0 * core::mem::size_of::<usize>() as u32 + 0, x_53);
-{ let t_0 = x_62; x_58 = t_0; }
+x_61 = rt::lean_alloc_ctor(4, 0, 0 * core::mem::size_of::<usize>() as u32 + 8);
+rt::lean_ctor_set_uint64(x_61, 0 * core::mem::size_of::<usize>() as u32 + 0, x_52);
+{ let t_0 = x_61; x_57 = t_0; }
 __blk = 8; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 8 => {
-match x_52 as u32 {
+match x_51 as u32 {
 0 => {
-rt::lean_ctor_set(x_51, 0, x_58);
-{ let t_0 = x_51; x_60 = t_0; }
+rt::lean_ctor_set(x_50, 0, x_57);
+{ let t_0 = x_50; x_59 = t_0; }
 __blk = 9; continue 'body;
 }
 1 => {
-x_61 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_61, 0, x_58);
-{ let t_0 = x_61; x_60 = t_0; }
+x_60 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_60, 0, x_57);
+{ let t_0 = x_60; x_59 = t_0; }
 __blk = 9; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 9 => {
-return x_60;
+return x_59;
 }
 10 => {
-match rt::lean_obj_tag(x_71) {
+match rt::lean_obj_tag(x_70) {
 2 => {
-x_75 = rt::lean_ctor_get_uint64(x_71, 0 * core::mem::size_of::<usize>() as u32 + 0);
-x_85 = (!rt::lean_is_exclusive(x_71)) as u8;
-match x_85 as u32 {
+x_74 = rt::lean_ctor_get_uint64(x_70, 0 * core::mem::size_of::<usize>() as u32 + 0);
+x_84 = (!rt::lean_is_exclusive(x_70)) as u8;
+match x_84 as u32 {
 0 => {
-{ let t_0 = x_71; let t_1 = x_85; x_77 = t_0; x_78 = t_1; }
+{ let t_0 = x_70; let t_1 = x_84; x_76 = t_0; x_77 = t_1; }
 __blk = 11; continue 'body;
 }
 1 => {
-rt::lean_dec(x_71);
-{ let t_0 = rt::lean_box(0); let t_1 = x_85; x_77 = t_0; x_78 = t_1; }
+rt::lean_dec(x_70);
+{ let t_0 = rt::lean_box(0); let t_1 = x_84; x_76 = t_0; x_77 = t_1; }
 __blk = 11; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 _ => {
-rt::lean_del_object(x_73);
-rt::lean_dec(x_71);
+rt::lean_del_object(x_72);
+rt::lean_dec(x_70);
 { }
 __blk = 2; continue 'body;
 }
 }
 }
 11 => {
-match x_78 as u32 {
+match x_77 as u32 {
 0 => {
-rt::lean_ctor_set_tag(x_77, 3);
-{ let t_0 = x_77; x_80 = t_0; }
+rt::lean_ctor_set_tag(x_76, 3);
+{ let t_0 = x_76; x_79 = t_0; }
 __blk = 12; continue 'body;
 }
 1 => {
-x_84 = rt::lean_alloc_ctor(3, 0, 0 * core::mem::size_of::<usize>() as u32 + 8);
-rt::lean_ctor_set_uint64(x_84, 0 * core::mem::size_of::<usize>() as u32 + 0, x_75);
-{ let t_0 = x_84; x_80 = t_0; }
+x_83 = rt::lean_alloc_ctor(3, 0, 0 * core::mem::size_of::<usize>() as u32 + 8);
+rt::lean_ctor_set_uint64(x_83, 0 * core::mem::size_of::<usize>() as u32 + 0, x_74);
+{ let t_0 = x_83; x_79 = t_0; }
 __blk = 12; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 12 => {
-match x_74 as u32 {
+match x_73 as u32 {
 0 => {
-rt::lean_ctor_set(x_73, 0, x_80);
-{ let t_0 = x_73; x_82 = t_0; }
+rt::lean_ctor_set(x_72, 0, x_79);
+{ let t_0 = x_72; x_81 = t_0; }
 __blk = 13; continue 'body;
 }
 1 => {
-x_83 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_83, 0, x_80);
-{ let t_0 = x_83; x_82 = t_0; }
+x_82 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_82, 0, x_79);
+{ let t_0 = x_82; x_81 = t_0; }
 __blk = 13; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 13 => {
-return x_82;
+return x_81;
 }
 14 => {
-x_109 = rt::lean_alloc_ctor(2, 1, 0 * core::mem::size_of::<usize>() as u32 + 9); rt::lean_ctor_set(x_109, 0, x_105);
-rt::lean_ctor_set_uint64(x_109, 1 * core::mem::size_of::<usize>() as u32 + 0, x_94);
-rt::lean_ctor_set_uint8(x_109, 1 * core::mem::size_of::<usize>() as u32 + 8, x_102);
-match x_108 as u32 {
+match rt::lean_obj_tag(x_100) {
+1 => {
+x_104 = rt::lean_ctor_get_uint8(x_100, 0 * core::mem::size_of::<usize>() as u32 + 0);
+rt::lean_dec_ref(x_100);
+x_105 = rt::lean_alloc_ctor(2, 1, 0 * core::mem::size_of::<usize>() as u32 + 9); rt::lean_ctor_set(x_105, 0, x_97);
+rt::lean_ctor_set_uint64(x_105, 1 * core::mem::size_of::<usize>() as u32 + 0, x_93);
+rt::lean_ctor_set_uint8(x_105, 1 * core::mem::size_of::<usize>() as u32 + 8, x_104);
+match x_103 as u32 {
 0 => {
-rt::lean_ctor_set(x_107, 0, x_109);
-{ let t_0 = x_107; x_111 = t_0; }
+rt::lean_ctor_set(x_102, 0, x_105);
+{ let t_0 = x_102; x_107 = t_0; }
 __blk = 15; continue 'body;
 }
 1 => {
-x_112 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_112, 0, x_109);
-{ let t_0 = x_112; x_111 = t_0; }
+x_108 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_108, 0, x_105);
+{ let t_0 = x_108; x_107 = t_0; }
 __blk = 15; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
+_ => {
+rt::lean_del_object(x_102);
+rt::lean_dec(x_100);
+rt::lean_dec_ref(x_97);
+{ }
+__blk = 3; continue 'body;
+}
+}
+}
 15 => {
-return x_111;
+return x_107;
 }
 16 => {
-match rt::lean_obj_tag(x_120) {
+match rt::lean_obj_tag(x_116) {
 2 => {
-x_124 = rt::lean_ctor_get_uint64(x_120, 0 * core::mem::size_of::<usize>() as u32 + 0);
-x_134 = (!rt::lean_is_exclusive(x_120)) as u8;
-match x_134 as u32 {
+x_120 = rt::lean_ctor_get_uint64(x_116, 0 * core::mem::size_of::<usize>() as u32 + 0);
+x_130 = (!rt::lean_is_exclusive(x_116)) as u8;
+match x_130 as u32 {
 0 => {
-{ let t_0 = x_120; let t_1 = x_134; x_126 = t_0; x_127 = t_1; }
+{ let t_0 = x_116; let t_1 = x_130; x_122 = t_0; x_123 = t_1; }
 __blk = 17; continue 'body;
 }
 1 => {
-rt::lean_dec(x_120);
-{ let t_0 = rt::lean_box(0); let t_1 = x_134; x_126 = t_0; x_127 = t_1; }
+rt::lean_dec(x_116);
+{ let t_0 = rt::lean_box(0); let t_1 = x_130; x_122 = t_0; x_123 = t_1; }
 __blk = 17; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 _ => {
-rt::lean_del_object(x_122);
-rt::lean_dec(x_120);
+rt::lean_del_object(x_118);
+rt::lean_dec(x_116);
 { }
 __blk = 4; continue 'body;
 }
 }
 }
 17 => {
-match x_127 as u32 {
+match x_123 as u32 {
 0 => {
-rt::lean_ctor_set_tag(x_126, 1);
-{ let t_0 = x_126; x_129 = t_0; }
+rt::lean_ctor_set_tag(x_122, 1);
+{ let t_0 = x_122; x_125 = t_0; }
 __blk = 18; continue 'body;
 }
 1 => {
-x_133 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 8);
-rt::lean_ctor_set_uint64(x_133, 0 * core::mem::size_of::<usize>() as u32 + 0, x_124);
-{ let t_0 = x_133; x_129 = t_0; }
+x_129 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 8);
+rt::lean_ctor_set_uint64(x_129, 0 * core::mem::size_of::<usize>() as u32 + 0, x_120);
+{ let t_0 = x_129; x_125 = t_0; }
 __blk = 18; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 18 => {
-match x_123 as u32 {
+match x_119 as u32 {
 0 => {
-rt::lean_ctor_set(x_122, 0, x_129);
-{ let t_0 = x_122; x_131 = t_0; }
+rt::lean_ctor_set(x_118, 0, x_125);
+{ let t_0 = x_118; x_127 = t_0; }
 __blk = 19; continue 'body;
 }
 1 => {
-x_132 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_132, 0, x_129);
-{ let t_0 = x_132; x_131 = t_0; }
+x_128 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_128, 0, x_125);
+{ let t_0 = x_128; x_127 = t_0; }
 __blk = 19; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 19 => {
-return x_131;
+return x_127;
 }
 20 => {
-match rt::lean_obj_tag(x_146) {
+match rt::lean_obj_tag(x_142) {
 1 => {
-x_150 = rt::lean_ctor_get_uint8(x_146, 0 * core::mem::size_of::<usize>() as u32 + 0);
-rt::lean_dec_ref(x_146);
-x_151 = rt::lean_alloc_ctor(0, 0, 0 * core::mem::size_of::<usize>() as u32 + 9);
-rt::lean_ctor_set_uint64(x_151, 0 * core::mem::size_of::<usize>() as u32 + 0, x_143);
-rt::lean_ctor_set_uint8(x_151, 0 * core::mem::size_of::<usize>() as u32 + 8, x_150);
-match x_149 as u32 {
+x_146 = rt::lean_ctor_get_uint8(x_142, 0 * core::mem::size_of::<usize>() as u32 + 0);
+rt::lean_dec_ref(x_142);
+x_147 = rt::lean_alloc_ctor(0, 0, 0 * core::mem::size_of::<usize>() as u32 + 9);
+rt::lean_ctor_set_uint64(x_147, 0 * core::mem::size_of::<usize>() as u32 + 0, x_139);
+rt::lean_ctor_set_uint8(x_147, 0 * core::mem::size_of::<usize>() as u32 + 8, x_146);
+match x_145 as u32 {
 0 => {
-rt::lean_ctor_set(x_148, 0, x_151);
-{ let t_0 = x_148; x_153 = t_0; }
+rt::lean_ctor_set(x_144, 0, x_147);
+{ let t_0 = x_144; x_149 = t_0; }
 __blk = 21; continue 'body;
 }
 1 => {
-x_154 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_154, 0, x_151);
-{ let t_0 = x_154; x_153 = t_0; }
+x_150 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_150, 0, x_147);
+{ let t_0 = x_150; x_149 = t_0; }
 __blk = 21; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 _ => {
-rt::lean_del_object(x_148);
-rt::lean_dec(x_146);
+rt::lean_del_object(x_144);
+rt::lean_dec(x_142);
 { }
 __blk = 5; continue 'body;
 }
 }
 }
 21 => {
-return x_153;
+return x_149;
 }
 _ => rt::lean_internal_panic_unreachable(),
 } }
@@ -6871,42 +4767,16 @@ pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__0() -> Obj {
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__3_init() -> Obj {
+unsafe fn l_Notes_Wire_decodeMembers___closed__1_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__2();
-x_2 = 99u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
+x_1 = rt::lean_mk_string_unchecked("cmd", 3, 3);
+return x_1;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__3() -> Obj {
+pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__1() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__3_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__2_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__1();
-x_2 = 109u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__2() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__2_init();
+  let v = l_Notes_Wire_decodeMembers___closed__1_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
@@ -6933,7 +4803,7 @@ x_4 = rt::lean_ctor_get(x_2, 0);
 x_5 = rt::lean_ctor_get(x_2, 1);
 x_6 = rt::lean_ctor_get(x_4, 0);
 x_7 = rt::lean_ctor_get(x_4, 1);
-x_8 = l_List_beq___at___00Leangage_Token_number_spec__0(x_1, x_6);
+x_8 = rt::lean_string_dec_eq(x_1, x_6);
 match x_8 as u32 {
 0 => {
 { let t_0 = x_1; let t_1 = x_5; x_1 = t_0; x_2 = t_1; }
@@ -6954,73 +4824,8 @@ _ => rt::lean_internal_panic_unreachable(),
 } }
 }
 
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_List_beq___at___00Leangage_Token_number_spec__0(mut x_1: Obj, mut x_2: Obj) -> u8 {
-let mut x_3: u8 = 0;
-let mut x_4: u8 = 0;
-let mut x_5: u8 = 0;
-let mut x_6: Obj = rt::lean_box(0);
-let mut x_7: Obj = rt::lean_box(0);
-let mut x_8: Obj = rt::lean_box(0);
-let mut x_9: Obj = rt::lean_box(0);
-let mut x_10: u8 = 0;
-let mut x_11: u8 = 0;
-let mut x_12: u8 = 0;
-let mut x_13: u8 = 0;
-let mut __blk: u32 = 0;
-'body: loop { match __blk {
-0 => {
-match rt::lean_obj_tag(x_1) {
-0 => {
-match rt::lean_obj_tag(x_2) {
-0 => {
-x_3 = 1u8;
-return x_3;
-}
-1 => {
-x_4 = 0u8;
-return x_4;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-1 => {
-match rt::lean_obj_tag(x_2) {
-0 => {
-x_5 = 0u8;
-return x_5;
-}
-1 => {
-x_6 = rt::lean_ctor_get(x_1, 0);
-x_7 = rt::lean_ctor_get(x_1, 1);
-x_8 = rt::lean_ctor_get(x_2, 0);
-x_9 = rt::lean_ctor_get(x_2, 1);
-x_10 = rt::lean_unbox(x_6) as u8;
-x_11 = rt::lean_unbox(x_8) as u8;
-x_12 = rt::lean_uint8_dec_eq(x_10, x_11);
-match x_12 as u32 {
-0 => {
-return x_12;
-}
-1 => {
-{ let t_0 = x_7; let t_1 = x_9; x_1 = t_0; x_2 = t_1; }
-__blk = 0; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-} }
-}
-
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__4_init() -> Obj {
+unsafe fn l_Notes_Wire_decodeMembers___closed__2_init() -> Obj {
 let mut x_1: u8 = 0;
 let mut x_2: Obj = rt::lean_box(0);
 let mut x_3: Obj = rt::lean_box(0);
@@ -7028,6 +4833,34 @@ x_1 = 1u8;
 x_2 = rt::lean_box(x_1 as usize);
 x_3 = rt::lean_alloc_ctor(0, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_3, 0, x_2);
 return x_3;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__2() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Notes_Wire_decodeMembers___closed__2_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Notes_Wire_decodeMembers___closed__3_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("add_member", 10, 10);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__3() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Notes_Wire_decodeMembers___closed__3_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Notes_Wire_decodeMembers___closed__4_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("remove_member", 13, 13);
+return x_1;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
 pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__4() -> Obj {
@@ -7038,156 +4871,38 @@ pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__4() -> Obj {
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__14_init() -> Obj {
+unsafe fn l_Notes_Wire_decodeMembers___closed__5_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__13();
-x_2 = 97u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
+x_1 = rt::lean_mk_string_unchecked("put_note", 8, 8);
+return x_1;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__14() -> Obj {
+pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__5() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__14_init();
+  let v = l_Notes_Wire_decodeMembers___closed__5_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__13_init() -> Obj {
+unsafe fn l_Notes_Wire_decodeMembers___closed__6_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__12();
-x_2 = 100u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
+x_1 = rt::lean_mk_string_unchecked("delete_note", 11, 11);
+return x_1;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__13() -> Obj {
+pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__6() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__13_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__12_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__11();
-x_2 = 100u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__12() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__12_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__11_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__10();
-x_2 = 95u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__11() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__11_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__10_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__9();
-x_2 = 109u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__10() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__10_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__9_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__8();
-x_2 = 101u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__9() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__9_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__8_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__7();
-x_2 = 109u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__8() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__8_init();
+  let v = l_Notes_Wire_decodeMembers___closed__6_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
 unsafe fn l_Notes_Wire_decodeMembers___closed__7_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__6();
-x_2 = 98u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
+x_1 = rt::lean_mk_string_unchecked("read_note", 9, 9);
+return x_1;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
 pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__7() -> Obj {
@@ -7198,602 +4913,30 @@ pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__7() -> Obj {
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__20_init() -> Obj {
+unsafe fn l_Notes_Wire_decodeMembers___closed__8_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__19();
-x_2 = 114u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
+x_1 = rt::lean_mk_string_unchecked("list_notes", 10, 10);
+return x_1;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__20() -> Obj {
+pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__8() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__20_init();
+  let v = l_Notes_Wire_decodeMembers___closed__8_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__19_init() -> Obj {
+unsafe fn l_Notes_Wire_decodeMembers___closed__9_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__18();
-x_2 = 101u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
+x_1 = rt::lean_mk_string_unchecked("list_members", 12, 12);
+return x_1;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__19() -> Obj {
+pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__9() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__19_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__18_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__17();
-x_2 = 109u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__18() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__18_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__17_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__16();
-x_2 = 111u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__17() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__17_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__16_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__15();
-x_2 = 118u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__16() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__16_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__15_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__11();
-x_2 = 101u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__15() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__15_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__28_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__27();
-x_2 = 112u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__28() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__28_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__27_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__26();
-x_2 = 117u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__27() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__27_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__26_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__25();
-x_2 = 116u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__26() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__26_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__25_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__24();
-x_2 = 95u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__25() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__25_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__34_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__33();
-x_2 = 100u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__34() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__34_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__33_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__32();
-x_2 = 101u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__33() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__33_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__32_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__31();
-x_2 = 108u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__32() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__32_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__31_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__30();
-x_2 = 101u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__31() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__31_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__30_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__29();
-x_2 = 116u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__30() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__30_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__29_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__25();
-x_2 = 101u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__29() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__29_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__38_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__37();
-x_2 = 114u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__38() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__38_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__37_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__36();
-x_2 = 101u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__37() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__37_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__36_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__35();
-x_2 = 97u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__36() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__36_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__35_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__25();
-x_2 = 100u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__35() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__35_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__48_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__47();
-x_2 = 108u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__48() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__48_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__47_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__46();
-x_2 = 105u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__47() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__47_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__46_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__45();
-x_2 = 115u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__46() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__46_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__45_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__44();
-x_2 = 116u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__45() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__45_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__44_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__43();
-x_2 = 95u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__44() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__44_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__59_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__58();
-x_2 = 108u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__59() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__59_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__58_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__57();
-x_2 = 105u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__58() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__58_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__57_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__56();
-x_2 = 115u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__57() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__57_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__56_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__55();
-x_2 = 116u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__56() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__56_init();
-  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__55_init() -> Obj {
-let mut x_1: Obj = rt::lean_box(0);
-let mut x_2: u8 = 0;
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Notes_Wire_decodeMembers___closed__54();
-x_2 = 95u8;
-x_3 = rt::lean_box(x_2 as usize);
-x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
-return x_4;
-}
-#[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__55() -> Obj {
-  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
-  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__55_init();
+  let v = l_Notes_Wire_decodeMembers___closed__9_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
@@ -7834,9 +4977,8 @@ _ => rt::lean_internal_panic_unreachable(),
 } }
 }
 
-
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__60_init() -> Obj {
+unsafe fn l_Notes_Wire_decodeMembers___closed__10_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: Obj = rt::lean_box(0);
 x_1 = rt::lean_box(6);
@@ -7844,15 +4986,15 @@ x_2 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); r
 return x_2;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__60() -> Obj {
+pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__10() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__60_init();
+  let v = l_Notes_Wire_decodeMembers___closed__10_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Notes_Wire_decodeMembers___closed__61_init() -> Obj {
+unsafe fn l_Notes_Wire_decodeMembers___closed__11_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: Obj = rt::lean_box(0);
 x_1 = rt::lean_box(5);
@@ -7860,10 +5002,10 @@ x_2 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); r
 return x_2;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__61() -> Obj {
+pub(crate) unsafe fn l_Notes_Wire_decodeMembers___closed__11() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Notes_Wire_decodeMembers___closed__61_init();
+  let v = l_Notes_Wire_decodeMembers___closed__11_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
@@ -7872,7 +5014,6 @@ pub(crate) unsafe fn l_Notes_Wire_decodeReply(mut x_1: Obj) -> Obj {
 let mut x_2: Obj = rt::lean_box(0);
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-let mut x_5: Obj = rt::lean_box(0);
 match rt::lean_obj_tag(x_1) {
 0 => {
 x_2 = rt::lean_box(0);
@@ -7882,116 +5023,985 @@ return x_2;
 x_3 = rt::lean_ctor_get(x_1, 0);
 rt::lean_inc(x_3);
 rt::lean_dec_ref(x_1);
-x_4 = l_Leangage_Json_Items_items(x_3);
-x_5 = l_Notes_Wire_decodeReplyItems(x_4);
-return x_5;
+x_4 = l_Notes_Wire_replyOf(x_3);
+return x_4;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leangage_Json_Items_items(mut x_1: Obj) -> Obj {
+pub(crate) unsafe fn l_Notes_Wire_replyOf(mut x_1: Obj) -> Obj {
 let mut x_2: Obj = rt::lean_box(0);
-let mut x_3: Obj = rt::lean_box(0);
-x_2 = rt::lean_box(0);
-x_3 = l_List_mapTR_loop___at___00Leangage_Json_Items_items_spec__0(x_1, x_2);
-return x_3;
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_List_mapTR_loop___at___00Leangage_Json_Items_items_spec__0(mut x_1: Obj, mut x_2: Obj) -> Obj {
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
 let mut x_5: Obj = rt::lean_box(0);
-let mut x_7: Obj = rt::lean_box(0);
-let mut x_8: u8 = 0;
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: u8 = 0;
+let mut x_8: Obj = rt::lean_box(0);
 let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: Obj = rt::lean_box(0);
 let mut x_11: Obj = rt::lean_box(0);
 let mut x_12: Obj = rt::lean_box(0);
-let mut x_13: Obj = rt::lean_box(0);
-let mut x_14: u8 = 0;
+let mut x_13: u8 = 0;
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: Obj = rt::lean_box(0);
+let mut x_16: Obj = rt::lean_box(0);
+let mut x_17: Obj = rt::lean_box(0);
+let mut x_18: Obj = rt::lean_box(0);
+let mut x_19: Obj = rt::lean_box(0);
+let mut x_20: Obj = rt::lean_box(0);
+let mut x_21: Obj = rt::lean_box(0);
+let mut x_22: Obj = rt::lean_box(0);
+let mut x_23: Obj = rt::lean_box(0);
+let mut x_24: Obj = rt::lean_box(0);
+let mut x_25: Obj = rt::lean_box(0);
+let mut x_26: Obj = rt::lean_box(0);
+let mut x_27: Obj = rt::lean_box(0);
+let mut x_28: Obj = rt::lean_box(0);
+let mut x_29: Obj = rt::lean_box(0);
+let mut x_30: Obj = rt::lean_box(0);
+let mut x_31: Obj = rt::lean_box(0);
+let mut x_32: Obj = rt::lean_box(0);
+let mut x_33: Obj = rt::lean_box(0);
+let mut x_34: Obj = rt::lean_box(0);
+let mut x_35: Obj = rt::lean_box(0);
+let mut x_36: Obj = rt::lean_box(0);
+let mut x_37: Obj = rt::lean_box(0);
+let mut x_38: Obj = rt::lean_box(0);
+let mut x_39: Obj = rt::lean_box(0);
+let mut x_40: Obj = rt::lean_box(0);
+let mut x_41: Obj = rt::lean_box(0);
+let mut x_42: Obj = rt::lean_box(0);
+let mut x_43: Obj = rt::lean_box(0);
+let mut x_44: Obj = rt::lean_box(0);
+let mut x_45: Obj = rt::lean_box(0);
+let mut x_46: Obj = rt::lean_box(0);
+let mut x_47: Obj = rt::lean_box(0);
+let mut x_48: Obj = rt::lean_box(0);
+let mut x_50: Obj = rt::lean_box(0);
+let mut x_51: u8 = 0;
+let mut x_52: u8 = 0;
+let mut x_53: Obj = rt::lean_box(0);
+let mut x_54: u8 = 0;
+let mut x_55: Obj = rt::lean_box(0);
+let mut x_56: Obj = rt::lean_box(0);
+let mut x_57: Obj = rt::lean_box(0);
+let mut x_58: Obj = rt::lean_box(0);
+let mut x_60: Obj = rt::lean_box(0);
+let mut x_61: u8 = 0;
+let mut x_63: Obj = rt::lean_box(0);
+let mut x_65: Obj = rt::lean_box(0);
+let mut x_66: Obj = rt::lean_box(0);
+let mut x_67: Obj = rt::lean_box(0);
+let mut x_68: u8 = 0;
+let mut x_69: u8 = 0;
+let mut x_70: Obj = rt::lean_box(0);
+let mut x_71: Obj = rt::lean_box(0);
+let mut x_72: Obj = rt::lean_box(0);
+let mut x_73: Obj = rt::lean_box(0);
+let mut x_74: Obj = rt::lean_box(0);
+let mut x_75: Obj = rt::lean_box(0);
+let mut x_76: Obj = rt::lean_box(0);
+let mut x_77: Obj = rt::lean_box(0);
+let mut x_78: Obj = rt::lean_box(0);
+let mut x_79: Obj = rt::lean_box(0);
+let mut x_80: Obj = rt::lean_box(0);
+let mut x_81: Obj = rt::lean_box(0);
+let mut x_82: Obj = rt::lean_box(0);
+let mut x_83: Obj = rt::lean_box(0);
+let mut x_84: Obj = rt::lean_box(0);
+let mut x_85: Obj = rt::lean_box(0);
+let mut x_86: Obj = rt::lean_box(0);
+let mut x_87: Obj = rt::lean_box(0);
+let mut x_88: Obj = rt::lean_box(0);
+let mut x_89: Obj = rt::lean_box(0);
+let mut x_90: Obj = rt::lean_box(0);
+let mut x_91: Obj = rt::lean_box(0);
+let mut x_93: Obj = rt::lean_box(0);
+let mut x_94: u8 = 0;
+let mut x_95: Obj = rt::lean_box(0);
+let mut x_96: Obj = rt::lean_box(0);
+let mut x_97: u8 = 0;
+let mut x_98: Obj = rt::lean_box(0);
+let mut x_99: u8 = 0;
+let mut x_100: Obj = rt::lean_box(0);
+let mut x_101: Obj = rt::lean_box(0);
+let mut x_102: Obj = rt::lean_box(0);
+let mut x_103: Obj = rt::lean_box(0);
+let mut x_104: Obj = rt::lean_box(0);
+let mut x_106: Obj = rt::lean_box(0);
+let mut x_107: u8 = 0;
+let mut x_109: Obj = rt::lean_box(0);
+let mut x_111: Obj = rt::lean_box(0);
+let mut x_112: Obj = rt::lean_box(0);
+let mut x_113: Obj = rt::lean_box(0);
+let mut x_114: u8 = 0;
+let mut x_115: Obj = rt::lean_box(0);
+let mut x_116: Obj = rt::lean_box(0);
+let mut x_117: Obj = rt::lean_box(0);
+let mut x_118: Obj = rt::lean_box(0);
+let mut x_120: Obj = rt::lean_box(0);
+let mut x_121: u8 = 0;
+let mut x_123: Obj = rt::lean_box(0);
+let mut x_125: Obj = rt::lean_box(0);
+let mut x_126: Obj = rt::lean_box(0);
+let mut x_127: Obj = rt::lean_box(0);
+let mut x_128: u8 = 0;
+let mut x_129: u8 = 0;
+let mut x_130: Obj = rt::lean_box(0);
+let mut x_131: Obj = rt::lean_box(0);
+let mut x_132: Obj = rt::lean_box(0);
+let mut x_133: Obj = rt::lean_box(0);
+let mut x_134: Obj = rt::lean_box(0);
+let mut x_135: Obj = rt::lean_box(0);
 let mut __blk: u32 = 0;
 'body: loop { match __blk {
 0 => {
 match rt::lean_obj_tag(x_1) {
-0 => {
-x_3 = l_List_reverse___redArg(x_2);
-return x_3;
-}
 1 => {
-x_4 = rt::lean_ctor_get(x_1, 0);
-x_5 = rt::lean_ctor_get(x_1, 1);
-x_14 = (!rt::lean_is_exclusive(x_1)) as u8;
-match x_14 as u32 {
-0 => {
-{ let t_0 = x_1; let t_1 = x_14; x_7 = t_0; x_8 = t_1; }
-__blk = 1; continue 'body;
-}
+x_2 = rt::lean_ctor_get(x_1, 0);
+match rt::lean_obj_tag(x_2) {
+7 => {
+x_3 = rt::lean_ctor_get(x_1, 1);
+rt::lean_inc(x_3);
+rt::lean_dec_ref(x_1);
+match rt::lean_obj_tag(x_3) {
 1 => {
-rt::lean_inc(x_5);
+x_4 = rt::lean_ctor_get(x_3, 0);
 rt::lean_inc(x_4);
-rt::lean_dec(x_1);
-{ let t_0 = rt::lean_box(0); let t_1 = x_14; x_7 = t_0; x_8 = t_1; }
+match rt::lean_obj_tag(x_4) {
+4 => {
+x_5 = rt::lean_ctor_get(x_3, 1);
+rt::lean_inc(x_5);
+rt::lean_dec_ref(x_3);
+match rt::lean_obj_tag(x_5) {
+1 => {
+x_6 = rt::lean_ctor_get(x_5, 0);
+match rt::lean_obj_tag(x_6) {
+1 => {
+x_7 = rt::lean_ctor_get_uint8(x_6, 0 * core::mem::size_of::<usize>() as u32 + 0);
+match x_7 as u32 {
+1 => {
+x_8 = rt::lean_ctor_get(x_5, 1);
+rt::lean_inc(x_8);
+rt::lean_dec_ref(x_5);
+match rt::lean_obj_tag(x_8) {
+1 => {
+x_9 = rt::lean_ctor_get(x_8, 0);
+match rt::lean_obj_tag(x_9) {
+8 => {
+x_10 = rt::lean_ctor_get(x_8, 1);
+rt::lean_inc(x_10);
+rt::lean_dec_ref(x_8);
+match rt::lean_obj_tag(x_10) {
+0 => {
+x_11 = rt::lean_ctor_get(x_4, 0);
+rt::lean_inc_ref(x_11);
+rt::lean_dec_ref(x_4);
+x_12 = l_Notes_Wire_replyToks___closed__0();
+x_13 = rt::lean_string_dec_eq(x_11, x_12);
+rt::lean_dec_ref(x_11);
+match x_13 as u32 {
+0 => {
+x_14 = rt::lean_box(0);
+return x_14;
+}
+1 => {
+x_15 = l_Notes_Wire_replyOf___closed__0();
+return x_15;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => {
+rt::lean_dec(x_10);
+rt::lean_dec_ref(x_4);
+x_16 = rt::lean_box(0);
+return x_16;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_8);
+rt::lean_dec_ref(x_4);
+x_17 = rt::lean_box(0);
+return x_17;
+}
+}
+}
+_ => {
+rt::lean_dec(x_8);
+rt::lean_dec_ref(x_4);
+x_18 = rt::lean_box(0);
+return x_18;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_5);
+rt::lean_dec_ref(x_4);
+x_19 = rt::lean_box(0);
+return x_19;
+}
+}
+}
+7 => {
+x_20 = rt::lean_ctor_get(x_5, 1);
+rt::lean_inc(x_20);
+rt::lean_dec_ref(x_5);
+match rt::lean_obj_tag(x_20) {
+1 => {
+x_21 = rt::lean_ctor_get(x_20, 0);
+rt::lean_inc(x_21);
+match rt::lean_obj_tag(x_21) {
+4 => {
+x_22 = rt::lean_ctor_get(x_20, 1);
+rt::lean_inc(x_22);
+rt::lean_dec_ref(x_20);
+match rt::lean_obj_tag(x_22) {
+1 => {
+x_23 = rt::lean_ctor_get(x_22, 0);
+rt::lean_inc(x_23);
+match rt::lean_obj_tag(x_23) {
+3 => {
+x_24 = rt::lean_ctor_get(x_22, 1);
+rt::lean_inc(x_24);
+rt::lean_dec_ref(x_22);
+match rt::lean_obj_tag(x_24) {
+1 => {
+x_25 = rt::lean_ctor_get(x_24, 0);
+rt::lean_inc(x_25);
+match rt::lean_obj_tag(x_25) {
+4 => {
+x_26 = rt::lean_ctor_get(x_24, 1);
+rt::lean_inc(x_26);
+rt::lean_dec_ref(x_24);
+match rt::lean_obj_tag(x_26) {
+1 => {
+x_27 = rt::lean_ctor_get(x_26, 0);
+rt::lean_inc(x_27);
+match rt::lean_obj_tag(x_27) {
+2 => {
+x_28 = rt::lean_ctor_get(x_26, 1);
+rt::lean_inc(x_28);
+rt::lean_dec_ref(x_26);
+match rt::lean_obj_tag(x_28) {
+1 => {
+x_29 = rt::lean_ctor_get(x_28, 0);
+rt::lean_inc(x_29);
+match rt::lean_obj_tag(x_29) {
+4 => {
+x_30 = rt::lean_ctor_get(x_28, 1);
+rt::lean_inc(x_30);
+rt::lean_dec_ref(x_28);
+match rt::lean_obj_tag(x_30) {
+1 => {
+x_31 = rt::lean_ctor_get(x_30, 0);
+rt::lean_inc(x_31);
+match rt::lean_obj_tag(x_31) {
+2 => {
+x_32 = rt::lean_ctor_get(x_30, 1);
+rt::lean_inc(x_32);
+rt::lean_dec_ref(x_30);
+match rt::lean_obj_tag(x_32) {
+1 => {
+x_33 = rt::lean_ctor_get(x_32, 0);
+rt::lean_inc(x_33);
+match rt::lean_obj_tag(x_33) {
+4 => {
+x_34 = rt::lean_ctor_get(x_32, 1);
+rt::lean_inc(x_34);
+rt::lean_dec_ref(x_32);
+match rt::lean_obj_tag(x_34) {
+1 => {
+x_35 = rt::lean_ctor_get(x_34, 0);
+rt::lean_inc(x_35);
+match rt::lean_obj_tag(x_35) {
+1 => {
+x_36 = rt::lean_ctor_get(x_34, 1);
+rt::lean_inc(x_36);
+rt::lean_dec_ref(x_34);
+match rt::lean_obj_tag(x_36) {
+1 => {
+x_37 = rt::lean_ctor_get(x_36, 0);
+match rt::lean_obj_tag(x_37) {
+8 => {
+x_38 = rt::lean_ctor_get(x_36, 1);
+rt::lean_inc(x_38);
+rt::lean_dec_ref(x_36);
+match rt::lean_obj_tag(x_38) {
+1 => {
+x_39 = rt::lean_ctor_get(x_38, 0);
+match rt::lean_obj_tag(x_39) {
+8 => {
+x_40 = rt::lean_ctor_get(x_38, 1);
+rt::lean_inc(x_40);
+rt::lean_dec_ref(x_38);
+match rt::lean_obj_tag(x_40) {
+0 => {
+x_41 = rt::lean_ctor_get(x_4, 0);
+rt::lean_inc_ref(x_41);
+rt::lean_dec_ref(x_4);
+x_42 = rt::lean_ctor_get(x_21, 0);
+rt::lean_inc_ref(x_42);
+rt::lean_dec_ref(x_21);
+x_43 = rt::lean_ctor_get(x_23, 0);
+rt::lean_inc_ref(x_43);
+rt::lean_dec_ref(x_23);
+x_44 = rt::lean_ctor_get(x_25, 0);
+rt::lean_inc_ref(x_44);
+rt::lean_dec_ref(x_25);
+x_45 = rt::lean_ctor_get(x_27, 0);
+rt::lean_inc_ref(x_45);
+rt::lean_dec_ref(x_27);
+x_46 = rt::lean_ctor_get(x_29, 0);
+rt::lean_inc_ref(x_46);
+rt::lean_dec_ref(x_29);
+x_47 = rt::lean_ctor_get(x_31, 0);
+rt::lean_inc_ref(x_47);
+rt::lean_dec_ref(x_31);
+x_48 = rt::lean_ctor_get(x_33, 0);
+x_69 = (!rt::lean_is_exclusive(x_33)) as u8;
+match x_69 as u32 {
+0 => {
+{ let t_0 = x_33; let t_1 = x_69; x_50 = t_0; x_51 = t_1; }
+__blk = 1; continue 'body;
+}
+1 => {
+rt::lean_inc(x_48);
+rt::lean_dec(x_33);
+{ let t_0 = rt::lean_box(0); let t_1 = x_69; x_50 = t_0; x_51 = t_1; }
 __blk = 1; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
+_ => {
+rt::lean_dec(x_40);
+rt::lean_dec_ref(x_35);
+rt::lean_dec_ref(x_33);
+rt::lean_dec_ref(x_31);
+rt::lean_dec_ref(x_29);
+rt::lean_dec_ref(x_27);
+rt::lean_dec_ref(x_25);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_4);
+x_70 = rt::lean_box(0);
+return x_70;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_38);
+rt::lean_dec_ref(x_35);
+rt::lean_dec_ref(x_33);
+rt::lean_dec_ref(x_31);
+rt::lean_dec_ref(x_29);
+rt::lean_dec_ref(x_27);
+rt::lean_dec_ref(x_25);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_4);
+x_71 = rt::lean_box(0);
+return x_71;
+}
+}
+}
+_ => {
+rt::lean_dec(x_38);
+rt::lean_dec_ref(x_35);
+rt::lean_dec_ref(x_33);
+rt::lean_dec_ref(x_31);
+rt::lean_dec_ref(x_29);
+rt::lean_dec_ref(x_27);
+rt::lean_dec_ref(x_25);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_4);
+x_72 = rt::lean_box(0);
+return x_72;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_36);
+rt::lean_dec_ref(x_35);
+rt::lean_dec_ref(x_33);
+rt::lean_dec_ref(x_31);
+rt::lean_dec_ref(x_29);
+rt::lean_dec_ref(x_27);
+rt::lean_dec_ref(x_25);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_4);
+x_73 = rt::lean_box(0);
+return x_73;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_35);
+rt::lean_dec(x_36);
+rt::lean_dec_ref(x_33);
+rt::lean_dec_ref(x_31);
+rt::lean_dec_ref(x_29);
+rt::lean_dec_ref(x_27);
+rt::lean_dec_ref(x_25);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_4);
+x_74 = rt::lean_box(0);
+return x_74;
+}
+}
+}
+_ => {
+rt::lean_dec(x_35);
+rt::lean_dec_ref(x_34);
+rt::lean_dec_ref(x_33);
+rt::lean_dec_ref(x_31);
+rt::lean_dec_ref(x_29);
+rt::lean_dec_ref(x_27);
+rt::lean_dec_ref(x_25);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_4);
+x_75 = rt::lean_box(0);
+return x_75;
+}
+}
+}
+_ => {
+rt::lean_dec(x_34);
+rt::lean_dec_ref(x_33);
+rt::lean_dec_ref(x_31);
+rt::lean_dec_ref(x_29);
+rt::lean_dec_ref(x_27);
+rt::lean_dec_ref(x_25);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_4);
+x_76 = rt::lean_box(0);
+return x_76;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_32);
+rt::lean_dec(x_33);
+rt::lean_dec_ref(x_31);
+rt::lean_dec_ref(x_29);
+rt::lean_dec_ref(x_27);
+rt::lean_dec_ref(x_25);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_4);
+x_77 = rt::lean_box(0);
+return x_77;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_31);
+rt::lean_dec(x_32);
+rt::lean_dec_ref(x_29);
+rt::lean_dec_ref(x_27);
+rt::lean_dec_ref(x_25);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_4);
+x_78 = rt::lean_box(0);
+return x_78;
+}
+}
+}
+_ => {
+rt::lean_dec(x_31);
+rt::lean_dec_ref(x_30);
+rt::lean_dec_ref(x_29);
+rt::lean_dec_ref(x_27);
+rt::lean_dec_ref(x_25);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_4);
+x_79 = rt::lean_box(0);
+return x_79;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_29);
+rt::lean_dec(x_30);
+rt::lean_dec_ref(x_27);
+rt::lean_dec_ref(x_25);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_4);
+x_80 = rt::lean_box(0);
+return x_80;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_28);
+rt::lean_dec(x_29);
+rt::lean_dec_ref(x_27);
+rt::lean_dec_ref(x_25);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_4);
+x_81 = rt::lean_box(0);
+return x_81;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_27);
+rt::lean_dec(x_28);
+rt::lean_dec_ref(x_25);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_4);
+x_82 = rt::lean_box(0);
+return x_82;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_26);
+rt::lean_dec(x_27);
+rt::lean_dec_ref(x_25);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_4);
+x_83 = rt::lean_box(0);
+return x_83;
+}
+}
+}
+_ => {
+rt::lean_dec(x_26);
+rt::lean_dec_ref(x_25);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_4);
+x_84 = rt::lean_box(0);
+return x_84;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_24);
+rt::lean_dec(x_25);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_4);
+x_85 = rt::lean_box(0);
+return x_85;
+}
+}
+}
+_ => {
+rt::lean_dec(x_24);
+rt::lean_dec_ref(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_4);
+x_86 = rt::lean_box(0);
+return x_86;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_22);
+rt::lean_dec(x_23);
+rt::lean_dec_ref(x_21);
+rt::lean_dec_ref(x_4);
+x_87 = rt::lean_box(0);
+return x_87;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_21);
+rt::lean_dec(x_22);
+rt::lean_dec_ref(x_4);
+x_88 = rt::lean_box(0);
+return x_88;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_20);
+rt::lean_dec(x_21);
+rt::lean_dec_ref(x_4);
+x_89 = rt::lean_box(0);
+return x_89;
+}
+}
+}
+_ => {
+rt::lean_dec(x_20);
+rt::lean_dec_ref(x_4);
+x_90 = rt::lean_box(0);
+return x_90;
+}
+}
+}
+5 => {
+x_91 = rt::lean_ctor_get(x_4, 0);
+x_129 = (!rt::lean_is_exclusive(x_4)) as u8;
+match x_129 as u32 {
+0 => {
+{ let t_0 = x_4; let t_1 = x_129; x_93 = t_0; x_94 = t_1; }
+__blk = 5; continue 'body;
+}
+1 => {
+rt::lean_inc(x_91);
+rt::lean_dec(x_4);
+{ let t_0 = rt::lean_box(0); let t_1 = x_129; x_93 = t_0; x_94 = t_1; }
+__blk = 5; continue 'body;
+}
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
+_ => {
+rt::lean_dec_ref(x_5);
+rt::lean_dec_ref(x_4);
+x_130 = rt::lean_box(0);
+return x_130;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_4);
+rt::lean_dec(x_5);
+x_131 = rt::lean_box(0);
+return x_131;
+}
+}
+}
+_ => {
+rt::lean_dec(x_4);
+rt::lean_dec_ref(x_3);
+x_132 = rt::lean_box(0);
+return x_132;
+}
+}
+}
+_ => {
+rt::lean_dec(x_3);
+x_133 = rt::lean_box(0);
+return x_133;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_1);
+x_134 = rt::lean_box(0);
+return x_134;
+}
+}
+}
+_ => {
+rt::lean_dec(x_1);
+x_135 = rt::lean_box(0);
+return x_135;
+}
+}
+}
 1 => {
-x_9 = l_Leangage_Json_Items_item(x_4);
-match x_8 as u32 {
+x_52 = rt::lean_ctor_get_uint8(x_35, 0 * core::mem::size_of::<usize>() as u32 + 0);
+rt::lean_dec_ref(x_35);
+x_53 = l_Notes_Wire_replyToks___closed__6();
+x_54 = rt::lean_string_dec_eq(x_41, x_53);
+rt::lean_dec_ref(x_41);
+match x_54 as u32 {
 0 => {
-rt::lean_ctor_set(x_7, 1, x_2);
-rt::lean_ctor_set(x_7, 0, x_9);
-{ let t_0 = x_7; x_11 = t_0; }
+rt::lean_del_object(x_50);
+rt::lean_dec_ref(x_48);
+rt::lean_dec_ref(x_47);
+rt::lean_dec_ref(x_46);
+rt::lean_dec_ref(x_45);
+rt::lean_dec_ref(x_44);
+rt::lean_dec_ref(x_43);
+rt::lean_dec_ref(x_42);
+x_55 = rt::lean_box(0);
+return x_55;
+}
+1 => {
+x_56 = l_Notes_Wire_noteOf(x_42, x_43, x_44, x_45, x_46, x_47, x_48, x_52);
+rt::lean_dec_ref(x_48);
+rt::lean_dec_ref(x_47);
+rt::lean_dec_ref(x_46);
+rt::lean_dec_ref(x_45);
+rt::lean_dec_ref(x_44);
+rt::lean_dec_ref(x_42);
+match rt::lean_obj_tag(x_56) {
+0 => {
+rt::lean_del_object(x_50);
+x_57 = rt::lean_box(0);
+return x_57;
+}
+1 => {
+x_58 = rt::lean_ctor_get(x_56, 0);
+x_68 = (!rt::lean_is_exclusive(x_56)) as u8;
+match x_68 as u32 {
+0 => {
+{ let t_0 = x_56; let t_1 = x_68; x_60 = t_0; x_61 = t_1; }
 __blk = 2; continue 'body;
 }
 1 => {
-x_13 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_13, 0, x_9); rt::lean_ctor_set(x_13, 1, x_2);
-{ let t_0 = x_13; x_11 = t_0; }
+rt::lean_inc(x_58);
+rt::lean_dec(x_56);
+{ let t_0 = rt::lean_box(0); let t_1 = x_68; x_60 = t_0; x_61 = t_1; }
 __blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 2 => {
-{ let t_0 = x_5; let t_1 = x_11; x_1 = t_0; x_2 = t_1; }
-__blk = 0; continue 'body;
+match x_51 as u32 {
+0 => {
+rt::lean_ctor_set_tag(x_50, 1);
+rt::lean_ctor_set(x_50, 0, x_58);
+{ let t_0 = x_50; x_63 = t_0; }
+__blk = 3; continue 'body;
+}
+1 => {
+x_67 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_67, 0, x_58);
+{ let t_0 = x_67; x_63 = t_0; }
+__blk = 3; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+3 => {
+match x_61 as u32 {
+0 => {
+rt::lean_ctor_set(x_60, 0, x_63);
+{ let t_0 = x_60; x_65 = t_0; }
+__blk = 4; continue 'body;
+}
+1 => {
+x_66 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_66, 0, x_63);
+{ let t_0 = x_66; x_65 = t_0; }
+__blk = 4; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+4 => {
+return x_65;
+}
+5 => {
+x_95 = rt::lean_ctor_get(x_5, 1);
+rt::lean_inc(x_95);
+rt::lean_dec_ref(x_5);
+x_96 = l_Notes_Wire_replyToks___closed__8();
+x_97 = rt::lean_string_dec_eq(x_91, x_96);
+match x_97 as u32 {
+0 => {
+x_98 = l_Notes_Wire_replyToks___closed__12();
+x_99 = rt::lean_string_dec_eq(x_91, x_98);
+rt::lean_dec_ref(x_91);
+match x_99 as u32 {
+0 => {
+rt::lean_dec(x_95);
+rt::lean_del_object(x_93);
+x_100 = rt::lean_box(0);
+return x_100;
+}
+1 => {
+x_101 = rt::lean_box(0);
+x_102 = l_Notes_Wire_membersOf(x_101, x_95);
+match rt::lean_obj_tag(x_102) {
+0 => {
+rt::lean_del_object(x_93);
+x_103 = rt::lean_box(0);
+return x_103;
+}
+1 => {
+x_104 = rt::lean_ctor_get(x_102, 0);
+x_114 = (!rt::lean_is_exclusive(x_102)) as u8;
+match x_114 as u32 {
+0 => {
+{ let t_0 = x_102; let t_1 = x_114; x_106 = t_0; x_107 = t_1; }
+__blk = 6; continue 'body;
+}
+1 => {
+rt::lean_inc(x_104);
+rt::lean_dec(x_102);
+{ let t_0 = rt::lean_box(0); let t_1 = x_114; x_106 = t_0; x_107 = t_1; }
+__blk = 6; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+rt::lean_dec_ref(x_91);
+x_115 = rt::lean_box(0);
+x_116 = l_Notes_Wire_notesOf(x_115, x_95);
+match rt::lean_obj_tag(x_116) {
+0 => {
+rt::lean_del_object(x_93);
+x_117 = rt::lean_box(0);
+return x_117;
+}
+1 => {
+x_118 = rt::lean_ctor_get(x_116, 0);
+x_128 = (!rt::lean_is_exclusive(x_116)) as u8;
+match x_128 as u32 {
+0 => {
+{ let t_0 = x_116; let t_1 = x_128; x_120 = t_0; x_121 = t_1; }
+__blk = 9; continue 'body;
+}
+1 => {
+rt::lean_inc(x_118);
+rt::lean_dec(x_116);
+{ let t_0 = rt::lean_box(0); let t_1 = x_128; x_120 = t_0; x_121 = t_1; }
+__blk = 9; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+6 => {
+match x_94 as u32 {
+0 => {
+rt::lean_ctor_set_tag(x_93, 3);
+rt::lean_ctor_set(x_93, 0, x_104);
+{ let t_0 = x_93; x_109 = t_0; }
+__blk = 7; continue 'body;
+}
+1 => {
+x_113 = rt::lean_alloc_ctor(3, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_113, 0, x_104);
+{ let t_0 = x_113; x_109 = t_0; }
+__blk = 7; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+7 => {
+match x_107 as u32 {
+0 => {
+rt::lean_ctor_set(x_106, 0, x_109);
+{ let t_0 = x_106; x_111 = t_0; }
+__blk = 8; continue 'body;
+}
+1 => {
+x_112 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_112, 0, x_109);
+{ let t_0 = x_112; x_111 = t_0; }
+__blk = 8; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+8 => {
+return x_111;
+}
+9 => {
+match x_94 as u32 {
+0 => {
+rt::lean_ctor_set_tag(x_93, 2);
+rt::lean_ctor_set(x_93, 0, x_118);
+{ let t_0 = x_93; x_123 = t_0; }
+__blk = 10; continue 'body;
+}
+1 => {
+x_127 = rt::lean_alloc_ctor(2, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_127, 0, x_118);
+{ let t_0 = x_127; x_123 = t_0; }
+__blk = 10; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+10 => {
+match x_121 as u32 {
+0 => {
+rt::lean_ctor_set(x_120, 0, x_123);
+{ let t_0 = x_120; x_125 = t_0; }
+__blk = 11; continue 'body;
+}
+1 => {
+x_126 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_126, 0, x_123);
+{ let t_0 = x_126; x_125 = t_0; }
+__blk = 11; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+11 => {
+return x_125;
 }
 _ => rt::lean_internal_panic_unreachable(),
 } }
 }
 
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leangage_Json_Items_item(mut x_1: Obj) -> Obj {
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Notes_Wire_replyOf___closed__0_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: Obj = rt::lean_box(0);
-let mut x_3: u8 = 0;
+x_1 = rt::lean_box(0);
+x_2 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_2, 0, x_1);
+return x_2;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Notes_Wire_replyOf___closed__0() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Notes_Wire_replyOf___closed__0_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Notes_Wire_membersOf(mut x_1: Obj, mut x_2: Obj) -> Obj {
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
 let mut x_5: Obj = rt::lean_box(0);
-let mut x_6: u8 = 0;
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: Obj = rt::lean_box(0);
 let mut x_8: Obj = rt::lean_box(0);
 let mut x_9: Obj = rt::lean_box(0);
-let mut x_10: u8 = 0;
+let mut x_10: Obj = rt::lean_box(0);
 let mut x_11: Obj = rt::lean_box(0);
 let mut x_12: Obj = rt::lean_box(0);
 let mut x_13: Obj = rt::lean_box(0);
+let mut x_14: Obj = rt::lean_box(0);
 let mut x_15: Obj = rt::lean_box(0);
-let mut x_16: u8 = 0;
+let mut x_16: Obj = rt::lean_box(0);
 let mut x_17: Obj = rt::lean_box(0);
 let mut x_18: Obj = rt::lean_box(0);
 let mut x_19: Obj = rt::lean_box(0);
+let mut x_20: Obj = rt::lean_box(0);
 let mut x_21: Obj = rt::lean_box(0);
 let mut x_22: Obj = rt::lean_box(0);
 let mut x_23: u8 = 0;
 let mut x_24: Obj = rt::lean_box(0);
+let mut x_25: Obj = rt::lean_box(0);
 let mut x_26: Obj = rt::lean_box(0);
-let mut x_27: u8 = 0;
 let mut x_28: Obj = rt::lean_box(0);
-let mut x_29: Obj = rt::lean_box(0);
+let mut x_29: u8 = 0;
 let mut x_30: Obj = rt::lean_box(0);
+let mut x_31: u8 = 0;
 let mut x_32: Obj = rt::lean_box(0);
 let mut x_33: Obj = rt::lean_box(0);
 let mut x_34: u8 = 0;
@@ -7999,466 +6009,346 @@ let mut x_35: Obj = rt::lean_box(0);
 let mut x_36: Obj = rt::lean_box(0);
 let mut x_37: Obj = rt::lean_box(0);
 let mut x_38: Obj = rt::lean_box(0);
+let mut x_39: Obj = rt::lean_box(0);
+let mut x_40: u64 = 0;
+let mut x_42: Obj = rt::lean_box(0);
+let mut x_43: Obj = rt::lean_box(0);
+let mut x_44: Obj = rt::lean_box(0);
+let mut x_45: u8 = 0;
+let mut x_46: Obj = rt::lean_box(0);
+let mut x_47: Obj = rt::lean_box(0);
+let mut x_48: Obj = rt::lean_box(0);
+let mut x_49: Obj = rt::lean_box(0);
+let mut x_50: Obj = rt::lean_box(0);
+let mut x_51: Obj = rt::lean_box(0);
+let mut x_52: Obj = rt::lean_box(0);
+let mut x_53: Obj = rt::lean_box(0);
+let mut x_54: Obj = rt::lean_box(0);
+let mut x_55: Obj = rt::lean_box(0);
+let mut x_56: Obj = rt::lean_box(0);
+let mut x_57: Obj = rt::lean_box(0);
+let mut x_58: Obj = rt::lean_box(0);
 let mut __blk: u32 = 0;
 'body: loop { match __blk {
 0 => {
-match rt::lean_obj_tag(x_1) {
-0 => {
-x_2 = rt::lean_box(0);
-return x_2;
-}
+match rt::lean_obj_tag(x_2) {
 1 => {
-x_3 = rt::lean_ctor_get_uint8(x_1, 0 * core::mem::size_of::<usize>() as u32 + 0);
-x_10 = (!rt::lean_is_exclusive(x_1)) as u8;
-match x_10 as u32 {
-0 => {
-{ let t_0 = x_1; let t_1 = x_10; x_5 = t_0; x_6 = t_1; }
-__blk = 1; continue 'body;
-}
-1 => {
-rt::lean_dec(x_1);
-{ let t_0 = rt::lean_box(0); let t_1 = x_10; x_5 = t_0; x_6 = t_1; }
-__blk = 1; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-2 => {
-x_11 = rt::lean_ctor_get(x_1, 0);
-rt::lean_inc_ref(x_11);
-rt::lean_dec_ref(x_1);
-x_12 = l_Leangage_Json_Items_numberItem(x_11);
-rt::lean_dec_ref(x_11);
-return x_12;
-}
-3 => {
-x_13 = rt::lean_ctor_get(x_1, 0);
-x_23 = (!rt::lean_is_exclusive(x_1)) as u8;
-match x_23 as u32 {
-0 => {
-{ let t_0 = x_1; let t_1 = x_23; x_15 = t_0; x_16 = t_1; }
-__blk = 3; continue 'body;
-}
-1 => {
-rt::lean_inc(x_13);
-rt::lean_dec(x_1);
-{ let t_0 = rt::lean_box(0); let t_1 = x_23; x_15 = t_0; x_16 = t_1; }
-__blk = 3; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-4 => {
-x_24 = rt::lean_ctor_get(x_1, 0);
-x_34 = (!rt::lean_is_exclusive(x_1)) as u8;
-match x_34 as u32 {
-0 => {
-{ let t_0 = x_1; let t_1 = x_34; x_26 = t_0; x_27 = t_1; }
-__blk = 5; continue 'body;
-}
-1 => {
-rt::lean_inc(x_24);
-rt::lean_dec(x_1);
-{ let t_0 = rt::lean_box(0); let t_1 = x_34; x_26 = t_0; x_27 = t_1; }
-__blk = 5; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-5 => {
-x_35 = rt::lean_box(6);
-return x_35;
-}
+x_3 = rt::lean_ctor_get(x_2, 0);
+match rt::lean_obj_tag(x_3) {
 6 => {
-x_36 = rt::lean_box(7);
-return x_36;
-}
-7 => {
-x_37 = rt::lean_box(8);
-return x_37;
-}
-8 => {
-x_38 = rt::lean_box(9);
-return x_38;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-1 => {
-match x_6 as u32 {
-0 => {
-{ let t_0 = x_5; x_8 = t_0; }
-__blk = 2; continue 'body;
-}
-1 => {
-x_9 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 1);
-rt::lean_ctor_set_uint8(x_9, 0 * core::mem::size_of::<usize>() as u32 + 0, x_3);
-{ let t_0 = x_9; x_8 = t_0; }
-__blk = 2; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-2 => {
-return x_8;
-}
-3 => {
-x_17 = rt::lean_string_to_utf8(x_13);
-x_18 = rt::lean_byte_array_data(x_17);
-x_19 = rt::lean_array_to_list(x_18);
-match x_16 as u32 {
-0 => {
-rt::lean_ctor_set_tag(x_15, 4);
-rt::lean_ctor_set(x_15, 0, x_19);
-{ let t_0 = x_15; x_21 = t_0; }
-__blk = 4; continue 'body;
-}
-1 => {
-x_22 = rt::lean_alloc_ctor(4, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_22, 0, x_19);
-{ let t_0 = x_22; x_21 = t_0; }
-__blk = 4; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-4 => {
-return x_21;
-}
-5 => {
-x_28 = rt::lean_string_to_utf8(x_24);
-x_29 = rt::lean_byte_array_data(x_28);
-x_30 = rt::lean_array_to_list(x_29);
-match x_27 as u32 {
-0 => {
-rt::lean_ctor_set_tag(x_26, 5);
-rt::lean_ctor_set(x_26, 0, x_30);
-{ let t_0 = x_26; x_32 = t_0; }
-__blk = 6; continue 'body;
-}
-1 => {
-x_33 = rt::lean_alloc_ctor(5, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_33, 0, x_30);
-{ let t_0 = x_33; x_32 = t_0; }
-__blk = 6; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-6 => {
-return x_32;
-}
-_ => rt::lean_internal_panic_unreachable(),
-} }
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leangage_Json_Items_numberItem(mut x_1: Obj) -> Obj {
-let mut x_2: Obj = rt::lean_box(0);
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-let mut x_5: Obj = rt::lean_box(0);
-let mut x_6: Obj = rt::lean_box(0);
-let mut x_7: Obj = rt::lean_box(0);
-let mut x_8: u64 = 0;
-x_2 = rt::lean_unsigned_to_nat(0u32);
-x_3 = rt::lean_string_utf8_byte_size(x_1);
-x_4 = l_Leangage_Token_numberAt(x_1, x_2, x_3);
+x_4 = rt::lean_ctor_get(x_2, 1);
+rt::lean_inc(x_4);
+rt::lean_dec_ref(x_2);
 match rt::lean_obj_tag(x_4) {
-0 => {
-x_5 = rt::lean_box(3);
-return x_5;
-}
 1 => {
-x_6 = rt::lean_ctor_get(x_4, 0);
+x_5 = rt::lean_ctor_get(x_4, 0);
+match rt::lean_obj_tag(x_5) {
+8 => {
+x_6 = rt::lean_ctor_get(x_4, 1);
 rt::lean_inc(x_6);
 rt::lean_dec_ref(x_4);
-x_7 = rt::lean_alloc_ctor(2, 0, 0 * core::mem::size_of::<usize>() as u32 + 8);
-x_8 = rt::lean_unbox_uint64(x_6);
+match rt::lean_obj_tag(x_6) {
+0 => {
+x_7 = l_List_reverse___redArg(x_1);
+x_8 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_8, 0, x_7);
+return x_8;
+}
+_ => {
 rt::lean_dec(x_6);
-rt::lean_ctor_set_uint64(x_7, 0 * core::mem::size_of::<usize>() as u32 + 0, x_8);
-return x_7;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leangage_Token_numberAt(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj) -> Obj {
-let mut x_4: Obj = rt::lean_box(0);
-let mut x_5: Obj = rt::lean_box(0);
-let mut x_6: u8 = 0;
-let mut x_7: Obj = rt::lean_box(0);
-let mut x_8: Obj = rt::lean_box(0);
-let mut x_9: Obj = rt::lean_box(0);
-let mut x_10: u64 = 0;
-let mut x_11: Obj = rt::lean_box(0);
-let mut x_12: u8 = 0;
-let mut x_13: Obj = rt::lean_box(0);
-let mut x_14: Obj = rt::lean_box(0);
-let mut x_15: Obj = rt::lean_box(0);
-x_4 = rt::lean_nat_sub(x_3, x_2);
-x_5 = rt::lean_unsigned_to_nat(20u32);
-x_6 = rt::lean_nat_dec_le(x_4, x_5);
-rt::lean_dec(x_4);
-match x_6 as u32 {
-0 => {
-rt::lean_dec(x_3);
-rt::lean_dec(x_2);
-x_7 = rt::lean_box(0);
-return x_7;
-}
-1 => {
-x_8 = rt::lean_unsigned_to_nat(0u32);
-rt::lean_inc(x_2);
-x_9 = l_Leangage_Token_digitsFrom(x_1, x_2, x_3, x_8);
-x_10 = rt::lean_uint64_of_nat(x_9);
-rt::lean_dec(x_9);
-x_11 = rt::lean_uint64_to_nat(x_10);
-x_12 = l_Leangage_Token_isDecimal(x_11, x_1, x_2, x_3);
-match x_12 as u32 {
-0 => {
-x_13 = rt::lean_box(0);
-return x_13;
-}
-1 => {
-x_14 = rt::lean_box_uint64(x_10);
-x_15 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_15, 0, x_14);
-return x_15;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leangage_Token_digitsFrom(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj) -> Obj {
-let mut x_5: u8 = 0;
-let mut x_6: Obj = rt::lean_box(0);
-let mut x_7: u8 = 0;
-let mut x_8: Obj = rt::lean_box(0);
-let mut x_9: Obj = rt::lean_box(0);
-let mut x_10: Obj = rt::lean_box(0);
-let mut x_11: Obj = rt::lean_box(0);
-let mut x_13: u8 = 0;
-let mut x_14: Obj = rt::lean_box(0);
-let mut x_15: Obj = rt::lean_box(0);
-let mut x_16: Obj = rt::lean_box(0);
-let mut x_17: Obj = rt::lean_box(0);
-let mut x_18: Obj = rt::lean_box(0);
-let mut x_19: u8 = 0;
-let mut x_20: u8 = 0;
-let mut __blk: u32 = 0;
-'body: loop { match __blk {
-0 => {
-x_5 = rt::lean_nat_dec_lt(x_2, x_3);
-match x_5 as u32 {
-0 => {
-rt::lean_dec(x_2);
-return x_4;
-}
-1 => {
-x_6 = rt::lean_string_utf8_byte_size(x_1);
-x_7 = rt::lean_nat_dec_lt(x_2, x_6);
-match x_7 as u32 {
-0 => {
-rt::lean_dec(x_2);
-return x_4;
-}
-1 => {
-x_8 = rt::lean_unsigned_to_nat(1u32);
-x_9 = rt::lean_nat_add(x_2, x_8);
-x_10 = rt::lean_unsigned_to_nat(10u32);
-x_11 = rt::lean_nat_mul(x_4, x_10);
-rt::lean_dec(x_4);
-match x_7 as u32 {
-0 => {
-rt::lean_dec(x_2);
-x_19 = 0u8;
-{ let t_0 = x_19; x_13 = t_0; }
-__blk = 1; continue 'body;
-}
-1 => {
-x_20 = rt::lean_string_get_byte_fast(x_1, x_2);
-{ let t_0 = x_20; x_13 = t_0; }
-__blk = 1; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-1 => {
-x_14 = rt::lean_uint8_to_nat(x_13);
-x_15 = rt::lean_unsigned_to_nat(48u32);
-x_16 = rt::lean_nat_sub(x_14, x_15);
-x_17 = rt::lean_nat_add(x_11, x_16);
-rt::lean_dec(x_16);
-rt::lean_dec(x_11);
-{ let t_0 = x_1; let t_1 = x_9; let t_2 = x_3; let t_3 = x_17; x_1 = t_0; x_2 = t_1; x_3 = t_2; x_4 = t_3; }
-__blk = 0; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-} }
-}
-
-
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leangage_Token_isDecimal(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj) -> u8 {
-let mut x_6: u8 = 0;
-let mut x_7: Obj = rt::lean_box(0);
-let mut x_8: Obj = rt::lean_box(0);
-let mut x_9: u8 = 0;
-let mut x_10: u8 = 0;
-let mut x_11: u8 = 0;
-let mut x_12: Obj = rt::lean_box(0);
-let mut x_13: u8 = 0;
-let mut x_15: u8 = 0;
-let mut x_16: Obj = rt::lean_box(0);
-let mut x_17: Obj = rt::lean_box(0);
-let mut x_18: Obj = rt::lean_box(0);
-let mut x_19: u8 = 0;
-let mut x_20: u8 = 0;
-let mut x_21: Obj = rt::lean_box(0);
-let mut x_22: Obj = rt::lean_box(0);
-let mut x_23: Obj = rt::lean_box(0);
-let mut x_24: u8 = 0;
-let mut x_25: Obj = rt::lean_box(0);
-let mut x_26: Obj = rt::lean_box(0);
-let mut x_27: Obj = rt::lean_box(0);
-let mut x_28: u8 = 0;
-let mut x_29: u8 = 0;
-let mut x_30: u8 = 0;
-let mut x_31: Obj = rt::lean_box(0);
-let mut x_32: Obj = rt::lean_box(0);
-let mut x_33: u8 = 0;
-let mut x_34: Obj = rt::lean_box(0);
-let mut x_35: u8 = 0;
-let mut x_36: u8 = 0;
-let mut x_37: u8 = 0;
-let mut x_38: u8 = 0;
-let mut __blk: u32 = 0;
-'body: loop { match __blk {
-0 => {
-x_11 = rt::lean_nat_dec_le(x_4, x_3);
-match x_11 as u32 {
-0 => {
-x_12 = rt::lean_unsigned_to_nat(10u32);
-x_13 = rt::lean_nat_dec_lt(x_1, x_12);
-match x_13 as u32 {
-0 => {
-x_25 = rt::lean_unsigned_to_nat(1u32);
-x_26 = rt::lean_nat_sub(x_4, x_25);
-x_27 = rt::lean_string_utf8_byte_size(x_2);
-x_28 = rt::lean_nat_dec_lt(x_26, x_27);
-match x_28 as u32 {
-0 => {
-rt::lean_dec(x_26);
-x_29 = 0u8;
-{ let t_0 = x_29; x_15 = t_0; }
-__blk = 2; continue 'body;
-}
-1 => {
-x_30 = rt::lean_string_get_byte_fast(x_2, x_26);
-{ let t_0 = x_30; x_15 = t_0; }
-__blk = 2; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-1 => {
-x_31 = rt::lean_unsigned_to_nat(1u32);
-x_32 = rt::lean_nat_add(x_3, x_31);
-x_33 = rt::lean_nat_dec_eq(x_4, x_32);
-rt::lean_dec(x_32);
-rt::lean_dec(x_4);
-match x_33 as u32 {
-0 => {
-rt::lean_dec(x_3);
 rt::lean_dec(x_1);
-return x_11;
-}
-1 => {
-x_34 = rt::lean_string_utf8_byte_size(x_2);
-x_35 = rt::lean_nat_dec_lt(x_3, x_34);
-match x_35 as u32 {
-0 => {
-rt::lean_dec(x_3);
-x_36 = 0u8;
-{ let t_0 = x_36; x_6 = t_0; }
-__blk = 1; continue 'body;
-}
-1 => {
-x_37 = rt::lean_string_get_byte_fast(x_2, x_3);
-{ let t_0 = x_37; x_6 = t_0; }
-__blk = 1; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
+x_9 = rt::lean_box(0);
+return x_9;
 }
 }
-_ => rt::lean_internal_panic_unreachable(),
 }
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-1 => {
-rt::lean_dec(x_4);
-rt::lean_dec(x_3);
+_ => {
+rt::lean_dec_ref(x_4);
 rt::lean_dec(x_1);
-x_38 = 0u8;
-return x_38;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-1 => {
-x_7 = rt::lean_unsigned_to_nat(48u32);
-x_8 = rt::lean_nat_add(x_1, x_7);
-rt::lean_dec(x_1);
-x_9 = rt::lean_uint8_of_nat(x_8);
-rt::lean_dec(x_8);
-x_10 = rt::lean_uint8_dec_eq(x_6, x_9);
+x_10 = rt::lean_box(0);
 return x_10;
 }
-2 => {
-x_16 = rt::lean_nat_mod(x_1, x_12);
-x_17 = rt::lean_unsigned_to_nat(48u32);
-x_18 = rt::lean_nat_add(x_16, x_17);
-rt::lean_dec(x_16);
-x_19 = rt::lean_uint8_of_nat(x_18);
-rt::lean_dec(x_18);
-x_20 = rt::lean_uint8_dec_eq(x_15, x_19);
-match x_20 as u32 {
-0 => {
+}
+}
+_ => {
 rt::lean_dec(x_4);
-rt::lean_dec(x_3);
 rt::lean_dec(x_1);
-return x_13;
+x_11 = rt::lean_box(0);
+return x_11;
+}
+}
+}
+7 => {
+x_12 = rt::lean_ctor_get(x_2, 1);
+rt::lean_inc(x_12);
+rt::lean_dec_ref(x_2);
+match rt::lean_obj_tag(x_12) {
+1 => {
+x_13 = rt::lean_ctor_get(x_12, 0);
+rt::lean_inc(x_13);
+match rt::lean_obj_tag(x_13) {
+4 => {
+x_14 = rt::lean_ctor_get(x_12, 1);
+rt::lean_inc(x_14);
+rt::lean_dec_ref(x_12);
+match rt::lean_obj_tag(x_14) {
+1 => {
+x_15 = rt::lean_ctor_get(x_14, 0);
+rt::lean_inc(x_15);
+match rt::lean_obj_tag(x_15) {
+1 => {
+x_16 = rt::lean_ctor_get(x_14, 1);
+rt::lean_inc(x_16);
+rt::lean_dec_ref(x_14);
+match rt::lean_obj_tag(x_16) {
+1 => {
+x_17 = rt::lean_ctor_get(x_16, 0);
+rt::lean_inc(x_17);
+match rt::lean_obj_tag(x_17) {
+4 => {
+x_18 = rt::lean_ctor_get(x_16, 1);
+rt::lean_inc(x_18);
+rt::lean_dec_ref(x_16);
+match rt::lean_obj_tag(x_18) {
+1 => {
+x_19 = rt::lean_ctor_get(x_18, 0);
+rt::lean_inc(x_19);
+match rt::lean_obj_tag(x_19) {
+2 => {
+x_20 = rt::lean_ctor_get(x_18, 1);
+rt::lean_inc(x_20);
+rt::lean_dec_ref(x_18);
+match rt::lean_obj_tag(x_20) {
+1 => {
+x_21 = rt::lean_ctor_get(x_20, 0);
+match rt::lean_obj_tag(x_21) {
+8 => {
+x_22 = rt::lean_ctor_get(x_13, 0);
+rt::lean_inc_ref(x_22);
+rt::lean_dec_ref(x_13);
+x_23 = rt::lean_ctor_get_uint8(x_15, 0 * core::mem::size_of::<usize>() as u32 + 0);
+rt::lean_dec_ref(x_15);
+x_24 = rt::lean_ctor_get(x_17, 0);
+rt::lean_inc_ref(x_24);
+rt::lean_dec_ref(x_17);
+x_25 = rt::lean_ctor_get(x_19, 0);
+rt::lean_inc_ref(x_25);
+rt::lean_dec_ref(x_19);
+x_26 = rt::lean_ctor_get(x_20, 1);
+x_45 = (!rt::lean_is_exclusive(x_20)) as u8;
+match x_45 as u32 {
+0 => {
+x_46 = rt::lean_ctor_get(x_20, 0);
+rt::lean_dec(x_46);
+{ let t_0 = x_20; let t_1 = x_45; x_28 = t_0; x_29 = t_1; }
+__blk = 1; continue 'body;
 }
 1 => {
-x_21 = rt::lean_nat_div(x_1, x_12);
-rt::lean_dec(x_1);
-x_22 = rt::lean_unsigned_to_nat(1u32);
-x_23 = rt::lean_nat_sub(x_4, x_22);
-rt::lean_dec(x_4);
-{ let t_0 = x_21; let t_1 = x_2; let t_2 = x_3; let t_3 = x_23; x_1 = t_0; x_2 = t_1; x_3 = t_2; x_4 = t_3; }
-__blk = 0; continue 'body;
+rt::lean_inc(x_26);
+rt::lean_dec(x_20);
+{ let t_0 = rt::lean_box(0); let t_1 = x_45; x_28 = t_0; x_29 = t_1; }
+__blk = 1; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
+}
+_ => {
+rt::lean_dec_ref(x_20);
+rt::lean_dec_ref(x_19);
+rt::lean_dec_ref(x_17);
+rt::lean_dec_ref(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_47 = rt::lean_box(0);
+return x_47;
+}
+}
+}
+_ => {
+rt::lean_dec(x_20);
+rt::lean_dec_ref(x_19);
+rt::lean_dec_ref(x_17);
+rt::lean_dec_ref(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_48 = rt::lean_box(0);
+return x_48;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_18);
+rt::lean_dec(x_19);
+rt::lean_dec_ref(x_17);
+rt::lean_dec_ref(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_49 = rt::lean_box(0);
+return x_49;
+}
+}
+}
+_ => {
+rt::lean_dec(x_18);
+rt::lean_dec_ref(x_17);
+rt::lean_dec_ref(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_50 = rt::lean_box(0);
+return x_50;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_16);
+rt::lean_dec(x_17);
+rt::lean_dec_ref(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_51 = rt::lean_box(0);
+return x_51;
+}
+}
+}
+_ => {
+rt::lean_dec(x_16);
+rt::lean_dec_ref(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_52 = rt::lean_box(0);
+return x_52;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_14);
+rt::lean_dec(x_15);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_53 = rt::lean_box(0);
+return x_53;
+}
+}
+}
+_ => {
+rt::lean_dec(x_14);
+rt::lean_dec_ref(x_13);
+rt::lean_dec(x_1);
+x_54 = rt::lean_box(0);
+return x_54;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_12);
+rt::lean_dec(x_13);
+rt::lean_dec(x_1);
+x_55 = rt::lean_box(0);
+return x_55;
+}
+}
+}
+_ => {
+rt::lean_dec(x_12);
+rt::lean_dec(x_1);
+x_56 = rt::lean_box(0);
+return x_56;
+}
+}
+}
+_ => {
+rt::lean_dec_ref(x_2);
+rt::lean_dec(x_1);
+x_57 = rt::lean_box(0);
+return x_57;
+}
+}
+}
+_ => {
+rt::lean_dec(x_2);
+rt::lean_dec(x_1);
+x_58 = rt::lean_box(0);
+return x_58;
+}
+}
+}
+1 => {
+x_30 = l_Notes_Wire_decodeMembers___closed__16();
+x_31 = rt::lean_string_dec_eq(x_22, x_30);
+rt::lean_dec_ref(x_22);
+match x_31 as u32 {
+0 => {
+rt::lean_del_object(x_28);
+rt::lean_dec(x_26);
+rt::lean_dec_ref(x_25);
+rt::lean_dec_ref(x_24);
+rt::lean_dec(x_1);
+x_32 = rt::lean_box(0);
+return x_32;
+}
+1 => {
+x_33 = l_Notes_Wire_decodeMembers___closed__15();
+x_34 = rt::lean_string_dec_eq(x_24, x_33);
+rt::lean_dec_ref(x_24);
+match x_34 as u32 {
+0 => {
+rt::lean_del_object(x_28);
+rt::lean_dec(x_26);
+rt::lean_dec_ref(x_25);
+rt::lean_dec(x_1);
+x_35 = rt::lean_box(0);
+return x_35;
+}
+1 => {
+x_36 = l_Leangage_Json_Lexemes_numberOf(x_25);
+rt::lean_dec_ref(x_25);
+match rt::lean_obj_tag(x_36) {
+0 => {
+rt::lean_del_object(x_28);
+rt::lean_dec(x_26);
+rt::lean_dec(x_1);
+x_37 = rt::lean_box(0);
+return x_37;
+}
+1 => {
+x_38 = rt::lean_ctor_get(x_36, 0);
+rt::lean_inc(x_38);
+rt::lean_dec_ref(x_36);
+x_39 = rt::lean_alloc_ctor(0, 0, 0 * core::mem::size_of::<usize>() as u32 + 9);
+x_40 = rt::lean_unbox_uint64(x_38);
+rt::lean_dec(x_38);
+rt::lean_ctor_set_uint64(x_39, 0 * core::mem::size_of::<usize>() as u32 + 0, x_40);
+rt::lean_ctor_set_uint8(x_39, 0 * core::mem::size_of::<usize>() as u32 + 8, x_23);
+match x_29 as u32 {
+0 => {
+rt::lean_ctor_set(x_28, 1, x_1);
+rt::lean_ctor_set(x_28, 0, x_39);
+{ let t_0 = x_28; x_42 = t_0; }
+__blk = 2; continue 'body;
+}
+1 => {
+x_44 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_44, 0, x_39); rt::lean_ctor_set(x_44, 1, x_1);
+{ let t_0 = x_44; x_42 = t_0; }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+{ let t_0 = x_42; let t_1 = x_26; x_1 = t_0; x_2 = t_1; }
+__blk = 0; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 } }
 }
-
-
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Notes_Wire_scope(mut x_1: Obj) -> Obj {
@@ -8712,6 +6602,7 @@ __blk = 0; continue 'body;
 _ => rt::lean_internal_panic_unreachable(),
 } }
 }
+
 
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
@@ -9089,186 +6980,6 @@ _ => rt::lean_internal_panic_unreachable(),
 
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_members(mut x_1: Obj, mut x_2: Obj) -> Obj {
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-let mut x_5: Obj = rt::lean_box(0);
-let mut x_6: Obj = rt::lean_box(0);
-let mut x_7: Obj = rt::lean_box(0);
-let mut x_8: Obj = rt::lean_box(0);
-let mut x_10: Obj = rt::lean_box(0);
-let mut x_11: u8 = 0;
-let mut x_12: Obj = rt::lean_box(0);
-let mut x_13: Obj = rt::lean_box(0);
-let mut x_14: Obj = rt::lean_box(0);
-let mut x_16: Obj = rt::lean_box(0);
-let mut x_17: u8 = 0;
-let mut x_18: u8 = 0;
-let mut x_19: Obj = rt::lean_box(0);
-let mut x_21: Obj = rt::lean_box(0);
-let mut x_23: Obj = rt::lean_box(0);
-let mut x_24: Obj = rt::lean_box(0);
-let mut x_25: Obj = rt::lean_box(0);
-let mut x_26: Obj = rt::lean_box(0);
-let mut x_27: u8 = 0;
-let mut x_28: Obj = rt::lean_box(0);
-let mut x_29: u8 = 0;
-let mut x_30: Obj = rt::lean_box(0);
-let mut x_31: Obj = rt::lean_box(0);
-let mut x_32: Obj = rt::lean_box(0);
-let mut __blk: u32 = 0;
-'body: loop { match __blk {
-0 => {
-match rt::lean_obj_tag(x_2) {
-1 => {
-x_3 = rt::lean_ctor_get(x_2, 0);
-match rt::lean_obj_tag(x_3) {
-9 => {
-x_4 = rt::lean_ctor_get(x_2, 1);
-rt::lean_inc(x_4);
-rt::lean_dec_ref(x_2);
-match rt::lean_obj_tag(x_4) {
-0 => {
-x_5 = l_List_reverse___redArg(x_1);
-x_6 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_6, 0, x_5);
-return x_6;
-}
-_ => {
-rt::lean_dec(x_4);
-rt::lean_dec(x_1);
-x_7 = rt::lean_box(0);
-return x_7;
-}
-}
-}
-5 => {
-rt::lean_inc_ref(x_3);
-x_8 = rt::lean_ctor_get(x_2, 1);
-x_29 = (!rt::lean_is_exclusive(x_2)) as u8;
-match x_29 as u32 {
-0 => {
-x_30 = rt::lean_ctor_get(x_2, 0);
-rt::lean_dec(x_30);
-{ let t_0 = x_2; let t_1 = x_29; x_10 = t_0; x_11 = t_1; }
-__blk = 1; continue 'body;
-}
-1 => {
-rt::lean_inc(x_8);
-rt::lean_dec(x_2);
-{ let t_0 = rt::lean_box(0); let t_1 = x_29; x_10 = t_0; x_11 = t_1; }
-__blk = 1; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => {
-rt::lean_dec_ref(x_2);
-rt::lean_dec(x_1);
-x_31 = rt::lean_box(0);
-return x_31;
-}
-}
-}
-_ => {
-rt::lean_dec(x_2);
-rt::lean_dec(x_1);
-x_32 = rt::lean_box(0);
-return x_32;
-}
-}
-}
-1 => {
-match rt::lean_obj_tag(x_8) {
-1 => {
-x_12 = rt::lean_ctor_get(x_3, 0);
-rt::lean_inc(x_12);
-rt::lean_dec_ref(x_3);
-x_13 = rt::lean_ctor_get(x_8, 0);
-x_14 = rt::lean_ctor_get(x_8, 1);
-x_27 = (!rt::lean_is_exclusive(x_8)) as u8;
-match x_27 as u32 {
-0 => {
-{ let t_0 = x_8; let t_1 = x_27; x_16 = t_0; x_17 = t_1; }
-__blk = 2; continue 'body;
-}
-1 => {
-rt::lean_inc(x_14);
-rt::lean_inc(x_13);
-rt::lean_dec(x_8);
-{ let t_0 = rt::lean_box(0); let t_1 = x_27; x_16 = t_0; x_17 = t_1; }
-__blk = 2; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => {
-rt::lean_del_object(x_10);
-rt::lean_dec_ref(x_3);
-rt::lean_dec(x_8);
-rt::lean_dec(x_1);
-x_28 = rt::lean_box(0);
-return x_28;
-}
-}
-}
-2 => {
-x_18 = l_Notes_Wire_scalar(x_13);
-match x_18 as u32 {
-0 => {
-rt::lean_del_object(x_16);
-rt::lean_dec(x_14);
-rt::lean_dec(x_13);
-rt::lean_dec(x_12);
-rt::lean_del_object(x_10);
-rt::lean_dec(x_1);
-x_19 = rt::lean_box(0);
-return x_19;
-}
-1 => {
-match x_11 as u32 {
-0 => {
-rt::lean_ctor_set_tag(x_10, 0);
-rt::lean_ctor_set(x_10, 1, x_13);
-rt::lean_ctor_set(x_10, 0, x_12);
-{ let t_0 = x_10; x_21 = t_0; }
-__blk = 3; continue 'body;
-}
-1 => {
-x_26 = rt::lean_alloc_ctor(0, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_26, 0, x_12); rt::lean_ctor_set(x_26, 1, x_13);
-{ let t_0 = x_26; x_21 = t_0; }
-__blk = 3; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-3 => {
-match x_17 as u32 {
-0 => {
-rt::lean_ctor_set(x_16, 1, x_1);
-rt::lean_ctor_set(x_16, 0, x_21);
-{ let t_0 = x_16; x_23 = t_0; }
-__blk = 4; continue 'body;
-}
-1 => {
-x_25 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_25, 0, x_21); rt::lean_ctor_set(x_25, 1, x_1);
-{ let t_0 = x_25; x_23 = t_0; }
-__blk = 4; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-4 => {
-{ let t_0 = x_23; let t_1 = x_14; x_1 = t_0; x_2 = t_1; }
-__blk = 0; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-} }
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Notes_Wire_refusalMessage(mut x_1: u8) -> Obj {
 let mut x_2: Obj = rt::lean_box(0);
 let mut x_3: Obj = rt::lean_box(0);
@@ -9368,7 +7079,7 @@ _ => rt::lean_internal_panic_unreachable(),
 x_15 = rt::lean_ctor_get(x_6, 0);
 rt::lean_inc(x_15);
 rt::lean_dec_ref(x_6);
-x_16 = l_Notes_Wire_decodeItems(x_15);
+x_16 = l_Notes_Wire_decode(x_15);
 match rt::lean_obj_tag(x_16) {
 0 => {
 x_17 = rt::lean_ctor_get(x_16, 0);
@@ -9482,14 +7193,13 @@ let mut x_4: u8 = 0;
 let mut x_5: Obj = rt::lean_box(0);
 let mut x_7: Obj = rt::lean_box(0);
 let mut x_8: u8 = 0;
-let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: Obj = rt::lean_box(0);
 let mut x_11: Obj = rt::lean_box(0);
-let mut x_12: Obj = rt::lean_box(0);
-let mut x_13: u8 = 0;
+let mut x_12: u8 = 0;
+let mut x_13: Obj = rt::lean_box(0);
 let mut x_14: Obj = rt::lean_box(0);
 let mut x_15: Obj = rt::lean_box(0);
 let mut x_16: Obj = rt::lean_box(0);
-let mut x_17: Obj = rt::lean_box(0);
 let mut __blk: u32 = 0;
 'body: loop { match __blk {
 0 => {
@@ -9499,63 +7209,61 @@ match x_4 as u32 {
 match rt::lean_obj_tag(x_3) {
 0 => {
 x_5 = rt::lean_ctor_get(x_3, 0);
-x_13 = (!rt::lean_is_exclusive(x_3)) as u8;
-match x_13 as u32 {
+x_12 = (!rt::lean_is_exclusive(x_3)) as u8;
+match x_12 as u32 {
 0 => {
-{ let t_0 = x_3; let t_1 = x_13; x_7 = t_0; x_8 = t_1; }
+{ let t_0 = x_3; let t_1 = x_12; x_7 = t_0; x_8 = t_1; }
 __blk = 1; continue 'body;
 }
 1 => {
 rt::lean_inc(x_5);
 rt::lean_dec(x_3);
-{ let t_0 = rt::lean_box(0); let t_1 = x_13; x_7 = t_0; x_8 = t_1; }
+{ let t_0 = rt::lean_box(0); let t_1 = x_12; x_7 = t_0; x_8 = t_1; }
 __blk = 1; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-x_14 = l_Leangage_Http_admit___closed__2();
-return x_14;
+x_13 = l_Leangage_Http_admit___closed__2();
+return x_13;
 }
 2 => {
-x_15 = l_Leangage_Http_admit___closed__5();
-return x_15;
+x_14 = l_Leangage_Http_admit___closed__5();
+return x_14;
 }
 3 => {
-x_16 = l_Leangage_Http_admit___closed__8();
+x_15 = l_Leangage_Http_admit___closed__8();
+return x_15;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+rt::lean_dec(x_3);
+x_16 = l_Leangage_Http_admit___closed__11();
 return x_16;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-rt::lean_dec(x_3);
-x_17 = l_Leangage_Http_admit___closed__11();
-return x_17;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-1 => {
-x_9 = l_Leangage_Json_Items_items(x_5);
 match x_8 as u32 {
 0 => {
 rt::lean_ctor_set_tag(x_7, 1);
-rt::lean_ctor_set(x_7, 0, x_9);
-{ let t_0 = x_7; x_11 = t_0; }
+{ let t_0 = x_7; x_10 = t_0; }
 __blk = 2; continue 'body;
 }
 1 => {
-x_12 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_12, 0, x_9);
-{ let t_0 = x_12; x_11 = t_0; }
+x_11 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_11, 0, x_5);
+{ let t_0 = x_11; x_10 = t_0; }
 __blk = 2; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 2 => {
-return x_11;
+return x_10;
 }
 _ => rt::lean_internal_panic_unreachable(),
 } }
@@ -9755,64 +7463,455 @@ pub(crate) unsafe fn l_Leangage_Http_admit___closed__9() -> Obj {
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Notes_Wire_decodeItems(mut x_1: Obj) -> Obj {
+pub(crate) unsafe fn l_Notes_Wire_decode(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+x_2 = l_Leangage_Json_Lexemes_object(x_1);
+match rt::lean_obj_tag(x_2) {
+0 => {
+x_3 = l_Notes_Wire_decodeMembers___closed__0();
+return x_3;
+}
+1 => {
+x_4 = rt::lean_ctor_get(x_2, 0);
+rt::lean_inc(x_4);
+rt::lean_dec_ref(x_2);
+x_5 = l_Notes_Wire_decodeMembers(x_4);
+rt::lean_dec(x_4);
+return x_5;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leangage_Json_Lexemes_object(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: Obj = rt::lean_box(0);
+match rt::lean_obj_tag(x_1) {
+1 => {
+x_2 = rt::lean_ctor_get(x_1, 0);
+match rt::lean_obj_tag(x_2) {
+7 => {
+x_3 = rt::lean_ctor_get(x_1, 1);
+rt::lean_inc(x_3);
+rt::lean_dec_ref(x_1);
+x_4 = rt::lean_box(0);
+x_5 = l_Leangage_Json_Lexemes_members(x_4, x_3);
+return x_5;
+}
+_ => {
+rt::lean_dec_ref(x_1);
+x_6 = rt::lean_box(0);
+return x_6;
+}
+}
+}
+_ => {
+rt::lean_dec(x_1);
+x_7 = rt::lean_box(0);
+return x_7;
+}
+}
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leangage_Json_Lexemes_members(mut x_1: Obj, mut x_2: Obj) -> Obj {
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
 let mut x_5: Obj = rt::lean_box(0);
 let mut x_6: Obj = rt::lean_box(0);
 let mut x_7: Obj = rt::lean_box(0);
 let mut x_8: Obj = rt::lean_box(0);
+let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: u8 = 0;
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_13: Obj = rt::lean_box(0);
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_16: Obj = rt::lean_box(0);
+let mut x_17: u8 = 0;
+let mut x_18: Obj = rt::lean_box(0);
+let mut x_19: Obj = rt::lean_box(0);
+let mut x_20: Obj = rt::lean_box(0);
+let mut x_22: Obj = rt::lean_box(0);
+let mut x_24: Obj = rt::lean_box(0);
+let mut x_25: Obj = rt::lean_box(0);
+let mut x_26: Obj = rt::lean_box(0);
+let mut x_27: Obj = rt::lean_box(0);
+let mut x_28: u8 = 0;
+let mut x_29: Obj = rt::lean_box(0);
+let mut x_30: u8 = 0;
+let mut x_31: Obj = rt::lean_box(0);
+let mut x_32: Obj = rt::lean_box(0);
+let mut x_33: Obj = rt::lean_box(0);
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+match rt::lean_obj_tag(x_2) {
+1 => {
+x_3 = rt::lean_ctor_get(x_2, 0);
+match rt::lean_obj_tag(x_3) {
+8 => {
+x_4 = rt::lean_ctor_get(x_2, 1);
+rt::lean_inc(x_4);
+rt::lean_dec_ref(x_2);
+match rt::lean_obj_tag(x_4) {
+0 => {
+x_5 = l_List_reverse___redArg(x_1);
+x_6 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_6, 0, x_5);
+return x_6;
+}
+_ => {
+rt::lean_dec(x_4);
+rt::lean_dec(x_1);
+x_7 = rt::lean_box(0);
+return x_7;
+}
+}
+}
+4 => {
+rt::lean_inc_ref(x_3);
+x_8 = rt::lean_ctor_get(x_2, 1);
+x_30 = (!rt::lean_is_exclusive(x_2)) as u8;
+match x_30 as u32 {
+0 => {
+x_31 = rt::lean_ctor_get(x_2, 0);
+rt::lean_dec(x_31);
+{ let t_0 = x_2; let t_1 = x_30; x_10 = t_0; x_11 = t_1; }
+__blk = 1; continue 'body;
+}
+1 => {
+rt::lean_inc(x_8);
+rt::lean_dec(x_2);
+{ let t_0 = rt::lean_box(0); let t_1 = x_30; x_10 = t_0; x_11 = t_1; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => {
+rt::lean_dec_ref(x_2);
+rt::lean_dec(x_1);
+x_32 = rt::lean_box(0);
+return x_32;
+}
+}
+}
+_ => {
+rt::lean_dec(x_2);
+rt::lean_dec(x_1);
+x_33 = rt::lean_box(0);
+return x_33;
+}
+}
+}
+1 => {
+match rt::lean_obj_tag(x_8) {
+1 => {
+x_12 = rt::lean_ctor_get(x_3, 0);
+rt::lean_inc_ref(x_12);
+rt::lean_dec_ref(x_3);
+x_13 = rt::lean_ctor_get(x_8, 0);
+x_14 = rt::lean_ctor_get(x_8, 1);
+x_28 = (!rt::lean_is_exclusive(x_8)) as u8;
+match x_28 as u32 {
+0 => {
+{ let t_0 = x_8; let t_1 = x_28; x_16 = t_0; x_17 = t_1; }
+__blk = 2; continue 'body;
+}
+1 => {
+rt::lean_inc(x_14);
+rt::lean_inc(x_13);
+rt::lean_dec(x_8);
+{ let t_0 = rt::lean_box(0); let t_1 = x_28; x_16 = t_0; x_17 = t_1; }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => {
+rt::lean_del_object(x_10);
+rt::lean_dec(x_8);
+rt::lean_dec_ref(x_3);
+rt::lean_dec(x_1);
+x_29 = rt::lean_box(0);
+return x_29;
+}
+}
+}
+2 => {
+x_18 = l_Leangage_Json_Lexemes_scalar(x_13);
+match rt::lean_obj_tag(x_18) {
+0 => {
+rt::lean_del_object(x_16);
+rt::lean_dec(x_14);
+rt::lean_dec_ref(x_12);
+rt::lean_del_object(x_10);
+rt::lean_dec(x_1);
+x_19 = rt::lean_box(0);
+return x_19;
+}
+1 => {
+x_20 = rt::lean_ctor_get(x_18, 0);
+rt::lean_inc(x_20);
+rt::lean_dec_ref(x_18);
+match x_11 as u32 {
+0 => {
+rt::lean_ctor_set_tag(x_10, 0);
+rt::lean_ctor_set(x_10, 1, x_20);
+rt::lean_ctor_set(x_10, 0, x_12);
+{ let t_0 = x_10; x_22 = t_0; }
+__blk = 3; continue 'body;
+}
+1 => {
+x_27 = rt::lean_alloc_ctor(0, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_27, 0, x_12); rt::lean_ctor_set(x_27, 1, x_20);
+{ let t_0 = x_27; x_22 = t_0; }
+__blk = 3; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+3 => {
+match x_17 as u32 {
+0 => {
+rt::lean_ctor_set(x_16, 1, x_1);
+rt::lean_ctor_set(x_16, 0, x_22);
+{ let t_0 = x_16; x_24 = t_0; }
+__blk = 4; continue 'body;
+}
+1 => {
+x_26 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_26, 0, x_22); rt::lean_ctor_set(x_26, 1, x_1);
+{ let t_0 = x_26; x_24 = t_0; }
+__blk = 4; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+4 => {
+{ let t_0 = x_24; let t_1 = x_14; x_1 = t_0; x_2 = t_1; }
+__blk = 0; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leangage_Json_Lexemes_scalar(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: u8 = 0;
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: u8 = 0;
+let mut x_8: Obj = rt::lean_box(0);
 let mut x_9: Obj = rt::lean_box(0);
 let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: u8 = 0;
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_13: Obj = rt::lean_box(0);
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: Obj = rt::lean_box(0);
+let mut x_17: Obj = rt::lean_box(0);
+let mut x_18: u8 = 0;
+let mut x_19: Obj = rt::lean_box(0);
+let mut x_20: u64 = 0;
+let mut x_22: Obj = rt::lean_box(0);
+let mut x_23: Obj = rt::lean_box(0);
+let mut x_24: u8 = 0;
+let mut x_25: Obj = rt::lean_box(0);
+let mut x_27: Obj = rt::lean_box(0);
+let mut x_28: u8 = 0;
+let mut x_30: Obj = rt::lean_box(0);
+let mut x_31: Obj = rt::lean_box(0);
+let mut x_32: Obj = rt::lean_box(0);
+let mut x_33: u8 = 0;
+let mut x_34: Obj = rt::lean_box(0);
+let mut x_35: Obj = rt::lean_box(0);
 let mut __blk: u32 = 0;
 'body: loop { match __blk {
 0 => {
 match rt::lean_obj_tag(x_1) {
-1 => {
-x_4 = rt::lean_ctor_get(x_1, 0);
-match rt::lean_obj_tag(x_4) {
-8 => {
-x_5 = rt::lean_ctor_get(x_1, 1);
-rt::lean_inc(x_5);
-rt::lean_dec_ref(x_1);
-x_6 = rt::lean_box(0);
-x_7 = l_Notes_Wire_members(x_6, x_5);
-match rt::lean_obj_tag(x_7) {
 0 => {
-x_8 = l_Notes_Wire_decodeMembers___closed__0();
-return x_8;
+x_2 = l_Leangage_Json_Lexemes_scalar___closed__0();
+return x_2;
 }
 1 => {
-x_9 = rt::lean_ctor_get(x_7, 0);
-rt::lean_inc(x_9);
-rt::lean_dec_ref(x_7);
-x_10 = l_Notes_Wire_decodeMembers(x_9);
-rt::lean_dec(x_9);
-return x_10;
+x_3 = rt::lean_ctor_get_uint8(x_1, 0 * core::mem::size_of::<usize>() as u32 + 0);
+x_11 = (!rt::lean_is_exclusive(x_1)) as u8;
+match x_11 as u32 {
+0 => {
+{ let t_0 = x_1; let t_1 = x_11; x_5 = t_0; x_6 = t_1; }
+__blk = 1; continue 'body;
+}
+1 => {
+rt::lean_dec(x_1);
+{ let t_0 = rt::lean_box(0); let t_1 = x_11; x_5 = t_0; x_6 = t_1; }
+__blk = 1; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
-_ => {
+2 => {
+x_12 = rt::lean_ctor_get(x_1, 0);
+rt::lean_inc_ref(x_12);
 rt::lean_dec_ref(x_1);
-{ }
-__blk = 1; continue 'body;
+x_13 = l_Leangage_Json_Lexemes_numberOf(x_12);
+rt::lean_dec_ref(x_12);
+match rt::lean_obj_tag(x_13) {
+0 => {
+x_14 = l_Leangage_Json_Lexemes_scalar___closed__1();
+return x_14;
+}
+1 => {
+x_15 = rt::lean_ctor_get(x_13, 0);
+x_24 = (!rt::lean_is_exclusive(x_13)) as u8;
+match x_24 as u32 {
+0 => {
+{ let t_0 = x_13; let t_1 = x_24; x_17 = t_0; x_18 = t_1; }
+__blk = 3; continue 'body;
+}
+1 => {
+rt::lean_inc(x_15);
+rt::lean_dec(x_13);
+{ let t_0 = rt::lean_box(0); let t_1 = x_24; x_17 = t_0; x_18 = t_1; }
+__blk = 3; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
 }
 }
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+3 => {
+x_25 = rt::lean_ctor_get(x_1, 0);
+x_33 = (!rt::lean_is_exclusive(x_1)) as u8;
+match x_33 as u32 {
+0 => {
+{ let t_0 = x_1; let t_1 = x_33; x_27 = t_0; x_28 = t_1; }
+__blk = 5; continue 'body;
+}
+1 => {
+rt::lean_inc(x_25);
+rt::lean_dec(x_1);
+{ let t_0 = rt::lean_box(0); let t_1 = x_33; x_27 = t_0; x_28 = t_1; }
+__blk = 5; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+4 => {
+rt::lean_dec_ref(x_1);
+x_34 = rt::lean_box(0);
+return x_34;
 }
 _ => {
 rt::lean_dec(x_1);
-{ }
-__blk = 1; continue 'body;
+x_35 = rt::lean_box(0);
+return x_35;
 }
 }
 }
 1 => {
-x_3 = l_Notes_Wire_decodeMembers___closed__0();
-return x_3;
+match x_6 as u32 {
+0 => {
+{ let t_0 = x_5; x_8 = t_0; }
+__blk = 2; continue 'body;
+}
+1 => {
+x_10 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 1);
+rt::lean_ctor_set_uint8(x_10, 0 * core::mem::size_of::<usize>() as u32 + 0, x_3);
+{ let t_0 = x_10; x_8 = t_0; }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+x_9 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_9, 0, x_8);
+return x_9;
+}
+3 => {
+x_19 = rt::lean_alloc_ctor(2, 0, 0 * core::mem::size_of::<usize>() as u32 + 8);
+x_20 = rt::lean_unbox_uint64(x_15);
+rt::lean_dec(x_15);
+rt::lean_ctor_set_uint64(x_19, 0 * core::mem::size_of::<usize>() as u32 + 0, x_20);
+match x_18 as u32 {
+0 => {
+rt::lean_ctor_set(x_17, 0, x_19);
+{ let t_0 = x_17; x_22 = t_0; }
+__blk = 4; continue 'body;
+}
+1 => {
+x_23 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_23, 0, x_19);
+{ let t_0 = x_23; x_22 = t_0; }
+__blk = 4; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+4 => {
+return x_22;
+}
+5 => {
+match x_28 as u32 {
+0 => {
+rt::lean_ctor_set_tag(x_27, 4);
+{ let t_0 = x_27; x_30 = t_0; }
+__blk = 6; continue 'body;
+}
+1 => {
+x_32 = rt::lean_alloc_ctor(4, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_32, 0, x_25);
+{ let t_0 = x_32; x_30 = t_0; }
+__blk = 6; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+6 => {
+x_31 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_31, 0, x_30);
+return x_31;
 }
 _ => rt::lean_internal_panic_unreachable(),
 } }
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leangage_Json_Lexemes_scalar___closed__0_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(0);
+x_2 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_2, 0, x_1);
+return x_2;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leangage_Json_Lexemes_scalar___closed__0() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leangage_Json_Lexemes_scalar___closed__0_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Leangage_Json_Lexemes_scalar___closed__1_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(3);
+x_2 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_2, 0, x_1);
+return x_2;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Leangage_Json_Lexemes_scalar___closed__1() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Leangage_Json_Lexemes_scalar___closed__1_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 
@@ -9885,6 +7984,19 @@ unsafe impl rt::IntoLean<Call> for Call {
     }
 }
 
+#[doc = "Lean: `Notes.Wire.notesOf : List Notes.Kernel.Note → List Leangage.Json.Lexemes.Lexeme → Option (List Notes.Kernel.Note)` (module `Notes.Wire`)."]
+#[::leanfran::exported("Notes.Wire.notesOf")]
+pub fn notes_of(acc: Vec<crate::generated::notes_kernel::Note>, arg1: Vec<::leangage::json_lexemes::Lexeme>) -> Option<Vec<crate::generated::notes_kernel::Note>> {
+    unsafe {
+        let __a0: Obj = rt::list_to_lean(acc, |v0| rt::ToLean::to_lean(v0));
+        let __a1: Obj = rt::list_to_lean(arg1, |v0| rt::ToLean::to_lean(v0));
+        let __r: Obj = l_Notes_Wire_notesOf(__a0, __a1);
+        let __v = rt::option_from_lean(__r, |v0| rt::list_from_lean(v0, |v1| <crate::generated::notes_kernel::Note as rt::FromLean>::from_lean(v1)));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
 #[doc = "Lean: `Notes.Wire.respond : Except (Leangage.Authz.Guarded Notes.Kernel.Error) Notes.Kernel.Reply → Leangage.Http.Response` (module `Notes.Wire`)."]
 #[::leanfran::exported("Notes.Wire.respond")]
 pub fn respond(arg0: Result<crate::generated::notes_kernel::Reply, crate::authz::GuardedNotesKernelError>) -> ::leangage::http_format::Response {
@@ -9922,33 +8034,11 @@ pub fn push_flag(acc: Vec<u8>, b: bool) -> Vec<u8> {
     }
 }
 
-#[doc = "Lean: `Notes.Wire.decodeReplyItems : List Leangage.Json.Items.Item → Option Notes.Kernel.Reply` (module `Notes.Wire`)."]
-#[::leanfran::exported("Notes.Wire.decodeReplyItems")]
-pub fn decode_reply_items(arg0: Vec<::leangage::json_items::Item>) -> Option<crate::generated::notes_kernel::Reply> {
-    unsafe {
-        let __a0: Obj = rt::list_to_lean(arg0, |v0| rt::ToLean::to_lean(v0));
-        let __r: Obj = l_Notes_Wire_decodeReplyItems(__a0);
-        let __v = rt::option_from_lean(__r, |v0| <crate::generated::notes_kernel::Reply as rt::FromLean>::from_lean(v0));
-        rt::lean_dec(__r);
-        __v
-    }
-}
-
-#[doc = "Lean: `Notes.Wire.scalar : Leangage.Json.Items.Item → Bool` (module `Notes.Wire`)."]
-#[::leanfran::exported("Notes.Wire.scalar")]
-pub fn scalar(arg0: ::leangage::json_items::Item) -> bool {
-    unsafe {
-        let __a0: Obj = rt::ToLean::to_lean(arg0);
-        let __r: u8 = l_Notes_Wire_scalar(__a0);
-        rt::lean_dec(__a0); (__r) != 0
-    }
-}
-
-#[doc = "Lean: `Notes.Wire.decodeMembers : List (List UInt8 × Leangage.Json.Items.Item) → Except Notes.Wire.Refusal Notes.Kernel.Command` (module `Notes.Wire`)."]
+#[doc = "Lean: `Notes.Wire.decodeMembers : List (String × Leangage.Json.Lexemes.Scalar) → Except Notes.Wire.Refusal Notes.Kernel.Command` (module `Notes.Wire`)."]
 #[::leanfran::exported("Notes.Wire.decodeMembers")]
-pub fn decode_members(ms: Vec<(Vec<u8>, ::leangage::json_items::Item)>) -> Result<crate::generated::notes_kernel::Command, Refusal> {
+pub fn decode_members(ms: Vec<(String, ::leangage::json_lexemes::Scalar)>) -> Result<crate::generated::notes_kernel::Command, Refusal> {
     unsafe {
-        let __a0: Obj = rt::list_to_lean(ms, |v0| rt::prod_to_lean(v0, |v1| rt::list_to_lean(v1, |v2| rt::ToLean::to_lean(v2)), |v1| rt::ToLean::to_lean(v1)));
+        let __a0: Obj = rt::list_to_lean(ms, |v0| rt::prod_to_lean(v0, |v1| rt::ToLean::to_lean(v1), |v1| rt::ToLean::to_lean(v1)));
         let __r: Obj = l_Notes_Wire_decodeMembers(__a0);
         rt::lean_dec(__a0); let __v = rt::except_from_lean(__r, |v0| <Refusal as rt::FromLean>::from_lean(v0), |v0| <crate::generated::notes_kernel::Command as rt::FromLean>::from_lean(v0));
         rt::lean_dec(__r);
@@ -9968,28 +8058,28 @@ pub fn member_toks(m: crate::generated::notes_kernel::Member) -> Vec<::leangage:
     }
 }
 
-#[doc = "Lean: `Notes.Wire.noteOf : List UInt8 → List UInt8 → List UInt8 → UInt64 → List UInt8 → UInt64 → List UInt8 → Bool → Option Notes.Kernel.Note` (module `Notes.Wire`)."]
+#[doc = "Lean: `Notes.Wire.noteOf : String → String → String → String → String → String → String → Bool → Option Notes.Kernel.Note` (module `Notes.Wire`)."]
 #[::leanfran::exported("Notes.Wire.noteOf")]
-pub fn note_of(kb: Vec<u8>, body: Vec<u8>, ki: Vec<u8>, id: u64, ko: Vec<u8>, owner: u64, ks: Vec<u8>, shared: bool) -> Option<crate::generated::notes_kernel::Note> {
+pub fn note_of(kb: impl AsRef<str>, body: impl AsRef<str>, ki: impl AsRef<str>, id: impl AsRef<str>, ko: impl AsRef<str>, owner: impl AsRef<str>, ks: impl AsRef<str>, shared: bool) -> Option<crate::generated::notes_kernel::Note> {
     unsafe {
-        let __a0: Obj = rt::list_to_lean(kb, |v0| rt::ToLean::to_lean(v0));
-        let __a1: Obj = rt::list_to_lean(body, |v0| rt::ToLean::to_lean(v0));
-        let __a2: Obj = rt::list_to_lean(ki, |v0| rt::ToLean::to_lean(v0));
-        let __a3: u64 = id;
-        let __a4: Obj = rt::list_to_lean(ko, |v0| rt::ToLean::to_lean(v0));
-        let __a5: u64 = owner;
-        let __a6: Obj = rt::list_to_lean(ks, |v0| rt::ToLean::to_lean(v0));
+        let __a0: Obj = rt::ToLean::to_lean(kb.as_ref());
+        let __a1: Obj = rt::ToLean::to_lean(body.as_ref());
+        let __a2: Obj = rt::ToLean::to_lean(ki.as_ref());
+        let __a3: Obj = rt::ToLean::to_lean(id.as_ref());
+        let __a4: Obj = rt::ToLean::to_lean(ko.as_ref());
+        let __a5: Obj = rt::ToLean::to_lean(owner.as_ref());
+        let __a6: Obj = rt::ToLean::to_lean(ks.as_ref());
         let __a7: u8 = (shared) as u8;
         let __r: Obj = l_Notes_Wire_noteOf(__a0, __a1, __a2, __a3, __a4, __a5, __a6, __a7);
-        let __v = rt::option_from_lean(__r, |v0| <crate::generated::notes_kernel::Note as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__a0); rt::lean_dec(__a2); rt::lean_dec(__a3); rt::lean_dec(__a4); rt::lean_dec(__a5); rt::lean_dec(__a6); let __v = rt::option_from_lean(__r, |v0| <crate::generated::notes_kernel::Note as rt::FromLean>::from_lean(v0));
         rt::lean_dec(__r);
         __v
     }
 }
 
-#[doc = "Lean: `Notes.Wire.decodeReply : Option (List Leangage.Json.Items.Lexeme) → Option Notes.Kernel.Reply` (module `Notes.Wire`)."]
+#[doc = "Lean: `Notes.Wire.decodeReply : Option (List Leangage.Json.Lexemes.Lexeme) → Option Notes.Kernel.Reply` (module `Notes.Wire`)."]
 #[::leanfran::exported("Notes.Wire.decodeReply")]
-pub fn decode_reply(stored: Option<Vec<::leangage::json_items::Lexeme>>) -> Option<crate::generated::notes_kernel::Reply> {
+pub fn decode_reply(stored: Option<Vec<::leangage::json_lexemes::Lexeme>>) -> Option<crate::generated::notes_kernel::Reply> {
     unsafe {
         let __a0: Obj = rt::option_to_lean(stored, |v0| rt::list_to_lean(v0, |v1| rt::ToLean::to_lean(v1)));
         let __r: Obj = l_Notes_Wire_decodeReply(__a0);
@@ -10006,44 +8096,6 @@ pub fn scope(actor: crate::generated::notes_kernel::Principal) -> String {
         let __a0: Obj = rt::ToLean::to_lean(actor);
         let __r: Obj = l_Notes_Wire_scope(__a0);
         rt::lean_dec(__a0); let __v = <String as rt::FromLean>::from_lean(__r);
-        rt::lean_dec(__r);
-        __v
-    }
-}
-
-#[doc = "Lean: `Notes.Wire.members : List (List UInt8 × Leangage.Json.Items.Item) →\n  List Leangage.Json.Items.Item → Option (List (List UInt8 × Leangage.Json.Items.Item))` (module `Notes.Wire`)."]
-#[::leanfran::exported("Notes.Wire.members")]
-pub fn members(acc: Vec<(Vec<u8>, ::leangage::json_items::Item)>, arg1: Vec<::leangage::json_items::Item>) -> Option<Vec<(Vec<u8>, ::leangage::json_items::Item)>> {
-    unsafe {
-        let __a0: Obj = rt::list_to_lean(acc, |v0| rt::prod_to_lean(v0, |v1| rt::list_to_lean(v1, |v2| rt::ToLean::to_lean(v2)), |v1| rt::ToLean::to_lean(v1)));
-        let __a1: Obj = rt::list_to_lean(arg1, |v0| rt::ToLean::to_lean(v0));
-        let __r: Obj = l_Notes_Wire_members(__a0, __a1);
-        let __v = rt::option_from_lean(__r, |v0| rt::list_from_lean(v0, |v1| rt::prod_from_lean(v1, |v2| rt::list_from_lean(v2, |v3| <u8 as rt::FromLean>::from_lean(v3)), |v2| <::leangage::json_items::Item as rt::FromLean>::from_lean(v2))));
-        rt::lean_dec(__r);
-        __v
-    }
-}
-
-#[doc = "Lean: `Notes.Wire.membersItems : List Notes.Kernel.Member → List Leangage.Json.Items.Item → Option (List Notes.Kernel.Member)` (module `Notes.Wire`)."]
-#[::leanfran::exported("Notes.Wire.membersItems")]
-pub fn members_items(acc: Vec<crate::generated::notes_kernel::Member>, arg1: Vec<::leangage::json_items::Item>) -> Option<Vec<crate::generated::notes_kernel::Member>> {
-    unsafe {
-        let __a0: Obj = rt::list_to_lean(acc, |v0| rt::ToLean::to_lean(v0));
-        let __a1: Obj = rt::list_to_lean(arg1, |v0| rt::ToLean::to_lean(v0));
-        let __r: Obj = l_Notes_Wire_membersItems(__a0, __a1);
-        let __v = rt::option_from_lean(__r, |v0| rt::list_from_lean(v0, |v1| <crate::generated::notes_kernel::Member as rt::FromLean>::from_lean(v1)));
-        rt::lean_dec(__r);
-        __v
-    }
-}
-
-#[doc = "Lean: `Notes.Wire.textOf : List UInt8 → Option String` (module `Notes.Wire`)."]
-#[::leanfran::exported("Notes.Wire.textOf")]
-pub fn text_of(bytes: Vec<u8>) -> Option<String> {
-    unsafe {
-        let __a0: Obj = rt::list_to_lean(bytes, |v0| rt::ToLean::to_lean(v0));
-        let __r: Obj = l_Notes_Wire_textOf(__a0);
-        let __v = rt::option_from_lean(__r, |v0| <String as rt::FromLean>::from_lean(v0));
         rt::lean_dec(__r);
         __v
     }
@@ -10113,26 +8165,38 @@ pub fn reply_toks(arg0: crate::generated::notes_kernel::Reply) -> Vec<::leangage
     }
 }
 
-#[doc = "Lean: `Notes.Wire.decodeItems : List Leangage.Json.Items.Item → Except Notes.Wire.Refusal Notes.Kernel.Command` (module `Notes.Wire`)."]
-#[::leanfran::exported("Notes.Wire.decodeItems")]
-pub fn decode_items(arg0: Vec<::leangage::json_items::Item>) -> Result<crate::generated::notes_kernel::Command, Refusal> {
+#[doc = "Lean: `Notes.Wire.decode : List Leangage.Json.Lexemes.Lexeme → Except Notes.Wire.Refusal Notes.Kernel.Command` (module `Notes.Wire`)."]
+#[::leanfran::exported("Notes.Wire.decode")]
+pub fn decode(lexemes: Vec<::leangage::json_lexemes::Lexeme>) -> Result<crate::generated::notes_kernel::Command, Refusal> {
     unsafe {
-        let __a0: Obj = rt::list_to_lean(arg0, |v0| rt::ToLean::to_lean(v0));
-        let __r: Obj = l_Notes_Wire_decodeItems(__a0);
+        let __a0: Obj = rt::list_to_lean(lexemes, |v0| rt::ToLean::to_lean(v0));
+        let __r: Obj = l_Notes_Wire_decode(__a0);
         let __v = rt::except_from_lean(__r, |v0| <Refusal as rt::FromLean>::from_lean(v0), |v0| <crate::generated::notes_kernel::Command as rt::FromLean>::from_lean(v0));
         rt::lean_dec(__r);
         __v
     }
 }
 
-#[doc = "Lean: `Notes.Wire.notesItems : List Notes.Kernel.Note → List Leangage.Json.Items.Item → Option (List Notes.Kernel.Note)` (module `Notes.Wire`)."]
-#[::leanfran::exported("Notes.Wire.notesItems")]
-pub fn notes_items(acc: Vec<crate::generated::notes_kernel::Note>, arg1: Vec<::leangage::json_items::Item>) -> Option<Vec<crate::generated::notes_kernel::Note>> {
+#[doc = "Lean: `Notes.Wire.membersOf : List Notes.Kernel.Member → List Leangage.Json.Lexemes.Lexeme → Option (List Notes.Kernel.Member)` (module `Notes.Wire`)."]
+#[::leanfran::exported("Notes.Wire.membersOf")]
+pub fn members_of(acc: Vec<crate::generated::notes_kernel::Member>, arg1: Vec<::leangage::json_lexemes::Lexeme>) -> Option<Vec<crate::generated::notes_kernel::Member>> {
     unsafe {
         let __a0: Obj = rt::list_to_lean(acc, |v0| rt::ToLean::to_lean(v0));
         let __a1: Obj = rt::list_to_lean(arg1, |v0| rt::ToLean::to_lean(v0));
-        let __r: Obj = l_Notes_Wire_notesItems(__a0, __a1);
-        let __v = rt::option_from_lean(__r, |v0| rt::list_from_lean(v0, |v1| <crate::generated::notes_kernel::Note as rt::FromLean>::from_lean(v1)));
+        let __r: Obj = l_Notes_Wire_membersOf(__a0, __a1);
+        let __v = rt::option_from_lean(__r, |v0| rt::list_from_lean(v0, |v1| <crate::generated::notes_kernel::Member as rt::FromLean>::from_lean(v1)));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
+#[doc = "Lean: `Notes.Wire.replyOf : List Leangage.Json.Lexemes.Lexeme → Option Notes.Kernel.Reply` (module `Notes.Wire`)."]
+#[::leanfran::exported("Notes.Wire.replyOf")]
+pub fn reply_of(arg0: Vec<::leangage::json_lexemes::Lexeme>) -> Option<crate::generated::notes_kernel::Reply> {
+    unsafe {
+        let __a0: Obj = rt::list_to_lean(arg0, |v0| rt::ToLean::to_lean(v0));
+        let __r: Obj = l_Notes_Wire_replyOf(__a0);
+        let __v = rt::option_from_lean(__r, |v0| <crate::generated::notes_kernel::Reply as rt::FromLean>::from_lean(v0));
         rt::lean_dec(__r);
         __v
     }
@@ -10142,6 +8206,15 @@ pub fn notes_items(acc: Vec<crate::generated::notes_kernel::Note>, arg1: Vec<::l
 #[allow(unused_imports, clippy::all)]
 pub mod lean {
     use super::*;
+    #[doc = "`notes_of` on handles. Lean: `Notes.Wire.notesOf : List Notes.Kernel.Note → List Leangage.Json.Lexemes.Lexeme → Option (List Notes.Kernel.Note)` (module `Notes.Wire`)."]
+    pub fn notes_of(acc: impl rt::IntoLean<rt::List<crate::generated::notes_kernel::Note>>, arg1: impl rt::IntoLean<rt::List<::leangage::json_lexemes::Lexeme>>) -> rt::Lean<Option<rt::List<crate::generated::notes_kernel::Note>>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<rt::List<crate::generated::notes_kernel::Note>>::into_obj(acc);
+            let __a1: Obj = rt::IntoLean::<rt::List<::leangage::json_lexemes::Lexeme>>::into_obj(arg1);
+            let __r: Obj = l_Notes_Wire_notesOf(__a0, __a1);
+            rt::Lean::from_owned(__r)
+        }
+    }
     #[doc = "`respond` on handles. Lean: `Notes.Wire.respond : Except (Leangage.Authz.Guarded Notes.Kernel.Error) Notes.Kernel.Reply → Leangage.Http.Response` (module `Notes.Wire`)."]
     pub fn respond(arg0: impl rt::IntoLean<Result<crate::generated::notes_kernel::Reply, crate::authz::GuardedNotesKernelError>>) -> rt::Lean<::leangage::http_format::Response> {
         unsafe {
@@ -10167,26 +8240,10 @@ pub mod lean {
             rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`decode_reply_items` on handles. Lean: `Notes.Wire.decodeReplyItems : List Leangage.Json.Items.Item → Option Notes.Kernel.Reply` (module `Notes.Wire`)."]
-    pub fn decode_reply_items(arg0: impl rt::IntoLean<rt::List<::leangage::json_items::Item>>) -> rt::Lean<Option<crate::generated::notes_kernel::Reply>> {
+    #[doc = "`decode_members` on handles. Lean: `Notes.Wire.decodeMembers : List (String × Leangage.Json.Lexemes.Scalar) → Except Notes.Wire.Refusal Notes.Kernel.Command` (module `Notes.Wire`)."]
+    pub fn decode_members(ms: impl rt::IntoLean<rt::List<(String, ::leangage::json_lexemes::Scalar)>>) -> rt::Lean<Result<crate::generated::notes_kernel::Command, Refusal>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<::leangage::json_items::Item>>::into_obj(arg0);
-            let __r: Obj = l_Notes_Wire_decodeReplyItems(__a0);
-            rt::Lean::from_owned(__r)
-        }
-    }
-    #[doc = "`scalar` on handles. Lean: `Notes.Wire.scalar : Leangage.Json.Items.Item → Bool` (module `Notes.Wire`)."]
-    pub fn scalar(arg0: impl rt::IntoLean<::leangage::json_items::Item>) -> rt::Lean<bool> {
-        unsafe {
-            let __a0: Obj = rt::IntoLean::<::leangage::json_items::Item>::into_obj(arg0);
-            let __r: u8 = l_Notes_Wire_scalar(__a0);
-            rt::lean_dec(__a0); rt::Lean::from_owned(rt::lean_box(__r as usize))
-        }
-    }
-    #[doc = "`decode_members` on handles. Lean: `Notes.Wire.decodeMembers : List (List UInt8 × Leangage.Json.Items.Item) → Except Notes.Wire.Refusal Notes.Kernel.Command` (module `Notes.Wire`)."]
-    pub fn decode_members(ms: impl rt::IntoLean<rt::List<(rt::List<u8>, ::leangage::json_items::Item)>>) -> rt::Lean<Result<crate::generated::notes_kernel::Command, Refusal>> {
-        unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<(rt::List<u8>, ::leangage::json_items::Item)>>::into_obj(ms);
+            let __a0: Obj = rt::IntoLean::<rt::List<(String, ::leangage::json_lexemes::Scalar)>>::into_obj(ms);
             let __r: Obj = l_Notes_Wire_decodeMembers(__a0);
             rt::lean_dec(__a0); rt::Lean::from_owned(__r)
         }
@@ -10199,25 +8256,25 @@ pub mod lean {
             rt::lean_dec(__a0); rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`note_of` on handles. Lean: `Notes.Wire.noteOf : List UInt8 → List UInt8 → List UInt8 → UInt64 → List UInt8 → UInt64 → List UInt8 → Bool → Option Notes.Kernel.Note` (module `Notes.Wire`)."]
-    pub fn note_of(kb: impl rt::IntoLean<rt::List<u8>>, body: impl rt::IntoLean<rt::List<u8>>, ki: impl rt::IntoLean<rt::List<u8>>, id: impl rt::IntoLean<u64>, ko: impl rt::IntoLean<rt::List<u8>>, owner: impl rt::IntoLean<u64>, ks: impl rt::IntoLean<rt::List<u8>>, shared: impl rt::IntoLean<bool>) -> rt::Lean<Option<crate::generated::notes_kernel::Note>> {
+    #[doc = "`note_of` on handles. Lean: `Notes.Wire.noteOf : String → String → String → String → String → String → String → Bool → Option Notes.Kernel.Note` (module `Notes.Wire`)."]
+    pub fn note_of(kb: impl rt::IntoLean<String>, body: impl rt::IntoLean<String>, ki: impl rt::IntoLean<String>, id: impl rt::IntoLean<String>, ko: impl rt::IntoLean<String>, owner: impl rt::IntoLean<String>, ks: impl rt::IntoLean<String>, shared: impl rt::IntoLean<bool>) -> rt::Lean<Option<crate::generated::notes_kernel::Note>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<u8>>::into_obj(kb);
-            let __a1: Obj = rt::IntoLean::<rt::List<u8>>::into_obj(body);
-            let __a2: Obj = rt::IntoLean::<rt::List<u8>>::into_obj(ki);
-            let __a3: u64 = { let o = rt::IntoLean::<u64>::into_obj(id); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
-            let __a4: Obj = rt::IntoLean::<rt::List<u8>>::into_obj(ko);
-            let __a5: u64 = { let o = rt::IntoLean::<u64>::into_obj(owner); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
-            let __a6: Obj = rt::IntoLean::<rt::List<u8>>::into_obj(ks);
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(kb);
+            let __a1: Obj = rt::IntoLean::<String>::into_obj(body);
+            let __a2: Obj = rt::IntoLean::<String>::into_obj(ki);
+            let __a3: Obj = rt::IntoLean::<String>::into_obj(id);
+            let __a4: Obj = rt::IntoLean::<String>::into_obj(ko);
+            let __a5: Obj = rt::IntoLean::<String>::into_obj(owner);
+            let __a6: Obj = rt::IntoLean::<String>::into_obj(ks);
             let __a7: u8 = { let o = rt::IntoLean::<bool>::into_obj(shared); let v = rt::lean_unbox(o) as u8; rt::lean_dec(o); v };
             let __r: Obj = l_Notes_Wire_noteOf(__a0, __a1, __a2, __a3, __a4, __a5, __a6, __a7);
-            rt::Lean::from_owned(__r)
+            rt::lean_dec(__a0); rt::lean_dec(__a2); rt::lean_dec(__a3); rt::lean_dec(__a4); rt::lean_dec(__a5); rt::lean_dec(__a6); rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`decode_reply` on handles. Lean: `Notes.Wire.decodeReply : Option (List Leangage.Json.Items.Lexeme) → Option Notes.Kernel.Reply` (module `Notes.Wire`)."]
-    pub fn decode_reply(stored: impl rt::IntoLean<Option<rt::List<::leangage::json_items::Lexeme>>>) -> rt::Lean<Option<crate::generated::notes_kernel::Reply>> {
+    #[doc = "`decode_reply` on handles. Lean: `Notes.Wire.decodeReply : Option (List Leangage.Json.Lexemes.Lexeme) → Option Notes.Kernel.Reply` (module `Notes.Wire`)."]
+    pub fn decode_reply(stored: impl rt::IntoLean<Option<rt::List<::leangage::json_lexemes::Lexeme>>>) -> rt::Lean<Option<crate::generated::notes_kernel::Reply>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<Option<rt::List<::leangage::json_items::Lexeme>>>::into_obj(stored);
+            let __a0: Obj = rt::IntoLean::<Option<rt::List<::leangage::json_lexemes::Lexeme>>>::into_obj(stored);
             let __r: Obj = l_Notes_Wire_decodeReply(__a0);
             rt::Lean::from_owned(__r)
         }
@@ -10228,32 +8285,6 @@ pub mod lean {
             let __a0: Obj = rt::IntoLean::<crate::generated::notes_kernel::Principal>::into_obj(actor);
             let __r: Obj = l_Notes_Wire_scope(__a0);
             rt::lean_dec(__a0); rt::Lean::from_owned(__r)
-        }
-    }
-    #[doc = "`members` on handles. Lean: `Notes.Wire.members : List (List UInt8 × Leangage.Json.Items.Item) →\n  List Leangage.Json.Items.Item → Option (List (List UInt8 × Leangage.Json.Items.Item))` (module `Notes.Wire`)."]
-    pub fn members(acc: impl rt::IntoLean<rt::List<(rt::List<u8>, ::leangage::json_items::Item)>>, arg1: impl rt::IntoLean<rt::List<::leangage::json_items::Item>>) -> rt::Lean<Option<rt::List<(rt::List<u8>, ::leangage::json_items::Item)>>> {
-        unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<(rt::List<u8>, ::leangage::json_items::Item)>>::into_obj(acc);
-            let __a1: Obj = rt::IntoLean::<rt::List<::leangage::json_items::Item>>::into_obj(arg1);
-            let __r: Obj = l_Notes_Wire_members(__a0, __a1);
-            rt::Lean::from_owned(__r)
-        }
-    }
-    #[doc = "`members_items` on handles. Lean: `Notes.Wire.membersItems : List Notes.Kernel.Member → List Leangage.Json.Items.Item → Option (List Notes.Kernel.Member)` (module `Notes.Wire`)."]
-    pub fn members_items(acc: impl rt::IntoLean<rt::List<crate::generated::notes_kernel::Member>>, arg1: impl rt::IntoLean<rt::List<::leangage::json_items::Item>>) -> rt::Lean<Option<rt::List<crate::generated::notes_kernel::Member>>> {
-        unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<crate::generated::notes_kernel::Member>>::into_obj(acc);
-            let __a1: Obj = rt::IntoLean::<rt::List<::leangage::json_items::Item>>::into_obj(arg1);
-            let __r: Obj = l_Notes_Wire_membersItems(__a0, __a1);
-            rt::Lean::from_owned(__r)
-        }
-    }
-    #[doc = "`text_of` on handles. Lean: `Notes.Wire.textOf : List UInt8 → Option String` (module `Notes.Wire`)."]
-    pub fn text_of(bytes: impl rt::IntoLean<rt::List<u8>>) -> rt::Lean<Option<String>> {
-        unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<u8>>::into_obj(bytes);
-            let __r: Obj = l_Notes_Wire_textOf(__a0);
-            rt::Lean::from_owned(__r)
         }
     }
     #[doc = "`refusal_message` on handles. Lean: `Notes.Wire.refusalMessage : Notes.Wire.Refusal → String` (module `Notes.Wire`)."]
@@ -10300,20 +8331,28 @@ pub mod lean {
             rt::lean_dec(__a0); rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`decode_items` on handles. Lean: `Notes.Wire.decodeItems : List Leangage.Json.Items.Item → Except Notes.Wire.Refusal Notes.Kernel.Command` (module `Notes.Wire`)."]
-    pub fn decode_items(arg0: impl rt::IntoLean<rt::List<::leangage::json_items::Item>>) -> rt::Lean<Result<crate::generated::notes_kernel::Command, Refusal>> {
+    #[doc = "`decode` on handles. Lean: `Notes.Wire.decode : List Leangage.Json.Lexemes.Lexeme → Except Notes.Wire.Refusal Notes.Kernel.Command` (module `Notes.Wire`)."]
+    pub fn decode(lexemes: impl rt::IntoLean<rt::List<::leangage::json_lexemes::Lexeme>>) -> rt::Lean<Result<crate::generated::notes_kernel::Command, Refusal>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<::leangage::json_items::Item>>::into_obj(arg0);
-            let __r: Obj = l_Notes_Wire_decodeItems(__a0);
+            let __a0: Obj = rt::IntoLean::<rt::List<::leangage::json_lexemes::Lexeme>>::into_obj(lexemes);
+            let __r: Obj = l_Notes_Wire_decode(__a0);
             rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`notes_items` on handles. Lean: `Notes.Wire.notesItems : List Notes.Kernel.Note → List Leangage.Json.Items.Item → Option (List Notes.Kernel.Note)` (module `Notes.Wire`)."]
-    pub fn notes_items(acc: impl rt::IntoLean<rt::List<crate::generated::notes_kernel::Note>>, arg1: impl rt::IntoLean<rt::List<::leangage::json_items::Item>>) -> rt::Lean<Option<rt::List<crate::generated::notes_kernel::Note>>> {
+    #[doc = "`members_of` on handles. Lean: `Notes.Wire.membersOf : List Notes.Kernel.Member → List Leangage.Json.Lexemes.Lexeme → Option (List Notes.Kernel.Member)` (module `Notes.Wire`)."]
+    pub fn members_of(acc: impl rt::IntoLean<rt::List<crate::generated::notes_kernel::Member>>, arg1: impl rt::IntoLean<rt::List<::leangage::json_lexemes::Lexeme>>) -> rt::Lean<Option<rt::List<crate::generated::notes_kernel::Member>>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<crate::generated::notes_kernel::Note>>::into_obj(acc);
-            let __a1: Obj = rt::IntoLean::<rt::List<::leangage::json_items::Item>>::into_obj(arg1);
-            let __r: Obj = l_Notes_Wire_notesItems(__a0, __a1);
+            let __a0: Obj = rt::IntoLean::<rt::List<crate::generated::notes_kernel::Member>>::into_obj(acc);
+            let __a1: Obj = rt::IntoLean::<rt::List<::leangage::json_lexemes::Lexeme>>::into_obj(arg1);
+            let __r: Obj = l_Notes_Wire_membersOf(__a0, __a1);
+            rt::Lean::from_owned(__r)
+        }
+    }
+    #[doc = "`reply_of` on handles. Lean: `Notes.Wire.replyOf : List Leangage.Json.Lexemes.Lexeme → Option Notes.Kernel.Reply` (module `Notes.Wire`)."]
+    pub fn reply_of(arg0: impl rt::IntoLean<rt::List<::leangage::json_lexemes::Lexeme>>) -> rt::Lean<Option<crate::generated::notes_kernel::Reply>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<rt::List<::leangage::json_lexemes::Lexeme>>::into_obj(arg0);
+            let __r: Obj = l_Notes_Wire_replyOf(__a0);
             rt::Lean::from_owned(__r)
         }
     }
@@ -10323,6 +8362,15 @@ pub mod lean {
 #[allow(unused_imports, clippy::all)]
 pub mod local {
     use super::*;
+    #[doc = "`notes_of` on handles. Lean: `Notes.Wire.notesOf : List Notes.Kernel.Note → List Leangage.Json.Lexemes.Lexeme → Option (List Notes.Kernel.Note)` (module `Notes.Wire`)."]
+    pub fn notes_of(acc: impl rt::IntoLean<rt::List<crate::generated::notes_kernel::Note>>, arg1: impl rt::IntoLean<rt::List<::leangage::json_lexemes::Lexeme>>) -> rt::Local<Option<rt::List<crate::generated::notes_kernel::Note>>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<rt::List<crate::generated::notes_kernel::Note>>::into_obj(acc);
+            let __a1: Obj = rt::IntoLean::<rt::List<::leangage::json_lexemes::Lexeme>>::into_obj(arg1);
+            let __r: Obj = l_Notes_Wire_notesOf(__a0, __a1);
+            rt::Local::from_owned(__r)
+        }
+    }
     #[doc = "`respond` on handles. Lean: `Notes.Wire.respond : Except (Leangage.Authz.Guarded Notes.Kernel.Error) Notes.Kernel.Reply → Leangage.Http.Response` (module `Notes.Wire`)."]
     pub fn respond(arg0: impl rt::IntoLean<Result<crate::generated::notes_kernel::Reply, crate::authz::GuardedNotesKernelError>>) -> rt::Local<::leangage::http_format::Response> {
         unsafe {
@@ -10348,26 +8396,10 @@ pub mod local {
             rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`decode_reply_items` on handles. Lean: `Notes.Wire.decodeReplyItems : List Leangage.Json.Items.Item → Option Notes.Kernel.Reply` (module `Notes.Wire`)."]
-    pub fn decode_reply_items(arg0: impl rt::IntoLean<rt::List<::leangage::json_items::Item>>) -> rt::Local<Option<crate::generated::notes_kernel::Reply>> {
+    #[doc = "`decode_members` on handles. Lean: `Notes.Wire.decodeMembers : List (String × Leangage.Json.Lexemes.Scalar) → Except Notes.Wire.Refusal Notes.Kernel.Command` (module `Notes.Wire`)."]
+    pub fn decode_members(ms: impl rt::IntoLean<rt::List<(String, ::leangage::json_lexemes::Scalar)>>) -> rt::Local<Result<crate::generated::notes_kernel::Command, Refusal>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<::leangage::json_items::Item>>::into_obj(arg0);
-            let __r: Obj = l_Notes_Wire_decodeReplyItems(__a0);
-            rt::Local::from_owned(__r)
-        }
-    }
-    #[doc = "`scalar` on handles. Lean: `Notes.Wire.scalar : Leangage.Json.Items.Item → Bool` (module `Notes.Wire`)."]
-    pub fn scalar(arg0: impl rt::IntoLean<::leangage::json_items::Item>) -> rt::Local<bool> {
-        unsafe {
-            let __a0: Obj = rt::IntoLean::<::leangage::json_items::Item>::into_obj(arg0);
-            let __r: u8 = l_Notes_Wire_scalar(__a0);
-            rt::lean_dec(__a0); rt::Local::from_owned(rt::lean_box(__r as usize))
-        }
-    }
-    #[doc = "`decode_members` on handles. Lean: `Notes.Wire.decodeMembers : List (List UInt8 × Leangage.Json.Items.Item) → Except Notes.Wire.Refusal Notes.Kernel.Command` (module `Notes.Wire`)."]
-    pub fn decode_members(ms: impl rt::IntoLean<rt::List<(rt::List<u8>, ::leangage::json_items::Item)>>) -> rt::Local<Result<crate::generated::notes_kernel::Command, Refusal>> {
-        unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<(rt::List<u8>, ::leangage::json_items::Item)>>::into_obj(ms);
+            let __a0: Obj = rt::IntoLean::<rt::List<(String, ::leangage::json_lexemes::Scalar)>>::into_obj(ms);
             let __r: Obj = l_Notes_Wire_decodeMembers(__a0);
             rt::lean_dec(__a0); rt::Local::from_owned(__r)
         }
@@ -10380,25 +8412,25 @@ pub mod local {
             rt::lean_dec(__a0); rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`note_of` on handles. Lean: `Notes.Wire.noteOf : List UInt8 → List UInt8 → List UInt8 → UInt64 → List UInt8 → UInt64 → List UInt8 → Bool → Option Notes.Kernel.Note` (module `Notes.Wire`)."]
-    pub fn note_of(kb: impl rt::IntoLean<rt::List<u8>>, body: impl rt::IntoLean<rt::List<u8>>, ki: impl rt::IntoLean<rt::List<u8>>, id: impl rt::IntoLean<u64>, ko: impl rt::IntoLean<rt::List<u8>>, owner: impl rt::IntoLean<u64>, ks: impl rt::IntoLean<rt::List<u8>>, shared: impl rt::IntoLean<bool>) -> rt::Local<Option<crate::generated::notes_kernel::Note>> {
+    #[doc = "`note_of` on handles. Lean: `Notes.Wire.noteOf : String → String → String → String → String → String → String → Bool → Option Notes.Kernel.Note` (module `Notes.Wire`)."]
+    pub fn note_of(kb: impl rt::IntoLean<String>, body: impl rt::IntoLean<String>, ki: impl rt::IntoLean<String>, id: impl rt::IntoLean<String>, ko: impl rt::IntoLean<String>, owner: impl rt::IntoLean<String>, ks: impl rt::IntoLean<String>, shared: impl rt::IntoLean<bool>) -> rt::Local<Option<crate::generated::notes_kernel::Note>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<u8>>::into_obj(kb);
-            let __a1: Obj = rt::IntoLean::<rt::List<u8>>::into_obj(body);
-            let __a2: Obj = rt::IntoLean::<rt::List<u8>>::into_obj(ki);
-            let __a3: u64 = { let o = rt::IntoLean::<u64>::into_obj(id); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
-            let __a4: Obj = rt::IntoLean::<rt::List<u8>>::into_obj(ko);
-            let __a5: u64 = { let o = rt::IntoLean::<u64>::into_obj(owner); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
-            let __a6: Obj = rt::IntoLean::<rt::List<u8>>::into_obj(ks);
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(kb);
+            let __a1: Obj = rt::IntoLean::<String>::into_obj(body);
+            let __a2: Obj = rt::IntoLean::<String>::into_obj(ki);
+            let __a3: Obj = rt::IntoLean::<String>::into_obj(id);
+            let __a4: Obj = rt::IntoLean::<String>::into_obj(ko);
+            let __a5: Obj = rt::IntoLean::<String>::into_obj(owner);
+            let __a6: Obj = rt::IntoLean::<String>::into_obj(ks);
             let __a7: u8 = { let o = rt::IntoLean::<bool>::into_obj(shared); let v = rt::lean_unbox(o) as u8; rt::lean_dec(o); v };
             let __r: Obj = l_Notes_Wire_noteOf(__a0, __a1, __a2, __a3, __a4, __a5, __a6, __a7);
-            rt::Local::from_owned(__r)
+            rt::lean_dec(__a0); rt::lean_dec(__a2); rt::lean_dec(__a3); rt::lean_dec(__a4); rt::lean_dec(__a5); rt::lean_dec(__a6); rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`decode_reply` on handles. Lean: `Notes.Wire.decodeReply : Option (List Leangage.Json.Items.Lexeme) → Option Notes.Kernel.Reply` (module `Notes.Wire`)."]
-    pub fn decode_reply(stored: impl rt::IntoLean<Option<rt::List<::leangage::json_items::Lexeme>>>) -> rt::Local<Option<crate::generated::notes_kernel::Reply>> {
+    #[doc = "`decode_reply` on handles. Lean: `Notes.Wire.decodeReply : Option (List Leangage.Json.Lexemes.Lexeme) → Option Notes.Kernel.Reply` (module `Notes.Wire`)."]
+    pub fn decode_reply(stored: impl rt::IntoLean<Option<rt::List<::leangage::json_lexemes::Lexeme>>>) -> rt::Local<Option<crate::generated::notes_kernel::Reply>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<Option<rt::List<::leangage::json_items::Lexeme>>>::into_obj(stored);
+            let __a0: Obj = rt::IntoLean::<Option<rt::List<::leangage::json_lexemes::Lexeme>>>::into_obj(stored);
             let __r: Obj = l_Notes_Wire_decodeReply(__a0);
             rt::Local::from_owned(__r)
         }
@@ -10409,32 +8441,6 @@ pub mod local {
             let __a0: Obj = rt::IntoLean::<crate::generated::notes_kernel::Principal>::into_obj(actor);
             let __r: Obj = l_Notes_Wire_scope(__a0);
             rt::lean_dec(__a0); rt::Local::from_owned(__r)
-        }
-    }
-    #[doc = "`members` on handles. Lean: `Notes.Wire.members : List (List UInt8 × Leangage.Json.Items.Item) →\n  List Leangage.Json.Items.Item → Option (List (List UInt8 × Leangage.Json.Items.Item))` (module `Notes.Wire`)."]
-    pub fn members(acc: impl rt::IntoLean<rt::List<(rt::List<u8>, ::leangage::json_items::Item)>>, arg1: impl rt::IntoLean<rt::List<::leangage::json_items::Item>>) -> rt::Local<Option<rt::List<(rt::List<u8>, ::leangage::json_items::Item)>>> {
-        unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<(rt::List<u8>, ::leangage::json_items::Item)>>::into_obj(acc);
-            let __a1: Obj = rt::IntoLean::<rt::List<::leangage::json_items::Item>>::into_obj(arg1);
-            let __r: Obj = l_Notes_Wire_members(__a0, __a1);
-            rt::Local::from_owned(__r)
-        }
-    }
-    #[doc = "`members_items` on handles. Lean: `Notes.Wire.membersItems : List Notes.Kernel.Member → List Leangage.Json.Items.Item → Option (List Notes.Kernel.Member)` (module `Notes.Wire`)."]
-    pub fn members_items(acc: impl rt::IntoLean<rt::List<crate::generated::notes_kernel::Member>>, arg1: impl rt::IntoLean<rt::List<::leangage::json_items::Item>>) -> rt::Local<Option<rt::List<crate::generated::notes_kernel::Member>>> {
-        unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<crate::generated::notes_kernel::Member>>::into_obj(acc);
-            let __a1: Obj = rt::IntoLean::<rt::List<::leangage::json_items::Item>>::into_obj(arg1);
-            let __r: Obj = l_Notes_Wire_membersItems(__a0, __a1);
-            rt::Local::from_owned(__r)
-        }
-    }
-    #[doc = "`text_of` on handles. Lean: `Notes.Wire.textOf : List UInt8 → Option String` (module `Notes.Wire`)."]
-    pub fn text_of(bytes: impl rt::IntoLean<rt::List<u8>>) -> rt::Local<Option<String>> {
-        unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<u8>>::into_obj(bytes);
-            let __r: Obj = l_Notes_Wire_textOf(__a0);
-            rt::Local::from_owned(__r)
         }
     }
     #[doc = "`refusal_message` on handles. Lean: `Notes.Wire.refusalMessage : Notes.Wire.Refusal → String` (module `Notes.Wire`)."]
@@ -10481,20 +8487,28 @@ pub mod local {
             rt::lean_dec(__a0); rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`decode_items` on handles. Lean: `Notes.Wire.decodeItems : List Leangage.Json.Items.Item → Except Notes.Wire.Refusal Notes.Kernel.Command` (module `Notes.Wire`)."]
-    pub fn decode_items(arg0: impl rt::IntoLean<rt::List<::leangage::json_items::Item>>) -> rt::Local<Result<crate::generated::notes_kernel::Command, Refusal>> {
+    #[doc = "`decode` on handles. Lean: `Notes.Wire.decode : List Leangage.Json.Lexemes.Lexeme → Except Notes.Wire.Refusal Notes.Kernel.Command` (module `Notes.Wire`)."]
+    pub fn decode(lexemes: impl rt::IntoLean<rt::List<::leangage::json_lexemes::Lexeme>>) -> rt::Local<Result<crate::generated::notes_kernel::Command, Refusal>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<::leangage::json_items::Item>>::into_obj(arg0);
-            let __r: Obj = l_Notes_Wire_decodeItems(__a0);
+            let __a0: Obj = rt::IntoLean::<rt::List<::leangage::json_lexemes::Lexeme>>::into_obj(lexemes);
+            let __r: Obj = l_Notes_Wire_decode(__a0);
             rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`notes_items` on handles. Lean: `Notes.Wire.notesItems : List Notes.Kernel.Note → List Leangage.Json.Items.Item → Option (List Notes.Kernel.Note)` (module `Notes.Wire`)."]
-    pub fn notes_items(acc: impl rt::IntoLean<rt::List<crate::generated::notes_kernel::Note>>, arg1: impl rt::IntoLean<rt::List<::leangage::json_items::Item>>) -> rt::Local<Option<rt::List<crate::generated::notes_kernel::Note>>> {
+    #[doc = "`members_of` on handles. Lean: `Notes.Wire.membersOf : List Notes.Kernel.Member → List Leangage.Json.Lexemes.Lexeme → Option (List Notes.Kernel.Member)` (module `Notes.Wire`)."]
+    pub fn members_of(acc: impl rt::IntoLean<rt::List<crate::generated::notes_kernel::Member>>, arg1: impl rt::IntoLean<rt::List<::leangage::json_lexemes::Lexeme>>) -> rt::Local<Option<rt::List<crate::generated::notes_kernel::Member>>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<crate::generated::notes_kernel::Note>>::into_obj(acc);
-            let __a1: Obj = rt::IntoLean::<rt::List<::leangage::json_items::Item>>::into_obj(arg1);
-            let __r: Obj = l_Notes_Wire_notesItems(__a0, __a1);
+            let __a0: Obj = rt::IntoLean::<rt::List<crate::generated::notes_kernel::Member>>::into_obj(acc);
+            let __a1: Obj = rt::IntoLean::<rt::List<::leangage::json_lexemes::Lexeme>>::into_obj(arg1);
+            let __r: Obj = l_Notes_Wire_membersOf(__a0, __a1);
+            rt::Local::from_owned(__r)
+        }
+    }
+    #[doc = "`reply_of` on handles. Lean: `Notes.Wire.replyOf : List Leangage.Json.Lexemes.Lexeme → Option Notes.Kernel.Reply` (module `Notes.Wire`)."]
+    pub fn reply_of(arg0: impl rt::IntoLean<rt::List<::leangage::json_lexemes::Lexeme>>) -> rt::Local<Option<crate::generated::notes_kernel::Reply>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<rt::List<::leangage::json_lexemes::Lexeme>>::into_obj(arg0);
+            let __r: Obj = l_Notes_Wire_replyOf(__a0);
             rt::Local::from_owned(__r)
         }
     }

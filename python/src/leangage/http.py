@@ -61,7 +61,7 @@ def body_of(data: bytes) -> http_format.Body:
     tokens = lexemes(data)
     if tokens is None:
         return http_format.Body_notJson()
-    return http_format.Body_json(lexemes=tokens)
+    return http_format.Body_json.model_construct(lexemes=tokens)
 
 
 def handle(

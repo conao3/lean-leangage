@@ -5,7 +5,7 @@ import Leangage.Http
 # The calculator on the wire
 
 What the calculator's servers do with a request once its token's tag is checked, and with the
-engine's result. `request` reads the items of the body into the command and the principal the engine runs, or
+engine's result. `request` reads the tokens of the body into the command and the principal the engine runs, or
 gives the answer to a request the engine does not see. `respond` gives the answer to an accepted
 and to a refused command. `fingerprint` is the bytes that identify a command under an idempotency
 key, and `scope` the name that separates the keys of the users of a tenant.
@@ -13,11 +13,16 @@ key, and `scope` the name that separates the keys of the users of a tenant.
 A command is a JSON object: `{"cmd":"set","value":6}`, `{"cmd":"apply","op":"mul","arg":7}` with
 the operations `add`, `sub`, `mul` and `div`, and `{"cmd":"get"}`. Its members may come in any
 order; an object with another member, or with a member twice, is not a command.
+
+`decode` reads the tokens of a body. For a command whose members come in the order above,
+`spelled` gives the command from the tokens one by one; for every other list of tokens
+`decodeObject` collects the members and looks each up by its name. `Calculator.Wire.Proofs`
+proves that `decode` is `decodeObject` on every list of tokens.
 -/
 
 namespace Calculator.Wire
 
-open Calculator.Kernel Leangage Leangage.Json.Items
+open Calculator.Kernel Leangage Leangage.Json.Lexemes
 
 /-- What the engine runs. -/
 structure Call where
@@ -35,41 +40,29 @@ inductive Refusal where
   | badArg
 deriving DecidableEq, Repr
 
-/-- Whether the item is a value by itself. -/
-def scalar : Item → Bool
-  | .null | .bool _ | .num _ | .number | .str _ => true
-  | .key _ | .arrOpen | .arrClose | .objOpen | .objClose => false
-
-/-- The members of an object after its `{`, when no value is an array or an object; `acc` holds
-those read, last first. -/
-def members (acc : List (List UInt8 × Item)) : List Item → Option (List (List UInt8 × Item))
-  | [.objClose] => some acc.reverse
-  | .key k :: v :: rest => if scalar v then members ((k, v) :: acc) rest else none
-  | _ => none
-
 /-- The operation with the given name. -/
-def opNamed (name : List UInt8) : Option Op :=
-  if name = [97, 100, 100] then some .add
-  else if name = [115, 117, 98] then some .sub
-  else if name = [109, 117, 108] then some .mul
-  else if name = [100, 105, 118] then some .div
+def opNamed (name : String) : Option Op :=
+  if name = "add" then some .add
+  else if name = "sub" then some .sub
+  else if name = "mul" then some .mul
+  else if name = "div" then some .div
   else none
 
 /-- The command with the given members. -/
-def decodeMembers (ms : List (List UInt8 × Item)) : Except Refusal Command :=
-  match ms.lookup [99, 109, 100] with
+def decodeMembers (ms : List (String × Scalar)) : Except Refusal Command :=
+  match ms.lookup "cmd" with
   | none => .error .missingCmd
   | some (.str name) =>
-    if name = [115, 101, 116] then
+    if name = "set" then
       if ms.length = 2 then
-        match ms.lookup [118, 97, 108, 117, 101] with
+        match ms.lookup "value" with
         | some (.num n) => .ok (.set n)
         | some _ => .error .badValue
         | none => .error .notCommand
       else .error .notCommand
-    else if name = [97, 112, 112, 108, 121] then
+    else if name = "apply" then
       if ms.length = 3 then
-        match ms.lookup [111, 112], ms.lookup [97, 114, 103] with
+        match ms.lookup "op", ms.lookup "arg" with
         | some (.str op), some arg =>
           match opNamed op with
           | some op =>
@@ -79,18 +72,54 @@ def decodeMembers (ms : List (List UInt8 × Item)) : Except Refusal Command :=
           | none => .error .notCommand
         | _, _ => .error .notCommand
       else .error .notCommand
-    else if name = [103, 101, 116] then
+    else if name = "get" then
       if ms.length = 1 then .ok .get else .error .notCommand
     else .error .notCommand
   | some _ => .error .notCommand
 
-/-- The command that the items of a JSON text spell. -/
-def decodeItems : List Item → Except Refusal Command
-  | .objOpen :: rest =>
-    match members [] rest with
-    | some ms => decodeMembers ms
-    | none => .error .notCommand
-  | _ => .error .notCommand
+/-- The command that the tokens of an object spell, its members in any order. -/
+def decodeObject (lexemes : List Lexeme) : Except Refusal Command :=
+  match object lexemes with
+  | some ms => decodeMembers ms
+  | none => .error .notCommand
+
+/-- The command of the tokens of a command whose members come in the order `cmd`, `value` or
+`cmd`, `op`, `arg`. -/
+def spelled : List Lexeme → Option Command
+  | [.objOpen, .key k, .str name, .objClose] =>
+    if k = "cmd" then if name = "get" then some .get else none else none
+  | [.objOpen, .key k, .str name, .key kv, .number text, .objClose] =>
+    if k = "cmd" then
+      if name = "set" then
+        if kv = "value" then
+          match numberOf text with
+          | some n => some (.set n)
+          | none => none
+        else none
+      else none
+    else none
+  | [.objOpen, .key k, .str name, .key ko, .str op, .key ka, .number text, .objClose] =>
+    if k = "cmd" then
+      if name = "apply" then
+        if ko = "op" then
+          if ka = "arg" then
+            match opNamed op with
+            | some op =>
+              match numberOf text with
+              | some n => some (.apply op n)
+              | none => none
+            | none => none
+          else none
+        else none
+      else none
+    else none
+  | _ => none
+
+/-- The command that the tokens of a JSON text spell. -/
+def decode (lexemes : List Lexeme) : Except Refusal Command :=
+  match spelled lexemes with
+  | some cmd => .ok cmd
+  | none => decodeObject lexemes
 
 /-- What a refused body is answered with. -/
 def refusalMessage : Refusal → String
@@ -104,8 +133,8 @@ expiry `exp`, at the time `now`; or the answer to the request. -/
 def request (tenant user exp now : UInt64) (body : Http.Body) : Except Http.Response Call :=
   match Http.admit exp now body with
   | .error r => .error r
-  | .ok items =>
-    match decodeItems items with
+  | .ok lexemes =>
+    match decode lexemes with
     | .error e => .error (Http.refuse 400 (refusalMessage e))
     | .ok cmd => .ok ⟨⟨tenant, user⟩, cmd⟩
 

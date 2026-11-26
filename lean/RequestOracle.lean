@@ -12,7 +12,7 @@ Bytes are written `x<hex>`, and a text as the `x<hex>` of its UTF-8. A command i
 
 | line | prints |
 |---|---|
-| `items x<hex>` | `items` and the items of the JSON text, or `none` for bytes that are not one |
+| `tokens x<hex>` | `tokens` and the tokens of the JSON text, or `none` for bytes that are not one |
 | `auth -`, `auth x<hex>` | for `authenticate` without and with a header: `ok <tenant> <user> <exp> x<payload> x<tag>` or `err <status> x<body>` |
 | `request <tenant> <user> <exp> <now> <body>` | for `Calculator.Wire.request`: `ok <org> <user> <command>` or `err <status> x<body>` |
 | `respond ok <v>`, `respond err <name>` | `resp <status> x<body>` of `Calculator.Wire.respond` |
@@ -20,14 +20,14 @@ Bytes are written `x<hex>`, and a text as the `x<hex>` of its UTF-8. A command i
 | `fingerprint <command>` | `bytes x<hex>` |
 | `scope <user>` | `text x<hex>` |
 
-An item is `n` (null), `t` and `f` (true and false), `u<decimal>` (a number below 2^64 in decimal
+A token is `n` (null), `t` and `f` (true and false), `u<decimal>` (a number below 2^64 in decimal
 digits), `#` (another number), `sx<hex>` (a string), `kx<hex>` (a key), `[`, `]`, `{` or `}`.
 A body is `x<hex>` (its bytes), `toolarge` or `unreadable`. The names of the refusals are
 `overflow`, `underflow` and `division_by_zero`, and those of the failures `bad_signature`,
 `conflict`, `stopped`, `retries_exhausted`, `database`, `commit_unknown` and `broken`.
 -/
 
-open Leangage Leangage.Json.Items Calculator.Kernel
+open Leangage Leangage.Json.Lexemes Oracle.JsonText Calculator.Kernel
 
 def hexDigitValue (c : Char) : Option Nat :=
   if '0' ≤ c ∧ c ≤ '9' then some (c.toNat - '0'.toNat)
@@ -129,10 +129,11 @@ def showAuth : Except Http.Response Http.Bearer → String
 
 def run (line : String) : Option String :=
   match line.splitOn " " with
-  | ["items", b] => do
-    match Oracle.JsonText.lexemes (← bytes b) with
-    | some lexemes => return " ".intercalate ("items" :: (items lexemes).map showItem)
-    | none => return "none"
+  | ["tokens", b] => do
+    let bs ← bytes b
+    match Oracle.JsonText.lexemes bs, Oracle.JsonText.read bs with
+    | some _, some items => return " ".intercalate ("tokens" :: items.map showItem)
+    | _, _ => return "none"
   | ["auth", "-"] => some (showAuth (Http.authenticate none))
   | ["auth", h] => do return showAuth (Http.authenticate (some (← text h)))
   | ["request", tenant, user, exp, now, b] => do

@@ -1,15 +1,47 @@
-//! What serde_json does, through `json_text::lexemes` and the generated `json_items::items`, with
-//! the texts on which the JSON libraries of the three servers differ or might: `None` for a text
-//! it refuses, and the items of a text it reads.
+//! What serde_json does, through `json_text::lexemes` and the generated `json_lexemes::number_of`,
+//! with the texts on which the JSON libraries of the three servers differ or might: `None` for a
+//! text it refuses, and the tokens of a text it reads.
 
-use leangage::json_items::{self, Item};
+use leangage::json_lexemes::{self, Lexeme};
 use leangage::json_text;
+
+/// A token, with a number as `number_of` reads it and a string and a key as their bytes.
+#[derive(Clone, Debug, PartialEq)]
+enum Item {
+    Null,
+    Bool { b: bool },
+    Num { n: u64 },
+    Number,
+    Str { s: Vec<u8> },
+    Key { s: Vec<u8> },
+    ArrOpen,
+    ArrClose,
+    ObjOpen,
+    ObjClose,
+}
+
+fn item(lexeme: Lexeme) -> Item {
+    match lexeme {
+        Lexeme::Null => Item::Null,
+        Lexeme::Bool { b } => Item::Bool { b },
+        Lexeme::Number { text } => match json_lexemes::number_of(text) {
+            Some(n) => Item::Num { n },
+            None => Item::Number,
+        },
+        Lexeme::Str { s } => Item::Str { s: s.into_bytes() },
+        Lexeme::Key { s } => Item::Key { s: s.into_bytes() },
+        Lexeme::ArrOpen => Item::ArrOpen,
+        Lexeme::ArrClose => Item::ArrClose,
+        Lexeme::ObjOpen => Item::ObjOpen,
+        Lexeme::ObjClose => Item::ObjClose,
+    }
+}
 
 /// The name of a text, its bytes and what serde_json makes of them.
 type Case = (&'static str, Vec<u8>, Option<Vec<Item>>);
 
 fn read(bytes: &[u8]) -> Option<Vec<Item>> {
-    json_text::lexemes(bytes).map(json_items::items)
+    json_text::lexemes(bytes).map(|lexemes| lexemes.into_iter().map(item).collect())
 }
 
 fn nested(depth: usize) -> Vec<u8> {

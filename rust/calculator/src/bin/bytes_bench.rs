@@ -6,8 +6,9 @@
 //! command, written without a space and as Python's `json.dumps` writes it, and (e) the answer
 //! to an accepted command, each written by hand with serde_json and as the calculator server
 //! does it: `body_of`, which reads the body with serde_json into tokens, with the generated
-//! `wire::request`, and the generated `wire::respond`. (d) also times `body_of` alone and prints the calls
-//! per second.
+//! `wire::request`, and the generated `wire::respond`. (d) also times `body_of` alone, a copy of
+//! the tokens it gives, `wire::request` on such a copy with a token that is valid and with one
+//! that has expired (which answers before it decodes), and prints the calls per second.
 
 use std::hint::black_box;
 use std::time::Instant;
@@ -312,6 +313,22 @@ fn main() {
             }));
         }
         println!("    body_of only        {}", show(&mut library));
+        let read = body_of(body.as_bytes());
+        let (mut copy, mut request, mut expired) = (Vec::new(), Vec::new(), Vec::new());
+        for _ in 0..ROUNDS {
+            copy.push(per_op(100_000, &mut || {
+                black_box(black_box(&read).clone());
+            }));
+            request.push(per_op(100_000, &mut || {
+                black_box(wire::request(1, 42, 1, 0, black_box(&read).clone())).ok();
+            }));
+            expired.push(per_op(100_000, &mut || {
+                black_box(wire::request(1, 42, 0, 1, black_box(&read).clone())).ok();
+            }));
+        }
+        println!("    copy of the tokens  {}", show(&mut copy));
+        println!("    request and copy    {}", show(&mut request));
+        println!("    expired and copy    {}", show(&mut expired));
         println!(
             "    calls/s: by hand {:.0}, library and generated {:.0}",
             1e9 / by_hand,

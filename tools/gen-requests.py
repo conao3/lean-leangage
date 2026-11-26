@@ -207,11 +207,11 @@ def library_text(rng: random.Random) -> bytes:
 
 def read_line(rng: random.Random) -> str:
     if LIBRARY.randrange(8) == 0:
-        return f"items {hexed(library_text(LIBRARY))}"
+        return f"tokens {hexed(library_text(LIBRARY))}"
     while True:
         text = read_text(rng)
         if shared(text):
-            return f"items {hexed(text)}"
+            return f"tokens {hexed(text)}"
 
 
 def read_text(rng: random.Random) -> bytes:

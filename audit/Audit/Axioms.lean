@@ -28,6 +28,6 @@ elab "#assert_standard_axioms " mods:ident+ : command => do
 
 #assert_standard_axioms Leangage.Kernel Leangage.Obligation Leangage.AuthzProofs
   Leangage.Sql.Proofs Leangage.Sql.Sound Leangage.Sql.Isolation Leangage.Store
-  Leangage.Token.Proofs Leangage.Json.Proofs Leangage.Json.Items.Proofs Leangage.Http.Proofs
+  Leangage.Token.Proofs Leangage.Json.Proofs Leangage.Json.Lexemes.Proofs Leangage.Http.Proofs
   Calculator.Proofs Calculator.Store.Proofs Calculator.Wire.Proofs
   Notes.Proofs Notes.Store.Proofs Notes.Wire.Proofs

@@ -562,16 +562,6 @@ func compute_L_mkPanicMessage___closed__2() rt.V {
 	return x_1
 }
 
-func core_L_Leangage_Json_Items_items(frame *rt.Tail, x_1 rt.V) rt.V {
-	var x_2 rt.V
-	_ = x_2
-	var x_3 rt.V
-	_ = x_3
-	x_2 = rt.Lean_box(0)
-	rt.TailCall(frame, tail_L_List_mapTR_loop___at___00Leangage_Json_Items_items_spec__0, []rt.V{x_1, x_2})
-	return rt.V{}
-}
-
 func core_L_Leangage_Json_writeArray(frame *rt.Tail, x_1 rt.V) rt.V {
 	var x_2 rt.V
 	_ = x_2
@@ -586,77 +576,6 @@ func core_L_Leangage_Json_writeArray(frame *rt.Tail, x_1 rt.V) rt.V {
 	x_4 = 0
 	rt.TailCall(frame, tail_L_Leangage_Json_writeArrayFrom, []rt.V{x_3, rt.Lean_box(uint64(x_4)), x_1})
 	return rt.V{}
-}
-
-func core_L_List_mapTR_loop___at___00Leangage_Json_Items_items_spec__0(frame *rt.Tail, x_1 rt.V, x_2 rt.V) rt.V {
-	var x_3 rt.V
-	_ = x_3
-	var x_4 rt.V
-	_ = x_4
-	var x_5 rt.V
-	_ = x_5
-	var x_7 rt.V
-	_ = x_7
-	var x_8 uint8
-	_ = x_8
-	var x_9 rt.V
-	_ = x_9
-	var x_11 rt.V
-	_ = x_11
-	var x_12 rt.V
-	_ = x_12
-	var x_13 rt.V
-	_ = x_13
-	var x_14 uint8
-	_ = x_14
-_start:
-	switch rt.Lean_obj_tag(x_1) {
-	case 0:
-		rt.TailCall(frame, tail_L_List_reverse___redArg, []rt.V{x_2})
-		return rt.V{}
-	case 1:
-		x_4 = rt.Lean_ctor_get(x_1, 0)
-		x_5 = rt.Lean_ctor_get(x_1, 1)
-		x_14 = rt.Bool(!rt.Lean_is_exclusive(x_1))
-		switch x_14 {
-		case 0:
-			x_7, x_8 = x_1, x_14
-			goto _jp_6
-		case 1:
-			rt.Lean_inc(x_5)
-			rt.Lean_inc(x_4)
-			rt.Lean_dec(x_1)
-			x_7, x_8 = rt.V{}, x_14
-			goto _jp_6
-		default:
-			rt.Lean_internal_panic_unreachable()
-			return rt.V{}
-		}
-	default:
-		rt.Lean_internal_panic_unreachable()
-		return rt.V{}
-	}
-_jp_6:
-	x_9 = l_Leangage_Json_Items_item(x_4)
-	switch x_8 {
-	case 0:
-		rt.Lean_ctor_set(x_7, 1, x_2)
-		rt.Lean_ctor_set(x_7, 0, x_9)
-		x_11 = x_7
-		goto _jp_10
-	case 1:
-		x_13 = rt.Lean_alloc_ctor(1, 2, 0)
-		rt.Lean_ctor_set(x_13, 0, x_9)
-		rt.Lean_ctor_set(x_13, 1, x_2)
-		x_11 = x_13
-		goto _jp_10
-	default:
-		rt.Lean_internal_panic_unreachable()
-		return rt.V{}
-	}
-_jp_10:
-	x_1, x_2 = x_5, x_11
-	goto _start
 }
 
 func core_L_List_mapTR_loop___at___00__private_Init_Data_Repr_0__Nat_reprArray_spec__0(frame *rt.Tail, x_1 rt.V, x_2 rt.V) rt.V {
@@ -873,14 +792,6 @@ func l_Array_size(x_2 rt.V) rt.V {
 	return rt.Lean_array_get_size(x_2)
 }
 
-func l_Array_toList(x_2 rt.V) rt.V {
-	return rt.Lean_array_to_list(x_2)
-}
-
-func l_ByteArray_data(x_1 rt.V) rt.V {
-	return rt.Lean_byte_array_data(x_1)
-}
-
 func l_Leangage_Http_admit(x_1 uint64, x_2 uint64, x_3 rt.V) rt.V {
 	var x_4 uint8
 	_ = x_4
@@ -890,13 +801,13 @@ func l_Leangage_Http_admit(x_1 uint64, x_2 uint64, x_3 rt.V) rt.V {
 	_ = x_7
 	var x_8 uint8
 	_ = x_8
-	var x_9 rt.V
-	_ = x_9
+	var x_10 rt.V
+	_ = x_10
 	var x_11 rt.V
 	_ = x_11
-	var x_12 rt.V
+	var x_12 uint8
 	_ = x_12
-	var x_13 uint8
+	var x_13 rt.V
 	_ = x_13
 	var x_14 rt.V
 	_ = x_14
@@ -904,68 +815,64 @@ func l_Leangage_Http_admit(x_1 uint64, x_2 uint64, x_3 rt.V) rt.V {
 	_ = x_15
 	var x_16 rt.V
 	_ = x_16
-	var x_17 rt.V
-	_ = x_17
 	x_4 = l_UInt64_decLt(x_1, x_2)
 	switch x_4 {
 	case 0:
 		switch rt.Lean_obj_tag(x_3) {
 		case 0:
 			x_5 = rt.Lean_ctor_get(x_3, 0)
-			x_13 = rt.Bool(!rt.Lean_is_exclusive(x_3))
-			switch x_13 {
+			x_12 = rt.Bool(!rt.Lean_is_exclusive(x_3))
+			switch x_12 {
 			case 0:
-				x_7, x_8 = x_3, x_13
+				x_7, x_8 = x_3, x_12
 				goto _jp_6
 			case 1:
 				rt.Lean_inc(x_5)
 				rt.Lean_dec(x_3)
-				x_7, x_8 = rt.V{}, x_13
+				x_7, x_8 = rt.V{}, x_12
 				goto _jp_6
 			default:
 				rt.Lean_internal_panic_unreachable()
 				return rt.V{}
 			}
 		case 1:
-			x_14 = l_Leangage_Http_admit___closed__2()
-			return x_14
+			x_13 = l_Leangage_Http_admit___closed__2()
+			return x_13
 		case 2:
-			x_15 = l_Leangage_Http_admit___closed__5()
-			return x_15
+			x_14 = l_Leangage_Http_admit___closed__5()
+			return x_14
 		case 3:
-			x_16 = l_Leangage_Http_admit___closed__8()
-			return x_16
+			x_15 = l_Leangage_Http_admit___closed__8()
+			return x_15
 		default:
 			rt.Lean_internal_panic_unreachable()
 			return rt.V{}
 		}
 	case 1:
 		rt.Lean_dec(x_3)
-		x_17 = l_Leangage_Http_admit___closed__11()
-		return x_17
+		x_16 = l_Leangage_Http_admit___closed__11()
+		return x_16
 	default:
 		rt.Lean_internal_panic_unreachable()
 		return rt.V{}
 	}
 _jp_6:
-	x_9 = l_Leangage_Json_Items_items(x_5)
 	switch x_8 {
 	case 0:
 		rt.Lean_ctor_set_tag(x_7, 1)
-		rt.Lean_ctor_set(x_7, 0, x_9)
-		x_11 = x_7
-		goto _jp_10
+		x_10 = x_7
+		goto _jp_9
 	case 1:
-		x_12 = rt.Lean_alloc_ctor(1, 1, 0)
-		rt.Lean_ctor_set(x_12, 0, x_9)
-		x_11 = x_12
-		goto _jp_10
+		x_11 = rt.Lean_alloc_ctor(1, 1, 0)
+		rt.Lean_ctor_set(x_11, 0, x_5)
+		x_10 = x_11
+		goto _jp_9
 	default:
 		rt.Lean_internal_panic_unreachable()
 		return rt.V{}
 	}
-_jp_10:
-	return x_11
+_jp_9:
+	return x_10
 }
 
 func l_Leangage_Http_admit___closed__0() rt.V {
@@ -1438,246 +1345,6 @@ func l_Leangage_Http_refuse___closed__1() rt.V {
 
 func l_Leangage_Http_refuse___closed__2() rt.V {
 	return value_L_Leangage_Http_refuse___closed__2
-}
-
-func l_Leangage_Json_Items_item(x_1 rt.V) rt.V {
-	var x_2 rt.V
-	_ = x_2
-	var x_3 uint8
-	_ = x_3
-	var x_5 rt.V
-	_ = x_5
-	var x_6 uint8
-	_ = x_6
-	var x_8 rt.V
-	_ = x_8
-	var x_9 rt.V
-	_ = x_9
-	var x_10 uint8
-	_ = x_10
-	var x_11 rt.V
-	_ = x_11
-	var x_12 rt.V
-	_ = x_12
-	var x_13 rt.V
-	_ = x_13
-	var x_15 rt.V
-	_ = x_15
-	var x_16 uint8
-	_ = x_16
-	var x_17 rt.V
-	_ = x_17
-	var x_18 rt.V
-	_ = x_18
-	var x_19 rt.V
-	_ = x_19
-	var x_21 rt.V
-	_ = x_21
-	var x_22 rt.V
-	_ = x_22
-	var x_23 uint8
-	_ = x_23
-	var x_24 rt.V
-	_ = x_24
-	var x_26 rt.V
-	_ = x_26
-	var x_27 uint8
-	_ = x_27
-	var x_28 rt.V
-	_ = x_28
-	var x_29 rt.V
-	_ = x_29
-	var x_30 rt.V
-	_ = x_30
-	var x_32 rt.V
-	_ = x_32
-	var x_33 rt.V
-	_ = x_33
-	var x_34 uint8
-	_ = x_34
-	var x_35 rt.V
-	_ = x_35
-	var x_36 rt.V
-	_ = x_36
-	var x_37 rt.V
-	_ = x_37
-	var x_38 rt.V
-	_ = x_38
-	switch rt.Lean_obj_tag(x_1) {
-	case 0:
-		x_2 = rt.Lean_box(0)
-		return x_2
-	case 1:
-		x_3 = rt.Lean_ctor_get_uint8(x_1, 0)
-		x_10 = rt.Bool(!rt.Lean_is_exclusive(x_1))
-		switch x_10 {
-		case 0:
-			x_5, x_6 = x_1, x_10
-			goto _jp_4
-		case 1:
-			rt.Lean_dec(x_1)
-			x_5, x_6 = rt.V{}, x_10
-			goto _jp_4
-		default:
-			rt.Lean_internal_panic_unreachable()
-			return rt.V{}
-		}
-	case 2:
-		x_11 = rt.Lean_ctor_get(x_1, 0)
-		rt.Lean_inc(x_11)
-		rt.Lean_dec(x_1)
-		x_12 = l_Leangage_Json_Items_numberItem(x_11)
-		rt.Lean_dec(x_11)
-		return x_12
-	case 3:
-		x_13 = rt.Lean_ctor_get(x_1, 0)
-		x_23 = rt.Bool(!rt.Lean_is_exclusive(x_1))
-		switch x_23 {
-		case 0:
-			x_15, x_16 = x_1, x_23
-			goto _jp_14
-		case 1:
-			rt.Lean_inc(x_13)
-			rt.Lean_dec(x_1)
-			x_15, x_16 = rt.V{}, x_23
-			goto _jp_14
-		default:
-			rt.Lean_internal_panic_unreachable()
-			return rt.V{}
-		}
-	case 4:
-		x_24 = rt.Lean_ctor_get(x_1, 0)
-		x_34 = rt.Bool(!rt.Lean_is_exclusive(x_1))
-		switch x_34 {
-		case 0:
-			x_26, x_27 = x_1, x_34
-			goto _jp_25
-		case 1:
-			rt.Lean_inc(x_24)
-			rt.Lean_dec(x_1)
-			x_26, x_27 = rt.V{}, x_34
-			goto _jp_25
-		default:
-			rt.Lean_internal_panic_unreachable()
-			return rt.V{}
-		}
-	case 5:
-		x_35 = rt.Lean_box(6)
-		return x_35
-	case 6:
-		x_36 = rt.Lean_box(7)
-		return x_36
-	case 7:
-		x_37 = rt.Lean_box(8)
-		return x_37
-	case 8:
-		x_38 = rt.Lean_box(9)
-		return x_38
-	default:
-		rt.Lean_internal_panic_unreachable()
-		return rt.V{}
-	}
-_jp_4:
-	switch x_6 {
-	case 0:
-		x_8 = x_5
-		goto _jp_7
-	case 1:
-		x_9 = rt.Lean_alloc_ctor(1, 0, 1)
-		rt.Lean_ctor_set_uint8(x_9, 0, x_3)
-		x_8 = x_9
-		goto _jp_7
-	default:
-		rt.Lean_internal_panic_unreachable()
-		return rt.V{}
-	}
-_jp_7:
-	return x_8
-_jp_14:
-	x_17 = l_String_toByteArray(x_13)
-	x_18 = l_ByteArray_data(x_17)
-	x_19 = l_Array_toList(x_18)
-	switch x_16 {
-	case 0:
-		rt.Lean_ctor_set_tag(x_15, 4)
-		rt.Lean_ctor_set(x_15, 0, x_19)
-		x_21 = x_15
-		goto _jp_20
-	case 1:
-		x_22 = rt.Lean_alloc_ctor(4, 1, 0)
-		rt.Lean_ctor_set(x_22, 0, x_19)
-		x_21 = x_22
-		goto _jp_20
-	default:
-		rt.Lean_internal_panic_unreachable()
-		return rt.V{}
-	}
-_jp_20:
-	return x_21
-_jp_25:
-	x_28 = l_String_toByteArray(x_24)
-	x_29 = l_ByteArray_data(x_28)
-	x_30 = l_Array_toList(x_29)
-	switch x_27 {
-	case 0:
-		rt.Lean_ctor_set_tag(x_26, 5)
-		rt.Lean_ctor_set(x_26, 0, x_30)
-		x_32 = x_26
-		goto _jp_31
-	case 1:
-		x_33 = rt.Lean_alloc_ctor(5, 1, 0)
-		rt.Lean_ctor_set(x_33, 0, x_30)
-		x_32 = x_33
-		goto _jp_31
-	default:
-		rt.Lean_internal_panic_unreachable()
-		return rt.V{}
-	}
-_jp_31:
-	return x_32
-}
-
-func l_Leangage_Json_Items_items(x_1 rt.V) rt.V {
-	frame := rt.AcquireTail()
-	defer rt.ReleaseTail(frame)
-	return frame.Result(core_L_Leangage_Json_Items_items(frame, x_1))
-}
-
-func l_Leangage_Json_Items_numberItem(x_1 rt.V) rt.V {
-	var x_2 rt.V
-	_ = x_2
-	var x_3 rt.V
-	_ = x_3
-	var x_4 rt.V
-	_ = x_4
-	var x_5 rt.V
-	_ = x_5
-	var x_6 rt.V
-	_ = x_6
-	var x_7 rt.V
-	_ = x_7
-	var x_8 uint64
-	_ = x_8
-	x_2 = rt.NatFromUint64(0)
-	x_3 = l_String_utf8ByteSize(x_1)
-	x_4 = l_Leangage_Token_numberAt(x_1, x_2, x_3)
-	switch rt.Lean_obj_tag(x_4) {
-	case 0:
-		x_5 = rt.Lean_box(3)
-		return x_5
-	case 1:
-		x_6 = rt.Lean_ctor_get(x_4, 0)
-		rt.Lean_inc(x_6)
-		rt.Lean_dec(x_4)
-		x_7 = rt.Lean_alloc_ctor(2, 0, 8)
-		x_8 = rt.Lean_unbox(x_6)
-		rt.Lean_dec(x_6)
-		rt.Lean_ctor_set_uint64(x_7, 0, x_8)
-		return x_7
-	default:
-		rt.Lean_internal_panic_unreachable()
-		return rt.V{}
-	}
 }
 
 func l_Leangage_Json_StrTok_endsValue(x_1 rt.V) uint8 {
@@ -3751,12 +3418,6 @@ _jp_60:
 	}
 }
 
-func l_List_mapTR_loop___at___00Leangage_Json_Items_items_spec__0(x_1 rt.V, x_2 rt.V) rt.V {
-	frame := rt.AcquireTail()
-	defer rt.ReleaseTail(frame)
-	return frame.Result(core_L_List_mapTR_loop___at___00Leangage_Json_Items_items_spec__0(frame, x_1, x_2))
-}
-
 func l_List_mapTR_loop___at___00__private_Init_Data_Repr_0__Nat_reprArray_spec__0(x_1 rt.V, x_2 rt.V) rt.V {
 	frame := rt.AcquireTail()
 	defer rt.ReleaseTail(frame)
@@ -4567,10 +4228,6 @@ func l_String_ofList(x_1 rt.V) rt.V {
 	return rt.Lean_string_mk(x_1)
 }
 
-func l_String_toByteArray(x_1 rt.V) rt.V {
-	return rt.Lean_string_to_utf8(x_1)
-}
-
 func l_String_utf8ByteSize(x_1 rt.V) rt.V {
 	return rt.Lean_string_utf8_byte_size(x_1)
 }
@@ -4746,10 +4403,6 @@ func l_panic___at___00String_Slice_Pos_next_x21_spec__0___redArg(x_1 rt.V) rt.V 
 
 func tail_L_Leangage_Json_writeArrayFrom(_ *rt.Tail, args []rt.V) rt.V {
 	return l_Leangage_Json_writeArrayFrom(args[0], uint8(rt.Lean_unbox(args[1])), args[2])
-}
-
-func tail_L_List_mapTR_loop___at___00Leangage_Json_Items_items_spec__0(frame *rt.Tail, args []rt.V) rt.V {
-	return core_L_List_mapTR_loop___at___00Leangage_Json_Items_items_spec__0(frame, args[0], args[1])
 }
 
 func tail_L_List_range_loop(_ *rt.Tail, args []rt.V) rt.V {

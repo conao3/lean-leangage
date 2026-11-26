@@ -3,7 +3,7 @@
 package httpformat
 
 import (
-	lfmod0 "github.com/conao3/lean-leangage/go/leangage/jsonitems"
+	lfmod0 "github.com/conao3/lean-leangage/go/leangage/jsonlexemes"
 	"github.com/conao3/leanfran-go"
 	"github.com/conao3/leanfran-go/rt"
 	"github.com/conao3/leanfran-go/schema"
@@ -20,12 +20,10 @@ var _lfCodec2 leanfran.Codec[[]uint8]
 var _lfCodec3 leanfran.Codec[lfmod0.Lexeme]
 var _lfCodec4 leanfran.Codec[[]lfmod0.Lexeme]
 var _lfCodec5 leanfran.Codec[uint16]
-var _lfCodec6 leanfran.Codec[lfmod0.Item]
-var _lfCodec7 leanfran.Codec[[]lfmod0.Item]
-var _lfCodec8 leanfran.Codec[string]
-var _lfCodec9 leanfran.Codec[*string]
-var _lfCodec10 leanfran.Codec[leanfran.Except[Response, Bearer]]
-var _lfCodec11 leanfran.Codec[leanfran.Except[Response, []lfmod0.Item]]
+var _lfCodec6 leanfran.Codec[string]
+var _lfCodec7 leanfran.Codec[*string]
+var _lfCodec8 leanfran.Codec[leanfran.Except[Response, Bearer]]
+var _lfCodec9 leanfran.Codec[leanfran.Except[Response, []lfmod0.Lexeme]]
 var _lfDescBearer schema.Desc
 var _lfDescBody schema.Desc
 var _lfDescFailure schema.Desc
@@ -44,12 +42,10 @@ func _lfBuildCodecs() {
 	_lfCodec3 = lfmod0.LeanfranCodecLexeme()
 	_lfCodec4 = leanfran.Sequence("list", _lfCodec3)
 	_lfCodec5 = leanfran.Fixed[uint16]("uint", 16)
-	_lfCodec6 = lfmod0.LeanfranCodecItem()
-	_lfCodec7 = leanfran.Sequence("list", _lfCodec6)
-	_lfCodec8 = leanfran.String()
-	_lfCodec9 = leanfran.Option(_lfCodec8)
-	_lfCodec10 = leanfran.Result(_lfCodecResponse, _lfCodecBearer)
-	_lfCodec11 = leanfran.Result(_lfCodecResponse, _lfCodec7)
+	_lfCodec6 = leanfran.String()
+	_lfCodec7 = leanfran.Option(_lfCodec6)
+	_lfCodec8 = leanfran.Result(_lfCodecResponse, _lfCodecBearer)
+	_lfCodec9 = leanfran.Result(_lfCodecResponse, _lfCodec4)
 	_lfDescBearer = schema.Desc{Name: "Bearer", Kind: "struct", Variants: []schema.Variant{{Name: "mk", Tag: 0, Objects: 2, ScalarBytes: 24, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "tenant", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 16, Flat: false, OmitNone: false, Bounds: nil}, {Key: "user", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 24, Flat: false, OmitNone: false, Bounds: nil}, {Key: "exp", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 32, Flat: false, OmitNone: false, Bounds: nil}, {Key: "payload", Desc: _lfCodec2.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "sig", Desc: _lfCodec2.Desc, Slot: "obj", Offset: 1, Flat: false, OmitNone: false, Bounds: nil}}}}}
 	_lfDescBody = schema.Desc{Name: "Body", Kind: "inductive", Variants: []schema.Variant{{Name: "json", Tag: 0, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "lexemes", Desc: _lfCodec4.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "notJson", Tag: 1, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "tooLarge", Tag: 2, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "unreadable", Tag: 3, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}}}
 	_lfDescFailure = schema.Desc{Name: "Failure", Kind: "enum", Cases: []string{"badSignature", "conflict", "stopped", "retriesExhausted", "database", "commitUnknown", "broken"}}
@@ -591,7 +587,7 @@ func (lfValue) NewExceptResponseBearer(v leanfran.Except[Response, Bearer]) lean
 
 func (api lfScopedValue) NewExceptResponseBearer(v leanfran.Except[Response, Bearer]) leanfran.Value[leanfran.ExceptType[Response, Bearer]] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[leanfran.ExceptType[Response, Bearer]](api.scope, _lfCodec10, v)
+	return leanfran.NewUncheckedValueIn[leanfran.ExceptType[Response, Bearer]](api.scope, _lfCodec8, v)
 }
 
 func (lfValue) ReadExceptResponseBearer(v leanfran.Value[leanfran.ExceptType[Response, Bearer]]) leanfran.Except[Response, Bearer] {
@@ -600,25 +596,25 @@ func (lfValue) ReadExceptResponseBearer(v leanfran.Value[leanfran.ExceptType[Res
 
 func (api lfScopedValue) ReadExceptResponseBearer(v leanfran.Value[leanfran.ExceptType[Response, Bearer]]) leanfran.Except[Response, Bearer] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec10, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec8, v)
 }
 
-func (lfValue) NewExceptResponseListItem(v leanfran.Except[Response, []lfmod0.Item]) (leanfran.Value[leanfran.ExceptType[Response, leanfran.ListType[lfmod0.Item]]], error) {
-	return lfScopedValue{}.NewExceptResponseListItem(v)
+func (lfValue) NewExceptResponseListLexeme(v leanfran.Except[Response, []lfmod0.Lexeme]) (leanfran.Value[leanfran.ExceptType[Response, leanfran.ListType[lfmod0.Lexeme]]], error) {
+	return lfScopedValue{}.NewExceptResponseListLexeme(v)
 }
 
-func (api lfScopedValue) NewExceptResponseListItem(v leanfran.Except[Response, []lfmod0.Item]) (leanfran.Value[leanfran.ExceptType[Response, leanfran.ListType[lfmod0.Item]]], error) {
+func (api lfScopedValue) NewExceptResponseListLexeme(v leanfran.Except[Response, []lfmod0.Lexeme]) (leanfran.Value[leanfran.ExceptType[Response, leanfran.ListType[lfmod0.Lexeme]]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.ExceptType[Response, leanfran.ListType[lfmod0.Item]]](api.scope, _lfCodec11, v, "ExceptResponseListItem")
+	return leanfran.NewValueIn[leanfran.ExceptType[Response, leanfran.ListType[lfmod0.Lexeme]]](api.scope, _lfCodec9, v, "ExceptResponseListLexeme")
 }
 
-func (lfValue) ReadExceptResponseListItem(v leanfran.Value[leanfran.ExceptType[Response, leanfran.ListType[lfmod0.Item]]]) leanfran.Except[Response, []lfmod0.Item] {
-	return lfScopedValue{}.ReadExceptResponseListItem(v)
+func (lfValue) ReadExceptResponseListLexeme(v leanfran.Value[leanfran.ExceptType[Response, leanfran.ListType[lfmod0.Lexeme]]]) leanfran.Except[Response, []lfmod0.Lexeme] {
+	return lfScopedValue{}.ReadExceptResponseListLexeme(v)
 }
 
-func (api lfScopedValue) ReadExceptResponseListItem(v leanfran.Value[leanfran.ExceptType[Response, leanfran.ListType[lfmod0.Item]]]) leanfran.Except[Response, []lfmod0.Item] {
+func (api lfScopedValue) ReadExceptResponseListLexeme(v leanfran.Value[leanfran.ExceptType[Response, leanfran.ListType[lfmod0.Lexeme]]]) leanfran.Except[Response, []lfmod0.Lexeme] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec11, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec9, v)
 }
 
 func (lfValue) NewFailure(v Failure) leanfran.Value[Failure] {
@@ -639,40 +635,40 @@ func (api lfScopedValue) ReadFailure(v leanfran.Value[Failure]) Failure {
 	return leanfran.ReadValueIn(api.scope, _lfCodecFailure, v)
 }
 
-func (lfValue) NewItem(v lfmod0.Item) (leanfran.Value[lfmod0.Item], error) {
-	return lfScopedValue{}.NewItem(v)
+func (lfValue) NewLexeme(v lfmod0.Lexeme) (leanfran.Value[lfmod0.Lexeme], error) {
+	return lfScopedValue{}.NewLexeme(v)
 }
 
-func (api lfScopedValue) NewItem(v lfmod0.Item) (leanfran.Value[lfmod0.Item], error) {
+func (api lfScopedValue) NewLexeme(v lfmod0.Lexeme) (leanfran.Value[lfmod0.Lexeme], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[lfmod0.Item](api.scope, _lfCodec6, v, "Item")
+	return leanfran.NewValueIn[lfmod0.Lexeme](api.scope, _lfCodec3, v, "Lexeme")
 }
 
-func (lfValue) ReadItem(v leanfran.Value[lfmod0.Item]) lfmod0.Item {
-	return lfScopedValue{}.ReadItem(v)
+func (lfValue) ReadLexeme(v leanfran.Value[lfmod0.Lexeme]) lfmod0.Lexeme {
+	return lfScopedValue{}.ReadLexeme(v)
 }
 
-func (api lfScopedValue) ReadItem(v leanfran.Value[lfmod0.Item]) lfmod0.Item {
+func (api lfScopedValue) ReadLexeme(v leanfran.Value[lfmod0.Lexeme]) lfmod0.Lexeme {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec6, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec3, v)
 }
 
-func (lfValue) NewListItem(v []lfmod0.Item) (leanfran.Value[leanfran.ListType[lfmod0.Item]], error) {
-	return lfScopedValue{}.NewListItem(v)
+func (lfValue) NewListLexeme(v []lfmod0.Lexeme) (leanfran.Value[leanfran.ListType[lfmod0.Lexeme]], error) {
+	return lfScopedValue{}.NewListLexeme(v)
 }
 
-func (api lfScopedValue) NewListItem(v []lfmod0.Item) (leanfran.Value[leanfran.ListType[lfmod0.Item]], error) {
+func (api lfScopedValue) NewListLexeme(v []lfmod0.Lexeme) (leanfran.Value[leanfran.ListType[lfmod0.Lexeme]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.ListType[lfmod0.Item]](api.scope, _lfCodec7, v, "ListItem")
+	return leanfran.NewValueIn[leanfran.ListType[lfmod0.Lexeme]](api.scope, _lfCodec4, v, "ListLexeme")
 }
 
-func (lfValue) ReadListItem(v leanfran.Value[leanfran.ListType[lfmod0.Item]]) []lfmod0.Item {
-	return lfScopedValue{}.ReadListItem(v)
+func (lfValue) ReadListLexeme(v leanfran.Value[leanfran.ListType[lfmod0.Lexeme]]) []lfmod0.Lexeme {
+	return lfScopedValue{}.ReadListLexeme(v)
 }
 
-func (api lfScopedValue) ReadListItem(v leanfran.Value[leanfran.ListType[lfmod0.Item]]) []lfmod0.Item {
+func (api lfScopedValue) ReadListLexeme(v leanfran.Value[leanfran.ListType[lfmod0.Lexeme]]) []lfmod0.Lexeme {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec7, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec4, v)
 }
 
 func (lfValue) NewOptionString(v *string) (leanfran.Value[leanfran.OptionType[string]], error) {
@@ -681,7 +677,7 @@ func (lfValue) NewOptionString(v *string) (leanfran.Value[leanfran.OptionType[st
 
 func (api lfScopedValue) NewOptionString(v *string) (leanfran.Value[leanfran.OptionType[string]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.OptionType[string]](api.scope, _lfCodec9, v, "OptionString")
+	return leanfran.NewValueIn[leanfran.OptionType[string]](api.scope, _lfCodec7, v, "OptionString")
 }
 
 func (lfValue) ReadOptionString(v leanfran.Value[leanfran.OptionType[string]]) *string {
@@ -690,7 +686,7 @@ func (lfValue) ReadOptionString(v leanfran.Value[leanfran.OptionType[string]]) *
 
 func (api lfScopedValue) ReadOptionString(v leanfran.Value[leanfran.OptionType[string]]) *string {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec9, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec7, v)
 }
 
 func (lfValue) NewResponse(v Response) leanfran.Value[Response] {
@@ -717,7 +713,7 @@ func (lfValue) NewString(v string) (leanfran.Value[string], error) {
 
 func (api lfScopedValue) NewString(v string) (leanfran.Value[string], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[string](api.scope, _lfCodec8, v, "String")
+	return leanfran.NewValueIn[string](api.scope, _lfCodec6, v, "String")
 }
 
 func (lfValue) ReadString(v leanfran.Value[string]) string {
@@ -726,7 +722,7 @@ func (lfValue) ReadString(v leanfran.Value[string]) string {
 
 func (api lfScopedValue) ReadString(v leanfran.Value[string]) string {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec8, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec6, v)
 }
 
 func (lfValue) NewUInt16(v uint16) leanfran.Value[uint16] {

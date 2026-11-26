@@ -5,7 +5,7 @@ import Leangage.Http
 # The notes on the wire
 
 What the notes' server does with a request once its token's tag is checked, and with the engine's
-result. `request` reads the items of the body into the command and the principal the engine runs, or gives the
+result. `request` reads the tokens of the body into the command and the principal the engine runs, or gives the
 answer to a request the engine does not see. `respond` gives the answer to an accepted and to a
 refused command. `fingerprint` is the bytes that identify a command under an idempotency key, and
 `scope` the name that separates the keys of the users of an organization. `encodeReply` is the
@@ -25,7 +25,7 @@ member `{"admin":false,"user":2}`.
 
 namespace Notes.Wire
 
-open Notes.Kernel Leangage Leangage.Json.Items
+open Notes.Kernel Leangage Leangage.Json.Lexemes
 open Leangage.Authz (Guarded)
 
 /-- What the engine runs. -/
@@ -40,75 +40,53 @@ inductive Refusal where
   | missingCmd
 deriving DecidableEq, Repr
 
-/-- Whether the item is a value by itself. -/
-def scalar : Item → Bool
-  | .null | .bool _ | .num _ | .number | .str _ => true
-  | .key _ | .arrOpen | .arrClose | .objOpen | .objClose => false
-
-/-- The members of an object after its `{`, when no value is an array or an object; `acc` holds
-those read, last first. -/
-def members (acc : List (List UInt8 × Item)) : List Item → Option (List (List UInt8 × Item))
-  | [.objClose] => some acc.reverse
-  | .key k :: v :: rest => if scalar v then members ((k, v) :: acc) rest else none
-  | _ => none
-
-/-- The text whose UTF-8 is the bytes. -/
-def textOf (bytes : List UInt8) : Option String :=
-  String.fromUTF8? (ByteArray.mk bytes.toArray)
-
 /-- The command with the given members. -/
-def decodeMembers (ms : List (List UInt8 × Item)) : Except Refusal Command :=
-  match ms.lookup [99, 109, 100] with
+def decodeMembers (ms : List (String × Scalar)) : Except Refusal Command :=
+  match ms.lookup "cmd" with
   | none => .error .missingCmd
   | some (.str name) =>
-    if name = [97, 100, 100, 95, 109, 101, 109, 98, 101, 114] then
+    if name = "add_member" then
       if ms.length = 3 then
-        match ms.lookup [117, 115, 101, 114], ms.lookup [97, 100, 109, 105, 110] with
+        match ms.lookup "user", ms.lookup "admin" with
         | some (.num user), some (.bool admin) => .ok (.addMember user admin)
         | _, _ => .error .notCommand
       else .error .notCommand
-    else if name = [114, 101, 109, 111, 118, 101, 95, 109, 101, 109, 98, 101, 114] then
+    else if name = "remove_member" then
       if ms.length = 2 then
-        match ms.lookup [117, 115, 101, 114] with
+        match ms.lookup "user" with
         | some (.num user) => .ok (.removeMember user)
         | _ => .error .notCommand
       else .error .notCommand
-    else if name = [112, 117, 116, 95, 110, 111, 116, 101] then
+    else if name = "put_note" then
       if ms.length = 4 then
-        match ms.lookup [105, 100], ms.lookup [98, 111, 100, 121], ms.lookup [115, 104, 97, 114, 101,
-          100] with
-        | some (.num id), some (.str body), some (.bool shared) =>
-          match textOf body with
-          | some body => .ok (.putNote id body shared)
-          | none => .error .notCommand
+        match ms.lookup "id", ms.lookup "body", ms.lookup "shared" with
+        | some (.num id), some (.str body), some (.bool shared) => .ok (.putNote id body shared)
         | _, _, _ => .error .notCommand
       else .error .notCommand
-    else if name = [100, 101, 108, 101, 116, 101, 95, 110, 111, 116, 101] then
+    else if name = "delete_note" then
       if ms.length = 2 then
-        match ms.lookup [105, 100] with
+        match ms.lookup "id" with
         | some (.num id) => .ok (.deleteNote id)
         | _ => .error .notCommand
       else .error .notCommand
-    else if name = [114, 101, 97, 100, 95, 110, 111, 116, 101] then
+    else if name = "read_note" then
       if ms.length = 2 then
-        match ms.lookup [105, 100] with
+        match ms.lookup "id" with
         | some (.num id) => .ok (.readNote id)
         | _ => .error .notCommand
       else .error .notCommand
-    else if name = [108, 105, 115, 116, 95, 110, 111, 116, 101, 115] then
+    else if name = "list_notes" then
       if ms.length = 1 then .ok .listNotes else .error .notCommand
-    else if name = [108, 105, 115, 116, 95, 109, 101, 109, 98, 101, 114, 115] then
+    else if name = "list_members" then
       if ms.length = 1 then .ok .listMembers else .error .notCommand
     else .error .notCommand
   | some _ => .error .notCommand
 
-/-- The command that the items of a JSON text spell. -/
-def decodeItems : List Item → Except Refusal Command
-  | .objOpen :: rest =>
-    match members [] rest with
-    | some ms => decodeMembers ms
-    | none => .error .notCommand
-  | _ => .error .notCommand
+/-- The command that the tokens of a JSON text spell. -/
+def decode (lexemes : List Lexeme) : Except Refusal Command :=
+  match object lexemes with
+  | some ms => decodeMembers ms
+  | none => .error .notCommand
 
 /-- What a refused body is answered with. -/
 def refusalMessage : Refusal → String
@@ -120,8 +98,8 @@ expiry `exp`, at the time `now`; or the answer to the request. -/
 def request (tenant user exp now : UInt64) (body : Http.Body) : Except Http.Response Call :=
   match Http.admit exp now body with
   | .error r => .error r
-  | .ok items =>
-    match decodeItems items with
+  | .ok lexemes =>
+    match decode lexemes with
     | .error e => .error (Http.refuse 400 (refusalMessage e))
     | .ok cmd => .ok ⟨⟨tenant, user⟩, cmd⟩
 
@@ -153,54 +131,55 @@ def respond : Except (Guarded Error) Reply → Http.Response
   | .error (.app .notFound) => Http.refuse 404 "not_found"
   | .error (.app .badText) => Http.refuse 422 "bad_text"
 
-/-- The note with the given members, when their keys are `body`, `id`, `owner` and `shared`. -/
-def noteOf (kb body ki : List UInt8) (id : UInt64) (ko : List UInt8) (owner : UInt64)
-    (ks : List UInt8) (shared : Bool) : Option Note :=
-  if kb = [98, 111, 100, 121] ∧ ki = [105, 100] ∧ ko = [111, 119, 110, 101, 114] ∧
-      ks = [115, 104, 97, 114, 101, 100] then
-    match textOf body with
-    | some body => some ⟨id, owner, shared, body⟩
-    | none => none
+/-- The note with the given members, when their names are `body`, `id`, `owner` and `shared` and
+the number tokens are decimals of a `UInt64`. -/
+def noteOf (kb body ki id ko owner ks : String) (shared : Bool) : Option Note :=
+  if kb = "body" ∧ ki = "id" ∧ ko = "owner" ∧ ks = "shared" then
+    match numberOf id, numberOf owner with
+    | some id, some owner => some ⟨id, owner, shared, body⟩
+    | _, _ => none
   else none
 
 /-- The notes of an array after its `[`, up to the end of the reply; `acc` holds those read, last
 first. -/
-def notesItems (acc : List Note) : List Item → Option (List Note)
+def notesOf (acc : List Note) : List Lexeme → Option (List Note)
   | [.arrClose, .objClose] => some acc.reverse
-  | .objOpen :: .key kb :: .str body :: .key ki :: .num id :: .key ko :: .num owner :: .key ks ::
+  | .objOpen :: .key kb :: .str body :: .key ki :: .number id :: .key ko :: .number owner :: .key ks ::
       .bool shared :: .objClose :: rest =>
     match noteOf kb body ki id ko owner ks shared with
-    | some n => notesItems (n :: acc) rest
+    | some n => notesOf (n :: acc) rest
     | none => none
   | _ => none
 
 /-- The members of an array after its `[`, up to the end of the reply; `acc` holds those read,
 last first. -/
-def membersItems (acc : List Member) : List Item → Option (List Member)
+def membersOf (acc : List Member) : List Lexeme → Option (List Member)
   | [.arrClose, .objClose] => some acc.reverse
-  | .objOpen :: .key ka :: .bool admin :: .key ku :: .num user :: .objClose :: rest =>
-    if ka = [97, 100, 109, 105, 110] ∧ ku = [117, 115, 101, 114] then
-      membersItems (⟨user, admin⟩ :: acc) rest
+  | .objOpen :: .key ka :: .bool admin :: .key ku :: .number user :: .objClose :: rest =>
+    if ka = "admin" ∧ ku = "user" then
+      match numberOf user with
+      | some user => membersOf (⟨user, admin⟩ :: acc) rest
+      | none => none
     else none
   | _ => none
 
-/-- The reply whose tokens are the items. -/
-def decodeReplyItems : List Item → Option Reply
-  | [.objOpen, .key k, .bool true, .objClose] => if k = [100, 111, 110, 101] then some .done else none
-  | [.objOpen, .key k, .objOpen, .key kb, .str body, .key ki, .num id, .key ko, .num owner, .key ks,
+/-- The reply whose tokens are the given ones. -/
+def replyOf : List Lexeme → Option Reply
+  | [.objOpen, .key k, .bool true, .objClose] => if k = "done" then some .done else none
+  | [.objOpen, .key k, .objOpen, .key kb, .str body, .key ki, .number id, .key ko, .number owner, .key ks,
       .bool shared, .objClose, .objClose] =>
-    if k = [110, 111, 116, 101] then
+    if k = "note" then
       match noteOf kb body ki id ko owner ks shared with
       | some n => some (.found n)
       | none => none
     else none
   | .objOpen :: .key k :: .arrOpen :: rest =>
-    if k = [110, 111, 116, 101, 115] then
-      match notesItems [] rest with
+    if k = "notes" then
+      match notesOf [] rest with
       | some ns => some (.notes ns)
       | none => none
-    else if k = [109, 101, 109, 98, 101, 114, 115] then
-      match membersItems [] rest with
+    else if k = "members" then
+      match membersOf [] rest with
       | some ms => some (.members ms)
       | none => none
     else none
@@ -211,7 +190,7 @@ from the bytes `encodeReply` wrote; `none` stands for bytes the library refuses.
 def decodeReply (stored : Option (List Lexeme)) : Option Reply :=
   match stored with
   | none => none
-  | some lexemes => decodeReplyItems (items lexemes)
+  | some lexemes => replyOf lexemes
 
 /-- `acc` followed by `true` or `false` and ` }`. -/
 def pushFlag (acc : Array UInt8) (b : Bool) : Array UInt8 :=

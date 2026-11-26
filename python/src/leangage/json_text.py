@@ -5,13 +5,13 @@ as the text of its token, a member that comes twice as two members. It gives `No
 that `json` refuses: bytes that are not UTF-8, a text that is not JSON, `NaN` and `Infinity`, a
 nesting deeper than the interpreter's stack takes (`RecursionError`), and a string with the
 escape of a surrogate outside a pair. What the tokens mean is decided by the functions generated from
-`lean/Leangage/Json/Items.lean` and from the kernel's module.
+`lean/Leangage/Json/Lexemes.lean` and from the kernel's module.
 """
 
 import json
 from typing import Any
 
-from leangage.json_items import (
+from leangage.json_lexemes import (
     Lexeme,
     Lexeme_arrClose,
     Lexeme_arrOpen,

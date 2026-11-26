@@ -18,7 +18,7 @@ import time
 from collections.abc import Callable
 
 from leanfran import Ok
-from leangage import http_format, json_format, json_items, token, token_format
+from leangage import http_format, json_format, token, token_format
 from leangage.http import body_of
 from leangage.json_text import lexemes
 
@@ -209,14 +209,15 @@ def main() -> None:
     text = request.decode()
     tokens = lexemes(request)
     assert tokens is not None
-    body = http_format.Body_json(lexemes=tokens)
+    body = body_of(request)
     stages: list[tuple[str, Callable[[], object]]] = [
         ("json.loads", lambda: json.loads(text)),
         ("lexemes", lambda: lexemes(request)),
-        ("Body_json", lambda: http_format.Body_json(lexemes=tokens)),
-        ("items", lambda: json_items.items.lean(tokens)),
-        ("request", lambda: wire.request(1, 42, 1, 0, body)),
+        ("Body_json", lambda: http_format.Body_json.model_construct(lexemes=tokens)),
+        ("parse and conversion", lambda: body_of(request)),
+        ("generated request", lambda: wire.request(1, 42, 1, 0, body)),
         ("request.lean", lambda: wire.request.lean(1, 42, 1, 0, body)),
+        ("request, token expired", lambda: wire.request(1, 42, 0, 1, body)),
     ]
     for name, stage in stages:
         rounds = [per_op(2_000, stage) for _ in range(ROUNDS)]

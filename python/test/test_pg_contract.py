@@ -25,7 +25,7 @@ from leangage import (
     RetriesExhausted,
     http_format,
     issue,
-    json_items,
+    json_lexemes,
     serve,
 )
 from leangage.pg import Attempt, Config, PgEngine, Point, lockdown
@@ -361,7 +361,7 @@ def cells_api() -> Api:
         cell, delta = (
             int(token.text)
             for token in body.lexemes
-            if isinstance(token, json_items.Lexeme_number)
+            if isinstance(token, json_lexemes.Lexeme_number)
         )
         return Ok(value=Call(Actor(tenant, user), Add(cell, delta)))
 

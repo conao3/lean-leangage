@@ -17,7 +17,7 @@ import (
 	"github.com/conao3/lean-leangage/go/calculator/wire"
 	"github.com/conao3/lean-leangage/go/leangage"
 	"github.com/conao3/lean-leangage/go/leangage/httpformat"
-	"github.com/conao3/lean-leangage/go/leangage/jsonitems"
+	"github.com/conao3/lean-leangage/go/leangage/jsonlexemes"
 )
 
 const requestCases = "../../testdata/request-cases.txt"
@@ -42,48 +42,50 @@ func requestNumber(t *testing.T, word string) uint64 {
 	return n
 }
 
-func showItem(item jsonitems.Item) string {
-	switch item := item.(type) {
-	case jsonitems.ItemNull:
+func showLexeme(t *testing.T, lexeme jsonlexemes.Lexeme) string {
+	t.Helper()
+	switch lexeme := lexeme.(type) {
+	case jsonlexemes.LexemeNull:
 		return "n"
-	case jsonitems.ItemBool:
-		if item.B {
+	case jsonlexemes.LexemeBool:
+		if lexeme.B {
 			return "t"
 		}
 		return "f"
-	case jsonitems.ItemNum:
-		return "u" + strconv.FormatUint(item.N, 10)
-	case jsonitems.ItemNumber:
-		return "#"
-	case jsonitems.ItemStr:
-		return "s" + showRequestBytes(item.S)
-	case jsonitems.ItemKey:
-		return "k" + showRequestBytes(item.S)
-	case jsonitems.ItemArrOpen:
+	case jsonlexemes.LexemeNumber:
+		n, err := jsonlexemes.NumberOf(lexeme.Text)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if n == nil {
+			return "#"
+		}
+		return "u" + strconv.FormatUint(*n, 10)
+	case jsonlexemes.LexemeStr:
+		return "s" + showRequestBytes([]byte(lexeme.S))
+	case jsonlexemes.LexemeKey:
+		return "k" + showRequestBytes([]byte(lexeme.S))
+	case jsonlexemes.LexemeArrOpen:
 		return "["
-	case jsonitems.ItemArrClose:
+	case jsonlexemes.LexemeArrClose:
 		return "]"
-	case jsonitems.ItemObjOpen:
+	case jsonlexemes.LexemeObjOpen:
 		return "{"
-	case jsonitems.ItemObjClose:
+	case jsonlexemes.LexemeObjClose:
 		return "}"
 	}
-	panic(fmt.Sprintf("bad item %#v", item))
+	panic(fmt.Sprintf("bad token %#v", lexeme))
 }
 
-func showItems(t *testing.T, input []byte) string {
+func showTokens(t *testing.T, input []byte) string {
 	t.Helper()
 	lexemes, ok := leangage.Lexemes(input)
 	if !ok {
 		return "none"
 	}
-	items, err := jsonitems.Items(lexemes)
-	if err != nil {
-		t.Fatal(err)
-	}
-	words := []string{"items"}
-	for _, item := range items {
-		words = append(words, showItem(item))
+	words := []string{"tokens"}
+	for _, lexeme := range lexemes {
+		words = append(words, showLexeme(t, lexeme))
 	}
 	return strings.Join(words, " ")
 }
@@ -147,8 +149,8 @@ func runRequestLine(t *testing.T, line string) string {
 	t.Helper()
 	words := strings.Split(line, " ")
 	switch {
-	case len(words) == 2 && words[0] == "items":
-		return showItems(t, requestBytes(t, words[1]))
+	case len(words) == 2 && words[0] == "tokens":
+		return showTokens(t, requestBytes(t, words[1]))
 	case len(words) == 2 && words[0] == "auth" && words[1] == "-":
 		return showAuth(httpformat.Authenticate(nil))
 	case len(words) == 2 && words[0] == "auth":

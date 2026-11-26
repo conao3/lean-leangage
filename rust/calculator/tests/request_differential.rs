@@ -9,7 +9,7 @@ use std::process::{Command, Stdio};
 
 use leangage::http::body_of;
 use leangage::http_format::{self, Body, Failure, Response};
-use leangage::json_items::{self, Item};
+use leangage::json_lexemes::{self, Lexeme};
 use leangage::json_text;
 use leangage_calculator::{kernel, wire};
 
@@ -36,19 +36,21 @@ fn number(word: &str) -> u64 {
     word.parse().expect("a u64")
 }
 
-fn show_item(item: &Item) -> String {
-    match item {
-        Item::Null => "n".to_owned(),
-        Item::Bool { b: true } => "t".to_owned(),
-        Item::Bool { b: false } => "f".to_owned(),
-        Item::Num { n } => format!("u{n}"),
-        Item::Number => "#".to_owned(),
-        Item::Str { s } => format!("s{}", show(s)),
-        Item::Key { s } => format!("k{}", show(s)),
-        Item::ArrOpen => "[".to_owned(),
-        Item::ArrClose => "]".to_owned(),
-        Item::ObjOpen => "{".to_owned(),
-        Item::ObjClose => "}".to_owned(),
+fn show_lexeme(lexeme: &Lexeme) -> String {
+    match lexeme {
+        Lexeme::Null => "n".to_owned(),
+        Lexeme::Bool { b: true } => "t".to_owned(),
+        Lexeme::Bool { b: false } => "f".to_owned(),
+        Lexeme::Number { text } => match json_lexemes::number_of(text) {
+            Some(n) => format!("u{n}"),
+            None => "#".to_owned(),
+        },
+        Lexeme::Str { s } => format!("s{}", show(s.as_bytes())),
+        Lexeme::Key { s } => format!("k{}", show(s.as_bytes())),
+        Lexeme::ArrOpen => "[".to_owned(),
+        Lexeme::ArrClose => "]".to_owned(),
+        Lexeme::ObjOpen => "{".to_owned(),
+        Lexeme::ObjClose => "}".to_owned(),
     }
 }
 
@@ -138,13 +140,13 @@ struct Counts {
 fn run(line: &str, counts: &mut Counts) -> String {
     let words: Vec<&str> = line.split(' ').collect();
     match words.as_slice() {
-        ["items", b] => {
+        ["tokens", b] => {
             counts.texts += 1;
             match json_text::lexemes(&bytes(b)) {
                 Some(lexemes) => {
                     counts.read += 1;
-                    let mut out = vec!["items".to_owned()];
-                    out.extend(json_items::items(lexemes).iter().map(show_item));
+                    let mut out = vec!["tokens".to_owned()];
+                    out.extend(lexemes.iter().map(show_lexeme));
                     out.join(" ")
                 }
                 None => "none".to_owned(),

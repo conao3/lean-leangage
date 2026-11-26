@@ -20,8 +20,6 @@ from leanfran.runtime import (  # noqa: F401
     lean_array_get_size,
     lean_array_mk,
     lean_array_push,
-    lean_array_to_list,
-    lean_byte_array_data,
     lean_mk_empty_array_with_capacity,
     lean_nat_add,
     lean_nat_dec_eq,
@@ -34,10 +32,10 @@ from leanfran.runtime import (  # noqa: F401
     lean_nat_shiftr,
     lean_nat_sub,
     lean_string_append,
+    lean_string_dec_eq,
     lean_string_get_byte_fast,
     lean_string_mk,
     lean_string_of_usize,
-    lean_string_to_utf8,
     lean_string_utf8_byte_size,
     lean_system_platform_nbits,
     lean_uint64_dec_lt,
@@ -501,7 +499,7 @@ def l_Calculator_Wire_request(x_1, x_2, x_3, x_4, x_5):
                 x_15 = x_6.objs[0]
                 lean_inc(x_15)
                 lean_dec(x_6)
-                x_16 = l_Calculator_Wire_decodeItems(x_15)
+                x_16 = l_Calculator_Wire_decode(x_15)
                 __t = lean_obj_tag(x_16)
                 if __t == 0:
                     x_17 = x_16.objs[0]
@@ -608,509 +606,53 @@ def l_Leangage_Http_admit(x_1, x_2, x_3):
                 __t = lean_obj_tag(x_3)
                 if __t == 0:
                     x_5 = x_3.objs[0]
-                    x_13 = lean_is_shared(x_3)
-                    __t = x_13
+                    x_12 = lean_is_shared(x_3)
+                    __t = x_12
                     if __t == 0:
-                        x_7, x_8 = x_3, x_13
+                        x_7, x_8 = x_3, x_12
                         __blk = 1
                         continue
                     elif __t == 1:
                         lean_inc(x_5)
                         lean_dec(x_3)
-                        x_7, x_8 = 0, x_13
+                        x_7, x_8 = 0, x_12
                         __blk = 1
                         continue
                     else:
                         lean_internal_panic_unreachable()
                 elif __t == 1:
-                    x_14 = l_Leangage_Http_admit___closed__2()
-                    return x_14
+                    x_13 = l_Leangage_Http_admit___closed__2()
+                    return x_13
                 elif __t == 2:
-                    x_15 = l_Leangage_Http_admit___closed__5()
-                    return x_15
+                    x_14 = l_Leangage_Http_admit___closed__5()
+                    return x_14
                 elif __t == 3:
-                    x_16 = l_Leangage_Http_admit___closed__8()
-                    return x_16
+                    x_15 = l_Leangage_Http_admit___closed__8()
+                    return x_15
                 else:
                     lean_internal_panic_unreachable()
             elif __t == 1:
                 lean_dec(x_3)
-                x_17 = l_Leangage_Http_admit___closed__11()
-                return x_17
+                x_16 = l_Leangage_Http_admit___closed__11()
+                return x_16
             else:
                 lean_internal_panic_unreachable()
         elif __blk == 1:
-            x_9 = l_Leangage_Json_Items_items(x_5)
             __t = x_8
             if __t == 0:
                 x_7.tag = 1
-                x_7.objs[0] = x_9
-                x_11 = x_7
+                x_10 = x_7
                 __blk = 2
                 continue
             elif __t == 1:
-                x_12 = Ctor(1, [x_9])
-                x_11 = x_12
-                __blk = 2
-                continue
-            else:
-                lean_internal_panic_unreachable()
-        elif __blk == 2:
-            return x_11
-        else:
-            lean_internal_panic_unreachable()
-
-def l_Leangage_Json_Items_items(x_1):
-    x_2 = 0
-    x_3 = l_List_mapTR_loop___at___00Leangage_Json_Items_items_spec__0(x_1, x_2)
-    return x_3
-
-def l_List_mapTR_loop___at___00Leangage_Json_Items_items_spec__0(x_1, x_2):
-    __blk = 0
-    while True:
-        if __blk == 0:
-            __t = lean_obj_tag(x_1)
-            if __t == 0:
-                x_3 = l_List_reverse___redArg(x_2)
-                return x_3
-            elif __t == 1:
-                x_4 = x_1.objs[0]
-                x_5 = x_1.objs[1]
-                x_14 = lean_is_shared(x_1)
-                __t = x_14
-                if __t == 0:
-                    x_7, x_8 = x_1, x_14
-                    __blk = 1
-                    continue
-                elif __t == 1:
-                    lean_inc(x_5)
-                    lean_inc(x_4)
-                    lean_dec(x_1)
-                    x_7, x_8 = 0, x_14
-                    __blk = 1
-                    continue
-                else:
-                    lean_internal_panic_unreachable()
-            else:
-                lean_internal_panic_unreachable()
-        elif __blk == 1:
-            x_9 = l_Leangage_Json_Items_item(x_4)
-            __t = x_8
-            if __t == 0:
-                x_7.objs[1] = x_2
-                x_7.objs[0] = x_9
-                x_11 = x_7
-                __blk = 2
-                continue
-            elif __t == 1:
-                x_13 = Ctor(1, [x_9, x_2])
-                x_11 = x_13
+                x_11 = Ctor(1, [x_5])
+                x_10 = x_11
                 __blk = 2
                 continue
             else:
                 lean_internal_panic_unreachable()
         elif __blk == 2:
-            x_1, x_2 = x_5, x_11
-            __blk = 0
-            continue
-        else:
-            lean_internal_panic_unreachable()
-
-def l_List_reverse___redArg(x_1):
-    x_2 = 0
-    x_3 = l_List_reverseAux___redArg(x_1, x_2)
-    return x_3
-
-def l_List_reverseAux___redArg(x_1, x_2):
-    __blk = 0
-    while True:
-        if __blk == 0:
-            __t = lean_obj_tag(x_1)
-            if __t == 0:
-                return x_2
-            elif __t == 1:
-                x_3 = x_1.objs[0]
-                x_4 = x_1.objs[1]
-                x_12 = lean_is_shared(x_1)
-                __t = x_12
-                if __t == 0:
-                    x_6, x_7 = x_1, x_12
-                    __blk = 1
-                    continue
-                elif __t == 1:
-                    lean_inc(x_4)
-                    lean_inc(x_3)
-                    lean_dec(x_1)
-                    x_6, x_7 = 0, x_12
-                    __blk = 1
-                    continue
-                else:
-                    lean_internal_panic_unreachable()
-            else:
-                lean_internal_panic_unreachable()
-        elif __blk == 1:
-            __t = x_7
-            if __t == 0:
-                x_6.objs[1] = x_2
-                x_9 = x_6
-                __blk = 2
-                continue
-            elif __t == 1:
-                x_11 = Ctor(1, [x_3, x_2])
-                x_9 = x_11
-                __blk = 2
-                continue
-            else:
-                lean_internal_panic_unreachable()
-        elif __blk == 2:
-            x_1, x_2 = x_4, x_9
-            __blk = 0
-            continue
-        else:
-            lean_internal_panic_unreachable()
-
-def l_Leangage_Json_Items_item(x_1):
-    __blk = 0
-    while True:
-        if __blk == 0:
-            __t = lean_obj_tag(x_1)
-            if __t == 0:
-                x_2 = 0
-                return x_2
-            elif __t == 1:
-                x_3 = x_1.sc[0]
-                x_10 = lean_is_shared(x_1)
-                __t = x_10
-                if __t == 0:
-                    x_5, x_6 = x_1, x_10
-                    __blk = 1
-                    continue
-                elif __t == 1:
-                    lean_dec(x_1)
-                    x_5, x_6 = 0, x_10
-                    __blk = 1
-                    continue
-                else:
-                    lean_internal_panic_unreachable()
-            elif __t == 2:
-                x_11 = x_1.objs[0]
-                lean_inc(x_11)
-                lean_dec(x_1)
-                x_12 = l_Leangage_Json_Items_numberItem(x_11)
-                lean_dec(x_11)
-                return x_12
-            elif __t == 3:
-                x_13 = x_1.objs[0]
-                x_23 = lean_is_shared(x_1)
-                __t = x_23
-                if __t == 0:
-                    x_15, x_16 = x_1, x_23
-                    __blk = 3
-                    continue
-                elif __t == 1:
-                    lean_inc(x_13)
-                    lean_dec(x_1)
-                    x_15, x_16 = 0, x_23
-                    __blk = 3
-                    continue
-                else:
-                    lean_internal_panic_unreachable()
-            elif __t == 4:
-                x_24 = x_1.objs[0]
-                x_34 = lean_is_shared(x_1)
-                __t = x_34
-                if __t == 0:
-                    x_26, x_27 = x_1, x_34
-                    __blk = 5
-                    continue
-                elif __t == 1:
-                    lean_inc(x_24)
-                    lean_dec(x_1)
-                    x_26, x_27 = 0, x_34
-                    __blk = 5
-                    continue
-                else:
-                    lean_internal_panic_unreachable()
-            elif __t == 5:
-                x_35 = 6
-                return x_35
-            elif __t == 6:
-                x_36 = 7
-                return x_36
-            elif __t == 7:
-                x_37 = 8
-                return x_37
-            elif __t == 8:
-                x_38 = 9
-                return x_38
-            else:
-                lean_internal_panic_unreachable()
-        elif __blk == 1:
-            __t = x_6
-            if __t == 0:
-                x_8 = x_5
-                __blk = 2
-                continue
-            elif __t == 1:
-                x_9 = Ctor(1, [])
-                x_9.sc[0] = x_3
-                x_8 = x_9
-                __blk = 2
-                continue
-            else:
-                lean_internal_panic_unreachable()
-        elif __blk == 2:
-            return x_8
-        elif __blk == 3:
-            x_17 = lean_string_to_utf8(x_13)
-            x_18 = lean_byte_array_data(x_17)
-            x_19 = lean_array_to_list(x_18)
-            __t = x_16
-            if __t == 0:
-                x_15.tag = 4
-                x_15.objs[0] = x_19
-                x_21 = x_15
-                __blk = 4
-                continue
-            elif __t == 1:
-                x_22 = Ctor(4, [x_19])
-                x_21 = x_22
-                __blk = 4
-                continue
-            else:
-                lean_internal_panic_unreachable()
-        elif __blk == 4:
-            return x_21
-        elif __blk == 5:
-            x_28 = lean_string_to_utf8(x_24)
-            x_29 = lean_byte_array_data(x_28)
-            x_30 = lean_array_to_list(x_29)
-            __t = x_27
-            if __t == 0:
-                x_26.tag = 5
-                x_26.objs[0] = x_30
-                x_32 = x_26
-                __blk = 6
-                continue
-            elif __t == 1:
-                x_33 = Ctor(5, [x_30])
-                x_32 = x_33
-                __blk = 6
-                continue
-            else:
-                lean_internal_panic_unreachable()
-        elif __blk == 6:
-            return x_32
-        else:
-            lean_internal_panic_unreachable()
-
-def l_Leangage_Json_Items_numberItem(x_1):
-    x_2 = 0
-    x_3 = lean_string_utf8_byte_size(x_1)
-    x_4 = l_Leangage_Token_numberAt(x_1, x_2, x_3)
-    __t = lean_obj_tag(x_4)
-    if __t == 0:
-        x_5 = 3
-        return x_5
-    elif __t == 1:
-        x_6 = x_4.objs[0]
-        lean_inc(x_6)
-        lean_dec(x_4)
-        x_7 = Ctor(2, [])
-        x_8 = x_6
-        lean_dec(x_6)
-        x_7.sc[0] = x_8
-        return x_7
-    else:
-        lean_internal_panic_unreachable()
-
-def l_Leangage_Token_numberAt(x_1, x_2, x_3):
-    x_4 = lean_nat_sub(x_3, x_2)
-    x_5 = 20
-    x_6 = lean_nat_dec_le(x_4, x_5)
-    lean_dec(x_4)
-    __t = x_6
-    if __t == 0:
-        lean_dec(x_3)
-        lean_dec(x_2)
-        x_7 = 0
-        return x_7
-    elif __t == 1:
-        x_8 = 0
-        lean_inc(x_2)
-        x_9 = l_Leangage_Token_digitsFrom(x_1, x_2, x_3, x_8)
-        x_10 = lean_uint64_of_nat(x_9)
-        lean_dec(x_9)
-        x_11 = lean_uint64_to_nat(x_10)
-        x_12 = l_Leangage_Token_isDecimal(x_11, x_1, x_2, x_3)
-        __t = x_12
-        if __t == 0:
-            x_13 = 0
-            return x_13
-        elif __t == 1:
-            x_14 = x_10
-            x_15 = Ctor(1, [x_14])
-            return x_15
-        else:
-            lean_internal_panic_unreachable()
-    else:
-        lean_internal_panic_unreachable()
-
-def l_Leangage_Token_digitsFrom(x_1, x_2, x_3, x_4):
-    __blk = 0
-    while True:
-        if __blk == 0:
-            x_5 = lean_nat_dec_lt(x_2, x_3)
-            __t = x_5
-            if __t == 0:
-                lean_dec(x_2)
-                return x_4
-            elif __t == 1:
-                x_6 = lean_string_utf8_byte_size(x_1)
-                x_7 = lean_nat_dec_lt(x_2, x_6)
-                __t = x_7
-                if __t == 0:
-                    lean_dec(x_2)
-                    return x_4
-                elif __t == 1:
-                    x_8 = 1
-                    x_9 = lean_nat_add(x_2, x_8)
-                    x_10 = 10
-                    x_11 = lean_nat_mul(x_4, x_10)
-                    lean_dec(x_4)
-                    __t = x_7
-                    if __t == 0:
-                        lean_dec(x_2)
-                        x_19 = 0
-                        x_13 = x_19
-                        __blk = 1
-                        continue
-                    elif __t == 1:
-                        x_20 = lean_string_get_byte_fast(x_1, x_2)
-                        x_13 = x_20
-                        __blk = 1
-                        continue
-                    else:
-                        lean_internal_panic_unreachable()
-                else:
-                    lean_internal_panic_unreachable()
-            else:
-                lean_internal_panic_unreachable()
-        elif __blk == 1:
-            x_14 = lean_uint8_to_nat(x_13)
-            x_15 = 48
-            x_16 = lean_nat_sub(x_14, x_15)
-            x_17 = lean_nat_add(x_11, x_16)
-            lean_dec(x_16)
-            lean_dec(x_11)
-            x_1, x_2, x_3, x_4 = x_1, x_9, x_3, x_17
-            __blk = 0
-            continue
-        else:
-            lean_internal_panic_unreachable()
-
-def l_Leangage_Token_isDecimal(x_1, x_2, x_3, x_4):
-    __blk = 0
-    while True:
-        if __blk == 0:
-            x_11 = lean_nat_dec_le(x_4, x_3)
-            __t = x_11
-            if __t == 0:
-                x_12 = 10
-                x_13 = lean_nat_dec_lt(x_1, x_12)
-                __t = x_13
-                if __t == 0:
-                    x_25 = 1
-                    x_26 = lean_nat_sub(x_4, x_25)
-                    x_27 = lean_string_utf8_byte_size(x_2)
-                    x_28 = lean_nat_dec_lt(x_26, x_27)
-                    __t = x_28
-                    if __t == 0:
-                        lean_dec(x_26)
-                        x_29 = 0
-                        x_15 = x_29
-                        __blk = 2
-                        continue
-                    elif __t == 1:
-                        x_30 = lean_string_get_byte_fast(x_2, x_26)
-                        x_15 = x_30
-                        __blk = 2
-                        continue
-                    else:
-                        lean_internal_panic_unreachable()
-                elif __t == 1:
-                    x_31 = 1
-                    x_32 = lean_nat_add(x_3, x_31)
-                    x_33 = lean_nat_dec_eq(x_4, x_32)
-                    lean_dec(x_32)
-                    lean_dec(x_4)
-                    __t = x_33
-                    if __t == 0:
-                        lean_dec(x_3)
-                        lean_dec(x_1)
-                        return x_11
-                    elif __t == 1:
-                        x_34 = lean_string_utf8_byte_size(x_2)
-                        x_35 = lean_nat_dec_lt(x_3, x_34)
-                        __t = x_35
-                        if __t == 0:
-                            lean_dec(x_3)
-                            x_36 = 0
-                            x_6 = x_36
-                            __blk = 1
-                            continue
-                        elif __t == 1:
-                            x_37 = lean_string_get_byte_fast(x_2, x_3)
-                            x_6 = x_37
-                            __blk = 1
-                            continue
-                        else:
-                            lean_internal_panic_unreachable()
-                    else:
-                        lean_internal_panic_unreachable()
-                else:
-                    lean_internal_panic_unreachable()
-            elif __t == 1:
-                lean_dec(x_4)
-                lean_dec(x_3)
-                lean_dec(x_1)
-                x_38 = 0
-                return x_38
-            else:
-                lean_internal_panic_unreachable()
-        elif __blk == 1:
-            x_7 = 48
-            x_8 = lean_nat_add(x_1, x_7)
-            lean_dec(x_1)
-            x_9 = lean_uint8_of_nat(x_8)
-            lean_dec(x_8)
-            x_10 = lean_uint8_dec_eq(x_6, x_9)
             return x_10
-        elif __blk == 2:
-            x_16 = lean_nat_mod(x_1, x_12)
-            x_17 = 48
-            x_18 = lean_nat_add(x_16, x_17)
-            lean_dec(x_16)
-            x_19 = lean_uint8_of_nat(x_18)
-            lean_dec(x_18)
-            x_20 = lean_uint8_dec_eq(x_15, x_19)
-            __t = x_20
-            if __t == 0:
-                lean_dec(x_4)
-                lean_dec(x_3)
-                lean_dec(x_1)
-                return x_13
-            elif __t == 1:
-                x_21 = lean_nat_div(x_1, x_12)
-                lean_dec(x_1)
-                x_22 = 1
-                x_23 = lean_nat_sub(x_4, x_22)
-                lean_dec(x_4)
-                x_1, x_2, x_3, x_4 = x_21, x_2, x_3, x_23
-                __blk = 0
-                continue
-            else:
-                lean_internal_panic_unreachable()
         else:
             lean_internal_panic_unreachable()
 
@@ -1693,60 +1235,825 @@ def l_Leangage_Http_admit___closed__9():
         c.append(lean_mark_persistent(l_Leangage_Http_admit___closed__9__init()))
     return c[0]
 
-def l_Calculator_Wire_decodeItems(x_1):
+def l_Calculator_Wire_decode(x_1):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_2 = l_Calculator_Wire_spelled(x_1)
+            __t = lean_obj_tag(x_2)
+            if __t == 0:
+                x_3 = l_Calculator_Wire_decodeObject(x_1)
+                return x_3
+            elif __t == 1:
+                lean_dec(x_1)
+                x_4 = x_2.objs[0]
+                x_11 = lean_is_shared(x_2)
+                __t = x_11
+                if __t == 0:
+                    x_6, x_7 = x_2, x_11
+                    __blk = 1
+                    continue
+                elif __t == 1:
+                    lean_inc(x_4)
+                    lean_dec(x_2)
+                    x_6, x_7 = 0, x_11
+                    __blk = 1
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            __t = x_7
+            if __t == 0:
+                x_9 = x_6
+                __blk = 2
+                continue
+            elif __t == 1:
+                x_10 = Ctor(1, [x_4])
+                x_9 = x_10
+                __blk = 2
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 2:
+            return x_9
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Calculator_Wire_spelled(x_1):
     __blk = 0
     while True:
         if __blk == 0:
             __t = lean_obj_tag(x_1)
             if __t == 1:
-                x_4 = x_1.objs[0]
-                __t = lean_obj_tag(x_4)
-                if __t == 8:
-                    x_5 = x_1.objs[1]
-                    lean_inc(x_5)
-                    lean_dec(x_1)
-                    x_6 = 0
-                    x_7 = l_Calculator_Wire_members(x_6, x_5)
-                    __t = lean_obj_tag(x_7)
-                    if __t == 0:
-                        x_8 = l_Calculator_Wire_decodeMembers___closed__0()
-                        return x_8
-                    elif __t == 1:
-                        x_9 = x_7.objs[0]
-                        lean_inc(x_9)
-                        lean_dec(x_7)
-                        x_10 = l_Calculator_Wire_decodeMembers(x_9)
-                        lean_dec(x_9)
-                        return x_10
+                x_2 = x_1.objs[0]
+                __t = lean_obj_tag(x_2)
+                if __t == 7:
+                    x_3 = x_1.objs[1]
+                    __t = lean_obj_tag(x_3)
+                    if __t == 1:
+                        x_4 = x_3.objs[0]
+                        __t = lean_obj_tag(x_4)
+                        if __t == 4:
+                            x_5 = x_3.objs[1]
+                            __t = lean_obj_tag(x_5)
+                            if __t == 1:
+                                x_6 = x_5.objs[0]
+                                __t = lean_obj_tag(x_6)
+                                if __t == 3:
+                                    x_7 = x_5.objs[1]
+                                    __t = lean_obj_tag(x_7)
+                                    if __t == 1:
+                                        x_8 = x_7.objs[0]
+                                        __t = lean_obj_tag(x_8)
+                                        if __t == 8:
+                                            x_9 = x_7.objs[1]
+                                            __t = lean_obj_tag(x_9)
+                                            if __t == 0:
+                                                x_10 = x_4.objs[0]
+                                                x_11 = x_6.objs[0]
+                                                x_12 = l_Calculator_Wire_decodeMembers___closed__1()
+                                                x_13 = lean_string_dec_eq(x_10, x_12)
+                                                __t = x_13
+                                                if __t == 0:
+                                                    x_14 = 0
+                                                    return x_14
+                                                elif __t == 1:
+                                                    x_15 = l_Calculator_Wire_decodeMembers___closed__5()
+                                                    x_16 = lean_string_dec_eq(x_11, x_15)
+                                                    __t = x_16
+                                                    if __t == 0:
+                                                        x_17 = 0
+                                                        return x_17
+                                                    elif __t == 1:
+                                                        x_18 = l_Calculator_Wire_spelled___closed__0()
+                                                        return x_18
+                                                    else:
+                                                        lean_internal_panic_unreachable()
+                                                else:
+                                                    lean_internal_panic_unreachable()
+                                            else:
+                                                x_19 = 0
+                                                return x_19
+                                        elif __t == 4:
+                                            x_20 = x_7.objs[1]
+                                            __t = lean_obj_tag(x_20)
+                                            if __t == 1:
+                                                x_21 = x_20.objs[0]
+                                                __t = lean_obj_tag(x_21)
+                                                if __t == 2:
+                                                    x_22 = x_20.objs[1]
+                                                    __t = lean_obj_tag(x_22)
+                                                    if __t == 1:
+                                                        x_23 = x_22.objs[0]
+                                                        __t = lean_obj_tag(x_23)
+                                                        if __t == 8:
+                                                            x_24 = x_22.objs[1]
+                                                            __t = lean_obj_tag(x_24)
+                                                            if __t == 0:
+                                                                x_25 = x_4.objs[0]
+                                                                x_26 = x_6.objs[0]
+                                                                x_27 = x_8.objs[0]
+                                                                x_28 = x_21.objs[0]
+                                                                x_29 = l_Calculator_Wire_decodeMembers___closed__1()
+                                                                x_30 = lean_string_dec_eq(x_25, x_29)
+                                                                __t = x_30
+                                                                if __t == 0:
+                                                                    x_31 = 0
+                                                                    return x_31
+                                                                elif __t == 1:
+                                                                    x_32 = l_Calculator_Wire_decodeMembers___closed__3()
+                                                                    x_33 = lean_string_dec_eq(x_26, x_32)
+                                                                    __t = x_33
+                                                                    if __t == 0:
+                                                                        x_34 = 0
+                                                                        return x_34
+                                                                    elif __t == 1:
+                                                                        x_35 = l_Calculator_Wire_decodeMembers___closed__10()
+                                                                        x_36 = lean_string_dec_eq(x_27, x_35)
+                                                                        __t = x_36
+                                                                        if __t == 0:
+                                                                            x_37 = 0
+                                                                            return x_37
+                                                                        elif __t == 1:
+                                                                            x_38 = l_Leangage_Json_Lexemes_numberOf(x_28)
+                                                                            __t = lean_obj_tag(x_38)
+                                                                            if __t == 0:
+                                                                                x_39 = 0
+                                                                                return x_39
+                                                                            elif __t == 1:
+                                                                                x_40 = x_38.objs[0]
+                                                                                x_49 = lean_is_shared(x_38)
+                                                                                __t = x_49
+                                                                                if __t == 0:
+                                                                                    x_42, x_43 = x_38, x_49
+                                                                                    __blk = 1
+                                                                                    continue
+                                                                                elif __t == 1:
+                                                                                    lean_inc(x_40)
+                                                                                    lean_dec(x_38)
+                                                                                    x_42, x_43 = 0, x_49
+                                                                                    __blk = 1
+                                                                                    continue
+                                                                                else:
+                                                                                    lean_internal_panic_unreachable()
+                                                                            else:
+                                                                                lean_internal_panic_unreachable()
+                                                                        else:
+                                                                            lean_internal_panic_unreachable()
+                                                                    else:
+                                                                        lean_internal_panic_unreachable()
+                                                                else:
+                                                                    lean_internal_panic_unreachable()
+                                                            else:
+                                                                x_50 = 0
+                                                                return x_50
+                                                        else:
+                                                            x_51 = 0
+                                                            return x_51
+                                                    else:
+                                                        x_52 = 0
+                                                        return x_52
+                                                elif __t == 3:
+                                                    x_53 = x_20.objs[1]
+                                                    __t = lean_obj_tag(x_53)
+                                                    if __t == 1:
+                                                        x_54 = x_53.objs[0]
+                                                        __t = lean_obj_tag(x_54)
+                                                        if __t == 4:
+                                                            x_55 = x_53.objs[1]
+                                                            __t = lean_obj_tag(x_55)
+                                                            if __t == 1:
+                                                                x_56 = x_55.objs[0]
+                                                                __t = lean_obj_tag(x_56)
+                                                                if __t == 2:
+                                                                    x_57 = x_55.objs[1]
+                                                                    __t = lean_obj_tag(x_57)
+                                                                    if __t == 1:
+                                                                        x_58 = x_57.objs[0]
+                                                                        __t = lean_obj_tag(x_58)
+                                                                        if __t == 8:
+                                                                            x_59 = x_57.objs[1]
+                                                                            __t = lean_obj_tag(x_59)
+                                                                            if __t == 0:
+                                                                                x_60 = x_4.objs[0]
+                                                                                x_61 = x_6.objs[0]
+                                                                                x_62 = x_8.objs[0]
+                                                                                x_63 = x_21.objs[0]
+                                                                                x_64 = x_54.objs[0]
+                                                                                x_65 = x_56.objs[0]
+                                                                                x_66 = l_Calculator_Wire_decodeMembers___closed__1()
+                                                                                x_67 = lean_string_dec_eq(x_60, x_66)
+                                                                                __t = x_67
+                                                                                if __t == 0:
+                                                                                    x_68 = 0
+                                                                                    return x_68
+                                                                                elif __t == 1:
+                                                                                    x_69 = l_Calculator_Wire_decodeMembers___closed__4()
+                                                                                    x_70 = lean_string_dec_eq(x_61, x_69)
+                                                                                    __t = x_70
+                                                                                    if __t == 0:
+                                                                                        x_71 = 0
+                                                                                        return x_71
+                                                                                    elif __t == 1:
+                                                                                        x_72 = l_Calculator_Wire_decodeMembers___closed__7()
+                                                                                        x_73 = lean_string_dec_eq(x_62, x_72)
+                                                                                        __t = x_73
+                                                                                        if __t == 0:
+                                                                                            x_74 = 0
+                                                                                            return x_74
+                                                                                        elif __t == 1:
+                                                                                            x_75 = l_Calculator_Wire_decodeMembers___closed__8()
+                                                                                            x_76 = lean_string_dec_eq(x_64, x_75)
+                                                                                            __t = x_76
+                                                                                            if __t == 0:
+                                                                                                x_77 = 0
+                                                                                                return x_77
+                                                                                            elif __t == 1:
+                                                                                                x_78 = l_Calculator_Wire_opNamed(x_63)
+                                                                                                __t = lean_obj_tag(x_78)
+                                                                                                if __t == 0:
+                                                                                                    x_79 = 0
+                                                                                                    return x_79
+                                                                                                elif __t == 1:
+                                                                                                    x_80 = x_78.objs[0]
+                                                                                                    lean_inc(x_80)
+                                                                                                    lean_dec(x_78)
+                                                                                                    x_81 = l_Leangage_Json_Lexemes_numberOf(x_65)
+                                                                                                    __t = lean_obj_tag(x_81)
+                                                                                                    if __t == 0:
+                                                                                                        lean_dec(x_80)
+                                                                                                        x_82 = 0
+                                                                                                        return x_82
+                                                                                                    elif __t == 1:
+                                                                                                        x_83 = x_81.objs[0]
+                                                                                                        x_93 = lean_is_shared(x_81)
+                                                                                                        __t = x_93
+                                                                                                        if __t == 0:
+                                                                                                            x_85, x_86 = x_81, x_93
+                                                                                                            __blk = 3
+                                                                                                            continue
+                                                                                                        elif __t == 1:
+                                                                                                            lean_inc(x_83)
+                                                                                                            lean_dec(x_81)
+                                                                                                            x_85, x_86 = 0, x_93
+                                                                                                            __blk = 3
+                                                                                                            continue
+                                                                                                        else:
+                                                                                                            lean_internal_panic_unreachable()
+                                                                                                    else:
+                                                                                                        lean_internal_panic_unreachable()
+                                                                                                else:
+                                                                                                    lean_internal_panic_unreachable()
+                                                                                            else:
+                                                                                                lean_internal_panic_unreachable()
+                                                                                        else:
+                                                                                            lean_internal_panic_unreachable()
+                                                                                    else:
+                                                                                        lean_internal_panic_unreachable()
+                                                                                else:
+                                                                                    lean_internal_panic_unreachable()
+                                                                            else:
+                                                                                x_94 = 0
+                                                                                return x_94
+                                                                        else:
+                                                                            x_95 = 0
+                                                                            return x_95
+                                                                    else:
+                                                                        x_96 = 0
+                                                                        return x_96
+                                                                else:
+                                                                    x_97 = 0
+                                                                    return x_97
+                                                            else:
+                                                                x_98 = 0
+                                                                return x_98
+                                                        else:
+                                                            x_99 = 0
+                                                            return x_99
+                                                    else:
+                                                        x_100 = 0
+                                                        return x_100
+                                                else:
+                                                    x_101 = 0
+                                                    return x_101
+                                            else:
+                                                x_102 = 0
+                                                return x_102
+                                        else:
+                                            x_103 = 0
+                                            return x_103
+                                    else:
+                                        x_104 = 0
+                                        return x_104
+                                else:
+                                    x_105 = 0
+                                    return x_105
+                            else:
+                                x_106 = 0
+                                return x_106
+                        else:
+                            x_107 = 0
+                            return x_107
                     else:
-                        lean_internal_panic_unreachable()
+                        x_108 = 0
+                        return x_108
                 else:
-                    lean_dec(x_1)
-                    __blk = 1
-                    continue
+                    x_109 = 0
+                    return x_109
             else:
-                lean_dec(x_1)
-                __blk = 1
-                continue
+                x_110 = 0
+                return x_110
         elif __blk == 1:
-            x_3 = l_Calculator_Wire_decodeMembers___closed__0()
-            return x_3
+            x_44 = Ctor(0, [])
+            x_45 = x_40
+            lean_dec(x_40)
+            x_44.sc[0] = x_45
+            __t = x_43
+            if __t == 0:
+                x_42.objs[0] = x_44
+                x_47 = x_42
+                __blk = 2
+                continue
+            elif __t == 1:
+                x_48 = Ctor(1, [x_44])
+                x_47 = x_48
+                __blk = 2
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 2:
+            return x_47
+        elif __blk == 3:
+            x_87 = Ctor(1, [])
+            x_88 = x_80
+            lean_dec(x_80)
+            x_87.sc[8] = x_88
+            x_89 = x_83
+            lean_dec(x_83)
+            x_87.sc[0] = x_89
+            __t = x_86
+            if __t == 0:
+                x_85.objs[0] = x_87
+                x_91 = x_85
+                __blk = 4
+                continue
+            elif __t == 1:
+                x_92 = Ctor(1, [x_87])
+                x_91 = x_92
+                __blk = 4
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 4:
+            return x_91
         else:
             lean_internal_panic_unreachable()
 
-def l_Calculator_Wire_decodeMembers___closed__0__init():
-    x_1 = 0
-    x_2 = x_1
-    x_3 = Ctor(0, [x_2])
-    return x_3
-l_Calculator_Wire_decodeMembers___closed__0__cell = []
-def l_Calculator_Wire_decodeMembers___closed__0():
-    c = l_Calculator_Wire_decodeMembers___closed__0__cell
+def l_Calculator_Wire_decodeMembers___closed__1__init():
+    x_1 = b"cmd"
+    return x_1
+l_Calculator_Wire_decodeMembers___closed__1__cell = []
+def l_Calculator_Wire_decodeMembers___closed__1():
+    c = l_Calculator_Wire_decodeMembers___closed__1__cell
     if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__0__init()))
+        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__1__init()))
     return c[0]
 
-def l_Calculator_Wire_members(x_1, x_2):
+def l_Calculator_Wire_decodeMembers___closed__5__init():
+    x_1 = b"get"
+    return x_1
+l_Calculator_Wire_decodeMembers___closed__5__cell = []
+def l_Calculator_Wire_decodeMembers___closed__5():
+    c = l_Calculator_Wire_decodeMembers___closed__5__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__5__init()))
+    return c[0]
+
+def l_Calculator_Wire_spelled___closed__0__init():
+    x_1 = 2
+    x_2 = Ctor(1, [x_1])
+    return x_2
+l_Calculator_Wire_spelled___closed__0__cell = []
+def l_Calculator_Wire_spelled___closed__0():
+    c = l_Calculator_Wire_spelled___closed__0__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_spelled___closed__0__init()))
+    return c[0]
+
+def l_Calculator_Wire_decodeMembers___closed__3__init():
+    x_1 = b"set"
+    return x_1
+l_Calculator_Wire_decodeMembers___closed__3__cell = []
+def l_Calculator_Wire_decodeMembers___closed__3():
+    c = l_Calculator_Wire_decodeMembers___closed__3__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__3__init()))
+    return c[0]
+
+def l_Calculator_Wire_decodeMembers___closed__10__init():
+    x_1 = b"value"
+    return x_1
+l_Calculator_Wire_decodeMembers___closed__10__cell = []
+def l_Calculator_Wire_decodeMembers___closed__10():
+    c = l_Calculator_Wire_decodeMembers___closed__10__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__10__init()))
+    return c[0]
+
+def l_Leangage_Json_Lexemes_numberOf(x_1):
+    x_2 = 0
+    x_3 = lean_string_utf8_byte_size(x_1)
+    x_4 = l_Leangage_Token_numberAt(x_1, x_2, x_3)
+    return x_4
+
+def l_Leangage_Token_numberAt(x_1, x_2, x_3):
+    x_4 = lean_nat_sub(x_3, x_2)
+    x_5 = 20
+    x_6 = lean_nat_dec_le(x_4, x_5)
+    lean_dec(x_4)
+    __t = x_6
+    if __t == 0:
+        lean_dec(x_3)
+        lean_dec(x_2)
+        x_7 = 0
+        return x_7
+    elif __t == 1:
+        x_8 = 0
+        lean_inc(x_2)
+        x_9 = l_Leangage_Token_digitsFrom(x_1, x_2, x_3, x_8)
+        x_10 = lean_uint64_of_nat(x_9)
+        lean_dec(x_9)
+        x_11 = lean_uint64_to_nat(x_10)
+        x_12 = l_Leangage_Token_isDecimal(x_11, x_1, x_2, x_3)
+        __t = x_12
+        if __t == 0:
+            x_13 = 0
+            return x_13
+        elif __t == 1:
+            x_14 = x_10
+            x_15 = Ctor(1, [x_14])
+            return x_15
+        else:
+            lean_internal_panic_unreachable()
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Leangage_Token_digitsFrom(x_1, x_2, x_3, x_4):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_5 = lean_nat_dec_lt(x_2, x_3)
+            __t = x_5
+            if __t == 0:
+                lean_dec(x_2)
+                return x_4
+            elif __t == 1:
+                x_6 = lean_string_utf8_byte_size(x_1)
+                x_7 = lean_nat_dec_lt(x_2, x_6)
+                __t = x_7
+                if __t == 0:
+                    lean_dec(x_2)
+                    return x_4
+                elif __t == 1:
+                    x_8 = 1
+                    x_9 = lean_nat_add(x_2, x_8)
+                    x_10 = 10
+                    x_11 = lean_nat_mul(x_4, x_10)
+                    lean_dec(x_4)
+                    __t = x_7
+                    if __t == 0:
+                        lean_dec(x_2)
+                        x_19 = 0
+                        x_13 = x_19
+                        __blk = 1
+                        continue
+                    elif __t == 1:
+                        x_20 = lean_string_get_byte_fast(x_1, x_2)
+                        x_13 = x_20
+                        __blk = 1
+                        continue
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_14 = lean_uint8_to_nat(x_13)
+            x_15 = 48
+            x_16 = lean_nat_sub(x_14, x_15)
+            x_17 = lean_nat_add(x_11, x_16)
+            lean_dec(x_16)
+            lean_dec(x_11)
+            x_1, x_2, x_3, x_4 = x_1, x_9, x_3, x_17
+            __blk = 0
+            continue
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leangage_Token_isDecimal(x_1, x_2, x_3, x_4):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_11 = lean_nat_dec_le(x_4, x_3)
+            __t = x_11
+            if __t == 0:
+                x_12 = 10
+                x_13 = lean_nat_dec_lt(x_1, x_12)
+                __t = x_13
+                if __t == 0:
+                    x_25 = 1
+                    x_26 = lean_nat_sub(x_4, x_25)
+                    x_27 = lean_string_utf8_byte_size(x_2)
+                    x_28 = lean_nat_dec_lt(x_26, x_27)
+                    __t = x_28
+                    if __t == 0:
+                        lean_dec(x_26)
+                        x_29 = 0
+                        x_15 = x_29
+                        __blk = 2
+                        continue
+                    elif __t == 1:
+                        x_30 = lean_string_get_byte_fast(x_2, x_26)
+                        x_15 = x_30
+                        __blk = 2
+                        continue
+                    else:
+                        lean_internal_panic_unreachable()
+                elif __t == 1:
+                    x_31 = 1
+                    x_32 = lean_nat_add(x_3, x_31)
+                    x_33 = lean_nat_dec_eq(x_4, x_32)
+                    lean_dec(x_32)
+                    lean_dec(x_4)
+                    __t = x_33
+                    if __t == 0:
+                        lean_dec(x_3)
+                        lean_dec(x_1)
+                        return x_11
+                    elif __t == 1:
+                        x_34 = lean_string_utf8_byte_size(x_2)
+                        x_35 = lean_nat_dec_lt(x_3, x_34)
+                        __t = x_35
+                        if __t == 0:
+                            lean_dec(x_3)
+                            x_36 = 0
+                            x_6 = x_36
+                            __blk = 1
+                            continue
+                        elif __t == 1:
+                            x_37 = lean_string_get_byte_fast(x_2, x_3)
+                            x_6 = x_37
+                            __blk = 1
+                            continue
+                        else:
+                            lean_internal_panic_unreachable()
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 1:
+                lean_dec(x_4)
+                lean_dec(x_3)
+                lean_dec(x_1)
+                x_38 = 0
+                return x_38
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_7 = 48
+            x_8 = lean_nat_add(x_1, x_7)
+            lean_dec(x_1)
+            x_9 = lean_uint8_of_nat(x_8)
+            lean_dec(x_8)
+            x_10 = lean_uint8_dec_eq(x_6, x_9)
+            return x_10
+        elif __blk == 2:
+            x_16 = lean_nat_mod(x_1, x_12)
+            x_17 = 48
+            x_18 = lean_nat_add(x_16, x_17)
+            lean_dec(x_16)
+            x_19 = lean_uint8_of_nat(x_18)
+            lean_dec(x_18)
+            x_20 = lean_uint8_dec_eq(x_15, x_19)
+            __t = x_20
+            if __t == 0:
+                lean_dec(x_4)
+                lean_dec(x_3)
+                lean_dec(x_1)
+                return x_13
+            elif __t == 1:
+                x_21 = lean_nat_div(x_1, x_12)
+                lean_dec(x_1)
+                x_22 = 1
+                x_23 = lean_nat_sub(x_4, x_22)
+                lean_dec(x_4)
+                x_1, x_2, x_3, x_4 = x_21, x_2, x_3, x_23
+                __blk = 0
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Calculator_Wire_decodeMembers___closed__4__init():
+    x_1 = b"apply"
+    return x_1
+l_Calculator_Wire_decodeMembers___closed__4__cell = []
+def l_Calculator_Wire_decodeMembers___closed__4():
+    c = l_Calculator_Wire_decodeMembers___closed__4__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__4__init()))
+    return c[0]
+
+def l_Calculator_Wire_decodeMembers___closed__7__init():
+    x_1 = b"op"
+    return x_1
+l_Calculator_Wire_decodeMembers___closed__7__cell = []
+def l_Calculator_Wire_decodeMembers___closed__7():
+    c = l_Calculator_Wire_decodeMembers___closed__7__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__7__init()))
+    return c[0]
+
+def l_Calculator_Wire_decodeMembers___closed__8__init():
+    x_1 = b"arg"
+    return x_1
+l_Calculator_Wire_decodeMembers___closed__8__cell = []
+def l_Calculator_Wire_decodeMembers___closed__8():
+    c = l_Calculator_Wire_decodeMembers___closed__8__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__8__init()))
+    return c[0]
+
+def l_Calculator_Wire_opNamed(x_1):
+    x_2 = l_Calculator_Wire_opNamed___closed__0()
+    x_3 = lean_string_dec_eq(x_1, x_2)
+    __t = x_3
+    if __t == 0:
+        x_4 = l_Calculator_Wire_opNamed___closed__1()
+        x_5 = lean_string_dec_eq(x_1, x_4)
+        __t = x_5
+        if __t == 0:
+            x_6 = l_Calculator_Wire_opNamed___closed__2()
+            x_7 = lean_string_dec_eq(x_1, x_6)
+            __t = x_7
+            if __t == 0:
+                x_8 = l_Calculator_Wire_opNamed___closed__3()
+                x_9 = lean_string_dec_eq(x_1, x_8)
+                __t = x_9
+                if __t == 0:
+                    x_10 = 0
+                    return x_10
+                elif __t == 1:
+                    x_11 = l_Calculator_Wire_opNamed___closed__4()
+                    return x_11
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 1:
+                x_12 = l_Calculator_Wire_opNamed___closed__5()
+                return x_12
+            else:
+                lean_internal_panic_unreachable()
+        elif __t == 1:
+            x_13 = l_Calculator_Wire_opNamed___closed__6()
+            return x_13
+        else:
+            lean_internal_panic_unreachable()
+    elif __t == 1:
+        x_14 = l_Calculator_Wire_opNamed___closed__7()
+        return x_14
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Calculator_Wire_opNamed___closed__0__init():
+    x_1 = b"add"
+    return x_1
+l_Calculator_Wire_opNamed___closed__0__cell = []
+def l_Calculator_Wire_opNamed___closed__0():
+    c = l_Calculator_Wire_opNamed___closed__0__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__0__init()))
+    return c[0]
+
+def l_Calculator_Wire_opNamed___closed__1__init():
+    x_1 = b"sub"
+    return x_1
+l_Calculator_Wire_opNamed___closed__1__cell = []
+def l_Calculator_Wire_opNamed___closed__1():
+    c = l_Calculator_Wire_opNamed___closed__1__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__1__init()))
+    return c[0]
+
+def l_Calculator_Wire_opNamed___closed__2__init():
+    x_1 = b"mul"
+    return x_1
+l_Calculator_Wire_opNamed___closed__2__cell = []
+def l_Calculator_Wire_opNamed___closed__2():
+    c = l_Calculator_Wire_opNamed___closed__2__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__2__init()))
+    return c[0]
+
+def l_Calculator_Wire_opNamed___closed__3__init():
+    x_1 = b"div"
+    return x_1
+l_Calculator_Wire_opNamed___closed__3__cell = []
+def l_Calculator_Wire_opNamed___closed__3():
+    c = l_Calculator_Wire_opNamed___closed__3__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__3__init()))
+    return c[0]
+
+def l_Calculator_Wire_opNamed___closed__4__init():
+    x_1 = 3
+    x_2 = x_1
+    x_3 = Ctor(1, [x_2])
+    return x_3
+l_Calculator_Wire_opNamed___closed__4__cell = []
+def l_Calculator_Wire_opNamed___closed__4():
+    c = l_Calculator_Wire_opNamed___closed__4__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__4__init()))
+    return c[0]
+
+def l_Calculator_Wire_opNamed___closed__5__init():
+    x_1 = 2
+    x_2 = x_1
+    x_3 = Ctor(1, [x_2])
+    return x_3
+l_Calculator_Wire_opNamed___closed__5__cell = []
+def l_Calculator_Wire_opNamed___closed__5():
+    c = l_Calculator_Wire_opNamed___closed__5__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__5__init()))
+    return c[0]
+
+def l_Calculator_Wire_opNamed___closed__6__init():
+    x_1 = 1
+    x_2 = x_1
+    x_3 = Ctor(1, [x_2])
+    return x_3
+l_Calculator_Wire_opNamed___closed__6__cell = []
+def l_Calculator_Wire_opNamed___closed__6():
+    c = l_Calculator_Wire_opNamed___closed__6__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__6__init()))
+    return c[0]
+
+def l_Calculator_Wire_opNamed___closed__7__init():
+    x_1 = 0
+    x_2 = x_1
+    x_3 = Ctor(1, [x_2])
+    return x_3
+l_Calculator_Wire_opNamed___closed__7__cell = []
+def l_Calculator_Wire_opNamed___closed__7():
+    c = l_Calculator_Wire_opNamed___closed__7__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__7__init()))
+    return c[0]
+
+def l_Calculator_Wire_decodeObject(x_1):
+    x_2 = l_Leangage_Json_Lexemes_object(x_1)
+    __t = lean_obj_tag(x_2)
+    if __t == 0:
+        x_3 = l_Calculator_Wire_decodeMembers___closed__0()
+        return x_3
+    elif __t == 1:
+        x_4 = x_2.objs[0]
+        lean_inc(x_4)
+        lean_dec(x_2)
+        x_5 = l_Calculator_Wire_decodeMembers(x_4)
+        lean_dec(x_4)
+        return x_5
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Leangage_Json_Lexemes_object(x_1):
+    __t = lean_obj_tag(x_1)
+    if __t == 1:
+        x_2 = x_1.objs[0]
+        __t = lean_obj_tag(x_2)
+        if __t == 7:
+            x_3 = x_1.objs[1]
+            lean_inc(x_3)
+            lean_dec(x_1)
+            x_4 = 0
+            x_5 = l_Leangage_Json_Lexemes_members(x_4, x_3)
+            return x_5
+        else:
+            lean_dec(x_1)
+            x_6 = 0
+            return x_6
+    else:
+        lean_dec(x_1)
+        x_7 = 0
+        return x_7
+
+def l_Leangage_Json_Lexemes_members(x_1, x_2):
     __blk = 0
     while True:
         if __blk == 0:
@@ -1754,7 +2061,7 @@ def l_Calculator_Wire_members(x_1, x_2):
             if __t == 1:
                 x_3 = x_2.objs[0]
                 __t = lean_obj_tag(x_3)
-                if __t == 9:
+                if __t == 8:
                     x_4 = x_2.objs[1]
                     lean_inc(x_4)
                     lean_dec(x_2)
@@ -1768,21 +2075,21 @@ def l_Calculator_Wire_members(x_1, x_2):
                         lean_dec(x_1)
                         x_7 = 0
                         return x_7
-                elif __t == 5:
+                elif __t == 4:
                     lean_inc(x_3)
                     x_8 = x_2.objs[1]
-                    x_29 = lean_is_shared(x_2)
-                    __t = x_29
+                    x_30 = lean_is_shared(x_2)
+                    __t = x_30
                     if __t == 0:
-                        x_30 = x_2.objs[0]
-                        lean_dec(x_30)
-                        x_10, x_11 = x_2, x_29
+                        x_31 = x_2.objs[0]
+                        lean_dec(x_31)
+                        x_10, x_11 = x_2, x_30
                         __blk = 1
                         continue
                     elif __t == 1:
                         lean_inc(x_8)
                         lean_dec(x_2)
-                        x_10, x_11 = 0, x_29
+                        x_10, x_11 = 0, x_30
                         __blk = 1
                         continue
                     else:
@@ -1790,13 +2097,13 @@ def l_Calculator_Wire_members(x_1, x_2):
                 else:
                     lean_dec(x_2)
                     lean_dec(x_1)
-                    x_31 = 0
-                    return x_31
+                    x_32 = 0
+                    return x_32
             else:
                 lean_dec(x_2)
                 lean_dec(x_1)
-                x_32 = 0
-                return x_32
+                x_33 = 0
+                return x_33
         elif __blk == 1:
             __t = lean_obj_tag(x_8)
             if __t == 1:
@@ -1805,17 +2112,17 @@ def l_Calculator_Wire_members(x_1, x_2):
                 lean_dec(x_3)
                 x_13 = x_8.objs[0]
                 x_14 = x_8.objs[1]
-                x_27 = lean_is_shared(x_8)
-                __t = x_27
+                x_28 = lean_is_shared(x_8)
+                __t = x_28
                 if __t == 0:
-                    x_16, x_17 = x_8, x_27
+                    x_16, x_17 = x_8, x_28
                     __blk = 2
                     continue
                 elif __t == 1:
                     lean_inc(x_14)
                     lean_inc(x_13)
                     lean_dec(x_8)
-                    x_16, x_17 = 0, x_27
+                    x_16, x_17 = 0, x_28
                     __blk = 2
                     continue
                 else:
@@ -1824,30 +2131,32 @@ def l_Calculator_Wire_members(x_1, x_2):
                 lean_dec(x_8)
                 lean_dec(x_3)
                 lean_dec(x_1)
-                x_28 = 0
-                return x_28
+                x_29 = 0
+                return x_29
         elif __blk == 2:
-            x_18 = l_Calculator_Wire_scalar(x_13)
-            __t = x_18
+            x_18 = l_Leangage_Json_Lexemes_scalar(x_13)
+            __t = lean_obj_tag(x_18)
             if __t == 0:
                 lean_dec(x_14)
-                lean_dec(x_13)
                 lean_dec(x_12)
                 lean_dec(x_1)
                 x_19 = 0
                 return x_19
             elif __t == 1:
+                x_20 = x_18.objs[0]
+                lean_inc(x_20)
+                lean_dec(x_18)
                 __t = x_11
                 if __t == 0:
                     x_10.tag = 0
-                    x_10.objs[1] = x_13
+                    x_10.objs[1] = x_20
                     x_10.objs[0] = x_12
-                    x_21 = x_10
+                    x_22 = x_10
                     __blk = 3
                     continue
                 elif __t == 1:
-                    x_26 = Ctor(0, [x_12, x_13])
-                    x_21 = x_26
+                    x_27 = Ctor(0, [x_12, x_20])
+                    x_22 = x_27
                     __blk = 3
                     continue
                 else:
@@ -1858,57 +2167,252 @@ def l_Calculator_Wire_members(x_1, x_2):
             __t = x_17
             if __t == 0:
                 x_16.objs[1] = x_1
-                x_16.objs[0] = x_21
-                x_23 = x_16
+                x_16.objs[0] = x_22
+                x_24 = x_16
                 __blk = 4
                 continue
             elif __t == 1:
-                x_25 = Ctor(1, [x_21, x_1])
-                x_23 = x_25
+                x_26 = Ctor(1, [x_22, x_1])
+                x_24 = x_26
                 __blk = 4
                 continue
             else:
                 lean_internal_panic_unreachable()
         elif __blk == 4:
-            x_1, x_2 = x_23, x_14
+            x_1, x_2 = x_24, x_14
             __blk = 0
             continue
         else:
             lean_internal_panic_unreachable()
 
-def l_Calculator_Wire_scalar(x_1):
-    __t = lean_obj_tag(x_1)
-    if __t == 0:
-        x_2 = 1
-        return x_2
-    elif __t == 1:
-        x_3 = 1
-        return x_3
-    elif __t == 2:
-        x_4 = 1
-        return x_4
-    elif __t == 3:
-        x_5 = 1
-        return x_5
-    elif __t == 4:
-        x_6 = 1
-        return x_6
-    elif __t == 5:
-        x_7 = 0
-        return x_7
-    else:
-        x_8 = 0
-        return x_8
+def l_List_reverse___redArg(x_1):
+    x_2 = 0
+    x_3 = l_List_reverseAux___redArg(x_1, x_2)
+    return x_3
+
+def l_List_reverseAux___redArg(x_1, x_2):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_1)
+            if __t == 0:
+                return x_2
+            elif __t == 1:
+                x_3 = x_1.objs[0]
+                x_4 = x_1.objs[1]
+                x_12 = lean_is_shared(x_1)
+                __t = x_12
+                if __t == 0:
+                    x_6, x_7 = x_1, x_12
+                    __blk = 1
+                    continue
+                elif __t == 1:
+                    lean_inc(x_4)
+                    lean_inc(x_3)
+                    lean_dec(x_1)
+                    x_6, x_7 = 0, x_12
+                    __blk = 1
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            __t = x_7
+            if __t == 0:
+                x_6.objs[1] = x_2
+                x_9 = x_6
+                __blk = 2
+                continue
+            elif __t == 1:
+                x_11 = Ctor(1, [x_3, x_2])
+                x_9 = x_11
+                __blk = 2
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 2:
+            x_1, x_2 = x_4, x_9
+            __blk = 0
+            continue
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leangage_Json_Lexemes_scalar(x_1):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_1)
+            if __t == 0:
+                x_2 = l_Leangage_Json_Lexemes_scalar___closed__0()
+                return x_2
+            elif __t == 1:
+                x_3 = x_1.sc[0]
+                x_11 = lean_is_shared(x_1)
+                __t = x_11
+                if __t == 0:
+                    x_5, x_6 = x_1, x_11
+                    __blk = 1
+                    continue
+                elif __t == 1:
+                    lean_dec(x_1)
+                    x_5, x_6 = 0, x_11
+                    __blk = 1
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 2:
+                x_12 = x_1.objs[0]
+                lean_inc(x_12)
+                lean_dec(x_1)
+                x_13 = l_Leangage_Json_Lexemes_numberOf(x_12)
+                lean_dec(x_12)
+                __t = lean_obj_tag(x_13)
+                if __t == 0:
+                    x_14 = l_Leangage_Json_Lexemes_scalar___closed__1()
+                    return x_14
+                elif __t == 1:
+                    x_15 = x_13.objs[0]
+                    x_24 = lean_is_shared(x_13)
+                    __t = x_24
+                    if __t == 0:
+                        x_17, x_18 = x_13, x_24
+                        __blk = 3
+                        continue
+                    elif __t == 1:
+                        lean_inc(x_15)
+                        lean_dec(x_13)
+                        x_17, x_18 = 0, x_24
+                        __blk = 3
+                        continue
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 3:
+                x_25 = x_1.objs[0]
+                x_33 = lean_is_shared(x_1)
+                __t = x_33
+                if __t == 0:
+                    x_27, x_28 = x_1, x_33
+                    __blk = 5
+                    continue
+                elif __t == 1:
+                    lean_inc(x_25)
+                    lean_dec(x_1)
+                    x_27, x_28 = 0, x_33
+                    __blk = 5
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 4:
+                lean_dec(x_1)
+                x_34 = 0
+                return x_34
+            else:
+                lean_dec(x_1)
+                x_35 = 0
+                return x_35
+        elif __blk == 1:
+            __t = x_6
+            if __t == 0:
+                x_8 = x_5
+                __blk = 2
+                continue
+            elif __t == 1:
+                x_10 = Ctor(1, [])
+                x_10.sc[0] = x_3
+                x_8 = x_10
+                __blk = 2
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 2:
+            x_9 = Ctor(1, [x_8])
+            return x_9
+        elif __blk == 3:
+            x_19 = Ctor(2, [])
+            x_20 = x_15
+            lean_dec(x_15)
+            x_19.sc[0] = x_20
+            __t = x_18
+            if __t == 0:
+                x_17.objs[0] = x_19
+                x_22 = x_17
+                __blk = 4
+                continue
+            elif __t == 1:
+                x_23 = Ctor(1, [x_19])
+                x_22 = x_23
+                __blk = 4
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 4:
+            return x_22
+        elif __blk == 5:
+            __t = x_28
+            if __t == 0:
+                x_27.tag = 4
+                x_30 = x_27
+                __blk = 6
+                continue
+            elif __t == 1:
+                x_32 = Ctor(4, [x_25])
+                x_30 = x_32
+                __blk = 6
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 6:
+            x_31 = Ctor(1, [x_30])
+            return x_31
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leangage_Json_Lexemes_scalar___closed__0__init():
+    x_1 = 0
+    x_2 = Ctor(1, [x_1])
+    return x_2
+l_Leangage_Json_Lexemes_scalar___closed__0__cell = []
+def l_Leangage_Json_Lexemes_scalar___closed__0():
+    c = l_Leangage_Json_Lexemes_scalar___closed__0__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leangage_Json_Lexemes_scalar___closed__0__init()))
+    return c[0]
+
+def l_Leangage_Json_Lexemes_scalar___closed__1__init():
+    x_1 = 3
+    x_2 = Ctor(1, [x_1])
+    return x_2
+l_Leangage_Json_Lexemes_scalar___closed__1__cell = []
+def l_Leangage_Json_Lexemes_scalar___closed__1():
+    c = l_Leangage_Json_Lexemes_scalar___closed__1__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Leangage_Json_Lexemes_scalar___closed__1__init()))
+    return c[0]
+
+def l_Calculator_Wire_decodeMembers___closed__0__init():
+    x_1 = 0
+    x_2 = x_1
+    x_3 = Ctor(0, [x_2])
+    return x_3
+l_Calculator_Wire_decodeMembers___closed__0__cell = []
+def l_Calculator_Wire_decodeMembers___closed__0():
+    c = l_Calculator_Wire_decodeMembers___closed__0__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__0__init()))
+    return c[0]
 
 def l_Calculator_Wire_decodeMembers(x_1):
     __blk = 0
     while True:
         if __blk == 0:
-            x_4 = l_Calculator_Wire_decodeMembers___closed__2()
+            x_4 = l_Calculator_Wire_decodeMembers___closed__1()
             x_5 = l_List_lookup___at___00Calculator_Wire_decodeMembers_spec__0___redArg(x_4, x_1)
             __t = lean_obj_tag(x_5)
             if __t == 0:
-                x_6 = l_Calculator_Wire_decodeMembers___closed__3()
+                x_6 = l_Calculator_Wire_decodeMembers___closed__2()
                 return x_6
             elif __t == 1:
                 x_7 = x_5.objs[0]
@@ -1917,115 +2421,112 @@ def l_Calculator_Wire_decodeMembers(x_1):
                 __t = lean_obj_tag(x_7)
                 if __t == 4:
                     x_8 = x_7.objs[0]
-                    lean_inc_n(x_8, 2)
+                    lean_inc(x_8)
                     lean_dec(x_7)
-                    x_9 = Closure(l_instDecidableEqUInt8___boxed, 2, [])
-                    x_10 = l_Calculator_Wire_decodeMembers___closed__6()
-                    lean_inc(x_9)
-                    x_11 = l_instDecidableEqList___redArg(x_9, x_8, x_10)
-                    __t = x_11
+                    x_9 = l_Calculator_Wire_decodeMembers___closed__3()
+                    x_10 = lean_string_dec_eq(x_8, x_9)
+                    __t = x_10
                     if __t == 0:
-                        x_12 = l_Calculator_Wire_decodeMembers___closed__11()
-                        lean_inc(x_8)
-                        lean_inc(x_9)
-                        x_13 = l_instDecidableEqList___redArg(x_9, x_8, x_12)
-                        __t = x_13
+                        x_11 = l_Calculator_Wire_decodeMembers___closed__4()
+                        x_12 = lean_string_dec_eq(x_8, x_11)
+                        __t = x_12
                         if __t == 0:
-                            x_14 = l_Calculator_Wire_decodeMembers___closed__12()
-                            x_15 = l_instDecidableEqList___redArg(x_9, x_8, x_14)
-                            __t = x_15
+                            x_13 = l_Calculator_Wire_decodeMembers___closed__5()
+                            x_14 = lean_string_dec_eq(x_8, x_13)
+                            lean_dec(x_8)
+                            __t = x_14
                             if __t == 0:
-                                x_16 = l_Calculator_Wire_decodeMembers___closed__0()
-                                return x_16
+                                x_15 = l_Calculator_Wire_decodeMembers___closed__0()
+                                return x_15
                             elif __t == 1:
-                                x_17 = l_List_lengthTR___redArg(x_1)
-                                x_18 = 1
-                                x_19 = lean_nat_dec_eq(x_17, x_18)
-                                lean_dec(x_17)
-                                __t = x_19
+                                x_16 = l_List_lengthTR___redArg(x_1)
+                                x_17 = 1
+                                x_18 = lean_nat_dec_eq(x_16, x_17)
+                                lean_dec(x_16)
+                                __t = x_18
                                 if __t == 0:
-                                    x_20 = l_Calculator_Wire_decodeMembers___closed__0()
-                                    return x_20
+                                    x_19 = l_Calculator_Wire_decodeMembers___closed__0()
+                                    return x_19
                                 elif __t == 1:
-                                    x_21 = l_Calculator_Wire_decodeMembers___closed__13()
-                                    return x_21
+                                    x_20 = l_Calculator_Wire_decodeMembers___closed__6()
+                                    return x_20
                                 else:
                                     lean_internal_panic_unreachable()
                             else:
                                 lean_internal_panic_unreachable()
                         elif __t == 1:
-                            lean_dec(x_9)
                             lean_dec(x_8)
-                            x_22 = l_List_lengthTR___redArg(x_1)
-                            x_23 = 3
-                            x_24 = lean_nat_dec_eq(x_22, x_23)
-                            lean_dec(x_22)
-                            __t = x_24
+                            x_21 = l_List_lengthTR___redArg(x_1)
+                            x_22 = 3
+                            x_23 = lean_nat_dec_eq(x_21, x_22)
+                            lean_dec(x_21)
+                            __t = x_23
                             if __t == 0:
-                                x_25 = l_Calculator_Wire_decodeMembers___closed__0()
-                                return x_25
+                                x_24 = l_Calculator_Wire_decodeMembers___closed__0()
+                                return x_24
                             elif __t == 1:
-                                x_26 = l_Calculator_Wire_decodeMembers___closed__15()
-                                x_27 = l_List_lookup___at___00Calculator_Wire_decodeMembers_spec__0___redArg(x_26, x_1)
-                                __t = lean_obj_tag(x_27)
+                                x_25 = l_Calculator_Wire_decodeMembers___closed__7()
+                                x_26 = l_List_lookup___at___00Calculator_Wire_decodeMembers_spec__0___redArg(x_25, x_1)
+                                __t = lean_obj_tag(x_26)
                                 if __t == 1:
-                                    x_28 = x_27.objs[0]
-                                    lean_inc(x_28)
-                                    lean_dec(x_27)
-                                    __t = lean_obj_tag(x_28)
+                                    x_27 = x_26.objs[0]
+                                    lean_inc(x_27)
+                                    lean_dec(x_26)
+                                    __t = lean_obj_tag(x_27)
                                     if __t == 4:
-                                        x_29 = x_28.objs[0]
-                                        lean_inc(x_29)
-                                        lean_dec(x_28)
-                                        x_30 = l_Calculator_Wire_decodeMembers___closed__18()
-                                        x_31 = l_List_lookup___at___00Calculator_Wire_decodeMembers_spec__0___redArg(x_30, x_1)
-                                        __t = lean_obj_tag(x_31)
+                                        x_28 = x_27.objs[0]
+                                        lean_inc(x_28)
+                                        lean_dec(x_27)
+                                        x_29 = l_Calculator_Wire_decodeMembers___closed__8()
+                                        x_30 = l_List_lookup___at___00Calculator_Wire_decodeMembers_spec__0___redArg(x_29, x_1)
+                                        __t = lean_obj_tag(x_30)
                                         if __t == 1:
-                                            x_32 = x_31.objs[0]
-                                            lean_inc(x_32)
-                                            lean_dec(x_31)
-                                            x_33 = l_Calculator_Wire_opNamed(x_29)
-                                            __t = lean_obj_tag(x_33)
+                                            x_31 = x_30.objs[0]
+                                            lean_inc(x_31)
+                                            lean_dec(x_30)
+                                            x_32 = l_Calculator_Wire_opNamed(x_28)
+                                            lean_dec(x_28)
+                                            __t = lean_obj_tag(x_32)
                                             if __t == 0:
-                                                lean_dec(x_32)
-                                                x_34 = l_Calculator_Wire_decodeMembers___closed__0()
-                                                return x_34
+                                                lean_dec(x_31)
+                                                x_33 = l_Calculator_Wire_decodeMembers___closed__0()
+                                                return x_33
                                             elif __t == 1:
-                                                __t = lean_obj_tag(x_32)
+                                                __t = lean_obj_tag(x_31)
                                                 if __t == 2:
-                                                    x_35 = x_33.objs[0]
-                                                    x_45 = lean_is_shared(x_33)
-                                                    __t = x_45
+                                                    x_34 = x_32.objs[0]
+                                                    x_44 = lean_is_shared(x_32)
+                                                    __t = x_44
                                                     if __t == 0:
-                                                        x_37, x_38 = x_33, x_45
+                                                        x_36, x_37 = x_32, x_44
                                                         __blk = 2
                                                         continue
                                                     elif __t == 1:
-                                                        lean_inc(x_35)
-                                                        lean_dec(x_33)
-                                                        x_37, x_38 = 0, x_45
+                                                        lean_inc(x_34)
+                                                        lean_dec(x_32)
+                                                        x_36, x_37 = 0, x_44
                                                         __blk = 2
                                                         continue
                                                     else:
                                                         lean_internal_panic_unreachable()
                                                 else:
-                                                    lean_dec(x_33)
                                                     lean_dec(x_32)
-                                                    x_46 = l_Calculator_Wire_decodeMembers___closed__19()
-                                                    return x_46
+                                                    lean_dec(x_31)
+                                                    x_45 = l_Calculator_Wire_decodeMembers___closed__9()
+                                                    return x_45
                                             else:
                                                 lean_internal_panic_unreachable()
                                         else:
-                                            lean_dec(x_31)
-                                            lean_dec(x_29)
+                                            lean_dec(x_30)
+                                            lean_dec(x_28)
                                             __blk = 1
                                             continue
                                     else:
-                                        lean_dec(x_28)
+                                        lean_dec(x_27)
                                         __blk = 1
                                         continue
                                 else:
-                                    lean_dec(x_27)
+                                    lean_dec(x_26)
                                     __blk = 1
                                     continue
                             else:
@@ -2033,35 +2534,34 @@ def l_Calculator_Wire_decodeMembers(x_1):
                         else:
                             lean_internal_panic_unreachable()
                     elif __t == 1:
-                        lean_dec(x_9)
                         lean_dec(x_8)
-                        x_47 = l_List_lengthTR___redArg(x_1)
-                        x_48 = 2
-                        x_49 = lean_nat_dec_eq(x_47, x_48)
-                        lean_dec(x_47)
-                        __t = x_49
+                        x_46 = l_List_lengthTR___redArg(x_1)
+                        x_47 = 2
+                        x_48 = lean_nat_dec_eq(x_46, x_47)
+                        lean_dec(x_46)
+                        __t = x_48
                         if __t == 0:
-                            x_50 = l_Calculator_Wire_decodeMembers___closed__0()
-                            return x_50
+                            x_49 = l_Calculator_Wire_decodeMembers___closed__0()
+                            return x_49
                         elif __t == 1:
-                            x_51 = l_Calculator_Wire_decodeMembers___closed__24()
-                            x_52 = l_List_lookup___at___00Calculator_Wire_decodeMembers_spec__0___redArg(x_51, x_1)
-                            __t = lean_obj_tag(x_52)
+                            x_50 = l_Calculator_Wire_decodeMembers___closed__10()
+                            x_51 = l_List_lookup___at___00Calculator_Wire_decodeMembers_spec__0___redArg(x_50, x_1)
+                            __t = lean_obj_tag(x_51)
                             if __t == 0:
-                                x_53 = l_Calculator_Wire_decodeMembers___closed__0()
-                                return x_53
+                                x_52 = l_Calculator_Wire_decodeMembers___closed__0()
+                                return x_52
                             elif __t == 1:
-                                x_54 = x_52.objs[0]
-                                x_70 = lean_is_shared(x_52)
-                                __t = x_70
+                                x_53 = x_51.objs[0]
+                                x_69 = lean_is_shared(x_51)
+                                __t = x_69
                                 if __t == 0:
-                                    x_56, x_57 = x_52, x_70
+                                    x_55, x_56 = x_51, x_69
                                     __blk = 4
                                     continue
                                 elif __t == 1:
-                                    lean_inc(x_54)
-                                    lean_dec(x_52)
-                                    x_56, x_57 = 0, x_70
+                                    lean_inc(x_53)
+                                    lean_dec(x_51)
+                                    x_55, x_56 = 0, x_69
                                     __blk = 4
                                     continue
                                 else:
@@ -2074,129 +2574,90 @@ def l_Calculator_Wire_decodeMembers(x_1):
                         lean_internal_panic_unreachable()
                 else:
                     lean_dec(x_7)
-                    x_71 = l_Calculator_Wire_decodeMembers___closed__0()
-                    return x_71
+                    x_70 = l_Calculator_Wire_decodeMembers___closed__0()
+                    return x_70
             else:
                 lean_internal_panic_unreachable()
         elif __blk == 1:
             x_3 = l_Calculator_Wire_decodeMembers___closed__0()
             return x_3
         elif __blk == 2:
-            x_39 = x_32.sc[0]
-            lean_dec(x_32)
-            x_40 = Ctor(1, [])
-            x_41 = x_35
-            lean_dec(x_35)
-            x_40.sc[8] = x_41
-            x_40.sc[0] = x_39
-            __t = x_38
+            x_38 = x_31.sc[0]
+            lean_dec(x_31)
+            x_39 = Ctor(1, [])
+            x_40 = x_34
+            lean_dec(x_34)
+            x_39.sc[8] = x_40
+            x_39.sc[0] = x_38
+            __t = x_37
             if __t == 0:
-                x_37.objs[0] = x_40
-                x_43 = x_37
+                x_36.objs[0] = x_39
+                x_42 = x_36
                 __blk = 3
                 continue
             elif __t == 1:
-                x_44 = Ctor(1, [x_40])
-                x_43 = x_44
+                x_43 = Ctor(1, [x_39])
+                x_42 = x_43
                 __blk = 3
                 continue
             else:
                 lean_internal_panic_unreachable()
         elif __blk == 3:
-            return x_43
+            return x_42
         elif __blk == 4:
-            __t = lean_obj_tag(x_54)
+            __t = lean_obj_tag(x_53)
             if __t == 2:
-                x_58 = x_54.sc[0]
-                x_68 = lean_is_shared(x_54)
-                __t = x_68
+                x_57 = x_53.sc[0]
+                x_67 = lean_is_shared(x_53)
+                __t = x_67
                 if __t == 0:
-                    x_60, x_61 = x_54, x_68
+                    x_59, x_60 = x_53, x_67
                     __blk = 5
                     continue
                 elif __t == 1:
-                    lean_dec(x_54)
-                    x_60, x_61 = 0, x_68
+                    lean_dec(x_53)
+                    x_59, x_60 = 0, x_67
                     __blk = 5
                     continue
                 else:
                     lean_internal_panic_unreachable()
             else:
-                lean_dec(x_54)
-                x_69 = l_Calculator_Wire_decodeMembers___closed__25()
-                return x_69
+                lean_dec(x_53)
+                x_68 = l_Calculator_Wire_decodeMembers___closed__11()
+                return x_68
         elif __blk == 5:
-            __t = x_61
+            __t = x_60
             if __t == 0:
-                x_60.tag = 0
-                x_63 = x_60
+                x_59.tag = 0
+                x_62 = x_59
                 __blk = 6
                 continue
             elif __t == 1:
-                x_67 = Ctor(0, [])
-                x_67.sc[0] = x_58
-                x_63 = x_67
+                x_66 = Ctor(0, [])
+                x_66.sc[0] = x_57
+                x_62 = x_66
                 __blk = 6
                 continue
             else:
                 lean_internal_panic_unreachable()
         elif __blk == 6:
-            __t = x_57
+            __t = x_56
             if __t == 0:
-                x_56.objs[0] = x_63
-                x_65 = x_56
+                x_55.objs[0] = x_62
+                x_64 = x_55
                 __blk = 7
                 continue
             elif __t == 1:
-                x_66 = Ctor(1, [x_63])
-                x_65 = x_66
+                x_65 = Ctor(1, [x_62])
+                x_64 = x_65
                 __blk = 7
                 continue
             else:
                 lean_internal_panic_unreachable()
         elif __blk == 7:
-            return x_65
+            return x_64
         else:
             lean_internal_panic_unreachable()
-
-def l_Calculator_Wire_decodeMembers___closed__2__init():
-    x_1 = l_Calculator_Wire_decodeMembers___closed__1()
-    x_2 = 99
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__2__cell = []
-def l_Calculator_Wire_decodeMembers___closed__2():
-    c = l_Calculator_Wire_decodeMembers___closed__2__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__2__init()))
-    return c[0]
-
-def l_Calculator_Wire_decodeMembers___closed__1__init():
-    x_1 = l_Calculator_Wire_opNamed___closed__0()
-    x_2 = 109
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__1__cell = []
-def l_Calculator_Wire_decodeMembers___closed__1():
-    c = l_Calculator_Wire_decodeMembers___closed__1__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__1__init()))
-    return c[0]
-
-def l_Calculator_Wire_opNamed___closed__0__init():
-    x_1 = 0
-    x_2 = 100
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_opNamed___closed__0__cell = []
-def l_Calculator_Wire_opNamed___closed__0():
-    c = l_Calculator_Wire_opNamed___closed__0__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__0__init()))
-    return c[0]
 
 def l_List_lookup___at___00Calculator_Wire_decodeMembers_spec__0___redArg(x_1, x_2):
     __blk = 0
@@ -2211,7 +2672,7 @@ def l_List_lookup___at___00Calculator_Wire_decodeMembers_spec__0___redArg(x_1, x
                 x_5 = x_2.objs[1]
                 x_6 = x_4.objs[0]
                 x_7 = x_4.objs[1]
-                x_8 = l_List_beq___at___00Leangage_Token_number_spec__0(x_1, x_6)
+                x_8 = lean_string_dec_eq(x_1, x_6)
                 __t = x_8
                 if __t == 0:
                     x_1, x_2 = x_1, x_5
@@ -2228,313 +2689,16 @@ def l_List_lookup___at___00Calculator_Wire_decodeMembers_spec__0___redArg(x_1, x
         else:
             lean_internal_panic_unreachable()
 
-def l_List_beq___at___00Leangage_Token_number_spec__0(x_1, x_2):
-    __blk = 0
-    while True:
-        if __blk == 0:
-            __t = lean_obj_tag(x_1)
-            if __t == 0:
-                __t = lean_obj_tag(x_2)
-                if __t == 0:
-                    x_3 = 1
-                    return x_3
-                elif __t == 1:
-                    x_4 = 0
-                    return x_4
-                else:
-                    lean_internal_panic_unreachable()
-            elif __t == 1:
-                __t = lean_obj_tag(x_2)
-                if __t == 0:
-                    x_5 = 0
-                    return x_5
-                elif __t == 1:
-                    x_6 = x_1.objs[0]
-                    x_7 = x_1.objs[1]
-                    x_8 = x_2.objs[0]
-                    x_9 = x_2.objs[1]
-                    x_10 = x_6
-                    x_11 = x_8
-                    x_12 = lean_uint8_dec_eq(x_10, x_11)
-                    __t = x_12
-                    if __t == 0:
-                        return x_12
-                    elif __t == 1:
-                        x_1, x_2 = x_7, x_9
-                        __blk = 0
-                        continue
-                    else:
-                        lean_internal_panic_unreachable()
-                else:
-                    lean_internal_panic_unreachable()
-            else:
-                lean_internal_panic_unreachable()
-        else:
-            lean_internal_panic_unreachable()
-
-def l_Calculator_Wire_decodeMembers___closed__3__init():
+def l_Calculator_Wire_decodeMembers___closed__2__init():
     x_1 = 1
     x_2 = x_1
     x_3 = Ctor(0, [x_2])
     return x_3
-l_Calculator_Wire_decodeMembers___closed__3__cell = []
-def l_Calculator_Wire_decodeMembers___closed__3():
-    c = l_Calculator_Wire_decodeMembers___closed__3__cell
+l_Calculator_Wire_decodeMembers___closed__2__cell = []
+def l_Calculator_Wire_decodeMembers___closed__2():
+    c = l_Calculator_Wire_decodeMembers___closed__2__cell
     if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__3__init()))
-    return c[0]
-
-def l_instDecidableEqUInt8___boxed(x_1, x_2):
-    x_3 = x_1
-    x_4 = x_2
-    x_5 = l_instDecidableEqUInt8(x_3, x_4)
-    x_6 = x_5
-    return x_6
-
-def l_instDecidableEqUInt8(x_1, x_2):
-    x_3 = lean_uint8_dec_eq(x_1, x_2)
-    return x_3
-
-def l_Calculator_Wire_decodeMembers___closed__6__init():
-    x_1 = l_Calculator_Wire_decodeMembers___closed__5()
-    x_2 = 115
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__6__cell = []
-def l_Calculator_Wire_decodeMembers___closed__6():
-    c = l_Calculator_Wire_decodeMembers___closed__6__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__6__init()))
-    return c[0]
-
-def l_Calculator_Wire_decodeMembers___closed__5__init():
-    x_1 = l_Calculator_Wire_decodeMembers___closed__4()
-    x_2 = 101
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__5__cell = []
-def l_Calculator_Wire_decodeMembers___closed__5():
-    c = l_Calculator_Wire_decodeMembers___closed__5__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__5__init()))
-    return c[0]
-
-def l_Calculator_Wire_decodeMembers___closed__4__init():
-    x_1 = 0
-    x_2 = 116
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__4__cell = []
-def l_Calculator_Wire_decodeMembers___closed__4():
-    c = l_Calculator_Wire_decodeMembers___closed__4__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__4__init()))
-    return c[0]
-
-def l_instDecidableEqList___redArg(x_1, x_2, x_3):
-    __t = lean_obj_tag(x_2)
-    if __t == 0:
-        lean_dec(x_1)
-        __t = lean_obj_tag(x_3)
-        if __t == 0:
-            x_4 = 1
-            return x_4
-        elif __t == 1:
-            lean_dec(x_3)
-            x_5 = 0
-            return x_5
-        else:
-            lean_internal_panic_unreachable()
-    elif __t == 1:
-        __t = lean_obj_tag(x_3)
-        if __t == 0:
-            lean_dec(x_2)
-            lean_dec(x_1)
-            x_6 = 0
-            return x_6
-        elif __t == 1:
-            x_7 = x_2.objs[0]
-            lean_inc(x_7)
-            x_8 = x_2.objs[1]
-            lean_inc(x_8)
-            lean_dec(x_2)
-            x_9 = x_3.objs[0]
-            lean_inc(x_9)
-            x_10 = x_3.objs[1]
-            lean_inc(x_10)
-            lean_dec(x_3)
-            lean_inc(x_1)
-            x_11 = lean_apply(x_1, [x_7, x_9])
-            x_12 = x_11
-            __t = x_12
-            if __t == 0:
-                lean_dec(x_10)
-                lean_dec(x_8)
-                lean_dec(x_1)
-                x_13 = x_11
-                return x_13
-            elif __t == 1:
-                x_14 = l_List_hasDecEq___redArg(x_1, x_8, x_10)
-                return x_14
-            else:
-                lean_internal_panic_unreachable()
-        else:
-            lean_internal_panic_unreachable()
-    else:
-        lean_internal_panic_unreachable()
-
-def l_List_hasDecEq___redArg(x_1, x_2, x_3):
-    x_4 = Closure(l_instBEqOfDecidableEq___redArg___lam__0___boxed, 3, [x_1])
-    x_5 = l_List_beq___redArg(x_4, x_2, x_3)
-    return x_5
-
-def l_instBEqOfDecidableEq___redArg___lam__0___boxed(x_1, x_2, x_3):
-    x_4 = l_instBEqOfDecidableEq___redArg___lam__0(x_1, x_2, x_3)
-    x_5 = x_4
-    return x_5
-
-def l_instBEqOfDecidableEq___redArg___lam__0(x_1, x_2, x_3):
-    x_4 = lean_apply(x_1, [x_2, x_3])
-    x_5 = x_4
-    return x_5
-
-def l_List_beq___redArg(x_1, x_2, x_3):
-    __blk = 0
-    while True:
-        if __blk == 0:
-            __t = lean_obj_tag(x_2)
-            if __t == 0:
-                lean_dec(x_1)
-                __t = lean_obj_tag(x_3)
-                if __t == 0:
-                    x_4 = 1
-                    return x_4
-                elif __t == 1:
-                    lean_dec(x_3)
-                    x_5 = 0
-                    return x_5
-                else:
-                    lean_internal_panic_unreachable()
-            elif __t == 1:
-                __t = lean_obj_tag(x_3)
-                if __t == 0:
-                    lean_dec(x_2)
-                    lean_dec(x_1)
-                    x_6 = 0
-                    return x_6
-                elif __t == 1:
-                    x_7 = x_2.objs[0]
-                    lean_inc(x_7)
-                    x_8 = x_2.objs[1]
-                    lean_inc(x_8)
-                    lean_dec(x_2)
-                    x_9 = x_3.objs[0]
-                    lean_inc(x_9)
-                    x_10 = x_3.objs[1]
-                    lean_inc(x_10)
-                    lean_dec(x_3)
-                    lean_inc(x_1)
-                    x_11 = lean_apply(x_1, [x_7, x_9])
-                    x_12 = x_11
-                    __t = x_12
-                    if __t == 0:
-                        lean_dec(x_10)
-                        lean_dec(x_8)
-                        lean_dec(x_1)
-                        x_13 = x_11
-                        return x_13
-                    elif __t == 1:
-                        x_1, x_2, x_3 = x_1, x_8, x_10
-                        __blk = 0
-                        continue
-                    else:
-                        lean_internal_panic_unreachable()
-                else:
-                    lean_internal_panic_unreachable()
-            else:
-                lean_internal_panic_unreachable()
-        else:
-            lean_internal_panic_unreachable()
-
-def l_Calculator_Wire_decodeMembers___closed__11__init():
-    x_1 = l_Calculator_Wire_decodeMembers___closed__10()
-    x_2 = 97
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__11__cell = []
-def l_Calculator_Wire_decodeMembers___closed__11():
-    c = l_Calculator_Wire_decodeMembers___closed__11__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__11__init()))
-    return c[0]
-
-def l_Calculator_Wire_decodeMembers___closed__10__init():
-    x_1 = l_Calculator_Wire_decodeMembers___closed__9()
-    x_2 = 112
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__10__cell = []
-def l_Calculator_Wire_decodeMembers___closed__10():
-    c = l_Calculator_Wire_decodeMembers___closed__10__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__10__init()))
-    return c[0]
-
-def l_Calculator_Wire_decodeMembers___closed__9__init():
-    x_1 = l_Calculator_Wire_decodeMembers___closed__8()
-    x_2 = 112
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__9__cell = []
-def l_Calculator_Wire_decodeMembers___closed__9():
-    c = l_Calculator_Wire_decodeMembers___closed__9__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__9__init()))
-    return c[0]
-
-def l_Calculator_Wire_decodeMembers___closed__8__init():
-    x_1 = l_Calculator_Wire_decodeMembers___closed__7()
-    x_2 = 108
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__8__cell = []
-def l_Calculator_Wire_decodeMembers___closed__8():
-    c = l_Calculator_Wire_decodeMembers___closed__8__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__8__init()))
-    return c[0]
-
-def l_Calculator_Wire_decodeMembers___closed__7__init():
-    x_1 = 0
-    x_2 = 121
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__7__cell = []
-def l_Calculator_Wire_decodeMembers___closed__7():
-    c = l_Calculator_Wire_decodeMembers___closed__7__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__7__init()))
-    return c[0]
-
-def l_Calculator_Wire_decodeMembers___closed__12__init():
-    x_1 = l_Calculator_Wire_decodeMembers___closed__5()
-    x_2 = 103
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__12__cell = []
-def l_Calculator_Wire_decodeMembers___closed__12():
-    c = l_Calculator_Wire_decodeMembers___closed__12__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__12__init()))
+        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__2__init()))
     return c[0]
 
 def l_List_lengthTR___redArg(x_1):
@@ -2562,413 +2726,39 @@ def l_List_lengthTRAux___redArg(x_1, x_2):
         else:
             lean_internal_panic_unreachable()
 
-def l_Calculator_Wire_decodeMembers___closed__13__init():
+def l_Calculator_Wire_decodeMembers___closed__6__init():
     x_1 = 2
     x_2 = Ctor(1, [x_1])
     return x_2
-l_Calculator_Wire_decodeMembers___closed__13__cell = []
-def l_Calculator_Wire_decodeMembers___closed__13():
-    c = l_Calculator_Wire_decodeMembers___closed__13__cell
+l_Calculator_Wire_decodeMembers___closed__6__cell = []
+def l_Calculator_Wire_decodeMembers___closed__6():
+    c = l_Calculator_Wire_decodeMembers___closed__6__cell
     if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__13__init()))
+        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__6__init()))
     return c[0]
 
-def l_Calculator_Wire_decodeMembers___closed__15__init():
-    x_1 = l_Calculator_Wire_decodeMembers___closed__14()
-    x_2 = 111
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__15__cell = []
-def l_Calculator_Wire_decodeMembers___closed__15():
-    c = l_Calculator_Wire_decodeMembers___closed__15__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__15__init()))
-    return c[0]
-
-def l_Calculator_Wire_decodeMembers___closed__14__init():
-    x_1 = 0
-    x_2 = 112
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__14__cell = []
-def l_Calculator_Wire_decodeMembers___closed__14():
-    c = l_Calculator_Wire_decodeMembers___closed__14__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__14__init()))
-    return c[0]
-
-def l_Calculator_Wire_decodeMembers___closed__18__init():
-    x_1 = l_Calculator_Wire_decodeMembers___closed__17()
-    x_2 = 97
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__18__cell = []
-def l_Calculator_Wire_decodeMembers___closed__18():
-    c = l_Calculator_Wire_decodeMembers___closed__18__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__18__init()))
-    return c[0]
-
-def l_Calculator_Wire_decodeMembers___closed__17__init():
-    x_1 = l_Calculator_Wire_decodeMembers___closed__16()
-    x_2 = 114
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__17__cell = []
-def l_Calculator_Wire_decodeMembers___closed__17():
-    c = l_Calculator_Wire_decodeMembers___closed__17__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__17__init()))
-    return c[0]
-
-def l_Calculator_Wire_decodeMembers___closed__16__init():
-    x_1 = 0
-    x_2 = 103
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__16__cell = []
-def l_Calculator_Wire_decodeMembers___closed__16():
-    c = l_Calculator_Wire_decodeMembers___closed__16__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__16__init()))
-    return c[0]
-
-def l_Calculator_Wire_opNamed(x_1):
-    x_2 = Closure(l_instDecidableEqUInt8___boxed, 2, [])
-    x_3 = l_Calculator_Wire_opNamed___closed__2()
-    lean_inc(x_1)
-    lean_inc(x_2)
-    x_4 = l_instDecidableEqList___redArg(x_2, x_1, x_3)
-    __t = x_4
-    if __t == 0:
-        x_5 = l_Calculator_Wire_opNamed___closed__5()
-        lean_inc(x_1)
-        lean_inc(x_2)
-        x_6 = l_instDecidableEqList___redArg(x_2, x_1, x_5)
-        __t = x_6
-        if __t == 0:
-            x_7 = l_Calculator_Wire_opNamed___closed__8()
-            lean_inc(x_1)
-            lean_inc(x_2)
-            x_8 = l_instDecidableEqList___redArg(x_2, x_1, x_7)
-            __t = x_8
-            if __t == 0:
-                x_9 = l_Calculator_Wire_opNamed___closed__11()
-                x_10 = l_instDecidableEqList___redArg(x_2, x_1, x_9)
-                __t = x_10
-                if __t == 0:
-                    x_11 = 0
-                    return x_11
-                elif __t == 1:
-                    x_12 = l_Calculator_Wire_opNamed___closed__12()
-                    return x_12
-                else:
-                    lean_internal_panic_unreachable()
-            elif __t == 1:
-                lean_dec(x_2)
-                lean_dec(x_1)
-                x_13 = l_Calculator_Wire_opNamed___closed__13()
-                return x_13
-            else:
-                lean_internal_panic_unreachable()
-        elif __t == 1:
-            lean_dec(x_2)
-            lean_dec(x_1)
-            x_14 = l_Calculator_Wire_opNamed___closed__14()
-            return x_14
-        else:
-            lean_internal_panic_unreachable()
-    elif __t == 1:
-        lean_dec(x_2)
-        lean_dec(x_1)
-        x_15 = l_Calculator_Wire_opNamed___closed__15()
-        return x_15
-    else:
-        lean_internal_panic_unreachable()
-
-def l_Calculator_Wire_opNamed___closed__2__init():
-    x_1 = l_Calculator_Wire_opNamed___closed__1()
-    x_2 = 97
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_opNamed___closed__2__cell = []
-def l_Calculator_Wire_opNamed___closed__2():
-    c = l_Calculator_Wire_opNamed___closed__2__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__2__init()))
-    return c[0]
-
-def l_Calculator_Wire_opNamed___closed__1__init():
-    x_1 = l_Calculator_Wire_opNamed___closed__0()
-    x_2 = 100
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_opNamed___closed__1__cell = []
-def l_Calculator_Wire_opNamed___closed__1():
-    c = l_Calculator_Wire_opNamed___closed__1__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__1__init()))
-    return c[0]
-
-def l_Calculator_Wire_opNamed___closed__5__init():
-    x_1 = l_Calculator_Wire_opNamed___closed__4()
-    x_2 = 115
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_opNamed___closed__5__cell = []
-def l_Calculator_Wire_opNamed___closed__5():
-    c = l_Calculator_Wire_opNamed___closed__5__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__5__init()))
-    return c[0]
-
-def l_Calculator_Wire_opNamed___closed__4__init():
-    x_1 = l_Calculator_Wire_opNamed___closed__3()
-    x_2 = 117
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_opNamed___closed__4__cell = []
-def l_Calculator_Wire_opNamed___closed__4():
-    c = l_Calculator_Wire_opNamed___closed__4__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__4__init()))
-    return c[0]
-
-def l_Calculator_Wire_opNamed___closed__3__init():
-    x_1 = 0
-    x_2 = 98
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_opNamed___closed__3__cell = []
-def l_Calculator_Wire_opNamed___closed__3():
-    c = l_Calculator_Wire_opNamed___closed__3__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__3__init()))
-    return c[0]
-
-def l_Calculator_Wire_opNamed___closed__8__init():
-    x_1 = l_Calculator_Wire_opNamed___closed__7()
-    x_2 = 109
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_opNamed___closed__8__cell = []
-def l_Calculator_Wire_opNamed___closed__8():
-    c = l_Calculator_Wire_opNamed___closed__8__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__8__init()))
-    return c[0]
-
-def l_Calculator_Wire_opNamed___closed__7__init():
-    x_1 = l_Calculator_Wire_opNamed___closed__6()
-    x_2 = 117
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_opNamed___closed__7__cell = []
-def l_Calculator_Wire_opNamed___closed__7():
-    c = l_Calculator_Wire_opNamed___closed__7__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__7__init()))
-    return c[0]
-
-def l_Calculator_Wire_opNamed___closed__6__init():
-    x_1 = 0
-    x_2 = 108
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_opNamed___closed__6__cell = []
-def l_Calculator_Wire_opNamed___closed__6():
-    c = l_Calculator_Wire_opNamed___closed__6__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__6__init()))
-    return c[0]
-
-def l_Calculator_Wire_opNamed___closed__11__init():
-    x_1 = l_Calculator_Wire_opNamed___closed__10()
-    x_2 = 100
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_opNamed___closed__11__cell = []
-def l_Calculator_Wire_opNamed___closed__11():
-    c = l_Calculator_Wire_opNamed___closed__11__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__11__init()))
-    return c[0]
-
-def l_Calculator_Wire_opNamed___closed__10__init():
-    x_1 = l_Calculator_Wire_opNamed___closed__9()
-    x_2 = 105
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_opNamed___closed__10__cell = []
-def l_Calculator_Wire_opNamed___closed__10():
-    c = l_Calculator_Wire_opNamed___closed__10__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__10__init()))
-    return c[0]
-
-def l_Calculator_Wire_opNamed___closed__9__init():
-    x_1 = 0
-    x_2 = 118
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_opNamed___closed__9__cell = []
-def l_Calculator_Wire_opNamed___closed__9():
-    c = l_Calculator_Wire_opNamed___closed__9__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__9__init()))
-    return c[0]
-
-def l_Calculator_Wire_opNamed___closed__12__init():
-    x_1 = 3
-    x_2 = x_1
-    x_3 = Ctor(1, [x_2])
-    return x_3
-l_Calculator_Wire_opNamed___closed__12__cell = []
-def l_Calculator_Wire_opNamed___closed__12():
-    c = l_Calculator_Wire_opNamed___closed__12__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__12__init()))
-    return c[0]
-
-def l_Calculator_Wire_opNamed___closed__13__init():
-    x_1 = 2
-    x_2 = x_1
-    x_3 = Ctor(1, [x_2])
-    return x_3
-l_Calculator_Wire_opNamed___closed__13__cell = []
-def l_Calculator_Wire_opNamed___closed__13():
-    c = l_Calculator_Wire_opNamed___closed__13__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__13__init()))
-    return c[0]
-
-def l_Calculator_Wire_opNamed___closed__14__init():
-    x_1 = 1
-    x_2 = x_1
-    x_3 = Ctor(1, [x_2])
-    return x_3
-l_Calculator_Wire_opNamed___closed__14__cell = []
-def l_Calculator_Wire_opNamed___closed__14():
-    c = l_Calculator_Wire_opNamed___closed__14__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__14__init()))
-    return c[0]
-
-def l_Calculator_Wire_opNamed___closed__15__init():
-    x_1 = 0
-    x_2 = x_1
-    x_3 = Ctor(1, [x_2])
-    return x_3
-l_Calculator_Wire_opNamed___closed__15__cell = []
-def l_Calculator_Wire_opNamed___closed__15():
-    c = l_Calculator_Wire_opNamed___closed__15__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_opNamed___closed__15__init()))
-    return c[0]
-
-def l_Calculator_Wire_decodeMembers___closed__19__init():
+def l_Calculator_Wire_decodeMembers___closed__9__init():
     x_1 = 3
     x_2 = x_1
     x_3 = Ctor(0, [x_2])
     return x_3
-l_Calculator_Wire_decodeMembers___closed__19__cell = []
-def l_Calculator_Wire_decodeMembers___closed__19():
-    c = l_Calculator_Wire_decodeMembers___closed__19__cell
+l_Calculator_Wire_decodeMembers___closed__9__cell = []
+def l_Calculator_Wire_decodeMembers___closed__9():
+    c = l_Calculator_Wire_decodeMembers___closed__9__cell
     if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__19__init()))
+        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__9__init()))
     return c[0]
 
-def l_Calculator_Wire_decodeMembers___closed__24__init():
-    x_1 = l_Calculator_Wire_decodeMembers___closed__23()
-    x_2 = 118
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__24__cell = []
-def l_Calculator_Wire_decodeMembers___closed__24():
-    c = l_Calculator_Wire_decodeMembers___closed__24__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__24__init()))
-    return c[0]
-
-def l_Calculator_Wire_decodeMembers___closed__23__init():
-    x_1 = l_Calculator_Wire_decodeMembers___closed__22()
-    x_2 = 97
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__23__cell = []
-def l_Calculator_Wire_decodeMembers___closed__23():
-    c = l_Calculator_Wire_decodeMembers___closed__23__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__23__init()))
-    return c[0]
-
-def l_Calculator_Wire_decodeMembers___closed__22__init():
-    x_1 = l_Calculator_Wire_decodeMembers___closed__21()
-    x_2 = 108
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__22__cell = []
-def l_Calculator_Wire_decodeMembers___closed__22():
-    c = l_Calculator_Wire_decodeMembers___closed__22__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__22__init()))
-    return c[0]
-
-def l_Calculator_Wire_decodeMembers___closed__21__init():
-    x_1 = l_Calculator_Wire_decodeMembers___closed__20()
-    x_2 = 117
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__21__cell = []
-def l_Calculator_Wire_decodeMembers___closed__21():
-    c = l_Calculator_Wire_decodeMembers___closed__21__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__21__init()))
-    return c[0]
-
-def l_Calculator_Wire_decodeMembers___closed__20__init():
-    x_1 = 0
-    x_2 = 101
-    x_3 = x_2
-    x_4 = Ctor(1, [x_3, x_1])
-    return x_4
-l_Calculator_Wire_decodeMembers___closed__20__cell = []
-def l_Calculator_Wire_decodeMembers___closed__20():
-    c = l_Calculator_Wire_decodeMembers___closed__20__cell
-    if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__20__init()))
-    return c[0]
-
-def l_Calculator_Wire_decodeMembers___closed__25__init():
+def l_Calculator_Wire_decodeMembers___closed__11__init():
     x_1 = 2
     x_2 = x_1
     x_3 = Ctor(0, [x_2])
     return x_3
-l_Calculator_Wire_decodeMembers___closed__25__cell = []
-def l_Calculator_Wire_decodeMembers___closed__25():
-    c = l_Calculator_Wire_decodeMembers___closed__25__cell
+l_Calculator_Wire_decodeMembers___closed__11__cell = []
+def l_Calculator_Wire_decodeMembers___closed__11():
+    c = l_Calculator_Wire_decodeMembers___closed__11__cell
     if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__25__init()))
+        c.append(lean_mark_persistent(l_Calculator_Wire_decodeMembers___closed__11__init()))
     return c[0]
 
 def l_Calculator_Wire_refusalMessage(x_1):
@@ -3599,7 +3389,7 @@ from leanfran.marshal import Err, Lean, Local, Ok  # noqa: E402
 from leanfran.types import Char, Int8, Int16, Int32, Int64, Nat, UInt8, UInt16, UInt32, UInt64  # noqa: E402
 import leangage_calculator.kernel as _ext0  # noqa: E402
 import leangage.http_format as _ext1  # noqa: E402
-import leangage.json_items as _ext2  # noqa: E402
+import leangage.json_lexemes as _ext2  # noqa: E402
 
 
 
@@ -3652,32 +3442,26 @@ _D8 = _m.NamedD(globals(), "_ext1.Body")
 _D9 = _m.LeanType(_D8, "_ext1.Body")
 _D10 = _m.ExceptD(globals(), _m.NamedD(globals(), "_ext1.Response"), _m.NamedD(globals(), "Call"), "_ext1.Response", "Call")
 _D11 = _m.LeanType(_D10, "Ok[Call] | Err[_ext1.Response]")
-_D12 = _m.ListD(_m.ProdD(_m.ListD(_m.UIntD(8)), _m.NamedD(globals(), "_ext2.Item")))
-_D13 = _m.LeanType(_D12, "list[tuple[list[UInt8], _ext2.Item]]")
+_D12 = _m.ListD(_m.ProdD(_m.STRING, _m.NamedD(globals(), "_ext2.Scalar")))
+_D13 = _m.LeanType(_D12, "list[tuple[str, _ext2.Scalar]]")
 _D14 = _m.ExceptD(globals(), _m.NamedD(globals(), "Refusal"), _m.NamedD(globals(), "_ext0.Command"), "Refusal", "_ext0.Command")
 _D15 = _m.LeanType(_D14, "Ok[_ext0.Command] | Err[Refusal]")
 _D16 = _m.NamedD(globals(), "Refusal")
 _D17 = _m.LeanType(_D16, "Refusal")
 _D18 = _m.STRING
 _D19 = _m.LeanType(_D18, "str")
-_D20 = _m.ListD(_m.NamedD(globals(), "_ext2.Item"))
-_D21 = _m.LeanType(_D20, "list[_ext2.Item]")
-_D22 = _m.OptionD(_m.ListD(_m.ProdD(_m.ListD(_m.UIntD(8)), _m.NamedD(globals(), "_ext2.Item"))))
-_D23 = _m.LeanType(_D22, "list[tuple[list[UInt8], _ext2.Item]] | None")
-_D24 = _m.NamedD(globals(), "_ext0.Principal")
-_D25 = _m.LeanType(_D24, "_ext0.Principal")
-_D26 = _m.ExceptD(globals(), _m.NamedD(globals(), "_ext0.Error"), _m.NamedD(globals(), "_ext0.Reply"), "_ext0.Error", "_ext0.Reply")
-_D27 = _m.LeanType(_D26, "Ok[_ext0.Reply] | Err[_ext0.Error]")
-_D28 = _m.NamedD(globals(), "_ext1.Response")
-_D29 = _m.LeanType(_D28, "_ext1.Response")
-_D30 = _m.ListD(_m.UIntD(8))
-_D31 = _m.LeanType(_D30, "list[UInt8]")
-_D32 = _m.OptionD(_m.NamedD(globals(), "_ext0.Op"))
-_D33 = _m.LeanType(_D32, "_ext0.Op | None")
-_D34 = _m.NamedD(globals(), "_ext2.Item")
-_D35 = _m.LeanType(_D34, "_ext2.Item")
-_D36 = _m.BOOL
-_D37 = _m.LeanType(_D36, "bool")
+_D20 = _m.NamedD(globals(), "_ext0.Principal")
+_D21 = _m.LeanType(_D20, "_ext0.Principal")
+_D22 = _m.ExceptD(globals(), _m.NamedD(globals(), "_ext0.Error"), _m.NamedD(globals(), "_ext0.Reply"), "_ext0.Error", "_ext0.Reply")
+_D23 = _m.LeanType(_D22, "Ok[_ext0.Reply] | Err[_ext0.Error]")
+_D24 = _m.NamedD(globals(), "_ext1.Response")
+_D25 = _m.LeanType(_D24, "_ext1.Response")
+_D26 = _m.OptionD(_m.NamedD(globals(), "_ext0.Op"))
+_D27 = _m.LeanType(_D26, "_ext0.Op | None")
+_D28 = _m.ListD(_m.NamedD(globals(), "_ext2.Lexeme"))
+_D29 = _m.LeanType(_D28, "list[_ext2.Lexeme]")
+_D30 = _m.OptionD(_m.NamedD(globals(), "_ext0.Command"))
+_D31 = _m.LeanType(_D30, "_ext0.Command | None")
 
 
 def _pub_opFingerprint(arg0: "_ext0.Op") -> "list[UInt8]":
@@ -3757,20 +3541,20 @@ def _pub_request__local(tenant: "UInt64 | Lean[UInt64] | Local[UInt64]", user: "
 
 
 _m.attach(globals(), ["request"], _pub_request, "Calculator.Wire.request", _pub_request__lean, {"tenant": _D7, "user": _D7, "exp": _D7, "now": _D7, "body": _D9}, _D11, _pub_request__local)
-def _pub_decodeMembers(ms: "list[tuple[list[UInt8], _ext2.Item]]") -> "Ok[_ext0.Command] | Err[Refusal]":
+def _pub_decodeMembers(ms: "list[tuple[str, _ext2.Scalar]]") -> "Ok[_ext0.Command] | Err[Refusal]":
     "Lean `Calculator.Wire.decodeMembers`."
     __a0 = _m.to_lean(_D12, ms, "ms")
     return _m.to_py(_D14, l_Calculator_Wire_decodeMembers(__a0))
 
 
-def _pub_decodeMembers__lean(ms: "list[tuple[list[UInt8], _ext2.Item]] | Lean[list[tuple[list[UInt8], _ext2.Item]]]") -> "Lean[Ok[_ext0.Command] | Err[Refusal]]":
+def _pub_decodeMembers__lean(ms: "list[tuple[str, _ext2.Scalar]] | Lean[list[tuple[str, _ext2.Scalar]]]") -> "Lean[Ok[_ext0.Command] | Err[Refusal]]":
     "Lean `Calculator.Wire.decodeMembers`, on handles."
     __a0 = _m.lean_arg(_D13, ms, "ms")
     _m.give(ms)
     return _m.handle(_D15, l_Calculator_Wire_decodeMembers(__a0))
 
 
-def _pub_decodeMembers__local(ms: "list[tuple[list[UInt8], _ext2.Item]] | Lean[list[tuple[list[UInt8], _ext2.Item]]] | Local[list[tuple[list[UInt8], _ext2.Item]]]") -> "Local[Ok[_ext0.Command] | Err[Refusal]]":
+def _pub_decodeMembers__local(ms: "list[tuple[str, _ext2.Scalar]] | Lean[list[tuple[str, _ext2.Scalar]]] | Local[list[tuple[str, _ext2.Scalar]]]") -> "Local[Ok[_ext0.Command] | Err[Refusal]]":
     "Lean `Calculator.Wire.decodeMembers`, on local handles."
     __a0 = _m.local_arg(_D13, ms, "ms", False)
     _m.give(ms)
@@ -3801,139 +3585,138 @@ def _pub_refusalMessage__local(arg0: "Refusal | Lean[Refusal] | Local[Refusal]")
 
 
 _m.attach(globals(), ["refusalMessage"], _pub_refusalMessage, "Calculator.Wire.refusalMessage", _pub_refusalMessage__lean, {"arg0": _D17}, _D19, _pub_refusalMessage__local)
-def _pub_members(acc: "list[tuple[list[UInt8], _ext2.Item]]", arg1: "list[_ext2.Item]") -> "list[tuple[list[UInt8], _ext2.Item]] | None":
-    "Lean `Calculator.Wire.members`."
-    __a0 = _m.to_lean(_D12, acc, "acc")
-    __a1 = _m.to_lean(_D20, arg1, "arg1")
-    return _m.to_py(_D22, l_Calculator_Wire_members(__a0, __a1))
-
-
-def _pub_members__lean(acc: "list[tuple[list[UInt8], _ext2.Item]] | Lean[list[tuple[list[UInt8], _ext2.Item]]]", arg1: "list[_ext2.Item] | Lean[list[_ext2.Item]]") -> "Lean[list[tuple[list[UInt8], _ext2.Item]] | None]":
-    "Lean `Calculator.Wire.members`, on handles."
-    __a0 = _m.lean_arg(_D13, acc, "acc")
-    __a1 = _m.lean_arg(_D21, arg1, "arg1")
-    _m.give(acc, arg1)
-    return _m.handle(_D23, l_Calculator_Wire_members(__a0, __a1))
-
-
-def _pub_members__local(acc: "list[tuple[list[UInt8], _ext2.Item]] | Lean[list[tuple[list[UInt8], _ext2.Item]]] | Local[list[tuple[list[UInt8], _ext2.Item]]]", arg1: "list[_ext2.Item] | Lean[list[_ext2.Item]] | Local[list[_ext2.Item]]") -> "Local[list[tuple[list[UInt8], _ext2.Item]] | None]":
-    "Lean `Calculator.Wire.members`, on local handles."
-    __a0 = _m.local_arg(_D13, acc, "acc", True)
-    __a1 = _m.local_arg(_D21, arg1, "arg1", True)
-    _m.give(acc, arg1)
-    return _m.local_handle(_D23, l_Calculator_Wire_members(__a0, __a1))
-
-
-_m.attach(globals(), ["members"], _pub_members, "Calculator.Wire.members", _pub_members__lean, {"acc": _D13, "arg1": _D21}, _D23, _pub_members__local)
 def _pub_scope(actor: "_ext0.Principal") -> "str":
     "Lean `Calculator.Wire.scope`."
-    __a0 = _m.to_lean(_D24, actor, "actor")
+    __a0 = _m.to_lean(_D20, actor, "actor")
     return _m.to_py(_D18, l_Calculator_Wire_scope(__a0))
 
 
 def _pub_scope__lean(actor: "_ext0.Principal | Lean[_ext0.Principal]") -> "Lean[str]":
     "Lean `Calculator.Wire.scope`, on handles."
-    __a0 = _m.lean_arg(_D25, actor, "actor")
+    __a0 = _m.lean_arg(_D21, actor, "actor")
     _m.give(actor)
     return _m.handle(_D19, l_Calculator_Wire_scope(__a0))
 
 
 def _pub_scope__local(actor: "_ext0.Principal | Lean[_ext0.Principal] | Local[_ext0.Principal]") -> "Local[str]":
     "Lean `Calculator.Wire.scope`, on local handles."
-    __a0 = _m.local_arg(_D25, actor, "actor", False)
+    __a0 = _m.local_arg(_D21, actor, "actor", False)
     _m.give(actor)
     __r = l_Calculator_Wire_scope(__a0)
     _m.local_done(actor, __a0)
     return _m.local_handle(_D19, __r)
 
 
-_m.attach(globals(), ["scope"], _pub_scope, "Calculator.Wire.scope", _pub_scope__lean, {"actor": _D25}, _D19, _pub_scope__local)
+_m.attach(globals(), ["scope"], _pub_scope, "Calculator.Wire.scope", _pub_scope__lean, {"actor": _D21}, _D19, _pub_scope__local)
 def _pub_respond(arg0: "Ok[_ext0.Reply] | Err[_ext0.Error]") -> "_ext1.Response":
     "Lean `Calculator.Wire.respond`."
-    __a0 = _m.to_lean(_D26, arg0, "arg0")
-    return _m.to_py(_D28, l_Calculator_Wire_respond(__a0))
+    __a0 = _m.to_lean(_D22, arg0, "arg0")
+    return _m.to_py(_D24, l_Calculator_Wire_respond(__a0))
 
 
 def _pub_respond__lean(arg0: "Ok[_ext0.Reply] | Err[_ext0.Error] | Lean[Ok[_ext0.Reply] | Err[_ext0.Error]]") -> "Lean[_ext1.Response]":
     "Lean `Calculator.Wire.respond`, on handles."
-    __a0 = _m.lean_arg(_D27, arg0, "arg0")
+    __a0 = _m.lean_arg(_D23, arg0, "arg0")
     _m.give(arg0)
-    return _m.handle(_D29, l_Calculator_Wire_respond(__a0))
+    return _m.handle(_D25, l_Calculator_Wire_respond(__a0))
 
 
 def _pub_respond__local(arg0: "Ok[_ext0.Reply] | Err[_ext0.Error] | Lean[Ok[_ext0.Reply] | Err[_ext0.Error]] | Local[Ok[_ext0.Reply] | Err[_ext0.Error]]") -> "Local[_ext1.Response]":
     "Lean `Calculator.Wire.respond`, on local handles."
-    __a0 = _m.local_arg(_D27, arg0, "arg0", False)
+    __a0 = _m.local_arg(_D23, arg0, "arg0", False)
     _m.give(arg0)
     __r = l_Calculator_Wire_respond(__a0)
     _m.local_done(arg0, __a0)
-    return _m.local_handle(_D29, __r)
+    return _m.local_handle(_D25, __r)
 
 
-_m.attach(globals(), ["respond"], _pub_respond, "Calculator.Wire.respond", _pub_respond__lean, {"arg0": _D27}, _D29, _pub_respond__local)
-def _pub_opNamed(name: "list[UInt8]") -> "_ext0.Op | None":
+_m.attach(globals(), ["respond"], _pub_respond, "Calculator.Wire.respond", _pub_respond__lean, {"arg0": _D23}, _D25, _pub_respond__local)
+def _pub_opNamed(name: "str") -> "_ext0.Op | None":
     "Lean `Calculator.Wire.opNamed`."
-    __a0 = _m.to_lean(_D30, name, "name")
-    return _m.to_py(_D32, l_Calculator_Wire_opNamed(__a0))
+    __a0 = _m.to_lean(_D18, name, "name")
+    return _m.to_py(_D26, l_Calculator_Wire_opNamed(__a0))
 
 
-def _pub_opNamed__lean(name: "list[UInt8] | Lean[list[UInt8]]") -> "Lean[_ext0.Op | None]":
+def _pub_opNamed__lean(name: "str | Lean[str]") -> "Lean[_ext0.Op | None]":
     "Lean `Calculator.Wire.opNamed`, on handles."
-    __a0 = _m.lean_arg(_D31, name, "name")
+    __a0 = _m.lean_arg(_D19, name, "name")
     _m.give(name)
-    return _m.handle(_D33, l_Calculator_Wire_opNamed(__a0))
+    return _m.handle(_D27, l_Calculator_Wire_opNamed(__a0))
 
 
-def _pub_opNamed__local(name: "list[UInt8] | Lean[list[UInt8]] | Local[list[UInt8]]") -> "Local[_ext0.Op | None]":
+def _pub_opNamed__local(name: "str | Lean[str] | Local[str]") -> "Local[_ext0.Op | None]":
     "Lean `Calculator.Wire.opNamed`, on local handles."
-    __a0 = _m.local_arg(_D31, name, "name", True)
+    __a0 = _m.local_arg(_D19, name, "name", False)
     _m.give(name)
-    return _m.local_handle(_D33, l_Calculator_Wire_opNamed(__a0))
+    __r = l_Calculator_Wire_opNamed(__a0)
+    _m.local_done(name, __a0)
+    return _m.local_handle(_D27, __r)
 
 
-_m.attach(globals(), ["opNamed"], _pub_opNamed, "Calculator.Wire.opNamed", _pub_opNamed__lean, {"name": _D31}, _D33, _pub_opNamed__local)
-def _pub_scalar(arg0: "_ext2.Item") -> "bool":
-    "Lean `Calculator.Wire.scalar`."
-    __a0 = _m.to_lean(_D34, arg0, "arg0")
-    return _m.to_py(_D36, l_Calculator_Wire_scalar(__a0))
+_m.attach(globals(), ["opNamed"], _pub_opNamed, "Calculator.Wire.opNamed", _pub_opNamed__lean, {"name": _D19}, _D27, _pub_opNamed__local)
+def _pub_decodeObject(lexemes: "list[_ext2.Lexeme]") -> "Ok[_ext0.Command] | Err[Refusal]":
+    "Lean `Calculator.Wire.decodeObject`."
+    __a0 = _m.to_lean(_D28, lexemes, "lexemes")
+    return _m.to_py(_D14, l_Calculator_Wire_decodeObject(__a0))
 
 
-def _pub_scalar__lean(arg0: "_ext2.Item | Lean[_ext2.Item]") -> "Lean[bool]":
-    "Lean `Calculator.Wire.scalar`, on handles."
-    __a0 = _m.lean_arg(_D35, arg0, "arg0")
+def _pub_decodeObject__lean(lexemes: "list[_ext2.Lexeme] | Lean[list[_ext2.Lexeme]]") -> "Lean[Ok[_ext0.Command] | Err[Refusal]]":
+    "Lean `Calculator.Wire.decodeObject`, on handles."
+    __a0 = _m.lean_arg(_D29, lexemes, "lexemes")
+    _m.give(lexemes)
+    return _m.handle(_D15, l_Calculator_Wire_decodeObject(__a0))
+
+
+def _pub_decodeObject__local(lexemes: "list[_ext2.Lexeme] | Lean[list[_ext2.Lexeme]] | Local[list[_ext2.Lexeme]]") -> "Local[Ok[_ext0.Command] | Err[Refusal]]":
+    "Lean `Calculator.Wire.decodeObject`, on local handles."
+    __a0 = _m.local_arg(_D29, lexemes, "lexemes", True)
+    _m.give(lexemes)
+    return _m.local_handle(_D15, l_Calculator_Wire_decodeObject(__a0))
+
+
+_m.attach(globals(), ["decodeObject"], _pub_decodeObject, "Calculator.Wire.decodeObject", _pub_decodeObject__lean, {"lexemes": _D29}, _D15, _pub_decodeObject__local)
+def _pub_spelled(arg0: "list[_ext2.Lexeme]") -> "_ext0.Command | None":
+    "Lean `Calculator.Wire.spelled`."
+    __a0 = _m.to_lean(_D28, arg0, "arg0")
+    return _m.to_py(_D30, l_Calculator_Wire_spelled(__a0))
+
+
+def _pub_spelled__lean(arg0: "list[_ext2.Lexeme] | Lean[list[_ext2.Lexeme]]") -> "Lean[_ext0.Command | None]":
+    "Lean `Calculator.Wire.spelled`, on handles."
+    __a0 = _m.lean_arg(_D29, arg0, "arg0")
     _m.give(arg0)
-    return _m.handle(_D37, l_Calculator_Wire_scalar(__a0))
+    return _m.handle(_D31, l_Calculator_Wire_spelled(__a0))
 
 
-def _pub_scalar__local(arg0: "_ext2.Item | Lean[_ext2.Item] | Local[_ext2.Item]") -> "Local[bool]":
-    "Lean `Calculator.Wire.scalar`, on local handles."
-    __a0 = _m.local_arg(_D35, arg0, "arg0", False)
+def _pub_spelled__local(arg0: "list[_ext2.Lexeme] | Lean[list[_ext2.Lexeme]] | Local[list[_ext2.Lexeme]]") -> "Local[_ext0.Command | None]":
+    "Lean `Calculator.Wire.spelled`, on local handles."
+    __a0 = _m.local_arg(_D29, arg0, "arg0", False)
     _m.give(arg0)
-    __r = l_Calculator_Wire_scalar(__a0)
+    __r = l_Calculator_Wire_spelled(__a0)
     _m.local_done(arg0, __a0)
-    return _m.local_handle(_D37, __r)
+    return _m.local_handle(_D31, __r)
 
 
-_m.attach(globals(), ["scalar"], _pub_scalar, "Calculator.Wire.scalar", _pub_scalar__lean, {"arg0": _D35}, _D37, _pub_scalar__local)
-def _pub_decodeItems(arg0: "list[_ext2.Item]") -> "Ok[_ext0.Command] | Err[Refusal]":
-    "Lean `Calculator.Wire.decodeItems`."
-    __a0 = _m.to_lean(_D20, arg0, "arg0")
-    return _m.to_py(_D14, l_Calculator_Wire_decodeItems(__a0))
+_m.attach(globals(), ["spelled"], _pub_spelled, "Calculator.Wire.spelled", _pub_spelled__lean, {"arg0": _D29}, _D31, _pub_spelled__local)
+def _pub_decode(lexemes: "list[_ext2.Lexeme]") -> "Ok[_ext0.Command] | Err[Refusal]":
+    "Lean `Calculator.Wire.decode`."
+    __a0 = _m.to_lean(_D28, lexemes, "lexemes")
+    return _m.to_py(_D14, l_Calculator_Wire_decode(__a0))
 
 
-def _pub_decodeItems__lean(arg0: "list[_ext2.Item] | Lean[list[_ext2.Item]]") -> "Lean[Ok[_ext0.Command] | Err[Refusal]]":
-    "Lean `Calculator.Wire.decodeItems`, on handles."
-    __a0 = _m.lean_arg(_D21, arg0, "arg0")
-    _m.give(arg0)
-    return _m.handle(_D15, l_Calculator_Wire_decodeItems(__a0))
+def _pub_decode__lean(lexemes: "list[_ext2.Lexeme] | Lean[list[_ext2.Lexeme]]") -> "Lean[Ok[_ext0.Command] | Err[Refusal]]":
+    "Lean `Calculator.Wire.decode`, on handles."
+    __a0 = _m.lean_arg(_D29, lexemes, "lexemes")
+    _m.give(lexemes)
+    return _m.handle(_D15, l_Calculator_Wire_decode(__a0))
 
 
-def _pub_decodeItems__local(arg0: "list[_ext2.Item] | Lean[list[_ext2.Item]] | Local[list[_ext2.Item]]") -> "Local[Ok[_ext0.Command] | Err[Refusal]]":
-    "Lean `Calculator.Wire.decodeItems`, on local handles."
-    __a0 = _m.local_arg(_D21, arg0, "arg0", True)
-    _m.give(arg0)
-    return _m.local_handle(_D15, l_Calculator_Wire_decodeItems(__a0))
+def _pub_decode__local(lexemes: "list[_ext2.Lexeme] | Lean[list[_ext2.Lexeme]] | Local[list[_ext2.Lexeme]]") -> "Local[Ok[_ext0.Command] | Err[Refusal]]":
+    "Lean `Calculator.Wire.decode`, on local handles."
+    __a0 = _m.local_arg(_D29, lexemes, "lexemes", True)
+    _m.give(lexemes)
+    return _m.local_handle(_D15, l_Calculator_Wire_decode(__a0))
 
 
-_m.attach(globals(), ["decodeItems"], _pub_decodeItems, "Calculator.Wire.decodeItems", _pub_decodeItems__lean, {"arg0": _D21}, _D15, _pub_decodeItems__local)
+_m.attach(globals(), ["decode"], _pub_decode, "Calculator.Wire.decode", _pub_decode__lean, {"lexemes": _D29}, _D15, _pub_decode__local)
 _m.finish(globals())

@@ -222,14 +222,23 @@ func main() {
 			must(wire.Request(1, 42, 1, 0, leangage.BodyOf(request))).Cmd != kernel.Command(command) {
 			panic("the request body")
 		}
-		compareAs(body.label, "by hand", "generated", 100_000,
-			func() { sink = decodeByHand(request) },
-			func() { sink = must(wire.Request(1, 42, 1, 0, leangage.BodyOf(request))) })
-		var parse []float64
+		tokens := leangage.BodyOf(request)
+		var byHand, generated, parse, decide, expired []float64
 		for range rounds {
+			byHand = append(byHand, perOp(100_000, func() { sink = decodeByHand(request) }))
+			generated = append(generated, perOp(100_000, func() {
+				sink = must(wire.Request(1, 42, 1, 0, leangage.BodyOf(request)))
+			}))
 			parse = append(parse, perOp(100_000, func() { sink = leangage.BodyOf(request) }))
+			decide = append(decide, perOp(100_000, func() { sink = must(wire.Request(1, 42, 1, 0, tokens)) }))
+			expired = append(expired, perOp(100_000, func() { _, sink = wire.Request(1, 42, 0, 1, tokens) }))
 		}
-		fmt.Printf("    tokens only             %s\n", show(parse))
+		fmt.Printf("%-19s by hand %s  library and generated %s\n", body.label, show(byHand), show(generated))
+		fmt.Printf("    calls/s: by hand %.0f, library and generated %.0f\n",
+			1e9/slices.Min(byHand), 1e9/slices.Min(generated))
+		fmt.Printf("    parse and conversion only  %s\n", show(parse))
+		fmt.Printf("    generated request only     %s\n", show(decide))
+		fmt.Printf("    request of an expired token %s\n", show(expired))
 	}
 	accepted := leanfran.Except[kernel.Error, kernel.Reply]{Ok: reply}
 	if string(wire.Respond(accepted).Body) != `{"value":6}` {

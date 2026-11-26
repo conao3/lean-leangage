@@ -1,28 +1,28 @@
 import Notes.Wire
 import Leangage.Http.Proofs
-import Leangage.Json.Items.Proofs
+import Leangage.Json.Lexemes.Proofs
 
 /-!
 # What the notes' functions on the wire guarantee
 
 The server's JSON library is trusted to hand over the tokens of the text of a body and of a
-stored reply (`Leangage.Json.Items.Proofs`); the theorems start from the items of those tokens.
+stored reply (`Leangage.Json.Lexemes.Proofs`); the theorems start from those tokens.
 
-- `decodeItems_encode`: the items of `encodeCommand c`, the JSON value that spells the command
-  `c`, decode to `c`. So every command has a spelling the server accepts.
-- `decodeItems_ok_iff`, `decodeMembers_ok_iff`: items decode to `c` exactly when they are the
-  items of an object with as many members as `c` has fields (`fields c`, the members of
-  `encodeCommand c`) and with each field among them. The members may come in any order; an
-  object with another member, a member twice or a member whose value is an array or an object is
-  refused. The body of `put_note` is the text whose UTF-8 is the bytes of the string
-  (`textOf_bytesOf`, `textOf_some`).
+- `decode_encode`: the tokens of the JSON text that spells the command `c` (`lexemesOf c`, a
+  number as its decimal) decode to `c`. So every command has a spelling the server accepts.
+- `decode_ok_iff`, `decodeMembers_ok_iff`: tokens decode to `c` exactly when `object` gives
+  members for them, as many as `c` has fields (`fields c`) and with each field among them. By
+  `object_iff` those are the tokens of an object whose values are not arrays or objects. The
+  members may come in any order; an object with another member or a member twice is refused.
+  `decode_spec` and `decode_object` give the decision for the tokens of any object, and
+  `decode_not_object` the refusal of every other list of tokens.
 - `decodeMembers_missingCmd_iff`: `missingCmd` is the refusal of the objects without a member
   `cmd`. `decodeMembers_notCommand_iff`: `notCommand` is the refusal of the objects with a
   member `cmd` whose members are the fields of no command. `refusalMessage_spec` gives the
   message of each refusal.
 - `request_expired`, `request_json`, `request_not_json`: a request whose token has expired is
   answered 401 `token expired` whatever its body; otherwise the tokens of a body give the command
-  their items decode to for the principal of the token's organization and user
+  they decode to for the principal of the token's organization and user
   (`request_actor`), or 400 with the message of the refusal, and a body without tokens is
   answered 400 or 413. `request_encode` states the accepted case for the spelling of a command,
   and `request_refusal` that every answer of `request` has the status 400, 401 or 413 and a body
@@ -31,10 +31,10 @@ stored reply (`Leangage.Json.Items.Proofs`); the theorems start from the items o
   `replyValue`. `respond_error`: a refused one is answered with `refusalStatus` (403 for the
   guard's refusal, 404 for `notFound`, 422 for `badText`) and `{"error": name}` with
   `refusalName`.
-- `decodeReply_value`, `decodeReply_spec`, `decodeReplyItems_value`: `encodeReply` writes `Value.print` of
-  `replyValue r` for a reply, which an engine stores under an idempotency key, and `decodeReply`
-  reads tokens whose items are those of that value back as `r`. `decodeReply_none`: stored bytes
-  the JSON library refuses are no reply.
+- `decodeReply_encode`, `replyOf_lexemes`, `decodeReply_spec`: `encodeReply` writes `Value.print`
+  of `replyValue r` for a reply, which an engine stores under an idempotency key, and
+  `decodeReply` reads the tokens of that text (`replyLexemes r`) back as `r`.
+  `decodeReply_none`: stored bytes the JSON library refuses are no reply.
 - `fingerprint_spec`: the fingerprint of a command is the text `fingerprintText` gives, such as
   `PutNote { id: 7, body: "text", shared: true }` with the body escaped as in a JSON string.
   `fingerprint_injective`: different commands have different fingerprints, so an idempotency key
@@ -48,113 +48,51 @@ namespace Notes.Wire
 open Notes.Kernel Leangage
 open Leangage.Authz (Guarded)
 open Leangage.Json (Value ascii)
-open Leangage.Json.Items (Item Lexeme items)
+open Leangage.Json.Lexemes
 open Leangage.Token (bytesOf)
-
-/-! ## Text -/
-
-/-- The bytes of a text are read back as the text. -/
-theorem textOf_bytesOf (s : String) : textOf (bytesOf s) = some s := by
-  have h : s.toByteArray.IsValidUTF8 := s.isValidUTF8
-  simp [textOf, bytesOf, String.fromUTF8?, h]
-  rfl
-
-/-- `textOf` gives only the text whose UTF-8 is the bytes. -/
-theorem textOf_some {bs : List UInt8} {s : String} (h : textOf bs = some s) : bs = bytesOf s := by
-  unfold textOf String.fromUTF8? at h
-  split at h
-  · cases h
-    simp [bytesOf]
-    rfl
-  · cases h
-
-theorem bytesOf_injective {s t : String} (h : bytesOf s = bytesOf t) : s = t := by
-  have hs := textOf_bytesOf s
-  rw [h, textOf_bytesOf] at hs
-  exact (Option.some.inj hs).symm
-
-theorem name_cmd : ascii ['c', 'm', 'd'] = [99, 109, 100] := rfl
-theorem name_add_member : ascii ['a', 'd', 'd', '_', 'm', 'e', 'm', 'b', 'e', 'r'] = [97, 100, 100, 95,
-  109, 101, 109, 98, 101, 114] := rfl
-theorem name_remove_member : ascii ['r', 'e', 'm', 'o', 'v', 'e', '_', 'm', 'e', 'm', 'b', 'e',
-  'r'] = [114, 101, 109, 111, 118, 101, 95, 109, 101, 109, 98, 101, 114] := rfl
-theorem name_put_note : ascii ['p', 'u', 't', '_', 'n', 'o', 't', 'e'] = [112, 117, 116, 95, 110, 111, 116,
-  101] := rfl
-theorem name_delete_note : ascii ['d', 'e', 'l', 'e', 't', 'e', '_', 'n', 'o', 't', 'e'] = [100, 101, 108,
-  101, 116, 101, 95, 110, 111, 116, 101] := rfl
-theorem name_read_note : ascii ['r', 'e', 'a', 'd', '_', 'n', 'o', 't', 'e'] = [114, 101, 97, 100, 95, 110,
-  111, 116, 101] := rfl
-theorem name_list_notes : ascii ['l', 'i', 's', 't', '_', 'n', 'o', 't', 'e', 's'] = [108, 105, 115, 116,
-  95, 110, 111, 116, 101, 115] := rfl
-theorem name_list_members : ascii ['l', 'i', 's', 't', '_', 'm', 'e', 'm', 'b', 'e', 'r', 's'] = [108, 105,
-  115, 116, 95, 109, 101, 109, 98, 101, 114, 115] := rfl
-theorem name_user : ascii ['u', 's', 'e', 'r'] = [117, 115, 101, 114] := rfl
-theorem name_admin : ascii ['a', 'd', 'm', 'i', 'n'] = [97, 100, 109, 105, 110] := rfl
-theorem name_id : ascii ['i', 'd'] = [105, 100] := rfl
-theorem name_body : ascii ['b', 'o', 'd', 'y'] = [98, 111, 100, 121] := rfl
-theorem name_shared : ascii ['s', 'h', 'a', 'r', 'e', 'd'] = [115, 104, 97, 114, 101, 100] := rfl
-theorem name_owner : ascii ['o', 'w', 'n', 'e', 'r'] = [111, 119, 110, 101, 114] := rfl
-theorem name_done : ascii ['d', 'o', 'n', 'e'] = [100, 111, 110, 101] := rfl
-theorem name_note : ascii ['n', 'o', 't', 'e'] = [110, 111, 116, 101] := rfl
-theorem name_notes : ascii ['n', 'o', 't', 'e', 's'] = [110, 111, 116, 101, 115] := rfl
-theorem name_members : ascii ['m', 'e', 'm', 'b', 'e', 'r', 's'] = [109, 101, 109, 98, 101, 114, 115] := rfl
 
 /-! ## Commands -/
 
-/-- The JSON value that spells a command. -/
-def encodeCommand : Command → Value
-  | .addMember user admin =>
-    .obj [(ascii ['c', 'm', 'd'], .str (ascii ['a', 'd', 'd', '_', 'm', 'e', 'm', 'b', 'e', 'r'])),
-      (ascii ['u', 's', 'e', 'r'], .num user), (ascii ['a', 'd', 'm', 'i', 'n'], .bool admin)]
-  | .removeMember user => .obj [(ascii ['c', 'm', 'd'], .str (ascii ['r', 'e', 'm', 'o', 'v', 'e', '_',
-    'm', 'e', 'm', 'b', 'e', 'r'])), (ascii ['u', 's', 'e', 'r'], .num user)]
-  | .putNote id body shared =>
-    .obj [(ascii ['c', 'm', 'd'], .str (ascii ['p', 'u', 't', '_', 'n', 'o', 't', 'e'])), (ascii ['i',
-      'd'], .num id), (ascii ['b', 'o', 'd', 'y'], .str (bytesOf body)),
-      (ascii ['s', 'h', 'a', 'r', 'e', 'd'], .bool shared)]
-  | .deleteNote id => .obj [(ascii ['c', 'm', 'd'], .str (ascii ['d', 'e', 'l', 'e', 't', 'e', '_', 'n',
-    'o', 't', 'e'])), (ascii ['i', 'd'], .num id)]
-  | .readNote id => .obj [(ascii ['c', 'm', 'd'], .str (ascii ['r', 'e', 'a', 'd', '_', 'n', 'o', 't',
-    'e'])), (ascii ['i', 'd'], .num id)]
-  | .listNotes => .obj [(ascii ['c', 'm', 'd'], .str (ascii ['l', 'i', 's', 't', '_', 'n', 'o', 't', 'e',
-    's']))]
-  | .listMembers => .obj [(ascii ['c', 'm', 'd'], .str (ascii ['l', 'i', 's', 't', '_', 'm', 'e', 'm', 'b',
-    'e', 'r', 's']))]
-
 /-- The members of the object that spells a command, as they are read. -/
-def fields : Command → List (List UInt8 × Item)
+def fields : Command → List (String × Scalar)
   | .addMember user admin =>
-    [(ascii ['c', 'm', 'd'], .str (ascii ['a', 'd', 'd', '_', 'm', 'e', 'm', 'b', 'e', 'r'])), (ascii ['u',
-      's', 'e', 'r'], .num user), (ascii ['a', 'd', 'm', 'i', 'n'], .bool admin)]
-  | .removeMember user => [(ascii ['c', 'm', 'd'], .str (ascii ['r', 'e', 'm', 'o', 'v', 'e', '_', 'm',
-    'e', 'm', 'b', 'e', 'r'])), (ascii ['u', 's', 'e', 'r'], .num user)]
+    [("cmd", .str ("add_member")), ("user", .num user), ("admin", .bool admin)]
+  | .removeMember user => [("cmd", .str ("remove_member")), ("user", .num user)]
   | .putNote id body shared =>
-    [(ascii ['c', 'm', 'd'], .str (ascii ['p', 'u', 't', '_', 'n', 'o', 't', 'e'])), (ascii ['i', 'd'],
-      .num id), (ascii ['b', 'o', 'd', 'y'], .str (bytesOf body)),
-      (ascii ['s', 'h', 'a', 'r', 'e', 'd'], .bool shared)]
-  | .deleteNote id => [(ascii ['c', 'm', 'd'], .str (ascii ['d', 'e', 'l', 'e', 't', 'e', '_', 'n', 'o',
-    't', 'e'])), (ascii ['i', 'd'], .num id)]
-  | .readNote id => [(ascii ['c', 'm', 'd'], .str (ascii ['r', 'e', 'a', 'd', '_', 'n', 'o', 't', 'e'])),
-    (ascii ['i', 'd'], .num id)]
-  | .listNotes => [(ascii ['c', 'm', 'd'], .str (ascii ['l', 'i', 's', 't', '_', 'n', 'o', 't', 'e', 's']))]
-  | .listMembers => [(ascii ['c', 'm', 'd'], .str (ascii ['l', 'i', 's', 't', '_', 'm', 'e', 'm', 'b', 'e',
-    'r', 's']))]
+    [("cmd", .str ("put_note")), ("id",
+      .num id), ("body", .str body),
+      ("shared", .bool shared)]
+  | .deleteNote id => [("cmd", .str ("delete_note")), ("id", .num id)]
+  | .readNote id => [("cmd", .str ("read_note")),
+    ("id", .num id)]
+  | .listNotes => [("cmd", .str ("list_notes"))]
+  | .listMembers => [("cmd", .str ("list_members"))]
 
-/-- The items of an object with the given members. -/
-def objectItems (ms : List (List UInt8 × Item)) : List Item :=
-  .objOpen :: (ms.flatMap (fun m => [.key m.1, m.2]) ++ [.objClose])
+/-- The members of the object that spells a command, as tokens: a number as its decimal. -/
+def lexFields : Command → List (String × Lexeme)
+  | .addMember user admin =>
+    [("cmd", .str "add_member"), ("user", .number (decimalText user)), ("admin", .bool admin)]
+  | .removeMember user => [("cmd", .str "remove_member"), ("user", .number (decimalText user))]
+  | .putNote id body shared =>
+    [("cmd", .str "put_note"), ("id", .number (decimalText id)), ("body", .str body), ("shared", .bool shared)]
+  | .deleteNote id => [("cmd", .str "delete_note"), ("id", .number (decimalText id))]
+  | .readNote id => [("cmd", .str "read_note"), ("id", .number (decimalText id))]
+  | .listNotes => [("cmd", .str "list_notes")]
+  | .listMembers => [("cmd", .str "list_members")]
 
-theorem encodeCommand_items (c : Command) :
-    (encodeCommand c).toks.map Item.ofTok = objectItems (fields c) := by
-  cases c <;> rfl
+/-- The tokens of the JSON text that spells a command, such as
+`{"cmd":"put_note","id":7,"body":"text","shared":true}`. -/
+def lexemesOf (c : Command) : List Lexeme :=
+  objectLexemes (lexFields c)
+
+theorem scalars_lexFields (c : Command) : scalars (lexFields c) = some (fields c) := by
+  cases c <;> simp [lexFields, fields, scalars, scalarOf, numberOf_decimalText]
 
 theorem decodeMembers_fields (c : Command) : decodeMembers (fields c) = .ok c := by
-  cases c <;> simp [fields, decodeMembers, name_cmd, name_add_member, name_remove_member, name_put_note,
-    name_delete_note, name_read_note, name_list_notes, name_list_members, name_user, name_admin, name_id,
-    name_body, name_shared, textOf_bytesOf, List.lookup]
+  cases c <;> simp [fields, decodeMembers, List.lookup]
 
-theorem lookup_mem {k : List UInt8} {v : Item} :
-    ∀ {ms : List (List UInt8 × Item)}, ms.lookup k = some v → (k, v) ∈ ms
+theorem lookup_mem {k : String} {v : Scalar} :
+    ∀ {ms : List (String × Scalar)}, ms.lookup k = some v → (k, v) ∈ ms
   | [], h => by cases h
   | (k', v') :: ms, h => by
     rw [List.lookup_cons] at h
@@ -168,8 +106,8 @@ theorem lookup_mem {k : List UInt8} {v : Item} :
       exact List.mem_cons_of_mem _ (lookup_mem h)
 
 /-- A member that is the only one with its key is the one looked up. -/
-theorem lookup_unique {k : List UInt8} {v : Item} :
-    ∀ {ms : List (List UInt8 × Item)}, (k, v) ∈ ms → (∀ v', (k, v') ∈ ms → v' = v) →
+theorem lookup_unique {k : String} {v : Scalar} :
+    ∀ {ms : List (String × Scalar)}, (k, v) ∈ ms → (∀ v', (k, v') ∈ ms → v' = v) →
       ms.lookup k = some v
   | [], h, _ => by cases h
   | (k', v') :: ms, h, hu => by
@@ -216,14 +154,12 @@ theorem subset_of_length {α : Type} :
 
 /-- The fields of a command have different keys. -/
 theorem fields_keys (c : Command) : (fields c).Pairwise fun m m' => m.1 ≠ m'.1 := by
-  cases c <;> simp [fields, name_cmd, name_add_member, name_remove_member, name_put_note, name_delete_note,
-    name_read_note, name_list_notes, name_list_members, name_user, name_admin, name_id, name_body,
-    name_shared]
+  cases c <;> simp [fields]
 
 theorem fields_nodup (c : Command) : (fields c).Nodup :=
   (fields_keys c).imp fun h e => h (congrArg Prod.fst e)
 
-theorem fields_key_unique (c : Command) {m m' : List UInt8 × Item} (hm : m ∈ fields c)
+theorem fields_key_unique (c : Command) {m m' : String × Scalar} (hm : m ∈ fields c)
     (hm' : m' ∈ fields c) (hk : m.1 = m'.1) : m = m' := by
   rcases List.mem_iff_getElem.mp hm with ⟨i, hi, rfl⟩
   rcases List.mem_iff_getElem.mp hm' with ⟨j, hj, rfl⟩
@@ -236,12 +172,12 @@ theorem fields_key_unique (c : Command) {m m' : List UInt8 × Item} (hm : m ∈ 
 
 /-- An object with as many members as a command has fields, which has each of them, has no
 other member. -/
-theorem members_subset {ms : List (List UInt8 × Item)} {c : Command}
+theorem members_subset {ms : List (String × Scalar)} {c : Command}
     (hl : ms.length = (fields c).length) (hm : ∀ m ∈ fields c, m ∈ ms) : ∀ m ∈ ms, m ∈ fields c :=
   subset_of_length (fields_nodup c) hl hm
 
 /-- In such an object, the field of each key is the member looked up. -/
-theorem lookup_field {ms : List (List UInt8 × Item)} {c : Command}
+theorem lookup_field {ms : List (String × Scalar)} {c : Command}
     (hl : ms.length = (fields c).length) (hm : ∀ m ∈ fields c, m ∈ ms) :
     ∀ m ∈ fields c, ms.lookup m.1 = some m.2 := by
   intro m hmf
@@ -251,7 +187,7 @@ theorem lookup_field {ms : List (List UInt8 × Item)} {c : Command}
 
 /-- `decodeMembers` accepts, as the command `c`, exactly the members that are the fields of `c`
 in some order: as many as `c` has fields, with each field among them. -/
-theorem decodeMembers_ok_iff (ms : List (List UInt8 × Item)) (c : Command) :
+theorem decodeMembers_ok_iff (ms : List (String × Scalar)) (c : Command) :
     decodeMembers ms = .ok c ↔ ms.length = (fields c).length ∧ ∀ m ∈ fields c, m ∈ ms := by
   constructor
   · intro h
@@ -259,108 +195,59 @@ theorem decodeMembers_ok_iff (ms : List (List UInt8 × Item)) (c : Command) :
     repeat' split at h
     all_goals try cases h
     all_goals subst_vars
-    all_goals try (have hb := textOf_some ‹textOf _ = some _›; subst hb)
     all_goals refine ⟨by assumption, ?_⟩
     all_goals simp only [fields, List.forall_mem_cons, List.not_mem_nil, false_imp_iff, implies_true,
-      and_true, name_cmd, name_add_member, name_remove_member, name_put_note, name_delete_note,
-        name_read_note, name_list_notes, name_list_members, name_user, name_admin, name_id, name_body,
-        name_shared]
+      and_true]
     all_goals and_intros
     all_goals (apply lookup_mem; assumption)
   · rintro ⟨hl, hm⟩
     have hk := lookup_field hl hm
     cases c <;>
       simp only [fields, List.forall_mem_cons, List.not_mem_nil, false_imp_iff, implies_true,
-        and_true, name_cmd, name_add_member, name_remove_member, name_put_note, name_delete_note,
-          name_read_note, name_list_notes, name_list_members, name_user, name_admin, name_id, name_body,
-          name_shared, List.length_cons, List.length_nil] at hk hl <;>
-      simp [decodeMembers, hk, hl, textOf_bytesOf]
+        and_true, List.length_cons, List.length_nil] at hk hl <;>
+      simp [decodeMembers, hk, hl]
 
-/-- The items of the JSON value that spells a command decode to it. -/
-theorem decodeItems_encode (c : Command) :
-    decodeItems ((encodeCommand c).toks.map Item.ofTok) = .ok c := by
-  rw [encodeCommand_items]
-  cases c <;> simp [objectItems, fields, decodeItems, members, scalar, decodeMembers, name_cmd,
-    name_add_member, name_remove_member, name_put_note, name_delete_note, name_read_note, name_list_notes,
-    name_list_members, name_user, name_admin, name_id, name_body, name_shared,
-    textOf_bytesOf, List.lookup]
+/-- The tokens of the JSON text that spells a command decode to it. -/
+theorem decode_encode (c : Command) : decode (lexemesOf c) = .ok c := by
+  rw [decode, lexemesOf, object_objectLexemes, scalars_lexFields]
+  exact decodeMembers_fields c
 
-/-- The items that are a value by themselves: `null`, `true`, `false`, a number and a string. -/
-def isScalar : Item → Bool
-  | .null | .bool _ | .num _ | .number | .str _ => true
-  | _ => false
+/-- `decode` accepts, as the command `c`, exactly the tokens of an object whose members are the
+fields of `c` in some order. -/
+theorem decode_ok_iff (lexemes : List Lexeme) (c : Command) :
+    decode lexemes = .ok c ↔
+      ∃ ms, object lexemes = some ms ∧ ms.length = (fields c).length ∧ ∀ m ∈ fields c, m ∈ ms := by
+  unfold decode
+  cases h : object lexemes with
+  | none => simp
+  | some ms => simp [decodeMembers_ok_iff]
 
-theorem scalar_spec (i : Item) : scalar i = isScalar i := by
-  cases i <;> rfl
+/-- `decode` decides on the members `object` gives, and refuses tokens without members. -/
+theorem decode_spec (lexemes : List Lexeme) :
+    decode lexemes =
+      match object lexemes with
+      | some ms => decodeMembers ms
+      | none => .error .notCommand := rfl
 
-theorem fields_scalar (c : Command) : ∀ m ∈ fields c, scalar m.2 = true := by
-  cases c <;> simp [fields, scalar]
+/-- Tokens that are not those of an object whose values are values by themselves are no command. -/
+theorem decode_not_object {lexemes : List Lexeme} (h : object lexemes = none) :
+    decode lexemes = .error .notCommand := by
+  simp [decode, h]
 
-theorem members_flat (ms : List (List UInt8 × Item)) (hs : ∀ m ∈ ms, scalar m.2 = true)
-    (acc : List (List UInt8 × Item)) :
-    members acc (ms.flatMap (fun m => [.key m.1, m.2]) ++ [.objClose]) = some (acc.reverse ++ ms) := by
-  induction ms generalizing acc with
-  | nil => simp [members]
-  | cons m ms ih =>
-    obtain ⟨k, v⟩ := m
-    have hv : scalar v = true := hs (k, v) (List.mem_cons_self ..)
-    simp only [List.flatMap_cons, List.cons_append, List.nil_append]
-    cases hms : ms.flatMap (fun m => [Item.key m.1, m.2]) ++ [Item.objClose] with
-    | nil => simp at hms
-    | cons i rest =>
-      have := ih (fun m hm => hs m (List.mem_cons_of_mem _ hm)) ((k, v) :: acc)
-      rw [hms] at this
-      cases v <;> simp_all [members, scalar]
-
-theorem members_some {acc : List (List UInt8 × Item)} {rest : List Item}
-    {ms : List (List UInt8 × Item)} (h : members acc rest = some ms) :
-    ∃ ms', ms = acc.reverse ++ ms' ∧ rest = ms'.flatMap (fun m => [.key m.1, m.2]) ++ [.objClose] := by
-  induction acc, rest using members.induct with
-  | case1 acc =>
-    simp only [members, Option.some.injEq] at h
-    exact ⟨[], by simp [h]⟩
-  | case2 acc k v rest hv ih =>
-    simp only [members, hv, ite_true] at h
-    obtain ⟨ms', rfl, rfl⟩ := ih h
-    exact ⟨(k, v) :: ms', by simp⟩
-  | case3 acc k v rest hv =>
-    simp [members, hv] at h
-  | case4 acc rest h1 h2 =>
-    unfold members at h
-    split at h
-    · exact absurd rfl (h1)
-    · exact absurd rfl (h2 _ _ _)
-    · cases h
-
-/-- `decodeItems` accepts, as the command `c`, exactly the items of an object whose members are
-the fields of `c` in some order. -/
-theorem decodeItems_ok_iff (items : List Item) (c : Command) :
-    decodeItems items = .ok c ↔
-      ∃ ms, items = objectItems ms ∧ ms.length = (fields c).length ∧ ∀ m ∈ fields c, m ∈ ms := by
-  constructor
-  · intro h
-    unfold decodeItems at h
-    split at h
-    · rename_i rest
-      split at h
-      · rename_i ms hms
-        obtain ⟨ms', h1, rfl⟩ := members_some hms
-        simp only [List.reverse_nil, List.nil_append] at h1
-        subst h1
-        exact ⟨ms, rfl, (decodeMembers_ok_iff _ c).mp h⟩
-      · cases h
-    · cases h
-  · rintro ⟨ms, rfl, hl, hm⟩
-    have hs : ∀ m ∈ ms, scalar m.2 = true := fun m h => fields_scalar c m (members_subset hl hm m h)
-    simp only [decodeItems, objectItems, members_flat ms hs [], List.reverse_nil, List.nil_append]
-    exact (decodeMembers_ok_iff ms c).mpr ⟨hl, hm⟩
+/-- The tokens of an object decode as its members. -/
+theorem decode_object (ms : List (String × Lexeme)) :
+    decode (objectLexemes ms) =
+      match scalars ms with
+      | some xs => decodeMembers xs
+      | none => .error .notCommand := by
+  rw [decode, object_objectLexemes]
+  cases scalars ms <;> rfl
 
 /-- An object without the member `cmd` is refused as that, and no other. -/
-theorem decodeMembers_missingCmd_iff (ms : List (List UInt8 × Item)) :
-    decodeMembers ms = .error .missingCmd ↔ ms.lookup (ascii ['c', 'm', 'd']) = none := by
+theorem decodeMembers_missingCmd_iff (ms : List (String × Scalar)) :
+    decodeMembers ms = .error .missingCmd ↔ ms.lookup "cmd" = none := by
   unfold decodeMembers
-  rw [name_cmd]
-  cases h : ms.lookup [99, 109, 100] with
+  cases h : ms.lookup "cmd" with
   | none => simp
   | some v =>
     simp only [reduceCtorEq, iff_false]
@@ -369,9 +256,9 @@ theorem decodeMembers_missingCmd_iff (ms : List (List UInt8 × Item)) :
 
 /-- `notCommand` is the refusal of the objects with a member `cmd` whose members are the fields
 of no command. -/
-theorem decodeMembers_notCommand_iff (ms : List (List UInt8 × Item)) :
+theorem decodeMembers_notCommand_iff (ms : List (String × Scalar)) :
     decodeMembers ms = .error .notCommand ↔
-      ms.lookup (ascii ['c', 'm', 'd']) ≠ none ∧
+      ms.lookup "cmd" ≠ none ∧
         ∀ c, ¬(ms.length = (fields c).length ∧ ∀ m ∈ fields c, m ∈ ms) := by
   simp only [← decodeMembers_ok_iff, ne_eq, ← decodeMembers_missingCmd_iff ms]
   cases h : decodeMembers ms with
@@ -380,17 +267,6 @@ theorem decodeMembers_notCommand_iff (ms : List (List UInt8 × Item)) :
     cases e with
     | notCommand => simp
     | missingCmd => simp
-
-/-- The items of an object whose members are values by themselves decode as its members. -/
-theorem decodeItems_object (ms : List (List UInt8 × Item)) (hs : ∀ m ∈ ms, isScalar m.2 = true) :
-    decodeItems (objectItems ms) = decodeMembers ms := by
-  have hs : ∀ m ∈ ms, scalar m.2 = true := fun m h => (scalar_spec m.2).trans (hs m h)
-  simp only [decodeItems, objectItems, members_flat ms hs [], List.reverse_nil, List.nil_append]
-
-/-- The items of the object that spells a command decode to it. -/
-theorem decodeItems_fields (c : Command) : decodeItems (objectItems (fields c)) = .ok c := by
-  rw [decodeItems_object _ fun m h => (scalar_spec m.2).symm.trans (fields_scalar c m h),
-    decodeMembers_fields]
 
 /-- The message of each refusal. -/
 theorem refusalMessage_spec (e : Refusal) :
@@ -408,16 +284,16 @@ theorem request_expired {exp now : UInt64} (h : exp < now) (tenant user : UInt64
   simp [request, Http.admit_expired h]
 
 /-- A request with a token that has not expired and a body the JSON library read: the command
-the items of its tokens decode to, for the principal the token claims, or 400 with the message of
+its tokens decode to, for the principal the token claims, or 400 with the message of
 the refusal. -/
 theorem request_json {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64)
     (lexemes : List Lexeme) :
     request tenant user exp now (.json lexemes) =
-      match decodeItems (items lexemes) with
+      match decode lexemes with
       | .ok cmd => .ok ⟨⟨tenant, user⟩, cmd⟩
       | .error e => .error (Http.refuse 400 (refusalMessage e)) := by
   simp only [request, Http.admit_json h]
-  cases decodeItems (items lexemes) <;> rfl
+  cases decode lexemes <;> rfl
 
 /-- A request with a token that has not expired and a body without tokens. -/
 theorem request_not_json {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64) :
@@ -432,10 +308,9 @@ theorem request_not_json {exp now : UInt64} (h : ¬exp < now) (tenant user : UIn
 value that spells the command `c` gives the engine `c` for the principal of the token's organization and
 user. -/
 theorem request_encode {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64)
-    {lexemes : List Lexeme} (c : Command)
-    (hs : items lexemes = (encodeCommand c).toks.map Item.ofTok) :
-    request tenant user exp now (.json lexemes) = .ok ⟨⟨tenant, user⟩, c⟩ := by
-  rw [request_json h, hs, decodeItems_encode c]
+    (c : Command) :
+    request tenant user exp now (.json (lexemesOf c)) = .ok ⟨⟨tenant, user⟩, c⟩ := by
+  rw [request_json h, decode_encode c]
 
 theorem request_actor_run (tenant user exp now : UInt64) (body : Http.Body) :
     match request tenant user exp now body with
@@ -470,7 +345,7 @@ theorem request_refusal {tenant user exp now : UInt64} {body : Http.Body} {r : H
   · cases body with
     | json lexemes =>
       rw [request_json he] at h
-      cases hd : decodeItems (items lexemes) with
+      cases hd : decode lexemes with
       | ok cmd => simp [hd] at h
       | error e =>
         simp only [hd, Except.error.injEq] at h
@@ -580,54 +455,60 @@ theorem respond_error (e : Guarded Error) :
 
 /-! ## Stored replies -/
 
+/-- The tokens of a note, as a JSON library reads them from what `encodeReply` writes. -/
+def noteLexemes (n : Note) : List Lexeme :=
+  [.objOpen, .key "body", .str n.body, .key "id", .number (decimalText n.id), .key "owner",
+    .number (decimalText n.owner), .key "shared", .bool n.shared, .objClose]
+
+/-- The tokens of a member. -/
+def memberLexemes (m : Member) : List Lexeme :=
+  [.objOpen, .key "admin", .bool m.admin, .key "user", .number (decimalText m.user), .objClose]
+
+/-- The tokens of a reply: those of the text `encodeReply` writes, a number as its decimal. -/
+def replyLexemes : Reply → List Lexeme
+  | .done => [.objOpen, .key "done", .bool true, .objClose]
+  | .found n => .objOpen :: .key "note" :: (noteLexemes n ++ [.objClose])
+  | .notes ns => .objOpen :: .key "notes" :: .arrOpen :: (ns.flatMap noteLexemes ++ [.arrClose, .objClose])
+  | .members ms =>
+    .objOpen :: .key "members" :: .arrOpen :: (ms.flatMap memberLexemes ++ [.arrClose, .objClose])
+
 theorem noteOf_note (n : Note) :
-    noteOf (ascii ['b', 'o', 'd', 'y']) (bytesOf n.body) (ascii ['i', 'd']) n.id (ascii ['o', 'w', 'n',
-      'e', 'r']) n.owner (ascii ['s', 'h', 'a', 'r', 'e', 'd']) n.shared = some n := by
-  simp [noteOf, name_body, name_id, name_owner, name_shared, textOf_bytesOf]
+    noteOf "body" n.body "id" (decimalText n.id) "owner" (decimalText n.owner) "shared" n.shared =
+      some n := by
+  simp [noteOf, numberOf_decimalText]
 
-theorem notesItems_elems (ns : List Note) (acc : List Note) :
-    notesItems acc ((Json.elemsToks (ns.map noteValue)).map Item.ofTok ++ [.arrClose, .objClose]) =
-      some (acc.reverse ++ ns) := by
+theorem notesOf_lexemes (ns : List Note) (acc : List Note) :
+    notesOf acc (ns.flatMap noteLexemes ++ [.arrClose, .objClose]) = some (acc.reverse ++ ns) := by
   induction ns generalizing acc with
-  | nil => simp [Json.elemsToks, notesItems]
-  | cons n ns ih =>
-    simp [Json.elemsToks, noteValue, Value.toks, Json.membersToks, Item.ofTok, notesItems, noteOf_note, ih]
+  | nil => simp [notesOf]
+  | cons n ns ih => simp [noteLexemes, notesOf, noteOf_note, ih]
 
-theorem membersItems_elems (ms : List Member) (acc : List Member) :
-    membersItems acc ((Json.elemsToks (ms.map memberValue)).map Item.ofTok ++ [.arrClose, .objClose]) =
-      some (acc.reverse ++ ms) := by
+theorem membersOf_lexemes (ms : List Member) (acc : List Member) :
+    membersOf acc (ms.flatMap memberLexemes ++ [.arrClose, .objClose]) = some (acc.reverse ++ ms) := by
   induction ms generalizing acc with
-  | nil => simp [Json.elemsToks, membersItems]
-  | cons m ms ih =>
-    simp [Json.elemsToks, memberValue, Value.toks, Json.membersToks, Item.ofTok, membersItems, name_admin,
-      name_user, ih]
+  | nil => simp [membersOf]
+  | cons m ms ih => simp [memberLexemes, membersOf, numberOf_decimalText, ih]
 
-/-- The items of the JSON value of a reply are read back as the reply. -/
-theorem decodeReplyItems_value (r : Reply) :
-    decodeReplyItems ((replyValue r).toks.map Item.ofTok) = some r := by
+/-- The tokens of a reply are read back as the reply. -/
+theorem replyOf_lexemes (r : Reply) : replyOf (replyLexemes r) = some r := by
   cases r with
-  | done => simp [replyValue, Value.toks, Json.membersToks, Item.ofTok, decodeReplyItems, name_done]
-  | found n =>
-    simp [replyValue, noteValue, Value.toks, Json.membersToks, Item.ofTok, decodeReplyItems, name_note,
-      noteOf_note]
+  | done => simp [replyLexemes, replyOf]
+  | found n => simp [replyLexemes, noteLexemes, replyOf, noteOf_note]
   | notes ns =>
-    have := notesItems_elems ns []
-    simp_all [replyValue, Value.toks, Json.membersToks, Item.ofTok, decodeReplyItems, name_notes]
+    have := notesOf_lexemes ns []
+    simp_all [replyLexemes, replyOf]
   | members ms =>
-    have := membersItems_elems ms []
-    simp_all [replyValue, Value.toks, Json.membersToks, Item.ofTok, decodeReplyItems, name_members]
+    have := membersOf_lexemes ms []
+    simp_all [replyLexemes, replyOf]
 
-/-- Tokens whose items are those of the JSON value of a reply are read back as the reply. The
-bytes `encodeReply` writes are `Value.print` of that value (`encodeReply_spec`), and the JSON
-library that reads the stored bytes is trusted to hand over such tokens for them. -/
-theorem decodeReply_value {lexemes : List Lexeme} (r : Reply)
-    (h : items lexemes = (replyValue r).toks.map Item.ofTok) :
-    decodeReply (some lexemes) = some r := by
-  simp only [decodeReply, h, decodeReplyItems_value]
+/-- The tokens of the text `encodeReply` writes for a reply are read back as the reply. The JSON
+library that reads the stored bytes is trusted to hand over `replyLexemes r` for the bytes
+`Value.print (replyValue r)`, which `encodeReply r` is (`encodeReply_spec`). -/
+theorem decodeReply_encode (r : Reply) : decodeReply (some (replyLexemes r)) = some r :=
+  replyOf_lexemes r
 
-/-- The reply of the tokens of a stored reply is the reply of their items. -/
-theorem decodeReply_spec (lexemes : List Lexeme) :
-    decodeReply (some lexemes) = decodeReplyItems (lexemes.map Leangage.Json.Items.item) := rfl
+/-- The reply of the tokens of a stored reply. -/
+theorem decodeReply_spec (lexemes : List Lexeme) : decodeReply (some lexemes) = replyOf lexemes := rfl
 
 /-- Stored bytes the JSON library refuses are read back as no reply. -/
 theorem decodeReply_none : decodeReply none = none := rfl
@@ -701,12 +582,12 @@ theorem prefix_unique (p : UInt8 → Bool) :
 
 /-- A number in decimal followed by a byte that is not a digit: the number and what follows are
 read off the bytes. -/
-theorem digits_sep {n m : Nat} {c c' : UInt8} {r r' : List UInt8} (hc : Json.Items.isDigit c = false)
-    (hc' : Json.Items.isDigit c' = false) (h : Json.digits n ++ c :: r = Json.digits m ++ c' :: r') :
+theorem digits_sep {n m : Nat} {c c' : UInt8} {r r' : List UInt8} (hc : Json.Lexemes.isDigit c = false)
+    (hc' : Json.Lexemes.isDigit c' = false) (h : Json.digits n ++ c :: r = Json.digits m ++ c' :: r') :
     n = m ∧ c :: r = c' :: r' := by
-  have hd : ∀ k, ∀ x ∈ Json.digits k, Json.Items.isDigit x = true := fun k => by
+  have hd : ∀ k, ∀ x ∈ Json.digits k, Json.Lexemes.isDigit x = true := fun k => by
     rw [← Json.decimal_spec]
-    exact Json.Items.decimal_isDigit k
+    exact Json.Lexemes.decimal_isDigit k
   obtain ⟨h1, h2⟩ := prefix_unique _ (hd n) (hd m) hc hc' h
   exact ⟨digits_injective h1, h2⟩
 

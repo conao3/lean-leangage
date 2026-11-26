@@ -6,21 +6,21 @@ import (
 	"io"
 	"unicode/utf8"
 
-	"github.com/conao3/lean-leangage/go/leangage/jsonitems"
+	"github.com/conao3/lean-leangage/go/leangage/jsonlexemes"
 )
 
 // Lexemes are the tokens of the JSON text in body as encoding/json reads them, in the order of
 // the document: a number as the text of its token, a member twice as two members. It reports
 // false for bytes that are not UTF-8, that encoding/json refuses, or that go on after the first
 // value. The generated functions decide everything about the tokens.
-func Lexemes(body []byte) ([]jsonitems.Lexeme, bool) {
+func Lexemes(body []byte) ([]jsonlexemes.Lexeme, bool) {
 	if !utf8.Valid(body) {
 		return nil, false
 	}
 	decoder := json.NewDecoder(bytes.NewReader(body))
 	decoder.UseNumber()
-	var out []jsonitems.Lexeme
-	var objects []bool
+	out := make([]jsonlexemes.Lexeme, 0, 16)
+	objects := make([]bool, 0, 4)
 	key := false
 	for {
 		token, err := decoder.Token()
@@ -34,33 +34,33 @@ func Lexemes(body []byte) ([]jsonitems.Lexeme, bool) {
 		case json.Delim:
 			switch token {
 			case '{':
-				out = append(out, jsonitems.LexemeObjOpen{})
+				out = append(out, jsonlexemes.LexemeObjOpen{})
 				objects = append(objects, true)
 			case '[':
-				out = append(out, jsonitems.LexemeArrOpen{})
+				out = append(out, jsonlexemes.LexemeArrOpen{})
 				objects = append(objects, false)
 			case '}':
-				out = append(out, jsonitems.LexemeObjClose{})
+				out = append(out, jsonlexemes.LexemeObjClose{})
 				objects = objects[:len(objects)-1]
 			case ']':
-				out = append(out, jsonitems.LexemeArrClose{})
+				out = append(out, jsonlexemes.LexemeArrClose{})
 				objects = objects[:len(objects)-1]
 			}
 			key = len(objects) > 0 && objects[len(objects)-1]
 			continue
 		case string:
 			if key {
-				out = append(out, jsonitems.LexemeKey{S: token})
+				out = append(out, jsonlexemes.LexemeKey{S: token})
 				key = false
 				continue
 			}
-			out = append(out, jsonitems.LexemeStr{S: token})
+			out = append(out, jsonlexemes.LexemeStr{S: token})
 		case json.Number:
-			out = append(out, jsonitems.LexemeNumber{Text: string(token)})
+			out = append(out, jsonlexemes.LexemeNumber{Text: string(token)})
 		case bool:
-			out = append(out, jsonitems.LexemeBool{B: token})
+			out = append(out, jsonlexemes.LexemeBool{B: token})
 		case nil:
-			out = append(out, jsonitems.LexemeNull{})
+			out = append(out, jsonlexemes.LexemeNull{})
 		}
 		key = len(objects) > 0 && objects[len(objects)-1]
 	}

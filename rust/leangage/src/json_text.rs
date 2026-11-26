@@ -1,14 +1,14 @@
 //! The tokens of a JSON text, read with serde_json: the one file of the server that calls a JSON
 //! library. `lexemes` hands the tokens over in the order of the document, a member twice as two
-//! members, and decides nothing about them; the generated `json_items::items` and the kernels'
-//! functions do. A number serde_json reads as a `u64` is handed over as its decimal digits, and
+//! members, and decides nothing about them; the generated functions of `json_lexemes` and of the
+//! kernels do. A number serde_json reads as a `u64` is handed over as its decimal digits, and
 //! every other number as a text with a sign or an exponent.
 
 use std::fmt;
 
 use serde::de::{DeserializeSeed, Deserializer, Error, MapAccess, SeqAccess, Visitor};
 
-use crate::json_items::Lexeme;
+use crate::json_lexemes::Lexeme;
 
 /// A value, whose tokens go to the end of the list.
 struct Value<'a>(&'a mut Vec<Lexeme>);
@@ -107,7 +107,7 @@ impl<'de> Visitor<'de> for Key<'_> {
 
 /// The tokens of the JSON text the bytes are, or `None` for bytes serde_json refuses.
 pub fn lexemes(bytes: &[u8]) -> Option<Vec<Lexeme>> {
-    let mut out = Vec::new();
+    let mut out = Vec::with_capacity(16);
     let mut deserializer = serde_json::Deserializer::from_slice(bytes);
     Value(&mut out).deserialize(&mut deserializer).ok()?;
     deserializer.end().ok()?;

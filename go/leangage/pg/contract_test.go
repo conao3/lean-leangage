@@ -24,7 +24,7 @@ import (
 
 	"github.com/conao3/lean-leangage/go/leangage"
 	"github.com/conao3/lean-leangage/go/leangage/httpformat"
-	"github.com/conao3/lean-leangage/go/leangage/jsonitems"
+	"github.com/conao3/lean-leangage/go/leangage/jsonlexemes"
 	"github.com/conao3/lean-leangage/go/leangage/pg"
 	"github.com/conao3/lean-leangage/go/leangage/pg/pgtest"
 )
@@ -400,7 +400,7 @@ func (cellsApi) Request(tenant, user, _, _ uint64, body httpformat.Body) (actor,
 		return actor{}, nil, &httpformat.Response{Status: 400}
 	}
 	number := func(i int) int64 {
-		text, _ := read.Lexemes[i].(jsonitems.LexemeNumber)
+		text, _ := read.Lexemes[i].(jsonlexemes.LexemeNumber)
 		n, _ := strconv.ParseInt(text.Text, 10, 64)
 		return n
 	}

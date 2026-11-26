@@ -1,14 +1,13 @@
 """What `leangage.json_text.lexemes` gives for the texts on which the JSON libraries of the three
 servers differ, and for those each must refuse.
 
-Each case is a name, the bytes of a body and the items the tokens spell in the format of
+Each case is a name, the bytes of a body and the tokens in the format of
 `lean/RequestOracle.lean`, or `None` for a body `json` refuses.
 """
 
 import pytest
-from leangage import json_items
 from leangage.json_text import lexemes
-from test_request_differential import show_item
+from test_request_differential import show_token
 
 CASES: list[tuple[str, bytes, str | None]] = [
     ("lone high surrogate", b'"\\ud800"', None),
@@ -49,5 +48,5 @@ def test_json_library(name: str, body: bytes, want: str | None) -> None:
     tokens = lexemes(body)
     got = None
     if tokens is not None:
-        got = " ".join(show_item(i) for i in json_items.items(tokens))
+        got = " ".join(show_token(t) for t in tokens)
     assert got == want
