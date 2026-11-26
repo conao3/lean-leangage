@@ -6,6 +6,11 @@ For each file of the path it requires the calls of the functions generated from
 JSON library, a status code written in the file (a constant of the HTTP library or a number from
 100 to 599) and the JSON writer called by hand. A test passes whichever code a handler runs; this check reads the
 handlers.
+
+The JSON text of a body is read by the JSON library of each language in one file per language
+(`CONVERSIONS`), which hands the tokens to the generated functions. For those files the check
+requires the library's reading call and refuses a status code, the JSON writer, a value of the
+library that holds members by name, a member looked up by name and a comparison with a text.
 """
 
 import re
@@ -35,11 +40,45 @@ GO = [
     STATUS,
 ]
 
+LOOKUP = [
+    (r"\.get\(", "a member looked up by name"),
+    (r"(?<!')\[\s*[\"']", "a member looked up by name"),
+    (r"[!=]=\s*[\"']|[\"']\s*[!=]=", "a comparison with a text"),
+    (r"json_format|jsonformat", "the JSON writer"),
+    STATUS,
+]
+RUST_TEXT = [
+    (r"serde_json::(Value|Map|from_|json!)", "a value of serde_json"),
+    (r"\bas_(str|u64|i64|f64|bool|object|array|null)\(", "a value of serde_json"),
+    (r"[\"']\s*=>", "a comparison with a text"),
+    (r"StatusCode::[A-Z]", "a status constant"),
+    *LOOKUP,
+]
+PYTHON_TEXT = [
+    (r"\bdict\b|\.items\(|\.keys\(", "a dict"),
+    (r"\bin\s*[(\[{\"']", "a comparison with a text"),
+    (r"HTTPStatus", "a status constant"),
+    *LOOKUP,
+]
+GO_TEXT = [
+    (r"map\[", "a map"),
+    (
+        r"json\.(Unmarshal|Valid|RawMessage)|\.Decode\(|json:\"",
+        "a value of encoding/json",
+    ),
+    (r"case\s+\"", "a comparison with a text"),
+    (r"http\.Status", "a status constant"),
+    *LOOKUP,
+]
+
 # The file, what it must call, what it must not hold, and where the checked text ends.
 FILES = [
     (
         "rust/leangage/src/http.rs",
-        ["verifier.admit(", "A::request(", "A::respond(", "A::fingerprint(", "A::scope(", "http_format::failed("],
+        [
+            "verifier.admit(", "A::request(", "A::respond(", "A::fingerprint(", "A::scope(", "http_format::failed(",
+            "json_text::lexemes(",
+        ],
         RUST,
         None,
     ),
@@ -59,14 +98,17 @@ FILES = [
         "rust/notes/src/lib.rs",
         [
             "wire::request(", "wire::respond(", "wire::fingerprint(", "wire::scope(", "wire::encode_reply(",
-            "wire::decode_reply(",
+            "wire::decode_reply(", "json_text::lexemes(",
         ],
         RUST,
         None,
     ),
     (
         "python/src/leangage/http.py",
-        ["verifier.admit(", "api.request(", "api.respond(", "api.fingerprint(", "api.scope(", "http_format.failed("],
+        [
+            "verifier.admit(", "api.request(", "api.respond(", "api.fingerprint(", "api.scope(", "http_format.failed(",
+            "lexemes(data)",
+        ],
         PYTHON,
         None,
     ),
@@ -84,7 +126,10 @@ FILES = [
     ),
     (
         "go/leangage/http.go",
-        ["verifier.Admit(", "api.Request(", "api.Respond(", "api.Fingerprint(", "api.Scope(", "httpformat.Failed("],
+        [
+            "verifier.Admit(", "api.Request(", "api.Respond(", "api.Fingerprint(", "api.Scope(", "httpformat.Failed(",
+            "Lexemes(",
+        ],
         GO,
         None,
     ),
@@ -100,7 +145,28 @@ FILES = [
         GO,
         None,
     ),
+    (
+        "rust/leangage/src/json_text.rs",
+        ["serde_json::Deserializer::from_slice(", "deserializer.end()", "deserialize_any("],
+        RUST_TEXT,
+        None,
+    ),
+    (
+        "python/src/leangage/json_text.py",
+        ["json.loads(", "object_pairs_hook=", "parse_int=", "parse_float=", "parse_constant="],
+        PYTHON_TEXT,
+        None,
+    ),
+    (
+        "go/leangage/json_text.go",
+        ["json.NewDecoder(", "decoder.UseNumber()", "decoder.Token()", "utf8.Valid("],
+        GO_TEXT,
+        None,
+    ),
 ]  # fmt: skip
+
+# The files that read a JSON text with the JSON library, the last 3 of `FILES`.
+CONVERSIONS = 3
 
 
 def main() -> None:
@@ -120,7 +186,10 @@ def main() -> None:
         print(problem)
     if problems:
         sys.exit(1)
-    print(f"{len(FILES)} files of the request path call the generated functions")
+    print(
+        f"{len(FILES) - CONVERSIONS} files of the request path call the generated functions, "
+        f"{CONVERSIONS} read the JSON text with the library"
+    )
 
 
 main()
