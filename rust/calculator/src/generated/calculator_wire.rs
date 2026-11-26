@@ -801,6 +801,26 @@ pub(crate) unsafe fn l_Calculator_Wire_fingerprint___closed__1() -> Obj {
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_cmdOf(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+match rt::lean_obj_tag(x_1) {
+0 => {
+x_2 = rt::lean_box(2);
+return x_2;
+}
+1 => {
+x_3 = rt::lean_ctor_get(x_1, 0);
+x_4 = rt::lean_ctor_get(x_3, 1);
+rt::lean_inc(x_4);
+return x_4;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Calculator_Wire_request(mut x_1: u64, mut x_2: u64, mut x_3: u64, mut x_4: u64, mut x_5: Obj) -> Obj {
 let mut x_6: Obj = rt::lean_box(0);
 let mut x_7: Obj = rt::lean_box(0);
@@ -4779,6 +4799,66 @@ pub(crate) unsafe fn l_Calculator_Wire_refusalMessage___closed__3() -> Obj {
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_answerOf(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: u8 = 0;
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: u8 = 0;
+let mut x_10: Obj = rt::lean_box(0);
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+match rt::lean_obj_tag(x_1) {
+0 => {
+x_2 = rt::lean_ctor_get(x_1, 0);
+x_9 = (!rt::lean_is_exclusive(x_1)) as u8;
+match x_9 as u32 {
+0 => {
+{ let t_0 = x_1; let t_1 = x_9; x_4 = t_0; x_5 = t_1; }
+__blk = 1; continue 'body;
+}
+1 => {
+rt::lean_inc(x_2);
+rt::lean_dec(x_1);
+{ let t_0 = rt::lean_box(0); let t_1 = x_9; x_4 = t_0; x_5 = t_1; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+rt::lean_dec_ref(x_1);
+x_10 = rt::lean_box(0);
+return x_10;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+match x_5 as u32 {
+0 => {
+rt::lean_ctor_set_tag(x_4, 1);
+{ let t_0 = x_4; x_7 = t_0; }
+__blk = 2; continue 'body;
+}
+1 => {
+x_8 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_8, 0, x_2);
+{ let t_0 = x_8; x_7 = t_0; }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+return x_7;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Calculator_Wire_scope(mut x_1: Obj) -> Obj {
 let mut x_2: u64 = 0;
 let mut x_3: Obj = rt::lean_box(0);
@@ -5633,6 +5713,44 @@ pub(crate) unsafe fn l_Calculator_Kernel_instReprMemory_repr___redArg___closed__
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_actorOf(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+match rt::lean_obj_tag(x_1) {
+0 => {
+x_2 = l_Calculator_Wire_actorOf___closed__0();
+return x_2;
+}
+1 => {
+x_3 = rt::lean_ctor_get(x_1, 0);
+x_4 = rt::lean_ctor_get(x_3, 0);
+rt::lean_inc_ref(x_4);
+return x_4;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Wire_actorOf___closed__0_init() -> Obj {
+let mut x_1: u64 = 0;
+let mut x_2: Obj = rt::lean_box(0);
+x_1 = 0u64;
+x_2 = rt::lean_alloc_ctor(0, 0, 0 * core::mem::size_of::<usize>() as u32 + 16);
+rt::lean_ctor_set_uint64(x_2, 0 * core::mem::size_of::<usize>() as u32 + 0, x_1);
+rt::lean_ctor_set_uint64(x_2, 0 * core::mem::size_of::<usize>() as u32 + 8, x_1);
+return x_2;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_actorOf___closed__0() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Wire_actorOf___closed__0_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
 
 #[doc = "Lean type `Calculator.Wire.Call` (module `Calculator.Wire`)."]
 #[derive(Debug, Clone, PartialEq)]
@@ -5731,6 +5849,18 @@ pub fn fingerprint(arg0: crate::generated::calculator_kernel::Command) -> Vec<u8
     }
 }
 
+#[doc = "Lean: `Calculator.Wire.cmdOf : Except Leangage.Http.Response Calculator.Wire.Call → Calculator.Kernel.Command` (module `Calculator.Wire`)."]
+#[::leanfran::exported("Calculator.Wire.cmdOf")]
+pub fn cmd_of(arg0: Result<Call, ::leangage::http_format::Response>) -> crate::generated::calculator_kernel::Command {
+    unsafe {
+        let __a0: Obj = rt::except_to_lean(arg0, |v0| rt::ToLean::to_lean(v0), |v0| rt::ToLean::to_lean(v0));
+        let __r: Obj = l_Calculator_Wire_cmdOf(__a0);
+        rt::lean_dec(__a0); let __v = <crate::generated::calculator_kernel::Command as rt::FromLean>::from_lean(__r);
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
 #[doc = "Lean: `Calculator.Wire.request : UInt64 → UInt64 → UInt64 → UInt64 → Leangage.Http.Body → Except Leangage.Http.Response Calculator.Wire.Call` (module `Calculator.Wire`)."]
 #[::leanfran::exported("Calculator.Wire.request")]
 pub fn request(tenant: u64, user: u64, exp: u64, now: u64, body: ::leangage::http_format::Body) -> Result<Call, ::leangage::http_format::Response> {
@@ -5771,6 +5901,18 @@ pub fn refusal_message(arg0: Refusal) -> String {
     }
 }
 
+#[doc = "Lean: `Calculator.Wire.answerOf : Except Leangage.Http.Response Calculator.Wire.Call → Option Leangage.Http.Response` (module `Calculator.Wire`)."]
+#[::leanfran::exported("Calculator.Wire.answerOf")]
+pub fn answer_of(arg0: Result<Call, ::leangage::http_format::Response>) -> Option<::leangage::http_format::Response> {
+    unsafe {
+        let __a0: Obj = rt::except_to_lean(arg0, |v0| rt::ToLean::to_lean(v0), |v0| rt::ToLean::to_lean(v0));
+        let __r: Obj = l_Calculator_Wire_answerOf(__a0);
+        let __v = rt::option_from_lean(__r, |v0| <::leangage::http_format::Response as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
 #[doc = "Lean: `Calculator.Wire.scope : Calculator.Kernel.Principal → String` (module `Calculator.Wire`)."]
 #[::leanfran::exported("Calculator.Wire.scope")]
 pub fn scope(actor: crate::generated::calculator_kernel::Principal) -> String {
@@ -5802,6 +5944,18 @@ pub fn op_named(name: impl AsRef<str>) -> Option<crate::generated::calculator_ke
         let __a0: Obj = rt::ToLean::to_lean(name.as_ref());
         let __r: Obj = l_Calculator_Wire_opNamed(__a0);
         rt::lean_dec(__a0); let __v = rt::option_from_lean(__r, |v0| <crate::generated::calculator_kernel::Op as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
+#[doc = "Lean: `Calculator.Wire.actorOf : Except Leangage.Http.Response Calculator.Wire.Call → Calculator.Kernel.Principal` (module `Calculator.Wire`)."]
+#[::leanfran::exported("Calculator.Wire.actorOf")]
+pub fn actor_of(arg0: Result<Call, ::leangage::http_format::Response>) -> crate::generated::calculator_kernel::Principal {
+    unsafe {
+        let __a0: Obj = rt::except_to_lean(arg0, |v0| rt::ToLean::to_lean(v0), |v0| rt::ToLean::to_lean(v0));
+        let __r: Obj = l_Calculator_Wire_actorOf(__a0);
+        rt::lean_dec(__a0); let __v = <crate::generated::calculator_kernel::Principal as rt::FromLean>::from_lean(__r);
         rt::lean_dec(__r);
         __v
     }
@@ -5863,6 +6017,14 @@ pub mod lean {
             rt::lean_dec(__a0); rt::Lean::from_owned(__r)
         }
     }
+    #[doc = "`cmd_of` on handles. Lean: `Calculator.Wire.cmdOf : Except Leangage.Http.Response Calculator.Wire.Call → Calculator.Kernel.Command` (module `Calculator.Wire`)."]
+    pub fn cmd_of(arg0: impl rt::IntoLean<Result<Call, ::leangage::http_format::Response>>) -> rt::Lean<crate::generated::calculator_kernel::Command> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<Result<Call, ::leangage::http_format::Response>>::into_obj(arg0);
+            let __r: Obj = l_Calculator_Wire_cmdOf(__a0);
+            rt::lean_dec(__a0); rt::Lean::from_owned(__r)
+        }
+    }
     #[doc = "`request` on handles. Lean: `Calculator.Wire.request : UInt64 → UInt64 → UInt64 → UInt64 → Leangage.Http.Body → Except Leangage.Http.Response Calculator.Wire.Call` (module `Calculator.Wire`)."]
     pub fn request(tenant: impl rt::IntoLean<u64>, user: impl rt::IntoLean<u64>, exp: impl rt::IntoLean<u64>, now: impl rt::IntoLean<u64>, body: impl rt::IntoLean<::leangage::http_format::Body>) -> rt::Lean<Result<Call, ::leangage::http_format::Response>> {
         unsafe {
@@ -5891,6 +6053,14 @@ pub mod lean {
             rt::Lean::from_owned(__r)
         }
     }
+    #[doc = "`answer_of` on handles. Lean: `Calculator.Wire.answerOf : Except Leangage.Http.Response Calculator.Wire.Call → Option Leangage.Http.Response` (module `Calculator.Wire`)."]
+    pub fn answer_of(arg0: impl rt::IntoLean<Result<Call, ::leangage::http_format::Response>>) -> rt::Lean<Option<::leangage::http_format::Response>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<Result<Call, ::leangage::http_format::Response>>::into_obj(arg0);
+            let __r: Obj = l_Calculator_Wire_answerOf(__a0);
+            rt::Lean::from_owned(__r)
+        }
+    }
     #[doc = "`scope` on handles. Lean: `Calculator.Wire.scope : Calculator.Kernel.Principal → String` (module `Calculator.Wire`)."]
     pub fn scope(actor: impl rt::IntoLean<crate::generated::calculator_kernel::Principal>) -> rt::Lean<String> {
         unsafe {
@@ -5912,6 +6082,14 @@ pub mod lean {
         unsafe {
             let __a0: Obj = rt::IntoLean::<String>::into_obj(name);
             let __r: Obj = l_Calculator_Wire_opNamed(__a0);
+            rt::lean_dec(__a0); rt::Lean::from_owned(__r)
+        }
+    }
+    #[doc = "`actor_of` on handles. Lean: `Calculator.Wire.actorOf : Except Leangage.Http.Response Calculator.Wire.Call → Calculator.Kernel.Principal` (module `Calculator.Wire`)."]
+    pub fn actor_of(arg0: impl rt::IntoLean<Result<Call, ::leangage::http_format::Response>>) -> rt::Lean<crate::generated::calculator_kernel::Principal> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<Result<Call, ::leangage::http_format::Response>>::into_obj(arg0);
+            let __r: Obj = l_Calculator_Wire_actorOf(__a0);
             rt::lean_dec(__a0); rt::Lean::from_owned(__r)
         }
     }
@@ -5961,6 +6139,14 @@ pub mod local {
             rt::lean_dec(__a0); rt::Local::from_owned(__r)
         }
     }
+    #[doc = "`cmd_of` on handles. Lean: `Calculator.Wire.cmdOf : Except Leangage.Http.Response Calculator.Wire.Call → Calculator.Kernel.Command` (module `Calculator.Wire`)."]
+    pub fn cmd_of(arg0: impl rt::IntoLean<Result<Call, ::leangage::http_format::Response>>) -> rt::Local<crate::generated::calculator_kernel::Command> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<Result<Call, ::leangage::http_format::Response>>::into_obj(arg0);
+            let __r: Obj = l_Calculator_Wire_cmdOf(__a0);
+            rt::lean_dec(__a0); rt::Local::from_owned(__r)
+        }
+    }
     #[doc = "`request` on handles. Lean: `Calculator.Wire.request : UInt64 → UInt64 → UInt64 → UInt64 → Leangage.Http.Body → Except Leangage.Http.Response Calculator.Wire.Call` (module `Calculator.Wire`)."]
     pub fn request(tenant: impl rt::IntoLean<u64>, user: impl rt::IntoLean<u64>, exp: impl rt::IntoLean<u64>, now: impl rt::IntoLean<u64>, body: impl rt::IntoLean<::leangage::http_format::Body>) -> rt::Local<Result<Call, ::leangage::http_format::Response>> {
         unsafe {
@@ -5989,6 +6175,14 @@ pub mod local {
             rt::Local::from_owned(__r)
         }
     }
+    #[doc = "`answer_of` on handles. Lean: `Calculator.Wire.answerOf : Except Leangage.Http.Response Calculator.Wire.Call → Option Leangage.Http.Response` (module `Calculator.Wire`)."]
+    pub fn answer_of(arg0: impl rt::IntoLean<Result<Call, ::leangage::http_format::Response>>) -> rt::Local<Option<::leangage::http_format::Response>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<Result<Call, ::leangage::http_format::Response>>::into_obj(arg0);
+            let __r: Obj = l_Calculator_Wire_answerOf(__a0);
+            rt::Local::from_owned(__r)
+        }
+    }
     #[doc = "`scope` on handles. Lean: `Calculator.Wire.scope : Calculator.Kernel.Principal → String` (module `Calculator.Wire`)."]
     pub fn scope(actor: impl rt::IntoLean<crate::generated::calculator_kernel::Principal>) -> rt::Local<String> {
         unsafe {
@@ -6010,6 +6204,14 @@ pub mod local {
         unsafe {
             let __a0: Obj = rt::IntoLean::<String>::into_obj(name);
             let __r: Obj = l_Calculator_Wire_opNamed(__a0);
+            rt::lean_dec(__a0); rt::Local::from_owned(__r)
+        }
+    }
+    #[doc = "`actor_of` on handles. Lean: `Calculator.Wire.actorOf : Except Leangage.Http.Response Calculator.Wire.Call → Calculator.Kernel.Principal` (module `Calculator.Wire`)."]
+    pub fn actor_of(arg0: impl rt::IntoLean<Result<Call, ::leangage::http_format::Response>>) -> rt::Local<crate::generated::calculator_kernel::Principal> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<Result<Call, ::leangage::http_format::Response>>::into_obj(arg0);
+            let __r: Obj = l_Calculator_Wire_actorOf(__a0);
             rt::lean_dec(__a0); rt::Local::from_owned(__r)
         }
     }

@@ -95,6 +95,15 @@ instance : Shrinkable Tokens := ⟨fun _ => []⟩
 
 instance (priority := high) wireSampleableTokens : SampleableExt Tokens := SampleableExt.selfContained
 
+instance (priority := high) wireArbitraryBody : Arbitrary Http.Body where
+  arbitrary := do
+    let tokens ← (Arbitrary.arbitrary : Gen Tokens)
+    Gen.elements [.json tokens, .json tokens, .json tokens, .notJson, .tooLarge, .unreadable] (by simp)
+
+instance : Shrinkable Http.Body := ⟨fun _ => []⟩
+
+instance (priority := high) wireSampleableBody : SampleableExt Http.Body := SampleableExt.selfContained
+
 deriving instance DecidableEq for Principal, Command, Call
 
 #assay Calculator.Wire.decodeMembers
@@ -114,6 +123,9 @@ deriving instance DecidableEq for Principal, Command, Call
 #assay Calculator.Wire.request
   using Calculator.Wire.request_expired Calculator.Wire.request_json
     Calculator.Wire.request_not_json Calculator.Wire.request_actor_run
+
+#assay Calculator.Wire.answerOf Calculator.Wire.actorOf Calculator.Wire.cmdOf
+  using Calculator.Wire.answerOf_refuse Calculator.Wire.answerOf_ok Calculator.Wire.call_spec
 
 #assay Calculator.Wire.respond using Calculator.Wire.respond_ok Calculator.Wire.respond_error
 

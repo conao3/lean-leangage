@@ -33,6 +33,9 @@ The servers' JSON libraries are trusted to hand over the tokens of the text of a
   `request_encode` states the accepted case for the spelling of a command, and
   `request_refusal` that every answer of `request` has the status 400, 401 or 413 and a body
   `{"error": message}`.
+- `answerOf_spec`, `call_spec`, `request_call`, `request_answer`: `answerOf`, `actorOf` and
+  `cmdOf` take the result of `request` apart: the answer when there is one, and otherwise the
+  principal and the command of the call.
 - `respond_ok`, `respond_error`: an accepted command is answered 200 with `Value.print` of
   `replyValue`, a refused one 422 with `Value.print` of `errorValue`.
 - `fingerprint_spec`: the fingerprint of a command is the text `Set { value: 6 }`,
@@ -522,6 +525,42 @@ theorem request_refusal {tenant user exp now : UInt64} {body : Http.Body} {r : H
       rw [(request_not_json he tenant user).2.2] at h
       cases h
       exact ⟨by simp [Http.refuse_status], _, Http.refuse_body _ _⟩
+
+/-- `answerOf` gives the answer of `request` and nothing for a call. -/
+theorem answerOf_spec (r : Except Http.Response Call) :
+    answerOf r =
+      match r with
+      | .ok _ => none
+      | .error answer => some answer := by
+  cases r <;> rfl
+
+theorem answerOf_error (answer : Http.Response) : answerOf (.error answer) = some answer := rfl
+
+theorem answerOf_refuse (status : UInt16) (message : String) :
+    answerOf (.error (Http.refuse status message)) = some (Http.refuse status message) := rfl
+
+theorem answerOf_ok (call : Call) : answerOf (.ok call) = none := rfl
+
+/-- `actorOf` and `cmdOf` give the principal and the command of a call. -/
+theorem call_spec (call : Call) : actorOf (.ok call) = call.actor ∧ cmdOf (.ok call) = call.cmd :=
+  ⟨rfl, rfl⟩
+
+/-- When `request` gives a call, `answerOf` gives no answer and `actorOf` and `cmdOf` give the
+principal and the command of that call. -/
+theorem request_call {tenant user exp now : UInt64} {body : Http.Body} {call : Call}
+    (h : request tenant user exp now body = .ok call) :
+    answerOf (request tenant user exp now body) = none ∧
+      actorOf (request tenant user exp now body) = call.actor ∧
+      cmdOf (request tenant user exp now body) = call.cmd := by
+  rw [h]
+  exact ⟨rfl, rfl, rfl⟩
+
+/-- When `request` gives an answer, `answerOf` gives it. -/
+theorem request_answer {tenant user exp now : UInt64} {body : Http.Body} {r : Http.Response}
+    (h : request tenant user exp now body = .error r) :
+    answerOf (request tenant user exp now body) = some r := by
+  rw [h]
+  rfl
 
 /-! ## Responses -/
 

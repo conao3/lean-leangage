@@ -108,6 +108,15 @@ instance : Shrinkable Tokens := ⟨fun _ => []⟩
 
 instance (priority := high) notesWireSampleableTokens : SampleableExt Tokens := SampleableExt.selfContained
 
+instance (priority := high) notesWireArbitraryBody : Arbitrary Http.Body where
+  arbitrary := do
+    let tokens ← (Arbitrary.arbitrary : Gen Tokens)
+    Gen.elements [.json tokens, .json tokens, .json tokens, .notJson, .tooLarge, .unreadable] (by simp)
+
+instance : Shrinkable Http.Body := ⟨fun _ => []⟩
+
+instance (priority := high) notesWireSampleableBody : SampleableExt Http.Body := SampleableExt.selfContained
+
 instance (priority := high) notesWireArbitraryGuarded : Arbitrary (Authz.Guarded Error) where
   arbitrary := Gen.elements [.denied, .app .notFound, .app .badText] (by decide)
 

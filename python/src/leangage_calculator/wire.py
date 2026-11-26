@@ -475,6 +475,19 @@ def l_Calculator_Wire_fingerprint___closed__1():
         c.append(lean_mark_persistent(l_Calculator_Wire_fingerprint___closed__1__init()))
     return c[0]
 
+def l_Calculator_Wire_cmdOf(x_1):
+    __t = lean_obj_tag(x_1)
+    if __t == 0:
+        x_2 = 2
+        return x_2
+    elif __t == 1:
+        x_3 = x_1.objs[0]
+        x_4 = x_3.objs[1]
+        lean_inc(x_4)
+        return x_4
+    else:
+        lean_internal_panic_unreachable()
+
 def l_Calculator_Wire_request(x_1, x_2, x_3, x_4, x_5):
     __blk = 0
     while True:
@@ -3169,6 +3182,52 @@ def l_Calculator_Wire_refusalMessage___closed__3():
         c.append(lean_mark_persistent(l_Calculator_Wire_refusalMessage___closed__3__init()))
     return c[0]
 
+def l_Calculator_Wire_answerOf(x_1):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_1)
+            if __t == 0:
+                x_2 = x_1.objs[0]
+                x_9 = lean_is_shared(x_1)
+                __t = x_9
+                if __t == 0:
+                    x_4, x_5 = x_1, x_9
+                    __blk = 1
+                    continue
+                elif __t == 1:
+                    lean_inc(x_2)
+                    lean_dec(x_1)
+                    x_4, x_5 = 0, x_9
+                    __blk = 1
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 1:
+                lean_dec(x_1)
+                x_10 = 0
+                return x_10
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            __t = x_5
+            if __t == 0:
+                x_4.tag = 1
+                x_7 = x_4
+                __blk = 2
+                continue
+            elif __t == 1:
+                x_8 = Ctor(1, [x_2])
+                x_7 = x_8
+                __blk = 2
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 2:
+            return x_7
+        else:
+            lean_internal_panic_unreachable()
+
 def l_Calculator_Wire_scope(x_1):
     x_2 = x_1.sc[8]
     x_3 = l_Calculator_Wire_scope___closed__0()
@@ -3728,6 +3787,32 @@ def l_Calculator_Kernel_instReprMemory_repr___redArg___closed__10():
         c.append(lean_mark_persistent(l_Calculator_Kernel_instReprMemory_repr___redArg___closed__10__init()))
     return c[0]
 
+def l_Calculator_Wire_actorOf(x_1):
+    __t = lean_obj_tag(x_1)
+    if __t == 0:
+        x_2 = l_Calculator_Wire_actorOf___closed__0()
+        return x_2
+    elif __t == 1:
+        x_3 = x_1.objs[0]
+        x_4 = x_3.objs[0]
+        lean_inc(x_4)
+        return x_4
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Calculator_Wire_actorOf___closed__0__init():
+    x_1 = 0
+    x_2 = Ctor(0, [])
+    x_2.sc[0] = x_1
+    x_2.sc[8] = x_1
+    return x_2
+l_Calculator_Wire_actorOf___closed__0__cell = []
+def l_Calculator_Wire_actorOf___closed__0():
+    c = l_Calculator_Wire_actorOf___closed__0__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_actorOf___closed__0__init()))
+    return c[0]
+
 
 # Public types and functions
 
@@ -3751,10 +3836,6 @@ import leangage.json_lexemes as _ext2  # noqa: E402
 
 
 
-
-
-
-
 class Call(_m.LeanModel):
     "Lean `Calculator.Wire.Call`."
     actor: "_ext0.Principal"
@@ -3762,6 +3843,10 @@ class Call(_m.LeanModel):
 
 
 Call.__lean__ = _m.StructInfo(Call, _m.CtorInfo("mk", 0, 2, False, [_m.FieldInfo("actor", _m.Obj(0), _m.NamedD(globals(), "_ext0.Principal")), _m.FieldInfo("cmd", _m.Obj(1), _m.NamedD(globals(), "_ext0.Command"))], [], False), trivial=False)
+
+
+
+
 
 
 
@@ -3789,12 +3874,12 @@ _D2 = _m.ArrayD(_m.UIntD(8))
 _D3 = _m.LeanType(_D2, "list[UInt8]")
 _D4 = _m.NamedD(globals(), "_ext0.Command")
 _D5 = _m.LeanType(_D4, "_ext0.Command")
-_D6 = _m.UIntD(64)
-_D7 = _m.LeanType(_D6, "UInt64")
-_D8 = _m.NamedD(globals(), "_ext1.Body")
-_D9 = _m.LeanType(_D8, "_ext1.Body")
-_D10 = _m.ExceptD(globals(), _m.NamedD(globals(), "_ext1.Response"), _m.NamedD(globals(), "Call"), "_ext1.Response", "Call")
-_D11 = _m.LeanType(_D10, "Ok[Call] | Err[_ext1.Response]")
+_D6 = _m.ExceptD(globals(), _m.NamedD(globals(), "_ext1.Response"), _m.NamedD(globals(), "Call"), "_ext1.Response", "Call")
+_D7 = _m.LeanType(_D6, "Ok[Call] | Err[_ext1.Response]")
+_D8 = _m.UIntD(64)
+_D9 = _m.LeanType(_D8, "UInt64")
+_D10 = _m.NamedD(globals(), "_ext1.Body")
+_D11 = _m.LeanType(_D10, "_ext1.Body")
 _D12 = _m.ListD(_m.ProdD(_m.STRING, _m.NamedD(globals(), "_ext2.Scalar")))
 _D13 = _m.LeanType(_D12, "list[tuple[str, _ext2.Scalar]]")
 _D14 = _m.ExceptD(globals(), _m.NamedD(globals(), "Refusal"), _m.NamedD(globals(), "_ext0.Command"), "Refusal", "_ext0.Command")
@@ -3803,20 +3888,22 @@ _D16 = _m.NamedD(globals(), "Refusal")
 _D17 = _m.LeanType(_D16, "Refusal")
 _D18 = _m.STRING
 _D19 = _m.LeanType(_D18, "str")
-_D20 = _m.NamedD(globals(), "_ext0.Principal")
-_D21 = _m.LeanType(_D20, "_ext0.Principal")
-_D22 = _m.ExceptD(globals(), _m.NamedD(globals(), "_ext0.Error"), _m.NamedD(globals(), "_ext0.Reply"), "_ext0.Error", "_ext0.Reply")
-_D23 = _m.LeanType(_D22, "Ok[_ext0.Reply] | Err[_ext0.Error]")
-_D24 = _m.NamedD(globals(), "_ext1.Response")
-_D25 = _m.LeanType(_D24, "_ext1.Response")
-_D26 = _m.OptionD(_m.NamedD(globals(), "_ext0.Op"))
-_D27 = _m.LeanType(_D26, "_ext0.Op | None")
-_D28 = _m.ListD(_m.NamedD(globals(), "_ext2.Lexeme"))
-_D29 = _m.LeanType(_D28, "list[_ext2.Lexeme]")
-_D30 = _m.NamedD(globals(), "_ext2.Tokens")
-_D31 = _m.LeanType(_D30, "_ext2.Tokens")
-_D32 = _m.OptionD(_m.NamedD(globals(), "_ext0.Command"))
-_D33 = _m.LeanType(_D32, "_ext0.Command | None")
+_D20 = _m.OptionD(_m.NamedD(globals(), "_ext1.Response"))
+_D21 = _m.LeanType(_D20, "_ext1.Response | None")
+_D22 = _m.NamedD(globals(), "_ext0.Principal")
+_D23 = _m.LeanType(_D22, "_ext0.Principal")
+_D24 = _m.ExceptD(globals(), _m.NamedD(globals(), "_ext0.Error"), _m.NamedD(globals(), "_ext0.Reply"), "_ext0.Error", "_ext0.Reply")
+_D25 = _m.LeanType(_D24, "Ok[_ext0.Reply] | Err[_ext0.Error]")
+_D26 = _m.NamedD(globals(), "_ext1.Response")
+_D27 = _m.LeanType(_D26, "_ext1.Response")
+_D28 = _m.OptionD(_m.NamedD(globals(), "_ext0.Op"))
+_D29 = _m.LeanType(_D28, "_ext0.Op | None")
+_D30 = _m.ListD(_m.NamedD(globals(), "_ext2.Lexeme"))
+_D31 = _m.LeanType(_D30, "list[_ext2.Lexeme]")
+_D32 = _m.NamedD(globals(), "_ext2.Tokens")
+_D33 = _m.LeanType(_D32, "_ext2.Tokens")
+_D34 = _m.OptionD(_m.NamedD(globals(), "_ext0.Command"))
+_D35 = _m.LeanType(_D34, "_ext0.Command | None")
 
 
 def _pub_opFingerprint(arg0: "_ext0.Op") -> "list[UInt8]":
@@ -3863,39 +3950,62 @@ def _pub_fingerprint__local(arg0: "_ext0.Command | Lean[_ext0.Command] | Local[_
 
 
 _m.attach(globals(), ["fingerprint"], _pub_fingerprint, "Calculator.Wire.fingerprint", _pub_fingerprint__lean, {"arg0": _D5}, _D3, _pub_fingerprint__local)
+def _pub_cmdOf(arg0: "Ok[Call] | Err[_ext1.Response]") -> "_ext0.Command":
+    "Lean `Calculator.Wire.cmdOf`."
+    __a0 = _m.to_lean(_D6, arg0, "arg0")
+    return _m.to_py(_D4, l_Calculator_Wire_cmdOf(__a0))
+
+
+def _pub_cmdOf__lean(arg0: "Ok[Call] | Err[_ext1.Response] | Lean[Ok[Call] | Err[_ext1.Response]]") -> "Lean[_ext0.Command]":
+    "Lean `Calculator.Wire.cmdOf`, on handles."
+    __a0 = _m.lean_arg(_D7, arg0, "arg0")
+    _m.give(arg0)
+    return _m.handle(_D5, l_Calculator_Wire_cmdOf(__a0))
+
+
+def _pub_cmdOf__local(arg0: "Ok[Call] | Err[_ext1.Response] | Lean[Ok[Call] | Err[_ext1.Response]] | Local[Ok[Call] | Err[_ext1.Response]]") -> "Local[_ext0.Command]":
+    "Lean `Calculator.Wire.cmdOf`, on local handles."
+    __a0 = _m.local_arg(_D7, arg0, "arg0", False)
+    _m.give(arg0)
+    __r = l_Calculator_Wire_cmdOf(__a0)
+    _m.local_done(arg0, __a0)
+    return _m.local_handle(_D5, __r)
+
+
+_m.attach(globals(), ["cmdOf"], _pub_cmdOf, "Calculator.Wire.cmdOf", _pub_cmdOf__lean, {"arg0": _D7}, _D5, _pub_cmdOf__local)
 def _pub_request(tenant: "UInt64", user: "UInt64", exp: "UInt64", now: "UInt64", body: "_ext1.Body") -> "Ok[Call] | Err[_ext1.Response]":
     "Lean `Calculator.Wire.request`."
-    __a0 = _m.to_lean(_D6, tenant, "tenant")
-    __a1 = _m.to_lean(_D6, user, "user")
-    __a2 = _m.to_lean(_D6, exp, "exp")
-    __a3 = _m.to_lean(_D6, now, "now")
-    __a4 = _m.to_lean(_D8, body, "body")
-    return _m.to_py(_D10, l_Calculator_Wire_request(__a0, __a1, __a2, __a3, __a4))
+    __a0 = _m.to_lean(_D8, tenant, "tenant")
+    __a1 = _m.to_lean(_D8, user, "user")
+    __a2 = _m.to_lean(_D8, exp, "exp")
+    __a3 = _m.to_lean(_D8, now, "now")
+    __a4 = _m.to_lean(_D10, body, "body")
+    return _m.to_py(_D6, l_Calculator_Wire_request(__a0, __a1, __a2, __a3, __a4))
 
 
 def _pub_request__lean(tenant: "UInt64 | Lean[UInt64]", user: "UInt64 | Lean[UInt64]", exp: "UInt64 | Lean[UInt64]", now: "UInt64 | Lean[UInt64]", body: "_ext1.Body | Lean[_ext1.Body]") -> "Lean[Ok[Call] | Err[_ext1.Response]]":
     "Lean `Calculator.Wire.request`, on handles."
-    __a0 = _m.lean_arg(_D7, tenant, "tenant")
-    __a1 = _m.lean_arg(_D7, user, "user")
-    __a2 = _m.lean_arg(_D7, exp, "exp")
-    __a3 = _m.lean_arg(_D7, now, "now")
-    __a4 = _m.lean_arg(_D9, body, "body")
+    __a0 = _m.lean_arg(_D9, tenant, "tenant")
+    __a1 = _m.lean_arg(_D9, user, "user")
+    __a2 = _m.lean_arg(_D9, exp, "exp")
+    __a3 = _m.lean_arg(_D9, now, "now")
+    __a4 = _m.lean_arg(_D11, body, "body")
     _m.give(tenant, user, exp, now, body)
-    return _m.handle(_D11, l_Calculator_Wire_request(__a0, __a1, __a2, __a3, __a4))
+    return _m.handle(_D7, l_Calculator_Wire_request(__a0, __a1, __a2, __a3, __a4))
 
 
 def _pub_request__local(tenant: "UInt64 | Lean[UInt64] | Local[UInt64]", user: "UInt64 | Lean[UInt64] | Local[UInt64]", exp: "UInt64 | Lean[UInt64] | Local[UInt64]", now: "UInt64 | Lean[UInt64] | Local[UInt64]", body: "_ext1.Body | Lean[_ext1.Body] | Local[_ext1.Body]") -> "Local[Ok[Call] | Err[_ext1.Response]]":
     "Lean `Calculator.Wire.request`, on local handles."
-    __a0 = _m.local_arg(_D7, tenant, "tenant", True)
-    __a1 = _m.local_arg(_D7, user, "user", True)
-    __a2 = _m.local_arg(_D7, exp, "exp", True)
-    __a3 = _m.local_arg(_D7, now, "now", True)
-    __a4 = _m.local_arg(_D9, body, "body", True)
+    __a0 = _m.local_arg(_D9, tenant, "tenant", True)
+    __a1 = _m.local_arg(_D9, user, "user", True)
+    __a2 = _m.local_arg(_D9, exp, "exp", True)
+    __a3 = _m.local_arg(_D9, now, "now", True)
+    __a4 = _m.local_arg(_D11, body, "body", True)
     _m.give(tenant, user, exp, now, body)
-    return _m.local_handle(_D11, l_Calculator_Wire_request(__a0, __a1, __a2, __a3, __a4))
+    return _m.local_handle(_D7, l_Calculator_Wire_request(__a0, __a1, __a2, __a3, __a4))
 
 
-_m.attach(globals(), ["request"], _pub_request, "Calculator.Wire.request", _pub_request__lean, {"tenant": _D7, "user": _D7, "exp": _D7, "now": _D7, "body": _D9}, _D11, _pub_request__local)
+_m.attach(globals(), ["request"], _pub_request, "Calculator.Wire.request", _pub_request__lean, {"tenant": _D9, "user": _D9, "exp": _D9, "now": _D9, "body": _D11}, _D7, _pub_request__local)
 def _pub_decodeMembers(ms: "list[tuple[str, _ext2.Scalar]]") -> "Ok[_ext0.Command] | Err[Refusal]":
     "Lean `Calculator.Wire.decodeMembers`."
     __a0 = _m.to_lean(_D12, ms, "ms")
@@ -3940,63 +4050,84 @@ def _pub_refusalMessage__local(arg0: "Refusal | Lean[Refusal] | Local[Refusal]")
 
 
 _m.attach(globals(), ["refusalMessage"], _pub_refusalMessage, "Calculator.Wire.refusalMessage", _pub_refusalMessage__lean, {"arg0": _D17}, _D19, _pub_refusalMessage__local)
+def _pub_answerOf(arg0: "Ok[Call] | Err[_ext1.Response]") -> "_ext1.Response | None":
+    "Lean `Calculator.Wire.answerOf`."
+    __a0 = _m.to_lean(_D6, arg0, "arg0")
+    return _m.to_py(_D20, l_Calculator_Wire_answerOf(__a0))
+
+
+def _pub_answerOf__lean(arg0: "Ok[Call] | Err[_ext1.Response] | Lean[Ok[Call] | Err[_ext1.Response]]") -> "Lean[_ext1.Response | None]":
+    "Lean `Calculator.Wire.answerOf`, on handles."
+    __a0 = _m.lean_arg(_D7, arg0, "arg0")
+    _m.give(arg0)
+    return _m.handle(_D21, l_Calculator_Wire_answerOf(__a0))
+
+
+def _pub_answerOf__local(arg0: "Ok[Call] | Err[_ext1.Response] | Lean[Ok[Call] | Err[_ext1.Response]] | Local[Ok[Call] | Err[_ext1.Response]]") -> "Local[_ext1.Response | None]":
+    "Lean `Calculator.Wire.answerOf`, on local handles."
+    __a0 = _m.local_arg(_D7, arg0, "arg0", True)
+    _m.give(arg0)
+    return _m.local_handle(_D21, l_Calculator_Wire_answerOf(__a0))
+
+
+_m.attach(globals(), ["answerOf"], _pub_answerOf, "Calculator.Wire.answerOf", _pub_answerOf__lean, {"arg0": _D7}, _D21, _pub_answerOf__local)
 def _pub_scope(actor: "_ext0.Principal") -> "str":
     "Lean `Calculator.Wire.scope`."
-    __a0 = _m.to_lean(_D20, actor, "actor")
+    __a0 = _m.to_lean(_D22, actor, "actor")
     return _m.to_py(_D18, l_Calculator_Wire_scope(__a0))
 
 
 def _pub_scope__lean(actor: "_ext0.Principal | Lean[_ext0.Principal]") -> "Lean[str]":
     "Lean `Calculator.Wire.scope`, on handles."
-    __a0 = _m.lean_arg(_D21, actor, "actor")
+    __a0 = _m.lean_arg(_D23, actor, "actor")
     _m.give(actor)
     return _m.handle(_D19, l_Calculator_Wire_scope(__a0))
 
 
 def _pub_scope__local(actor: "_ext0.Principal | Lean[_ext0.Principal] | Local[_ext0.Principal]") -> "Local[str]":
     "Lean `Calculator.Wire.scope`, on local handles."
-    __a0 = _m.local_arg(_D21, actor, "actor", False)
+    __a0 = _m.local_arg(_D23, actor, "actor", False)
     _m.give(actor)
     __r = l_Calculator_Wire_scope(__a0)
     _m.local_done(actor, __a0)
     return _m.local_handle(_D19, __r)
 
 
-_m.attach(globals(), ["scope"], _pub_scope, "Calculator.Wire.scope", _pub_scope__lean, {"actor": _D21}, _D19, _pub_scope__local)
+_m.attach(globals(), ["scope"], _pub_scope, "Calculator.Wire.scope", _pub_scope__lean, {"actor": _D23}, _D19, _pub_scope__local)
 def _pub_respond(arg0: "Ok[_ext0.Reply] | Err[_ext0.Error]") -> "_ext1.Response":
     "Lean `Calculator.Wire.respond`."
-    __a0 = _m.to_lean(_D22, arg0, "arg0")
-    return _m.to_py(_D24, l_Calculator_Wire_respond(__a0))
+    __a0 = _m.to_lean(_D24, arg0, "arg0")
+    return _m.to_py(_D26, l_Calculator_Wire_respond(__a0))
 
 
 def _pub_respond__lean(arg0: "Ok[_ext0.Reply] | Err[_ext0.Error] | Lean[Ok[_ext0.Reply] | Err[_ext0.Error]]") -> "Lean[_ext1.Response]":
     "Lean `Calculator.Wire.respond`, on handles."
-    __a0 = _m.lean_arg(_D23, arg0, "arg0")
+    __a0 = _m.lean_arg(_D25, arg0, "arg0")
     _m.give(arg0)
-    return _m.handle(_D25, l_Calculator_Wire_respond(__a0))
+    return _m.handle(_D27, l_Calculator_Wire_respond(__a0))
 
 
 def _pub_respond__local(arg0: "Ok[_ext0.Reply] | Err[_ext0.Error] | Lean[Ok[_ext0.Reply] | Err[_ext0.Error]] | Local[Ok[_ext0.Reply] | Err[_ext0.Error]]") -> "Local[_ext1.Response]":
     "Lean `Calculator.Wire.respond`, on local handles."
-    __a0 = _m.local_arg(_D23, arg0, "arg0", False)
+    __a0 = _m.local_arg(_D25, arg0, "arg0", False)
     _m.give(arg0)
     __r = l_Calculator_Wire_respond(__a0)
     _m.local_done(arg0, __a0)
-    return _m.local_handle(_D25, __r)
+    return _m.local_handle(_D27, __r)
 
 
-_m.attach(globals(), ["respond"], _pub_respond, "Calculator.Wire.respond", _pub_respond__lean, {"arg0": _D23}, _D25, _pub_respond__local)
+_m.attach(globals(), ["respond"], _pub_respond, "Calculator.Wire.respond", _pub_respond__lean, {"arg0": _D25}, _D27, _pub_respond__local)
 def _pub_opNamed(name: "str") -> "_ext0.Op | None":
     "Lean `Calculator.Wire.opNamed`."
     __a0 = _m.to_lean(_D18, name, "name")
-    return _m.to_py(_D26, l_Calculator_Wire_opNamed(__a0))
+    return _m.to_py(_D28, l_Calculator_Wire_opNamed(__a0))
 
 
 def _pub_opNamed__lean(name: "str | Lean[str]") -> "Lean[_ext0.Op | None]":
     "Lean `Calculator.Wire.opNamed`, on handles."
     __a0 = _m.lean_arg(_D19, name, "name")
     _m.give(name)
-    return _m.handle(_D27, l_Calculator_Wire_opNamed(__a0))
+    return _m.handle(_D29, l_Calculator_Wire_opNamed(__a0))
 
 
 def _pub_opNamed__local(name: "str | Lean[str] | Local[str]") -> "Local[_ext0.Op | None]":
@@ -4005,73 +4136,96 @@ def _pub_opNamed__local(name: "str | Lean[str] | Local[str]") -> "Local[_ext0.Op
     _m.give(name)
     __r = l_Calculator_Wire_opNamed(__a0)
     _m.local_done(name, __a0)
-    return _m.local_handle(_D27, __r)
+    return _m.local_handle(_D29, __r)
 
 
-_m.attach(globals(), ["opNamed"], _pub_opNamed, "Calculator.Wire.opNamed", _pub_opNamed__lean, {"name": _D19}, _D27, _pub_opNamed__local)
+_m.attach(globals(), ["opNamed"], _pub_opNamed, "Calculator.Wire.opNamed", _pub_opNamed__lean, {"name": _D19}, _D29, _pub_opNamed__local)
+def _pub_actorOf(arg0: "Ok[Call] | Err[_ext1.Response]") -> "_ext0.Principal":
+    "Lean `Calculator.Wire.actorOf`."
+    __a0 = _m.to_lean(_D6, arg0, "arg0")
+    return _m.to_py(_D22, l_Calculator_Wire_actorOf(__a0))
+
+
+def _pub_actorOf__lean(arg0: "Ok[Call] | Err[_ext1.Response] | Lean[Ok[Call] | Err[_ext1.Response]]") -> "Lean[_ext0.Principal]":
+    "Lean `Calculator.Wire.actorOf`, on handles."
+    __a0 = _m.lean_arg(_D7, arg0, "arg0")
+    _m.give(arg0)
+    return _m.handle(_D23, l_Calculator_Wire_actorOf(__a0))
+
+
+def _pub_actorOf__local(arg0: "Ok[Call] | Err[_ext1.Response] | Lean[Ok[Call] | Err[_ext1.Response]] | Local[Ok[Call] | Err[_ext1.Response]]") -> "Local[_ext0.Principal]":
+    "Lean `Calculator.Wire.actorOf`, on local handles."
+    __a0 = _m.local_arg(_D7, arg0, "arg0", False)
+    _m.give(arg0)
+    __r = l_Calculator_Wire_actorOf(__a0)
+    _m.local_done(arg0, __a0)
+    return _m.local_handle(_D23, __r)
+
+
+_m.attach(globals(), ["actorOf"], _pub_actorOf, "Calculator.Wire.actorOf", _pub_actorOf__lean, {"arg0": _D7}, _D23, _pub_actorOf__local)
 def _pub_decodeObject(lexemes: "list[_ext2.Lexeme]") -> "Ok[_ext0.Command] | Err[Refusal]":
     "Lean `Calculator.Wire.decodeObject`."
-    __a0 = _m.to_lean(_D28, lexemes, "lexemes")
+    __a0 = _m.to_lean(_D30, lexemes, "lexemes")
     return _m.to_py(_D14, l_Calculator_Wire_decodeObject(__a0))
 
 
 def _pub_decodeObject__lean(lexemes: "list[_ext2.Lexeme] | Lean[list[_ext2.Lexeme]]") -> "Lean[Ok[_ext0.Command] | Err[Refusal]]":
     "Lean `Calculator.Wire.decodeObject`, on handles."
-    __a0 = _m.lean_arg(_D29, lexemes, "lexemes")
+    __a0 = _m.lean_arg(_D31, lexemes, "lexemes")
     _m.give(lexemes)
     return _m.handle(_D15, l_Calculator_Wire_decodeObject(__a0))
 
 
 def _pub_decodeObject__local(lexemes: "list[_ext2.Lexeme] | Lean[list[_ext2.Lexeme]] | Local[list[_ext2.Lexeme]]") -> "Local[Ok[_ext0.Command] | Err[Refusal]]":
     "Lean `Calculator.Wire.decodeObject`, on local handles."
-    __a0 = _m.local_arg(_D29, lexemes, "lexemes", True)
+    __a0 = _m.local_arg(_D31, lexemes, "lexemes", True)
     _m.give(lexemes)
     return _m.local_handle(_D15, l_Calculator_Wire_decodeObject(__a0))
 
 
-_m.attach(globals(), ["decodeObject"], _pub_decodeObject, "Calculator.Wire.decodeObject", _pub_decodeObject__lean, {"lexemes": _D29}, _D15, _pub_decodeObject__local)
+_m.attach(globals(), ["decodeObject"], _pub_decodeObject, "Calculator.Wire.decodeObject", _pub_decodeObject__lean, {"lexemes": _D31}, _D15, _pub_decodeObject__local)
 def _pub_spelled(tokens: "_ext2.Tokens") -> "_ext0.Command | None":
     "Lean `Calculator.Wire.spelled`."
-    __a0 = _m.to_lean(_D30, tokens, "tokens")
-    return _m.to_py(_D32, l_Calculator_Wire_spelled(__a0))
+    __a0 = _m.to_lean(_D32, tokens, "tokens")
+    return _m.to_py(_D34, l_Calculator_Wire_spelled(__a0))
 
 
 def _pub_spelled__lean(tokens: "_ext2.Tokens | Lean[_ext2.Tokens]") -> "Lean[_ext0.Command | None]":
     "Lean `Calculator.Wire.spelled`, on handles."
-    __a0 = _m.lean_arg(_D31, tokens, "tokens")
+    __a0 = _m.lean_arg(_D33, tokens, "tokens")
     _m.give(tokens)
-    return _m.handle(_D33, l_Calculator_Wire_spelled(__a0))
+    return _m.handle(_D35, l_Calculator_Wire_spelled(__a0))
 
 
 def _pub_spelled__local(tokens: "_ext2.Tokens | Lean[_ext2.Tokens] | Local[_ext2.Tokens]") -> "Local[_ext0.Command | None]":
     "Lean `Calculator.Wire.spelled`, on local handles."
-    __a0 = _m.local_arg(_D31, tokens, "tokens", False)
+    __a0 = _m.local_arg(_D33, tokens, "tokens", False)
     _m.give(tokens)
     __r = l_Calculator_Wire_spelled(__a0)
     _m.local_done(tokens, __a0)
-    return _m.local_handle(_D33, __r)
+    return _m.local_handle(_D35, __r)
 
 
-_m.attach(globals(), ["spelled"], _pub_spelled, "Calculator.Wire.spelled", _pub_spelled__lean, {"tokens": _D31}, _D33, _pub_spelled__local)
+_m.attach(globals(), ["spelled"], _pub_spelled, "Calculator.Wire.spelled", _pub_spelled__lean, {"tokens": _D33}, _D35, _pub_spelled__local)
 def _pub_decode(tokens: "_ext2.Tokens") -> "Ok[_ext0.Command] | Err[Refusal]":
     "Lean `Calculator.Wire.decode`."
-    __a0 = _m.to_lean(_D30, tokens, "tokens")
+    __a0 = _m.to_lean(_D32, tokens, "tokens")
     return _m.to_py(_D14, l_Calculator_Wire_decode(__a0))
 
 
 def _pub_decode__lean(tokens: "_ext2.Tokens | Lean[_ext2.Tokens]") -> "Lean[Ok[_ext0.Command] | Err[Refusal]]":
     "Lean `Calculator.Wire.decode`, on handles."
-    __a0 = _m.lean_arg(_D31, tokens, "tokens")
+    __a0 = _m.lean_arg(_D33, tokens, "tokens")
     _m.give(tokens)
     return _m.handle(_D15, l_Calculator_Wire_decode(__a0))
 
 
 def _pub_decode__local(tokens: "_ext2.Tokens | Lean[_ext2.Tokens] | Local[_ext2.Tokens]") -> "Local[Ok[_ext0.Command] | Err[Refusal]]":
     "Lean `Calculator.Wire.decode`, on local handles."
-    __a0 = _m.local_arg(_D31, tokens, "tokens", True)
+    __a0 = _m.local_arg(_D33, tokens, "tokens", True)
     _m.give(tokens)
     return _m.local_handle(_D15, l_Calculator_Wire_decode(__a0))
 
 
-_m.attach(globals(), ["decode"], _pub_decode, "Calculator.Wire.decode", _pub_decode__lean, {"tokens": _D31}, _D15, _pub_decode__local)
+_m.attach(globals(), ["decode"], _pub_decode, "Calculator.Wire.decode", _pub_decode__lean, {"tokens": _D33}, _D15, _pub_decode__local)
 _m.finish(globals())

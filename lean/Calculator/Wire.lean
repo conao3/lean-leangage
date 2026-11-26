@@ -6,7 +6,8 @@ import Leangage.Http
 
 What the calculator's servers do with a request once its token's tag is checked, and with the
 engine's result. `request` reads the tokens of the body into the command and the principal the engine runs, or
-gives the answer to a request the engine does not see. `respond` gives the answer to an accepted
+gives the answer to a request the engine does not see; `answerOf`, `actorOf` and `cmdOf` take
+that result apart, so that a server can keep the call as a Lean value. `respond` gives the answer to an accepted
 and to a refused command. `fingerprint` is the bytes that identify a command under an idempotency
 key, and `scope` the name that separates the keys of the users of a tenant.
 
@@ -146,6 +147,23 @@ def request (tenant user exp now : UInt64) (body : Http.Body) : Except Http.Resp
     match decode tokens with
     | .error e => .error (Http.refuse 400 (refusalMessage e))
     | .ok cmd => .ok ⟨⟨tenant, user⟩, cmd⟩
+
+/-- The answer `request` gave, when it gave one. -/
+def answerOf : Except Http.Response Call → Option Http.Response
+  | .ok _ => none
+  | .error r => some r
+
+/-- The principal of the call `request` gave. A server reads it after `answerOf` gave no answer;
+for an answer it is the principal of tenant 0 and user 0. -/
+def actorOf : Except Http.Response Call → Principal
+  | .ok call => call.actor
+  | .error _ => ⟨0, 0⟩
+
+/-- The command of the call `request` gave. A server reads it after `answerOf` gave no answer;
+for an answer it is `get`. -/
+def cmdOf : Except Http.Response Call → Command
+  | .ok call => call.cmd
+  | .error _ => .get
 
 /-- The answer to a command the kernel accepted or refused. -/
 def respond : Except Error Reply → Http.Response

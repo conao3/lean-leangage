@@ -123,7 +123,10 @@ FILES = [
     ),
     (
         "python/src/leangage_calculator/__init__.py",
-        ["request=wire.request", "respond=wire.respond", "fingerprint=wire.fingerprint", "scope=wire.scope"],
+        [
+            "wire.request.lean(", "wire.answerOf.lean(", "wire.actorOf.lean(", "wire.cmdOf.lean(",
+            "respond=wire.respond", "wire.fingerprint.lean(", "wire.scope.lean(",
+        ],
         PYTHON,
         None,
     ),
@@ -165,7 +168,7 @@ FILES = [
     ),
     (
         "go/leangage/json_text.go",
-        ["json.NewDecoder(", "decoder.UseNumber()", "decoder.Token()", "utf8.Valid("],
+        ["jsontext.NewDecoder(", "decoder.ReadToken()", "jsontext.AllowDuplicateNames(true)", "utf8.Valid("],
         GO_TEXT,
         None,
     ),

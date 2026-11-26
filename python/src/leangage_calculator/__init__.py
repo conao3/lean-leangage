@@ -2,8 +2,10 @@
 `lean/Calculator/Store.lean` and its requests and responses `lean/Calculator/Wire.lean`,
 generated to `kernel.py`, `store.py` and `wire.py`. `API` is the functions of `wire`."""
 
-from leanfran import Err, Local
-from leangage import Api, Kernel, Refused, Storage
+from typing import Any, NamedTuple
+
+from leanfran import Err, Local, Ok
+from leangage import Api, Kernel, Refused, Storage, http_format
 
 from leangage_calculator import kernel, store, wire
 
@@ -25,10 +27,10 @@ def _apply(snap: Local | kernel.Snapshot, write: kernel.Memory | None) -> Local:
 
 KERNEL = Kernel(
     init=kernel.init.local,
-    tenant=kernel.tenant,
+    tenant=lambda actor: kernel.tenant.lean(actor).get(),
     transition=_transition,
     apply=_apply,
-    read_only=kernel.readOnly,
+    read_only=lambda cmd: kernel.readOnly.lean(cmd).get(),
 )
 
 
@@ -48,9 +50,28 @@ STORAGE = Storage(
 )
 
 
+class Call(NamedTuple):
+    """What the engine runs: the principal and the command, each kept as a Lean value."""
+
+    actor: Any
+    cmd: Any
+
+
+def _request(
+    tenant: int, user: int, expiry: int, now: int, body: http_format.Body
+) -> Ok[Call] | Err[http_format.Response]:
+    """`wire.request`, its result taken apart by `answerOf`, `actorOf` and `cmdOf`, so that the
+    call reaches the kernel without a conversion to Python values and back."""
+    result = wire.request.lean(tenant, user, expiry, now, body)
+    answer = wire.answerOf.lean(result).get()
+    if answer is not None:
+        return Err(error=answer)
+    return Ok(value=Call(wire.actorOf.lean(result), wire.cmdOf.lean(result)))
+
+
 API = Api(
-    request=wire.request,
+    request=_request,
     respond=wire.respond,
-    fingerprint=wire.fingerprint,
-    scope=wire.scope,
+    fingerprint=lambda cmd: wire.fingerprint.lean(cmd).get(),
+    scope=lambda actor: wire.scope.lean(actor).get(),
 )
