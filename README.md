@@ -34,7 +34,7 @@ the function to your language. leangage gives you 3 things around it:
 
 - the contract the kernel fills;
 - an authorization guard, proved once for every kernel and policy;
-- the shell that runs the generated code behind HTTP, in memory or on PostgreSQL.
+- the server that runs the generated code behind HTTP, in memory or on PostgreSQL.
 
 The same kernel runs today from Rust, from Python and from Go.
 
@@ -163,7 +163,7 @@ a snapshot that stands for the same database.
 [`lean/Calculator/Store/Proofs.lean`](lean/Calculator/Store/Proofs.lean) proves them for the
 calculator, and [`lean/Notes/Store/Proofs.lean`](lean/Notes/Store/Proofs.lean) for the notes,
 whose members and notes are 2 tables, with `BOOLEAN` and `TEXT` columns. The tables and the row
-functions are generated to the 3 shells. Those of the calculator run behind the 3
+functions are generated to the 3 servers. Those of the calculator run behind the 3
 PostgreSQL engines, and those of the notes behind the Rust one.
 
 The Rust engine ([`rust/leangage-pg`](rust/leangage-pg)) takes a kernel with an implementation
@@ -297,15 +297,15 @@ tests; neither has a notes server.
 
 Proved in Lean, about the definitions that are generated and run:
 
-- the 6 theorems above, for the calculator kernel. The 3 shells call `transition` and
+- the 6 theorems above, for the calculator kernel. The 3 servers call `transition` and
   `apply`;
 - the guard's theorems above, for every kernel and policy, and the notes theorems, for the notes
-  kernel. Its `transition` is `handle` behind `guardViewed`, and the 3 shells call it;
+  kernel. Its `transition` is `handle` behind `guardViewed`, and the 3 servers call it;
 - `Leangage.Kernel.Run.inv`: a property that holds for the initial snapshot and is kept by
   every accepted command holds in every snapshot a tenant can reach. `Obligation.Invariant.run`
   states it for a property that satisfies `Obligation.Invariant`;
 - for the SQL compiler `Leangage.Sql` (`plan`, `compile`, `select`, `create`, `render`,
-  `valid`), which is generated to the 3 shells and which the 3 PostgreSQL engines call for
+  `valid`), which is generated to the 3 servers and which the 3 PostgreSQL engines call for
   every statement on a kernel's tables:
   - `lexName_quote`: a quoted name followed by any character but `"` reads back as exactly that
     name, under PostgreSQL's rule for quoted identifiers written as a lexer on characters;
@@ -351,7 +351,7 @@ Proved in Lean, about the definitions that are generated and run:
   - `create_stored`: creating the tables in a database without them starts every tenant from
     `init`;
 - for the calculator's table (`Calculator.Store`: `tables`, `toRow`, `fromRow`, `writes`,
-  `storeAll`, `load`), which is generated to the 3 shells and which the 3 calculator
+  `storeAll`, `load`), which is generated to the 3 servers and which the 3 calculator
   servers call through the PostgreSQL engines:
   - `fromRow_toRow`, `toRow_fromRow`: the laws of `Row`;
   - `writes_compile`: every write set compiles, for every tenant;
@@ -364,7 +364,7 @@ Proved in Lean, about the definitions that are generated and run:
   - `stored_commit`: every commit goes through: the `SELECT` returns rows, they load, and every
     write set compiles and runs;
 - for the notes' tables (`Notes.Store`: `tables`, `memberRow`, `memberOfRow`, `noteRow`,
-  `noteOfRow`, `write`, `writes`, `load`), which are generated to the 3 shells and which the
+  `noteOfRow`, `write`, `writes`, `load`), which are generated to the 3 servers and which the
   Rust notes server calls through the PostgreSQL engine:
   - `memberOfRow_memberRow`, `memberRow_memberOfRow`, `noteOfRow_noteRow`, `noteRow_noteOfRow`:
     the laws of `Row`;
@@ -399,7 +399,7 @@ Proved in Lean, about the definitions that are generated and run:
   - `parse_sound`, `parse_canon`: a token that `parse` accepts is `join` of its payload and its
     signature, and the payload is `encodePayload` of the tenant, the user and the expiry that
     `parse` returns. So a token has one spelling (no leading zero, sign, uppercase hexadecimal or
-    other version is accepted), and the bytes the shell checks the signature over are the bytes
+    other version is accepted), and the bytes the server checks the signature over are the bytes
     before the last dot;
   - `encodePayload_injective`: a payload determines the tenant, the user and the expiry, so a
     signature over it binds one reading;
@@ -430,9 +430,9 @@ Proved in Lean, about the definitions that are generated and run:
   which the 3 servers send for every accepted and refused command: `encodeReplyArray_spec`
   and `encodeErrorArray_spec` say that they are `Value.print` of `{"value": v}` and of
   `{"error": name}`, with the names `overflow`, `underflow` and `division_by_zero`, as
-  `encodeReply_spec` and `encodeError_spec` say of `encodeReply` and `encodeError`. The shells'
+  `encodeReply_spec` and `encodeError_spec` say of `encodeReply` and `encodeError`. The servers'
   own bodies (401, 400, a reused idempotency key, a stopped engine) are the tokens of
-  `{"error": message}`, which each shell builds from the message, written by `writeArray` in
+  `{"error": message}`, which each server builds from the message, written by `writeArray` in
   Rust and Python and by `write` in Go, where `WriteArray` returns an error for a string that is
   not UTF-8.
 
@@ -584,7 +584,7 @@ Checked by `make check`, not proved:
 - **No extra axioms.** Every theorem depends only on `propext`, `Classical.choice` and
   `Quot.sound`.
 
-Trusted, with no theorem. The Rust, Python and Go shells are written by hand, and every row
+Trusted, with no theorem. The Rust, Python and Go servers are written by hand, and every row
 holds for each of them:
 
 | | Trusted |
@@ -592,9 +592,9 @@ holds for each of them:
 | Translation | leanfran's Rust, Python and Go backends and their runtimes, rustc, CPython, the Go compiler, Lean's kernel |
 | Engine | the memory engine: one command at a time per process, under one lock (Rust, Python), or per tenant, under the tenant's lock and in its `leanfran.Region` (Go); replies stored per idempotency key. The PostgreSQL engines: the 8 items of their contract, PostgreSQL's `SERIALIZABLE` (its commits equal a serial order) and its deferrable read-only snapshot, the conversion of values to parameters and of columns back to values, the stored form of replies (`Storage::encode_reply` and `decode_reply`, `Storage.encode_reply`: 8 bytes for the calculator, the JSON body read back with serde_json for the notes), and that the engine's role isn't a superuser and doesn't own the tables. In Rust, tokio-postgres and deadpool-postgres, and each value a parameter of the type PostgreSQL inferred. In Python, psycopg and the libpq it bundles, the engine's pool, each value a parameter of the type of its kind, and that the generated Python computes what Lean computes when several threads call it at once, as the PostgreSQL engine does and the memory engine, under its lock, doesn't. In Go, pgx and pgxpool, which take the `PG*` environment variables as the defaults of the connection string, each value a parameter of the type PostgreSQL inferred, and that the generated Go computes what Lean computes when several goroutines call it at once, as the PostgreSQL engine does for its requests and the memory engine for different tenants, each in a `leanfran.Region` of its own |
 | Authentication | HMAC-SHA256 and the constant-time comparison of tags, the secret and its storage, the system clock and the expiry check, reading the token from the `Authorization` header, the table of accepted tokens (a token accepted once is recognised by its exact bytes and only its expiry is checked again) |
-| Wire format | JSON decoding of commands (`Api`); the fingerprint of a command under an idempotency key (`Api`; the Python and the Go calculators write the bytes of the Rust calculator's, its `Debug` form); that the shells send the bytes of `encodeReplyArray` and `encodeErrorArray` as the body; the tokens each shell builds for its own `{"error": ...}` bodies |
+| Wire format | JSON decoding of commands (`Api`); the fingerprint of a command under an idempotency key (`Api`; the Python and the Go calculators write the bytes of the Rust calculator's, its `Debug` form); that the servers send the bytes of `encodeReplyArray` and `encodeErrorArray` as the body; the tokens each server builds for its own `{"error": ...}` bodies |
 | HTTP | axum, hyper and tokio (Rust); `http.server` (Python); `net/http` (Go) |
-| Call site | that a shell runs the notes' `transition`. `handle`, the kernel without the guard, is generated and public too, and the guard's theorems say nothing about a caller of `handle` |
+| Call site | that a server runs the notes' `transition`. `handle`, the kernel without the guard, is generated and public too, and the guard's theorems say nothing about a caller of `handle` |
 | SQL | that PostgreSQL reads the text as `lexName_quote`'s lexer reads a quoted name; that PostgreSQL, sent `render q` with its parameters, fails or does to the tables what `run` says, and that a `SELECT` returns the rows `selected` says in some order (`ORDER BY` isn't modeled); that values compare as Lean values do (text character by character, bytes byte by byte); that the tables were made by `create` of the same schema, since `CREATE TABLE IF NOT EXISTS` keeps a table of that name as it is; that no text holds NUL, which the model stores and PostgreSQL refuses (for the notes, `accepted_no_nul` proves it of every body an accepted command writes) |
 | Storage | that the PostgreSQL engines do what `Storage.Stored` says: each creates `tables` in a database without them, runs each command on the snapshot `load` builds of the rows of the compiled `SELECT` of each table or on the snapshot it remembers, and runs the statements compiled from `writes` of the accepted write set for the principal's tenant (`Kernel.tenant`, as the `Int64` with the same bits). An engine runs a command on a snapshot it remembers only while the tenant's row of `leangage_version` holds the version the engine read when it remembered it, and `Stored.cached` takes the database then to be one that `Stored` relates to that snapshot: the version is the same only if no transaction wrote the tenant's rows since. That holds when every transaction that writes a tenant's rows advances the tenant's version in the same transaction, as the 3 engines do, the version only grows, and `SERIALIZABLE` lets no 2 transactions advance it from the same value. For a row that exists, PostgreSQL's documentation says that a transaction whose `UPDATE` finds the row updated by a concurrent transaction that committed is rolled back ([Repeatable Read](https://www.postgresql.org/docs/18/transaction-iso.html#XACT-REPEATABLE-READ), which `SERIALIZABLE` extends, failing with 40001: [Serializable](https://www.postgresql.org/docs/18/transaction-iso.html#XACT-SERIALIZABLE)); it says nothing of `INSERT … ON CONFLICT DO UPDATE` at these levels ([INSERT](https://www.postgresql.org/docs/18/sql-insert.html#SQL-ON-CONFLICT)), so that the upsert fails the same way, for a row that exists and for one a concurrent transaction inserted, rests on `version_rows_conflict`; a writer that doesn't advance it, such as an engine built before `leangage_version` or an edit of the rows by hand, and tables dropped and made again while an engine runs, leave a remembered snapshot standing for rows that are no longer there. The code that does it is `rust/leangage-pg/src/lib.rs`, `python/src/leangage/pg/__init__.py` and `go/leangage/pg/pg.go`, and the `Storage` of the calculator in Rust, in Python and in Go and of the notes in Rust, which delegate to the generated functions; the differential tests and the contract tests check it |
 | Specification | that `specStep` and the statements above say what a calculator and the notes should do; that the write list a kernel gives `ReadOnlySound` (`fun w => w.toList` for the calculator) holds every write of its write set; that `Valid`, `Accepts`, `sqlOf`, `renderSpec`, `exec`, `view`, `Sel` and `Lists` say what the SQL compiler should do; that `TenantIsolation`, `Storage`, `Loaded` and `Stored` say what storing a kernel should mean; that the calculator's `lookup` and `enc` and the notes' `enc` and `encTable` say which rows a snapshot stands for, and that `SameRows` says when 2 snapshots differ only in the order of their rows; that `v1.<tenant>.<user>.<expiry>.<hex>` with the signature over the bytes before the last dot is the token a client should send; that `Value.print` and `printToks` print JSON as RFC 8259 defines it, and `lexStr` reads a string as RFC 8259 does for the escapes `write` uses; that `replyValue` and `errorValue` are the bodies a client should read |
@@ -666,12 +666,12 @@ token check, the engine and the generated kernel cost.
 | FastAPI on uvicorn, 4 processes, no kernel | 5,670 | 5,780 | 25,300 | 23,900 |
 | Flask on gunicorn, 4 processes, no kernel | 2,500 | 2,430 | 6,910 | 6,810 |
 
-- The Rust shell runs on axum and gives as many replies as axum without a kernel: 94% to `get` on
+- The Rust server runs on axum and gives as many replies as axum without a kernel: 94% to `get` on
   one connection and 96% on 64, and 92% and 97% to `apply`. The 2 runs of a cell differ by up
   to 10%.
-- The Go shell runs on `net/http` and gives 90% of the replies of `net/http` without a kernel to
+- The Go server runs on `net/http` and gives 90% of the replies of `net/http` without a kernel to
   `get` on one connection and 75% on 64, and 88% and 71% to `apply`.
-- The Python shell is one process on `http.server`, with one lock around the engine. On one
+- The Python server is one process on `http.server`, with one lock around the engine. On one
   connection it gives 103% of the replies of FastAPI to `get` and 86% to `apply`. On 64
   connections it gives fewer than on one, while FastAPI and Flask spread the connections over 4 processes.
 - Every body is written by the generated JSON writer.
@@ -763,12 +763,12 @@ retrying.
 |---|---|
 | [`lean/`](lean) | the Lake package: `Leangage` (the kernel contract, the obligations, the SQL compiler, a model of PostgreSQL, tenant isolation, the storage of a kernel, the token format, the JSON writer, the authorization guard, and their proofs), `Calculator` (kernel, table and proofs), `Notes` (kernel, policy, tables and proofs), `calculator-oracle`, `notes-oracle`, `sql-oracle` and `token-oracle`, `json-oracle` (the kernel, the SQL compiler and the token format as native programs) |
 | [`audit/`](audit) | the leanassay audits, the axiom check and the obligation check, with the files that must fail it (`fail/`) |
-| [`rust/leangage`](rust/leangage) | the Rust shell: `Kernel`, `Storage`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler, token format and JSON writer (`src/generated/`) |
+| [`rust/leangage`](rust/leangage) | the Rust server library: `Kernel`, `Storage`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler, token format and JSON writer (`src/generated/`) |
 | [`rust/leangage-pg`](rust/leangage-pg) | the PostgreSQL engine, `lockdown` (the owner and the engine's role), the contract tests and the test server (`testing`) |
 | [`rust/calculator`](rust/calculator) | the generated kernel and table (`src/generated/`), the server, the benchmark, the differential and PostgreSQL tests |
 | [`rust/notes`](rust/notes) | the generated notes kernel and tables (`src/generated/`), the server, the HTTP, differential and PostgreSQL tests |
-| [`python/`](python) | the Python shell (`leangage`, with the generated `sql.py`, `token_format.py` and `json_format.py`, and `leangage.pg`: the PostgreSQL engine, `lockdown` and the test server `testing`), the calculator (`leangage_calculator`, with the generated `kernel.py` and `store.py`), the notes (`leangage_notes`, with the generated `kernel.py` and `store.py`), and the tests (`test/`, among them the PostgreSQL engine's contract tests) |
-| [`go/leangage`](go/leangage) | the Go shell: `Kernel`, `Storage`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler (`sql/`), token format (`token/`) and JSON writer (`jsonformat/`) |
+| [`python/`](python) | the Python server library (`leangage`, with the generated `sql.py`, `token_format.py` and `json_format.py`, and `leangage.pg`: the PostgreSQL engine, `lockdown` and the test server `testing`), the calculator (`leangage_calculator`, with the generated `kernel.py` and `store.py`), the notes (`leangage_notes`, with the generated `kernel.py` and `store.py`), and the tests (`test/`, among them the PostgreSQL engine's contract tests) |
+| [`go/leangage`](go/leangage) | the Go server library: `Kernel`, `Storage`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler (`sql/`), token format (`token/`) and JSON writer (`jsonformat/`) |
 | [`go/leangage/pg`](go/leangage/pg) | the PostgreSQL engine, `Lockdown` (the owner and the engine's role), the contract tests and the test server (`pgtest/`) |
 | [`go/calculator`](go/calculator) | the generated kernel (`kernel/`) and table (`store/`), the server and the benchmark (`cmd/`), the differential and PostgreSQL tests |
 | [`go/notes`](go/notes) | the generated notes kernel (`kernel/`) and tables (`store/`), the differential test |

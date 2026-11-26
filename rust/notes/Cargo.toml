@@ -1,6 +1,6 @@
 [package]
 name = "leangage-notes"
-description = "The notes kernel and its policy, generated from Lean, behind the leangage shell"
+description = "The notes kernel and its policy, generated from Lean, behind the leangage server"
 publish = false
 version.workspace = true
 edition.workspace = true

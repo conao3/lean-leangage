@@ -3,14 +3,14 @@
 
 Based on `crates/h5i-app-token/src/lib.rs` and `crates/h5i-app-token/proofs/TokenSpec.lean` of
 h5i (https://github.com/h5i-dev/h5i, commit 515c7b9, Apache-2.0). Changed: the functions are
-written in Lean and generated to the shells; bytes are a `List UInt8` and the numbers are
+written in Lean and generated to the three languages; bytes are a `List UInt8` and the numbers are
 `UInt64`s; a decimal or a hexadecimal field is accepted when it is the encoding of the value it
 reads as; the loops over the token keep what they have read in an accumulator; `parseString`
 reads the token as a `String` and returns arrays.
 
 A token is `v1.<tenant>.<user>.<expiry>.<hex signature>`. The signature covers the payload, which
 is every byte before the last dot. `encodePayload` writes the payload, `join` appends the
-signature in lowercase hexadecimal, and `parse` splits a token into its fields. The shells call
+signature in lowercase hexadecimal, and `parse` splits a token into its fields. The servers call
 `parseString`, which splits the bytes of a string as `parse` does, compute and compare the
 signature and check the expiry.
 -/
@@ -104,7 +104,7 @@ def parse (tok : List UInt8) : Option Parsed :=
 
 /-! ## Over the bytes of a string
 
-The functions below read a token as a `String` and write bytes into an `Array UInt8`, so a shell
+The functions below read a token as a `String` and write bytes into an `Array UInt8`, so a server
 passes the token without building a list. `Leangage.Token.Proofs` proves `parseString` equal to
 `parse` of the bytes of the string.
 -/

@@ -3,7 +3,7 @@
 
 A kernel decides, for one tenant, what a command does: `transition` returns the writes and the
 reply or refuses, and `apply` says what the writes mean. Both are pure and total. The engine (the
-trusted shell around it) loads the tenant's snapshot, calls `transition`, stores the writes and
+trusted server around it) loads the tenant's snapshot, calls `transition`, stores the writes and
 answers with the reply.
 -/
 

@@ -1,7 +1,7 @@
 [project]
 name = "leangage"
 version = "0.1.0"
-description = "The trusted shell that runs a Lean-proved kernel behind HTTP"
+description = "The trusted server that runs a Lean-proved kernel behind HTTP"
 readme = "README.md"
 license = "Apache-2.0"
 requires-python = ">=3.13"

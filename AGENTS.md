@@ -1,6 +1,6 @@
 # AGENTS.md
 
-leangage: the contract of a kernel proved in Lean 4, and the shells that run the code
+leangage: the contract of a kernel proved in Lean 4, and the servers that run the code
 [leanfran](https://github.com/conao3/lean-leanfran) generates from it.
 
 ## Layout
@@ -33,25 +33,25 @@ leangage: the contract of a kernel proved in Lean 4, and the shells that run the
   only when it is in `roots` of `audit/lakefile.toml` or imported by `Audit.lean`. `#assay`
   derives instances named after the short names of the types it samples, so two audit files whose
   types share a short name (`Snapshot`) are separate roots and do not import each other.
-- `rust/`: Cargo workspace, edition 2024. `leangage` is the shell, `leangage-pg` the engine
+- `rust/`: Cargo workspace, edition 2024. `leangage` is the server library, `leangage-pg` the engine
   that stores the snapshots in PostgreSQL, `calculator` and `notes` the examples.
-- `python/`: uv project. `leangage` is the shell, `leangage.pg` the engine that stores the
+- `python/`: uv project. `leangage` is the server library, `leangage.pg` the engine that stores the
   snapshots in PostgreSQL (driver psycopg 3), `leangage_calculator` and `leangage_notes` the
   examples.
-- `go/`: Go module `github.com/conao3/lean-leangage/go`. `leangage` is the shell,
+- `go/`: Go module `github.com/conao3/lean-leangage/go`. `leangage` is the server library,
   `leangage/pg` the engine that stores the snapshots in PostgreSQL (pgx, pinned in `go.mod`)
   with the test server `leangage/pg/pgtest`, `calculator` and `notes` the examples, with the
   calculator's server and benchmark under `calculator/cmd/`.
-- Each shell holds the SQL compiler generated from `Leangage.Sql`: `rust/leangage/src/generated/`
+- Each server library holds the SQL compiler generated from `Leangage.Sql`: `rust/leangage/src/generated/`
   (`leangage::sql`), `python/src/leangage/sql.py` and `go/leangage/sql/`. The calculator's
   table from `Calculator.Store` is `rust/calculator/src/generated/calculator_store.rs`,
   `python/src/leangage_calculator/store.py` and `go/calculator/store/`, and the notes' tables
   from `Notes.Store` are `rust/notes/src/generated/notes_store.rs`,
-  `python/src/leangage_notes/store.py` and `go/notes/store/`. Each shell holds
+  `python/src/leangage_notes/store.py` and `go/notes/store/`. Each server library holds
   the token format generated from `Leangage.Token` (`leangage::token_format`,
   `python/src/leangage/token_format.py`, `go/leangage/token/`), and its `token` module calls
   `encodePayload`, `join` and `parseString` and computes and compares the HMAC and checks the
-  expiry. Each shell holds the JSON writer generated from `Leangage.Json`
+  expiry. Each server library holds the JSON writer generated from `Leangage.Json`
   (`leangage::json_format`, `python/src/leangage/json_format.py`, `go/leangage/jsonformat/`)
   and writes its own `{"error": ...}` bodies with it (`writeArray`; `write` in Go); the
   calculator's replies and refusals are the bytes of the generated `encodeReplyArray` and
@@ -79,7 +79,7 @@ leangage: the contract of a kernel proved in Lean 4, and the shells that run the
 - Lean owns the kernel: types, `transition`, `apply`, and every decision about a command.
   Definitions that are generated go in a module without proofs (`Calculator.Kernel`); theorems
   and specifications go in a module beside it (`Calculator.Proofs`).
-- The shells own input and output: HTTP, tokens, JSON, the engine. They call generated
+- The servers own input and output: HTTP, tokens, JSON, the engine. They call generated
   functions and make no decision about a command themselves. The PostgreSQL engines send only the
   text of the generated `render` for a kernel's tables, with the values as parameters; their own
   statements are the constants of `rust/leangage-pg/src/lib.rs`,
@@ -112,16 +112,16 @@ leangage: the contract of a kernel proved in Lean 4, and the shells that run the
   the leaks with `leanfran.TrackLeakedValues`.
 - Generated files (`rust/*/src/generated/`, `python/src/leangage_*/kernel.py`,
   `python/src/leangage_calculator/store.py`, `go/*/kernel/`, `go/calculator/store/`, and the SQL
-  compiler and the token format in each shell) are committed and never edited.
+  compiler and the token format in each server library) are committed and never edited.
   Run `make generate` after changing `lean/`.
-- A function the shells call on every request takes `String`s and writes into an `Array UInt8`
+- A function the servers call on every request takes `String`s and writes into an `Array UInt8`
   with loops over indices (`parseString`, `writeArray`), so a call converts no list of bytes. Its
   theorem states it equal to the definition over `List UInt8` (`parseString_spec`,
   `writeArray_spec`), whose theorems then hold for it, and the differential tests run both.
   `bench-bytes` in the Makefile times the two side by side.
 - Authorization is the guard of `Leangage.Authz`: a kernel's `handle` decides a command with no
   authorization of its own, and the generated `transition` is `handle` behind `guardViewed` with
-  the kernel's policy. The shells call `transition` only.
+  the kernel's policy. The servers call `transition` only.
 - When a function is added to a generated module, add a theorem about it and list it in the
   module's audit file (`audit/Audit/Calculator.lean`, `audit/Audit/Sql.lean`,
   `audit/Audit/Store.lean`, `audit/Audit/Token.lean`, `audit/Audit/Json.lean`,

@@ -9,7 +9,7 @@ import (
 	"github.com/conao3/lean-leangage/go/leangage"
 )
 
-// Requests to `POST /rpc` get the statuses and bodies of the Rust shell.
+// Requests to `POST /rpc` get the statuses and bodies of the Rust server.
 func TestRpc(t *testing.T) {
 	secret := []byte("secret")
 	engine := NewEngine()

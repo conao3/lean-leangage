@@ -1,4 +1,4 @@
-//! The trusted shell around a kernel proved in Lean: an engine that runs one command at a time
+//! The trusted server around a kernel proved in Lean: an engine that runs one command at a time
 //! per tenant, bearer tokens, and the `/rpc` route. `leangage-pg` holds the engine that stores
 //! the snapshots in PostgreSQL. `sql` is the SQL compiler generated from
 //! `lean/Leangage/Sql.lean`, `token_format` the functions that write and split tokens,

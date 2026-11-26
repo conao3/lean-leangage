@@ -16,7 +16,7 @@ decimals are proved without Mathlib.
 - `encodePayload_injective`: a payload determines the tenant, the user and the expiry, so a
   signature over it binds one reading.
 
-- `parseString_spec`: `parseString`, which the shells call, reads a `String` and gives what
+- `parseString_spec`: `parseString`, which the servers call, reads a `String` and gives what
   `parse` gives for its bytes. `parseString_sound`, `parseString_canon` and `parseString_join`
   restate `parse_sound`, `parse_canon` and `parse_join` for it.
 

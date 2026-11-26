@@ -1,4 +1,4 @@
-"""`POST /rpc`: one kernel command per request, with the status codes of the Rust shell.
+"""`POST /rpc`: one kernel command per request, with the status codes of the Rust server.
 
 The `{"error": ...}` bodies are written by `leangage.json_format.writeArray`, the JSON writer
 generated from `lean/Leangage/Json.lean`.

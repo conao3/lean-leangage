@@ -5,7 +5,7 @@ import Leangage.Token
 
 Based on `crates/h5i-app-json/src/lib.rs` and `crates/h5i-app-json/proofs/JsonSpec.lean` of h5i
 (https://github.com/h5i-dev/h5i, commit 515c7b9, Apache-2.0). Changed: the functions are written
-in Lean and generated to the shells; bytes are a `List UInt8` and numbers are `UInt64`s; the five
+in Lean and generated to the three languages; bytes are a `List UInt8` and numbers are `UInt64`s; the five
 control bytes that JSON has a short escape for are written with it; the decimal and hexadecimal
 digits are those of `Leangage.Token`; the loop over the tokens keeps what it has written,
 reversed, in an accumulator; `writeArray` takes strings as `String`s and writes into an array.
@@ -87,7 +87,7 @@ def write (ts : List Tok) : List UInt8 :=
 /-! ## Into an array
 
 `writeArray` writes the same bytes as `write` into an `Array UInt8`, from tokens whose strings are
-`String`s, so a shell passes strings without building lists. `Leangage.Json.Proofs` proves it
+`String`s, so a server passes strings without building lists. `Leangage.Json.Proofs` proves it
 equal to `write`.
 -/
 

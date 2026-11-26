@@ -9,7 +9,7 @@ import Calculator.Kernel
 naturals. `get_after` and `others_unchanged` are about a command followed by `apply`.
 `encodeReply_spec` and `encodeError_spec` say that the bytes of a reply and of a refusal are the
 JSON values `replyValue` and `errorValue`, printed by `Leangage.Json.Value.print`;
-`encodeReplyArray_spec` and `encodeErrorArray_spec` say the same of the arrays the shells send.
+`encodeReplyArray_spec` and `encodeErrorArray_spec` say the same of the arrays the servers send.
 -/
 
 namespace Calculator.Kernel
@@ -252,11 +252,11 @@ theorem encodeErrorArray_eq (e : Error) : (encodeErrorArray e).toList = encodeEr
   simp only [List.map, Leangage.Json.StrTok.toTok, errorString_spec]
   congr
 
-/-- The bytes of a reply that the shells send are its JSON value. -/
+/-- The bytes of a reply that the servers send are its JSON value. -/
 theorem encodeReplyArray_spec (r : Reply) : (encodeReplyArray r).toList = (replyValue r).print := by
   rw [encodeReplyArray_eq, encodeReply_spec]
 
-/-- The bytes of a refusal that the shells send are its JSON value. -/
+/-- The bytes of a refusal that the servers send are its JSON value. -/
 theorem encodeErrorArray_spec (e : Error) : (encodeErrorArray e).toList = (errorValue e).print := by
   rw [encodeErrorArray_eq, encodeError_spec]
 

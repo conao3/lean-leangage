@@ -1,4 +1,4 @@
-"""The trusted shell around a kernel proved in Lean."""
+"""The trusted server around a kernel proved in Lean."""
 
 from leangage.engine import (
     Broken,

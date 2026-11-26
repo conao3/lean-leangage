@@ -1,4 +1,4 @@
-"""`POST /rpc` answers each failure of the engine with the status and body of the Rust shell."""
+"""`POST /rpc` answers each failure of the engine with the status and body of the Rust server."""
 
 import time
 from typing import Any

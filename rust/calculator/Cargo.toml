@@ -1,6 +1,6 @@
 [package]
 name = "leangage-calculator"
-description = "The calculator kernel, generated from Lean, behind the leangage shell"
+description = "The calculator kernel, generated from Lean, behind the leangage server"
 publish = false
 version.workspace = true
 edition.workspace = true

@@ -1,8 +1,8 @@
-"""Times the byte functions the shells call on every request.
+"""Times the byte functions the servers call on every request.
 
 (a) the check of one token (split and HMAC), (b) the bytes of one calculator reply and (c) the
 bytes of a notes list of 20 notes with bodies of 200 bytes. Each line times the functions over
-lists (`parse`, `encodeReply`, `write`) and the functions the shells call (`parseString`,
+lists (`parse`, `encodeReply`, `write`) and the functions the servers call (`parseString`,
 `encodeReplyArray`, `writeArray`) in alternating rounds.
 """
 
@@ -58,7 +58,7 @@ NOTES = [(i, 7, i % 2 == 0, "n" * 200) for i in range(20)]
 
 
 def notes_toks() -> list[json_format.Tok]:
-    """The tokens of {"notes":[...]}, in the order the Rust notes shell writes, over lists."""
+    """The tokens of {"notes":[...]}, in the order the Rust notes server writes, over lists."""
     out: list[json_format.Tok] = [
         json_format.Tok_objOpen(),
         json_format.Tok_key(s=list(b"notes")),

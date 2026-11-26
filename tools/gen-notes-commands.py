@@ -1,4 +1,4 @@
-"""Writes the notes command list that the Lean oracle and the Rust, Python and Go shells all run.
+"""Writes the notes command list that the Lean oracle and the Rust, Python and Go servers all run.
 
 Deterministic: the same seed and count give the same file. Each org starts with an admin. Bodies have no space; some are empty,
 and some sit at the 4096-byte limit with characters of 1 to 4 bytes in UTF-8.

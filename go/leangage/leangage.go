@@ -1,4 +1,4 @@
-// Package leangage is the trusted shell around a kernel proved in Lean: an engine that runs
+// Package leangage is the trusted server around a kernel proved in Lean: an engine that runs
 // one command of a tenant at a time, bearer tokens, and the `/rpc` route. The package pg holds the engine
 // that stores the snapshots in PostgreSQL.
 package leangage

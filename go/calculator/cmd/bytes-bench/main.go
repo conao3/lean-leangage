@@ -1,7 +1,7 @@
-// Command bytes-bench times the byte functions the shells call on every request: (a) the check of
+// Command bytes-bench times the byte functions the servers call on every request: (a) the check of
 // one token (split and HMAC), (b) the bytes of one calculator reply and (c) the bytes of a notes
 // list of 20 notes with bodies of 200 bytes. Each line times the functions over lists (Parse,
-// EncodeReply, Write) and the functions the shells call (ParseString, EncodeReplyArray,
+// EncodeReply, Write) and the functions the servers call (ParseString, EncodeReplyArray,
 // WriteArray) in alternating rounds.
 package main
 
@@ -77,7 +77,7 @@ var notes = func() []note {
 	return out
 }()
 
-// notesToks are the tokens of {"notes":[...]}, in the order the Rust notes shell writes their
+// notesToks are the tokens of {"notes":[...]}, in the order the Rust notes server writes their
 // members, over lists.
 func notesToks() []jsonformat.Tok {
 	key := func(s string) jsonformat.Tok { return jsonformat.TokKey{S: []byte(s)} }

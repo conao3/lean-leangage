@@ -19,7 +19,7 @@ Mathlib; the five control bytes that JSON has a short escape for are written wit
   at that quote, whatever follows. So no byte of `s` ends the string early.
 - `escape_no_control`: `escape s` has no byte below 0x20.
 
-- `writeArray_spec`: `writeArray`, which the shells call, writes into an array the bytes that
+- `writeArray_spec`: `writeArray`, which the servers call, writes into an array the bytes that
   `write` writes for the tokens its tokens over strings stand for (`StrTok.toTok`, the bytes of
   each string). `writeArray_value` is `write_value` for it.
 

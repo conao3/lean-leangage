@@ -7,7 +7,7 @@ import (
 
 var claims = Claims{Tenant: 12, User: 3, Expiry: 100}
 
-// The token the Rust and the Python shells issue for the same secret and claims.
+// The token the Rust and the Python servers issue for the same secret and claims.
 const shared = "v1.12.3.100.92d8dbd227b10b563128870c7c8bdef0313f9c5ae04a1b121b159d263a14239b"
 
 func TestRoundTrip(t *testing.T) {

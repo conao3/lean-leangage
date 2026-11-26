@@ -1,7 +1,7 @@
-//! Times the byte functions the shells call on every request: (a) the check of one token (split
+//! Times the byte functions the servers call on every request: (a) the check of one token (split
 //! and HMAC), (b) the bytes of one calculator reply and (c) the bytes of a notes list of 20 notes
 //! with bodies of 200 bytes. Each line times the functions over lists (`parse`, `encode_reply`,
-//! `write`) and the functions the shells call (`parse_string`, `encode_reply_array`,
+//! `write`) and the functions the servers call (`parse_string`, `encode_reply_array`,
 //! `write_array`) in alternating rounds.
 
 use std::hint::black_box;
@@ -205,11 +205,11 @@ fn main() {
             black_box(json_format::write_array(notes_str_toks(black_box(&ns))));
         },
     );
-    let mut shell = Vec::new();
+    let mut server = Vec::new();
     for _ in 0..ROUNDS {
-        shell.push(per_op(2_000, &mut || {
+        server.push(per_op(2_000, &mut || {
             black_box(<Notes as Api<Notes>>::encode_reply(black_box(&list)));
         }));
     }
-    println!("    Notes::encode_reply {}", show(&mut shell));
+    println!("    Notes::encode_reply {}", show(&mut server));
 }
