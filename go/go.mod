@@ -1,6 +1,6 @@
 module github.com/conao3/lean-leangage/go
 
-go 1.26
+go 1.27
 
 require (
 	github.com/conao3/leanfran-go v0.13.2
