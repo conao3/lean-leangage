@@ -4,7 +4,8 @@ Deterministic: the same seed and count give the same file. The line format is de
 `lean/RequestOracle.lean`. The texts to read are JSON texts with every spelling of a number, a
 string and the space between tokens, and the same texts with a byte removed, inserted or
 replaced; the headers are bearer tokens and headers close to one; the bodies are the calculator's
-commands with their members in any order, and bodies close to one.
+commands with their members in any order, the same commands written without a space with their
+members in the order of `cmd`, `value` or `cmd`, `op`, `arg`, and bodies close to one.
 """
 
 import json
@@ -49,6 +50,7 @@ PLAIN = [
 ]
 SPACE = ["", "", "", " ", "\n", "\t", "\r", "  ", " \n "]
 OPS = ["add", "sub", "mul", "div"]
+COMPACT = random.Random(4219)
 REFUSALS = ["overflow", "underflow", "division_by_zero"]
 FAILURES = [
     "bad_signature", "conflict", "stopped", "retries_exhausted", "database", "commit_unknown",
@@ -211,6 +213,25 @@ def operand(rng: random.Random) -> str:
             return str(number(rng))
 
 
+def compact_body(rng: random.Random) -> str:
+    number = rng.choice([operand(rng), operand(rng), "", "01", "007", "6}", "6 "])
+    text = rng.choice(
+        [
+            f'{{"cmd":"set","value":{number}}}',
+            f'{{"cmd":"apply","op":"{rng.choice(OPS + ["pow"])}","arg":{number}}}',
+            f'{{"cmd":"apply","op":"{rng.choice(OPS)}","arg":{number}}}',
+            '{"cmd":"get"}',
+        ]
+    )
+    match rng.randrange(8):
+        case 0:
+            return text[:-1]
+        case 1:
+            return text + rng.choice([" ", "}", "\n"])
+        case _:
+            return text
+
+
 def command_body(rng: random.Random) -> str:
     match rng.randrange(4):
         case 0:
@@ -274,6 +295,8 @@ def request_line(rng: random.Random) -> str:
             body = rng.choice(["notutf8", "toolarge", "unreadable"])
         case _:
             body = hexed(command_body(rng).encode())
+            if COMPACT.randrange(4) == 0:
+                body = hexed(compact_body(COMPACT).encode())
     return f"request {number(rng)} {number(rng)} {exp} {now} {body}"
 
 

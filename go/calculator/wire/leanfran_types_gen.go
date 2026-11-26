@@ -9,6 +9,7 @@ import (
 	"github.com/conao3/leanfran-go"
 	"github.com/conao3/leanfran-go/rt"
 	"github.com/conao3/leanfran-go/schema"
+	"math/big"
 	"sync"
 )
 
@@ -17,25 +18,28 @@ var _lfCodecRefusal leanfran.Codec[Refusal]
 var _lfCodec0 leanfran.Codec[lfmod0.Principal]
 var _lfCodec1 leanfran.Codec[lfmod0.Command]
 var _lfCodec2 leanfran.Codec[string]
-var _lfCodec3 leanfran.Codec[lfmod2.Item]
-var _lfCodec4 leanfran.Codec[[]lfmod2.Item]
-var _lfCodec5 leanfran.Codec[uint8]
-var _lfCodec6 leanfran.Codec[[]uint8]
-var _lfCodec7 leanfran.Codec[leanfran.Pair[[]uint8, lfmod2.Item]]
-var _lfCodec8 leanfran.Codec[[]leanfran.Pair[[]uint8, lfmod2.Item]]
+var _lfCodec3 leanfran.Codec[*big.Int]
+var _lfCodec4 leanfran.Codec[uint64]
+var _lfCodec5 leanfran.Codec[*uint64]
+var _lfCodec6 leanfran.Codec[lfmod2.Item]
+var _lfCodec7 leanfran.Codec[[]lfmod2.Item]
+var _lfCodec8 leanfran.Codec[uint8]
 var _lfCodec9 leanfran.Codec[[]uint8]
-var _lfCodec10 leanfran.Codec[*[]leanfran.Pair[[]uint8, lfmod2.Item]]
-var _lfCodec11 leanfran.Codec[lfmod0.Op]
-var _lfCodec12 leanfran.Codec[*lfmod0.Op]
-var _lfCodec13 leanfran.Codec[uint64]
-var _lfCodec14 leanfran.Codec[lfmod1.Body]
-var _lfCodec15 leanfran.Codec[lfmod1.Response]
-var _lfCodec16 leanfran.Codec[lfmod0.Error]
-var _lfCodec17 leanfran.Codec[lfmod0.Reply]
-var _lfCodec18 leanfran.Codec[leanfran.Except[lfmod0.Error, lfmod0.Reply]]
-var _lfCodec19 leanfran.Codec[bool]
-var _lfCodec20 leanfran.Codec[leanfran.Except[Refusal, lfmod0.Command]]
-var _lfCodec21 leanfran.Codec[leanfran.Except[lfmod1.Response, Call]]
+var _lfCodec10 leanfran.Codec[leanfran.Pair[[]uint8, lfmod2.Item]]
+var _lfCodec11 leanfran.Codec[[]leanfran.Pair[[]uint8, lfmod2.Item]]
+var _lfCodec12 leanfran.Codec[[]uint8]
+var _lfCodec13 leanfran.Codec[*[]leanfran.Pair[[]uint8, lfmod2.Item]]
+var _lfCodec14 leanfran.Codec[lfmod0.Op]
+var _lfCodec15 leanfran.Codec[*lfmod0.Op]
+var _lfCodec16 leanfran.Codec[lfmod1.Body]
+var _lfCodec17 leanfran.Codec[lfmod1.Response]
+var _lfCodec18 leanfran.Codec[lfmod0.Error]
+var _lfCodec19 leanfran.Codec[lfmod0.Reply]
+var _lfCodec20 leanfran.Codec[leanfran.Except[lfmod0.Error, lfmod0.Reply]]
+var _lfCodec21 leanfran.Codec[bool]
+var _lfCodec22 leanfran.Codec[*lfmod0.Command]
+var _lfCodec23 leanfran.Codec[leanfran.Except[Refusal, lfmod0.Command]]
+var _lfCodec24 leanfran.Codec[leanfran.Except[lfmod1.Response, Call]]
 var _lfDescCall schema.Desc
 var _lfDescRefusal schema.Desc
 
@@ -47,25 +51,28 @@ func _lfBuildCodecs() {
 	_lfCodec0 = lfmod0.LeanfranCodecPrincipal()
 	_lfCodec1 = lfmod0.LeanfranCodecCommand()
 	_lfCodec2 = leanfran.String()
-	_lfCodec3 = lfmod2.LeanfranCodecItem()
-	_lfCodec4 = leanfran.Sequence("list", _lfCodec3)
-	_lfCodec5 = leanfran.Fixed[uint8]("uint", 8)
-	_lfCodec6 = leanfran.Sequence("list", _lfCodec5)
-	_lfCodec7 = leanfran.Product(_lfCodec6, _lfCodec3)
-	_lfCodec8 = leanfran.Sequence("list", _lfCodec7)
-	_lfCodec9 = leanfran.Sequence("array", _lfCodec5)
-	_lfCodec10 = leanfran.Option(_lfCodec8)
-	_lfCodec11 = lfmod0.LeanfranCodecOp()
-	_lfCodec12 = leanfran.Option(_lfCodec11)
-	_lfCodec13 = leanfran.Fixed[uint64]("uint", 64)
-	_lfCodec14 = lfmod1.LeanfranCodecBody()
-	_lfCodec15 = lfmod1.LeanfranCodecResponse()
-	_lfCodec16 = lfmod0.LeanfranCodecError()
-	_lfCodec17 = lfmod0.LeanfranCodecReply()
-	_lfCodec18 = leanfran.Result(_lfCodec16, _lfCodec17)
-	_lfCodec19 = leanfran.Bool()
-	_lfCodec20 = leanfran.Result(_lfCodecRefusal, _lfCodec1)
-	_lfCodec21 = leanfran.Result(_lfCodec15, _lfCodecCall)
+	_lfCodec3 = leanfran.Big("nat", "")
+	_lfCodec4 = leanfran.Fixed[uint64]("uint", 64)
+	_lfCodec5 = leanfran.Option(_lfCodec4)
+	_lfCodec6 = lfmod2.LeanfranCodecItem()
+	_lfCodec7 = leanfran.Sequence("list", _lfCodec6)
+	_lfCodec8 = leanfran.Fixed[uint8]("uint", 8)
+	_lfCodec9 = leanfran.Sequence("list", _lfCodec8)
+	_lfCodec10 = leanfran.Product(_lfCodec9, _lfCodec6)
+	_lfCodec11 = leanfran.Sequence("list", _lfCodec10)
+	_lfCodec12 = leanfran.Sequence("array", _lfCodec8)
+	_lfCodec13 = leanfran.Option(_lfCodec11)
+	_lfCodec14 = lfmod0.LeanfranCodecOp()
+	_lfCodec15 = leanfran.Option(_lfCodec14)
+	_lfCodec16 = lfmod1.LeanfranCodecBody()
+	_lfCodec17 = lfmod1.LeanfranCodecResponse()
+	_lfCodec18 = lfmod0.LeanfranCodecError()
+	_lfCodec19 = lfmod0.LeanfranCodecReply()
+	_lfCodec20 = leanfran.Result(_lfCodec18, _lfCodec19)
+	_lfCodec21 = leanfran.Bool()
+	_lfCodec22 = leanfran.Option(_lfCodec1)
+	_lfCodec23 = leanfran.Result(_lfCodecRefusal, _lfCodec1)
+	_lfCodec24 = leanfran.Result(_lfCodec17, _lfCodecCall)
 	_lfDescCall = schema.Desc{Name: "Call", Kind: "struct", Variants: []schema.Variant{{Name: "mk", Tag: 0, Objects: 2, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "actor", Desc: _lfCodec0.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "cmd", Desc: _lfCodec1.Desc, Slot: "obj", Offset: 1, Flat: false, OmitNone: false, Bounds: nil}}}}}
 	_lfDescRefusal = schema.Desc{Name: "Refusal", Kind: "enum", Cases: []string{"notJson", "notCommand", "missingCmd", "badValue", "badArg"}}
 }
@@ -204,7 +211,7 @@ func (lfValue) NewArrayUInt8(v []uint8) leanfran.Value[leanfran.ArrayType[uint8]
 
 func (api lfScopedValue) NewArrayUInt8(v []uint8) leanfran.Value[leanfran.ArrayType[uint8]] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[leanfran.ArrayType[uint8]](api.scope, _lfCodec9, v)
+	return leanfran.NewUncheckedValueIn[leanfran.ArrayType[uint8]](api.scope, _lfCodec12, v)
 }
 
 func (lfValue) ReadArrayUInt8(v leanfran.Value[leanfran.ArrayType[uint8]]) []uint8 {
@@ -213,7 +220,7 @@ func (lfValue) ReadArrayUInt8(v leanfran.Value[leanfran.ArrayType[uint8]]) []uin
 
 func (api lfScopedValue) ReadArrayUInt8(v leanfran.Value[leanfran.ArrayType[uint8]]) []uint8 {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec9, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec12, v)
 }
 
 func (lfValue) NewBody(v lfmod1.Body) (leanfran.Value[lfmod1.Body], error) {
@@ -222,7 +229,7 @@ func (lfValue) NewBody(v lfmod1.Body) (leanfran.Value[lfmod1.Body], error) {
 
 func (api lfScopedValue) NewBody(v lfmod1.Body) (leanfran.Value[lfmod1.Body], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[lfmod1.Body](api.scope, _lfCodec14, v, "Body")
+	return leanfran.NewValueIn[lfmod1.Body](api.scope, _lfCodec16, v, "Body")
 }
 
 func (lfValue) ReadBody(v leanfran.Value[lfmod1.Body]) lfmod1.Body {
@@ -231,7 +238,7 @@ func (lfValue) ReadBody(v leanfran.Value[lfmod1.Body]) lfmod1.Body {
 
 func (api lfScopedValue) ReadBody(v leanfran.Value[lfmod1.Body]) lfmod1.Body {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec14, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec16, v)
 }
 
 func (lfValue) NewBool(v bool) leanfran.Value[bool] {
@@ -240,7 +247,7 @@ func (lfValue) NewBool(v bool) leanfran.Value[bool] {
 
 func (api lfScopedValue) NewBool(v bool) leanfran.Value[bool] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[bool](api.scope, _lfCodec19, v)
+	return leanfran.NewUncheckedValueIn[bool](api.scope, _lfCodec21, v)
 }
 
 func (lfValue) ReadBool(v leanfran.Value[bool]) bool {
@@ -249,7 +256,7 @@ func (lfValue) ReadBool(v leanfran.Value[bool]) bool {
 
 func (api lfScopedValue) ReadBool(v leanfran.Value[bool]) bool {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec19, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec21, v)
 }
 
 func (lfValue) NewCall(v Call) (leanfran.Value[Call], error) {
@@ -294,7 +301,7 @@ func (lfValue) NewError(v lfmod0.Error) leanfran.Value[lfmod0.Error] {
 
 func (api lfScopedValue) NewError(v lfmod0.Error) leanfran.Value[lfmod0.Error] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[lfmod0.Error](api.scope, _lfCodec16, v)
+	return leanfran.NewUncheckedValueIn[lfmod0.Error](api.scope, _lfCodec18, v)
 }
 
 func (lfValue) ReadError(v leanfran.Value[lfmod0.Error]) lfmod0.Error {
@@ -303,7 +310,7 @@ func (lfValue) ReadError(v leanfran.Value[lfmod0.Error]) lfmod0.Error {
 
 func (api lfScopedValue) ReadError(v leanfran.Value[lfmod0.Error]) lfmod0.Error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec16, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec18, v)
 }
 
 func (lfValue) NewExceptErrorReply(v leanfran.Except[lfmod0.Error, lfmod0.Reply]) leanfran.Value[leanfran.ExceptType[lfmod0.Error, lfmod0.Reply]] {
@@ -312,7 +319,7 @@ func (lfValue) NewExceptErrorReply(v leanfran.Except[lfmod0.Error, lfmod0.Reply]
 
 func (api lfScopedValue) NewExceptErrorReply(v leanfran.Except[lfmod0.Error, lfmod0.Reply]) leanfran.Value[leanfran.ExceptType[lfmod0.Error, lfmod0.Reply]] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[leanfran.ExceptType[lfmod0.Error, lfmod0.Reply]](api.scope, _lfCodec18, v)
+	return leanfran.NewUncheckedValueIn[leanfran.ExceptType[lfmod0.Error, lfmod0.Reply]](api.scope, _lfCodec20, v)
 }
 
 func (lfValue) ReadExceptErrorReply(v leanfran.Value[leanfran.ExceptType[lfmod0.Error, lfmod0.Reply]]) leanfran.Except[lfmod0.Error, lfmod0.Reply] {
@@ -321,7 +328,7 @@ func (lfValue) ReadExceptErrorReply(v leanfran.Value[leanfran.ExceptType[lfmod0.
 
 func (api lfScopedValue) ReadExceptErrorReply(v leanfran.Value[leanfran.ExceptType[lfmod0.Error, lfmod0.Reply]]) leanfran.Except[lfmod0.Error, lfmod0.Reply] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec18, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec20, v)
 }
 
 func (lfValue) NewExceptRefusalCommand(v leanfran.Except[Refusal, lfmod0.Command]) (leanfran.Value[leanfran.ExceptType[Refusal, lfmod0.Command]], error) {
@@ -330,7 +337,7 @@ func (lfValue) NewExceptRefusalCommand(v leanfran.Except[Refusal, lfmod0.Command
 
 func (api lfScopedValue) NewExceptRefusalCommand(v leanfran.Except[Refusal, lfmod0.Command]) (leanfran.Value[leanfran.ExceptType[Refusal, lfmod0.Command]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.ExceptType[Refusal, lfmod0.Command]](api.scope, _lfCodec20, v, "ExceptRefusalCommand")
+	return leanfran.NewValueIn[leanfran.ExceptType[Refusal, lfmod0.Command]](api.scope, _lfCodec23, v, "ExceptRefusalCommand")
 }
 
 func (lfValue) ReadExceptRefusalCommand(v leanfran.Value[leanfran.ExceptType[Refusal, lfmod0.Command]]) leanfran.Except[Refusal, lfmod0.Command] {
@@ -339,7 +346,7 @@ func (lfValue) ReadExceptRefusalCommand(v leanfran.Value[leanfran.ExceptType[Ref
 
 func (api lfScopedValue) ReadExceptRefusalCommand(v leanfran.Value[leanfran.ExceptType[Refusal, lfmod0.Command]]) leanfran.Except[Refusal, lfmod0.Command] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec20, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec23, v)
 }
 
 func (lfValue) NewExceptResponseCall(v leanfran.Except[lfmod1.Response, Call]) (leanfran.Value[leanfran.ExceptType[lfmod1.Response, Call]], error) {
@@ -348,7 +355,7 @@ func (lfValue) NewExceptResponseCall(v leanfran.Except[lfmod1.Response, Call]) (
 
 func (api lfScopedValue) NewExceptResponseCall(v leanfran.Except[lfmod1.Response, Call]) (leanfran.Value[leanfran.ExceptType[lfmod1.Response, Call]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.ExceptType[lfmod1.Response, Call]](api.scope, _lfCodec21, v, "ExceptResponseCall")
+	return leanfran.NewValueIn[leanfran.ExceptType[lfmod1.Response, Call]](api.scope, _lfCodec24, v, "ExceptResponseCall")
 }
 
 func (lfValue) ReadExceptResponseCall(v leanfran.Value[leanfran.ExceptType[lfmod1.Response, Call]]) leanfran.Except[lfmod1.Response, Call] {
@@ -357,7 +364,7 @@ func (lfValue) ReadExceptResponseCall(v leanfran.Value[leanfran.ExceptType[lfmod
 
 func (api lfScopedValue) ReadExceptResponseCall(v leanfran.Value[leanfran.ExceptType[lfmod1.Response, Call]]) leanfran.Except[lfmod1.Response, Call] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec21, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec24, v)
 }
 
 func (lfValue) NewItem(v lfmod2.Item) (leanfran.Value[lfmod2.Item], error) {
@@ -366,7 +373,7 @@ func (lfValue) NewItem(v lfmod2.Item) (leanfran.Value[lfmod2.Item], error) {
 
 func (api lfScopedValue) NewItem(v lfmod2.Item) (leanfran.Value[lfmod2.Item], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[lfmod2.Item](api.scope, _lfCodec3, v, "Item")
+	return leanfran.NewValueIn[lfmod2.Item](api.scope, _lfCodec6, v, "Item")
 }
 
 func (lfValue) ReadItem(v leanfran.Value[lfmod2.Item]) lfmod2.Item {
@@ -375,7 +382,7 @@ func (lfValue) ReadItem(v leanfran.Value[lfmod2.Item]) lfmod2.Item {
 
 func (api lfScopedValue) ReadItem(v leanfran.Value[lfmod2.Item]) lfmod2.Item {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec3, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec6, v)
 }
 
 func (lfValue) NewListItem(v []lfmod2.Item) (leanfran.Value[leanfran.ListType[lfmod2.Item]], error) {
@@ -384,7 +391,7 @@ func (lfValue) NewListItem(v []lfmod2.Item) (leanfran.Value[leanfran.ListType[lf
 
 func (api lfScopedValue) NewListItem(v []lfmod2.Item) (leanfran.Value[leanfran.ListType[lfmod2.Item]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.ListType[lfmod2.Item]](api.scope, _lfCodec4, v, "ListItem")
+	return leanfran.NewValueIn[leanfran.ListType[lfmod2.Item]](api.scope, _lfCodec7, v, "ListItem")
 }
 
 func (lfValue) ReadListItem(v leanfran.Value[leanfran.ListType[lfmod2.Item]]) []lfmod2.Item {
@@ -393,7 +400,7 @@ func (lfValue) ReadListItem(v leanfran.Value[leanfran.ListType[lfmod2.Item]]) []
 
 func (api lfScopedValue) ReadListItem(v leanfran.Value[leanfran.ListType[lfmod2.Item]]) []lfmod2.Item {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec4, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec7, v)
 }
 
 func (lfValue) NewListPairListUInt8Item(v []leanfran.Pair[[]uint8, lfmod2.Item]) (leanfran.Value[leanfran.ListType[leanfran.PairType[leanfran.ListType[uint8], lfmod2.Item]]], error) {
@@ -402,7 +409,7 @@ func (lfValue) NewListPairListUInt8Item(v []leanfran.Pair[[]uint8, lfmod2.Item])
 
 func (api lfScopedValue) NewListPairListUInt8Item(v []leanfran.Pair[[]uint8, lfmod2.Item]) (leanfran.Value[leanfran.ListType[leanfran.PairType[leanfran.ListType[uint8], lfmod2.Item]]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.ListType[leanfran.PairType[leanfran.ListType[uint8], lfmod2.Item]]](api.scope, _lfCodec8, v, "ListPairListUInt8Item")
+	return leanfran.NewValueIn[leanfran.ListType[leanfran.PairType[leanfran.ListType[uint8], lfmod2.Item]]](api.scope, _lfCodec11, v, "ListPairListUInt8Item")
 }
 
 func (lfValue) ReadListPairListUInt8Item(v leanfran.Value[leanfran.ListType[leanfran.PairType[leanfran.ListType[uint8], lfmod2.Item]]]) []leanfran.Pair[[]uint8, lfmod2.Item] {
@@ -411,7 +418,7 @@ func (lfValue) ReadListPairListUInt8Item(v leanfran.Value[leanfran.ListType[lean
 
 func (api lfScopedValue) ReadListPairListUInt8Item(v leanfran.Value[leanfran.ListType[leanfran.PairType[leanfran.ListType[uint8], lfmod2.Item]]]) []leanfran.Pair[[]uint8, lfmod2.Item] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec8, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec11, v)
 }
 
 func (lfValue) NewListUInt8(v []uint8) leanfran.Value[leanfran.ListType[uint8]] {
@@ -420,7 +427,7 @@ func (lfValue) NewListUInt8(v []uint8) leanfran.Value[leanfran.ListType[uint8]] 
 
 func (api lfScopedValue) NewListUInt8(v []uint8) leanfran.Value[leanfran.ListType[uint8]] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[leanfran.ListType[uint8]](api.scope, _lfCodec6, v)
+	return leanfran.NewUncheckedValueIn[leanfran.ListType[uint8]](api.scope, _lfCodec9, v)
 }
 
 func (lfValue) ReadListUInt8(v leanfran.Value[leanfran.ListType[uint8]]) []uint8 {
@@ -429,7 +436,25 @@ func (lfValue) ReadListUInt8(v leanfran.Value[leanfran.ListType[uint8]]) []uint8
 
 func (api lfScopedValue) ReadListUInt8(v leanfran.Value[leanfran.ListType[uint8]]) []uint8 {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec6, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec9, v)
+}
+
+func (lfValue) NewNat(v *big.Int) (leanfran.Value[leanfran.NatType], error) {
+	return lfScopedValue{}.NewNat(v)
+}
+
+func (api lfScopedValue) NewNat(v *big.Int) (leanfran.Value[leanfran.NatType], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[leanfran.NatType](api.scope, _lfCodec3, v, "Nat")
+}
+
+func (lfValue) ReadNat(v leanfran.Value[leanfran.NatType]) *big.Int {
+	return lfScopedValue{}.ReadNat(v)
+}
+
+func (api lfScopedValue) ReadNat(v leanfran.Value[leanfran.NatType]) *big.Int {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec3, v)
 }
 
 func (lfValue) NewOp(v lfmod0.Op) leanfran.Value[lfmod0.Op] {
@@ -438,7 +463,7 @@ func (lfValue) NewOp(v lfmod0.Op) leanfran.Value[lfmod0.Op] {
 
 func (api lfScopedValue) NewOp(v lfmod0.Op) leanfran.Value[lfmod0.Op] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[lfmod0.Op](api.scope, _lfCodec11, v)
+	return leanfran.NewUncheckedValueIn[lfmod0.Op](api.scope, _lfCodec14, v)
 }
 
 func (lfValue) ReadOp(v leanfran.Value[lfmod0.Op]) lfmod0.Op {
@@ -447,7 +472,25 @@ func (lfValue) ReadOp(v leanfran.Value[lfmod0.Op]) lfmod0.Op {
 
 func (api lfScopedValue) ReadOp(v leanfran.Value[lfmod0.Op]) lfmod0.Op {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec11, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec14, v)
+}
+
+func (lfValue) NewOptionCommand(v *lfmod0.Command) (leanfran.Value[leanfran.OptionType[lfmod0.Command]], error) {
+	return lfScopedValue{}.NewOptionCommand(v)
+}
+
+func (api lfScopedValue) NewOptionCommand(v *lfmod0.Command) (leanfran.Value[leanfran.OptionType[lfmod0.Command]], error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewValueIn[leanfran.OptionType[lfmod0.Command]](api.scope, _lfCodec22, v, "OptionCommand")
+}
+
+func (lfValue) ReadOptionCommand(v leanfran.Value[leanfran.OptionType[lfmod0.Command]]) *lfmod0.Command {
+	return lfScopedValue{}.ReadOptionCommand(v)
+}
+
+func (api lfScopedValue) ReadOptionCommand(v leanfran.Value[leanfran.OptionType[lfmod0.Command]]) *lfmod0.Command {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec22, v)
 }
 
 func (lfValue) NewOptionListPairListUInt8Item(v *[]leanfran.Pair[[]uint8, lfmod2.Item]) (leanfran.Value[leanfran.OptionType[leanfran.ListType[leanfran.PairType[leanfran.ListType[uint8], lfmod2.Item]]]], error) {
@@ -456,7 +499,7 @@ func (lfValue) NewOptionListPairListUInt8Item(v *[]leanfran.Pair[[]uint8, lfmod2
 
 func (api lfScopedValue) NewOptionListPairListUInt8Item(v *[]leanfran.Pair[[]uint8, lfmod2.Item]) (leanfran.Value[leanfran.OptionType[leanfran.ListType[leanfran.PairType[leanfran.ListType[uint8], lfmod2.Item]]]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.OptionType[leanfran.ListType[leanfran.PairType[leanfran.ListType[uint8], lfmod2.Item]]]](api.scope, _lfCodec10, v, "OptionListPairListUInt8Item")
+	return leanfran.NewValueIn[leanfran.OptionType[leanfran.ListType[leanfran.PairType[leanfran.ListType[uint8], lfmod2.Item]]]](api.scope, _lfCodec13, v, "OptionListPairListUInt8Item")
 }
 
 func (lfValue) ReadOptionListPairListUInt8Item(v leanfran.Value[leanfran.OptionType[leanfran.ListType[leanfran.PairType[leanfran.ListType[uint8], lfmod2.Item]]]]) *[]leanfran.Pair[[]uint8, lfmod2.Item] {
@@ -465,7 +508,7 @@ func (lfValue) ReadOptionListPairListUInt8Item(v leanfran.Value[leanfran.OptionT
 
 func (api lfScopedValue) ReadOptionListPairListUInt8Item(v leanfran.Value[leanfran.OptionType[leanfran.ListType[leanfran.PairType[leanfran.ListType[uint8], lfmod2.Item]]]]) *[]leanfran.Pair[[]uint8, lfmod2.Item] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec10, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec13, v)
 }
 
 func (lfValue) NewOptionOp(v *lfmod0.Op) leanfran.Value[leanfran.OptionType[lfmod0.Op]] {
@@ -474,7 +517,7 @@ func (lfValue) NewOptionOp(v *lfmod0.Op) leanfran.Value[leanfran.OptionType[lfmo
 
 func (api lfScopedValue) NewOptionOp(v *lfmod0.Op) leanfran.Value[leanfran.OptionType[lfmod0.Op]] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[leanfran.OptionType[lfmod0.Op]](api.scope, _lfCodec12, v)
+	return leanfran.NewUncheckedValueIn[leanfran.OptionType[lfmod0.Op]](api.scope, _lfCodec15, v)
 }
 
 func (lfValue) ReadOptionOp(v leanfran.Value[leanfran.OptionType[lfmod0.Op]]) *lfmod0.Op {
@@ -483,7 +526,25 @@ func (lfValue) ReadOptionOp(v leanfran.Value[leanfran.OptionType[lfmod0.Op]]) *l
 
 func (api lfScopedValue) ReadOptionOp(v leanfran.Value[leanfran.OptionType[lfmod0.Op]]) *lfmod0.Op {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec12, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec15, v)
+}
+
+func (lfValue) NewOptionUInt64(v *uint64) leanfran.Value[leanfran.OptionType[uint64]] {
+	return lfScopedValue{}.NewOptionUInt64(v)
+}
+
+func (api lfScopedValue) NewOptionUInt64(v *uint64) leanfran.Value[leanfran.OptionType[uint64]] {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.NewUncheckedValueIn[leanfran.OptionType[uint64]](api.scope, _lfCodec5, v)
+}
+
+func (lfValue) ReadOptionUInt64(v leanfran.Value[leanfran.OptionType[uint64]]) *uint64 {
+	return lfScopedValue{}.ReadOptionUInt64(v)
+}
+
+func (api lfScopedValue) ReadOptionUInt64(v leanfran.Value[leanfran.OptionType[uint64]]) *uint64 {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	return leanfran.ReadValueIn(api.scope, _lfCodec5, v)
 }
 
 func (lfValue) NewPairListUInt8Item(v leanfran.Pair[[]uint8, lfmod2.Item]) (leanfran.Value[leanfran.PairType[leanfran.ListType[uint8], lfmod2.Item]], error) {
@@ -492,7 +553,7 @@ func (lfValue) NewPairListUInt8Item(v leanfran.Pair[[]uint8, lfmod2.Item]) (lean
 
 func (api lfScopedValue) NewPairListUInt8Item(v leanfran.Pair[[]uint8, lfmod2.Item]) (leanfran.Value[leanfran.PairType[leanfran.ListType[uint8], lfmod2.Item]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.PairType[leanfran.ListType[uint8], lfmod2.Item]](api.scope, _lfCodec7, v, "PairListUInt8Item")
+	return leanfran.NewValueIn[leanfran.PairType[leanfran.ListType[uint8], lfmod2.Item]](api.scope, _lfCodec10, v, "PairListUInt8Item")
 }
 
 func (lfValue) ReadPairListUInt8Item(v leanfran.Value[leanfran.PairType[leanfran.ListType[uint8], lfmod2.Item]]) leanfran.Pair[[]uint8, lfmod2.Item] {
@@ -501,7 +562,7 @@ func (lfValue) ReadPairListUInt8Item(v leanfran.Value[leanfran.PairType[leanfran
 
 func (api lfScopedValue) ReadPairListUInt8Item(v leanfran.Value[leanfran.PairType[leanfran.ListType[uint8], lfmod2.Item]]) leanfran.Pair[[]uint8, lfmod2.Item] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec7, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec10, v)
 }
 
 func (lfValue) NewPrincipal(v lfmod0.Principal) leanfran.Value[lfmod0.Principal] {
@@ -546,7 +607,7 @@ func (lfValue) NewReply(v lfmod0.Reply) leanfran.Value[lfmod0.Reply] {
 
 func (api lfScopedValue) NewReply(v lfmod0.Reply) leanfran.Value[lfmod0.Reply] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[lfmod0.Reply](api.scope, _lfCodec17, v)
+	return leanfran.NewUncheckedValueIn[lfmod0.Reply](api.scope, _lfCodec19, v)
 }
 
 func (lfValue) ReadReply(v leanfran.Value[lfmod0.Reply]) lfmod0.Reply {
@@ -555,7 +616,7 @@ func (lfValue) ReadReply(v leanfran.Value[lfmod0.Reply]) lfmod0.Reply {
 
 func (api lfScopedValue) ReadReply(v leanfran.Value[lfmod0.Reply]) lfmod0.Reply {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec17, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec19, v)
 }
 
 func (lfValue) NewResponse(v lfmod1.Response) leanfran.Value[lfmod1.Response] {
@@ -564,7 +625,7 @@ func (lfValue) NewResponse(v lfmod1.Response) leanfran.Value[lfmod1.Response] {
 
 func (api lfScopedValue) NewResponse(v lfmod1.Response) leanfran.Value[lfmod1.Response] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[lfmod1.Response](api.scope, _lfCodec15, v)
+	return leanfran.NewUncheckedValueIn[lfmod1.Response](api.scope, _lfCodec17, v)
 }
 
 func (lfValue) ReadResponse(v leanfran.Value[lfmod1.Response]) lfmod1.Response {
@@ -573,7 +634,7 @@ func (lfValue) ReadResponse(v leanfran.Value[lfmod1.Response]) lfmod1.Response {
 
 func (api lfScopedValue) ReadResponse(v leanfran.Value[lfmod1.Response]) lfmod1.Response {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec15, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec17, v)
 }
 
 func (lfValue) NewString(v string) (leanfran.Value[string], error) {
@@ -600,7 +661,7 @@ func (lfValue) NewUInt64(v uint64) leanfran.Value[uint64] {
 
 func (api lfScopedValue) NewUInt64(v uint64) leanfran.Value[uint64] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[uint64](api.scope, _lfCodec13, v)
+	return leanfran.NewUncheckedValueIn[uint64](api.scope, _lfCodec4, v)
 }
 
 func (lfValue) ReadUInt64(v leanfran.Value[uint64]) uint64 {
@@ -609,7 +670,7 @@ func (lfValue) ReadUInt64(v leanfran.Value[uint64]) uint64 {
 
 func (api lfScopedValue) ReadUInt64(v leanfran.Value[uint64]) uint64 {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec13, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec4, v)
 }
 
 func (lfValue) NewUInt8(v uint8) leanfran.Value[uint8] {
@@ -618,7 +679,7 @@ func (lfValue) NewUInt8(v uint8) leanfran.Value[uint8] {
 
 func (api lfScopedValue) NewUInt8(v uint8) leanfran.Value[uint8] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewUncheckedValueIn[uint8](api.scope, _lfCodec5, v)
+	return leanfran.NewUncheckedValueIn[uint8](api.scope, _lfCodec8, v)
 }
 
 func (lfValue) ReadUInt8(v leanfran.Value[uint8]) uint8 {
@@ -627,5 +688,5 @@ func (lfValue) ReadUInt8(v leanfran.Value[uint8]) uint8 {
 
 func (api lfScopedValue) ReadUInt8(v leanfran.Value[uint8]) uint8 {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodec5, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodec8, v)
 }

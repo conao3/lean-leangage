@@ -14,6 +14,12 @@ key, and `scope` the name that separates the keys of the users of a tenant.
 A command is a JSON object: `{"cmd":"set","value":6}`, `{"cmd":"apply","op":"mul","arg":7}` with
 the operations `add`, `sub`, `mul` and `div`, and `{"cmd":"get"}`. Its members may come in any
 order; an object with another member, or with a member twice, is not a command.
+
+`decode` reads a body with the JSON reader (`decodeText`). For a body that is a command written
+without a space, with its members in the order above, `spelled` gives the command from a
+comparison of the leading bytes and the digits of the number, and `decode` does not run the
+reader. `Calculator.Wire.Proofs` proves that `spelled` accepts exactly those bodies and that
+`decode` is `decodeText` on every body.
 -/
 
 namespace Calculator.Wire
@@ -95,11 +101,34 @@ def decodeItems : List Item → Except Refusal Command
     | none => .error .notCommand
   | _ => .error .notCommand
 
-/-- The command that a body spells. -/
-def decode (body : String) : Except Refusal Command :=
+/-- The number that the bytes of `s` from `i` to its last byte spell in decimal, when the last
+byte is `}`. -/
+def closedNumber (s : String) (i : Nat) : Option UInt64 :=
+  let n := s.utf8ByteSize
+  if Token.byteAt s (n - 1) = 125 then Token.numberAt s i (n - 1) else none
+
+/-- The command of a body that is a command written without a space and with its members in the
+order `cmd`, `value` or `cmd`, `op`, `arg`. -/
+def spelled (s : String) : Option Command :=
+  if s.startsWith "{\"cmd\":\"apply\",\"op\":\"add\",\"arg\":" then (closedNumber s 32).map (.apply .add)
+  else if s.startsWith "{\"cmd\":\"apply\",\"op\":\"sub\",\"arg\":" then (closedNumber s 32).map (.apply .sub)
+  else if s.startsWith "{\"cmd\":\"apply\",\"op\":\"mul\",\"arg\":" then (closedNumber s 32).map (.apply .mul)
+  else if s.startsWith "{\"cmd\":\"apply\",\"op\":\"div\",\"arg\":" then (closedNumber s 32).map (.apply .div)
+  else if s.startsWith "{\"cmd\":\"set\",\"value\":" then (closedNumber s 21).map .set
+  else if s = "{\"cmd\":\"get\"}" then some .get
+  else none
+
+/-- The command that the JSON text of a body spells. -/
+def decodeText (body : String) : Except Refusal Command :=
   match readString body with
   | none => .error .notJson
   | some items => decodeItems items
+
+/-- The command that a body spells. -/
+def decode (body : String) : Except Refusal Command :=
+  match spelled body with
+  | some cmd => .ok cmd
+  | none => decodeText body
 
 /-- What a refused body is answered with. -/
 def refusalMessage : Refusal → String

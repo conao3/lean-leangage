@@ -113,7 +113,15 @@ deriving instance DecidableEq for Principal, Command, Call
 
 #assay Calculator.Wire.opNamed using Calculator.Wire.opNamed_spec
 
-#assay Calculator.Wire.decode using Calculator.Wire.decode_notJson_iff
+#assay Calculator.Wire.closedNumber
+  using Calculator.Wire.closedNumber_spec Calculator.Wire.closedNumber_built
+
+#assay Calculator.Wire.spelled using Calculator.Wire.spelled_spec Calculator.Wire.spelled_print
+
+#assay Calculator.Wire.decodeText using Calculator.Wire.decodeText_notJson_iff
+
+#assay Calculator.Wire.decode
+  using Calculator.Wire.decode_notJson_iff Calculator.Wire.decode_text
 
 #assay Calculator.Wire.refusalMessage using Calculator.Wire.refusalMessage_spec
 

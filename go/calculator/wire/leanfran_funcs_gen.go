@@ -8,7 +8,27 @@ import (
 	lfmod2 "github.com/conao3/lean-leangage/go/leangage/jsonread"
 	"github.com/conao3/leanfran-go"
 	"github.com/conao3/leanfran-go/rt"
+	"math/big"
 )
+
+func ClosedNumber(a0 string, a1 *big.Int) (*uint64, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodec2, a0, "s")
+	if issue := leanfran.IntegerIssue(a1, true); issue != "" {
+		_lfValidation.Add(issue, "i")
+	}
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[*uint64](), err
+	}
+	v0 := _lfCodec2.ToLean(a0)
+	defer rt.Lean_dec(v0)
+	v1 := _lfCodec3.ToLean(a1)
+	_lfResult := l_Calculator_Wire_closedNumber(v0, v1)
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec5.FromLean(_lfResult), nil
+}
 
 func Decode(a0 string) (lfmod0.Command, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
@@ -32,12 +52,12 @@ func Decode(a0 string) (lfmod0.Command, error) {
 func DecodeItems(a0 []lfmod2.Item) (lfmod0.Command, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	var _lfValidation leanfran.ValidationError
-	leanfran.CheckAt(&_lfValidation, _lfCodec4, a0, "arg0")
+	leanfran.CheckAt(&_lfValidation, _lfCodec7, a0, "arg0")
 	if len(_lfValidation.Issues) != 0 {
 		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
 		return leanfran.Zero[lfmod0.Command](), err
 	}
-	v0 := _lfCodec4.ToLean(a0)
+	v0 := _lfCodec7.ToLean(a0)
 	_lfResult := l_Calculator_Wire_decodeItems(v0)
 	defer rt.Lean_dec(_lfResult)
 	if rt.Lean_obj_tag(_lfResult) == 0 {
@@ -50,14 +70,33 @@ func DecodeItems(a0 []lfmod2.Item) (lfmod0.Command, error) {
 func DecodeMembers(a0 []leanfran.Pair[[]uint8, lfmod2.Item]) (lfmod0.Command, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	var _lfValidation leanfran.ValidationError
-	leanfran.CheckAt(&_lfValidation, _lfCodec8, a0, "ms")
+	leanfran.CheckAt(&_lfValidation, _lfCodec11, a0, "ms")
 	if len(_lfValidation.Issues) != 0 {
 		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
 		return leanfran.Zero[lfmod0.Command](), err
 	}
-	v0 := _lfCodec8.ToLean(a0)
+	v0 := _lfCodec11.ToLean(a0)
 	defer rt.Lean_dec(v0)
 	_lfResult := l_Calculator_Wire_decodeMembers(v0)
+	defer rt.Lean_dec(_lfResult)
+	if rt.Lean_obj_tag(_lfResult) == 0 {
+		err := &leanfran.ExceptError[Refusal]{Value: _lfCodecRefusal.FromLean(rt.Lean_ctor_get(_lfResult, 0))}
+		return leanfran.Zero[lfmod0.Command](), err
+	}
+	return _lfCodec1.FromLean(rt.Lean_ctor_get(_lfResult, 0)), nil
+}
+
+func DecodeText(a0 string) (lfmod0.Command, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodec2, a0, "body")
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[lfmod0.Command](), err
+	}
+	v0 := _lfCodec2.ToLean(a0)
+	defer rt.Lean_dec(v0)
+	_lfResult := l_Calculator_Wire_decodeText(v0)
 	defer rt.Lean_dec(_lfResult)
 	if rt.Lean_obj_tag(_lfResult) == 0 {
 		err := &leanfran.ExceptError[Refusal]{Value: _lfCodecRefusal.FromLean(rt.Lean_ctor_get(_lfResult, 0))}
@@ -78,39 +117,39 @@ func Fingerprint(a0 lfmod0.Command) ([]uint8, error) {
 	defer rt.Lean_dec(v0)
 	_lfResult := l_Calculator_Wire_fingerprint(v0)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec9.FromLean(_lfResult), nil
+	return _lfCodec12.FromLean(_lfResult), nil
 }
 
 func Members(a0 []leanfran.Pair[[]uint8, lfmod2.Item], a1 []lfmod2.Item) (*[]leanfran.Pair[[]uint8, lfmod2.Item], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	var _lfValidation leanfran.ValidationError
-	leanfran.CheckAt(&_lfValidation, _lfCodec8, a0, "acc")
-	leanfran.CheckAt(&_lfValidation, _lfCodec4, a1, "arg1")
+	leanfran.CheckAt(&_lfValidation, _lfCodec11, a0, "acc")
+	leanfran.CheckAt(&_lfValidation, _lfCodec7, a1, "arg1")
 	if len(_lfValidation.Issues) != 0 {
 		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
 		return leanfran.Zero[*[]leanfran.Pair[[]uint8, lfmod2.Item]](), err
 	}
-	v0 := _lfCodec8.ToLean(a0)
-	v1 := _lfCodec4.ToLean(a1)
+	v0 := _lfCodec11.ToLean(a0)
+	v1 := _lfCodec7.ToLean(a1)
 	_lfResult := l_Calculator_Wire_members(v0, v1)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec10.FromLean(_lfResult), nil
+	return _lfCodec13.FromLean(_lfResult), nil
 }
 
 func OpFingerprint(a0 lfmod0.Op) []uint8 {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	v0 := _lfCodec11.ToLean(a0)
+	v0 := _lfCodec14.ToLean(a0)
 	_lfResult := l_Calculator_Wire_opFingerprint(uint8(rt.Lean_unbox(v0)))
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec9.FromLean(_lfResult)
+	return _lfCodec12.FromLean(_lfResult)
 }
 
 func OpNamed(a0 []uint8) *lfmod0.Op {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	v0 := _lfCodec6.ToLean(a0)
+	v0 := _lfCodec9.ToLean(a0)
 	_lfResult := l_Calculator_Wire_opNamed(v0)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec12.FromLean(_lfResult)
+	return _lfCodec15.FromLean(_lfResult)
 }
 
 func RefusalMessage(a0 Refusal) string {
@@ -124,20 +163,20 @@ func RefusalMessage(a0 Refusal) string {
 func Request(a0 uint64, a1 uint64, a2 uint64, a3 uint64, a4 lfmod1.Body) (Call, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	var _lfValidation leanfran.ValidationError
-	leanfran.CheckAt(&_lfValidation, _lfCodec14, a4, "body")
+	leanfran.CheckAt(&_lfValidation, _lfCodec16, a4, "body")
 	if len(_lfValidation.Issues) != 0 {
 		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
 		return leanfran.Zero[Call](), err
 	}
-	v0 := _lfCodec13.ToLean(a0)
-	v1 := _lfCodec13.ToLean(a1)
-	v2 := _lfCodec13.ToLean(a2)
-	v3 := _lfCodec13.ToLean(a3)
-	v4 := _lfCodec14.ToLean(a4)
+	v0 := _lfCodec4.ToLean(a0)
+	v1 := _lfCodec4.ToLean(a1)
+	v2 := _lfCodec4.ToLean(a2)
+	v3 := _lfCodec4.ToLean(a3)
+	v4 := _lfCodec16.ToLean(a4)
 	_lfResult := l_Calculator_Wire_request(rt.Lean_unbox(v0), rt.Lean_unbox(v1), rt.Lean_unbox(v2), rt.Lean_unbox(v3), v4)
 	defer rt.Lean_dec(_lfResult)
 	if rt.Lean_obj_tag(_lfResult) == 0 {
-		err := &leanfran.ExceptError[lfmod1.Response]{Value: _lfCodec15.FromLean(rt.Lean_ctor_get(_lfResult, 0))}
+		err := &leanfran.ExceptError[lfmod1.Response]{Value: _lfCodec17.FromLean(rt.Lean_ctor_get(_lfResult, 0))}
 		return leanfran.Zero[Call](), err
 	}
 	return _lfCodecCall.FromLean(rt.Lean_ctor_get(_lfResult, 0)), nil
@@ -145,25 +184,25 @@ func Request(a0 uint64, a1 uint64, a2 uint64, a3 uint64, a4 lfmod1.Body) (Call, 
 
 func Respond(a0 leanfran.Except[lfmod0.Error, lfmod0.Reply]) lfmod1.Response {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	v0 := _lfCodec18.ToLean(a0)
+	v0 := _lfCodec20.ToLean(a0)
 	defer rt.Lean_dec(v0)
 	_lfResult := l_Calculator_Wire_respond(v0)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec15.FromLean(_lfResult)
+	return _lfCodec17.FromLean(_lfResult)
 }
 
 func Scalar(a0 lfmod2.Item) (bool, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	var _lfValidation leanfran.ValidationError
-	leanfran.CheckAt(&_lfValidation, _lfCodec3, a0, "arg0")
+	leanfran.CheckAt(&_lfValidation, _lfCodec6, a0, "arg0")
 	if len(_lfValidation.Issues) != 0 {
 		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
 		return leanfran.Zero[bool](), err
 	}
-	v0 := _lfCodec3.ToLean(a0)
+	v0 := _lfCodec6.ToLean(a0)
 	defer rt.Lean_dec(v0)
 	_lfResult := rt.Lean_box(uint64(l_Calculator_Wire_scalar(v0)))
-	return _lfCodec19.FromLean(_lfResult), nil
+	return _lfCodec21.FromLean(_lfResult), nil
 }
 
 func Scope(a0 lfmod0.Principal) string {
@@ -173,6 +212,21 @@ func Scope(a0 lfmod0.Principal) string {
 	_lfResult := l_Calculator_Wire_scope(v0)
 	defer rt.Lean_dec(_lfResult)
 	return _lfCodec2.FromLean(_lfResult)
+}
+
+func Spelled(a0 string) (*lfmod0.Command, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodec2, a0, "s")
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[*lfmod0.Command](), err
+	}
+	v0 := _lfCodec2.ToLean(a0)
+	defer rt.Lean_dec(v0)
+	_lfResult := l_Calculator_Wire_spelled(v0)
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec22.FromLean(_lfResult), nil
 }
 
 var Handle lfHandle
@@ -185,6 +239,20 @@ type lfScopedHandle struct {
 
 func (lfHandle) In(scope *leanfran.ValueScope) lfScopedHandle {
 	return lfScopedHandle{scope: scope}
+}
+
+func (lfHandle) ClosedNumber(a0 leanfran.ValueInput[string], a1 leanfran.ValueInput[leanfran.NatType]) leanfran.Value[leanfran.OptionType[uint64]] {
+	return lfScopedHandle{}.ClosedNumber(a0, a1)
+}
+
+func (api lfScopedHandle) ClosedNumber(a0 leanfran.ValueInput[string], a1 leanfran.ValueInput[leanfran.NatType]) leanfran.Value[leanfran.OptionType[uint64]] {
+	inputs := [2]leanfran.ValueUse{a0.Use(), a1.Use()}
+	op := leanfran.BeginValueOperation(api.scope, inputs[:])
+	defer op.End()
+	op.Acquire(inputs[:])
+	defer rt.Lean_dec(inputs[0].Lean())
+	raw := l_Calculator_Wire_closedNumber(inputs[0].Lean(), inputs[1].Lean())
+	return leanfran.WrapValueIn[leanfran.OptionType[uint64]](op, raw)
 }
 
 func (lfHandle) Decode(a0 leanfran.ValueInput[string]) (leanfran.Value[lfmod0.Command], error) {
@@ -237,6 +305,26 @@ func (api lfScopedHandle) DecodeMembers(a0 leanfran.ValueInput[leanfran.ListType
 	op.Acquire(inputs[:])
 	defer rt.Lean_dec(inputs[0].Lean())
 	raw := l_Calculator_Wire_decodeMembers(inputs[0].Lean())
+	defer rt.Lean_dec(raw)
+	if rt.Lean_obj_tag(raw) == 0 {
+		_lfCodecsOnce.Do(_lfBuildCodecs)
+		err := &leanfran.ExceptError[Refusal]{Value: _lfCodecRefusal.FromLean(rt.Lean_ctor_get(raw, 0))}
+		return leanfran.Value[lfmod0.Command]{}, err
+	}
+	return leanfran.WrapValueIn[lfmod0.Command](op, leanfran.OwnValueField(raw, 0)), nil
+}
+
+func (lfHandle) DecodeText(a0 leanfran.ValueInput[string]) (leanfran.Value[lfmod0.Command], error) {
+	return lfScopedHandle{}.DecodeText(a0)
+}
+
+func (api lfScopedHandle) DecodeText(a0 leanfran.ValueInput[string]) (leanfran.Value[lfmod0.Command], error) {
+	inputs := [1]leanfran.ValueUse{a0.Use()}
+	op := leanfran.BeginValueOperation(api.scope, inputs[:])
+	defer op.End()
+	op.Acquire(inputs[:])
+	defer rt.Lean_dec(inputs[0].Lean())
+	raw := l_Calculator_Wire_decodeText(inputs[0].Lean())
 	defer rt.Lean_dec(raw)
 	if rt.Lean_obj_tag(raw) == 0 {
 		_lfCodecsOnce.Do(_lfBuildCodecs)
@@ -325,7 +413,7 @@ func (api lfScopedHandle) Request(a0 leanfran.ValueInput[uint64], a1 leanfran.Va
 	defer rt.Lean_dec(raw)
 	if rt.Lean_obj_tag(raw) == 0 {
 		_lfCodecsOnce.Do(_lfBuildCodecs)
-		err := &leanfran.ExceptError[lfmod1.Response]{Value: _lfCodec15.FromLean(rt.Lean_ctor_get(raw, 0))}
+		err := &leanfran.ExceptError[lfmod1.Response]{Value: _lfCodec17.FromLean(rt.Lean_ctor_get(raw, 0))}
 		return leanfran.Value[Call]{}, err
 	}
 	return leanfran.WrapValueIn[Call](op, leanfran.OwnValueField(raw, 0)), nil
@@ -371,4 +459,18 @@ func (api lfScopedHandle) Scope(a0 leanfran.ValueInput[lfmod0.Principal]) leanfr
 	defer rt.Lean_dec(inputs[0].Lean())
 	raw := l_Calculator_Wire_scope(inputs[0].Lean())
 	return leanfran.WrapValueIn[string](op, raw)
+}
+
+func (lfHandle) Spelled(a0 leanfran.ValueInput[string]) leanfran.Value[leanfran.OptionType[lfmod0.Command]] {
+	return lfScopedHandle{}.Spelled(a0)
+}
+
+func (api lfScopedHandle) Spelled(a0 leanfran.ValueInput[string]) leanfran.Value[leanfran.OptionType[lfmod0.Command]] {
+	inputs := [1]leanfran.ValueUse{a0.Use()}
+	op := leanfran.BeginValueOperation(api.scope, inputs[:])
+	defer op.End()
+	op.Acquire(inputs[:])
+	defer rt.Lean_dec(inputs[0].Lean())
+	raw := l_Calculator_Wire_spelled(inputs[0].Lean())
+	return leanfran.WrapValueIn[leanfran.OptionType[lfmod0.Command]](op, raw)
 }

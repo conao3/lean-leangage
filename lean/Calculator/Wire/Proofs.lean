@@ -8,6 +8,11 @@ import Leangage.Json.Read.Proofs
 
 - `decode_encode`: a body whose bytes are `Value.print` of `encodeCommand c`, the JSON value that
   spells the command `c`, decodes to `c`. So every command has a spelling the servers accept.
+- `spelled_spec`: `spelled` gives the command `c` exactly for the bodies whose bytes are
+  `Value.print` of `encodeCommand c` (`spelled_print` for each command), and `closedNumber_spec`
+  says what its number is read from. `decode_text`: `decode`, which answers such a body from
+  `spelled`, is `decodeText`, the decision of the JSON reader, on every body; so each theorem
+  below about `decode` is one about what `readString` reads.
 - `decode_ok_iff`, `decodeItems_ok_iff`, `decodeMembers_ok_iff`: a body decodes to `c` exactly
   when it reads as the items of an object with as many members as `c` has fields (`fields c`,
   the members of `encodeCommand c`) and with each field among them. The members may come in any
@@ -83,14 +88,258 @@ theorem decodeMembers_fields (c : Command) : decodeMembers (fields c) = .ok c :=
   | apply op n => cases op <;> rfl
   | get => rfl
 
-/-- A JSON text that spells a command decodes to it. -/
-theorem decode_encode {s : String} (c : Command) (h : bytesOf s = (encodeCommand c).print) :
-    decode s = .ok c := by
-  rw [decode, readString_print h, encodeCommand_items]
+theorem decodeText_encode {s : String} (c : Command) (h : bytesOf s = (encodeCommand c).print) :
+    decodeText s = .ok c := by
+  rw [decodeText, readString_print h, encodeCommand_items]
   cases c with
   | set n => rfl
   | apply op n => cases op <;> rfl
   | get => rfl
+
+/-! ## The spellings read without the JSON reader -/
+
+theorem startsWith_iff (s p : String) :
+    s.startsWith p = true ↔ ∃ r, bytesOf s = bytesOf p ++ r := by
+  rw [String.startsWith_string_iff]
+  constructor
+  · rintro ⟨t, ht⟩
+    refine ⟨bytesOf (String.ofList t), ?_⟩
+    have hs : s = p ++ String.ofList t := by
+      rw [← String.toList_inj, String.toList_append, String.toList_ofList, ht]
+    conv => lhs; rw [hs]
+    simp [bytesOf, String.toByteArray_append, ByteArray.data_append]
+  · rintro ⟨r, hr⟩
+    apply List.isPrefix_of_utf8Encode_append_eq_utf8Encode (ByteArray.mk r.toArray)
+    rw [String.utf8Encode_toList, String.utf8Encode_toList]
+    apply ByteArray.ext
+    rw [ByteArray.data_append, ← Array.toList_inj]
+    simpa [bytesOf] using hr.symm
+
+theorem eq_iff (s p : String) : s = p ↔ bytesOf s = bytesOf p := by
+  rw [← String.toByteArray_inj]
+  constructor
+  · intro h; rw [bytesOf, h]; rfl
+  · intro h; exact ByteArray.ext (Array.toList_inj.mp h)
+
+/-- `closedNumber` after a prefix: the rest is a number below 2^64 in decimal and `}`. -/
+theorem closedNumber_iff {s : String} {p r : List UInt8} (h : bytesOf s = p ++ r) (x : UInt64) :
+    closedNumber s p.length = some x ↔ r = Token.decimal x.toNat ++ [125] := by
+  have hl := Token.length_bytesOf s
+  have hlen : s.utf8ByteSize = p.length + r.length := by rw [← hl, h, List.length_append]
+  simp only [closedNumber]
+  rw [Token.numberAt_spec s (by omega)]
+  by_cases hr : r = []
+  · subst hr
+    rw [Token.slice_of_le (by simp at hlen; omega)]
+    have hn : Token.number [] = none := by
+      cases hx : Token.number [] with
+      | none => rfl
+      | some y => exact absurd (Token.number_canon hx).symm (Token.decimal_ne_nil _)
+    simp [hn]
+  · have hpos : 0 < r.length := List.length_pos_iff.mpr hr
+    have hdrop : r = Token.slice (bytesOf s) p.length (s.utf8ByteSize - 1) ++
+        [(bytesOf s)[s.utf8ByteSize - 1]'(by omega)] := by
+      rw [← Token.slice_snoc (by omega) (by omega), Token.slice, h, hlen]
+      simp
+    rw [Token.byteAt_of_lt (s := s) (i := s.utf8ByteSize - 1) (by omega)]
+    constructor
+    · intro hx
+      split at hx
+      · rename_i h125
+        rw [hdrop, h125, Token.number_canon hx]
+      · cases hx
+    · intro hx
+      obtain ⟨h1, h2⟩ := List.append_inj' (hx.symm.trans hdrop) rfl
+      simp only [List.cons.injEq, and_true] at h2
+      rw [ite_eq_left h2.symm, ← h1, Token.number_decimal]
+
+theorem prefix_clash {a b x y : List UInt8} (k : Nat) (ha : k ≤ a.length) (hb : k ≤ b.length)
+    (hne : a.take k ≠ b.take k) : a ++ x ≠ b ++ y := by
+  intro h
+  have := congrArg (List.take k) h
+  rw [List.take_append_of_le_length ha, List.take_append_of_le_length hb] at this
+  exact hne this
+
+/-- The bytes of a command written without a space. -/
+theorem print_set (x : UInt64) :
+    (encodeCommand (.set x)).print =
+      bytesOf "{\"cmd\":\"set\",\"value\":" ++ (Token.decimal x.toNat ++ [125]) := by
+  rw [Json.decimal_spec]; rfl
+
+theorem print_apply (op : Op) (x : UInt64) :
+    (encodeCommand (.apply op x)).print =
+      (match op with
+        | .add => bytesOf "{\"cmd\":\"apply\",\"op\":\"add\",\"arg\":"
+        | .sub => bytesOf "{\"cmd\":\"apply\",\"op\":\"sub\",\"arg\":"
+        | .mul => bytesOf "{\"cmd\":\"apply\",\"op\":\"mul\",\"arg\":"
+        | .div => bytesOf "{\"cmd\":\"apply\",\"op\":\"div\",\"arg\":") ++
+        (Token.decimal x.toNat ++ [125]) := by
+  rw [Json.decimal_spec]; cases op <;> rfl
+
+theorem print_get : (encodeCommand .get).print = bytesOf "{\"cmd\":\"get\"}" := by rfl
+
+
+theorem spelled_sound {s : String} {c : Command} (h : spelled s = some c) :
+    bytesOf s = (encodeCommand c).print := by
+  unfold spelled at h
+  split at h
+  · rename_i hp
+    obtain ⟨r, hr⟩ := (startsWith_iff _ _).mp hp
+    obtain ⟨x, hx, rfl⟩ := Option.map_eq_some_iff.mp h
+    rw [print_apply, hr, (closedNumber_iff hr x).mp hx]
+  split at h
+  · rename_i hp
+    obtain ⟨r, hr⟩ := (startsWith_iff _ _).mp hp
+    obtain ⟨x, hx, rfl⟩ := Option.map_eq_some_iff.mp h
+    rw [print_apply, hr, (closedNumber_iff hr x).mp hx]
+  split at h
+  · rename_i hp
+    obtain ⟨r, hr⟩ := (startsWith_iff _ _).mp hp
+    obtain ⟨x, hx, rfl⟩ := Option.map_eq_some_iff.mp h
+    rw [print_apply, hr, (closedNumber_iff hr x).mp hx]
+  split at h
+  · rename_i hp
+    obtain ⟨r, hr⟩ := (startsWith_iff _ _).mp hp
+    obtain ⟨x, hx, rfl⟩ := Option.map_eq_some_iff.mp h
+    rw [print_apply, hr, (closedNumber_iff hr x).mp hx]
+  split at h
+  · rename_i hp
+    obtain ⟨r, hr⟩ := (startsWith_iff _ _).mp hp
+    obtain ⟨x, hx, rfl⟩ := Option.map_eq_some_iff.mp h
+    rw [print_set, hr, (closedNumber_iff hr x).mp hx]
+  split at h
+  · rename_i hp
+    cases h
+    rw [print_get, hp]
+  · cases h
+
+theorem startsWith_false {s p : String} {a x : List UInt8} (h : bytesOf s = a ++ x) (k : Nat)
+    (ha : k ≤ a.length) (hb : k ≤ (bytesOf p).length) (hne : a.take k ≠ (bytesOf p).take k) :
+    s.startsWith p = false := by
+  rw [Bool.eq_false_iff, Ne, startsWith_iff]
+  rintro ⟨r, hr⟩
+  exact prefix_clash k ha hb hne (h.symm.trans hr)
+
+theorem spelled_complete {s : String} {c : Command} (h : bytesOf s = (encodeCommand c).print) :
+    spelled s = some c := by
+  unfold spelled
+  cases c with
+  | set x =>
+    rw [print_set] at h
+    have hn : closedNumber s 21 = some x := (closedNumber_iff h x).mpr rfl
+    rw [startsWith_false h 21 (by decide) (by decide) (by decide),
+      startsWith_false h 21 (by decide) (by decide) (by decide),
+      startsWith_false h 21 (by decide) (by decide) (by decide),
+      startsWith_false h 21 (by decide) (by decide) (by decide),
+      (startsWith_iff _ _).mpr ⟨_, h⟩]
+    simp [hn]
+  | get =>
+    rw [print_get] at h
+    have h' : bytesOf s = bytesOf "{\"cmd\":\"get\"}" ++ [] := by rw [h, List.append_nil]
+    rw [startsWith_false h' 13 (by decide) (by decide) (by decide),
+      startsWith_false h' 13 (by decide) (by decide) (by decide),
+      startsWith_false h' 13 (by decide) (by decide) (by decide),
+      startsWith_false h' 13 (by decide) (by decide) (by decide),
+      startsWith_false h' 13 (by decide) (by decide) (by decide)]
+    simp [(eq_iff _ _).mpr h]
+  | apply op x =>
+    cases op
+    · replace h : bytesOf s = bytesOf "{\"cmd\":\"apply\",\"op\":\"add\",\"arg\":" ++
+          (Token.decimal x.toNat ++ [125]) := h.trans (print_apply .add x)
+      have hn : closedNumber s 32 = some x := (closedNumber_iff h x).mpr rfl
+      rw [(startsWith_iff _ _).mpr ⟨_, h⟩]
+      simp [hn]
+    · replace h : bytesOf s = bytesOf "{\"cmd\":\"apply\",\"op\":\"sub\",\"arg\":" ++
+          (Token.decimal x.toNat ++ [125]) := h.trans (print_apply .sub x)
+      have hn : closedNumber s 32 = some x := (closedNumber_iff h x).mpr rfl
+      rw [startsWith_false h 32 (by decide) (by decide) (by decide), (startsWith_iff _ _).mpr ⟨_, h⟩]
+      simp [hn]
+    · replace h : bytesOf s = bytesOf "{\"cmd\":\"apply\",\"op\":\"mul\",\"arg\":" ++
+          (Token.decimal x.toNat ++ [125]) := h.trans (print_apply .mul x)
+      have hn : closedNumber s 32 = some x := (closedNumber_iff h x).mpr rfl
+      rw [startsWith_false h 32 (by decide) (by decide) (by decide),
+        startsWith_false h 32 (by decide) (by decide) (by decide), (startsWith_iff _ _).mpr ⟨_, h⟩]
+      simp [hn]
+    · replace h : bytesOf s = bytesOf "{\"cmd\":\"apply\",\"op\":\"div\",\"arg\":" ++
+          (Token.decimal x.toNat ++ [125]) := h.trans (print_apply .div x)
+      have hn : closedNumber s 32 = some x := (closedNumber_iff h x).mpr rfl
+      rw [startsWith_false h 32 (by decide) (by decide) (by decide),
+        startsWith_false h 32 (by decide) (by decide) (by decide),
+        startsWith_false h 32 (by decide) (by decide) (by decide), (startsWith_iff _ _).mpr ⟨_, h⟩]
+      simp [hn]
+
+/-- `spelled` gives the command `c` exactly for the bodies whose bytes are `Value.print` of
+`encodeCommand c`. -/
+theorem spelled_spec (s : String) (c : Command) :
+    spelled s = some c ↔ bytesOf s = (encodeCommand c).print :=
+  ⟨spelled_sound, spelled_complete⟩
+
+/-- `closedNumber` of a string gives `x` exactly when its bytes from `i` on are the decimal of
+`x` and `}`. -/
+theorem closedNumber_spec (s : String) (i : Nat) (x : UInt64) :
+    closedNumber s i = some x ↔
+      i ≤ (bytesOf s).length ∧ (bytesOf s).drop i = Token.decimal x.toNat ++ [125] := by
+  by_cases hi : i ≤ (bytesOf s).length
+  · have h : bytesOf s = (bytesOf s).take i ++ (bytesOf s).drop i := (List.take_append_drop i _).symm
+    have hl : ((bytesOf s).take i).length = i := List.length_take_of_le hi
+    have := closedNumber_iff h x
+    rw [hl] at this
+    simp [this, hi]
+  · have hn : s.utf8ByteSize - 1 ≤ i := by rw [← Token.length_bytesOf]; omega
+    have hnum : Token.number [] = none := by
+      cases hx : Token.number [] with
+      | none => rfl
+      | some y => exact absurd (Token.number_canon hx).symm (Token.decimal_ne_nil _)
+    simp [closedNumber, Token.numberAt_spec s (Nat.sub_le _ _), Token.slice_of_le hn, hnum, hi]
+
+theorem bytesOf_fromUTF8 {l : List UInt8} {s : String}
+    (h : String.fromUTF8? (ByteArray.mk l.toArray) = some s) : bytesOf s = l := by
+  unfold String.fromUTF8? at h
+  split at h
+  · cases h; rfl
+  · cases h
+
+/-- After the bytes `p`, the decimal of `x` and `}` are read as `x`, and the decimal of `x` and
+`]` as no number. -/
+theorem closedNumber_built (p : List UInt8) (x : UInt64) (b : Bool) :
+    match String.fromUTF8? (ByteArray.mk (p ++ (Token.decimal x.toNat ++ [if b then 125 else 93])).toArray) with
+    | some s => closedNumber s p.length = if b then some x else none
+    | none => True := by
+  split
+  · rename_i s hs
+    have h := bytesOf_fromUTF8 hs
+    cases b with
+    | true => exact (closedNumber_iff h x).mpr rfl
+    | false =>
+      cases hy : closedNumber s p.length with
+      | none => rfl
+      | some y =>
+        have h2 := (List.append_inj' ((closedNumber_iff h y).mp hy) rfl).2
+        simp at h2
+  · trivial
+
+/-- The spelling of a command is read as the command. -/
+theorem spelled_print (c : Command) :
+    match String.fromUTF8? (ByteArray.mk (encodeCommand c).print.toArray) with
+    | some s => spelled s = some c
+    | none => True := by
+  split
+  · rename_i s hs
+    exact spelled_complete (bytesOf_fromUTF8 hs)
+  · trivial
+
+/-- `decode` is `decodeText`: the JSON reader decides every body, and `spelled` answers for it
+on the bodies it knows. -/
+theorem decode_text (body : String) : decode body = decodeText body := by
+  unfold decode
+  cases h : spelled body with
+  | none => rfl
+  | some c => exact (decodeText_encode c (spelled_sound h)).symm
+
+/-- A JSON text that spells a command decodes to it. -/
+theorem decode_encode {s : String} (c : Command) (h : bytesOf s = (encodeCommand c).print) :
+    decode s = .ok c := by
+  rw [decode_text, decodeText_encode c h]
 
 theorem lookup_mem {k : List UInt8} {v : Item} :
     ∀ {ms : List (List UInt8 × Item)}, ms.lookup k = some v → (k, v) ∈ ms
@@ -333,16 +582,16 @@ theorem decode_ok_iff (body : String) (c : Command) :
     decode body = .ok c ↔
       ∃ ms, readString body = some (objectItems ms) ∧ ms.length = (fields c).length ∧
         ∀ m ∈ fields c, m ∈ ms := by
-  unfold decode
+  rw [decode_text, decodeText]
   cases h : readString body with
   | none => simp
   | some items =>
     simp only [decodeItems_ok_iff, Option.some.injEq]
 
 /-- A body that is not a JSON text is refused as that. -/
-theorem decode_notJson_iff (body : String) :
-    decode body = .error .notJson ↔ readString body = none := by
-  unfold decode
+theorem decodeText_notJson_iff (body : String) :
+    decodeText body = .error .notJson ↔ readString body = none := by
+  unfold decodeText
   cases h : readString body with
   | none => simp
   | some items =>
@@ -355,6 +604,11 @@ theorem decode_notJson_iff (body : String) :
         all_goals simp
       · simp
     · simp
+
+/-- A body that is not a JSON text is refused as that. -/
+theorem decode_notJson_iff (body : String) :
+    decode body = .error .notJson ↔ readString body = none := by
+  rw [decode_text, decodeText_notJson_iff]
 
 /-- An object without the member `cmd` is refused as that, and no other. -/
 theorem decodeMembers_missingCmd_iff (ms : List (List UInt8 × Item)) :

@@ -1990,11 +1990,1082 @@ pub(crate) unsafe fn l_Calculator_Wire_decode(mut x_1: Obj) -> Obj {
 let mut x_2: Obj = rt::lean_box(0);
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: u8 = 0;
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+x_2 = l_Calculator_Wire_spelled(x_1);
+match rt::lean_obj_tag(x_2) {
+0 => {
+x_3 = l_Calculator_Wire_decodeText(x_1);
+return x_3;
+}
+1 => {
+x_4 = rt::lean_ctor_get(x_2, 0);
+x_11 = (!rt::lean_is_exclusive(x_2)) as u8;
+match x_11 as u32 {
+0 => {
+{ let t_0 = x_2; let t_1 = x_11; x_6 = t_0; x_7 = t_1; }
+__blk = 1; continue 'body;
+}
+1 => {
+rt::lean_inc(x_4);
+rt::lean_dec(x_2);
+{ let t_0 = rt::lean_box(0); let t_1 = x_11; x_6 = t_0; x_7 = t_1; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+match x_7 as u32 {
+0 => {
+{ let t_0 = x_6; x_9 = t_0; }
+__blk = 2; continue 'body;
+}
+1 => {
+x_10 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_10, 0, x_4);
+{ let t_0 = x_10; x_9 = t_0; }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+return x_9;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_spelled(mut x_1: Obj) -> Obj {
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: u8 = 0;
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: u8 = 0;
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_13: u8 = 0;
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: Obj = rt::lean_box(0);
+let mut x_16: Obj = rt::lean_box(0);
+let mut x_17: Obj = rt::lean_box(0);
+let mut x_19: Obj = rt::lean_box(0);
+let mut x_20: u8 = 0;
+let mut x_21: Obj = rt::lean_box(0);
+let mut x_22: u64 = 0;
+let mut x_24: Obj = rt::lean_box(0);
+let mut x_25: Obj = rt::lean_box(0);
+let mut x_26: u8 = 0;
+let mut x_28: Obj = rt::lean_box(0);
+let mut x_29: Obj = rt::lean_box(0);
+let mut x_30: Obj = rt::lean_box(0);
+let mut x_31: u8 = 0;
+let mut x_32: Obj = rt::lean_box(0);
+let mut x_33: u8 = 0;
+let mut x_34: Obj = rt::lean_box(0);
+let mut x_35: Obj = rt::lean_box(0);
+let mut x_36: Obj = rt::lean_box(0);
+let mut x_37: Obj = rt::lean_box(0);
+let mut x_39: Obj = rt::lean_box(0);
+let mut x_40: u8 = 0;
+let mut x_41: u8 = 0;
+let mut x_42: Obj = rt::lean_box(0);
+let mut x_43: u64 = 0;
+let mut x_45: Obj = rt::lean_box(0);
+let mut x_46: Obj = rt::lean_box(0);
+let mut x_47: u8 = 0;
+let mut x_49: Obj = rt::lean_box(0);
+let mut x_50: Obj = rt::lean_box(0);
+let mut x_51: Obj = rt::lean_box(0);
+let mut x_52: u8 = 0;
+let mut x_53: Obj = rt::lean_box(0);
+let mut x_54: u8 = 0;
+let mut x_55: Obj = rt::lean_box(0);
+let mut x_56: Obj = rt::lean_box(0);
+let mut x_57: Obj = rt::lean_box(0);
+let mut x_58: Obj = rt::lean_box(0);
+let mut x_60: Obj = rt::lean_box(0);
+let mut x_61: u8 = 0;
+let mut x_62: u8 = 0;
+let mut x_63: Obj = rt::lean_box(0);
+let mut x_64: u64 = 0;
+let mut x_66: Obj = rt::lean_box(0);
+let mut x_67: Obj = rt::lean_box(0);
+let mut x_68: u8 = 0;
+let mut x_70: Obj = rt::lean_box(0);
+let mut x_71: Obj = rt::lean_box(0);
+let mut x_72: Obj = rt::lean_box(0);
+let mut x_73: u8 = 0;
+let mut x_74: Obj = rt::lean_box(0);
+let mut x_75: u8 = 0;
+let mut x_76: Obj = rt::lean_box(0);
+let mut x_77: Obj = rt::lean_box(0);
+let mut x_78: Obj = rt::lean_box(0);
+let mut x_79: Obj = rt::lean_box(0);
+let mut x_81: Obj = rt::lean_box(0);
+let mut x_82: u8 = 0;
+let mut x_83: u8 = 0;
+let mut x_84: Obj = rt::lean_box(0);
+let mut x_85: u64 = 0;
+let mut x_87: Obj = rt::lean_box(0);
+let mut x_88: Obj = rt::lean_box(0);
+let mut x_89: u8 = 0;
+let mut x_90: Obj = rt::lean_box(0);
+let mut x_91: Obj = rt::lean_box(0);
+let mut x_92: Obj = rt::lean_box(0);
+let mut x_93: u8 = 0;
+let mut x_94: Obj = rt::lean_box(0);
+let mut x_95: u8 = 0;
+let mut x_96: Obj = rt::lean_box(0);
+let mut x_97: Obj = rt::lean_box(0);
+let mut x_98: Obj = rt::lean_box(0);
+let mut x_99: Obj = rt::lean_box(0);
+let mut x_101: Obj = rt::lean_box(0);
+let mut x_102: u8 = 0;
+let mut x_103: u8 = 0;
+let mut x_104: Obj = rt::lean_box(0);
+let mut x_105: u64 = 0;
+let mut x_107: Obj = rt::lean_box(0);
+let mut x_108: Obj = rt::lean_box(0);
+let mut x_109: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+x_90 = l_Calculator_Wire_spelled___closed__10();
+x_91 = rt::lean_string_utf8_byte_size(x_1);
+x_92 = l_Calculator_Wire_spelled___closed__11();
+x_93 = rt::lean_nat_dec_le(x_92, x_91);
+match x_93 as u32 {
+0 => {
+{ }
+__blk = 11; continue 'body;
+}
+1 => {
+x_94 = rt::lean_unsigned_to_nat(0u32);
+x_95 = rt::lean_string_memcmp(x_1, x_90, x_94, x_94, x_92);
+match x_95 as u32 {
+0 => {
+{ }
+__blk = 11; continue 'body;
+}
+1 => {
+x_96 = rt::lean_unsigned_to_nat(32u32);
+x_97 = l_Calculator_Wire_closedNumber(x_1, x_96);
+match rt::lean_obj_tag(x_97) {
+0 => {
+x_98 = rt::lean_box(0);
+return x_98;
+}
+1 => {
+x_99 = rt::lean_ctor_get(x_97, 0);
+x_109 = (!rt::lean_is_exclusive(x_97)) as u8;
+match x_109 as u32 {
+0 => {
+{ let t_0 = x_97; let t_1 = x_109; x_101 = t_0; x_102 = t_1; }
+__blk = 14; continue 'body;
+}
+1 => {
+rt::lean_inc(x_99);
+rt::lean_dec(x_97);
+{ let t_0 = rt::lean_box(0); let t_1 = x_109; x_101 = t_0; x_102 = t_1; }
+__blk = 14; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_3 = l_Calculator_Wire_spelled___closed__0();
+x_4 = rt::lean_string_dec_eq(x_1, x_3);
+match x_4 as u32 {
+0 => {
+x_5 = rt::lean_box(0);
+return x_5;
+}
+1 => {
+x_6 = l_Calculator_Wire_spelled___closed__1();
+return x_6;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+x_8 = l_Calculator_Wire_spelled___closed__2();
+x_9 = rt::lean_string_utf8_byte_size(x_1);
+x_10 = l_Calculator_Wire_spelled___closed__3();
+x_11 = rt::lean_nat_dec_le(x_10, x_9);
+match x_11 as u32 {
+0 => {
+{ }
+__blk = 1; continue 'body;
+}
+1 => {
+x_12 = rt::lean_unsigned_to_nat(0u32);
+x_13 = rt::lean_string_memcmp(x_1, x_8, x_12, x_12, x_10);
+match x_13 as u32 {
+0 => {
+{ }
+__blk = 1; continue 'body;
+}
+1 => {
+x_14 = rt::lean_unsigned_to_nat(21u32);
+x_15 = l_Calculator_Wire_closedNumber(x_1, x_14);
+match rt::lean_obj_tag(x_15) {
+0 => {
+x_16 = rt::lean_box(0);
+return x_16;
+}
+1 => {
+x_17 = rt::lean_ctor_get(x_15, 0);
+x_26 = (!rt::lean_is_exclusive(x_15)) as u8;
+match x_26 as u32 {
+0 => {
+{ let t_0 = x_15; let t_1 = x_26; x_19 = t_0; x_20 = t_1; }
+__blk = 3; continue 'body;
+}
+1 => {
+rt::lean_inc(x_17);
+rt::lean_dec(x_15);
+{ let t_0 = rt::lean_box(0); let t_1 = x_26; x_19 = t_0; x_20 = t_1; }
+__blk = 3; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+3 => {
+x_21 = rt::lean_alloc_ctor(0, 0, 0 * core::mem::size_of::<usize>() as u32 + 8);
+x_22 = rt::lean_unbox_uint64(x_17);
+rt::lean_dec(x_17);
+rt::lean_ctor_set_uint64(x_21, 0 * core::mem::size_of::<usize>() as u32 + 0, x_22);
+match x_20 as u32 {
+0 => {
+rt::lean_ctor_set(x_19, 0, x_21);
+{ let t_0 = x_19; x_24 = t_0; }
+__blk = 4; continue 'body;
+}
+1 => {
+x_25 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_25, 0, x_21);
+{ let t_0 = x_25; x_24 = t_0; }
+__blk = 4; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+4 => {
+return x_24;
+}
+5 => {
+x_28 = l_Calculator_Wire_spelled___closed__4();
+x_29 = rt::lean_string_utf8_byte_size(x_1);
+x_30 = l_Calculator_Wire_spelled___closed__5();
+x_31 = rt::lean_nat_dec_le(x_30, x_29);
+match x_31 as u32 {
+0 => {
+{ }
+__blk = 2; continue 'body;
+}
+1 => {
+x_32 = rt::lean_unsigned_to_nat(0u32);
+x_33 = rt::lean_string_memcmp(x_1, x_28, x_32, x_32, x_30);
+match x_33 as u32 {
+0 => {
+{ }
+__blk = 2; continue 'body;
+}
+1 => {
+x_34 = rt::lean_unsigned_to_nat(32u32);
+x_35 = l_Calculator_Wire_closedNumber(x_1, x_34);
+match rt::lean_obj_tag(x_35) {
+0 => {
+x_36 = rt::lean_box(0);
+return x_36;
+}
+1 => {
+x_37 = rt::lean_ctor_get(x_35, 0);
+x_47 = (!rt::lean_is_exclusive(x_35)) as u8;
+match x_47 as u32 {
+0 => {
+{ let t_0 = x_35; let t_1 = x_47; x_39 = t_0; x_40 = t_1; }
+__blk = 6; continue 'body;
+}
+1 => {
+rt::lean_inc(x_37);
+rt::lean_dec(x_35);
+{ let t_0 = rt::lean_box(0); let t_1 = x_47; x_39 = t_0; x_40 = t_1; }
+__blk = 6; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+6 => {
+x_41 = 3u8;
+x_42 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 9);
+rt::lean_ctor_set_uint8(x_42, 0 * core::mem::size_of::<usize>() as u32 + 8, x_41);
+x_43 = rt::lean_unbox_uint64(x_37);
+rt::lean_dec(x_37);
+rt::lean_ctor_set_uint64(x_42, 0 * core::mem::size_of::<usize>() as u32 + 0, x_43);
+match x_40 as u32 {
+0 => {
+rt::lean_ctor_set(x_39, 0, x_42);
+{ let t_0 = x_39; x_45 = t_0; }
+__blk = 7; continue 'body;
+}
+1 => {
+x_46 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_46, 0, x_42);
+{ let t_0 = x_46; x_45 = t_0; }
+__blk = 7; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+7 => {
+return x_45;
+}
+8 => {
+x_49 = l_Calculator_Wire_spelled___closed__6();
+x_50 = rt::lean_string_utf8_byte_size(x_1);
+x_51 = l_Calculator_Wire_spelled___closed__7();
+x_52 = rt::lean_nat_dec_le(x_51, x_50);
+match x_52 as u32 {
+0 => {
+{ }
+__blk = 5; continue 'body;
+}
+1 => {
+x_53 = rt::lean_unsigned_to_nat(0u32);
+x_54 = rt::lean_string_memcmp(x_1, x_49, x_53, x_53, x_51);
+match x_54 as u32 {
+0 => {
+{ }
+__blk = 5; continue 'body;
+}
+1 => {
+x_55 = rt::lean_unsigned_to_nat(32u32);
+x_56 = l_Calculator_Wire_closedNumber(x_1, x_55);
+match rt::lean_obj_tag(x_56) {
+0 => {
+x_57 = rt::lean_box(0);
+return x_57;
+}
+1 => {
+x_58 = rt::lean_ctor_get(x_56, 0);
+x_68 = (!rt::lean_is_exclusive(x_56)) as u8;
+match x_68 as u32 {
+0 => {
+{ let t_0 = x_56; let t_1 = x_68; x_60 = t_0; x_61 = t_1; }
+__blk = 9; continue 'body;
+}
+1 => {
+rt::lean_inc(x_58);
+rt::lean_dec(x_56);
+{ let t_0 = rt::lean_box(0); let t_1 = x_68; x_60 = t_0; x_61 = t_1; }
+__blk = 9; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+9 => {
+x_62 = 2u8;
+x_63 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 9);
+rt::lean_ctor_set_uint8(x_63, 0 * core::mem::size_of::<usize>() as u32 + 8, x_62);
+x_64 = rt::lean_unbox_uint64(x_58);
+rt::lean_dec(x_58);
+rt::lean_ctor_set_uint64(x_63, 0 * core::mem::size_of::<usize>() as u32 + 0, x_64);
+match x_61 as u32 {
+0 => {
+rt::lean_ctor_set(x_60, 0, x_63);
+{ let t_0 = x_60; x_66 = t_0; }
+__blk = 10; continue 'body;
+}
+1 => {
+x_67 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_67, 0, x_63);
+{ let t_0 = x_67; x_66 = t_0; }
+__blk = 10; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+10 => {
+return x_66;
+}
+11 => {
+x_70 = l_Calculator_Wire_spelled___closed__8();
+x_71 = rt::lean_string_utf8_byte_size(x_1);
+x_72 = l_Calculator_Wire_spelled___closed__9();
+x_73 = rt::lean_nat_dec_le(x_72, x_71);
+match x_73 as u32 {
+0 => {
+{ }
+__blk = 8; continue 'body;
+}
+1 => {
+x_74 = rt::lean_unsigned_to_nat(0u32);
+x_75 = rt::lean_string_memcmp(x_1, x_70, x_74, x_74, x_72);
+match x_75 as u32 {
+0 => {
+{ }
+__blk = 8; continue 'body;
+}
+1 => {
+x_76 = rt::lean_unsigned_to_nat(32u32);
+x_77 = l_Calculator_Wire_closedNumber(x_1, x_76);
+match rt::lean_obj_tag(x_77) {
+0 => {
+x_78 = rt::lean_box(0);
+return x_78;
+}
+1 => {
+x_79 = rt::lean_ctor_get(x_77, 0);
+x_89 = (!rt::lean_is_exclusive(x_77)) as u8;
+match x_89 as u32 {
+0 => {
+{ let t_0 = x_77; let t_1 = x_89; x_81 = t_0; x_82 = t_1; }
+__blk = 12; continue 'body;
+}
+1 => {
+rt::lean_inc(x_79);
+rt::lean_dec(x_77);
+{ let t_0 = rt::lean_box(0); let t_1 = x_89; x_81 = t_0; x_82 = t_1; }
+__blk = 12; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+12 => {
+x_83 = 1u8;
+x_84 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 9);
+rt::lean_ctor_set_uint8(x_84, 0 * core::mem::size_of::<usize>() as u32 + 8, x_83);
+x_85 = rt::lean_unbox_uint64(x_79);
+rt::lean_dec(x_79);
+rt::lean_ctor_set_uint64(x_84, 0 * core::mem::size_of::<usize>() as u32 + 0, x_85);
+match x_82 as u32 {
+0 => {
+rt::lean_ctor_set(x_81, 0, x_84);
+{ let t_0 = x_81; x_87 = t_0; }
+__blk = 13; continue 'body;
+}
+1 => {
+x_88 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_88, 0, x_84);
+{ let t_0 = x_88; x_87 = t_0; }
+__blk = 13; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+13 => {
+return x_87;
+}
+14 => {
+x_103 = 0u8;
+x_104 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 9);
+rt::lean_ctor_set_uint8(x_104, 0 * core::mem::size_of::<usize>() as u32 + 8, x_103);
+x_105 = rt::lean_unbox_uint64(x_99);
+rt::lean_dec(x_99);
+rt::lean_ctor_set_uint64(x_104, 0 * core::mem::size_of::<usize>() as u32 + 0, x_105);
+match x_102 as u32 {
+0 => {
+rt::lean_ctor_set(x_101, 0, x_104);
+{ let t_0 = x_101; x_107 = t_0; }
+__blk = 15; continue 'body;
+}
+1 => {
+x_108 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_108, 0, x_104);
+{ let t_0 = x_108; x_107 = t_0; }
+__blk = 15; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+15 => {
+return x_107;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Wire_spelled___closed__0_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("{\"cmd\":\"get\"}", 13, 13);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_spelled___closed__0() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Wire_spelled___closed__0_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Wire_spelled___closed__1_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: Obj = rt::lean_box(0);
+x_1 = rt::lean_box(2);
+x_2 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_2, 0, x_1);
+return x_2;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_spelled___closed__1() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Wire_spelled___closed__1_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Wire_spelled___closed__2_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("{\"cmd\":\"set\",\"value\":", 21, 21);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_spelled___closed__2() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Wire_spelled___closed__2_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Wire_spelled___closed__3_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Wire_spelled___closed__2();
+x_2 = rt::lean_string_utf8_byte_size(x_1);
+return x_2;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_spelled___closed__3() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Wire_spelled___closed__3_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_closedNumber(mut x_1: Obj, mut x_2: Obj) -> Obj {
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_7: u8 = 0;
+let mut x_8: u8 = 0;
+let mut x_9: u8 = 0;
+let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_12: u8 = 0;
+let mut x_13: u8 = 0;
+let mut x_14: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+x_3 = rt::lean_string_utf8_byte_size(x_1);
+x_4 = rt::lean_unsigned_to_nat(1u32);
+x_5 = rt::lean_nat_sub(x_3, x_4);
+x_12 = rt::lean_nat_dec_lt(x_5, x_3);
+match x_12 as u32 {
+0 => {
+x_13 = 0u8;
+{ let t_0 = x_13; x_7 = t_0; }
+__blk = 1; continue 'body;
+}
+1 => {
+rt::lean_inc(x_5);
+x_14 = rt::lean_string_get_byte_fast(x_1, x_5);
+{ let t_0 = x_14; x_7 = t_0; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_8 = 125u8;
+x_9 = rt::lean_uint8_dec_eq(x_7, x_8);
+match x_9 as u32 {
+0 => {
+rt::lean_dec(x_5);
+rt::lean_dec(x_2);
+x_10 = rt::lean_box(0);
+return x_10;
+}
+1 => {
+x_11 = l_Leangage_Token_numberAt(x_1, x_2, x_5);
+return x_11;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leangage_Token_numberAt(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj) -> Obj {
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: u8 = 0;
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: u64 = 0;
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_12: u8 = 0;
+let mut x_13: Obj = rt::lean_box(0);
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: Obj = rt::lean_box(0);
+x_4 = rt::lean_nat_sub(x_3, x_2);
+x_5 = rt::lean_unsigned_to_nat(20u32);
+x_6 = rt::lean_nat_dec_le(x_4, x_5);
+rt::lean_dec(x_4);
+match x_6 as u32 {
+0 => {
+rt::lean_dec(x_3);
+rt::lean_dec(x_2);
+x_7 = rt::lean_box(0);
+return x_7;
+}
+1 => {
+x_8 = rt::lean_unsigned_to_nat(0u32);
+rt::lean_inc(x_2);
+x_9 = l_Leangage_Token_digitsFrom(x_1, x_2, x_3, x_8);
+x_10 = rt::lean_uint64_of_nat(x_9);
+rt::lean_dec(x_9);
+x_11 = rt::lean_uint64_to_nat(x_10);
+x_12 = l_Leangage_Token_isDecimal(x_11, x_1, x_2, x_3);
+match x_12 as u32 {
+0 => {
+x_13 = rt::lean_box(0);
+return x_13;
+}
+1 => {
+x_14 = rt::lean_box_uint64(x_10);
+x_15 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_15, 0, x_14);
+return x_15;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leangage_Token_digitsFrom(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj) -> Obj {
+let mut x_5: u8 = 0;
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: u8 = 0;
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_13: u8 = 0;
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: Obj = rt::lean_box(0);
+let mut x_16: Obj = rt::lean_box(0);
+let mut x_17: Obj = rt::lean_box(0);
+let mut x_18: Obj = rt::lean_box(0);
+let mut x_19: u8 = 0;
+let mut x_20: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+x_5 = rt::lean_nat_dec_lt(x_2, x_3);
+match x_5 as u32 {
+0 => {
+rt::lean_dec(x_2);
+return x_4;
+}
+1 => {
+x_6 = rt::lean_string_utf8_byte_size(x_1);
+x_7 = rt::lean_nat_dec_lt(x_2, x_6);
+match x_7 as u32 {
+0 => {
+rt::lean_dec(x_2);
+return x_4;
+}
+1 => {
+x_8 = rt::lean_unsigned_to_nat(1u32);
+x_9 = rt::lean_nat_add(x_2, x_8);
+x_10 = rt::lean_unsigned_to_nat(10u32);
+x_11 = rt::lean_nat_mul(x_4, x_10);
+rt::lean_dec(x_4);
+match x_7 as u32 {
+0 => {
+rt::lean_dec(x_2);
+x_19 = 0u8;
+{ let t_0 = x_19; x_13 = t_0; }
+__blk = 1; continue 'body;
+}
+1 => {
+x_20 = rt::lean_string_get_byte_fast(x_1, x_2);
+{ let t_0 = x_20; x_13 = t_0; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_14 = rt::lean_uint8_to_nat(x_13);
+x_15 = rt::lean_unsigned_to_nat(48u32);
+x_16 = rt::lean_nat_sub(x_14, x_15);
+x_17 = rt::lean_nat_add(x_11, x_16);
+rt::lean_dec(x_16);
+rt::lean_dec(x_11);
+{ let t_0 = x_1; let t_1 = x_9; let t_2 = x_3; let t_3 = x_17; x_1 = t_0; x_2 = t_1; x_3 = t_2; x_4 = t_3; }
+__blk = 0; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leangage_Token_isDecimal(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj) -> u8 {
+let mut x_6: u8 = 0;
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: u8 = 0;
+let mut x_10: u8 = 0;
+let mut x_11: u8 = 0;
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_13: u8 = 0;
+let mut x_15: u8 = 0;
+let mut x_16: Obj = rt::lean_box(0);
+let mut x_17: Obj = rt::lean_box(0);
+let mut x_18: Obj = rt::lean_box(0);
+let mut x_19: u8 = 0;
+let mut x_20: u8 = 0;
+let mut x_21: Obj = rt::lean_box(0);
+let mut x_22: Obj = rt::lean_box(0);
+let mut x_23: Obj = rt::lean_box(0);
+let mut x_24: u8 = 0;
+let mut x_25: Obj = rt::lean_box(0);
+let mut x_26: Obj = rt::lean_box(0);
+let mut x_27: Obj = rt::lean_box(0);
+let mut x_28: u8 = 0;
+let mut x_29: u8 = 0;
+let mut x_30: u8 = 0;
+let mut x_31: Obj = rt::lean_box(0);
+let mut x_32: Obj = rt::lean_box(0);
+let mut x_33: u8 = 0;
+let mut x_34: Obj = rt::lean_box(0);
+let mut x_35: u8 = 0;
+let mut x_36: u8 = 0;
+let mut x_37: u8 = 0;
+let mut x_38: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+x_11 = rt::lean_nat_dec_le(x_4, x_3);
+match x_11 as u32 {
+0 => {
+x_12 = rt::lean_unsigned_to_nat(10u32);
+x_13 = rt::lean_nat_dec_lt(x_1, x_12);
+match x_13 as u32 {
+0 => {
+x_25 = rt::lean_unsigned_to_nat(1u32);
+x_26 = rt::lean_nat_sub(x_4, x_25);
+x_27 = rt::lean_string_utf8_byte_size(x_2);
+x_28 = rt::lean_nat_dec_lt(x_26, x_27);
+match x_28 as u32 {
+0 => {
+rt::lean_dec(x_26);
+x_29 = 0u8;
+{ let t_0 = x_29; x_15 = t_0; }
+__blk = 2; continue 'body;
+}
+1 => {
+x_30 = rt::lean_string_get_byte_fast(x_2, x_26);
+{ let t_0 = x_30; x_15 = t_0; }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_31 = rt::lean_unsigned_to_nat(1u32);
+x_32 = rt::lean_nat_add(x_3, x_31);
+x_33 = rt::lean_nat_dec_eq(x_4, x_32);
+rt::lean_dec(x_32);
+rt::lean_dec(x_4);
+match x_33 as u32 {
+0 => {
+rt::lean_dec(x_3);
+rt::lean_dec(x_1);
+return x_11;
+}
+1 => {
+x_34 = rt::lean_string_utf8_byte_size(x_2);
+x_35 = rt::lean_nat_dec_lt(x_3, x_34);
+match x_35 as u32 {
+0 => {
+rt::lean_dec(x_3);
+x_36 = 0u8;
+{ let t_0 = x_36; x_6 = t_0; }
+__blk = 1; continue 'body;
+}
+1 => {
+x_37 = rt::lean_string_get_byte_fast(x_2, x_3);
+{ let t_0 = x_37; x_6 = t_0; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+rt::lean_dec(x_4);
+rt::lean_dec(x_3);
+rt::lean_dec(x_1);
+x_38 = 0u8;
+return x_38;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_7 = rt::lean_unsigned_to_nat(48u32);
+x_8 = rt::lean_nat_add(x_1, x_7);
+rt::lean_dec(x_1);
+x_9 = rt::lean_uint8_of_nat(x_8);
+rt::lean_dec(x_8);
+x_10 = rt::lean_uint8_dec_eq(x_6, x_9);
+return x_10;
+}
+2 => {
+x_16 = rt::lean_nat_mod(x_1, x_12);
+x_17 = rt::lean_unsigned_to_nat(48u32);
+x_18 = rt::lean_nat_add(x_16, x_17);
+rt::lean_dec(x_16);
+x_19 = rt::lean_uint8_of_nat(x_18);
+rt::lean_dec(x_18);
+x_20 = rt::lean_uint8_dec_eq(x_15, x_19);
+match x_20 as u32 {
+0 => {
+rt::lean_dec(x_4);
+rt::lean_dec(x_3);
+rt::lean_dec(x_1);
+return x_13;
+}
+1 => {
+x_21 = rt::lean_nat_div(x_1, x_12);
+rt::lean_dec(x_1);
+x_22 = rt::lean_unsigned_to_nat(1u32);
+x_23 = rt::lean_nat_sub(x_4, x_22);
+rt::lean_dec(x_4);
+{ let t_0 = x_21; let t_1 = x_2; let t_2 = x_3; let t_3 = x_23; x_1 = t_0; x_2 = t_1; x_3 = t_2; x_4 = t_3; }
+__blk = 0; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Wire_spelled___closed__4_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("{\"cmd\":\"apply\",\"op\":\"div\",\"arg\":", 32, 32);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_spelled___closed__4() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Wire_spelled___closed__4_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Wire_spelled___closed__5_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Wire_spelled___closed__4();
+x_2 = rt::lean_string_utf8_byte_size(x_1);
+return x_2;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_spelled___closed__5() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Wire_spelled___closed__5_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Wire_spelled___closed__6_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("{\"cmd\":\"apply\",\"op\":\"mul\",\"arg\":", 32, 32);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_spelled___closed__6() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Wire_spelled___closed__6_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Wire_spelled___closed__7_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Wire_spelled___closed__6();
+x_2 = rt::lean_string_utf8_byte_size(x_1);
+return x_2;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_spelled___closed__7() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Wire_spelled___closed__7_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Wire_spelled___closed__8_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("{\"cmd\":\"apply\",\"op\":\"sub\",\"arg\":", 32, 32);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_spelled___closed__8() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Wire_spelled___closed__8_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Wire_spelled___closed__9_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Wire_spelled___closed__8();
+x_2 = rt::lean_string_utf8_byte_size(x_1);
+return x_2;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_spelled___closed__9() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Wire_spelled___closed__9_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Wire_spelled___closed__10_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+x_1 = rt::lean_mk_string_unchecked("{\"cmd\":\"apply\",\"op\":\"add\",\"arg\":", 32, 32);
+return x_1;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_spelled___closed__10() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Wire_spelled___closed__10_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
+unsafe fn l_Calculator_Wire_spelled___closed__11_init() -> Obj {
+let mut x_1: Obj = rt::lean_box(0);
+let mut x_2: Obj = rt::lean_box(0);
+x_1 = l_Calculator_Wire_spelled___closed__10();
+x_2 = rt::lean_string_utf8_byte_size(x_1);
+return x_2;
+}
+#[allow(dead_code, non_snake_case, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_spelled___closed__11() -> Obj {
+  thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
+  if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
+  let v = l_Calculator_Wire_spelled___closed__11_init();
+  rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Calculator_Wire_decodeText(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
 let mut x_5: Obj = rt::lean_box(0);
 x_2 = l_Leangage_Json_Read_readString(x_1);
 match rt::lean_obj_tag(x_2) {
 0 => {
-x_3 = l_Calculator_Wire_decode___closed__0();
+x_3 = l_Calculator_Wire_decodeText___closed__0();
 return x_3;
 }
 1 => {
@@ -3840,7 +4911,6 @@ return x_206;
 _ => rt::lean_internal_panic_unreachable(),
 } }
 }
-
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
 unsafe fn l_Leangage_Json_Read_startValue___closed__2_init() -> Obj {
@@ -7290,8 +8360,6 @@ _ => rt::lean_internal_panic_unreachable(),
 } }
 }
 
-
-
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Leangage_Json_Read_endHex(mut x_1: Obj, mut x_2: Obj) -> Obj {
 let mut x_3: u8 = 0;
@@ -7724,7 +8792,6 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 }
 
-
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Leangage_Json_Read_stepZero(mut x_1: Obj, mut x_2: u8) -> Obj {
 let mut x_4: u8 = 0;
@@ -8142,7 +9209,6 @@ pub(crate) unsafe fn l_Leangage_Json_Read_intItem___closed__0() -> Obj {
   let v = l_Leangage_Json_Read_intItem___closed__0_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
-
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Leangage_Json_Read_stepInt(mut x_1: Obj, mut x_2: u8) -> Obj {
@@ -8962,7 +10028,7 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Calculator_Wire_decode___closed__0_init() -> Obj {
+unsafe fn l_Calculator_Wire_decodeText___closed__0_init() -> Obj {
 let mut x_1: u8 = 0;
 let mut x_2: Obj = rt::lean_box(0);
 let mut x_3: Obj = rt::lean_box(0);
@@ -8972,10 +10038,10 @@ x_3 = rt::lean_alloc_ctor(0, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); r
 return x_3;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Calculator_Wire_decode___closed__0() -> Obj {
+pub(crate) unsafe fn l_Calculator_Wire_decodeText___closed__0() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Calculator_Wire_decode___closed__0_init();
+  let v = l_Calculator_Wire_decodeText___closed__0_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
@@ -11982,6 +13048,18 @@ pub fn members(acc: Vec<(Vec<u8>, ::leangage::json_read::Item)>, arg1: Vec<::lea
     }
 }
 
+#[doc = "Lean: `Calculator.Wire.decodeText : String → Except Calculator.Wire.Refusal Calculator.Kernel.Command` (module `Calculator.Wire`)."]
+#[::leanfran::exported("Calculator.Wire.decodeText")]
+pub fn decode_text(body: impl AsRef<str>) -> Result<crate::generated::calculator_kernel::Command, Refusal> {
+    unsafe {
+        let __a0: Obj = rt::ToLean::to_lean(body.as_ref());
+        let __r: Obj = l_Calculator_Wire_decodeText(__a0);
+        rt::lean_dec(__a0); let __v = rt::except_from_lean(__r, |v0| <Refusal as rt::FromLean>::from_lean(v0), |v0| <crate::generated::calculator_kernel::Command as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
 #[doc = "Lean: `Calculator.Wire.scope : Calculator.Kernel.Principal → String` (module `Calculator.Wire`)."]
 #[::leanfran::exported("Calculator.Wire.scope")]
 pub fn scope(actor: crate::generated::calculator_kernel::Principal) -> String {
@@ -12025,6 +13103,31 @@ pub fn scalar(arg0: ::leangage::json_read::Item) -> bool {
         let __a0: Obj = rt::ToLean::to_lean(arg0);
         let __r: u8 = l_Calculator_Wire_scalar(__a0);
         rt::lean_dec(__a0); (__r) != 0
+    }
+}
+
+#[doc = "Lean: `Calculator.Wire.closedNumber : String → Nat → Option UInt64` (module `Calculator.Wire`)."]
+#[::leanfran::exported("Calculator.Wire.closedNumber")]
+pub fn closed_number(s: impl AsRef<str>, i: rt::Nat) -> Option<u64> {
+    unsafe {
+        let __a0: Obj = rt::ToLean::to_lean(s.as_ref());
+        let __a1: Obj = rt::ToLean::to_lean(i);
+        let __r: Obj = l_Calculator_Wire_closedNumber(__a0, __a1);
+        rt::lean_dec(__a0); let __v = rt::option_from_lean(__r, |v0| <u64 as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__r);
+        __v
+    }
+}
+
+#[doc = "Lean: `Calculator.Wire.spelled : String → Option Calculator.Kernel.Command` (module `Calculator.Wire`)."]
+#[::leanfran::exported("Calculator.Wire.spelled")]
+pub fn spelled(s: impl AsRef<str>) -> Option<crate::generated::calculator_kernel::Command> {
+    unsafe {
+        let __a0: Obj = rt::ToLean::to_lean(s.as_ref());
+        let __r: Obj = l_Calculator_Wire_spelled(__a0);
+        rt::lean_dec(__a0); let __v = rt::option_from_lean(__r, |v0| <crate::generated::calculator_kernel::Command as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__r);
+        __v
     }
 }
 
@@ -12109,6 +13212,14 @@ pub mod lean {
             rt::Lean::from_owned(__r)
         }
     }
+    #[doc = "`decode_text` on handles. Lean: `Calculator.Wire.decodeText : String → Except Calculator.Wire.Refusal Calculator.Kernel.Command` (module `Calculator.Wire`)."]
+    pub fn decode_text(body: impl rt::IntoLean<String>) -> rt::Lean<Result<crate::generated::calculator_kernel::Command, Refusal>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(body);
+            let __r: Obj = l_Calculator_Wire_decodeText(__a0);
+            rt::lean_dec(__a0); rt::Lean::from_owned(__r)
+        }
+    }
     #[doc = "`scope` on handles. Lean: `Calculator.Wire.scope : Calculator.Kernel.Principal → String` (module `Calculator.Wire`)."]
     pub fn scope(actor: impl rt::IntoLean<crate::generated::calculator_kernel::Principal>) -> rt::Lean<String> {
         unsafe {
@@ -12139,6 +13250,23 @@ pub mod lean {
             let __a0: Obj = rt::IntoLean::<::leangage::json_read::Item>::into_obj(arg0);
             let __r: u8 = l_Calculator_Wire_scalar(__a0);
             rt::lean_dec(__a0); rt::Lean::from_owned(rt::lean_box(__r as usize))
+        }
+    }
+    #[doc = "`closed_number` on handles. Lean: `Calculator.Wire.closedNumber : String → Nat → Option UInt64` (module `Calculator.Wire`)."]
+    pub fn closed_number(s: impl rt::IntoLean<String>, i: impl rt::IntoLean<rt::Nat>) -> rt::Lean<Option<u64>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(s);
+            let __a1: Obj = rt::IntoLean::<rt::Nat>::into_obj(i);
+            let __r: Obj = l_Calculator_Wire_closedNumber(__a0, __a1);
+            rt::lean_dec(__a0); rt::Lean::from_owned(__r)
+        }
+    }
+    #[doc = "`spelled` on handles. Lean: `Calculator.Wire.spelled : String → Option Calculator.Kernel.Command` (module `Calculator.Wire`)."]
+    pub fn spelled(s: impl rt::IntoLean<String>) -> rt::Lean<Option<crate::generated::calculator_kernel::Command>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(s);
+            let __r: Obj = l_Calculator_Wire_spelled(__a0);
+            rt::lean_dec(__a0); rt::Lean::from_owned(__r)
         }
     }
     #[doc = "`decode` on handles. Lean: `Calculator.Wire.decode : String → Except Calculator.Wire.Refusal Calculator.Kernel.Command` (module `Calculator.Wire`)."]
@@ -12216,6 +13344,14 @@ pub mod local {
             rt::Local::from_owned(__r)
         }
     }
+    #[doc = "`decode_text` on handles. Lean: `Calculator.Wire.decodeText : String → Except Calculator.Wire.Refusal Calculator.Kernel.Command` (module `Calculator.Wire`)."]
+    pub fn decode_text(body: impl rt::IntoLean<String>) -> rt::Local<Result<crate::generated::calculator_kernel::Command, Refusal>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(body);
+            let __r: Obj = l_Calculator_Wire_decodeText(__a0);
+            rt::lean_dec(__a0); rt::Local::from_owned(__r)
+        }
+    }
     #[doc = "`scope` on handles. Lean: `Calculator.Wire.scope : Calculator.Kernel.Principal → String` (module `Calculator.Wire`)."]
     pub fn scope(actor: impl rt::IntoLean<crate::generated::calculator_kernel::Principal>) -> rt::Local<String> {
         unsafe {
@@ -12246,6 +13382,23 @@ pub mod local {
             let __a0: Obj = rt::IntoLean::<::leangage::json_read::Item>::into_obj(arg0);
             let __r: u8 = l_Calculator_Wire_scalar(__a0);
             rt::lean_dec(__a0); rt::Local::from_owned(rt::lean_box(__r as usize))
+        }
+    }
+    #[doc = "`closed_number` on handles. Lean: `Calculator.Wire.closedNumber : String → Nat → Option UInt64` (module `Calculator.Wire`)."]
+    pub fn closed_number(s: impl rt::IntoLean<String>, i: impl rt::IntoLean<rt::Nat>) -> rt::Local<Option<u64>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(s);
+            let __a1: Obj = rt::IntoLean::<rt::Nat>::into_obj(i);
+            let __r: Obj = l_Calculator_Wire_closedNumber(__a0, __a1);
+            rt::lean_dec(__a0); rt::Local::from_owned(__r)
+        }
+    }
+    #[doc = "`spelled` on handles. Lean: `Calculator.Wire.spelled : String → Option Calculator.Kernel.Command` (module `Calculator.Wire`)."]
+    pub fn spelled(s: impl rt::IntoLean<String>) -> rt::Local<Option<crate::generated::calculator_kernel::Command>> {
+        unsafe {
+            let __a0: Obj = rt::IntoLean::<String>::into_obj(s);
+            let __r: Obj = l_Calculator_Wire_spelled(__a0);
+            rt::lean_dec(__a0); rt::Local::from_owned(__r)
         }
     }
     #[doc = "`decode` on handles. Lean: `Calculator.Wire.decode : String → Except Calculator.Wire.Refusal Calculator.Kernel.Command` (module `Calculator.Wire`)."]

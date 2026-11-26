@@ -33,7 +33,9 @@ from leanfran.runtime import (  # noqa: F401
     lean_nat_shiftr,
     lean_nat_sub,
     lean_string_append,
+    lean_string_dec_eq,
     lean_string_get_byte_fast,
+    lean_string_memcmp,
     lean_string_mk,
     lean_string_of_usize,
     lean_string_utf8_byte_size,
@@ -1237,10 +1239,761 @@ def l_Leangage_Http_admit___closed__9():
     return c[0]
 
 def l_Calculator_Wire_decode(x_1):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_2 = l_Calculator_Wire_spelled(x_1)
+            __t = lean_obj_tag(x_2)
+            if __t == 0:
+                x_3 = l_Calculator_Wire_decodeText(x_1)
+                return x_3
+            elif __t == 1:
+                x_4 = x_2.objs[0]
+                x_11 = lean_is_shared(x_2)
+                __t = x_11
+                if __t == 0:
+                    x_6, x_7 = x_2, x_11
+                    __blk = 1
+                    continue
+                elif __t == 1:
+                    lean_inc(x_4)
+                    lean_dec(x_2)
+                    x_6, x_7 = 0, x_11
+                    __blk = 1
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            __t = x_7
+            if __t == 0:
+                x_9 = x_6
+                __blk = 2
+                continue
+            elif __t == 1:
+                x_10 = Ctor(1, [x_4])
+                x_9 = x_10
+                __blk = 2
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 2:
+            return x_9
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Calculator_Wire_spelled(x_1):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_90 = l_Calculator_Wire_spelled___closed__10()
+            x_91 = lean_string_utf8_byte_size(x_1)
+            x_92 = l_Calculator_Wire_spelled___closed__11()
+            x_93 = lean_nat_dec_le(x_92, x_91)
+            __t = x_93
+            if __t == 0:
+                __blk = 11
+                continue
+            elif __t == 1:
+                x_94 = 0
+                x_95 = lean_string_memcmp(x_1, x_90, x_94, x_94, x_92)
+                __t = x_95
+                if __t == 0:
+                    __blk = 11
+                    continue
+                elif __t == 1:
+                    x_96 = 32
+                    x_97 = l_Calculator_Wire_closedNumber(x_1, x_96)
+                    __t = lean_obj_tag(x_97)
+                    if __t == 0:
+                        x_98 = 0
+                        return x_98
+                    elif __t == 1:
+                        x_99 = x_97.objs[0]
+                        x_109 = lean_is_shared(x_97)
+                        __t = x_109
+                        if __t == 0:
+                            x_101, x_102 = x_97, x_109
+                            __blk = 14
+                            continue
+                        elif __t == 1:
+                            lean_inc(x_99)
+                            lean_dec(x_97)
+                            x_101, x_102 = 0, x_109
+                            __blk = 14
+                            continue
+                        else:
+                            lean_internal_panic_unreachable()
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_3 = l_Calculator_Wire_spelled___closed__0()
+            x_4 = lean_string_dec_eq(x_1, x_3)
+            __t = x_4
+            if __t == 0:
+                x_5 = 0
+                return x_5
+            elif __t == 1:
+                x_6 = l_Calculator_Wire_spelled___closed__1()
+                return x_6
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 2:
+            x_8 = l_Calculator_Wire_spelled___closed__2()
+            x_9 = lean_string_utf8_byte_size(x_1)
+            x_10 = l_Calculator_Wire_spelled___closed__3()
+            x_11 = lean_nat_dec_le(x_10, x_9)
+            __t = x_11
+            if __t == 0:
+                __blk = 1
+                continue
+            elif __t == 1:
+                x_12 = 0
+                x_13 = lean_string_memcmp(x_1, x_8, x_12, x_12, x_10)
+                __t = x_13
+                if __t == 0:
+                    __blk = 1
+                    continue
+                elif __t == 1:
+                    x_14 = 21
+                    x_15 = l_Calculator_Wire_closedNumber(x_1, x_14)
+                    __t = lean_obj_tag(x_15)
+                    if __t == 0:
+                        x_16 = 0
+                        return x_16
+                    elif __t == 1:
+                        x_17 = x_15.objs[0]
+                        x_26 = lean_is_shared(x_15)
+                        __t = x_26
+                        if __t == 0:
+                            x_19, x_20 = x_15, x_26
+                            __blk = 3
+                            continue
+                        elif __t == 1:
+                            lean_inc(x_17)
+                            lean_dec(x_15)
+                            x_19, x_20 = 0, x_26
+                            __blk = 3
+                            continue
+                        else:
+                            lean_internal_panic_unreachable()
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 3:
+            x_21 = Ctor(0, [])
+            x_22 = x_17
+            lean_dec(x_17)
+            x_21.sc[0] = x_22
+            __t = x_20
+            if __t == 0:
+                x_19.objs[0] = x_21
+                x_24 = x_19
+                __blk = 4
+                continue
+            elif __t == 1:
+                x_25 = Ctor(1, [x_21])
+                x_24 = x_25
+                __blk = 4
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 4:
+            return x_24
+        elif __blk == 5:
+            x_28 = l_Calculator_Wire_spelled___closed__4()
+            x_29 = lean_string_utf8_byte_size(x_1)
+            x_30 = l_Calculator_Wire_spelled___closed__5()
+            x_31 = lean_nat_dec_le(x_30, x_29)
+            __t = x_31
+            if __t == 0:
+                __blk = 2
+                continue
+            elif __t == 1:
+                x_32 = 0
+                x_33 = lean_string_memcmp(x_1, x_28, x_32, x_32, x_30)
+                __t = x_33
+                if __t == 0:
+                    __blk = 2
+                    continue
+                elif __t == 1:
+                    x_34 = 32
+                    x_35 = l_Calculator_Wire_closedNumber(x_1, x_34)
+                    __t = lean_obj_tag(x_35)
+                    if __t == 0:
+                        x_36 = 0
+                        return x_36
+                    elif __t == 1:
+                        x_37 = x_35.objs[0]
+                        x_47 = lean_is_shared(x_35)
+                        __t = x_47
+                        if __t == 0:
+                            x_39, x_40 = x_35, x_47
+                            __blk = 6
+                            continue
+                        elif __t == 1:
+                            lean_inc(x_37)
+                            lean_dec(x_35)
+                            x_39, x_40 = 0, x_47
+                            __blk = 6
+                            continue
+                        else:
+                            lean_internal_panic_unreachable()
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 6:
+            x_41 = 3
+            x_42 = Ctor(1, [])
+            x_42.sc[8] = x_41
+            x_43 = x_37
+            lean_dec(x_37)
+            x_42.sc[0] = x_43
+            __t = x_40
+            if __t == 0:
+                x_39.objs[0] = x_42
+                x_45 = x_39
+                __blk = 7
+                continue
+            elif __t == 1:
+                x_46 = Ctor(1, [x_42])
+                x_45 = x_46
+                __blk = 7
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 7:
+            return x_45
+        elif __blk == 8:
+            x_49 = l_Calculator_Wire_spelled___closed__6()
+            x_50 = lean_string_utf8_byte_size(x_1)
+            x_51 = l_Calculator_Wire_spelled___closed__7()
+            x_52 = lean_nat_dec_le(x_51, x_50)
+            __t = x_52
+            if __t == 0:
+                __blk = 5
+                continue
+            elif __t == 1:
+                x_53 = 0
+                x_54 = lean_string_memcmp(x_1, x_49, x_53, x_53, x_51)
+                __t = x_54
+                if __t == 0:
+                    __blk = 5
+                    continue
+                elif __t == 1:
+                    x_55 = 32
+                    x_56 = l_Calculator_Wire_closedNumber(x_1, x_55)
+                    __t = lean_obj_tag(x_56)
+                    if __t == 0:
+                        x_57 = 0
+                        return x_57
+                    elif __t == 1:
+                        x_58 = x_56.objs[0]
+                        x_68 = lean_is_shared(x_56)
+                        __t = x_68
+                        if __t == 0:
+                            x_60, x_61 = x_56, x_68
+                            __blk = 9
+                            continue
+                        elif __t == 1:
+                            lean_inc(x_58)
+                            lean_dec(x_56)
+                            x_60, x_61 = 0, x_68
+                            __blk = 9
+                            continue
+                        else:
+                            lean_internal_panic_unreachable()
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 9:
+            x_62 = 2
+            x_63 = Ctor(1, [])
+            x_63.sc[8] = x_62
+            x_64 = x_58
+            lean_dec(x_58)
+            x_63.sc[0] = x_64
+            __t = x_61
+            if __t == 0:
+                x_60.objs[0] = x_63
+                x_66 = x_60
+                __blk = 10
+                continue
+            elif __t == 1:
+                x_67 = Ctor(1, [x_63])
+                x_66 = x_67
+                __blk = 10
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 10:
+            return x_66
+        elif __blk == 11:
+            x_70 = l_Calculator_Wire_spelled___closed__8()
+            x_71 = lean_string_utf8_byte_size(x_1)
+            x_72 = l_Calculator_Wire_spelled___closed__9()
+            x_73 = lean_nat_dec_le(x_72, x_71)
+            __t = x_73
+            if __t == 0:
+                __blk = 8
+                continue
+            elif __t == 1:
+                x_74 = 0
+                x_75 = lean_string_memcmp(x_1, x_70, x_74, x_74, x_72)
+                __t = x_75
+                if __t == 0:
+                    __blk = 8
+                    continue
+                elif __t == 1:
+                    x_76 = 32
+                    x_77 = l_Calculator_Wire_closedNumber(x_1, x_76)
+                    __t = lean_obj_tag(x_77)
+                    if __t == 0:
+                        x_78 = 0
+                        return x_78
+                    elif __t == 1:
+                        x_79 = x_77.objs[0]
+                        x_89 = lean_is_shared(x_77)
+                        __t = x_89
+                        if __t == 0:
+                            x_81, x_82 = x_77, x_89
+                            __blk = 12
+                            continue
+                        elif __t == 1:
+                            lean_inc(x_79)
+                            lean_dec(x_77)
+                            x_81, x_82 = 0, x_89
+                            __blk = 12
+                            continue
+                        else:
+                            lean_internal_panic_unreachable()
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 12:
+            x_83 = 1
+            x_84 = Ctor(1, [])
+            x_84.sc[8] = x_83
+            x_85 = x_79
+            lean_dec(x_79)
+            x_84.sc[0] = x_85
+            __t = x_82
+            if __t == 0:
+                x_81.objs[0] = x_84
+                x_87 = x_81
+                __blk = 13
+                continue
+            elif __t == 1:
+                x_88 = Ctor(1, [x_84])
+                x_87 = x_88
+                __blk = 13
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 13:
+            return x_87
+        elif __blk == 14:
+            x_103 = 0
+            x_104 = Ctor(1, [])
+            x_104.sc[8] = x_103
+            x_105 = x_99
+            lean_dec(x_99)
+            x_104.sc[0] = x_105
+            __t = x_102
+            if __t == 0:
+                x_101.objs[0] = x_104
+                x_107 = x_101
+                __blk = 15
+                continue
+            elif __t == 1:
+                x_108 = Ctor(1, [x_104])
+                x_107 = x_108
+                __blk = 15
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 15:
+            return x_107
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Calculator_Wire_spelled___closed__0__init():
+    x_1 = b"{\"cmd\":\"get\"}"
+    return x_1
+l_Calculator_Wire_spelled___closed__0__cell = []
+def l_Calculator_Wire_spelled___closed__0():
+    c = l_Calculator_Wire_spelled___closed__0__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_spelled___closed__0__init()))
+    return c[0]
+
+def l_Calculator_Wire_spelled___closed__1__init():
+    x_1 = 2
+    x_2 = Ctor(1, [x_1])
+    return x_2
+l_Calculator_Wire_spelled___closed__1__cell = []
+def l_Calculator_Wire_spelled___closed__1():
+    c = l_Calculator_Wire_spelled___closed__1__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_spelled___closed__1__init()))
+    return c[0]
+
+def l_Calculator_Wire_spelled___closed__2__init():
+    x_1 = b"{\"cmd\":\"set\",\"value\":"
+    return x_1
+l_Calculator_Wire_spelled___closed__2__cell = []
+def l_Calculator_Wire_spelled___closed__2():
+    c = l_Calculator_Wire_spelled___closed__2__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_spelled___closed__2__init()))
+    return c[0]
+
+def l_Calculator_Wire_spelled___closed__3__init():
+    x_1 = l_Calculator_Wire_spelled___closed__2()
+    x_2 = lean_string_utf8_byte_size(x_1)
+    return x_2
+l_Calculator_Wire_spelled___closed__3__cell = []
+def l_Calculator_Wire_spelled___closed__3():
+    c = l_Calculator_Wire_spelled___closed__3__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_spelled___closed__3__init()))
+    return c[0]
+
+def l_Calculator_Wire_closedNumber(x_1, x_2):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_3 = lean_string_utf8_byte_size(x_1)
+            x_4 = 1
+            x_5 = lean_nat_sub(x_3, x_4)
+            x_12 = lean_nat_dec_lt(x_5, x_3)
+            __t = x_12
+            if __t == 0:
+                x_13 = 0
+                x_7 = x_13
+                __blk = 1
+                continue
+            elif __t == 1:
+                lean_inc(x_5)
+                x_14 = lean_string_get_byte_fast(x_1, x_5)
+                x_7 = x_14
+                __blk = 1
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_8 = 125
+            x_9 = lean_uint8_dec_eq(x_7, x_8)
+            __t = x_9
+            if __t == 0:
+                lean_dec(x_5)
+                lean_dec(x_2)
+                x_10 = 0
+                return x_10
+            elif __t == 1:
+                x_11 = l_Leangage_Token_numberAt(x_1, x_2, x_5)
+                return x_11
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leangage_Token_numberAt(x_1, x_2, x_3):
+    x_4 = lean_nat_sub(x_3, x_2)
+    x_5 = 20
+    x_6 = lean_nat_dec_le(x_4, x_5)
+    lean_dec(x_4)
+    __t = x_6
+    if __t == 0:
+        lean_dec(x_3)
+        lean_dec(x_2)
+        x_7 = 0
+        return x_7
+    elif __t == 1:
+        x_8 = 0
+        lean_inc(x_2)
+        x_9 = l_Leangage_Token_digitsFrom(x_1, x_2, x_3, x_8)
+        x_10 = lean_uint64_of_nat(x_9)
+        lean_dec(x_9)
+        x_11 = lean_uint64_to_nat(x_10)
+        x_12 = l_Leangage_Token_isDecimal(x_11, x_1, x_2, x_3)
+        __t = x_12
+        if __t == 0:
+            x_13 = 0
+            return x_13
+        elif __t == 1:
+            x_14 = x_10
+            x_15 = Ctor(1, [x_14])
+            return x_15
+        else:
+            lean_internal_panic_unreachable()
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Leangage_Token_digitsFrom(x_1, x_2, x_3, x_4):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_5 = lean_nat_dec_lt(x_2, x_3)
+            __t = x_5
+            if __t == 0:
+                lean_dec(x_2)
+                return x_4
+            elif __t == 1:
+                x_6 = lean_string_utf8_byte_size(x_1)
+                x_7 = lean_nat_dec_lt(x_2, x_6)
+                __t = x_7
+                if __t == 0:
+                    lean_dec(x_2)
+                    return x_4
+                elif __t == 1:
+                    x_8 = 1
+                    x_9 = lean_nat_add(x_2, x_8)
+                    x_10 = 10
+                    x_11 = lean_nat_mul(x_4, x_10)
+                    lean_dec(x_4)
+                    __t = x_7
+                    if __t == 0:
+                        lean_dec(x_2)
+                        x_19 = 0
+                        x_13 = x_19
+                        __blk = 1
+                        continue
+                    elif __t == 1:
+                        x_20 = lean_string_get_byte_fast(x_1, x_2)
+                        x_13 = x_20
+                        __blk = 1
+                        continue
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_14 = lean_uint8_to_nat(x_13)
+            x_15 = 48
+            x_16 = lean_nat_sub(x_14, x_15)
+            x_17 = lean_nat_add(x_11, x_16)
+            lean_dec(x_16)
+            lean_dec(x_11)
+            x_1, x_2, x_3, x_4 = x_1, x_9, x_3, x_17
+            __blk = 0
+            continue
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leangage_Token_isDecimal(x_1, x_2, x_3, x_4):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_11 = lean_nat_dec_le(x_4, x_3)
+            __t = x_11
+            if __t == 0:
+                x_12 = 10
+                x_13 = lean_nat_dec_lt(x_1, x_12)
+                __t = x_13
+                if __t == 0:
+                    x_25 = 1
+                    x_26 = lean_nat_sub(x_4, x_25)
+                    x_27 = lean_string_utf8_byte_size(x_2)
+                    x_28 = lean_nat_dec_lt(x_26, x_27)
+                    __t = x_28
+                    if __t == 0:
+                        lean_dec(x_26)
+                        x_29 = 0
+                        x_15 = x_29
+                        __blk = 2
+                        continue
+                    elif __t == 1:
+                        x_30 = lean_string_get_byte_fast(x_2, x_26)
+                        x_15 = x_30
+                        __blk = 2
+                        continue
+                    else:
+                        lean_internal_panic_unreachable()
+                elif __t == 1:
+                    x_31 = 1
+                    x_32 = lean_nat_add(x_3, x_31)
+                    x_33 = lean_nat_dec_eq(x_4, x_32)
+                    lean_dec(x_32)
+                    lean_dec(x_4)
+                    __t = x_33
+                    if __t == 0:
+                        lean_dec(x_3)
+                        lean_dec(x_1)
+                        return x_11
+                    elif __t == 1:
+                        x_34 = lean_string_utf8_byte_size(x_2)
+                        x_35 = lean_nat_dec_lt(x_3, x_34)
+                        __t = x_35
+                        if __t == 0:
+                            lean_dec(x_3)
+                            x_36 = 0
+                            x_6 = x_36
+                            __blk = 1
+                            continue
+                        elif __t == 1:
+                            x_37 = lean_string_get_byte_fast(x_2, x_3)
+                            x_6 = x_37
+                            __blk = 1
+                            continue
+                        else:
+                            lean_internal_panic_unreachable()
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 1:
+                lean_dec(x_4)
+                lean_dec(x_3)
+                lean_dec(x_1)
+                x_38 = 0
+                return x_38
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_7 = 48
+            x_8 = lean_nat_add(x_1, x_7)
+            lean_dec(x_1)
+            x_9 = lean_uint8_of_nat(x_8)
+            lean_dec(x_8)
+            x_10 = lean_uint8_dec_eq(x_6, x_9)
+            return x_10
+        elif __blk == 2:
+            x_16 = lean_nat_mod(x_1, x_12)
+            x_17 = 48
+            x_18 = lean_nat_add(x_16, x_17)
+            lean_dec(x_16)
+            x_19 = lean_uint8_of_nat(x_18)
+            lean_dec(x_18)
+            x_20 = lean_uint8_dec_eq(x_15, x_19)
+            __t = x_20
+            if __t == 0:
+                lean_dec(x_4)
+                lean_dec(x_3)
+                lean_dec(x_1)
+                return x_13
+            elif __t == 1:
+                x_21 = lean_nat_div(x_1, x_12)
+                lean_dec(x_1)
+                x_22 = 1
+                x_23 = lean_nat_sub(x_4, x_22)
+                lean_dec(x_4)
+                x_1, x_2, x_3, x_4 = x_21, x_2, x_3, x_23
+                __blk = 0
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Calculator_Wire_spelled___closed__4__init():
+    x_1 = b"{\"cmd\":\"apply\",\"op\":\"div\",\"arg\":"
+    return x_1
+l_Calculator_Wire_spelled___closed__4__cell = []
+def l_Calculator_Wire_spelled___closed__4():
+    c = l_Calculator_Wire_spelled___closed__4__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_spelled___closed__4__init()))
+    return c[0]
+
+def l_Calculator_Wire_spelled___closed__5__init():
+    x_1 = l_Calculator_Wire_spelled___closed__4()
+    x_2 = lean_string_utf8_byte_size(x_1)
+    return x_2
+l_Calculator_Wire_spelled___closed__5__cell = []
+def l_Calculator_Wire_spelled___closed__5():
+    c = l_Calculator_Wire_spelled___closed__5__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_spelled___closed__5__init()))
+    return c[0]
+
+def l_Calculator_Wire_spelled___closed__6__init():
+    x_1 = b"{\"cmd\":\"apply\",\"op\":\"mul\",\"arg\":"
+    return x_1
+l_Calculator_Wire_spelled___closed__6__cell = []
+def l_Calculator_Wire_spelled___closed__6():
+    c = l_Calculator_Wire_spelled___closed__6__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_spelled___closed__6__init()))
+    return c[0]
+
+def l_Calculator_Wire_spelled___closed__7__init():
+    x_1 = l_Calculator_Wire_spelled___closed__6()
+    x_2 = lean_string_utf8_byte_size(x_1)
+    return x_2
+l_Calculator_Wire_spelled___closed__7__cell = []
+def l_Calculator_Wire_spelled___closed__7():
+    c = l_Calculator_Wire_spelled___closed__7__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_spelled___closed__7__init()))
+    return c[0]
+
+def l_Calculator_Wire_spelled___closed__8__init():
+    x_1 = b"{\"cmd\":\"apply\",\"op\":\"sub\",\"arg\":"
+    return x_1
+l_Calculator_Wire_spelled___closed__8__cell = []
+def l_Calculator_Wire_spelled___closed__8():
+    c = l_Calculator_Wire_spelled___closed__8__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_spelled___closed__8__init()))
+    return c[0]
+
+def l_Calculator_Wire_spelled___closed__9__init():
+    x_1 = l_Calculator_Wire_spelled___closed__8()
+    x_2 = lean_string_utf8_byte_size(x_1)
+    return x_2
+l_Calculator_Wire_spelled___closed__9__cell = []
+def l_Calculator_Wire_spelled___closed__9():
+    c = l_Calculator_Wire_spelled___closed__9__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_spelled___closed__9__init()))
+    return c[0]
+
+def l_Calculator_Wire_spelled___closed__10__init():
+    x_1 = b"{\"cmd\":\"apply\",\"op\":\"add\",\"arg\":"
+    return x_1
+l_Calculator_Wire_spelled___closed__10__cell = []
+def l_Calculator_Wire_spelled___closed__10():
+    c = l_Calculator_Wire_spelled___closed__10__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_spelled___closed__10__init()))
+    return c[0]
+
+def l_Calculator_Wire_spelled___closed__11__init():
+    x_1 = l_Calculator_Wire_spelled___closed__10()
+    x_2 = lean_string_utf8_byte_size(x_1)
+    return x_2
+l_Calculator_Wire_spelled___closed__11__cell = []
+def l_Calculator_Wire_spelled___closed__11():
+    c = l_Calculator_Wire_spelled___closed__11__cell
+    if not c:
+        c.append(lean_mark_persistent(l_Calculator_Wire_spelled___closed__11__init()))
+    return c[0]
+
+def l_Calculator_Wire_decodeText(x_1):
     x_2 = l_Leangage_Json_Read_readString(x_1)
     __t = lean_obj_tag(x_2)
     if __t == 0:
-        x_3 = l_Calculator_Wire_decode___closed__0()
+        x_3 = l_Calculator_Wire_decodeText___closed__0()
         return x_3
     elif __t == 1:
         x_4 = x_2.objs[0]
@@ -6212,16 +6965,16 @@ def l_List_reverseAux___redArg(x_1, x_2):
         else:
             lean_internal_panic_unreachable()
 
-def l_Calculator_Wire_decode___closed__0__init():
+def l_Calculator_Wire_decodeText___closed__0__init():
     x_1 = 0
     x_2 = x_1
     x_3 = Ctor(0, [x_2])
     return x_3
-l_Calculator_Wire_decode___closed__0__cell = []
-def l_Calculator_Wire_decode___closed__0():
-    c = l_Calculator_Wire_decode___closed__0__cell
+l_Calculator_Wire_decodeText___closed__0__cell = []
+def l_Calculator_Wire_decodeText___closed__0():
+    c = l_Calculator_Wire_decodeText___closed__0__cell
     if not c:
-        c.append(lean_mark_persistent(l_Calculator_Wire_decode___closed__0__init()))
+        c.append(lean_mark_persistent(l_Calculator_Wire_decodeText___closed__0__init()))
     return c[0]
 
 def l_Calculator_Wire_decodeItems(x_1):
@@ -8221,6 +8974,12 @@ _D34 = _m.NamedD(globals(), "_ext2.Item")
 _D35 = _m.LeanType(_D34, "_ext2.Item")
 _D36 = _m.BOOL
 _D37 = _m.LeanType(_D36, "bool")
+_D38 = _m.NAT
+_D39 = _m.LeanType(_D38, "Nat")
+_D40 = _m.OptionD(_m.UIntD(64))
+_D41 = _m.LeanType(_D40, "UInt64 | None")
+_D42 = _m.OptionD(_m.NamedD(globals(), "_ext0.Command"))
+_D43 = _m.LeanType(_D42, "_ext0.Command | None")
 
 
 def _pub_opFingerprint(arg0: "_ext0.Op") -> "list[UInt8]":
@@ -8368,6 +9127,29 @@ def _pub_members__local(acc: "list[tuple[list[UInt8], _ext2.Item]] | Lean[list[t
 
 
 _m.attach(globals(), ["members"], _pub_members, "Calculator.Wire.members", _pub_members__lean, {"acc": _D13, "arg1": _D21}, _D23, _pub_members__local)
+def _pub_decodeText(body: "str") -> "Ok[_ext0.Command] | Err[Refusal]":
+    "Lean `Calculator.Wire.decodeText`."
+    __a0 = _m.to_lean(_D18, body, "body")
+    return _m.to_py(_D14, l_Calculator_Wire_decodeText(__a0))
+
+
+def _pub_decodeText__lean(body: "str | Lean[str]") -> "Lean[Ok[_ext0.Command] | Err[Refusal]]":
+    "Lean `Calculator.Wire.decodeText`, on handles."
+    __a0 = _m.lean_arg(_D19, body, "body")
+    _m.give(body)
+    return _m.handle(_D15, l_Calculator_Wire_decodeText(__a0))
+
+
+def _pub_decodeText__local(body: "str | Lean[str] | Local[str]") -> "Local[Ok[_ext0.Command] | Err[Refusal]]":
+    "Lean `Calculator.Wire.decodeText`, on local handles."
+    __a0 = _m.local_arg(_D19, body, "body", False)
+    _m.give(body)
+    __r = l_Calculator_Wire_decodeText(__a0)
+    _m.local_done(body, __a0)
+    return _m.local_handle(_D15, __r)
+
+
+_m.attach(globals(), ["decodeText"], _pub_decodeText, "Calculator.Wire.decodeText", _pub_decodeText__lean, {"body": _D19}, _D15, _pub_decodeText__local)
 def _pub_scope(actor: "_ext0.Principal") -> "str":
     "Lean `Calculator.Wire.scope`."
     __a0 = _m.to_lean(_D24, actor, "actor")
@@ -8458,6 +9240,55 @@ def _pub_scalar__local(arg0: "_ext2.Item | Lean[_ext2.Item] | Local[_ext2.Item]"
 
 
 _m.attach(globals(), ["scalar"], _pub_scalar, "Calculator.Wire.scalar", _pub_scalar__lean, {"arg0": _D35}, _D37, _pub_scalar__local)
+def _pub_closedNumber(s: "str", i: "Nat") -> "UInt64 | None":
+    "Lean `Calculator.Wire.closedNumber`."
+    __a0 = _m.to_lean(_D18, s, "s")
+    __a1 = _m.to_lean(_D38, i, "i")
+    return _m.to_py(_D40, l_Calculator_Wire_closedNumber(__a0, __a1))
+
+
+def _pub_closedNumber__lean(s: "str | Lean[str]", i: "Nat | Lean[Nat]") -> "Lean[UInt64 | None]":
+    "Lean `Calculator.Wire.closedNumber`, on handles."
+    __a0 = _m.lean_arg(_D19, s, "s")
+    __a1 = _m.lean_arg(_D39, i, "i")
+    _m.give(s, i)
+    return _m.handle(_D41, l_Calculator_Wire_closedNumber(__a0, __a1))
+
+
+def _pub_closedNumber__local(s: "str | Lean[str] | Local[str]", i: "Nat | Lean[Nat] | Local[Nat]") -> "Local[UInt64 | None]":
+    "Lean `Calculator.Wire.closedNumber`, on local handles."
+    __a0 = _m.local_arg(_D19, s, "s", False)
+    __a1 = _m.local_arg(_D39, i, "i", True)
+    _m.give(s, i)
+    __r = l_Calculator_Wire_closedNumber(__a0, __a1)
+    _m.local_done(s, __a0)
+    return _m.local_handle(_D41, __r)
+
+
+_m.attach(globals(), ["closedNumber"], _pub_closedNumber, "Calculator.Wire.closedNumber", _pub_closedNumber__lean, {"s": _D19, "i": _D39}, _D41, _pub_closedNumber__local)
+def _pub_spelled(s: "str") -> "_ext0.Command | None":
+    "Lean `Calculator.Wire.spelled`."
+    __a0 = _m.to_lean(_D18, s, "s")
+    return _m.to_py(_D42, l_Calculator_Wire_spelled(__a0))
+
+
+def _pub_spelled__lean(s: "str | Lean[str]") -> "Lean[_ext0.Command | None]":
+    "Lean `Calculator.Wire.spelled`, on handles."
+    __a0 = _m.lean_arg(_D19, s, "s")
+    _m.give(s)
+    return _m.handle(_D43, l_Calculator_Wire_spelled(__a0))
+
+
+def _pub_spelled__local(s: "str | Lean[str] | Local[str]") -> "Local[_ext0.Command | None]":
+    "Lean `Calculator.Wire.spelled`, on local handles."
+    __a0 = _m.local_arg(_D19, s, "s", False)
+    _m.give(s)
+    __r = l_Calculator_Wire_spelled(__a0)
+    _m.local_done(s, __a0)
+    return _m.local_handle(_D43, __r)
+
+
+_m.attach(globals(), ["spelled"], _pub_spelled, "Calculator.Wire.spelled", _pub_spelled__lean, {"s": _D19}, _D43, _pub_spelled__local)
 def _pub_decode(body: "str") -> "Ok[_ext0.Command] | Err[Refusal]":
     "Lean `Calculator.Wire.decode`."
     __a0 = _m.to_lean(_D18, body, "body")
