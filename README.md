@@ -295,8 +295,24 @@ principal, snapshot and command:
 | `bad_text` | a body is refused exactly when it is empty, longer than 4096 bytes in UTF-8, or holds NUL |
 | `not_found` | removing a member or deleting a note that isn't stored is refused with `notFound` |
 
-The Rust server ([`rust/notes`](rust/notes)) answers a denied command with 403, a missing note
-with 404 and a bad body with 422. It keeps the snapshots in its memory, or in PostgreSQL when
+[`lean/Notes/Wire.lean`](lean/Notes/Wire.lean) is what the notes server does with a request, in
+the form of `Calculator.Wire`: `request` reads the body into a command, `respond` gives the
+status and the body of the answer, `fingerprint` and `scope` name a command and a user under an
+idempotency key, and `encodeReply` and `decodeReply` write and read the reply an engine stores
+under such a key. [`lean/Notes/Wire/Proofs.lean`](lean/Notes/Wire/Proofs.lean) proves:
+
+| Theorem | Statement |
+|---|---|
+| `decode_encode` | every command has a JSON spelling (`{"cmd":"add_member","user":2,"admin":false}`, `{"cmd":"remove_member","user":2}`, `{"cmd":"put_note","id":7,"body":"text","shared":true}`, `{"cmd":"delete_note","id":7}`, `{"cmd":"read_note","id":7}`, `{"cmd":"list_notes"}`, `{"cmd":"list_members"}`) that decodes to it |
+| `decode_ok_iff` | a body decodes to a command exactly when it is an object whose members are the fields of that command in some order; an object with another member or with a member twice is refused |
+| `decode_notJson_iff`, `decodeMembers_missingCmd_iff`, `decodeMembers_notCommand_iff` | which refusal each other body gets: `body is not JSON`, ``missing field `cmd` `` or `not a notes command` |
+| `request_expired`, `request_text`, `request_not_text` | the status and the message of each answer `request` gives by itself (401, 400, 413) |
+| `respond_ok`, `respond_error` | an accepted command is answered 200 with the JSON value of its reply; the guard's refusal is answered 403 `{"error":"denied"}`, `notFound` 404 `{"error":"not_found"}` and `badText` 422 `{"error":"bad_text"}` |
+| `decodeReply_encodeReply` | the bytes `encodeReply` writes for a reply are read back as that reply |
+| `fingerprint_injective`, `scope_injective` | different commands have different fingerprints, and 2 principals have the same scope exactly when they have the same user |
+
+The Rust server ([`rust/notes`](rust/notes)) passes each request to those functions, as the
+calculator's servers do with theirs. It keeps the snapshots in its memory, or in PostgreSQL when
 `LEANGAGE_DATABASE_URL` is set, as the calculator does:
 
 ```console
@@ -318,9 +334,10 @@ $ curl -s -H "Authorization: Bearer $B" -d '{"cmd":"read_note","id":7}' 127.0.0.
 {"note":{"body":"for everyone","id":7,"owner":1,"shared":true}}
 ```
 
-The same modules are generated to Python ([`python/src/leangage_notes`](python/src/leangage_notes))
-and Go ([`go/notes`](go/notes)). The kernel runs behind their memory engines in the differential
-tests; neither has a notes server.
+The kernel and the tables are generated to Python
+([`python/src/leangage_notes`](python/src/leangage_notes)) and Go ([`go/notes`](go/notes)) too.
+The kernel runs behind their memory engines in the differential tests; neither has a notes
+server, and `Notes.Wire` is generated to Rust only.
 
 ## What is proved, and what is trusted
 
@@ -535,6 +552,40 @@ Proved in Lean, about the definitions that are generated and run:
     `Set { value: 6 }`, `Apply { op: Mul, arg: 7 }` or `Get`, and different commands have
     different fingerprints;
   - `scope_injective`: 2 principals have the same scope exactly when they have the same user.
+- for the notes' functions on the wire `Notes.Wire` (`request`, `respond`, `fingerprint`,
+  `scope`, `encodeReply`, `decodeReply`), which the Rust notes server calls for every request:
+  - `decode_encode`, `request_encode`: a body whose bytes are `Value.print` of
+    `encodeCommand c`, sent with a token that has not expired, gives the engine the command `c`
+    for the principal of the token's organization and user (`request_actor`);
+  - `decode_ok_iff`, `decodeItems_ok_iff`, `decodeMembers_ok_iff`: a body is decoded to `c`
+    exactly when it reads as the items of an object with as many members as `c` has fields and
+    with each field among them, so the members may come in any order, and an object with another
+    member, with a member twice or with a member whose value is an array or an object is
+    refused. The body of `put_note` is the text whose UTF-8 is the bytes of the string read
+    (`textOf_bytesOf`, `textOf_some`);
+  - `decode_notJson_iff`, `decodeMembers_missingCmd_iff`, `decodeMembers_notCommand_iff`,
+    `refusalMessage_spec`: the refusal `body is not JSON` is that of the bodies `readString`
+    refuses, ``missing field `cmd` `` that of the objects without that member, and
+    `not a notes command` that of the objects with a member `cmd` whose members are the fields
+    of no command;
+  - `request_expired`, `request_text`, `request_not_text`, `request_refusal`: an expired token
+    is answered 401 whatever the body; otherwise a body of text is answered with the command it
+    decodes to or 400 with the message of its refusal; every answer of `request` has the status
+    400, 401 or 413 and a body `{"error": message}`;
+  - `respond_ok`, `encodeReply_spec`, `respond_error`: an accepted command is answered 200 with
+    `Value.print` of `replyValue` (`{"done":true}`, `{"note":…}`, `{"notes":[…]}`,
+    `{"members":[…]}`, the members of a note and of a member in the order of their keys), the
+    guard's refusal 403, `notFound` 404 and `badText` 422, each with `Value.print` of
+    `{"error": name}`;
+  - `decodeReply_encodeReply`: a text whose bytes are those `encodeReply` writes for a reply is
+    read back by `decodeReply` as that reply, so a request repeated under an idempotency key
+    gets the reply the engine stored;
+  - `fingerprint_spec`, `fingerprint_injective`: the fingerprint of a command is the text
+    `AddMember { user: 2, admin: false }`, `RemoveMember { user: 2 }`,
+    `PutNote { id: 7, body: "text", shared: true }` with the body escaped as in a JSON string,
+    `DeleteNote { id: 7 }`, `ReadNote { id: 7 }`, `ListNotes` or `ListMembers`, and different
+    commands have different fingerprints;
+  - `scope_injective`: 2 principals have the same scope exactly when they have the same user.
 
 Checked by `make check`, not proved:
 
@@ -569,7 +620,10 @@ Checked by `make check`, not proved:
   8 functions that make the calculator's bodies (111 ways, all rejected), the 4 functions of
   `Leangage.Http` that it can break (95 ways: 89 rejected, 6 don't compile; `refuse` is one
   constructor applied to its arguments, and it makes no broken version of it), the 12 functions
-  of `Calculator.Wire` (426 ways: 403 rejected, 1 behaves the same, 22 don't compile), the 6
+  of `Calculator.Wire` (426 ways: 403 rejected, 1 behaves the same, 22 don't compile), 20
+  functions of `Notes.Wire` (868 ways: 791 rejected, 7 behave the same, 70 don't compile;
+  `decodeReply`, which gives the items `readString` reads to `decodeReplyItems`, is not among
+  them), the 6
   functions of the calculator's table (25 ways: 20 rejected, 5 don't compile) and the 8 functions of the notes'
   tables (46 ways: 30 rejected, 16 don't compile). For the guard, it breaks `guard`, `guardViewed` and the 4 checks in 28 ways and runs `guard_eq`,
   `guard_viewed_eq` and the lemmas about the checks on random kernels and policies: 22 are
@@ -617,6 +671,14 @@ Checked by `make check`, not proved:
   expired tokens; 298 responses, failures, fingerprints and scopes) give the same items, claims,
   commands, statuses and bytes in the generated Rust, Python and Go as in the functions compiled
   natively by Lean, and the 989 texts to read that are UTF-8 give the same through `readString`.
+  3,000 notes request lines (1,766 requests, 681 of them accepted and 1,085 answered 400, 401 or
+  413: the members of a command in any order, a member missing, added, repeated or renamed,
+  values of other kinds, bodies with every escape, expired tokens; 508 responses; 384
+  fingerprints; 122 scopes; 220 stored replies, of which `decodeReply` reads 155) give the same
+  commands, statuses and bytes in the generated Rust as in the functions compiled natively by
+  Lean (`rust/notes/tests/request_differential.rs`). There, the body of each of the 385 accepted
+  replies is what serde_json writes for the same value and is read back by `decode_reply`, and
+  the fingerprint of each of the 266 commands without a body is the `Debug` form of the command.
   The Go and the Python table functions of the notes are generated and compiled, a
   Python test imports them and runs their `load` on a few rows, and no differential test runs
   them.
@@ -625,10 +687,11 @@ Checked by `make check`, not proved:
   `read` exactly when serde_json accepts them in the Rust test and `encoding/json` in the Go
   test, and the 930 of them with fewer than 200 `[` exactly when `json.loads` accepts them in the
   Python test.
-- **The request path calls the generated functions.** `tools/check-handlers.py` reads the 9
-  files of the calculator's request path, the handler and the token module of each server library
-  and the calculator's file that passes the calls on, and fails when one lacks the call of a
-  generated function (`authenticate`, `failed`, `request`, `respond`, `fingerprint`, `scope`) or
+- **The request path calls the generated functions.** `tools/check-handlers.py` reads the 10
+  files of the request path, the handler and the token module of each server library, the
+  calculator's file that passes the calls on in each language and the notes' one in Rust, and
+  fails when one lacks the call of a generated function (`authenticate`, `failed`, `request`,
+  `respond`, `fingerprint`, `scope`, and `encode_reply` and `decode_reply` for the notes) or
   holds a JSON library, a status code (a constant of the HTTP library or a number from 100 to
   599) or the JSON writer.
 - **The servers give the answers of the generated functions.** `rust/calculator/tests/http.rs`,
@@ -715,7 +778,8 @@ Checked by `make check`, not proved:
   the Python and the Go engines use TLS as the connection string's `sslmode` says (the default of
   libpq and of pgx is `prefer`).
 - **The Rust notes server answers the guard's refusals with 403.** `rust/notes/tests/http.rs`
-  sends denied writes, a read of a note the caller may not see (404) and a bad body (422).
+  sends denied writes, a read of a note the caller may not see (404), a bad body (422) and a
+  command with another member (400).
 - **The code that runs is generated from the proved source.** The build regenerates the 3
   targets and fails on a difference from the committed files.
 - **No extra axioms.** Every theorem depends only on `propext`, `Classical.choice` and
@@ -727,19 +791,17 @@ is written by hand, and every row holds for each of them:
 | | Trusted |
 |---|---|
 | Translation | leanfran's Rust, Python and Go backends and their runtimes, rustc, CPython, the Go compiler, Lean's kernel |
-| Engine | the memory engine: one command at a time per process, under one lock (Rust, Python), or per tenant, under the tenant's lock and in its `leanfran.Region` (Go); replies stored per idempotency key. The PostgreSQL engines: the 8 items of their contract, PostgreSQL's `SERIALIZABLE` (its commits equal a serial order) and its deferrable read-only snapshot, the conversion of values to parameters and of columns back to values, the stored form of replies (`Storage::encode_reply` and `decode_reply`, `Storage.encode_reply`: 8 bytes for the calculator, the JSON body read back with serde_json for the notes), and that the engine's role isn't a superuser and doesn't own the tables. In Rust, tokio-postgres and deadpool-postgres, and each value a parameter of the type PostgreSQL inferred. In Python, psycopg and the libpq it bundles, the engine's pool, each value a parameter of the type of its kind, and that the generated Python computes what Lean computes when several threads call it at once, as the PostgreSQL engine does and the memory engine, under its lock, doesn't. In Go, pgx and pgxpool, which take the `PG*` environment variables as the defaults of the connection string, each value a parameter of the type PostgreSQL inferred, and that the generated Go computes what Lean computes when several goroutines call it at once, as the PostgreSQL engine does for its requests and the memory engine for different tenants, each in a `leanfran.Region` of its own |
+| Engine | the memory engine: one command at a time per process, under one lock (Rust, Python), or per tenant, under the tenant's lock and in its `leanfran.Region` (Go); replies stored per idempotency key. The PostgreSQL engines: the 8 items of their contract, PostgreSQL's `SERIALIZABLE` (its commits equal a serial order) and its deferrable read-only snapshot, the conversion of values to parameters and of columns back to values, the stored form of the calculator's replies (`Storage::encode_reply` and `decode_reply`, `Storage.encode_reply`: 8 bytes), and for the notes the reading of the bytes of a stored reply as UTF-8 before `decodeReply` gets the text, and that the engine's role isn't a superuser and doesn't own the tables. In Rust, tokio-postgres and deadpool-postgres, and each value a parameter of the type PostgreSQL inferred. In Python, psycopg and the libpq it bundles, the engine's pool, each value a parameter of the type of its kind, and that the generated Python computes what Lean computes when several threads call it at once, as the PostgreSQL engine does and the memory engine, under its lock, doesn't. In Go, pgx and pgxpool, which take the `PG*` environment variables as the defaults of the connection string, each value a parameter of the type PostgreSQL inferred, and that the generated Go computes what Lean computes when several goroutines call it at once, as the PostgreSQL engine does for its requests and the memory engine for different tenants, each in a `leanfran.Region` of its own |
 | Authentication | HMAC-SHA256 and the constant-time comparison of tags, which each server computes over the payload `authenticate` returns; the secret and its storage; the system clock, whose time each server gives `request`; that a server answers a tag that does not match with `failed` of `badSignature`; the table of accepted headers (a header whose token was accepted once is recognised by its exact bytes and gets the claims read then, without a second reading; its expiry is checked by `request` on every request) |
-| Wire format | for the calculator: that each handler turns the outcome of its engine into the argument of `respond` and `failed` as the names say (`rust/leangage/src/http.rs`, `python/src/leangage/http.py`, `go/leangage/http.go`); for the notes: JSON decoding of commands (`Api` in `rust/leangage/src/serde_http.rs` and `rust/notes/src/lib.rs`, read with serde_json), the status of each refusal, the fingerprint of a command under an idempotency key (its `Debug` form), and the tokens it builds for its replies |
+| Wire format | that each handler turns the outcome of its engine into the argument of `respond` and `failed` as the names say (`rust/leangage/src/http.rs`, `python/src/leangage/http.py`, `go/leangage/http.go`) |
 | HTTP | axum, hyper and tokio (Rust); `http.server` (Python); `net/http` (Go); reading the `Authorization` and the `Idempotency-Key` header as text (a header with a byte outside visible ASCII counts as absent in Rust and Go); deciding whether the body is UTF-8, and in Go whether it is longer than 2 MiB or could not be read, before `request` gets it; in Rust, axum's own answer (413) to a body longer than 2 MiB, which no handler sees; in Python, that the server reads a body of any length; sending the status and the bytes a generated function returned, with `Content-Type: application/json` |
-| Call site | that a server runs the notes' `transition`. `handle`, the kernel without the guard, is generated and public too, and the guard's theorems say nothing about a caller of `handle`. For the calculator's request path, `tools/check-handlers.py` checks the calls |
+| Call site | that a server runs the notes' `transition`. `handle`, the kernel without the guard, is generated and public too, and the guard's theorems say nothing about a caller of `handle`. For the request path of the calculator and of the notes, `tools/check-handlers.py` checks the calls |
 | SQL | that PostgreSQL reads the text as `lexName_quote`'s lexer reads a quoted name; that PostgreSQL, sent `render q` with its parameters, fails or does to the tables what `run` says, and that a `SELECT` returns the rows `selected` says in some order (`ORDER BY` isn't modeled); that values compare as Lean values do (text character by character, bytes byte by byte); that the tables were made by `create` of the same schema, since `CREATE TABLE IF NOT EXISTS` keeps a table of that name as it is; that no text holds NUL, which the model stores and PostgreSQL refuses (for the notes, `accepted_no_nul` proves it of every body an accepted command writes) |
 | Storage | that the PostgreSQL engines do what `Storage.Stored` says: each creates `tables` in a database without them, runs each command on the snapshot `load` builds of the rows of the compiled `SELECT` of each table or on the snapshot it remembers, and runs the statements compiled from `writes` of the accepted write set for the principal's tenant (`Kernel.tenant`, as the `Int64` with the same bits). An engine runs a command on a snapshot it remembers only while the tenant's row of `leangage_version` holds the version the engine read when it remembered it, and `Stored.cached` takes the database then to be one that `Stored` relates to that snapshot: the version is the same only if no transaction wrote the tenant's rows since. That holds when every transaction that writes a tenant's rows advances the tenant's version in the same transaction, as the 3 engines do, the version only grows, and `SERIALIZABLE` lets no 2 transactions advance it from the same value. For a row that exists, PostgreSQL's documentation says that a transaction whose `UPDATE` finds the row updated by a concurrent transaction that committed is rolled back ([Repeatable Read](https://www.postgresql.org/docs/18/transaction-iso.html#XACT-REPEATABLE-READ), which `SERIALIZABLE` extends, failing with 40001: [Serializable](https://www.postgresql.org/docs/18/transaction-iso.html#XACT-SERIALIZABLE)); it says nothing of `INSERT … ON CONFLICT DO UPDATE` at these levels ([INSERT](https://www.postgresql.org/docs/18/sql-insert.html#SQL-ON-CONFLICT)), so that the upsert fails the same way, for a row that exists and for one a concurrent transaction inserted, rests on `version_rows_conflict`; a writer that doesn't advance it, such as an engine built before `leangage_version` or an edit of the rows by hand, and tables dropped and made again while an engine runs, leave a remembered snapshot standing for rows that are no longer there. The code that does it is `rust/leangage-pg/src/lib.rs`, `python/src/leangage/pg/__init__.py` and `go/leangage/pg/pg.go`, and the `Storage` of the calculator in Rust, in Python and in Go and of the notes in Rust, which delegate to the generated functions; the differential tests and the contract tests check it |
-| Specification | that `specStep` and the statements above say what a calculator and the notes should do; that the write list a kernel gives `ReadOnlySound` (`fun w => w.toList` for the calculator) holds every write of its write set; that `Valid`, `Accepts`, `sqlOf`, `renderSpec`, `exec`, `view`, `Sel` and `Lists` say what the SQL compiler should do; that `TenantIsolation`, `Storage`, `Loaded` and `Stored` say what storing a kernel should mean; that the calculator's `lookup` and `enc` and the notes' `enc` and `encTable` say which rows a snapshot stands for, and that `SameRows` says when 2 snapshots differ only in the order of their rows; that `v1.<tenant>.<user>.<expiry>.<hex>` with the signature over the bytes before the last dot is the token a client should send; that `Value.print` and `printToks` print JSON as RFC 8259 defines it, and `lexStr` reads a string as RFC 8259 does for the escapes `write` uses; that `replyValue` and `errorValue` are the bodies a client should read; that `encodeCommand` is the spelling of a command a client should send, and that the statuses and messages of `Leangage.Http` and `Calculator.Wire` are the ones a client should get; that the grammar `read` is written to accept is that of RFC 8259 |
+| Specification | that `specStep` and the statements above say what a calculator and the notes should do; that the write list a kernel gives `ReadOnlySound` (`fun w => w.toList` for the calculator) holds every write of its write set; that `Valid`, `Accepts`, `sqlOf`, `renderSpec`, `exec`, `view`, `Sel` and `Lists` say what the SQL compiler should do; that `TenantIsolation`, `Storage`, `Loaded` and `Stored` say what storing a kernel should mean; that the calculator's `lookup` and `enc` and the notes' `enc` and `encTable` say which rows a snapshot stands for, and that `SameRows` says when 2 snapshots differ only in the order of their rows; that `v1.<tenant>.<user>.<expiry>.<hex>` with the signature over the bytes before the last dot is the token a client should send; that `Value.print` and `printToks` print JSON as RFC 8259 defines it, and `lexStr` reads a string as RFC 8259 does for the escapes `write` uses; that `replyValue` and `errorValue` are the bodies a client should read; that `encodeCommand` is the spelling of a command a client should send, and that the statuses and messages of `Leangage.Http`, `Calculator.Wire` and `Notes.Wire` are the ones a client should get; that the grammar `read` is written to accept is that of RFC 8259 |
 | Policy | that `permits`, `visible`, `stored`, `view`, `disclosed` and `readOnly` of the notes say who should see and change what: the guard enforces them as written |
 
 The Python and Go notes kernels run only in the differential tests; only Rust has a notes server.
-Its handler calls the generated `authenticate`, `admit` and `failed`, and reads the body of a
-command with serde_json.
 The Rust, the Python and the Go calculator servers and the Rust notes server have a PostgreSQL
 engine; without `LEANGAGE_DATABASE_URL` a server keeps the state in its memory, where it is lost
 on restart.
@@ -900,13 +962,13 @@ retrying.
 
 | Path | Contents |
 |---|---|
-| [`lean/`](lean) | the Lake package: `Leangage` (the kernel contract, the obligations, the SQL compiler, a model of PostgreSQL, tenant isolation, the storage of a kernel, the token format, the JSON writer, the JSON reader, the functions on requests and responses, the authorization guard, and their proofs), `Calculator` (kernel, table, requests and responses, and proofs), `Notes` (kernel, policy, tables and proofs), `calculator-oracle`, `notes-oracle`, `sql-oracle`, `token-oracle`, `json-oracle` and `request-oracle` (the kernels, the SQL compiler, the token format, the JSON writer and the functions on requests as native programs) |
+| [`lean/`](lean) | the Lake package: `Leangage` (the kernel contract, the obligations, the SQL compiler, a model of PostgreSQL, tenant isolation, the storage of a kernel, the token format, the JSON writer, the JSON reader, the functions on requests and responses, the authorization guard, and their proofs), `Calculator` (kernel, table, requests and responses, and proofs), `Notes` (kernel, policy, tables, requests and responses, and proofs), `calculator-oracle`, `notes-oracle`, `sql-oracle`, `token-oracle`, `json-oracle`, `request-oracle` and `notes-request-oracle` (the kernels, the SQL compiler, the token format, the JSON writer and the functions on requests as native programs) |
 | [`audit/`](audit) | the leanassay audits, the axiom check and the obligation check, with the files that must fail it (`fail/`) |
 | [`tools/`](tools) | the generators of the test lists, the measurement scripts, and `check-handlers.py`, the check that the request path calls the generated functions |
-| [`rust/leangage`](rust/leangage) | the Rust server library: `Kernel`, `Storage`, `MemoryEngine`, tokens, `POST /rpc` (`http`, and `serde_http` for a kernel whose bodies are read with serde_json), the generated SQL compiler, token format, JSON writer, JSON reader and functions on requests and responses (`src/generated/`) |
+| [`rust/leangage`](rust/leangage) | the Rust server library: `Kernel`, `Storage`, `MemoryEngine`, tokens, `POST /rpc` (`http`), the generated SQL compiler, token format, JSON writer, JSON reader and functions on requests and responses (`src/generated/`) |
 | [`rust/leangage-pg`](rust/leangage-pg) | the PostgreSQL engine, `lockdown` (the owner and the engine's role), the contract tests and the test server (`testing`) |
 | [`rust/calculator`](rust/calculator) | the generated kernel, table and functions on the wire (`src/generated/`), the server, the benchmarks, the HTTP, differential and PostgreSQL tests |
-| [`rust/notes`](rust/notes) | the generated notes kernel and tables (`src/generated/`), the server, the HTTP, differential and PostgreSQL tests |
+| [`rust/notes`](rust/notes) | the generated notes kernel, tables and functions on the wire (`src/generated/`), the server, the HTTP, differential and PostgreSQL tests |
 | [`python/`](python) | the Python server library (`leangage`, with the generated `sql.py`, `token_format.py`, `json_format.py`, `json_read.py` and `http_format.py`, and `leangage.pg`: the PostgreSQL engine, `lockdown` and the test server `testing`), the calculator (`leangage_calculator`, with the generated `kernel.py`, `store.py` and `wire.py`), the notes (`leangage_notes`, with the generated `kernel.py` and `store.py`), and the tests (`test/`, among them the PostgreSQL engine's contract tests) |
 | [`go/leangage`](go/leangage) | the Go server library: `Kernel`, `Storage`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler (`sql/`), token format (`token/`), JSON writer (`jsonformat/`), JSON reader (`jsonread/`) and functions on requests and responses (`httpformat/`) |
 | [`go/leangage/pg`](go/leangage/pg) | the PostgreSQL engine, `Lockdown` (the owner and the engine's role), the contract tests and the test server (`pgtest/`) |
@@ -914,7 +976,7 @@ retrying.
 | [`go/notes`](go/notes) | the generated notes kernel (`kernel/`) and tables (`store/`), the differential test |
 | [`bench/`](bench) | servers without a kernel (axum, actix-web, `net/http`, gin, FastAPI, Flask, and axum with tokio-postgres) for the HTTP comparison |
 | [`docs/`](docs) | the measured runs (`speed.json`) and the charts drawn from them |
-| [`testdata/`](testdata) | the command lists (`tools/gen-commands.py`, `tools/gen-notes-commands.py`), the statement list (`tools/gen-statements.py`), the token list (`tools/gen-tokens.py`), the JSON token lists (`tools/gen-json.py`) and the request lines (`tools/gen-requests.py`) of the differential tests |
+| [`testdata/`](testdata) | the command lists (`tools/gen-commands.py`, `tools/gen-notes-commands.py`), the statement list (`tools/gen-statements.py`), the token list (`tools/gen-tokens.py`), the JSON token lists (`tools/gen-json.py`) and the request lines (`tools/gen-requests.py`, `tools/gen-notes-requests.py`) of the differential tests |
 
 ## Development
 
