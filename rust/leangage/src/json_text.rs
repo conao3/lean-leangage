@@ -6,7 +6,7 @@
 //! the kernels do. A number serde_json reads as a `u64` is handed over as its decimal digits, and
 //! every other number as a text with a sign or an exponent.
 
-use std::fmt::{self, Write};
+use std::fmt;
 
 use serde::de::{DeserializeSeed, Deserializer, Error, MapAccess, SeqAccess, Visitor};
 
@@ -19,11 +19,29 @@ struct Tokens {
     last: usize,
 }
 
+/// `out` followed by the decimal digits of `n`.
+fn decimal(out: &mut String, mut n: u64) {
+    let mut digits = [0u8; 20];
+    let mut start = digits.len();
+    loop {
+        start -= 1;
+        digits[start] = b'0' + (n % 10) as u8;
+        n /= 10;
+        if n == 0 {
+            break;
+        }
+    }
+    for digit in &digits[start..] {
+        out.push(char::from(*digit));
+    }
+}
+
 impl Tokens {
     fn text(&mut self, kind: char, text: &str) {
         self.kinds.push(kind);
         self.count = self.texts.len();
-        let _ = write!(self.texts, "{}:", text.chars().count());
+        decimal(&mut self.texts, text.chars().count() as u64);
+        self.texts.push(':');
         self.last = self.texts.len();
         self.texts.push_str(text);
     }
@@ -61,7 +79,9 @@ impl<'de> Visitor<'de> for Value<'_> {
     }
 
     fn visit_u64<E: Error>(self, n: u64) -> Result<(), E> {
-        self.0.text('#', &n.to_string());
+        let mut text = String::with_capacity(20);
+        decimal(&mut text, n);
+        self.0.text('#', &text);
         Ok(())
     }
 
@@ -121,8 +141,8 @@ impl<'de> Visitor<'de> for Key<'_> {
 /// The packed tokens of the JSON text the bytes are, or `None` for bytes serde_json refuses.
 pub fn tokens(bytes: &[u8]) -> Option<String> {
     let mut out = Tokens {
-        kinds: String::with_capacity(16),
-        texts: String::with_capacity(bytes.len() + 16),
+        kinds: String::with_capacity(2 * bytes.len() + 32),
+        texts: String::with_capacity(bytes.len() + 32),
         count: 0,
         last: 0,
     };
@@ -130,7 +150,6 @@ pub fn tokens(bytes: &[u8]) -> Option<String> {
     Value(&mut out).deserialize(&mut deserializer).ok()?;
     deserializer.end().ok()?;
     let mut packed = out.kinds;
-    packed.reserve(1 + out.texts.len());
     packed.push('\n');
     packed.push_str(&out.texts[..out.count]);
     packed.push_str(&out.texts[out.last..]);
