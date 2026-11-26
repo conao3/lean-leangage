@@ -11,7 +11,6 @@
 pub mod generated;
 pub mod http;
 pub mod memory;
-pub mod serde_http;
 pub mod token;
 
 pub use generated::leangage_http as http_format;

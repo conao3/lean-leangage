@@ -616,7 +616,6 @@ dependencies = [
  "axum",
  "hmac 0.12.1",
  "leanfran",
- "serde_json",
  "sha2 0.10.9",
 ]
 
@@ -646,7 +645,6 @@ dependencies = [
  "leanfran",
  "leangage",
  "leangage-pg",
- "serde",
  "serde_json",
  "tokio",
  "tokio-postgres",

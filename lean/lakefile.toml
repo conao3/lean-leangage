@@ -33,3 +33,7 @@ root = "JsonOracle"
 [[lean_exe]]
 name = "request-oracle"
 root = "RequestOracle"
+
+[[lean_exe]]
+name = "notes-request-oracle"
+root = "NotesRequestOracle"

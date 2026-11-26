@@ -1,9 +1,10 @@
-"""Fails unless the calculator's request path in the three servers calls the generated functions.
+"""Fails unless the request path of the calculator's three servers and of the notes server calls
+the generated functions.
 
 For each file of the path it requires the calls of the functions generated from
-`lean/Leangage/Http.lean` and `lean/Calculator/Wire.lean`, and refuses a JSON library, a status
-code written in the file (a constant of the HTTP library or a number from 100 to 599) and the
-JSON writer called by hand. A test passes whichever code a handler runs; this check reads the
+`lean/Leangage/Http.lean`, `lean/Calculator/Wire.lean` and `lean/Notes/Wire.lean`, and refuses a
+JSON library, a status code written in the file (a constant of the HTTP library or a number from
+100 to 599) and the JSON writer called by hand. A test passes whichever code a handler runs; this check reads the
 handlers.
 """
 
@@ -51,6 +52,15 @@ FILES = [
     (
         "rust/calculator/src/lib.rs",
         ["wire::request(", "wire::respond(", "wire::fingerprint(", "wire::scope("],
+        RUST,
+        None,
+    ),
+    (
+        "rust/notes/src/lib.rs",
+        [
+            "wire::request(", "wire::respond(", "wire::fingerprint(", "wire::scope(", "wire::encode_reply(",
+            "wire::decode_reply(",
+        ],
         RUST,
         None,
     ),

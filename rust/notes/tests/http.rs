@@ -5,8 +5,8 @@ use std::sync::Arc;
 use axum::Router;
 use axum::body::{Body, to_bytes};
 use axum::http::{Request, StatusCode};
+use leangage::http::rpc_router;
 use leangage::memory::MemoryEngine;
-use leangage::serde_http::rpc_router;
 use leangage::token::{Claims, issue};
 use leangage_notes::Notes;
 use serde_json::{Value, json};
@@ -141,7 +141,7 @@ async fn refusals_have_their_status() {
             1,
             json!({"cmd": "read_note", "id": 7, "body": "x"}),
             StatusCode::BAD_REQUEST,
-            json!({"error": "unknown field `body`, expected `id`"}),
+            json!({"error": "not a notes command"}),
         ),
     ];
     for (i, (user, body, status, want)) in steps.into_iter().enumerate() {

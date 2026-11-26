@@ -10,9 +10,9 @@ use std::hint::black_box;
 use std::time::Instant;
 
 use hmac::{Hmac, Mac};
+use leangage::Storage;
 use leangage::http_format::{self, Body};
 use leangage::json_format::{self, StrTok, Tok};
-use leangage::serde_http::Api;
 use leangage::token::{self, Claims};
 use leangage::token_format;
 use leangage_calculator::{kernel, wire};
@@ -241,7 +241,7 @@ fn main() {
 
     let ns = note_list();
     let list = notes::Reply::Notes { ns: ns.clone() };
-    let body = <Notes as Api<Notes>>::encode_reply(&list);
+    let body = <Notes as Storage>::encode_reply(&list);
     assert_eq!(json_format::write(notes_toks(&ns)), body);
     assert_eq!(json_format::write_array(notes_str_toks(&ns)), body);
     compare(
@@ -258,7 +258,7 @@ fn main() {
     let mut server = Vec::new();
     for _ in 0..ROUNDS {
         server.push(per_op(2_000, &mut || {
-            black_box(<Notes as Api<Notes>>::encode_reply(black_box(&list)));
+            black_box(<Notes as Storage>::encode_reply(black_box(&list)));
         }));
     }
     println!("    Notes::encode_reply {}", show(&mut server));

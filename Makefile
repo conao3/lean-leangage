@@ -4,6 +4,7 @@ TOKEN_ORACLE := $(CURDIR)/lean/.lake/build/bin/token-oracle
 NOTES_ORACLE := $(CURDIR)/lean/.lake/build/bin/notes-oracle
 JSON_ORACLE := $(CURDIR)/lean/.lake/build/bin/json-oracle
 REQUEST_ORACLE := $(CURDIR)/lean/.lake/build/bin/request-oracle
+NOTES_REQUEST_ORACLE := $(CURDIR)/lean/.lake/build/bin/notes-request-oracle
 RUST_CALCULATOR := $(CURDIR)/rust/target/debug/leangage-calculator
 GENERATED := rust/calculator/src/generated python/src/leangage_calculator/kernel.py go/calculator/kernel \
 	python/src/leangage_calculator/store.py go/calculator/store \
@@ -32,7 +33,7 @@ format-check:
 
 .PHONY: lean
 lean:
-	lake -d lean build --wfail Leangage Calculator Notes calculator-oracle sql-oracle token-oracle notes-oracle json-oracle request-oracle
+	lake -d lean build --wfail Leangage Calculator Notes calculator-oracle sql-oracle token-oracle notes-oracle json-oracle request-oracle notes-request-oracle
 
 .PHONY: audit
 audit: lean
@@ -75,6 +76,7 @@ generate: lean
 	leanfran module generate --module-name Notes.Store --search-path lean/.lake/build/lib/lean --type-path Notes.Kernel=crate::generated::notes_kernel Leangage.Sql=::leangage::sql --output-file rust/notes/src/generated/notes_store.rs --output text
 	leanfran-python module generate --module-name Notes.Store --search-path lean/.lake/build/lib/lean --type-module Notes.Kernel=leangage_notes.kernel Leangage.Sql=leangage.sql --output-file python/src/leangage_notes/store.py --output text
 	leanfran-go module generate --module-name Notes.Store --search-path lean/.lake/build/lib/lean --output-dir go/notes/store --output text
+	leanfran module generate --module-name Notes.Wire --search-path lean/.lake/build/lib/lean --type-path Notes.Kernel=crate::generated::notes_kernel Leangage.Authz=crate::authz Leangage.Http=::leangage::http_format Leangage.Json.Read=::leangage::json_read Leangage.Json=::leangage::json_format --output-file rust/notes/src/generated/notes_wire.rs --output text
 
 .PHONY: generated-check
 generated-check: generate
@@ -88,7 +90,7 @@ handlers:
 .PHONY: rust
 rust: lean
 	cd rust && cargo clippy --all-targets -- -D warnings
-	cd rust && LEANGAGE_CALCULATOR_ORACLE=$(ORACLE) LEANGAGE_SQL_ORACLE=$(SQL_ORACLE) LEANGAGE_TOKEN_ORACLE=$(TOKEN_ORACLE) LEANGAGE_NOTES_ORACLE=$(NOTES_ORACLE) LEANGAGE_JSON_ORACLE=$(JSON_ORACLE) LEANGAGE_REQUEST_ORACLE=$(REQUEST_ORACLE) cargo test
+	cd rust && LEANGAGE_CALCULATOR_ORACLE=$(ORACLE) LEANGAGE_SQL_ORACLE=$(SQL_ORACLE) LEANGAGE_TOKEN_ORACLE=$(TOKEN_ORACLE) LEANGAGE_NOTES_ORACLE=$(NOTES_ORACLE) LEANGAGE_JSON_ORACLE=$(JSON_ORACLE) LEANGAGE_REQUEST_ORACLE=$(REQUEST_ORACLE) LEANGAGE_NOTES_REQUEST_ORACLE=$(NOTES_REQUEST_ORACLE) cargo test
 
 .PHONY: python
 python: lean
