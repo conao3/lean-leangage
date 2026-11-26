@@ -1,134 +1,93 @@
-"""`POST /rpc`: one kernel command per request, with the status codes of the Rust server.
+"""`POST /rpc`: one kernel command per request.
 
-The `{"error": ...}` bodies are written by `leangage.json_format.writeArray`, the JSON writer
-generated from `lean/Leangage/Json.lean`.
+`handle` passes the request to generated functions and returns what they return. It gives the
+`Authorization` header to `Verifier.admit`, which calls `leangage.http_format.authenticate` and
+checks the tag; it gives the claims, the time and the body to `Api.request`; it runs the command
+on the engine; and it gives the kernel's decision to `Api.respond` and a failure of the engine to
+`leangage.http_format.failed`. The status and the body of every answer come from those
+functions, which are generated from `lean/Leangage/Http.lean` and from the kernel's module beside
+it (`lean/Calculator/Wire.lean`).
 """
 
-import json
 import time
 from collections.abc import Callable
 from dataclasses import dataclass
-from http import HTTPStatus
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
 
-from leangage import json_format
+from leanfran import Err, Ok
+
+from leangage import http_format
 from leangage.engine import (
     Broken,
     CommitUnknown,
     DatabaseError,
     Engine,
+    EngineError,
     IdempotencyConflict,
     Refused,
     RetriesExhausted,
 )
-from leangage.token import TokenError, Verifier
+from leangage.token import Claims, Verifier
 
 
 @dataclass(frozen=True)
 class Api:
-    """How commands, replies and refusals appear on the wire. Trusted: no theorem covers it.
+    """A kernel's functions on the wire, each a function generated from Lean.
 
-    `encode_reply` and `encode_error` return the bytes of the body.
+    `request` takes the tenant, the user and the expiry a checked token claims, the time and the
+    body, and returns `Ok` of what the engine runs (a value with the fields `actor` and `cmd`)
+    or `Err` of the answer. `respond` takes `Ok` of a reply or `Err` of a refusal and returns the
+    answer.
     """
 
-    principal: Callable[[int, int], Any]
-    decode_command: Callable[[Any], Any]
-    encode_reply: Callable[[Any], bytes]
-    encode_error: Callable[[Any], tuple[int, bytes]]
-    fingerprint: Callable[[Any], bytes]
+    request: Callable[[int, int, int, int, http_format.Body], Any]
+    respond: Callable[[Any], http_format.Response]
+    fingerprint: Callable[[Any], Any]
     scope: Callable[[Any], str]
 
 
-def error_body(message: str) -> bytes:
-    """`{"error": message}`, with `?` for a character that is not in UTF-8 (a lone surrogate)."""
-    return bytes(
-        json_format.writeArray(
-            [
-                json_format.StrTok_objOpen(),
-                json_format.StrTok_key(s="error"),
-                json_format.StrTok_str(s=message.encode(errors="replace").decode()),
-                json_format.StrTok_objClose(),
-            ]
-        )
-    )
+FAILURES: list[tuple[type[EngineError], http_format.Failure]] = [
+    (IdempotencyConflict, http_format.Failure.conflict),
+    (RetriesExhausted, http_format.Failure.retriesExhausted),
+    (DatabaseError, http_format.Failure.database),
+    (CommitUnknown, http_format.Failure.commitUnknown),
+    (Broken, http_format.Failure.broken),
+]
+
+
+def body_of(data: bytes) -> http_format.Body:
+    """The body as the generated functions take it."""
+    try:
+        return http_format.Body_text(s=data.decode())
+    except UnicodeDecodeError:
+        return http_format.Body_notUtf8()
 
 
 def handle(
     engine: Engine, api: Api, verifier: Verifier, headers: Any, body: bytes
-) -> tuple[int, bytes]:
-    authorization = headers.get("Authorization")
-    if authorization is None:
-        return HTTPStatus.UNAUTHORIZED, error_body("missing authorization header")
-    if not authorization.startswith("Bearer "):
-        return HTTPStatus.UNAUTHORIZED, error_body(
-            "authorization is not a bearer token"
-        )
-    try:
-        claims = verifier.verify(
-            authorization.removeprefix("Bearer "), int(time.time())
-        )
-    except TokenError as e:
-        return HTTPStatus.UNAUTHORIZED, error_body(str(e))
-    actor = api.principal(claims.tenant, claims.user)
-    try:
-        cmd = api.decode_command(json.loads(body))
-    except ValueError as e:
-        return HTTPStatus.BAD_REQUEST, error_body(str(e))
+) -> http_format.Response:
+    claims = verifier.admit(headers.get("Authorization"))
+    if not isinstance(claims, Claims):
+        return claims
+    call = api.request(
+        claims.tenant, claims.user, claims.expiry, int(time.time()), body_of(body)
+    )
+    if isinstance(call, Err):
+        return call.error
+    actor, cmd = call.value.actor, call.value.cmd
     key = headers.get("Idempotency-Key")
     try:
         if key is None:
             reply = engine.execute(actor, cmd)
         else:
             reply = engine.execute_idempotent(
-                actor, api.scope(actor), key, api.fingerprint(cmd), cmd
+                actor, api.scope(actor), key, bytes(api.fingerprint(cmd)), cmd
             )
     except Refused as e:
-        return api.encode_error(e.error)
-    except IdempotencyConflict:
-        return HTTPStatus.UNPROCESSABLE_ENTITY, error_body("idempotency key reused")
-    except RetriesExhausted:
-        return HTTPStatus.SERVICE_UNAVAILABLE, error_body("retries exhausted")
-    except DatabaseError:
-        return HTTPStatus.SERVICE_UNAVAILABLE, error_body("database error")
-    except CommitUnknown:
-        return HTTPStatus.INTERNAL_SERVER_ERROR, error_body("commit outcome unknown")
-    except Broken:
-        return HTTPStatus.INTERNAL_SERVER_ERROR, error_body("engine error")
-    return HTTPStatus.OK, api.encode_reply(reply)
-
-
-def serve(
-    engine: Engine, api: Api, secret: bytes, host: str, port: int
-) -> ThreadingHTTPServer:
-    verifier = Verifier(secret)
-
-    class Handler(BaseHTTPRequestHandler):
-        protocol_version = "HTTP/1.1"
-        wbufsize = -1
-
-        def _send(self, status: int, text: bytes, content_type: str) -> None:
-            self.send_response(status)
-            self.send_header("Content-Type", content_type)
-            self.send_header("Content-Length", str(len(text)))
-            self.end_headers()
-            self.wfile.write(text)
-
-        def do_GET(self) -> None:
-            if self.path == "/healthz":
-                self._send(HTTPStatus.OK, b"ok", "text/plain")
-            else:
-                self._send(HTTPStatus.NOT_FOUND, b"", "text/plain")
-
-        def do_POST(self) -> None:
-            body = self.rfile.read(int(self.headers.get("Content-Length", "0")))
-            if self.path != "/rpc":
-                self._send(HTTPStatus.NOT_FOUND, b"", "text/plain")
-                return
-            status, text = handle(engine, api, verifier, self.headers, body)
-            self._send(status, text, "application/json")
-
-        def log_message(self, format: str, *args: Any) -> None:
-            pass
-
-    return ThreadingHTTPServer((host, port), Handler)
+        return api.respond(Err(error=e.error))
+    except EngineError as e:
+        for kind, failure in FAILURES:
+            if isinstance(e, kind):
+                return http_format.failed(failure)
+        raise
+    return api.respond(Ok(value=reply))

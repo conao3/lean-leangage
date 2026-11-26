@@ -1,20 +1,19 @@
-// Package calculator is the calculator: the kernel is `lean/Calculator/Kernel.lean` and its
-// table `lean/Calculator/Store.lean`, generated to the packages kernel and store.
+// Package calculator is the calculator: the kernel is `lean/Calculator/Kernel.lean`, its table
+// `lean/Calculator/Store.lean` and its requests and responses `lean/Calculator/Wire.lean`,
+// generated to the packages kernel, store and wire.
 package calculator
 
 import (
 	"encoding/binary"
-	"encoding/json"
 	"errors"
-	"fmt"
-	"net/http"
-	"strconv"
 
 	"github.com/conao3/leanfran-go"
 
 	"github.com/conao3/lean-leangage/go/calculator/kernel"
 	"github.com/conao3/lean-leangage/go/calculator/store"
+	"github.com/conao3/lean-leangage/go/calculator/wire"
 	"github.com/conao3/lean-leangage/go/leangage"
+	"github.com/conao3/lean-leangage/go/leangage/httpformat"
 	"github.com/conao3/lean-leangage/go/leangage/pg"
 	"github.com/conao3/lean-leangage/go/leangage/sql"
 )
@@ -25,7 +24,8 @@ type Snapshot = leanfran.Value[kernel.Snapshot]
 // WriteSet is the writes of an accepted command, kept as a Lean value.
 type WriteSet = leanfran.Value[leanfran.OptionType[kernel.Memory]]
 
-// Calculator implements the kernel contract and the wire format of the calculator.
+// Calculator implements the kernel contract, and the calculator's functions on the wire by
+// passing each call on to the package wire.
 type Calculator struct {
 	scope *leanfran.ValueScope
 }
@@ -127,98 +127,31 @@ func (Calculator) DecodeStoredReply(stored []byte) (kernel.Reply, bool) {
 	return kernel.Reply{V: binary.BigEndian.Uint64(stored)}, true
 }
 
-func (Calculator) Principal(tenant, user uint64) kernel.Principal {
-	return kernel.Principal{Org: tenant, User: user}
-}
-
-func number(fields map[string]json.RawMessage, name string) (uint64, error) {
-	value, err := strconv.ParseUint(string(fields[name]), 10, 64)
+// Request is wire.Request.
+func (Calculator) Request(
+	tenant, user, expiry, now uint64, body httpformat.Body,
+) (kernel.Principal, kernel.Command, *httpformat.Response) {
+	call, err := wire.Request(tenant, user, expiry, now, body)
+	if answer, ok := errors.AsType[*leanfran.ExceptError[httpformat.Response]](err); ok {
+		return kernel.Principal{}, nil, &answer.Value
+	}
 	if err != nil {
-		return 0, fmt.Errorf("`%s` must be an integer below 2^64", name)
+		panic(err)
 	}
-	return value, nil
+	return call.Actor, call.Cmd, nil
 }
 
-func only(fields map[string]json.RawMessage, names ...string) bool {
-	for _, name := range names {
-		if _, ok := fields[name]; !ok {
-			return false
-		}
-	}
-	return len(fields) == len(names)+1
+// Respond is wire.Respond.
+func (Calculator) Respond(reply kernel.Reply, refusal *kernel.Error) httpformat.Response {
+	return wire.Respond(leanfran.Except[kernel.Error, kernel.Reply]{Error: refusal, Ok: reply})
 }
 
-// OpNamed is the operation with the given name on the wire.
-func OpNamed(name string) (kernel.Op, bool) {
-	switch name {
-	case "add":
-		return kernel.OpAdd(), true
-	case "sub":
-		return kernel.OpSub(), true
-	case "mul":
-		return kernel.OpMul(), true
-	case "div":
-		return kernel.OpDiv(), true
-	}
-	return kernel.Op{}, false
-}
-
-func (Calculator) DecodeCommand(body []byte) (kernel.Command, error) {
-	var fields map[string]json.RawMessage
-	if err := json.Unmarshal(body, &fields); err != nil || fields == nil {
-		return nil, errors.New("not a calculator command")
-	}
-	var name string
-	if raw, ok := fields["cmd"]; !ok {
-		return nil, errors.New("missing field `cmd`")
-	} else if err := json.Unmarshal(raw, &name); err != nil {
-		return nil, errors.New("not a calculator command")
-	}
-	switch {
-	case name == "set" && only(fields, "value"):
-		value, err := number(fields, "value")
-		return kernel.CommandSet{Value: value}, err
-	case name == "apply" && only(fields, "op", "arg"):
-		var op string
-		if err := json.Unmarshal(fields["op"], &op); err != nil {
-			return nil, errors.New("not a calculator command")
-		}
-		if found, ok := OpNamed(op); ok {
-			arg, err := number(fields, "arg")
-			return kernel.CommandApply{Op: found, Arg: arg}, err
-		}
-	case name == "get" && only(fields):
-		return kernel.CommandGet{}, nil
-	}
-	return nil, errors.New("not a calculator command")
-}
-
-func (Calculator) EncodeReply(reply kernel.Reply) []byte {
-	return kernel.EncodeReplyArray(reply)
-}
-
-func (Calculator) EncodeError(refusal kernel.Error) (int, []byte) {
-	return http.StatusUnprocessableEntity, kernel.EncodeErrorArray(refusal)
-}
-
-var opNames = map[kernel.Op]string{
-	kernel.OpAdd(): "Add", kernel.OpSub(): "Sub", kernel.OpMul(): "Mul", kernel.OpDiv(): "Div",
-}
-
-// Fingerprint is the command as the Rust calculator writes it (`{:?}`), so that a key used on
-// one server is replayed by the other on a database they share.
+// Fingerprint is wire.Fingerprint.
 func (Calculator) Fingerprint(cmd kernel.Command) []byte {
-	switch cmd := cmd.(type) {
-	case kernel.CommandSet:
-		return fmt.Appendf(nil, "Set { value: %d }", cmd.Value)
-	case kernel.CommandApply:
-		return fmt.Appendf(nil, "Apply { op: %s, arg: %d }", opNames[cmd.Op], cmd.Arg)
-	case kernel.CommandGet:
-		return []byte("Get")
-	}
-	panic(fmt.Sprintf("not a calculator command: %#v", cmd))
+	return must(wire.Fingerprint(cmd))
 }
 
+// Scope is wire.Scope.
 func (Calculator) Scope(actor kernel.Principal) string {
-	return fmt.Sprintf("u%d", actor.User)
+	return wire.Scope(actor)
 }

@@ -1,5 +1,6 @@
-//! The calculator: the kernel is `lean/Calculator/Kernel.lean` and its table
-//! `lean/Calculator/Store.lean`, both generated to `src/generated/`.
+//! The calculator: the kernel is `lean/Calculator/Kernel.lean`, its table
+//! `lean/Calculator/Store.lean` and its requests and responses `lean/Calculator/Wire.lean`, all
+//! generated to `src/generated/`. [`Api`] passes each call on to `wire`.
 
 #[rustfmt::skip]
 pub mod generated;
@@ -9,13 +10,17 @@ pub mod generated;
 #[allow(dead_code, non_snake_case, non_camel_case_types, unused_imports, unused_parens, unused_qualifications, unsafe_op_in_unsafe_fn, clippy::all)]
 #[path = "generated/calculator_store.rs"]
 pub mod store;
+/// The calculator's requests and responses, generated from `Calculator.Wire` with the kernel's
+/// types and the types of `leangage::http_format`.
+#[rustfmt::skip]
+#[allow(dead_code, non_snake_case, non_camel_case_types, unused_imports, unused_parens, unused_qualifications, unsafe_op_in_unsafe_fn, clippy::all)]
+#[path = "generated/calculator_wire.rs"]
+pub mod wire;
 
-use axum::http::StatusCode;
 use leanfran::{Local, Owned};
 use leangage::http::Api;
+use leangage::http_format::{Body, Response};
 use leangage::{Kernel, Storage, sql};
-use serde::Deserialize;
-use serde_json::Value;
 
 pub use generated::calculator_kernel as kernel;
 
@@ -85,61 +90,26 @@ impl Storage for Calculator {
     }
 }
 
-#[derive(Deserialize)]
-#[serde(rename_all = "snake_case")]
-enum WireOp {
-    Add,
-    Sub,
-    Mul,
-    Div,
-}
-
-#[derive(Deserialize)]
-#[serde(tag = "cmd", rename_all = "snake_case", deny_unknown_fields)]
-enum WireCommand {
-    Set { value: u64 },
-    Apply { op: WireOp, arg: u64 },
-    Get,
-}
-
 impl Api<Calculator> for Calculator {
-    fn principal(tenant: u64, user: u64) -> kernel::Principal {
-        kernel::Principal { org: tenant, user }
+    fn request(
+        tenant: u64,
+        user: u64,
+        expiry: u64,
+        now: u64,
+        body: Body,
+    ) -> Result<(kernel::Principal, kernel::Command), Response> {
+        wire::request(tenant, user, expiry, now, body).map(|call| (call.actor, call.cmd))
     }
 
-    fn decode_command(body: Value) -> Result<kernel::Command, String> {
-        let wire: WireCommand = serde_json::from_value(body).map_err(|e| e.to_string())?;
-        Ok(match wire {
-            WireCommand::Set { value } => kernel::Command::Set { value },
-            WireCommand::Apply { op, arg } => kernel::Command::Apply {
-                op: match op {
-                    WireOp::Add => kernel::Op::Add,
-                    WireOp::Sub => kernel::Op::Sub,
-                    WireOp::Mul => kernel::Op::Mul,
-                    WireOp::Div => kernel::Op::Div,
-                },
-                arg,
-            },
-            WireCommand::Get => kernel::Command::Get,
-        })
-    }
-
-    fn encode_reply(reply: &kernel::Reply) -> Vec<u8> {
-        kernel::encode_reply_array(reply.clone())
-    }
-
-    fn encode_error(error: &kernel::Error) -> (StatusCode, Vec<u8>) {
-        (
-            StatusCode::UNPROCESSABLE_ENTITY,
-            kernel::encode_error_array(*error),
-        )
+    fn respond(decision: Result<kernel::Reply, kernel::Error>) -> Response {
+        wire::respond(decision)
     }
 
     fn fingerprint(cmd: &kernel::Command) -> Vec<u8> {
-        format!("{cmd:?}").into_bytes()
+        wire::fingerprint(cmd.clone())
     }
 
     fn scope(actor: &kernel::Principal) -> String {
-        format!("u{}", actor.user)
+        wire::scope(actor.clone())
     }
 }

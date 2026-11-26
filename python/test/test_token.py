@@ -1,7 +1,14 @@
-import pytest
-from leangage import Claims, TokenError, Verifier, issue, verify
+from leangage import Claims, Verifier, admit, issue
 
 CLAIMS = Claims(tenant=12, user=3, expiry=100)
+
+BAD_SIGNATURE = (401, b'{"error":"bad token signature"}')
+MALFORMED = (401, b'{"error":"malformed token"}')
+
+
+def refusal(answer) -> tuple[int, bytes]:
+    assert not isinstance(answer, Claims)
+    return answer.status, bytes(answer.body)
 
 
 def test_round_trip() -> None:
@@ -9,36 +16,31 @@ def test_round_trip() -> None:
     assert token == (
         "v1.12.3.100.92d8dbd227b10b563128870c7c8bdef0313f9c5ae04a1b121b159d263a14239b"
     )
-    assert verify(b"secret", token, 100) == CLAIMS
+    assert admit(b"secret", f"Bearer {token}") == CLAIMS
 
 
-@pytest.mark.parametrize(
-    ("secret", "edit", "now"),
-    [
-        (b"secret", lambda t: t, 101),
-        (b"other", lambda t: t, 0),
-        (b"secret", lambda t: t.replace("v1.12.", "v1.13.", 1), 0),
-        (b"secret", lambda t: "v1.012.3.100.00", 0),
-        (b"secret", lambda t: "v1.12.3.100", 0),
-    ],
-)
-def test_rejects(secret: bytes, edit, now: int) -> None:
-    with pytest.raises(TokenError):
-        verify(secret, edit(issue(b"secret", CLAIMS)), now)
+def test_rejects() -> None:
+    token = issue(b"secret", CLAIMS)
+    assert refusal(admit(b"other", f"Bearer {token}")) == BAD_SIGNATURE
+    forged = token.replace("v1.12.", "v1.13.", 1)
+    assert refusal(admit(b"secret", f"Bearer {forged}")) == BAD_SIGNATURE
+    assert refusal(admit(b"secret", "Bearer v1.012.3.100.00")) == MALFORMED
+    assert refusal(admit(b"secret", "Bearer v1.12.3.100")) == MALFORMED
+    assert refusal(admit(b"secret", None)) == (
+        401,
+        b'{"error":"missing authorization header"}',
+    )
+    assert refusal(admit(b"secret", token)) == (
+        401,
+        b'{"error":"authorization is not a bearer token"}',
+    )
 
 
 def test_verifier_remembers_only_what_it_accepted() -> None:
     verifier = Verifier(b"secret")
-    token = issue(b"secret", CLAIMS)
-    assert verifier.verify(token, 100) == CLAIMS
-    assert verifier.verify(token, 100) == CLAIMS
-    with pytest.raises(TokenError, match="expired"):
-        verifier.verify(token, 101)
-    forged = token.replace("v1.12.", "v1.13.", 1)
+    header = f"Bearer {issue(b'secret', CLAIMS)}"
+    assert verifier.admit(header) == CLAIMS
+    assert verifier.admit(header) == CLAIMS
+    forged = header.replace("v1.12.", "v1.13.", 1)
     for _ in range(2):
-        with pytest.raises(TokenError, match="signature"):
-            verifier.verify(forged, 0)
-    late = Verifier(b"secret")
-    with pytest.raises(TokenError, match="expired"):
-        late.verify(token, 101)
-    assert late.verify(token, 100) == CLAIMS
+        assert refusal(verifier.admit(forged)) == BAD_SIGNATURE

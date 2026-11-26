@@ -2,18 +2,23 @@
 
 (a) the check of one token (split and HMAC), (b) the bytes of one calculator reply and (c) the
 bytes of a notes list of 20 notes with bodies of 200 bytes. Each line times the functions over
-lists (`parse`, `encodeReply`, `write`) and the functions the servers call (`parseString`,
-`encodeReplyArray`, `writeArray`) in alternating rounds.
+lists (`parse`, `encodeReply`, `write`) and the functions over strings and arrays
+(`authenticate`, `encodeReplyArray`, `writeArray`) in alternating rounds. (d) times the reading
+of one request body into a command and (e) the answer to an accepted command, each written by
+hand with `json` and as the generated `wire.request` and `wire.respond` that the calculator
+server calls.
 """
 
 import hashlib
 import hmac
+import json
 import time
 from collections.abc import Callable
 
-from leangage import json_format, token, token_format
+from leanfran import Ok
+from leangage import http_format, json_format, token, token_format
 
-from leangage_calculator import API, kernel
+from leangage_calculator import kernel, wire
 
 ROUNDS = 5
 
@@ -35,16 +40,17 @@ def compare(
     iterations: int,
     lists: Callable[[], object],
     arrays: Callable[[], object],
+    names: tuple[str, str] = ("lists", "arrays"),
 ) -> None:
     old, new = [], []
     for _ in range(ROUNDS):
         old.append(per_op(iterations, lists))
         new.append(per_op(iterations, arrays))
-    print(f"{label:<22} lists {show(old)}  arrays {show(new)}")
+    print(f"{label:<22} {names[0]} {show(old)}  {names[1]} {show(new)}")
 
 
 def verify_lists(secret: bytes, tok: str, now: int) -> token.Claims | None:
-    """`token.verify` with `parse` in place of `parseString`."""
+    """The check of a token with `parse`, the tag and the expiry, written by hand."""
     parsed = token_format.parse(list(tok.encode()))
     if parsed is None:
         return None
@@ -52,6 +58,30 @@ def verify_lists(secret: bytes, tok: str, now: int) -> token.Claims | None:
     if not hmac.compare_digest(tag, bytes(parsed.sig)) or parsed.exp < now:
         return None
     return token.Claims(parsed.tenant, parsed.user, parsed.exp)
+
+
+def decode_by_hand(body: bytes) -> kernel.Command | None:
+    """A body read into a command with `json`, written by hand."""
+    fields = json.loads(body)
+    if not isinstance(fields, dict):
+        return None
+
+    def number(name: str) -> int | None:
+        value = fields.get(name)
+        return value if type(value) is int and 0 <= value < 2**64 else None
+
+    rest = set(fields) - {"cmd"}
+    match fields.get("cmd"):
+        case "set" if rest == {"value"} and number("value") is not None:
+            return kernel.Command_set(value=number("value"))
+        case "apply" if rest == {"op", "arg"} and number("arg") is not None:
+            if fields["op"] in ("add", "sub", "mul", "div"):
+                return kernel.Command_apply(
+                    op=kernel.Op(fields["op"]), arg=number("arg")
+                )
+        case "get" if not rest:
+            return kernel.Command_get()
+    return None
 
 
 NOTES = [(i, 7, i % 2 == 0, "n" * 200) for i in range(20)]
@@ -107,18 +137,19 @@ def main() -> None:
     secret = b"bench-secret"
     claims = token.Claims(tenant=1, user=42, expiry=4_102_444_800)
     tok = token.issue(secret, claims)
-    assert verify_lists(secret, tok, 0) == claims == token.verify(secret, tok, 0)
+    header = f"Bearer {tok}"
+    assert verify_lists(secret, tok, 0) == claims == token.admit(secret, header)
     compare(
         "(a) token check",
         1_000,
         lambda: verify_lists(secret, tok, 0),
-        lambda: token.verify(secret, tok, 0),
+        lambda: token.admit(secret, header),
     )
     compare(
         "    split only",
         1_000,
         lambda: token_format.parse(list(tok.encode())),
-        lambda: token_format.parseString(tok),
+        lambda: http_format.authenticate(header),
     )
     payload = tok[: tok.rindex(".")].encode()
     hmac_only = [
@@ -128,12 +159,13 @@ def main() -> None:
     print(f"    HMAC only               {show(hmac_only)}")
 
     reply = kernel.Reply(v=6)
-    assert bytes(kernel.encodeReply(reply)) == API.encode_reply(reply) == b'{"value":6}'
+    assert bytes(kernel.encodeReply(reply)) == b'{"value":6}'
+    assert bytes(kernel.encodeReplyArray(reply)) == b'{"value":6}'
     compare(
         "(b) calculator reply",
         5_000,
         lambda: bytes(kernel.encodeReply(reply)),
-        lambda: API.encode_reply(reply),
+        lambda: bytes(kernel.encodeReplyArray(reply)),
     )
 
     body = bytes(json_format.write(notes_toks()))
@@ -144,6 +176,28 @@ def main() -> None:
         10,
         lambda: bytes(json_format.write(notes_toks())),
         lambda: bytes(json_format.writeArray(notes_str_toks())),
+    )
+
+    request = b'{"cmd":"apply","op":"mul","arg":7}'
+    command = kernel.Command_apply(op=kernel.Op.mul, arg=7)
+    text = http_format.Body_text(s=request.decode())
+    assert (
+        decode_by_hand(request) == command == wire.request(1, 42, 1, 0, text).value.cmd
+    )
+    compare(
+        "(d) request body",
+        500,
+        lambda: decode_by_hand(request),
+        lambda: wire.request(1, 42, 1, 0, http_format.Body_text(s=request.decode())),
+        ("by hand", "generated"),
+    )
+    assert bytes(wire.respond(Ok(value=reply)).body) == b'{"value":6}'
+    compare(
+        "(e) answer",
+        2_000,
+        lambda: (200, bytes(kernel.encodeReplyArray(reply))),
+        lambda: wire.respond(Ok(value=reply)),
+        ("by hand", "generated"),
     )
 
 

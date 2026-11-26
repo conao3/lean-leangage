@@ -1,20 +1,13 @@
 //! `POST /rpc`: one kernel command per request.
 //!
-//! | case | status | body |
-//! |---|---|---|
-//! | accepted | 200 | the reply |
-//! | missing or rejected token | 401 | `{"error": ...}` |
-//! | body is not a command | 400 | `{"error": ...}` |
-//! | refused by the kernel | chosen by [`Api::encode_error`] | chosen by [`Api::encode_error`] |
-//! | idempotency key reused for another command | 422 | `{"error":"idempotency key reused"}` |
-//! | the engine has stopped | 503 | `{"error":"engine stopped"}` |
-//! | every attempt failed to serialize or lost its connection | 503 | `{"error":"retries exhausted"}` |
-//! | the database failed the request | 503 | `{"error":"database error"}` |
-//! | COMMIT lost, without an idempotency key | 500 | `{"error":"commit outcome unknown"}` |
-//! | stored rows that do not load, or a write set that does not compile | 500 | `{"error":"engine error"}` |
-//!
-//! The `{"error": ...}` bodies are written by [`crate::json_format::write_array`], the JSON writer
-//! generated from `lean/Leangage/Json.lean`.
+//! The handler passes the request to generated functions and sends what they return. It reads the
+//! `Authorization` header and gives it to [`token::Verifier::admit`], which calls
+//! [`crate::http_format::authenticate`] and checks the tag; it gives the claims, the time and the
+//! body to [`Api::request`]; it runs the command on the engine; and it gives the kernel's
+//! decision to [`Api::respond`] and a failure of the engine to
+//! [`crate::http_format::failed`]. The status and the body of every answer come from those
+//! functions, which are generated from `lean/Leangage/Http.lean` and from the kernel's module
+//! beside it (`lean/Calculator/Wire.lean`).
 
 use std::marker::PhantomData;
 use std::sync::Arc;
@@ -27,19 +20,23 @@ use axum::http::header::{AUTHORIZATION, CONTENT_TYPE};
 use axum::http::{HeaderMap, StatusCode};
 use axum::response::{IntoResponse, Response};
 use axum::routing::post;
-use serde_json::Value;
 
-use crate::json_format::{self, StrTok};
+use crate::http_format::{self, Body, Failure};
 use crate::{Engine, EngineError, Idempotency, Kernel, token};
 
-/// How a kernel's commands, replies and refusals appear on the wire, and who a token's holder
-/// is. Trusted: no theorem covers it. `encode_reply` and `encode_error` return the bytes of the
-/// body.
+/// A kernel's functions on the wire, implemented by delegating to functions generated from Lean.
 pub trait Api<K: Kernel>: Send + Sync + 'static {
-    fn principal(tenant: u64, user: u64) -> K::Principal;
-    fn decode_command(body: Value) -> Result<K::Command, String>;
-    fn encode_reply(reply: &K::Reply) -> Vec<u8>;
-    fn encode_error(error: &K::Error) -> (StatusCode, Vec<u8>);
+    /// What the engine runs for a request whose token, checked, claims `tenant`, `user` and
+    /// `expiry`, at the time `now`; or the answer to the request.
+    fn request(
+        tenant: u64,
+        user: u64,
+        expiry: u64,
+        now: u64,
+        body: Body,
+    ) -> Result<(K::Principal, K::Command), http_format::Response>;
+    /// The answer to a command the kernel accepted or refused.
+    fn respond(decision: Result<K::Reply, K::Error>) -> http_format::Response;
     /// Identifies the command under an idempotency key.
     fn fingerprint(cmd: &K::Command) -> Vec<u8>;
     /// Separates the idempotency keys of principals of one tenant.
@@ -52,43 +49,37 @@ struct App<K: Kernel, A, E> {
     marker: PhantomData<fn() -> (K, A)>,
 }
 
-fn reply(status: StatusCode, body: Vec<u8>) -> Response {
-    (status, [(CONTENT_TYPE, "application/json")], body).into_response()
+/// Sends a generated answer.
+pub fn send(answer: http_format::Response) -> Response {
+    let status = StatusCode::from_u16(answer.status).expect("a generated status is a status code");
+    (status, [(CONTENT_TYPE, "application/json")], answer.body).into_response()
 }
 
-fn error(status: StatusCode, message: &str) -> Response {
-    let body = json_format::write_array(vec![
-        StrTok::ObjOpen,
-        StrTok::Key {
-            s: "error".to_owned(),
-        },
-        StrTok::Str {
-            s: message.to_owned(),
-        },
-        StrTok::ObjClose,
-    ]);
-    reply(status, body)
+/// The failure a generated answer is made of.
+pub fn failure(error: &EngineError) -> Failure {
+    match error {
+        EngineError::IdempotencyConflict => Failure::Conflict,
+        EngineError::Stopped => Failure::Stopped,
+        EngineError::RetriesExhausted => Failure::RetriesExhausted,
+        EngineError::Database(_) => Failure::Database,
+        EngineError::CommitUnknown => Failure::CommitUnknown,
+        EngineError::Broken(_) => Failure::Broken,
+    }
 }
 
-fn authenticate(
-    verifier: &token::Verifier,
-    headers: &HeaderMap,
-) -> Result<token::Claims, &'static str> {
-    let header = headers
-        .get(AUTHORIZATION)
-        .and_then(|v| v.to_str().ok())
-        .ok_or("missing authorization header")?;
-    let token = header
-        .strip_prefix("Bearer ")
-        .ok_or("authorization is not a bearer token")?;
-    let now = SystemTime::now()
+/// The body as the generated functions take it.
+pub fn body_of(bytes: &[u8]) -> Body {
+    match std::str::from_utf8(bytes) {
+        Ok(text) => Body::Text { s: text.to_owned() },
+        Err(_) => Body::NotUtf8,
+    }
+}
+
+/// Seconds since the Unix epoch.
+pub fn now() -> u64 {
+    SystemTime::now()
         .duration_since(UNIX_EPOCH)
-        .map_or(0, |d| d.as_secs());
-    verifier.verify(token, now).map_err(|e| match e {
-        token::TokenError::Malformed => "malformed token",
-        token::TokenError::BadSignature => "bad token signature",
-        token::TokenError::Expired => "token expired",
-    })
+        .map_or(0, |d| d.as_secs())
 }
 
 async fn rpc<K: Kernel, A: Api<K>, E: Engine<K>>(
@@ -96,18 +87,20 @@ async fn rpc<K: Kernel, A: Api<K>, E: Engine<K>>(
     headers: HeaderMap,
     body: Bytes,
 ) -> Response {
-    let claims = match authenticate(&app.verifier, &headers) {
+    let authorization = headers.get(AUTHORIZATION).and_then(|v| v.to_str().ok());
+    let claims = match app.verifier.admit(authorization) {
         Ok(claims) => claims,
-        Err(message) => return error(StatusCode::UNAUTHORIZED, message),
+        Err(answer) => return send(answer),
     };
-    let actor = A::principal(claims.tenant, claims.user);
-    let value: Value = match serde_json::from_slice(&body) {
-        Ok(value) => value,
-        Err(e) => return error(StatusCode::BAD_REQUEST, &e.to_string()),
-    };
-    let cmd = match A::decode_command(value) {
-        Ok(cmd) => cmd,
-        Err(message) => return error(StatusCode::BAD_REQUEST, &message),
+    let (actor, cmd) = match A::request(
+        claims.tenant,
+        claims.user,
+        claims.expiry,
+        now(),
+        body_of(&body),
+    ) {
+        Ok(call) => call,
+        Err(answer) => return send(answer),
     };
     let idempotency = headers
         .get("idempotency-key")
@@ -117,25 +110,9 @@ async fn rpc<K: Kernel, A: Api<K>, E: Engine<K>>(
             key: key.to_owned(),
             fingerprint: A::fingerprint(&cmd),
         });
-    let executed = app.engine.execute(actor, cmd, idempotency).await;
-    match executed {
-        Ok(Ok(r)) => reply(StatusCode::OK, A::encode_reply(&r)),
-        Ok(Err(e)) => {
-            let (status, body) = A::encode_error(&e);
-            reply(status, body)
-        }
-        Err(EngineError::IdempotencyConflict) => {
-            error(StatusCode::UNPROCESSABLE_ENTITY, "idempotency key reused")
-        }
-        Err(EngineError::Stopped) => error(StatusCode::SERVICE_UNAVAILABLE, "engine stopped"),
-        Err(EngineError::RetriesExhausted) => {
-            error(StatusCode::SERVICE_UNAVAILABLE, "retries exhausted")
-        }
-        Err(EngineError::Database(_)) => error(StatusCode::SERVICE_UNAVAILABLE, "database error"),
-        Err(EngineError::CommitUnknown) => {
-            error(StatusCode::INTERNAL_SERVER_ERROR, "commit outcome unknown")
-        }
-        Err(EngineError::Broken(_)) => error(StatusCode::INTERNAL_SERVER_ERROR, "engine error"),
+    match app.engine.execute(actor, cmd, idempotency).await {
+        Ok(decision) => send(A::respond(decision)),
+        Err(error) => send(http_format::failed(failure(&error))),
     }
 }
 

@@ -1,15 +1,18 @@
 """Bearer tokens: `v1.<tenant>.<user>.<expiry unix seconds>.<hex hmac-sha256>`.
 
-The tag signs every byte before the last dot. The bytes are written and split by functions
-generated from `lean/Leangage/Token.lean` (`leangage.token_format`); this module computes and
-compares the tag and checks the expiry.
+The tag signs every byte before the last dot. The bytes are written by functions generated from
+`lean/Leangage/Token.lean` (`leangage.token_format`), and the `Authorization` header is read by
+`leangage.http_format.authenticate`, generated from `lean/Leangage/Http.lean`. This module
+computes and compares the tag.
 """
 
 import hashlib
 import hmac
 from dataclasses import dataclass
 
-from leangage import token_format
+from leanfran import Err
+
+from leangage import http_format, token_format
 
 
 @dataclass(frozen=True)
@@ -17,10 +20,6 @@ class Claims:
     tenant: int
     user: int
     expiry: int
-
-
-class TokenError(Exception):
-    pass
 
 
 def _tag(secret: bytes, payload: bytes) -> bytes:
@@ -34,23 +33,23 @@ def issue(secret: bytes, claims: Claims) -> str:
     ).decode()
 
 
-def verify(secret: bytes, token: str, now: int) -> Claims:
-    """Accepts a token whose tag matches and whose expiry is not before `now`."""
-    parsed = token_format.parseString(token)
-    if parsed is None:
-        raise TokenError("malformed token")
-    if not hmac.compare_digest(_tag(secret, bytes(parsed.payload)), bytes(parsed.sig)):
-        raise TokenError("bad token signature")
-    if parsed.exp < now:
-        raise TokenError("token expired")
-    return Claims(parsed.tenant, parsed.user, parsed.exp)
+def admit(secret: bytes, header: str | None) -> Claims | http_format.Response:
+    """The claims of the token in the `Authorization` header when its tag is the HMAC of its
+    payload, or the answer to the request. The expiry is checked by the kernel's `request`."""
+    read = http_format.authenticate(header)
+    if isinstance(read, Err):
+        return read.error
+    bearer = read.value
+    if not hmac.compare_digest(_tag(secret, bytes(bearer.payload)), bytes(bearer.sig)):
+        return http_format.failed(http_format.Failure.badSignature)
+    return Claims(bearer.tenant, bearer.user, bearer.exp)
 
 
 class Verifier:
-    """Verifies tokens of one secret.
+    """Admits the headers of one secret.
 
-    A token that `verify` accepted is remembered by its exact bytes, and a later request with the
-    same bytes only has its expiry checked.
+    A header that `admit` accepted is remembered by its exact text with its claims, and a later
+    request with the same header gets them without a second reading.
     """
 
     REMEMBERED = 4096
@@ -59,13 +58,15 @@ class Verifier:
         self._secret = secret
         self._accepted: dict[str, Claims] = {}
 
-    def verify(self, token: str, now: int) -> Claims:
-        claims = self._accepted.get(token)
-        if claims is None:
-            claims = verify(self._secret, token, now)
+    def admit(self, header: str | None) -> Claims | http_format.Response:
+        if header is None:
+            return admit(self._secret, None)
+        claims = self._accepted.get(header)
+        if claims is not None:
+            return claims
+        answer = admit(self._secret, header)
+        if isinstance(answer, Claims):
             if len(self._accepted) >= self.REMEMBERED:
                 self._accepted.clear()
-            self._accepted[token] = claims
-        elif claims.expiry < now:
-            raise TokenError("token expired")
-        return claims
+            self._accepted[header] = answer
+        return answer

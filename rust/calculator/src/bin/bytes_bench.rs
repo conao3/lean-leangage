@@ -1,19 +1,23 @@
 //! Times the byte functions the servers call on every request: (a) the check of one token (split
 //! and HMAC), (b) the bytes of one calculator reply and (c) the bytes of a notes list of 20 notes
 //! with bodies of 200 bytes. Each line times the functions over lists (`parse`, `encode_reply`,
-//! `write`) and the functions the servers call (`parse_string`, `encode_reply_array`,
-//! `write_array`) in alternating rounds.
+//! `write`) and the functions over strings and arrays (`authenticate`, `encode_reply_array`,
+//! `write_array`) in alternating rounds. (d) times the reading of one request body into a
+//! command and (e) the answer to an accepted command, each written by hand with serde_json and
+//! as the generated `wire::request` and `wire::respond` that the calculator server calls.
 
 use std::hint::black_box;
 use std::time::Instant;
 
 use hmac::{Hmac, Mac};
-use leangage::http::Api;
+use leangage::http_format::{self, Body};
 use leangage::json_format::{self, StrTok, Tok};
+use leangage::serde_http::Api;
 use leangage::token::{self, Claims};
 use leangage::token_format;
-use leangage_calculator::{Calculator, kernel};
+use leangage_calculator::{kernel, wire};
 use leangage_notes::{Notes, kernel as notes};
+use serde::Deserialize;
 use sha2::Sha256;
 
 const ROUNDS: usize = 7;
@@ -31,8 +35,14 @@ fn show(rounds: &mut [f64]) -> String {
     format!("{:>9.0} ns (median {:>9.0})", rounds[0], rounds[ROUNDS / 2])
 }
 
-/// Prints the minimum and the median of the rounds, lists first.
-fn compare(label: &str, iterations: u32, mut lists: impl FnMut(), mut arrays: impl FnMut()) {
+/// Prints the minimum and the median of the rounds of the two, named `names`.
+fn compare(
+    label: &str,
+    names: (&str, &str),
+    iterations: u32,
+    mut lists: impl FnMut(),
+    mut arrays: impl FnMut(),
+) {
     let mut old = Vec::new();
     let mut new = Vec::new();
     for _ in 0..ROUNDS {
@@ -40,8 +50,10 @@ fn compare(label: &str, iterations: u32, mut lists: impl FnMut(), mut arrays: im
         new.push(per_op(iterations, &mut arrays));
     }
     println!(
-        "{label:<22} lists {}  arrays {}",
+        "{label:<22} {} {}  {} {}",
+        names.0,
         show(&mut old),
+        names.1,
         show(&mut new)
     );
 }
@@ -52,7 +64,7 @@ fn tag(secret: &[u8], payload: &[u8]) -> Hmac<Sha256> {
     mac
 }
 
-/// `token::verify` with `parse` in place of `parse_string`.
+/// The check of a token with `parse`, the tag and the expiry, written by hand.
 fn verify_lists(secret: &[u8], tok: &str, now: u64) -> Option<Claims> {
     let parsed = token_format::parse(tok.as_bytes().to_vec())?;
     tag(secret, &parsed.payload)
@@ -62,6 +74,41 @@ fn verify_lists(secret: &[u8], tok: &str, now: u64) -> Option<Claims> {
         tenant: parsed.tenant,
         user: parsed.user,
         expiry: parsed.exp,
+    })
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "snake_case")]
+enum WireOp {
+    Add,
+    Sub,
+    Mul,
+    Div,
+}
+
+#[derive(Deserialize)]
+#[serde(tag = "cmd", rename_all = "snake_case", deny_unknown_fields)]
+enum WireCommand {
+    Set { value: u64 },
+    Apply { op: WireOp, arg: u64 },
+    Get,
+}
+
+/// A body read into a command with serde_json, written by hand.
+fn decode_by_hand(body: &[u8]) -> Option<kernel::Command> {
+    let value: serde_json::Value = serde_json::from_slice(body).ok()?;
+    Some(match serde_json::from_value(value).ok()? {
+        WireCommand::Set { value } => kernel::Command::Set { value },
+        WireCommand::Apply { op, arg } => kernel::Command::Apply {
+            op: match op {
+                WireOp::Add => kernel::Op::Add,
+                WireOp::Sub => kernel::Op::Sub,
+                WireOp::Mul => kernel::Op::Mul,
+                WireOp::Div => kernel::Op::Div,
+            },
+            arg,
+        },
+        WireCommand::Get => kernel::Command::Get,
     })
 }
 
@@ -142,25 +189,28 @@ fn main() {
     };
     let tok = token::issue(&secret, claims);
     assert_eq!(verify_lists(&secret, &tok, 0), Some(claims));
-    assert_eq!(token::verify(&secret, &tok, 0), Ok(claims));
+    let header = format!("Bearer {tok}");
+    assert_eq!(token::admit(&secret, Some(&header)).ok(), Some(claims));
     compare(
         "(a) token check",
+        ("lists", "arrays"),
         100_000,
         || {
             black_box(verify_lists(black_box(&secret), black_box(&tok), 0));
         },
         || {
-            black_box(token::verify(black_box(&secret), black_box(&tok), 0)).ok();
+            black_box(token::admit(black_box(&secret), Some(black_box(&header)))).ok();
         },
     );
     compare(
         "    split only",
+        ("lists", "arrays"),
         100_000,
         || {
             black_box(token_format::parse(black_box(&tok).as_bytes().to_vec()));
         },
         || {
-            black_box(token_format::parse_string(black_box(&tok)));
+            black_box(http_format::authenticate(Some(black_box(&header).clone()))).ok();
         },
     );
     let payload = &tok.as_bytes()[..tok.rfind('.').expect("a token has dots")];
@@ -175,18 +225,17 @@ fn main() {
     let reply = kernel::Reply { v: 6 };
     assert_eq!(
         kernel::encode_reply(reply.clone()),
-        <Calculator as Api<Calculator>>::encode_reply(&reply)
+        kernel::encode_reply_array(reply.clone())
     );
     compare(
         "(b) calculator reply",
+        ("lists", "arrays"),
         100_000,
         || {
             black_box(kernel::encode_reply(black_box(&reply).clone()));
         },
         || {
-            black_box(<Calculator as Api<Calculator>>::encode_reply(black_box(
-                &reply,
-            )));
+            black_box(kernel::encode_reply_array(black_box(&reply).clone()));
         },
     );
 
@@ -197,6 +246,7 @@ fn main() {
     assert_eq!(json_format::write_array(notes_str_toks(&ns)), body);
     compare(
         "(c) notes list of 20",
+        ("lists", "arrays"),
         2_000,
         || {
             black_box(json_format::write(notes_toks(black_box(&ns))));
@@ -212,4 +262,52 @@ fn main() {
         }));
     }
     println!("    Notes::encode_reply {}", show(&mut server));
+
+    let body = r#"{"cmd":"apply","op":"mul","arg":7}"#;
+    let command = kernel::Command::Apply {
+        op: kernel::Op::Mul,
+        arg: 7,
+    };
+    assert_eq!(decode_by_hand(body.as_bytes()), Some(command.clone()));
+    assert_eq!(
+        wire::request(1, 42, 1, 0, Body::Text { s: body.to_owned() })
+            .ok()
+            .map(|call| call.cmd),
+        Some(command)
+    );
+    compare(
+        "(d) request body",
+        ("by hand", "generated"),
+        100_000,
+        || {
+            black_box(decode_by_hand(black_box(body).as_bytes()));
+        },
+        || {
+            black_box(wire::request(
+                1,
+                42,
+                1,
+                0,
+                Body::Text {
+                    s: black_box(body).to_owned(),
+                },
+            ))
+            .ok();
+        },
+    );
+    assert_eq!(wire::respond(Ok(reply.clone())).body, br#"{"value":6}"#);
+    compare(
+        "(e) answer",
+        ("by hand", "generated"),
+        100_000,
+        || {
+            black_box((
+                200u16,
+                kernel::encode_reply_array(black_box(&reply).clone()),
+            ));
+        },
+        || {
+            black_box(wire::respond(Ok(black_box(&reply).clone())));
+        },
+    );
 }

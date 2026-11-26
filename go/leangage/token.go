@@ -6,25 +6,23 @@ import (
 	"errors"
 	"sync"
 
+	"github.com/conao3/leanfran-go"
+
+	"github.com/conao3/lean-leangage/go/leangage/httpformat"
 	"github.com/conao3/lean-leangage/go/leangage/token"
 )
 
 // Claims are what a bearer token states. A token is
 // `v1.<tenant>.<user>.<expiry unix seconds>.<hex hmac-sha256>`, where the tag signs every byte
-// before the last dot. The bytes are written and split by functions generated from
-// `lean/Leangage/Token.lean` (package token); this file computes and compares the tag and checks
-// the expiry.
+// before the last dot. The bytes are written by functions generated from
+// `lean/Leangage/Token.lean` (package token), and the `Authorization` header is read by
+// httpformat.Authenticate, generated from `lean/Leangage/Http.lean`. This file computes and
+// compares the tag.
 type Claims struct {
 	Tenant uint64
 	User   uint64
 	Expiry uint64
 }
-
-var (
-	ErrTokenMalformed    = errors.New("malformed token")
-	ErrTokenBadSignature = errors.New("bad token signature")
-	ErrTokenExpired      = errors.New("token expired")
-)
 
 func tag(secret []byte, payload []byte) []byte {
 	mac := hmac.New(sha256.New, secret)
@@ -37,25 +35,29 @@ func Issue(secret []byte, claims Claims) string {
 	return string(token.Join(payload, tag(secret, payload)))
 }
 
-// Verify accepts a token whose tag matches and whose expiry is not before now.
-func Verify(secret []byte, tok string, now uint64) (Claims, error) {
-	parsed, err := token.ParseString(tok)
-	if err != nil || parsed == nil {
-		return Claims{}, ErrTokenMalformed
+// Admit is the claims of the token in the `Authorization` header when its tag is the HMAC of
+// its payload, or the answer to the request. A nil header is a request without one. The expiry
+// is checked by the kernel's Request.
+func Admit(secret []byte, header *string) (Claims, *httpformat.Response) {
+	bearer, err := httpformat.Authenticate(header)
+	if answer, ok := errors.AsType[*leanfran.ExceptError[httpformat.Response]](err); ok {
+		return Claims{}, &answer.Value
 	}
-	if !hmac.Equal(tag(secret, parsed.Payload), parsed.Sig) {
-		return Claims{}, ErrTokenBadSignature
+	if err != nil {
+		panic(err)
 	}
-	if parsed.Exp < now {
-		return Claims{}, ErrTokenExpired
+	if !hmac.Equal(tag(secret, bearer.Payload), bearer.Sig) {
+		answer := httpformat.Failed(httpformat.FailureBadSignature())
+		return Claims{}, &answer
 	}
-	return Claims{Tenant: parsed.Tenant, User: parsed.User, Expiry: parsed.Exp}, nil
+	return Claims{Tenant: bearer.Tenant, User: bearer.User, Expiry: bearer.Exp}, nil
 }
 
 const remembered = 4096
 
-// Verifier verifies tokens of one secret. A token that Verify accepted is remembered by its
-// exact bytes, and a later request with the same bytes only has its expiry checked.
+// Verifier admits the headers of one secret. A header that Admit accepted is remembered by its
+// exact bytes with its claims, and a later request with the same header gets them without a
+// second reading.
 type Verifier struct {
 	secret   []byte
 	mu       sync.RWMutex
@@ -66,25 +68,25 @@ func NewVerifier(secret []byte) *Verifier {
 	return &Verifier{secret: secret, accepted: map[string]Claims{}}
 }
 
-func (v *Verifier) Verify(tok string, now uint64) (Claims, error) {
+func (v *Verifier) Admit(header *string) (Claims, *httpformat.Response) {
+	if header == nil {
+		return Admit(v.secret, nil)
+	}
 	v.mu.RLock()
-	claims, known := v.accepted[tok]
+	claims, known := v.accepted[*header]
 	v.mu.RUnlock()
 	if known {
-		if claims.Expiry < now {
-			return Claims{}, ErrTokenExpired
-		}
 		return claims, nil
 	}
-	claims, err := Verify(v.secret, tok, now)
-	if err != nil {
-		return Claims{}, err
+	claims, answer := Admit(v.secret, header)
+	if answer != nil {
+		return Claims{}, answer
 	}
 	v.mu.Lock()
 	if len(v.accepted) >= remembered {
 		clear(v.accepted)
 	}
-	v.accepted[tok] = claims
+	v.accepted[*header] = claims
 	v.mu.Unlock()
 	return claims, nil
 }

@@ -55,6 +55,12 @@ func TestRpc(t *testing.T) {
 		{7, "", `[]`, 400, `{"error":"not a calculator command"}`},
 		{7, "", `null`, 400, `{"error":"not a calculator command"}`},
 		{7, "", `{"cmd":"get"} x`, 400, `{"error":"body is not JSON"}`},
+		{7, "", `{"cmd":"get","cmd":"get"}`, 400, `{"error":"not a calculator command"}`},
+		{7, "", `{"cmd":"apply","op":"add","arg":1.5}`, 400, "{\"error\":\"`arg` must be an integer below 2^64\"}"},
+		{7, "", "\xff", 400, `{"error":"body is not JSON"}`},
+		{7, "", strings.Repeat("[", 2<<20), 400, `{"error":"body is not JSON"}`},
+		{7, "", strings.Repeat("[", 500_000) + strings.Repeat("]", 500_000), 400, `{"error":"not a calculator command"}`},
+		{7, "", strings.Repeat("[", 2<<20+1), 413, `{"error":"request body too large"}`},
 		{7, "", `{"cmd":"get"}`, 200, `{"value":1}`},
 	}
 	for i, step := range steps {
@@ -66,7 +72,7 @@ func TestRpc(t *testing.T) {
 		response := httptest.NewRecorder()
 		handler.ServeHTTP(response, request)
 		if response.Code != step.status || response.Body.String() != step.want {
-			t.Fatalf("step %d: %s: got %d %s", i, step.body, response.Code, response.Body.String())
+			t.Fatalf("step %d: %.60s: got %d %s", i, step.body, response.Code, response.Body.String())
 		}
 		if got := response.Header().Get("Content-Type"); got != "application/json" {
 			t.Fatalf("step %d: content type %q", i, got)

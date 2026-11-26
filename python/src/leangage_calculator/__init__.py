@@ -1,13 +1,11 @@
-"""The calculator: the kernel is `lean/Calculator/Kernel.lean` and its table
-`lean/Calculator/Store.lean`, generated to `kernel.py` and `store.py`."""
-
-from http import HTTPStatus
-from typing import Any
+"""The calculator: the kernel is `lean/Calculator/Kernel.lean`, its table
+`lean/Calculator/Store.lean` and its requests and responses `lean/Calculator/Wire.lean`,
+generated to `kernel.py`, `store.py` and `wire.py`. `API` is the functions of `wire`."""
 
 from leanfran import Err, Local
 from leangage import Api, Kernel, Refused, Storage
 
-from leangage_calculator import kernel, store
+from leangage_calculator import kernel, store, wire
 
 
 def _transition(
@@ -50,55 +48,9 @@ STORAGE = Storage(
 )
 
 
-def _number(body: dict[str, Any], name: str) -> int:
-    value = body[name]
-    if type(value) is not int or not 0 <= value < 2**64:
-        raise ValueError(f"`{name}` must be an integer below 2^64")
-    return value
-
-
-def decode_command(body: Any) -> kernel.Command:
-    if not isinstance(body, dict) or "cmd" not in body:
-        raise ValueError("missing field `cmd`")
-    fields = set(body) - {"cmd"}
-    match body["cmd"]:
-        case "set" if fields == {"value"}:
-            return kernel.Command_set(value=_number(body, "value"))
-        case "apply" if fields == {"op", "arg"} and body["op"] in (
-            "add",
-            "sub",
-            "mul",
-            "div",
-        ):
-            return kernel.Command_apply(
-                op=kernel.Op(body["op"]), arg=_number(body, "arg")
-            )
-        case "get" if not fields:
-            return kernel.Command_get()
-    raise ValueError("not a calculator command")
-
-
-def fingerprint(cmd: kernel.Command) -> bytes:
-    """The command as the Rust calculator writes it (its `Debug` form), so that a key stored by
-    either server is replayed by the other."""
-    match cmd:
-        case kernel.Command_set(value=value):
-            return f"Set {{ value: {value} }}".encode()
-        case kernel.Command_apply(op=op, arg=arg):
-            return f"Apply {{ op: {op.value.capitalize()}, arg: {arg} }}".encode()
-        case kernel.Command_get():
-            return b"Get"
-    raise ValueError(cmd)
-
-
 API = Api(
-    principal=lambda tenant, user: kernel.Principal(org=tenant, user=user),
-    decode_command=decode_command,
-    encode_reply=lambda reply: bytes(kernel.encodeReplyArray(reply)),
-    encode_error=lambda error: (
-        HTTPStatus.UNPROCESSABLE_ENTITY,
-        bytes(kernel.encodeErrorArray(error)),
-    ),
-    fingerprint=fingerprint,
-    scope=lambda actor: f"u{actor.user}",
+    request=wire.request,
+    respond=wire.respond,
+    fingerprint=wire.fingerprint,
+    scope=wire.scope,
 )

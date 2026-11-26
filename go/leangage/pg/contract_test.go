@@ -13,7 +13,6 @@ import (
 	"maps"
 	"math"
 	"net"
-	"net/http"
 	"net/http/httptest"
 	"strconv"
 	"sync"
@@ -25,6 +24,7 @@ import (
 	"github.com/jackc/pgx/v5/pgconn"
 
 	"github.com/conao3/lean-leangage/go/leangage"
+	"github.com/conao3/lean-leangage/go/leangage/httpformat"
 	"github.com/conao3/lean-leangage/go/leangage/pg"
 	"github.com/conao3/lean-leangage/go/leangage/pg/pgtest"
 )
@@ -394,20 +394,20 @@ func TestAdvisoryLockIsHeldAroundTheTransaction(t *testing.T) {
 // cellsApi serves add commands of cells over HTTP: `{"cell": c, "delta": d}`.
 type cellsApi struct{}
 
-func (cellsApi) Principal(tenant, user uint64) actor { return actor{tenant, user} }
-
-func (cellsApi) DecodeCommand(body []byte) (cmd, error) {
+func (cellsApi) Request(tenant, user, _, _ uint64, body httpformat.Body) (actor, cmd, *httpformat.Response) {
 	var a struct{ Cell, Delta int64 }
-	if err := json.Unmarshal(body, &a); err != nil {
-		return nil, err
+	text, ok := body.(httpformat.BodyText)
+	if err := json.Unmarshal([]byte(text.S), &a); !ok || err != nil {
+		return actor{}, nil, &httpformat.Response{Status: 400}
 	}
-	return add{a.Cell, a.Delta}, nil
+	return actor{tenant, user}, add{a.Cell, a.Delta}, nil
 }
 
-func (cellsApi) EncodeReply(r int64) []byte { return strconv.AppendInt(nil, r, 10) }
-
-func (cellsApi) EncodeError(refused) (int, []byte) {
-	return http.StatusUnprocessableEntity, []byte(`{"error":"negative"}`)
+func (cellsApi) Respond(r int64, refusal *refused) httpformat.Response {
+	if refusal != nil {
+		return httpformat.Response{Status: 422, Body: []byte(`{"error":"negative"}`)}
+	}
+	return httpformat.Response{Status: 200, Body: strconv.AppendInt(nil, r, 10)}
 }
 
 func (cellsApi) Fingerprint(c cmd) []byte { return fmt.Appendf(nil, "%#v", c) }

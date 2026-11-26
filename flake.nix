@@ -54,6 +54,12 @@
               "go/notes/store/*"
               "python/src/leangage/json_format.py"
               "go/leangage/jsonformat/*"
+              "python/src/leangage/json_read.py"
+              "go/leangage/jsonread/*"
+              "python/src/leangage/http_format.py"
+              "go/leangage/httpformat/*"
+              "python/src/leangage_calculator/wire.py"
+              "go/calculator/wire/*"
             ];
           };
           devShells.default = pkgs.mkShell {

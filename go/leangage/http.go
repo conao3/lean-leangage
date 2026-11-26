@@ -1,24 +1,23 @@
 package leangage
 
 import (
-	"encoding/json"
 	"errors"
 	"io"
 	"net/http"
-	"strings"
 	"time"
+	"unicode/utf8"
 
-	"github.com/conao3/lean-leangage/go/leangage/jsonformat"
+	"github.com/conao3/lean-leangage/go/leangage/httpformat"
 )
 
-// Api is how a kernel's commands, replies and refusals appear on the wire, and who a token's
-// holder is. Trusted: no theorem covers it. EncodeReply and EncodeError return the bytes of the
-// body.
+// Api is a kernel's functions on the wire, implemented by delegating to functions generated
+// from Lean.
 type Api[Principal, Command, Reply, Error any] interface {
-	Principal(tenant, user uint64) Principal
-	DecodeCommand(body []byte) (Command, error)
-	EncodeReply(reply Reply) []byte
-	EncodeError(refusal Error) (int, []byte)
+	// Request is what the engine runs for a request whose token, checked, claims tenant, user
+	// and expiry, at the time now; or the answer to the request.
+	Request(tenant, user, expiry, now uint64, body httpformat.Body) (Principal, Command, *httpformat.Response)
+	// Respond is the answer to a command the kernel accepted (refusal is nil) or refused.
+	Respond(reply Reply, refusal *Error) httpformat.Response
 	// Fingerprint identifies the command under an idempotency key.
 	Fingerprint(cmd Command) []byte
 	// Scope separates the idempotency keys of principals of one tenant.
@@ -27,29 +26,11 @@ type Api[Principal, Command, Reply, Error any] interface {
 
 const maxBody = 2 << 20
 
-func reply(w http.ResponseWriter, status int, body []byte) {
+// send writes a generated answer.
+func send(w http.ResponseWriter, answer httpformat.Response) {
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(status)
-	_, _ = w.Write(body)
-}
-
-// ErrorBody is `{"error": message}`, written by the JSON writer generated from
-// `lean/Leangage/Json.lean`.
-func ErrorBody(message string) []byte {
-	body, err := jsonformat.Write([]jsonformat.Tok{
-		jsonformat.TokObjOpen{},
-		jsonformat.TokKey{S: []byte("error")},
-		jsonformat.TokStr{S: []byte(message)},
-		jsonformat.TokObjClose{},
-	})
-	if err != nil {
-		panic(err)
-	}
-	return body
-}
-
-func fail(w http.ResponseWriter, status int, message string) {
-	reply(w, status, ErrorBody(message))
+	w.WriteHeader(int(answer.Status))
+	_, _ = w.Write(answer.Body)
 }
 
 func visible(s string) bool {
@@ -61,41 +42,56 @@ func visible(s string) bool {
 	return true
 }
 
-func header(r *http.Request, name string) (string, bool) {
+func header(r *http.Request, name string) *string {
 	values := r.Header[http.CanonicalHeaderKey(name)]
 	if len(values) == 0 || !visible(values[0]) {
-		return "", false
+		return nil
 	}
-	return values[0], true
+	return &values[0]
 }
 
-func authenticate(verifier *Verifier, r *http.Request) (Claims, error) {
-	authorization, ok := header(r, "Authorization")
-	if !ok {
-		return Claims{}, errors.New("missing authorization header")
+// bodyOf reads the body as the generated functions take it.
+func bodyOf(w http.ResponseWriter, r *http.Request) httpformat.Body {
+	body, err := io.ReadAll(http.MaxBytesReader(w, r.Body, maxBody))
+	var tooLarge *http.MaxBytesError
+	switch {
+	case errors.As(err, &tooLarge):
+		return httpformat.BodyTooLarge{}
+	case err != nil:
+		return httpformat.BodyUnreadable{}
+	case !utf8.Valid(body):
+		return httpformat.BodyNotUtf8{}
 	}
-	token, ok := strings.CutPrefix(authorization, "Bearer ")
-	if !ok {
-		return Claims{}, errors.New("authorization is not a bearer token")
+	return httpformat.BodyText{S: string(body)}
+}
+
+// failure is the failure a generated answer is made of.
+func failure(err error) httpformat.Failure {
+	switch {
+	case errors.Is(err, ErrIdempotencyConflict):
+		return httpformat.FailureConflict()
+	case errors.Is(err, ErrStopped):
+		return httpformat.FailureStopped()
+	case errors.Is(err, ErrRetriesExhausted):
+		return httpformat.FailureRetriesExhausted()
+	case errors.Is(err, ErrDatabase):
+		return httpformat.FailureDatabase()
+	case errors.Is(err, ErrCommitUnknown):
+		return httpformat.FailureCommitUnknown()
 	}
-	return verifier.Verify(token, uint64(max(time.Now().Unix(), 0)))
+	return httpformat.FailureBroken()
 }
 
 // RpcHandler serves one kernel command per request, authenticated with secret and run on
 // engine. Mount it at `POST /rpc`.
 //
-// | case | status | body |
-// |---|---|---|
-// | accepted | 200 | the reply |
-// | missing or rejected token | 401 | `{"error": ...}` |
-// | body is not a command | 400 | `{"error": ...}` |
-// | refused by the kernel | chosen by Api.EncodeError | chosen by Api.EncodeError |
-// | idempotency key reused for another command | 422 | `{"error":"idempotency key reused"}` |
-// | the engine has stopped | 503 | `{"error":"engine stopped"}` |
-// | every attempt failed to serialize or lost its connection | 503 | `{"error":"retries exhausted"}` |
-// | the database failed the request | 503 | `{"error":"database error"}` |
-// | the COMMIT of a request without a key was lost | 500 | `{"error":"commit outcome unknown"}` |
-// | any other failure of the engine | 500 | `{"error":"engine error"}` |
+// The handler passes the request to generated functions and sends what they return. It gives
+// the `Authorization` header to Verifier.Admit, which calls httpformat.Authenticate and checks
+// the tag; it gives the claims, the time and the body to Api.Request; it runs the command on
+// the engine; and it gives the kernel's decision to Api.Respond and a failure of the engine to
+// httpformat.Failed. The status and the body of every answer come from those functions, which
+// are generated from `lean/Leangage/Http.lean` and from the kernel's module beside it
+// (`lean/Calculator/Wire.lean`).
 func RpcHandler[Principal, Command, Reply, Error any](
 	engine Engine[Principal, Command, Reply, Error],
 	api Api[Principal, Command, Reply, Error],
@@ -103,58 +99,30 @@ func RpcHandler[Principal, Command, Reply, Error any](
 ) http.Handler {
 	verifier := NewVerifier(secret)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		claims, err := authenticate(verifier, r)
-		if err != nil {
-			fail(w, http.StatusUnauthorized, err.Error())
+		claims, answer := verifier.Admit(header(r, "Authorization"))
+		if answer != nil {
+			send(w, *answer)
 			return
 		}
-		actor := api.Principal(claims.Tenant, claims.User)
-		body, err := io.ReadAll(http.MaxBytesReader(w, r.Body, maxBody))
-		var tooLarge *http.MaxBytesError
-		if errors.As(err, &tooLarge) {
-			fail(w, http.StatusRequestEntityTooLarge, "request body too large")
-			return
-		}
-		if err != nil {
-			fail(w, http.StatusBadRequest, "request body cannot be read")
-			return
-		}
-		if !json.Valid(body) {
-			fail(w, http.StatusBadRequest, "body is not JSON")
-			return
-		}
-		cmd, err := api.DecodeCommand(body)
-		if err != nil {
-			fail(w, http.StatusBadRequest, err.Error())
+		now := uint64(max(time.Now().Unix(), 0))
+		actor, cmd, answer := api.Request(claims.Tenant, claims.User, claims.Expiry, now, bodyOf(w, r))
+		if answer != nil {
+			send(w, *answer)
 			return
 		}
 		var idempotency *Idempotency
-		if key, ok := header(r, "Idempotency-Key"); ok {
+		if key := header(r, "Idempotency-Key"); key != nil {
 			idempotency = &Idempotency{
 				Scope:       api.Scope(actor),
-				Key:         key,
+				Key:         *key,
 				Fingerprint: api.Fingerprint(cmd),
 			}
 		}
-		result, refusal, err := engine.Execute(actor, cmd, idempotency)
-		switch {
-		case errors.Is(err, ErrIdempotencyConflict):
-			fail(w, http.StatusUnprocessableEntity, "idempotency key reused")
-		case errors.Is(err, ErrStopped):
-			fail(w, http.StatusServiceUnavailable, "engine stopped")
-		case errors.Is(err, ErrRetriesExhausted):
-			fail(w, http.StatusServiceUnavailable, "retries exhausted")
-		case errors.Is(err, ErrDatabase):
-			fail(w, http.StatusServiceUnavailable, "database error")
-		case errors.Is(err, ErrCommitUnknown):
-			fail(w, http.StatusInternalServerError, "commit outcome unknown")
-		case err != nil:
-			fail(w, http.StatusInternalServerError, "engine error")
-		case refusal != nil:
-			status, body := api.EncodeError(*refusal)
-			reply(w, status, body)
-		default:
-			reply(w, http.StatusOK, api.EncodeReply(result))
+		reply, refusal, err := engine.Execute(actor, cmd, idempotency)
+		if err != nil {
+			send(w, httpformat.Failed(failure(err)))
+			return
 		}
+		send(w, api.Respond(reply, refusal))
 	})
 }

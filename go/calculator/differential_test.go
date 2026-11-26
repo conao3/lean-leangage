@@ -28,7 +28,7 @@ func parse(t *testing.T, line string) (kernel.Principal, kernel.Command) {
 	case len(words) == 4 && words[2] == "set":
 		return actor, kernel.CommandSet{Value: number(words[3])}
 	case len(words) == 5 && words[2] == "apply":
-		if op, ok := OpNamed(words[3]); ok {
+		if op, ok := opNamed(words[3]); ok {
 			return actor, kernel.CommandApply{Op: op, Arg: number(words[4])}
 		}
 	case len(words) == 3 && words[2] == "get":
@@ -91,4 +91,19 @@ func TestGeneratedGoAgreesWithLean(t *testing.T) {
 			t.Fatalf("line %d: %s: got %s, want %s", i+1, line, ours, want[i])
 		}
 	}
+}
+
+// opNamed is the operation with the given name in the command lists.
+func opNamed(name string) (kernel.Op, bool) {
+	switch name {
+	case "add":
+		return kernel.OpAdd(), true
+	case "sub":
+		return kernel.OpSub(), true
+	case "mul":
+		return kernel.OpMul(), true
+	case "div":
+		return kernel.OpDiv(), true
+	}
+	return kernel.Op{}, false
 }

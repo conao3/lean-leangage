@@ -4,14 +4,17 @@ deadlocks, terminated backends, COMMITs lost before or after the server ran them
 stops waiting, other engines writing the same tenant, and many concurrent clients. Each test has
 a database of its own."""
 
+import json
 import socket
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass
 from typing import Any
 
 import psycopg
 import pytest
+from leanfran import Ok
 from leangage import (
     Api,
     Broken,
@@ -21,6 +24,7 @@ from leangage import (
     IdempotencyConflict,
     Refused,
     RetriesExhausted,
+    http_format,
     issue,
     serve,
 )
@@ -346,12 +350,27 @@ def test_advisory_lock_is_held_around_the_transaction() -> None:
     assert db.no_advisory_locks(2) == 0
 
 
+@dataclass(frozen=True)
+class Call:
+    actor: Actor
+    cmd: Add
+
+
 def cells_api() -> Api:
+    def request(tenant: int, user: int, expiry: int, now: int, body: Any) -> Any:
+        fields = json.loads(body.s)
+        return Ok(value=Call(Actor(tenant, user), Add(fields["cell"], fields["delta"])))
+
+    def respond(decision: Any) -> http_format.Response:
+        if isinstance(decision, Ok):
+            return http_format.Response(
+                status=200, body=list(str(decision.value).encode())
+            )
+        return http_format.Response(status=422, body=list(decision.error.encode()))
+
     return Api(
-        principal=Actor,
-        decode_command=lambda body: Add(body["cell"], body["delta"]),
-        encode_reply=lambda reply: str(reply).encode(),
-        encode_error=lambda error: (422, error.encode()),
+        request=request,
+        respond=respond,
         fingerprint=lambda cmd: repr(cmd).encode(),
         scope=lambda actor: f"u{actor.user}",
     )

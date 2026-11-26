@@ -13,8 +13,9 @@ from leangage.engine import (
     RetriesExhausted,
     Storage,
 )
-from leangage.http import Api, serve
-from leangage.token import Claims, TokenError, Verifier, issue, verify
+from leangage.http import Api, handle
+from leangage.server import serve
+from leangage.token import Claims, Verifier, admit, issue
 
 __all__ = [
     "Api",
@@ -30,9 +31,9 @@ __all__ = [
     "Refused",
     "RetriesExhausted",
     "Storage",
-    "TokenError",
     "Verifier",
+    "admit",
+    "handle",
     "issue",
     "serve",
-    "verify",
 ]
