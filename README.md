@@ -620,9 +620,9 @@ Checked by `make check`, not proved:
   `writeArray`. 3,000 request lines (1,368 texts to read, of which `read` accepts 834 and refuses
   534: every spelling of a number, of an escape and of the space between tokens, texts with a
   byte removed, inserted or replaced, arrays 300 deep; 463 `Authorization` headers, 142 of them
-  accepted; 871 requests, 347 of them accepted and 524 answered 400, 401 or 413: the members of
-  a command in any order, a member missing, added, repeated or renamed, values of other kinds,
-  expired tokens; 298 responses, failures, fingerprints and scopes) give the same items, claims,
+  accepted; 871 requests, 338 of them accepted and 533 answered 400, 401 or 413: the members of
+  a command in any order, commands written without a space and texts close to one, a member
+  missing, added, repeated or renamed, values of other kinds, expired tokens; 298 responses, failures, fingerprints and scopes) give the same items, claims,
   commands, statuses and bytes in the generated Rust, Python and Go as in the functions compiled
   natively by Lean, and the 989 texts to read that are UTF-8 give the same through `readString`.
   The Go and the Python table functions of the notes are generated and compiled, a
