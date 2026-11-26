@@ -5,17 +5,20 @@ import Leangage.Json.Lexemes.Proofs
 /-!
 # What the notes' functions on the wire guarantee
 
-The server's JSON library is trusted to hand over the tokens of the text of a body and of a
+The server's JSON library is trusted to hand over the packed tokens of the text of a body and of a
 stored reply (`Leangage.Json.Lexemes.Proofs`); the theorems start from those tokens.
 
-- `decode_encode`: the tokens of the JSON text that spells the command `c` (`lexemesOf c`, a
-  number as its decimal) decode to `c`. So every command has a spelling the server accepts.
-- `decode_ok_iff`, `decodeMembers_ok_iff`: tokens decode to `c` exactly when `object` gives
-  members for them, as many as `c` has fields (`fields c`) and with each field among them. By
-  `object_iff` those are the tokens of an object whose values are not arrays or objects. The
-  members may come in any order; an object with another member or a member twice is refused.
-  `decode_spec` and `decode_object` give the decision for the tokens of any object, and
-  `decode_not_object` the refusal of every other list of tokens.
+- `decode_encode`: the packed tokens of the JSON text that spells the command `c`
+  (`pack (lexemesOf c)`, a number as its decimal) decode to `c`. So every command has a spelling
+  the server accepts.
+- `decode_ok_iff`, `decodeMembers_ok_iff`: a packed text decodes to `c` exactly when `object`
+  gives members for the tokens it unpacks to, as many as `c` has fields (`fields c`) and with
+  each field among them. By `object_iff` those are the tokens of an object whose values are not
+  arrays or objects. The members may come in any order; an object with another member or a
+  member twice is refused. `decode_spec` and `decode_object` give the decision for the tokens of
+  any object, and `decode_not_object` the refusal of every other list of tokens.
+- `decode_malformed`, `decode_notJson_iff`: `notJson`, answered 400 `body is not JSON`, is the
+  refusal of the texts that no list of tokens packs to, and of no other.
 - `decodeMembers_missingCmd_iff`: `missingCmd` is the refusal of the objects without a member
   `cmd`. `decodeMembers_notCommand_iff`: `notCommand` is the refusal of the objects with a
   member `cmd` whose members are the fields of no command. `refusalMessage_spec` gives the

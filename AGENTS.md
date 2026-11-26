@@ -17,8 +17,9 @@ leangage: the contract of a kernel proved in Lean 4, and the servers that run th
   `Leangage/Json.lean` is the JSON writer that is generated and `Leangage/Json/Proofs.lean`
   its specification (a printer over JSON values, a string lexer) and theorems.
   `Leangage/Json/Lexemes.lean` (generated) holds the tokens of a JSON text as a conversion file
-  hands them over (`Tokens`: the kinds of the tokens as one text, and the texts of the numbers,
-  the strings and the keys), the tokens one by one (`Lexeme`, `zip`, `Tokens.lexemes`), the
+  hands them over, packed in one text (the kinds of the tokens, a line feed, and the texts of the
+  numbers, the strings and the keys, each but the last after the count of its characters and a
+  colon), the reading of that text into the tokens one by one (`Lexeme`, `unpack`, `texts`), the
   values that are not arrays or objects (`Scalar`), the reading of a number token (`numberOf`)
   and the members of an object (`scalar`, `members`, `object`), and
   `Leangage/Json/Lexemes/Proofs.lean` their theorems. `Leangage/Http.lean` (generated) decides what a
@@ -78,7 +79,7 @@ leangage: the contract of a kernel proved in Lean 4, and the servers that run th
   with the types of `Leangage.Json.Lexemes` (`--type-module` in Python and Go; in Rust by
   `leanfran module generate` with
   `--type-path Leangage.Json.Lexemes=crate::generated::leangage_json_lexemes`, run after
-  `project generate`, so that `Body::Json` holds the `Tokens` of `json_lexemes`). The calculator's functions
+  `project generate`). The calculator's functions
   from `Calculator.Wire` are `rust/calculator/src/generated/calculator_wire.rs`,
   `python/src/leangage_calculator/wire.py` and `go/calculator/wire/`, generated with the types
   of the kernel, of `Leangage.Http` and of `Leangage.Json.Lexemes` as the table is with those of
@@ -109,10 +110,11 @@ leangage: the contract of a kernel proved in Lean 4, and the servers that run th
 - A JSON library is called in the conversion file of each language only (`json_text.rs`,
   `json_text.py`, `json_text.go`: serde_json, `json`, `encoding/json`, whose token reader
   `encoding/json/jsontext` the Go file takes from a `sync.Pool`). The file hands over the
-  tokens of the text in the order of the document as `Tokens`, a member twice as two members:
-  a character for the kind of each token (`{`, `}`, `[`, `]`, `n`, `t`, `f`, `#` for a number,
-  `s` for a string, `k` for a key) and the texts of the numbers, the strings and the keys, a
-  number as the text of its token. It looks up no member, checks no type of a value and fills in
+  tokens of the text in the order of the document, a member twice as two members, packed in one
+  text: a character for the kind of each token (`{`, `}`, `[`, `]`, `n`, `t`, `f`, `#` for a
+  number, `s` for a string, `k` for a key), a line feed, and the texts of the numbers, the
+  strings and the keys, a number as the text of its token, each text but the last after the
+  count of its characters and a colon. It looks up no member, checks no type of a value and fills in
   no default. `tools/check-handlers.py` fails when one of the 3 lacks the library's reading calls
   or holds a status code, a member lookup, a comparison with a text or a type of the library that
   holds a whole value. `rust/leangage/tests/json_library.rs`,
@@ -187,15 +189,14 @@ leangage: the contract of a kernel proved in Lean 4, and the servers that run th
   body by the JSON library, the conversion and the generated `request`, and on its line (f) the
   server's `/rpc` handling called in process (token check, body, generated `request`, engine,
   `respond`) for the `get` and the `apply` body of `tools/measure.py`, which shows what a request
-  costs the server apart from the socket. A body crosses into the generated code as `Tokens`, 1
-  text and 1 list of texts whatever its number of tokens, for the same reason: a call converts
-  each value that crosses. The kernels' functions compare member names and strings with `String`
+  costs the server apart from the socket. A body crosses into the generated code as 1 text
+  whatever its number of tokens, for the same reason: a call converts each value that crosses,
+  and in Go each Lean string and each list cell is an allocation. The kernels' functions compare member names and strings with `String`
   equality, and `numberOf` reads the digits of a number token with `Token.numberAt`. A function
-  that reads the common spelling from the kinds, compared as one text, and the texts stands
-  beside the one that decides every input from the tokens one by one (`spelled` beside
-  `decodeObject` in `Calculator.Wire`), with a theorem that the function the servers call is the
-  second on every input (`decode_eq`: `decode tokens = decodeObject tokens.lexemes`), so that the
-  other theorems hold for it.
+  that reads the common spelling from the start of the packed text and the number at its end
+  stands beside the one that decides every input from the unpacked tokens (`spelled` beside
+  `unpack` and `decodeObject` in `Calculator.Wire`), with a theorem that the function the servers
+  call is the second on every input (`decode_eq`), so that the other theorems hold for it.
 - Authorization is the guard of `Leangage.Authz`: a kernel's `handle` decides a command with no
   authorization of its own, and the generated `transition` is `handle` behind `guardViewed` with
   the kernel's policy. The servers call `transition` only.
@@ -252,8 +253,8 @@ All commands run inside `nix develop`.
   formats are described in `lean/SqlOracle.lean`, `lean/TokenOracle.lean`,
   `lean/JsonOracle.lean`, `lean/RequestOracle.lean` and `lean/NotesRequestOracle.lean`. A body and
   a JSON text of the request lists are bytes: the oracles read them with `Oracle/JsonText.lean`
-  and pack the tokens with `encode`, and each language's test reads them with its conversion
-  file and prints the `tokens` rows through the generated `Tokens.lexemes`, so the rows compare
+  and pack the tokens with `pack`, and each language's test reads them with its conversion
+  file and prints the `tokens` rows through the generated `unpack`, so the rows compare
   what the library hands over with that reader.
 - A spec in a proofs module calls no generated function that the same `#assay` breaks, so that
   `#assay` does not break it along with the function (`kindOf` in `Leangage.Sql.Proofs` beside

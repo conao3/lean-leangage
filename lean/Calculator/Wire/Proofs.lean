@@ -6,20 +6,23 @@ import Leangage.Json.Lexemes.Proofs
 /-!
 # What the calculator's functions on the wire guarantee
 
-The servers' JSON libraries are trusted to hand over the tokens of the text of a body
+The servers' JSON libraries are trusted to hand over the packed tokens of the text of a body
 (`Leangage.Json.Lexemes.Proofs`); the theorems start from those tokens.
 
-- `decode_encode`: the tokens of the JSON text that spells the command `c` (`lexemesOf c`, a
-  number as its decimal) decode to `c`. So every command has a spelling the server accepts.
-- `decode_eq`, `spelled_sound`, `spelled_lexemesOf`: `decode`, which answers the tokens of a
-  command with its members in the order of `lexemesOf` from `spelled`, is `decodeObject`, the
-  decision on the members by their names, on every list of tokens.
-- `decode_ok_iff`, `decodeMembers_ok_iff`: tokens decode to `c` exactly when `object` gives
-  members for them, as many as `c` has fields (`fields c`) and with each field among them. By
-  `object_iff` those are the tokens of an object whose values are not arrays or objects. The
-  members may come in any order; an object with another member or a member twice is refused.
-  `decode_spec` and `decode_object` give the decision for the tokens of any object, and
-  `decode_not_object` the refusal of every other list of tokens.
+- `decode_encode`: the packed tokens of the JSON text that spells the command `c`
+  (`pack (lexemesOf c)`, a number as its decimal) decode to `c`. So every command has a spelling
+  the server accepts.
+- `decode_eq`, `spelled_iff`, `spelled_sound`, `spelled_lexemesOf`, `numbered_iff`: `spelled`
+  gives the command `c` exactly for `pack (lexemesOf c)`, and `decode`, which answers such a text
+  from `spelled`, is the decision of `decodeObject` on the tokens `unpack` gives, on every text.
+- `decode_ok_iff`, `decodeMembers_ok_iff`: a packed text decodes to `c` exactly when `object`
+  gives members for the tokens it unpacks to, as many as `c` has fields (`fields c`) and with
+  each field among them. By `object_iff` those are the tokens of an object whose values are not
+  arrays or objects. The members may come in any order; an object with another member or a
+  member twice is refused. `decode_spec` and `decode_object` give the decision for the tokens of
+  any object, and `decode_not_object` the refusal of every other list of tokens.
+- `decode_malformed`, `decode_notJson_iff`: `notJson`, answered 400 `body is not JSON`, is the
+  refusal of the texts that no list of tokens packs to, and of no other.
 - `decodeMembers_missingCmd_iff`: `missingCmd` is the refusal of the objects without a member
   `cmd`. `decodeMembers_badValue_iff`, `decodeMembers_badArg_iff`: `badValue` is the refusal of
   the objects of 2 members with `"cmd":"set"` whose `value` is not a number below 2^64 in decimal

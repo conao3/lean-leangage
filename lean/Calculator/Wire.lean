@@ -15,11 +15,11 @@ A command is a JSON object: `{"cmd":"set","value":6}`, `{"cmd":"apply","op":"mul
 the operations `add`, `sub`, `mul` and `div`, and `{"cmd":"get"}`. Its members may come in any
 order; an object with another member, or with a member twice, is not a command.
 
-`decode` reads the tokens of a body. For a command whose members come in the order above,
-`spelled` gives the command from the kinds of the tokens, compared as one text, and their texts;
-for every other body `decodeObject` collects the members of the tokens one by one and looks each
-up by its name. `Calculator.Wire.Proofs` proves that `decode` is `decodeObject` of the tokens on
-every body.
+`decode` reads the packed tokens of a body. For a command whose members come in the order above,
+`spelled` gives the command from the start of the packed text, compared as one text, and the
+number at its end; for every other body `unpack` gives the tokens one by one and `decodeObject`
+collects their members and looks each up by its name. `Calculator.Wire.Proofs` proves that
+`decode` is `decodeObject` of the unpacked tokens on every body.
 -/
 
 namespace Calculator.Wire

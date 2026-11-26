@@ -4,11 +4,13 @@ import Leangage.Token
 # JSON input
 
 A server reads the text of a request body with the JSON library of its language and hands over
-the tokens of the text in the order of the document, a member twice as two members, as `Tokens`:
-one character for the kind of each token (`{`, `}`, `[`, `]`, `n` for null, `t` and `f` for true
-and false, `#` for a number, `s` for a string, `k` for a key) and the texts of the numbers, the
-strings and the keys. `Tokens.lexemes` gives the tokens one by one, each a `Lexeme`: a number as
-the text of its token, a string and a key as text.
+the tokens of the text in the order of the document, a member twice as two members, packed in one
+text: one character for the kind of each token (`{`, `}`, `[`, `]`, `n` for null, `t` and `f` for
+true and false, `#` for a number, `s` for a string, `k` for a key), a line feed, and the texts of
+the numbers, the strings and the keys, each but the last after the count of its characters in
+decimal and a colon. `unpack` gives the tokens one by one, each a `Lexeme`: a number as the text
+of its token, a string and a key as text; it gives none for a text that no list of tokens is
+packed to.
 
 `numberOf` reads a number token: decimal digits without a sign, a fraction or an exponent that
 spell a value below 2^64 without a leading zero are that value, and every other text is no value.
