@@ -10,7 +10,7 @@
   <a href="lean/lean-toolchain"><img src="https://img.shields.io/badge/Lean-v4.35.0-blue" alt="Lean v4.35.0"></a>
   <a href="rust/Cargo.toml"><img src="https://img.shields.io/badge/Rust-edition%202024-orange" alt="Rust edition 2024"></a>
   <a href="python/pyproject.toml"><img src="https://img.shields.io/badge/Python-%E2%89%A53.13-3776AB" alt="Python 3.13 or later"></a>
-  <a href="go/go.mod"><img src="https://img.shields.io/badge/Go-1.26-00ADD8" alt="Go 1.26"></a>
+  <a href="go/go.mod"><img src="https://img.shields.io/badge/Go-1.27-00ADD8" alt="Go 1.27"></a>
   <a href="https://github.com/conao3/lean-leangage/stargazers"><img src="https://img.shields.io/github/stars/conao3/lean-leangage?style=flat" alt="GitHub stars"></a>
 </p>
 
@@ -544,6 +544,10 @@ Proved in Lean, about the definitions that are generated and run:
     the text that spells the command `c` with a number as its decimal, sent with a token that has
     not expired, gives the engine the command `c` for the principal of the token's tenant and
     user (`request_actor`);
+  - `answerOf_spec`, `call_spec`, `request_call`, `request_answer`: `answerOf`, `actorOf` and
+    `cmdOf` take the result of `request` apart, the answer when there is one and otherwise the
+    principal and the command of the call. The Python server reads the result through them and
+    hands the principal and the command to the kernel as the Lean values they are;
   - `decode_eq`, `spelled_sound`, `spelled_lexemesOf`: `decode` reads a command whose members
     come in the order `cmd`, `value` or `cmd`, `op`, `arg` from the kinds of its tokens, compared
     as one text, and their texts (`spelled`), and for every other body collects the members of
@@ -640,8 +644,8 @@ Checked by `make check`, not proved:
   functions of the JSON writer (524 ways: 454 rejected, 6 behave the same, 64 don't compile), the
   8 functions that make the calculator's bodies (111 ways, all rejected), the 4 functions of
   `Leangage.Http` that it can break (94 ways: 88 rejected, 6 don't compile; `refuse` is one
-  constructor applied to its arguments, and it makes no broken version of it), the 11 functions
-  of `Calculator.Wire` (367 ways: 341 rejected, 1 behaves the same, 25 don't compile), 17
+  constructor applied to its arguments, and it makes no broken version of it), the 14 functions
+  of `Calculator.Wire` (378 ways: 347 rejected, 3 behave the same, 28 don't compile), 17
   functions of `Notes.Wire` (543 ways: 470 rejected, 6 behave the same, 67 don't compile), the 6
   functions of the calculator's table (25 ways: 20 rejected, 5 don't compile) and the 8 functions of the notes'
   tables (46 ways: 30 rejected, 16 don't compile). For the guard, it breaks `guard`, `guardViewed` and the 4 checks in 28 ways and runs `guard_eq`,
@@ -738,7 +742,7 @@ Checked by `make check`, not proved:
   holds a JSON library, a status code (a constant of the HTTP library or a number from 100 to
   599) or the JSON writer. It reads the 3 conversion files, the one place of each language that
   calls the JSON library (`rust/leangage/src/json_text.rs`, 118 lines;
-  `go/leangage/json_text.go`, 67 lines; `python/src/leangage/json_text.py`, 80 lines), and fails
+  `go/leangage/json_text.go`, 81 lines; `python/src/leangage/json_text.py`, 80 lines), and fails
   when one lacks the library's reading calls or holds a status code, a lookup of a member by its
   name, a comparison with a text or a type of the library that holds a whole value.
 - **The servers give the answers of the generated functions.** `rust/calculator/tests/http.rs`,
@@ -926,18 +930,18 @@ token check, the engine and the generated kernel cost.
   connections it gives fewer than on one, while FastAPI and Flask spread the connections over 4 processes.
 - Every body is read by the JSON library of the server's language, and every request is decided
   and every reply is made by the generated functions. Reading the body
-  `{"cmd":"apply","op":"mul","arg":7}` and deciding the request takes about 0.6 µs in Rust, 2.7 µs
+  `{"cmd":"apply","op":"mul","arg":7}` and deciding the request takes about 0.6 µs in Rust, 2.0 µs
   in Go and 59 µs in Python on a 6-core desktop, with or without spaces in the body
-  (`make bench-bytes`, line (d)): 1.76 million calls per second in Rust, 370,000 in Go and 16,900
-  in Python, beside 2.17 million, 585,000 and 135,000 for a decoder written by hand. The library
-  and the conversion file take 0.2 µs, 1.0 µs and 8 µs of it, and the generated `request` 0.3 µs,
-  1.5 µs and 43 µs. A call of a generated function converts the tokens going in and the result
+  (`make bench-bytes`, line (d)): 1.75 million calls per second in Rust, 490,000 in Go and 17,000
+  in Python, beside 2.17 million, 583,000 and 132,000 for a decoder written by hand. The library
+  and the conversion file take 0.2 µs, 0.6 µs and 8 µs of it, and the generated `request` 0.3 µs,
+  1.4 µs and 42 µs. A call of a generated function converts the tokens going in and the result
   coming out whatever it decides: a request answered before its body is decoded (an expired
   token) takes about 0.25 µs in Rust, 1.1 µs in Go and 21 µs in Python. Line (f) of
   `make bench-bytes` calls the server's `/rpc` handling in process (token check, body, generated
   `request`, engine, `respond`) for the `get` and the `apply` body of the tables above, and so
-  shows what a request costs the server apart from the socket: 2.2 µs and 2.7 µs in Rust, 4.2 µs
-  and 5.8 µs in Go, 101 µs and 136 µs in Python.
+  shows what a request costs the server apart from the socket: 2.2 µs and 2.7 µs in Rust, 3.9 µs
+  and 5.5 µs in Go (52 and 77 allocations), 92 µs and 124 µs in Python.
 
 A generated function that takes a Rust, Python or Go value converts it to Lean's representation on
 every call, and its result back. The engines therefore keep each tenant's snapshot as a Lean

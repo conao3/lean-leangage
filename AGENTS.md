@@ -101,8 +101,14 @@ leangage: the contract of a kernel proved in Lean 4, and the servers that run th
   `encodeReply` and `decodeReply`), holds a JSON library, a status code or the JSON writer, or
   lacks a call of a generated function or of the conversion file. A change to a handler keeps it
   passing; a new decision about a request goes into `lean/`.
+- The Python calculator (`python/src/leangage_calculator/__init__.py`) calls `wire.request.lean`
+  and reads its result with the generated `answerOf`, `actorOf` and `cmdOf`, so the principal and
+  the command reach `kernel.transition` as Lean handles. A kernel function that takes the
+  principal or the command is called through its `.lean` variant there, which takes a handle or a
+  Python value.
 - A JSON library is called in the conversion file of each language only (`json_text.rs`,
-  `json_text.py`, `json_text.go`: serde_json, `json`, `encoding/json`). The file hands over the
+  `json_text.py`, `json_text.go`: serde_json, `json`, `encoding/json`, whose token reader
+  `encoding/json/jsontext` the Go file takes from a `sync.Pool`). The file hands over the
   tokens of the text in the order of the document as `Tokens`, a member twice as two members:
   a character for the kind of each token (`{`, `}`, `[`, `]`, `n`, `t`, `f`, `#` for a number,
   `s` for a string, `k` for a key) and the texts of the numbers, the strings and the keys, a
