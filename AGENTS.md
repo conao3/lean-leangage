@@ -16,10 +16,10 @@ leangage: the contract of a kernel proved in Lean 4, and the servers that run th
   token format that is generated and `Leangage/Token/Proofs.lean` its theorems.
   `Leangage/Json.lean` is the JSON writer that is generated and `Leangage/Json/Proofs.lean`
   its specification (a printer over JSON values, a string lexer) and theorems.
-  `Leangage/Json/Items.lean` (generated) holds the tokens of a JSON text as a JSON library hands
-  them over (`Lexeme`), the items the kernels' functions decide on (`Item`) and the functions
-  from the first to the second (`numberItem`, `item`, `items`), and
-  `Leangage/Json/Items/Proofs.lean` their theorems. `Leangage/Http.lean` (generated) decides what a
+  `Leangage/Json/Lexemes.lean` (generated) holds the tokens of a JSON text as a JSON library hands
+  them over (`Lexeme`), the values that are not arrays or objects (`Scalar`), the reading of a
+  number token (`numberOf`) and the members of an object (`scalar`, `members`, `object`), and
+  `Leangage/Json/Lexemes/Proofs.lean` their theorems. `Leangage/Http.lean` (generated) decides what a
   server answers by itself: the reading of the `Authorization` header, the expiry of a token,
   a body that is not a JSON text, the failures of the engine; `Leangage/Http/Proofs.lean` holds its
   theorems.
@@ -40,7 +40,7 @@ leangage: the contract of a kernel proved in Lean 4, and the servers that run th
   `NotesRequestOracle.lean` import to give the expected tokens of a text; it is generated for no
   server.
 - `audit/`: a separate Lake package with leanassay (`Audit/Calculator.lean`, `Audit/Sql.lean`,
-  `Audit/Store.lean`, `Audit/Token.lean`, `Audit/Json.lean`, `Audit/JsonItems.lean`, `Audit/Http.lean`, `Audit/Wire.lean`, `Audit/NotesWire.lean`, `Audit/Authz.lean`,
+  `Audit/Store.lean`, `Audit/Token.lean`, `Audit/Json.lean`, `Audit/JsonLexemes.lean`, `Audit/Http.lean`, `Audit/Wire.lean`, `Audit/NotesWire.lean`, `Audit/Authz.lean`,
   `Audit/Notes*.lean`), the axiom
   check (`Audit/Axioms.lean`) and the obligation check `#obligations` (`Audit/Obligations.lean`,
   run on the calculator in `Audit/Calculator.lean` and on the notes in
@@ -69,20 +69,20 @@ leangage: the contract of a kernel proved in Lean 4, and the servers that run th
   `python/src/leangage/token_format.py`, `go/leangage/token/`), the JSON writer generated from
   `Leangage.Json` (`leangage::json_format`, `python/src/leangage/json_format.py`,
   `go/leangage/jsonformat/`), the functions on the tokens of a JSON text generated from
-  `Leangage.Json.Items` (`leangage::json_items`, `python/src/leangage/json_items.py`,
-  `go/leangage/jsonitems/`) and the
+  `Leangage.Json.Lexemes` (`leangage::json_lexemes`, `python/src/leangage/json_lexemes.py`,
+  `go/leangage/jsonlexemes/`) and the
   functions generated from `Leangage.Http` (`leangage::http_format`,
   `python/src/leangage/http_format.py`, `go/leangage/httpformat/`). `Leangage.Http` is generated
-  with the types of `Leangage.Json.Items` (`--type-module` in Python and Go; in Rust by
+  with the types of `Leangage.Json.Lexemes` (`--type-module` in Python and Go; in Rust by
   `leanfran module generate` with
-  `--type-path Leangage.Json.Items=crate::generated::leangage_json_items`, run after
-  `project generate`, so that `Body::Json` holds the `Lexeme` of `json_items`). The calculator's functions
+  `--type-path Leangage.Json.Lexemes=crate::generated::leangage_json_lexemes`, run after
+  `project generate`, so that `Body::Json` holds the `Lexeme` of `json_lexemes`). The calculator's functions
   from `Calculator.Wire` are `rust/calculator/src/generated/calculator_wire.rs`,
   `python/src/leangage_calculator/wire.py` and `go/calculator/wire/`, generated with the types
-  of the kernel, of `Leangage.Http` and of `Leangage.Json.Items` as the table is with those of
+  of the kernel, of `Leangage.Http` and of `Leangage.Json.Lexemes` as the table is with those of
   `Leangage.Sql`. The notes' functions from `Notes.Wire` are
   `rust/notes/src/generated/notes_wire.rs`, generated for Rust only, since only Rust has a notes
-  server. Its `--type-path` lists `Leangage.Json.Items` before `Leangage.Json`, which is a prefix
+  server. Its `--type-path` lists `Leangage.Json.Lexemes` before `Leangage.Json`, which is a prefix
   of it, and maps `Leangage.Authz` to `crate::authz`, the module of `rust/notes/src/lib.rs`
   that gives the kernel's refusal the name the generated file uses.
 - The request path of the calculator and of the notes passes bytes and tokens to generated functions: the `token` module of
@@ -166,7 +166,7 @@ leangage: the contract of a kernel proved in Lean 4, and the servers that run th
 - Generated files (`rust/*/src/generated/`, `python/src/leangage_*/kernel.py`,
   `python/src/leangage_calculator/store.py`, `python/src/leangage_calculator/wire.py`,
   `go/*/kernel/`, `go/calculator/store/`, `go/calculator/wire/`, and the SQL compiler, the token
-  format, the JSON writer, the functions of `Leangage.Json.Items` and the functions of `Leangage.Http` in each server
+  format, the JSON writer, the functions of `Leangage.Json.Lexemes` and the functions of `Leangage.Http` in each server
   library) are committed and never edited.
   Run `make generate` after changing `lean/`.
 - A function the servers call on every request takes `String`s and writes into an `Array UInt8`
@@ -175,18 +175,23 @@ leangage: the contract of a kernel proved in Lean 4, and the servers that run th
   `writeArray_spec`), whose theorems then hold for it, and the differential tests run both.
   `bench-bytes` in the Makefile times the two side by side, and on its line (d) the reading of a
   body by the JSON library, the conversion and the generated `request`. A `Lexeme` holds its
-  text as a `String` for the same reason, and `numberItem` reads the digits of a number token
-  with `Token.numberAt`.
+  text as a `String` for the same reason: the kernels' functions compare member names and strings
+  with `String` equality, and `numberOf` reads the digits of a number token with
+  `Token.numberAt`. A function that reads the common spelling token by token stands beside the
+  one that decides every input (`spelled` beside `decodeObject` in `Calculator.Wire`), with a
+  theorem that the function the servers call is the second on every input (`decode_eq`), so that
+  the other theorems hold for it.
 - Authorization is the guard of `Leangage.Authz`: a kernel's `handle` decides a command with no
   authorization of its own, and the generated `transition` is `handle` behind `guardViewed` with
   the kernel's policy. The servers call `transition` only.
 - When a function is added to a generated module, add a theorem about it and list it in the
   module's audit file (`audit/Audit/Calculator.lean`, `audit/Audit/Sql.lean`,
   `audit/Audit/Store.lean`, `audit/Audit/Token.lean`, `audit/Audit/Json.lean`,
-  `audit/Audit/JsonItems.lean`, `audit/Audit/Http.lean`, `audit/Audit/Wire.lean`,
+  `audit/Audit/JsonLexemes.lean`, `audit/Audit/Http.lean`, `audit/Audit/Wire.lean`,
   `audit/Audit/NotesWire.lean`, `audit/Audit/Notes*.lean`) in the same change. A hypothesis of an audited theorem calls no
-  generated function (`decodeItems_object` uses `isScalar` beside the generated `scalar`): a broken version of the function would change the
-  hypothesis with the conclusion.
+  generated function: a broken version of the function would change the hypothesis with the
+  conclusion. A theorem stated on every input (`object_shape`, on any list of tokens) has no
+  hypothesis to break.
   Theorems whose hypothesis fixes the result of the function (`transition a s c = .ok …`) cannot
   be run by leanassay; state the runnable form with `match` (`get_after_run`) and derive the
   other from it.
@@ -232,10 +237,12 @@ All commands run inside `nix develop`.
   formats are described in `lean/SqlOracle.lean`, `lean/TokenOracle.lean`,
   `lean/JsonOracle.lean`, `lean/RequestOracle.lean` and `lean/NotesRequestOracle.lean`. A body and
   a JSON text of the request lists are bytes: the oracles read them with `Oracle/JsonText.lean`,
-  and each language's test with its conversion file, so the `items` rows compare what the
+  and each language's test with its conversion file, so the `tokens` rows compare what the
   library hands over with that reader.
-- A spec in a proofs module calls no generated function, so that `#assay` does not break it along
-  with the function (`kindOf` in `Leangage.Sql.Proofs` beside the generated `valKind`).
+- A spec in a proofs module calls no generated function that the same `#assay` breaks, so that
+  `#assay` does not break it along with the function (`kindOf` in `Leangage.Sql.Proofs` beside
+  the generated `valKind`; `scalarOf` calls `numberOf`, which `Audit/JsonLexemes.lean` breaks in
+  an `#assay` of its own).
 - The servers read `LEANGAGE_SECRET` and `LEANGAGE_LISTEN`; `LEANGAGE_ISSUE=<org>:<user>`
   prints a one-day token and exits. The Rust, the Python and the Go calculator servers and the
   Rust notes server store the snapshots in PostgreSQL when `LEANGAGE_DATABASE_URL` is set; with

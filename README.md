@@ -83,22 +83,23 @@ of its language and passes the header and the tokens of the body through 3 gener
    bytes and compares it with the tag.
 2. `request` takes the claims, the time and the body: the tokens the JSON library read, in the
    order of the text, or the fact that it read none
-   ([`lean/Leangage/Json/Items.lean`](lean/Leangage/Json/Items.lean)). It refuses an expired
-   token, takes the tokens to items (`items`; `numberItem` decides which number tokens are a
-   number below 2^64 in decimal digits) and gives the command and the principal the engine runs,
-   or the answer (401, 400, 413).
+   ([`lean/Leangage/Json/Lexemes.lean`](lean/Leangage/Json/Lexemes.lean)). It refuses an expired
+   token, decides from the tokens (member names and strings compared as text; `numberOf`
+   decides which number tokens are a number below 2^64 in decimal digits) and gives the command
+   and the principal the engine runs, or the answer (401, 400, 413).
 3. `respond` gives the status and the body for the kernel's reply or refusal, and `failed` for a
    failure of the engine.
 
 [`lean/Calculator/Wire/Proofs.lean`](lean/Calculator/Wire/Proofs.lean),
 [`lean/Leangage/Http/Proofs.lean`](lean/Leangage/Http/Proofs.lean) and
-[`lean/Leangage/Json/Items/Proofs.lean`](lean/Leangage/Json/Items/Proofs.lean) prove:
+[`lean/Leangage/Json/Lexemes/Proofs.lean`](lean/Leangage/Json/Lexemes/Proofs.lean) prove:
 
 | Theorem | Statement |
 |---|---|
-| `numberItem_num_iff` | a number token is the number `n` below 2^64 exactly when its text is the decimal of `n`: digits without a sign, a fraction, an exponent or a leading zero |
-| `decodeItems_encode` | every command has a JSON spelling (`{"cmd":"set","value":6}`, `{"cmd":"apply","op":"mul","arg":7}`, `{"cmd":"get"}`) whose items decode to it |
-| `decodeItems_ok_iff` | items decode to a command exactly when they are those of an object with the fields of that command, in any order and with no other member |
+| `numberOf_iff` | a number token is the number `n` below 2^64 exactly when its text is the decimal of `n`: digits without a sign, a fraction, an exponent or a leading zero |
+| `decode_encode` | every command has a JSON spelling (`{"cmd":"set","value":6}`, `{"cmd":"apply","op":"mul","arg":7}`, `{"cmd":"get"}`) whose tokens decode to it |
+| `decode_ok_iff`, `object_iff` | tokens decode to a command exactly when they are those of an object with the fields of that command, in any order and with no other member |
+| `decode_eq` | `decode`, which reads a command whose members come in the order above token by token (`spelled`), decides as the lookup of the members by their names (`decodeObject`) on every list of tokens |
 | `authenticate_ok_iff`, `authenticate_sound` | the headers accepted are `Bearer <t>` with a token `t` that `parseString` accepts, and the bytes returned for the HMAC are every byte of `t` before its last dot |
 | `authenticate_missing`, `authenticate_not_bearer`, `authenticate_bearer` | a request without the header, with another scheme or with a malformed token is answered 401 with its message |
 | `request_expired`, `request_json`, `request_not_json` | an expired token is answered 401 whatever the body; a body that is not a command is answered 400 with the message of its refusal, and so is a body the JSON library refuses |
@@ -307,12 +308,12 @@ under such a key. [`lean/Notes/Wire/Proofs.lean`](lean/Notes/Wire/Proofs.lean) p
 
 | Theorem | Statement |
 |---|---|
-| `decodeItems_encode` | every command has a JSON spelling (`{"cmd":"add_member","user":2,"admin":false}`, `{"cmd":"remove_member","user":2}`, `{"cmd":"put_note","id":7,"body":"text","shared":true}`, `{"cmd":"delete_note","id":7}`, `{"cmd":"read_note","id":7}`, `{"cmd":"list_notes"}`, `{"cmd":"list_members"}`) whose items decode to it |
-| `decodeItems_ok_iff` | items decode to a command exactly when they are those of an object whose members are the fields of that command in some order; an object with another member or with a member twice is refused |
+| `decode_encode` | every command has a JSON spelling (`{"cmd":"add_member","user":2,"admin":false}`, `{"cmd":"remove_member","user":2}`, `{"cmd":"put_note","id":7,"body":"text","shared":true}`, `{"cmd":"delete_note","id":7}`, `{"cmd":"read_note","id":7}`, `{"cmd":"list_notes"}`, `{"cmd":"list_members"}`) whose tokens decode to it |
+| `decode_ok_iff`, `object_iff` | tokens decode to a command exactly when they are those of an object whose members are the fields of that command in some order; an object with another member or with a member twice is refused |
 | `decodeMembers_missingCmd_iff`, `decodeMembers_notCommand_iff` | which refusal each other object gets: ``missing field `cmd` `` or `not a notes command` |
 | `request_expired`, `request_json`, `request_not_json` | the status and the message of each answer `request` gives by itself (401, 400, 413) |
 | `respond_ok`, `respond_error` | an accepted command is answered 200 with the JSON value of its reply; the guard's refusal is answered 403 `{"error":"denied"}`, `notFound` 404 `{"error":"not_found"}` and `badText` 422 `{"error":"bad_text"}` |
-| `decodeReply_value` | tokens whose items are those of the JSON value `encodeReply` writes for a reply are read back as that reply |
+| `decodeReply_encode` | the tokens `encodeReply` writes for a reply, a number as its decimal (`(replyToks r).map Lexeme.ofStrTok`), are read back as that reply |
 | `fingerprint_injective`, `scope_injective` | different commands have different fingerprints, and 2 principals have the same scope exactly when they have the same user |
 
 The Rust server ([`rust/notes`](rust/notes)) passes each request to those functions, as the
@@ -481,21 +482,27 @@ Proved in Lean, about the definitions that are generated and run:
   and `encodeErrorArray_spec` say that they are `Value.print` of `{"value": v}` and of
   `{"error": name}`, with the names `overflow`, `underflow` and `division_by_zero`, as
   `encodeReply_spec` and `encodeError_spec` say of `encodeReply` and `encodeError`.
-- for the functions on the tokens of a JSON text `Leangage.Json.Items` (`numberItem`, `item`,
-  `items`), which the 3 calculator servers and the notes server run on the tokens of every body:
-  - `numberItem_num_iff`, `numberItem_decimal`: a number token is the item `num n` exactly when
-    the bytes of its text are the decimal of the `UInt64` `n`, so for the decimal of every number
-    below 2^64 and for no text with a sign, a fraction, an exponent or a leading zero, and for no
-    text that spells 2^64 or more;
-  - `numberItem_number_iff`: every other text is the item `number`;
-  - `item_number`, `item_str`, `item_key`, `item_decimal`, `items_spec`: `item` reads a number
-    token with `numberItem` and takes a string and a key to the bytes of their UTF-8, and
-    `items` is `item` on each token, in order.
+- for the functions on the tokens of a JSON text `Leangage.Json.Lexemes` (`numberOf`, `scalar`,
+  `members`, `object`), which the 3 calculator servers and the notes server run on the tokens of
+  a body:
+  - `numberOf_iff`, `numberOf_decimalText`, `numberOf_some`: a number token has the value `n`
+    exactly when the bytes of its text are the decimal of the `UInt64` `n`, so the decimal of
+    every number below 2^64 has its value (`decimalText`, `bytesOf_decimalText`), and a text with
+    a sign, a fraction, an exponent or a leading zero and a text that spells 2^64 or more have
+    none;
+  - `scalar_spec`: the value of a token that is a value by itself; a number token is `num n`
+    when `numberOf` gives `n` and `number` otherwise, and a string is its text;
+  - `object_iff`, `object_objectLexemes`, `object_shape`, `members_object`: `object` gives
+    members exactly for the tokens of an object whose values are values by themselves, and the
+    members are the names with the values of those tokens, in the order of the text, a member
+    twice as two members.
 
-  The theorems of `Calculator.Wire` and `Notes.Wire` below start from those items. That the
-  tokens are those of the text of the body is trusted to the JSON library: for the text
-  `Value.print v` of a JSON value `v`, it hands over tokens whose items are
-  `v.toks.map Item.ofTok`;
+  The theorems of `Calculator.Wire` and `Notes.Wire` below start from the tokens. That the
+  tokens are those of the text of the body is trusted to the JSON library: it hands over the
+  tokens in the order of the text, a number as the text of its token, a string and a key as their
+  text; for the text that spells a command `c` those are `lexemesOf c`, and for the text
+  `encodeReply` writes for a reply `r` they are the tokens it writes, a number as its decimal
+  (`(replyToks r).map Lexeme.ofStrTok`);
 - for the functions on requests and responses `Leangage.Http` (`authenticate`, `admit`,
   `failed`, `refuse`). The 3 servers call `authenticate` for every `Authorization` header they
   have not accepted before, and `failed` for every request the engine fails; the calculator's
@@ -514,8 +521,8 @@ Proved in Lean, about the definitions that are generated and run:
     before its last dot and fix the claims; the header of an issued token gives back what was
     signed;
   - `admit_expired`, `admit_json`, `admit_not_json`: a token whose expiry is before the time
-    given is answered 401 `token expired` whatever the body; otherwise the items of the tokens
-    of the body pass, and a body the JSON library refuses, one longer than the server reads and
+    given is answered 401 `token expired` whatever the body; otherwise the tokens of the body
+    pass, and a body the JSON library refuses, one longer than the server reads and
     one that cannot be read are answered 400 `body is not JSON`, 413 `request body too large` and
     400 `request body cannot be read`;
   - `failed_spec`: a tag that is not the HMAC of its payload is answered 401
@@ -523,13 +530,19 @@ Proved in Lean, about the definitions that are generated and run:
     a failure of the database 503, a lost COMMIT and a broken engine 500, each with its message;
 - for the calculator's functions on the wire `Calculator.Wire` (`request`, `respond`,
   `fingerprint`, `scope`), which the 3 calculator servers call for every request:
-  - `decodeItems_encode`, `request_encode`: a body whose tokens have the items of
-    `encodeCommand c`, sent with a token that has not expired, gives the engine the command `c`
-    for the principal of the token's tenant and user (`request_actor`);
-  - `decodeItems_ok_iff`, `decodeMembers_ok_iff`: items are decoded to `c` exactly when they
-    are the items of an object with as many members as `c` has fields and with each field among
-    them. So the members may come in any order, and an object with another member, with a member
-    twice or with a member whose value is an array or an object is refused;
+  - `decode_encode`, `request_encode`: a body whose tokens are `lexemesOf c`, those of the
+    text that spells the command `c` with a number as its decimal, sent with a token that has not
+    expired, gives the engine the command `c` for the principal of the token's tenant and user
+    (`request_actor`);
+  - `decode_eq`, `spelled_sound`, `spelled_lexemesOf`: `decode` reads a command whose members
+    come in the order `cmd`, `value` or `cmd`, `op`, `arg` token by token (`spelled`), and
+    collects the members of every other list of tokens and looks each up by its name
+    (`decodeObject`); `decode` is `decodeObject` on every list of tokens, so the theorems below
+    hold for both paths;
+  - `decode_ok_iff`, `decodeMembers_ok_iff`, `decode_object`, `decode_not_object`: tokens are
+    decoded to `c` exactly when `object` gives members for them, as many as `c` has fields and
+    with each field among them. So the members may come in any order, and an object with another
+    member, with a member twice or with a member whose value is an array or an object is refused;
   - `decodeMembers_missingCmd_iff`, `refusalMessage_spec`: the refusal ``missing field `cmd` ``
     is that of the objects without that member, and each refusal has its message;
   - `decodeMembers_badValue_iff`, `decodeMembers_badArg_iff`: the refusal about `value` is that
@@ -539,7 +552,7 @@ Proved in Lean, about the definitions that are generated and run:
     other refused object is `not a calculator command`;
   - `request_expired`, `request_json`, `request_not_json`, `request_refusal`: an expired token
     is answered 401 whatever the body; otherwise the tokens of a body are answered with the
-    command their items decode to or 400 with the message of the refusal; every answer of
+    command they decode to or 400 with the message of the refusal; every answer of
     `request` has the status 400, 401 or 413 and a body `{"error": message}`;
   - `respond_ok`, `respond_error`: an accepted command is answered 200 with `Value.print` of
     `{"value": v}`, a refused one 422 with `Value.print` of `{"error": name}`;
@@ -549,33 +562,35 @@ Proved in Lean, about the definitions that are generated and run:
   - `scope_injective`: 2 principals have the same scope exactly when they have the same user.
 - for the notes' functions on the wire `Notes.Wire` (`request`, `respond`, `fingerprint`,
   `scope`, `encodeReply`, `decodeReply`), which the Rust notes server calls for every request:
-  - `decodeItems_encode`, `request_encode`: a body whose tokens have the items of
-    `encodeCommand c`, sent with a token that has not expired, gives the engine the command `c`
-    for the principal of the token's organization and user (`request_actor`);
-  - `decodeItems_ok_iff`, `decodeMembers_ok_iff`: items are decoded to `c` exactly when they
-    are the items of an object with as many members as `c` has fields and with each field among
-    them, so the members may come in any order, and an object with another member, with a member
-    twice or with a member whose value is an array or an object is refused. The body of
-    `put_note` is the text whose UTF-8 is the bytes of the string (`textOf_bytesOf`,
-    `textOf_some`);
+  - `decode_encode`, `request_encode`: a body whose tokens are `lexemesOf c`, those of the
+    text that spells the command `c` with a number as its decimal, sent with a token that has not
+    expired, gives the engine the command `c` for the principal of the token's organization and
+    user (`request_actor`);
+  - `decode_ok_iff`, `decodeMembers_ok_iff`, `decode_object`, `decode_not_object`: tokens are
+    decoded to `c` exactly when `object` gives members for them, as many as `c` has fields and
+    with each field among them, so the members may come in any order, and an object with another
+    member, with a member twice or with a member whose value is an array or an object is refused.
+    The body of `put_note` is the text of its string token;
   - `decodeMembers_missingCmd_iff`, `decodeMembers_notCommand_iff`, `refusalMessage_spec`: the
     refusal ``missing field `cmd` `` is that of the objects without that member, and
     `not a notes command` that of the objects with a member `cmd` whose members are the fields
     of no command;
   - `request_expired`, `request_json`, `request_not_json`, `request_refusal`: an expired token
     is answered 401 whatever the body; otherwise the tokens of a body are answered with the
-    command their items decode to or 400 with the message of the refusal; every answer of
+    command they decode to or 400 with the message of the refusal; every answer of
     `request` has the status 400, 401 or 413 and a body `{"error": message}`;
   - `respond_ok`, `encodeReply_spec`, `respond_error`: an accepted command is answered 200 with
     `Value.print` of `replyValue` (`{"done":true}`, `{"note":…}`, `{"notes":[…]}`,
     `{"members":[…]}`, the members of a note and of a member in the order of their keys), the
     guard's refusal 403, `notFound` 404 and `badText` 422, each with `Value.print` of
     `{"error": name}`;
-  - `decodeReply_value`, `decodeReply_spec`, `decodeReply_none`: `decodeReply` reads the tokens
-    of a stored reply, which the server's JSON library reads from the stored bytes. Tokens whose
-    items are those of `replyValue r`, the value `encodeReply` writes for the reply `r`, are read
-    back as `r`, so a request repeated under an idempotency key gets the reply the engine stored;
-    stored bytes the library refuses are no reply;
+  - `decodeReply_encode`, `replyOf_lexemes`, `decodeReply_spec`, `decodeReply_none`:
+    `decodeReply` reads the tokens of a stored reply, which the server's JSON library reads from
+    the stored bytes. The tokens of the text `encodeReply` writes for the reply `r`
+    (`(replyToks r).map Lexeme.ofStrTok`: the tokens it writes, a number as its decimal) are read
+    back as `r`, so a request repeated under
+    an idempotency key gets the reply the engine stored; stored bytes the library refuses are no
+    reply;
   - `fingerprint_spec`, `fingerprint_injective`: the fingerprint of a command is the text
     `AddMember { user: 2, admin: false }`, `RemoveMember { user: 2 }`,
     `PutNote { id: 7, body: "text", shared: true }` with the body escaped as in a JSON string,
@@ -616,8 +631,8 @@ Checked by `make check`, not proved:
   8 functions that make the calculator's bodies (111 ways, all rejected), the 4 functions of
   `Leangage.Http` that it can break (95 ways: 89 rejected, 6 don't compile; `refuse` is one
   constructor applied to its arguments, and it makes no broken version of it), the 11 functions
-  of `Calculator.Wire` (409 ways: 387 rejected, 1 behaves the same, 21 don't compile), 20
-  functions of `Notes.Wire` (861 ways: 784 rejected, 7 behave the same, 70 don't compile), the 6
+  of `Calculator.Wire` (367 ways: 337 rejected, 1 behaves the same, 29 don't compile), 17
+  functions of `Notes.Wire` (543 ways: 470 rejected, 6 behave the same, 67 don't compile), the 6
   functions of the calculator's table (25 ways: 20 rejected, 5 don't compile) and the 8 functions of the notes'
   tables (46 ways: 30 rejected, 16 don't compile). For the guard, it breaks `guard`, `guardViewed` and the 4 checks in 28 ways and runs `guard_eq`,
   `guard_viewed_eq` and the lemmas about the checks on random kernels and policies: 22 are
@@ -627,9 +642,11 @@ Checked by `make check`, not proved:
   the policy in 217 ways: 141 are rejected, 5 behave the same, 71 don't compile, and none
   satisfies every theorem while changing an output.
   The notes' `transition` is one call of `guardViewed`, and no edit of it compiles.
-  For the functions on the tokens of a JSON text, it breaks `numberItem`, `item` and `items` in
-  93 ways (62 rejected, 31 don't compile) and runs the theorems on the decimals of numbers up to 2^64 − 1 and texts close to one: a leading
-  zero, a sign, a fraction, an exponent, 2^64 and numbers of 20 and 21 digits. The audits of
+  For the functions on the tokens of a JSON text, it breaks `numberOf`, `scalar`, `members` and `object` in
+  33 ways (19 rejected, 14 don't compile) and runs the theorems on the decimals of numbers up to
+  2^64 − 1 and texts close to one: a leading
+  zero, a sign, a fraction, an exponent, 2^64 and numbers of 20 and 21 digits, and on the tokens
+  of an object of 2 members and lists of tokens close to one. The audits of
   `Calculator.Wire` and `Notes.Wire` run `request` and `decodeReply` on the tokens of the
   spellings of the commands and of the replies and on lists of tokens close to one.
 - **The tables, as PostgreSQL receives them.** `tables_create` evaluates, in Lean's kernel, the
@@ -663,7 +680,7 @@ Checked by `make check`, not proved:
   a command in any order, with and without space, a member missing, added, repeated or renamed
   in upper case, values of other kinds, the numbers 2^64 − 1, 2^64, `01`, `-0`, `1.0` and `1e2`,
   bodies that are not UTF-8, expired tokens; 310 responses, failures, fingerprints and scopes)
-  give the same items, claims, commands, statuses and bytes in Rust, Python and Go as in the
+  give the same tokens, claims, commands, statuses and bytes in Rust, Python and Go as in the
   functions compiled natively by Lean. The 3 servers read each text and each body with their
   JSON library and their conversion file and give the tokens to the generated functions; the
   oracle reads them with a JSON reader written in Lean
@@ -690,14 +707,14 @@ Checked by `make check`, not proved:
   |---|---|---|---|
   | a `\u` escape of a surrogate outside a pair (`"\ud800"`) | refused | read as U+FFFD | refused: the conversion refuses a string without a UTF-8 encoding |
   | arrays in arrays | read to depth 127, refused from 128 | read to depth 10,000, refused from 10,001 | read at depth 2,000, refused at 200,000 (`RecursionError`; about 51,900 on the build tested) |
-  | a number outside the range of a double (`1e400`) | refused | the item `number` | the item `number` |
+  | a number outside the range of a double (`1e400`) | refused | a number that is no `UInt64` | a number that is no `UInt64` |
 
   A refused text is answered 400 `body is not JSON`. A deep text that is read is answered 400
   with the kernel's message (`not a calculator command`), and a body with a lone surrogate that
   Go reads is a string holding U+FFFD. The 3 agree on the rest of the tests' tables: `NaN`,
   `Infinity`, `01`, trailing data, a byte order mark, UTF-16, bytes that are not UTF-8 (Go's
   conversion checks `utf8.Valid` before the decoder), a control character in a string, an empty
-  body and one of space only are refused; a member twice is handed over twice, and `decodeItems`
+  body and one of space only are refused; a member twice is handed over twice, and `decode`
   refuses the object; a member name in upper case stays as written, so `{"CMD":"get"}` is answered
   ``missing field `cmd` ``.
 - **The request path calls the generated functions.** `tools/check-handlers.py` reads the 10
@@ -812,7 +829,7 @@ is written by hand, and every row holds for each of them:
 | Engine | the memory engine: one command at a time per process, under one lock (Rust, Python), or per tenant, under the tenant's lock and in its `leanfran.Region` (Go); replies stored per idempotency key. The PostgreSQL engines: the 8 items of their contract, PostgreSQL's `SERIALIZABLE` (its commits equal a serial order) and its deferrable read-only snapshot, the conversion of values to parameters and of columns back to values, the stored form of the calculator's replies (`Storage::encode_reply` and `decode_reply`, `Storage.encode_reply`: 8 bytes), and for the notes the reading of the bytes of a stored reply as UTF-8 before `decodeReply` gets the text, and that the engine's role isn't a superuser and doesn't own the tables. In Rust, tokio-postgres and deadpool-postgres, and each value a parameter of the type PostgreSQL inferred. In Python, psycopg and the libpq it bundles, the engine's pool, each value a parameter of the type of its kind, and that the generated Python computes what Lean computes when several threads call it at once, as the PostgreSQL engine does and the memory engine, under its lock, doesn't. In Go, pgx and pgxpool, which take the `PG*` environment variables as the defaults of the connection string, each value a parameter of the type PostgreSQL inferred, and that the generated Go computes what Lean computes when several goroutines call it at once, as the PostgreSQL engine does for its requests and the memory engine for different tenants, each in a `leanfran.Region` of its own |
 | Authentication | HMAC-SHA256 and the constant-time comparison of tags, which each server computes over the payload `authenticate` returns; the secret and its storage; the system clock, whose time each server gives `request`; that a server answers a tag that does not match with `failed` of `badSignature`; the table of accepted headers (a header whose token was accepted once is recognised by its exact bytes and gets the claims read then, without a second reading; its expiry is checked by `request` on every request) |
 | Wire format | that each handler turns the outcome of its engine into the argument of `respond` and `failed` as the names say (`rust/leangage/src/http.rs`, `python/src/leangage/http.py`, `go/leangage/http.go`) |
-| JSON input | serde_json (Rust), `encoding/json` (Go) and `json` (Python), and the conversion file of each server library (`rust/leangage/src/json_text.rs`, `go/leangage/json_text.go`, `python/src/leangage/json_text.py`): that the tokens handed to `request` and `decodeReply` are those of the text of the body and of the stored reply, in its order, with every member of an object, a number as the text of its token (in Rust, where serde_json reads the number, the decimal of a token that is a `u64` and a text with a sign or an exponent for every other number) and a string and a key as their text; for the text `Value.print v`, tokens whose items are `v.toks.map Item.ofTok`; that bytes that are no JSON text give no tokens. What is proved starts at the items of those tokens. The texts on which the 3 libraries differ are listed above |
+| JSON input | serde_json (Rust), `encoding/json` (Go) and `json` (Python), and the conversion file of each server library (`rust/leangage/src/json_text.rs`, `go/leangage/json_text.go`, `python/src/leangage/json_text.py`): that the tokens handed to `request` and `decodeReply` are those of the text of the body and of the stored reply, in its order, with every member of an object, a number as the text of its token (in Rust, where serde_json reads the number, the decimal of a token that is a `u64` and a text with a sign or an exponent for every other number) and a string and a key as their text; for the text that spells a command `c`, the tokens `lexemesOf c`, and for the text `encodeReply` writes for a reply `r`, the tokens it writes with a number as its decimal (`(replyToks r).map Lexeme.ofStrTok`); that bytes that are no JSON text give no tokens. serde_json's `arbitrary_precision` feature stays off: with it a number reaches the conversion as an object with a private member name, which a body can spell too. What is proved starts at those tokens. The texts on which the 3 libraries differ are listed above |
 | HTTP | axum, hyper and tokio (Rust); `http.server` (Python); `net/http` (Go); reading the `Authorization` and the `Idempotency-Key` header as text (a header with a byte outside visible ASCII counts as absent in Rust and Go); in Go, deciding whether the body is longer than 2 MiB or could not be read, before `request` gets it; in Rust, axum's own answer (413) to a body longer than 2 MiB, which no handler sees; in Python, that the server reads a body of any length; sending the status and the bytes a generated function returned, with `Content-Type: application/json` |
 | Call site | that a server runs the notes' `transition`. `handle`, the kernel without the guard, is generated and public too, and the guard's theorems say nothing about a caller of `handle`. For the request path of the calculator and of the notes, `tools/check-handlers.py` checks the calls |
 | SQL | that PostgreSQL reads the text as `lexName_quote`'s lexer reads a quoted name; that PostgreSQL, sent `render q` with its parameters, fails or does to the tables what `run` says, and that a `SELECT` returns the rows `selected` says in some order (`ORDER BY` isn't modeled); that values compare as Lean values do (text character by character, bytes byte by byte); that the tables were made by `create` of the same schema, since `CREATE TABLE IF NOT EXISTS` keeps a table of that name as it is; that no text holds NUL, which the model stores and PostgreSQL refuses (for the notes, `accepted_no_nul` proves it of every body an accepted command writes) |
@@ -896,9 +913,14 @@ token check, the engine and the generated kernel cost.
   connections it gives fewer than on one, while FastAPI and Flask spread the connections over 4 processes.
 - Every body is read by the JSON library of the server's language, and every request is decided
   and every reply is made by the generated functions. Reading the body
-  `{"cmd":"apply","op":"mul","arg":7}` and deciding the request takes about 2 µs in Rust, 8 µs in
-  Go and 170 µs in Python on a 6-core desktop, with or without spaces in the body
-  (`make bench-bytes`, line (d)).
+  `{"cmd":"apply","op":"mul","arg":7}` and deciding the request takes about 0.6 µs in Rust, 3 µs
+  in Go and 85 µs in Python on a 6-core desktop, with or without spaces in the body
+  (`make bench-bytes`, line (d)): 1.56 million calls per second in Rust, 343,000 in Go and 11,900
+  in Python, beside 2.13 million, 576,000 and 124,000 for a decoder written by hand. The library
+  and the conversion file take 0.2 µs, 1.1 µs and 20 µs of it, and the generated `request` 0.4 µs,
+  1.7 µs and 54 µs. A call of a generated function converts the tokens going in and the result
+  coming out whatever it decides: a request answered before its body is decoded (an expired
+  token) takes about 0.3 µs in Rust, 1.4 µs in Go and 32 µs in Python.
 
 A generated function that takes a Rust, Python or Go value converts it to Lean's representation on
 every call, and its result back. The engines therefore keep each tenant's snapshot as a Lean
@@ -992,8 +1014,8 @@ retrying.
 | [`rust/leangage-pg`](rust/leangage-pg) | the PostgreSQL engine, `lockdown` (the owner and the engine's role), the contract tests and the test server (`testing`) |
 | [`rust/calculator`](rust/calculator) | the generated kernel, table and functions on the wire (`src/generated/`), the server, the benchmarks, the HTTP, differential and PostgreSQL tests |
 | [`rust/notes`](rust/notes) | the generated notes kernel, tables and functions on the wire (`src/generated/`), the server, the HTTP, differential and PostgreSQL tests |
-| [`python/`](python) | the Python server library (`leangage`, with the generated `sql.py`, `token_format.py`, `json_format.py`, `json_items.py` and `http_format.py`, the conversion from `json` to tokens `json_text.py`, and `leangage.pg`: the PostgreSQL engine, `lockdown` and the test server `testing`), the calculator (`leangage_calculator`, with the generated `kernel.py`, `store.py` and `wire.py`), the notes (`leangage_notes`, with the generated `kernel.py` and `store.py`), and the tests (`test/`, among them the PostgreSQL engine's contract tests) |
-| [`go/leangage`](go/leangage) | the Go server library: `Kernel`, `Storage`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler (`sql/`), token format (`token/`), JSON writer (`jsonformat/`), functions on the tokens of a JSON text (`jsonitems/`) and functions on requests and responses (`httpformat/`), and the conversion from `encoding/json` to tokens (`json_text.go`) |
+| [`python/`](python) | the Python server library (`leangage`, with the generated `sql.py`, `token_format.py`, `json_format.py`, `json_lexemes.py` and `http_format.py`, the conversion from `json` to tokens `json_text.py`, and `leangage.pg`: the PostgreSQL engine, `lockdown` and the test server `testing`), the calculator (`leangage_calculator`, with the generated `kernel.py`, `store.py` and `wire.py`), the notes (`leangage_notes`, with the generated `kernel.py` and `store.py`), and the tests (`test/`, among them the PostgreSQL engine's contract tests) |
+| [`go/leangage`](go/leangage) | the Go server library: `Kernel`, `Storage`, `MemoryEngine`, tokens, `POST /rpc`, the generated SQL compiler (`sql/`), token format (`token/`), JSON writer (`jsonformat/`), functions on the tokens of a JSON text (`jsonlexemes/`) and functions on requests and responses (`httpformat/`), and the conversion from `encoding/json` to tokens (`json_text.go`) |
 | [`go/leangage/pg`](go/leangage/pg) | the PostgreSQL engine, `Lockdown` (the owner and the engine's role), the contract tests and the test server (`pgtest/`) |
 | [`go/calculator`](go/calculator) | the generated kernel (`kernel/`), table (`store/`) and functions on the wire (`wire/`), the server and the benchmarks (`cmd/`), the HTTP, differential and PostgreSQL tests |
 | [`go/notes`](go/notes) | the generated notes kernel (`kernel/`) and tables (`store/`), the differential test |
