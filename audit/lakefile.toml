@@ -13,5 +13,5 @@ rev = "ff0a0e76ca99801f59722d8b92571b91f7214f5f"
 [[lean_lib]]
 name = "Audit"
 roots = ["Audit", "Audit.Authz", "Audit.NotesRows", "Audit.NotesPolicy", "Audit.NotesHandle",
-  "Audit.NotesStore", "Audit.Wire", "Audit.JsonRead", "Audit.JsonReadStrings",
+  "Audit.NotesStore", "Audit.NotesWire", "Audit.Wire", "Audit.JsonRead", "Audit.JsonReadStrings",
   "Audit.JsonReadNumbers", "Audit.Http"]

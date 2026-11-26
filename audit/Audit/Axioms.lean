@@ -30,4 +30,4 @@ elab "#assert_standard_axioms " mods:ident+ : command => do
   Leangage.Sql.Proofs Leangage.Sql.Sound Leangage.Sql.Isolation Leangage.Store
   Leangage.Token.Proofs Leangage.Json.Proofs Leangage.Json.Read.Proofs Leangage.Http.Proofs
   Calculator.Proofs Calculator.Store.Proofs Calculator.Wire.Proofs
-  Notes.Proofs Notes.Store.Proofs
+  Notes.Proofs Notes.Store.Proofs Notes.Wire.Proofs
