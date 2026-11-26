@@ -4,8 +4,8 @@ import os
 import subprocess
 from pathlib import Path
 
-from leanharbor import MemoryEngine, Refused
-from leanharbor_calculator import KERNEL, kernel
+from leangage import MemoryEngine, Refused
+from leangage_calculator import KERNEL, kernel
 
 COMMANDS = Path(__file__).parents[2] / "testdata" / "calculator-commands.txt"
 
@@ -26,7 +26,7 @@ def parse(line: str) -> tuple[kernel.Principal, kernel.Command]:
 def test_generated_python_agrees_with_lean() -> None:
     text = COMMANDS.read_text()
     oracle = subprocess.run(
-        [os.environ["LEANHARBOR_CALCULATOR_ORACLE"]],
+        [os.environ["LEANGAGE_CALCULATOR_ORACLE"]],
         input=text,
         capture_output=True,
         text=True,

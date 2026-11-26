@@ -12,7 +12,7 @@ import (
 
 var _lfCodecCommand leanfran.Codec[Command]
 var _lfCodecError leanfran.Codec[Error]
-var _lfCodecLeanharborAuthzGuardedNotesKernelError leanfran.Codec[LeanharborAuthzGuardedNotesKernelError]
+var _lfCodecLeangageAuthzGuardedNotesKernelError leanfran.Codec[LeangageAuthzGuardedNotesKernelError]
 var _lfCodecMember leanfran.Codec[Member]
 var _lfCodecNote leanfran.Codec[Note]
 var _lfCodecPrincipal leanfran.Codec[Principal]
@@ -32,10 +32,10 @@ var _lfCodec8 leanfran.Codec[*Note]
 var _lfCodec9 leanfran.Codec[leanfran.Pair[[]Write, Reply]]
 var _lfCodec10 leanfran.Codec[*big.Int]
 var _lfCodec11 leanfran.Codec[leanfran.Except[Error, leanfran.Pair[[]Write, Reply]]]
-var _lfCodec12 leanfran.Codec[leanfran.Except[LeanharborAuthzGuardedNotesKernelError, leanfran.Pair[[]Write, Reply]]]
+var _lfCodec12 leanfran.Codec[leanfran.Except[LeangageAuthzGuardedNotesKernelError, leanfran.Pair[[]Write, Reply]]]
 var _lfDescCommand schema.Desc
 var _lfDescError schema.Desc
-var _lfDescLeanharborAuthzGuardedNotesKernelError schema.Desc
+var _lfDescLeangageAuthzGuardedNotesKernelError schema.Desc
 var _lfDescMember schema.Desc
 var _lfDescNote schema.Desc
 var _lfDescPrincipal schema.Desc
@@ -49,7 +49,7 @@ var _lfCodecsOnce sync.Once
 func _lfBuildCodecs() {
 	_lfCodecCommand = leanfran.Ref(descCommand, toCommand, fromCommand, checkCommand)
 	_lfCodecError = leanfran.Ref(descError, toError, fromError, checkError)
-	_lfCodecLeanharborAuthzGuardedNotesKernelError = leanfran.Ref(descLeanharborAuthzGuardedNotesKernelError, toLeanharborAuthzGuardedNotesKernelError, fromLeanharborAuthzGuardedNotesKernelError, checkLeanharborAuthzGuardedNotesKernelError)
+	_lfCodecLeangageAuthzGuardedNotesKernelError = leanfran.Ref(descLeangageAuthzGuardedNotesKernelError, toLeangageAuthzGuardedNotesKernelError, fromLeangageAuthzGuardedNotesKernelError, checkLeangageAuthzGuardedNotesKernelError)
 	_lfCodecMember = leanfran.Ref(descMember, toMember, fromMember, checkMember)
 	_lfCodecNote = leanfran.Ref(descNote, toNote, fromNote, checkNote)
 	_lfCodecPrincipal = leanfran.Ref(descPrincipal, toPrincipal, fromPrincipal, checkPrincipal)
@@ -69,10 +69,10 @@ func _lfBuildCodecs() {
 	_lfCodec9 = leanfran.Product(_lfCodec5, _lfCodecReply)
 	_lfCodec10 = leanfran.Big("nat", "")
 	_lfCodec11 = leanfran.Result(_lfCodecError, _lfCodec9)
-	_lfCodec12 = leanfran.Result(_lfCodecLeanharborAuthzGuardedNotesKernelError, _lfCodec9)
+	_lfCodec12 = leanfran.Result(_lfCodecLeangageAuthzGuardedNotesKernelError, _lfCodec9)
 	_lfDescCommand = schema.Desc{Name: "Command", Kind: "inductive", Variants: []schema.Variant{{Name: "addMember", Tag: 0, Objects: 0, ScalarBytes: 9, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "user", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "admin", Desc: _lfCodec1.Desc, Slot: "u8", Offset: 8, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "removeMember", Tag: 1, Objects: 0, ScalarBytes: 8, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "user", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "putNote", Tag: 2, Objects: 1, ScalarBytes: 9, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "id", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 8, Flat: false, OmitNone: false, Bounds: nil}, {Key: "body", Desc: _lfCodec2.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "shared", Desc: _lfCodec1.Desc, Slot: "u8", Offset: 16, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "deleteNote", Tag: 3, Objects: 0, ScalarBytes: 8, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "id", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "readNote", Tag: 4, Objects: 0, ScalarBytes: 8, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "id", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "listNotes", Tag: 5, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "listMembers", Tag: 6, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}}}
 	_lfDescError = schema.Desc{Name: "Error", Kind: "enum", Cases: []string{"notFound", "badText"}}
-	_lfDescLeanharborAuthzGuardedNotesKernelError = schema.Desc{Name: "LeanharborAuthzGuardedNotesKernelError", Kind: "inductive", Variants: []schema.Variant{{Name: "app", Tag: 0, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "e", Desc: _lfCodecError.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "denied", Tag: 1, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}}}
+	_lfDescLeangageAuthzGuardedNotesKernelError = schema.Desc{Name: "LeangageAuthzGuardedNotesKernelError", Kind: "inductive", Variants: []schema.Variant{{Name: "app", Tag: 0, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "e", Desc: _lfCodecError.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "denied", Tag: 1, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}}}
 	_lfDescMember = schema.Desc{Name: "Member", Kind: "struct", Variants: []schema.Variant{{Name: "mk", Tag: 0, Objects: 0, ScalarBytes: 9, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "user", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "admin", Desc: _lfCodec1.Desc, Slot: "u8", Offset: 8, Flat: false, OmitNone: false, Bounds: nil}}}}}
 	_lfDescNote = schema.Desc{Name: "Note", Kind: "struct", Variants: []schema.Variant{{Name: "mk", Tag: 0, Objects: 1, ScalarBytes: 17, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "id", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 8, Flat: false, OmitNone: false, Bounds: nil}, {Key: "owner", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 16, Flat: false, OmitNone: false, Bounds: nil}, {Key: "shared", Desc: _lfCodec1.Desc, Slot: "u8", Offset: 24, Flat: false, OmitNone: false, Bounds: nil}, {Key: "body", Desc: _lfCodec2.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}}}
 	_lfDescPrincipal = schema.Desc{Name: "Principal", Kind: "struct", Variants: []schema.Variant{{Name: "mk", Tag: 0, Objects: 0, ScalarBytes: 16, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "org", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "user", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 8, Flat: false, OmitNone: false, Bounds: nil}}}}}
@@ -657,56 +657,56 @@ func (v *Error) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func descLeanharborAuthzGuardedNotesKernelError() *schema.Desc {
-	return &_lfDescLeanharborAuthzGuardedNotesKernelError
+func descLeangageAuthzGuardedNotesKernelError() *schema.Desc {
+	return &_lfDescLeangageAuthzGuardedNotesKernelError
 }
 
-func LeanfranCodecLeanharborAuthzGuardedNotesKernelError() leanfran.Codec[LeanharborAuthzGuardedNotesKernelError] {
+func LeanfranCodecLeangageAuthzGuardedNotesKernelError() leanfran.Codec[LeangageAuthzGuardedNotesKernelError] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return _lfCodecLeanharborAuthzGuardedNotesKernelError
+	return _lfCodecLeangageAuthzGuardedNotesKernelError
 }
 
-type LeanharborAuthzGuardedNotesKernelError interface {
-	isLeanharborAuthzGuardedNotesKernelError()
+type LeangageAuthzGuardedNotesKernelError interface {
+	isLeangageAuthzGuardedNotesKernelError()
 	Validate() error
 	MarshalJSON() ([]byte, error)
 	JSONSchema(string) (map[string]any, error)
 	LeanfranDesc() *schema.Desc
 }
 
-type LeanharborAuthzGuardedNotesKernelErrorApp struct {
+type LeangageAuthzGuardedNotesKernelErrorApp struct {
 	E Error
 }
 
-func (LeanharborAuthzGuardedNotesKernelErrorApp) isLeanharborAuthzGuardedNotesKernelError() {}
+func (LeangageAuthzGuardedNotesKernelErrorApp) isLeangageAuthzGuardedNotesKernelError() {}
 
-func (v LeanharborAuthzGuardedNotesKernelErrorApp) LeanfranDesc() *schema.Desc {
+func (v LeangageAuthzGuardedNotesKernelErrorApp) LeanfranDesc() *schema.Desc {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborAuthzGuardedNotesKernelError()
+	return descLeangageAuthzGuardedNotesKernelError()
 }
 
-func (v LeanharborAuthzGuardedNotesKernelErrorApp) Validate() error {
+func (v LeangageAuthzGuardedNotesKernelErrorApp) Validate() error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborAuthzGuardedNotesKernelError, LeanharborAuthzGuardedNotesKernelError(v), "LeanharborAuthzGuardedNotesKernelError")
+	return leanfran.Validate(_lfCodecLeangageAuthzGuardedNotesKernelError, LeangageAuthzGuardedNotesKernelError(v), "LeangageAuthzGuardedNotesKernelError")
 }
 
-func (v LeanharborAuthzGuardedNotesKernelErrorApp) MarshalJSON() ([]byte, error) {
+func (v LeangageAuthzGuardedNotesKernelErrorApp) MarshalJSON() ([]byte, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborAuthzGuardedNotesKernelError, LeanharborAuthzGuardedNotesKernelError(v), "LeanharborAuthzGuardedNotesKernelError")
+	return leanfran.MarshalJSON(_lfCodecLeangageAuthzGuardedNotesKernelError, LeangageAuthzGuardedNotesKernelError(v), "LeangageAuthzGuardedNotesKernelError")
 }
 
-func (v LeanharborAuthzGuardedNotesKernelErrorApp) JSONSchema(target string) (map[string]any, error) {
+func (v LeangageAuthzGuardedNotesKernelErrorApp) JSONSchema(target string) (map[string]any, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborAuthzGuardedNotesKernelError(), target)
+	return schema.JSONSchema(descLeangageAuthzGuardedNotesKernelError(), target)
 }
 
-func (v *LeanharborAuthzGuardedNotesKernelErrorApp) UnmarshalJSON(data []byte) error {
+func (v *LeangageAuthzGuardedNotesKernelErrorApp) UnmarshalJSON(data []byte) error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborAuthzGuardedNotesKernelError, data, "LeanharborAuthzGuardedNotesKernelError")
+	out, err := leanfran.UnmarshalJSON(_lfCodecLeangageAuthzGuardedNotesKernelError, data, "LeangageAuthzGuardedNotesKernelError")
 	if err != nil {
 		return err
 	}
-	typed, ok := out.(LeanharborAuthzGuardedNotesKernelErrorApp)
+	typed, ok := out.(LeangageAuthzGuardedNotesKernelErrorApp)
 	if !ok {
 		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
 	}
@@ -714,52 +714,52 @@ func (v *LeanharborAuthzGuardedNotesKernelErrorApp) UnmarshalJSON(data []byte) e
 	return nil
 }
 
-func toLeanharborAuthzGuardedNotesKernelErrorApp(v LeanharborAuthzGuardedNotesKernelErrorApp) rt.V {
+func toLeangageAuthzGuardedNotesKernelErrorApp(v LeangageAuthzGuardedNotesKernelErrorApp) rt.V {
 	r := rt.Lean_alloc_ctor(0, 1, 0)
 	rt.Lean_ctor_set(r, 0, _lfCodecError.ToLean(v.E))
 	return r
 }
 
-func fromLeanharborAuthzGuardedNotesKernelErrorApp(v rt.V) LeanharborAuthzGuardedNotesKernelErrorApp {
-	return LeanharborAuthzGuardedNotesKernelErrorApp{E: _lfCodecError.FromLean(rt.Lean_ctor_get(v, 0))}
+func fromLeangageAuthzGuardedNotesKernelErrorApp(v rt.V) LeangageAuthzGuardedNotesKernelErrorApp {
+	return LeangageAuthzGuardedNotesKernelErrorApp{E: _lfCodecError.FromLean(rt.Lean_ctor_get(v, 0))}
 }
 
-func checkLeanharborAuthzGuardedNotesKernelErrorApp(e *leanfran.ValidationError, v LeanharborAuthzGuardedNotesKernelErrorApp) {
+func checkLeangageAuthzGuardedNotesKernelErrorApp(e *leanfran.ValidationError, v LeangageAuthzGuardedNotesKernelErrorApp) {
 	leanfran.CheckAt(e, _lfCodecError, v.E, "app", "e")
 }
 
-type LeanharborAuthzGuardedNotesKernelErrorDenied struct {
+type LeangageAuthzGuardedNotesKernelErrorDenied struct {
 }
 
-func (LeanharborAuthzGuardedNotesKernelErrorDenied) isLeanharborAuthzGuardedNotesKernelError() {}
+func (LeangageAuthzGuardedNotesKernelErrorDenied) isLeangageAuthzGuardedNotesKernelError() {}
 
-func (v LeanharborAuthzGuardedNotesKernelErrorDenied) LeanfranDesc() *schema.Desc {
+func (v LeangageAuthzGuardedNotesKernelErrorDenied) LeanfranDesc() *schema.Desc {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborAuthzGuardedNotesKernelError()
+	return descLeangageAuthzGuardedNotesKernelError()
 }
 
-func (v LeanharborAuthzGuardedNotesKernelErrorDenied) Validate() error {
+func (v LeangageAuthzGuardedNotesKernelErrorDenied) Validate() error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborAuthzGuardedNotesKernelError, LeanharborAuthzGuardedNotesKernelError(v), "LeanharborAuthzGuardedNotesKernelError")
+	return leanfran.Validate(_lfCodecLeangageAuthzGuardedNotesKernelError, LeangageAuthzGuardedNotesKernelError(v), "LeangageAuthzGuardedNotesKernelError")
 }
 
-func (v LeanharborAuthzGuardedNotesKernelErrorDenied) MarshalJSON() ([]byte, error) {
+func (v LeangageAuthzGuardedNotesKernelErrorDenied) MarshalJSON() ([]byte, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborAuthzGuardedNotesKernelError, LeanharborAuthzGuardedNotesKernelError(v), "LeanharborAuthzGuardedNotesKernelError")
+	return leanfran.MarshalJSON(_lfCodecLeangageAuthzGuardedNotesKernelError, LeangageAuthzGuardedNotesKernelError(v), "LeangageAuthzGuardedNotesKernelError")
 }
 
-func (v LeanharborAuthzGuardedNotesKernelErrorDenied) JSONSchema(target string) (map[string]any, error) {
+func (v LeangageAuthzGuardedNotesKernelErrorDenied) JSONSchema(target string) (map[string]any, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborAuthzGuardedNotesKernelError(), target)
+	return schema.JSONSchema(descLeangageAuthzGuardedNotesKernelError(), target)
 }
 
-func (v *LeanharborAuthzGuardedNotesKernelErrorDenied) UnmarshalJSON(data []byte) error {
+func (v *LeangageAuthzGuardedNotesKernelErrorDenied) UnmarshalJSON(data []byte) error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborAuthzGuardedNotesKernelError, data, "LeanharborAuthzGuardedNotesKernelError")
+	out, err := leanfran.UnmarshalJSON(_lfCodecLeangageAuthzGuardedNotesKernelError, data, "LeangageAuthzGuardedNotesKernelError")
 	if err != nil {
 		return err
 	}
-	typed, ok := out.(LeanharborAuthzGuardedNotesKernelErrorDenied)
+	typed, ok := out.(LeangageAuthzGuardedNotesKernelErrorDenied)
 	if !ok {
 		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
 	}
@@ -767,68 +767,68 @@ func (v *LeanharborAuthzGuardedNotesKernelErrorDenied) UnmarshalJSON(data []byte
 	return nil
 }
 
-func toLeanharborAuthzGuardedNotesKernelErrorDenied(v LeanharborAuthzGuardedNotesKernelErrorDenied) rt.V {
+func toLeangageAuthzGuardedNotesKernelErrorDenied(v LeangageAuthzGuardedNotesKernelErrorDenied) rt.V {
 	return rt.Lean_box(1)
 }
 
-func fromLeanharborAuthzGuardedNotesKernelErrorDenied(_ rt.V) LeanharborAuthzGuardedNotesKernelErrorDenied {
-	return LeanharborAuthzGuardedNotesKernelErrorDenied{}
+func fromLeangageAuthzGuardedNotesKernelErrorDenied(_ rt.V) LeangageAuthzGuardedNotesKernelErrorDenied {
+	return LeangageAuthzGuardedNotesKernelErrorDenied{}
 }
 
-func checkLeanharborAuthzGuardedNotesKernelErrorDenied(e *leanfran.ValidationError, v LeanharborAuthzGuardedNotesKernelErrorDenied) {
+func checkLeangageAuthzGuardedNotesKernelErrorDenied(e *leanfran.ValidationError, v LeangageAuthzGuardedNotesKernelErrorDenied) {
 }
 
-func toLeanharborAuthzGuardedNotesKernelError(v LeanharborAuthzGuardedNotesKernelError) rt.V {
+func toLeangageAuthzGuardedNotesKernelError(v LeangageAuthzGuardedNotesKernelError) rt.V {
 	switch x := v.(type) {
-	case LeanharborAuthzGuardedNotesKernelErrorApp:
-		return toLeanharborAuthzGuardedNotesKernelErrorApp(x)
-	case *LeanharborAuthzGuardedNotesKernelErrorApp:
-		return toLeanharborAuthzGuardedNotesKernelErrorApp(*x)
-	case LeanharborAuthzGuardedNotesKernelErrorDenied:
-		return toLeanharborAuthzGuardedNotesKernelErrorDenied(x)
-	case *LeanharborAuthzGuardedNotesKernelErrorDenied:
-		return toLeanharborAuthzGuardedNotesKernelErrorDenied(*x)
+	case LeangageAuthzGuardedNotesKernelErrorApp:
+		return toLeangageAuthzGuardedNotesKernelErrorApp(x)
+	case *LeangageAuthzGuardedNotesKernelErrorApp:
+		return toLeangageAuthzGuardedNotesKernelErrorApp(*x)
+	case LeangageAuthzGuardedNotesKernelErrorDenied:
+		return toLeangageAuthzGuardedNotesKernelErrorDenied(x)
+	case *LeangageAuthzGuardedNotesKernelErrorDenied:
+		return toLeangageAuthzGuardedNotesKernelErrorDenied(*x)
 	}
-	rt.Lean_internal_panic("invalid LeanharborAuthzGuardedNotesKernelError")
+	rt.Lean_internal_panic("invalid LeangageAuthzGuardedNotesKernelError")
 	return rt.V{}
 }
 
-func fromLeanharborAuthzGuardedNotesKernelError(v rt.V) LeanharborAuthzGuardedNotesKernelError {
+func fromLeangageAuthzGuardedNotesKernelError(v rt.V) LeangageAuthzGuardedNotesKernelError {
 	switch rt.Lean_obj_tag(v) {
 	case 0:
-		return fromLeanharborAuthzGuardedNotesKernelErrorApp(v)
+		return fromLeangageAuthzGuardedNotesKernelErrorApp(v)
 	case 1:
-		return fromLeanharborAuthzGuardedNotesKernelErrorDenied(v)
+		return fromLeangageAuthzGuardedNotesKernelErrorDenied(v)
 	}
-	rt.Lean_internal_panic("invalid LeanharborAuthzGuardedNotesKernelError tag")
+	rt.Lean_internal_panic("invalid LeangageAuthzGuardedNotesKernelError tag")
 	return nil
 }
 
-func checkLeanharborAuthzGuardedNotesKernelError(e *leanfran.ValidationError, v LeanharborAuthzGuardedNotesKernelError) {
+func checkLeangageAuthzGuardedNotesKernelError(e *leanfran.ValidationError, v LeangageAuthzGuardedNotesKernelError) {
 	switch x := v.(type) {
-	case LeanharborAuthzGuardedNotesKernelErrorApp:
-		checkLeanharborAuthzGuardedNotesKernelErrorApp(e, x)
+	case LeangageAuthzGuardedNotesKernelErrorApp:
+		checkLeangageAuthzGuardedNotesKernelErrorApp(e, x)
 		return
-	case *LeanharborAuthzGuardedNotesKernelErrorApp:
+	case *LeangageAuthzGuardedNotesKernelErrorApp:
 		if x != nil {
-			checkLeanharborAuthzGuardedNotesKernelErrorApp(e, *x)
+			checkLeangageAuthzGuardedNotesKernelErrorApp(e, *x)
 			return
 		}
-	case LeanharborAuthzGuardedNotesKernelErrorDenied:
-		checkLeanharborAuthzGuardedNotesKernelErrorDenied(e, x)
+	case LeangageAuthzGuardedNotesKernelErrorDenied:
+		checkLeangageAuthzGuardedNotesKernelErrorDenied(e, x)
 		return
-	case *LeanharborAuthzGuardedNotesKernelErrorDenied:
+	case *LeangageAuthzGuardedNotesKernelErrorDenied:
 		if x != nil {
-			checkLeanharborAuthzGuardedNotesKernelErrorDenied(e, *x)
+			checkLeangageAuthzGuardedNotesKernelErrorDenied(e, *x)
 			return
 		}
 	}
-	e.Add("expected LeanharborAuthzGuardedNotesKernelError")
+	e.Add("expected LeangageAuthzGuardedNotesKernelError")
 }
 
-func UnmarshalLeanharborAuthzGuardedNotesKernelError(data []byte) (LeanharborAuthzGuardedNotesKernelError, error) {
+func UnmarshalLeangageAuthzGuardedNotesKernelError(data []byte) (LeangageAuthzGuardedNotesKernelError, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.UnmarshalJSON(_lfCodecLeanharborAuthzGuardedNotesKernelError, data, "LeanharborAuthzGuardedNotesKernelError")
+	return leanfran.UnmarshalJSON(_lfCodecLeangageAuthzGuardedNotesKernelError, data, "LeangageAuthzGuardedNotesKernelError")
 }
 
 func descMember() *schema.Desc { return &_lfDescMember }
@@ -1922,40 +1922,40 @@ func (api lfScopedValue) ReadExceptErrorPairListWriteReply(v leanfran.Value[lean
 	return leanfran.ReadValueIn(api.scope, _lfCodec11, v)
 }
 
-func (lfValue) NewExceptLeanharborAuthzGuardedNotesKernelErrorPairListWriteReply(v leanfran.Except[LeanharborAuthzGuardedNotesKernelError, leanfran.Pair[[]Write, Reply]]) (leanfran.Value[leanfran.ExceptType[LeanharborAuthzGuardedNotesKernelError, leanfran.PairType[leanfran.ListType[Write], Reply]]], error) {
-	return lfScopedValue{}.NewExceptLeanharborAuthzGuardedNotesKernelErrorPairListWriteReply(v)
+func (lfValue) NewExceptLeangageAuthzGuardedNotesKernelErrorPairListWriteReply(v leanfran.Except[LeangageAuthzGuardedNotesKernelError, leanfran.Pair[[]Write, Reply]]) (leanfran.Value[leanfran.ExceptType[LeangageAuthzGuardedNotesKernelError, leanfran.PairType[leanfran.ListType[Write], Reply]]], error) {
+	return lfScopedValue{}.NewExceptLeangageAuthzGuardedNotesKernelErrorPairListWriteReply(v)
 }
 
-func (api lfScopedValue) NewExceptLeanharborAuthzGuardedNotesKernelErrorPairListWriteReply(v leanfran.Except[LeanharborAuthzGuardedNotesKernelError, leanfran.Pair[[]Write, Reply]]) (leanfran.Value[leanfran.ExceptType[LeanharborAuthzGuardedNotesKernelError, leanfran.PairType[leanfran.ListType[Write], Reply]]], error) {
+func (api lfScopedValue) NewExceptLeangageAuthzGuardedNotesKernelErrorPairListWriteReply(v leanfran.Except[LeangageAuthzGuardedNotesKernelError, leanfran.Pair[[]Write, Reply]]) (leanfran.Value[leanfran.ExceptType[LeangageAuthzGuardedNotesKernelError, leanfran.PairType[leanfran.ListType[Write], Reply]]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.ExceptType[LeanharborAuthzGuardedNotesKernelError, leanfran.PairType[leanfran.ListType[Write], Reply]]](api.scope, _lfCodec12, v, "ExceptLeanharborAuthzGuardedNotesKernelErrorPairListWriteReply")
+	return leanfran.NewValueIn[leanfran.ExceptType[LeangageAuthzGuardedNotesKernelError, leanfran.PairType[leanfran.ListType[Write], Reply]]](api.scope, _lfCodec12, v, "ExceptLeangageAuthzGuardedNotesKernelErrorPairListWriteReply")
 }
 
-func (lfValue) ReadExceptLeanharborAuthzGuardedNotesKernelErrorPairListWriteReply(v leanfran.Value[leanfran.ExceptType[LeanharborAuthzGuardedNotesKernelError, leanfran.PairType[leanfran.ListType[Write], Reply]]]) leanfran.Except[LeanharborAuthzGuardedNotesKernelError, leanfran.Pair[[]Write, Reply]] {
-	return lfScopedValue{}.ReadExceptLeanharborAuthzGuardedNotesKernelErrorPairListWriteReply(v)
+func (lfValue) ReadExceptLeangageAuthzGuardedNotesKernelErrorPairListWriteReply(v leanfran.Value[leanfran.ExceptType[LeangageAuthzGuardedNotesKernelError, leanfran.PairType[leanfran.ListType[Write], Reply]]]) leanfran.Except[LeangageAuthzGuardedNotesKernelError, leanfran.Pair[[]Write, Reply]] {
+	return lfScopedValue{}.ReadExceptLeangageAuthzGuardedNotesKernelErrorPairListWriteReply(v)
 }
 
-func (api lfScopedValue) ReadExceptLeanharborAuthzGuardedNotesKernelErrorPairListWriteReply(v leanfran.Value[leanfran.ExceptType[LeanharborAuthzGuardedNotesKernelError, leanfran.PairType[leanfran.ListType[Write], Reply]]]) leanfran.Except[LeanharborAuthzGuardedNotesKernelError, leanfran.Pair[[]Write, Reply]] {
+func (api lfScopedValue) ReadExceptLeangageAuthzGuardedNotesKernelErrorPairListWriteReply(v leanfran.Value[leanfran.ExceptType[LeangageAuthzGuardedNotesKernelError, leanfran.PairType[leanfran.ListType[Write], Reply]]]) leanfran.Except[LeangageAuthzGuardedNotesKernelError, leanfran.Pair[[]Write, Reply]] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	return leanfran.ReadValueIn(api.scope, _lfCodec12, v)
 }
 
-func (lfValue) NewLeanharborAuthzGuardedNotesKernelError(v LeanharborAuthzGuardedNotesKernelError) (leanfran.Value[LeanharborAuthzGuardedNotesKernelError], error) {
-	return lfScopedValue{}.NewLeanharborAuthzGuardedNotesKernelError(v)
+func (lfValue) NewLeangageAuthzGuardedNotesKernelError(v LeangageAuthzGuardedNotesKernelError) (leanfran.Value[LeangageAuthzGuardedNotesKernelError], error) {
+	return lfScopedValue{}.NewLeangageAuthzGuardedNotesKernelError(v)
 }
 
-func (api lfScopedValue) NewLeanharborAuthzGuardedNotesKernelError(v LeanharborAuthzGuardedNotesKernelError) (leanfran.Value[LeanharborAuthzGuardedNotesKernelError], error) {
+func (api lfScopedValue) NewLeangageAuthzGuardedNotesKernelError(v LeangageAuthzGuardedNotesKernelError) (leanfran.Value[LeangageAuthzGuardedNotesKernelError], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[LeanharborAuthzGuardedNotesKernelError](api.scope, _lfCodecLeanharborAuthzGuardedNotesKernelError, v, "LeanharborAuthzGuardedNotesKernelError")
+	return leanfran.NewValueIn[LeangageAuthzGuardedNotesKernelError](api.scope, _lfCodecLeangageAuthzGuardedNotesKernelError, v, "LeangageAuthzGuardedNotesKernelError")
 }
 
-func (lfValue) ReadLeanharborAuthzGuardedNotesKernelError(v leanfran.Value[LeanharborAuthzGuardedNotesKernelError]) LeanharborAuthzGuardedNotesKernelError {
-	return lfScopedValue{}.ReadLeanharborAuthzGuardedNotesKernelError(v)
+func (lfValue) ReadLeangageAuthzGuardedNotesKernelError(v leanfran.Value[LeangageAuthzGuardedNotesKernelError]) LeangageAuthzGuardedNotesKernelError {
+	return lfScopedValue{}.ReadLeangageAuthzGuardedNotesKernelError(v)
 }
 
-func (api lfScopedValue) ReadLeanharborAuthzGuardedNotesKernelError(v leanfran.Value[LeanharborAuthzGuardedNotesKernelError]) LeanharborAuthzGuardedNotesKernelError {
+func (api lfScopedValue) ReadLeangageAuthzGuardedNotesKernelError(v leanfran.Value[LeangageAuthzGuardedNotesKernelError]) LeangageAuthzGuardedNotesKernelError {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodecLeanharborAuthzGuardedNotesKernelError, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodecLeangageAuthzGuardedNotesKernelError, v)
 }
 
 func (lfValue) NewListMember(v []Member) leanfran.Value[leanfran.ListType[Member]] {

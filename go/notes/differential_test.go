@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/conao3/lean-leanharbor/go/notes/kernel"
+	"github.com/conao3/lean-leangage/go/notes/kernel"
 )
 
 const commandList = "../../testdata/notes-commands.txt"
@@ -87,9 +87,9 @@ func show(t *testing.T, reply kernel.Reply) string {
 // The generated Go of the notes behind the memory engine against the kernel run natively by
 // Lean (`notes-oracle`), on the shared command list.
 func TestGeneratedGoAgreesWithLean(t *testing.T) {
-	path, ok := os.LookupEnv("LEANHARBOR_NOTES_ORACLE")
+	path, ok := os.LookupEnv("LEANGAGE_NOTES_ORACLE")
 	if !ok {
-		t.Fatal("LEANHARBOR_NOTES_ORACLE is required")
+		t.Fatal("LEANGAGE_NOTES_ORACLE is required")
 	}
 	text, err := os.ReadFile(commandList)
 	if err != nil {

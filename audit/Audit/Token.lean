@@ -1,5 +1,5 @@
 import Assay
-import Leanharbor.Token.Proofs
+import Leangage.Token.Proofs
 
 /-!
 Breaks the token functions in small ways and runs the theorems on each broken version. The build
@@ -11,7 +11,7 @@ run on inputs that `parse` and `number` accept or nearly accept. The numbers inc
 one, nineteen and twenty digits.
 -/
 
-open Plausible Leanharbor.Token
+open Plausible Leangage.Token
 
 def tokenBytes : List UInt8 := [46, 47, 48, 49, 57, 58, 65, 70, 96, 97, 102, 103, 118, 43, 45, 0, 255]
 
@@ -92,42 +92,42 @@ instance (priority := high) tokenSampleableUInt64 : SampleableExt UInt64 := Samp
 
 instance (priority := high) tokenSampleableBytes : SampleableExt (List UInt8) := SampleableExt.selfContained
 
-#assay Leanharbor.Token.decimal
-  using Leanharbor.Token.decimal_digit Leanharbor.Token.decimal_head Leanharbor.Token.value_decimal
+#assay Leangage.Token.decimal
+  using Leangage.Token.decimal_digit Leangage.Token.decimal_head Leangage.Token.value_decimal
 
-#assay Leanharbor.Token.digitsValue using Leanharbor.Token.digitsValue_spec
+#assay Leangage.Token.digitsValue using Leangage.Token.digitsValue_spec
 
-#assay Leanharbor.Token.number using Leanharbor.Token.number_decimal Leanharbor.Token.number_sound
+#assay Leangage.Token.number using Leangage.Token.number_decimal Leangage.Token.number_sound
 
-#assay Leanharbor.Token.hexDigit using Leanharbor.Token.hexDigit_spec
+#assay Leangage.Token.hexDigit using Leangage.Token.hexDigit_spec
 
-#assay Leanharbor.Token.hexValue using Leanharbor.Token.hexValue_spec
+#assay Leangage.Token.hexValue using Leangage.Token.hexValue_spec
 
-#assay Leanharbor.Token.hexByte Leanharbor.Token.join using Leanharbor.Token.join_spec
+#assay Leangage.Token.hexByte Leangage.Token.join using Leangage.Token.join_spec
 
-#assay Leanharbor.Token.splitDot using Leanharbor.Token.splitDot_spec
+#assay Leangage.Token.splitDot using Leangage.Token.splitDot_spec
 
-#assay Leanharbor.Token.unhex using Leanharbor.Token.unhex_hex Leanharbor.Token.unhex_sound
+#assay Leangage.Token.unhex using Leangage.Token.unhex_hex Leangage.Token.unhex_sound
 
-#assay Leanharbor.Token.encodePayload Leanharbor.Token.parse
-  using Leanharbor.Token.parse_join Leanharbor.Token.parse_sound
+#assay Leangage.Token.encodePayload Leangage.Token.parse
+  using Leangage.Token.parse_join Leangage.Token.parse_sound
 
-#assay Leanharbor.Token.byteAt using Leanharbor.Token.byteAt_spec
+#assay Leangage.Token.byteAt using Leangage.Token.byteAt_spec
 
-#assay Leanharbor.Token.dotFrom
-  using Leanharbor.Token.splitDot_dotFrom Leanharbor.Token.dotFrom_le Leanharbor.Token.dotFrom_dot
+#assay Leangage.Token.dotFrom
+  using Leangage.Token.splitDot_dotFrom Leangage.Token.dotFrom_le Leangage.Token.dotFrom_dot
 
-#assay Leanharbor.Token.digitsFrom using Leanharbor.Token.digitsFrom_spec
+#assay Leangage.Token.digitsFrom using Leangage.Token.digitsFrom_spec
 
-#assay Leanharbor.Token.isDecimal using Leanharbor.Token.isDecimal_spec Leanharbor.Token.isDecimal_field
+#assay Leangage.Token.isDecimal using Leangage.Token.isDecimal_spec Leangage.Token.isDecimal_field
 
-#assay Leanharbor.Token.numberAt using Leanharbor.Token.numberAt_spec Leanharbor.Token.numberAt_field
+#assay Leangage.Token.numberAt using Leangage.Token.numberAt_spec Leangage.Token.numberAt_field
 
-#assay Leanharbor.Token.hexNibble using Leanharbor.Token.hexNibble_toNat
+#assay Leangage.Token.hexNibble using Leangage.Token.hexNibble_toNat
 
-#assay Leanharbor.Token.unhexAt using Leanharbor.Token.unhexAt_spec
+#assay Leangage.Token.unhexAt using Leangage.Token.unhexAt_spec
 
-#assay Leanharbor.Token.copyBytes using Leanharbor.Token.copyBytes_spec
+#assay Leangage.Token.copyBytes using Leangage.Token.copyBytes_spec
 
-#assay Leanharbor.Token.parseString
-  using Leanharbor.Token.parseString_spec Leanharbor.Token.parseString_sound
+#assay Leangage.Token.parseString
+  using Leangage.Token.parseString_spec Leangage.Token.parseString_sound

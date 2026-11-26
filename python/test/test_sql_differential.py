@@ -7,7 +7,7 @@ import os
 import subprocess
 from pathlib import Path
 
-from leanharbor import sql
+from leangage import sql
 
 STATEMENTS = Path(__file__).parents[2] / "testdata" / "sql-statements.txt"
 
@@ -93,7 +93,7 @@ def run(schema: list[sql.Tab], line: str) -> str:
 def test_generated_python_sql_agrees_with_lean() -> None:
     text_in = STATEMENTS.read_text()
     oracle = subprocess.run(
-        [os.environ["LEANHARBOR_SQL_ORACLE"]],
+        [os.environ["LEANGAGE_SQL_ORACLE"]],
         input=text_in,
         capture_output=True,
         text=True,

@@ -288,7 +288,7 @@ func Transition(a0 Principal, a1 Snapshot, a2 Command) (leanfran.Pair[[]Write, R
 	_lfResult := l_Notes_Kernel_transition(v0, v1, v2)
 	defer rt.Lean_dec(_lfResult)
 	if rt.Lean_obj_tag(_lfResult) == 0 {
-		err := &leanfran.ExceptError[LeanharborAuthzGuardedNotesKernelError]{Value: _lfCodecLeanharborAuthzGuardedNotesKernelError.FromLean(rt.Lean_ctor_get(_lfResult, 0))}
+		err := &leanfran.ExceptError[LeangageAuthzGuardedNotesKernelError]{Value: _lfCodecLeangageAuthzGuardedNotesKernelError.FromLean(rt.Lean_ctor_get(_lfResult, 0))}
 		return leanfran.Zero[leanfran.Pair[[]Write, Reply]](), err
 	}
 	return _lfCodec9.FromLean(rt.Lean_ctor_get(_lfResult, 0)), nil
@@ -627,7 +627,7 @@ func (api lfScopedHandle) Transition(a0 leanfran.ValueInput[Principal], a1 leanf
 	defer rt.Lean_dec(raw)
 	if rt.Lean_obj_tag(raw) == 0 {
 		_lfCodecsOnce.Do(_lfBuildCodecs)
-		err := &leanfran.ExceptError[LeanharborAuthzGuardedNotesKernelError]{Value: _lfCodecLeanharborAuthzGuardedNotesKernelError.FromLean(rt.Lean_ctor_get(raw, 0))}
+		err := &leanfran.ExceptError[LeangageAuthzGuardedNotesKernelError]{Value: _lfCodecLeangageAuthzGuardedNotesKernelError.FromLean(rt.Lean_ctor_get(raw, 0))}
 		return leanfran.Value[leanfran.ListType[Write]]{}, leanfran.Value[Reply]{}, err
 	}
 	first, second := leanfran.WrapFieldsIn[leanfran.ListType[Write], Reply](op, rt.Lean_ctor_get(raw, 0))

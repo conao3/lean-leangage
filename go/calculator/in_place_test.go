@@ -4,7 +4,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/conao3/lean-leanharbor/go/calculator/kernel"
+	"github.com/conao3/lean-leangage/go/calculator/kernel"
 )
 
 // Commands from several goroutines, some of them refused, leave every user's number as the

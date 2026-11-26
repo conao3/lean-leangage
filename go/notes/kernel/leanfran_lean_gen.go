@@ -36,7 +36,7 @@ func apply_L_Notes_Kernel_visible___boxed(_ *rt.Tail, args []rt.V) rt.V {
 	return l_Notes_Kernel_visible___boxed(args[0], args[1], args[2])
 }
 
-func compute_L_Leanharbor_Authz_guard___redArg___closed__0() rt.V {
+func compute_L_Leangage_Authz_guard___redArg___closed__0() rt.V {
 	var x_1 rt.V
 	_ = x_1
 	var x_2 rt.V
@@ -176,17 +176,17 @@ func compute_L_Notes_Kernel_transition___closed__8() rt.V {
 	return x_1
 }
 
-func core_L_Leanharbor_Authz_checkWrites___redArg(frame *rt.Tail, x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V, x_5 rt.V) uint8 {
+func core_L_Leangage_Authz_checkWrites___redArg(frame *rt.Tail, x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V, x_5 rt.V) uint8 {
 	var x_6 rt.V
 	_ = x_6
 	var x_7 uint8
 	_ = x_7
 	x_6 = rt.Lean_box(0)
-	rt.TailCall(frame, tail_L_Leanharbor_Authz_checkWritesFrom___redArg, []rt.V{x_1, x_2, x_3, x_4, x_6, x_5})
+	rt.TailCall(frame, tail_L_Leangage_Authz_checkWritesFrom___redArg, []rt.V{x_1, x_2, x_3, x_4, x_6, x_5})
 	return 0
 }
 
-func core_L_Leanharbor_Authz_guardViewed___redArg(frame *rt.Tail, x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V, x_5 rt.V, x_6 rt.V, x_7 rt.V, x_8 rt.V, x_9 rt.V) rt.V {
+func core_L_Leangage_Authz_guardViewed___redArg(frame *rt.Tail, x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V, x_5 rt.V, x_6 rt.V, x_7 rt.V, x_8 rt.V, x_9 rt.V) rt.V {
 	var x_10 rt.V
 	_ = x_10
 	var x_11 uint8
@@ -243,7 +243,7 @@ func core_L_Leanharbor_Authz_guardViewed___redArg(frame *rt.Tail, x_1 rt.V, x_2 
 	switch x_11 {
 	case 0:
 		rt.Lean_dec(x_6)
-		rt.TailCall(frame, tail_L_Leanharbor_Authz_guard___redArg, []rt.V{x_1, x_2, x_3, x_4, x_7, x_8, x_9})
+		rt.TailCall(frame, tail_L_Leangage_Authz_guard___redArg, []rt.V{x_1, x_2, x_3, x_4, x_7, x_8, x_9})
 		return rt.V{}
 	case 1:
 		rt.Lean_dec(x_2)
@@ -331,7 +331,7 @@ _jp_25:
 		rt.Lean_inc(x_35)
 		x_37 = rt.Lean_apply(x_4, []rt.V{x_35})
 		rt.Lean_inc(x_13)
-		x_38 = l_List_all___at___00Leanharbor_Authz_checkReads_spec__0___redArg(x_3, x_7, x_13, x_13, x_37)
+		x_38 = l_List_all___at___00Leangage_Authz_checkReads_spec__0___redArg(x_3, x_7, x_13, x_13, x_37)
 		x_29 = x_38
 		goto _jp_28
 	default:
@@ -342,7 +342,7 @@ _jp_28:
 	switch x_29 {
 	case 0:
 		rt.Lean_dec(x_24)
-		x_30 = l_Leanharbor_Authz_guard___redArg___closed__0()
+		x_30 = l_Leangage_Authz_guard___redArg___closed__0()
 		return x_30
 	case 1:
 		switch x_27 {
@@ -1545,7 +1545,7 @@ func core_L_Notes_Kernel_transition(frame *rt.Tail, x_1 rt.V, x_2 rt.V, x_3 rt.V
 	x_7 = l_Notes_Kernel_transition___closed__6()
 	x_8 = l_Notes_Kernel_transition___closed__7()
 	x_9 = l_Notes_Kernel_transition___closed__8()
-	rt.TailCall(frame, tail_L_Leanharbor_Authz_guardViewed___redArg, []rt.V{x_5, x_4, x_6, x_7, x_8, x_9, x_1, x_2, x_3})
+	rt.TailCall(frame, tail_L_Leangage_Authz_guardViewed___redArg, []rt.V{x_5, x_4, x_6, x_7, x_8, x_9, x_1, x_2, x_3})
 	return rt.V{}
 }
 
@@ -1727,10 +1727,10 @@ func init() {
 	value_L_Notes_Kernel_transition___closed__6 = rt.Lean_mark_persistent(compute_L_Notes_Kernel_transition___closed__6())
 	value_L_Notes_Kernel_transition___closed__7 = rt.Lean_mark_persistent(compute_L_Notes_Kernel_transition___closed__7())
 	value_L_Notes_Kernel_transition___closed__8 = rt.Lean_mark_persistent(compute_L_Notes_Kernel_transition___closed__8())
-	value_L_Leanharbor_Authz_guard___redArg___closed__0 = rt.Lean_mark_persistent(compute_L_Leanharbor_Authz_guard___redArg___closed__0())
+	value_L_Leangage_Authz_guard___redArg___closed__0 = rt.Lean_mark_persistent(compute_L_Leangage_Authz_guard___redArg___closed__0())
 }
 
-func l_Leanharbor_Authz_checkWritesFrom___redArg(x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V, x_5 rt.V, x_6 rt.V) uint8 {
+func l_Leangage_Authz_checkWritesFrom___redArg(x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V, x_5 rt.V, x_6 rt.V) uint8 {
 	var x_7 uint8
 	_ = x_7
 	var x_8 rt.V
@@ -1844,19 +1844,19 @@ _jp_19:
 	goto _start
 }
 
-func l_Leanharbor_Authz_checkWrites___redArg(x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V, x_5 rt.V) uint8 {
+func l_Leangage_Authz_checkWrites___redArg(x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V, x_5 rt.V) uint8 {
 	frame := rt.AcquireTail()
 	defer rt.ReleaseTail(frame)
-	return uint8(rt.Lean_unbox(frame.Result(rt.Lean_box(uint64(core_L_Leanharbor_Authz_checkWrites___redArg(frame, x_1, x_2, x_3, x_4, x_5))))))
+	return uint8(rt.Lean_unbox(frame.Result(rt.Lean_box(uint64(core_L_Leangage_Authz_checkWrites___redArg(frame, x_1, x_2, x_3, x_4, x_5))))))
 }
 
-func l_Leanharbor_Authz_guardViewed___redArg(x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V, x_5 rt.V, x_6 rt.V, x_7 rt.V, x_8 rt.V, x_9 rt.V) rt.V {
+func l_Leangage_Authz_guardViewed___redArg(x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V, x_5 rt.V, x_6 rt.V, x_7 rt.V, x_8 rt.V, x_9 rt.V) rt.V {
 	frame := rt.AcquireTail()
 	defer rt.ReleaseTail(frame)
-	return frame.Result(core_L_Leanharbor_Authz_guardViewed___redArg(frame, x_1, x_2, x_3, x_4, x_5, x_6, x_7, x_8, x_9))
+	return frame.Result(core_L_Leangage_Authz_guardViewed___redArg(frame, x_1, x_2, x_3, x_4, x_5, x_6, x_7, x_8, x_9))
 }
 
-func l_Leanharbor_Authz_guard___redArg(x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V, x_5 rt.V, x_6 rt.V, x_7 rt.V) rt.V {
+func l_Leangage_Authz_guard___redArg(x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V, x_5 rt.V, x_6 rt.V, x_7 rt.V) rt.V {
 	var x_8 rt.V
 	_ = x_8
 	var x_9 rt.V
@@ -1973,7 +1973,7 @@ _jp_19:
 	rt.Lean_inc(x_5)
 	rt.Lean_inc(x_3)
 	rt.Lean_inc(x_2)
-	x_30 = l_Leanharbor_Authz_checkWrites___redArg(x_2, x_3, x_5, x_6, x_28)
+	x_30 = l_Leangage_Authz_checkWrites___redArg(x_2, x_3, x_5, x_6, x_28)
 	switch x_30 {
 	case 0:
 		rt.Lean_dec(x_6)
@@ -1989,7 +1989,7 @@ _jp_19:
 		x_31 = rt.Lean_apply(x_2, []rt.V{x_6, x_28})
 		rt.Lean_inc(x_29)
 		x_32 = rt.Lean_apply(x_4, []rt.V{x_29})
-		x_33 = l_List_all___at___00Leanharbor_Authz_checkReads_spec__0___redArg(x_3, x_5, x_6, x_31, x_32)
+		x_33 = l_List_all___at___00Leangage_Authz_checkReads_spec__0___redArg(x_3, x_5, x_6, x_31, x_32)
 		x_23 = x_33
 		goto _jp_22
 	default:
@@ -2000,7 +2000,7 @@ _jp_22:
 	switch x_23 {
 	case 0:
 		rt.Lean_dec(x_18)
-		x_24 = l_Leanharbor_Authz_guard___redArg___closed__0()
+		x_24 = l_Leangage_Authz_guard___redArg___closed__0()
 		return x_24
 	case 1:
 		switch x_21 {
@@ -2024,11 +2024,11 @@ _jp_25:
 	return x_26
 }
 
-func l_Leanharbor_Authz_guard___redArg___closed__0() rt.V {
-	return value_L_Leanharbor_Authz_guard___redArg___closed__0
+func l_Leangage_Authz_guard___redArg___closed__0() rt.V {
+	return value_L_Leangage_Authz_guard___redArg___closed__0
 }
 
-func l_Leanharbor_Authz_shown___redArg(x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V) uint8 {
+func l_Leangage_Authz_shown___redArg(x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V) uint8 {
 	var x_5 rt.V
 	_ = x_5
 	var x_6 rt.V
@@ -2070,7 +2070,7 @@ func l_Leanharbor_Authz_shown___redArg(x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V) u
 	}
 }
 
-func l_List_all___at___00Leanharbor_Authz_checkReads_spec__0___redArg(x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V, x_5 rt.V) uint8 {
+func l_List_all___at___00Leangage_Authz_checkReads_spec__0___redArg(x_1 rt.V, x_2 rt.V, x_3 rt.V, x_4 rt.V, x_5 rt.V) uint8 {
 	var x_6 uint8
 	_ = x_6
 	var x_7 rt.V
@@ -2103,13 +2103,13 @@ _start:
 		rt.Lean_inc(x_3)
 		rt.Lean_inc(x_2)
 		rt.Lean_inc(x_1)
-		x_12 = l_Leanharbor_Authz_shown___redArg(x_1, x_2, x_3, x_7)
+		x_12 = l_Leangage_Authz_shown___redArg(x_1, x_2, x_3, x_7)
 		switch x_12 {
 		case 0:
 			rt.Lean_inc(x_4)
 			rt.Lean_inc(x_2)
 			rt.Lean_inc(x_1)
-			x_13 = l_Leanharbor_Authz_shown___redArg(x_1, x_2, x_4, x_7)
+			x_13 = l_Leangage_Authz_shown___redArg(x_1, x_2, x_4, x_7)
 			x_10 = x_13
 			goto _jp_9
 		case 1:
@@ -4382,16 +4382,16 @@ func l_UInt64_decLe(x_1 uint64, x_2 uint64) uint8 {
 	return rt.Lean_uint64_dec_le(x_1, x_2)
 }
 
-func tail_L_Leanharbor_Authz_checkWritesFrom___redArg(_ *rt.Tail, args []rt.V) rt.V {
-	return rt.Lean_box(uint64(l_Leanharbor_Authz_checkWritesFrom___redArg(args[0], args[1], args[2], args[3], args[4], args[5])))
+func tail_L_Leangage_Authz_checkWritesFrom___redArg(_ *rt.Tail, args []rt.V) rt.V {
+	return rt.Lean_box(uint64(l_Leangage_Authz_checkWritesFrom___redArg(args[0], args[1], args[2], args[3], args[4], args[5])))
 }
 
-func tail_L_Leanharbor_Authz_guardViewed___redArg(frame *rt.Tail, args []rt.V) rt.V {
-	return core_L_Leanharbor_Authz_guardViewed___redArg(frame, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8])
+func tail_L_Leangage_Authz_guardViewed___redArg(frame *rt.Tail, args []rt.V) rt.V {
+	return core_L_Leangage_Authz_guardViewed___redArg(frame, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8])
 }
 
-func tail_L_Leanharbor_Authz_guard___redArg(_ *rt.Tail, args []rt.V) rt.V {
-	return l_Leanharbor_Authz_guard___redArg(args[0], args[1], args[2], args[3], args[4], args[5], args[6])
+func tail_L_Leangage_Authz_guard___redArg(_ *rt.Tail, args []rt.V) rt.V {
+	return l_Leangage_Authz_guard___redArg(args[0], args[1], args[2], args[3], args[4], args[5], args[6])
 }
 
 func tail_L_List_appendTR___redArg(frame *rt.Tail, args []rt.V) rt.V {
@@ -4458,7 +4458,7 @@ func tail_L_Notes_Kernel_isAdmin(_ *rt.Tail, args []rt.V) rt.V {
 	return rt.Lean_box(uint64(l_Notes_Kernel_isAdmin(args[0], rt.Lean_unbox(args[1]))))
 }
 
-var value_L_Leanharbor_Authz_guard___redArg___closed__0 rt.V
+var value_L_Leangage_Authz_guard___redArg___closed__0 rt.V
 
 var value_L_Notes_Kernel_handle___closed__0 rt.V
 

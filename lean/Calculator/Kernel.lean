@@ -1,4 +1,4 @@
-import Leanharbor.Json
+import Leangage.Json
 
 /-!
 # Calculator
@@ -9,7 +9,7 @@ refuses when the result leaves 64 bits, `get` reads it.
 A tenant's numbers are a binary trie on the user id, lowest bit first: a lookup and an update
 visit one node per bit until the id is alone in its subtree.
 
-A reply is `{"value":<v>}` and a refusal `{"error":"<name>"}`, written by `Leanharbor.Json.write`.
+A reply is `{"value":<v>}` and a refusal `{"error":"<name>"}`, written by `Leangage.Json.write`.
 -/
 
 namespace Calculator.Kernel
@@ -117,16 +117,16 @@ def errorName : Error → List UInt8
   | .divByZero => [100, 105, 118, 105, 115, 105, 111, 110, 95, 98, 121, 95, 122, 101, 114, 111]
 
 /-- `{"value":<v>}`. -/
-def replyToks : Reply → List Leanharbor.Json.Tok
+def replyToks : Reply → List Leangage.Json.Tok
   | .value v => [.objOpen, .key [118, 97, 108, 117, 101], .num v, .objClose]
 
 /-- `{"error":"<name>"}`. -/
-def errorToks (e : Error) : List Leanharbor.Json.Tok :=
+def errorToks (e : Error) : List Leangage.Json.Tok :=
   [.objOpen, .key [101, 114, 114, 111, 114], .str (errorName e), .objClose]
 
-def encodeReply (r : Reply) : List UInt8 := Leanharbor.Json.write (replyToks r)
+def encodeReply (r : Reply) : List UInt8 := Leangage.Json.write (replyToks r)
 
-def encodeError (e : Error) : List UInt8 := Leanharbor.Json.write (errorToks e)
+def encodeError (e : Error) : List UInt8 := Leangage.Json.write (errorToks e)
 
 /-- `errorName` as a string. -/
 def errorString : Error → String
@@ -134,12 +134,12 @@ def errorString : Error → String
   | .underflow => "underflow"
   | .divByZero => "division_by_zero"
 
-/-- The bytes of `encodeReply`, written by `Leanharbor.Json.writeArray`. -/
+/-- The bytes of `encodeReply`, written by `Leangage.Json.writeArray`. -/
 def encodeReplyArray : Reply → Array UInt8
-  | .value v => Leanharbor.Json.writeArray [.objOpen, .key "value", .num v, .objClose]
+  | .value v => Leangage.Json.writeArray [.objOpen, .key "value", .num v, .objClose]
 
-/-- The bytes of `encodeError`, written by `Leanharbor.Json.writeArray`. -/
+/-- The bytes of `encodeError`, written by `Leangage.Json.writeArray`. -/
 def encodeErrorArray (e : Error) : Array UInt8 :=
-  Leanharbor.Json.writeArray [.objOpen, .key "error", .str (errorString e), .objClose]
+  Leangage.Json.writeArray [.objOpen, .key "error", .str (errorString e), .objClose]
 
 end Calculator.Kernel

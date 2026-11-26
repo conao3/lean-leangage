@@ -1,6 +1,6 @@
 [package]
-name = "leanharbor-bench-baselines"
-description = "Servers without a kernel that the HTTP measurement compares leanharbor with"
+name = "leangage-bench-baselines"
+description = "Servers without a kernel that the HTTP measurement compares leangage with"
 version = "0.1.0"
 edition = "2024"
 license = "Apache-2.0"

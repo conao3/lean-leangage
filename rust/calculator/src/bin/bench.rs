@@ -1,16 +1,16 @@
 //! Times one command through the generated kernel, with the snapshot as a Rust value and as a
 //! Lean value, and through the memory engine, for tenants of several sizes, next to the same
-//! commands on a `HashMap` written by hand in Rust. With `LEANHARBOR_DATABASE_URL`, also through
+//! commands on a `HashMap` written by hand in Rust. With `LEANGAGE_DATABASE_URL`, also through
 //! the PostgreSQL engine on that database, one tenant per size.
 
 use std::collections::HashMap;
 use std::hint::black_box;
 use std::time::Instant;
 
-use leanharbor::memory::MemoryEngine;
-use leanharbor::{Engine, Kernel};
-use leanharbor_calculator::{Calculator, kernel};
-use leanharbor_pg::{Config, PgEngine};
+use leangage::memory::MemoryEngine;
+use leangage::{Engine, Kernel};
+use leangage_calculator::{Calculator, kernel};
+use leangage_pg::{Config, PgEngine};
 
 fn handwritten(
     actor: &kernel::Principal,
@@ -146,7 +146,7 @@ fn main() {
             per_op("memory engine", users, count, start);
         });
 
-        if let Ok(url) = std::env::var("LEANHARBOR_DATABASE_URL") {
+        if let Ok(url) = std::env::var("LEANGAGE_DATABASE_URL") {
             let count = if users >= 1_000 { 200 } else { 2_000 };
             let runtime = tokio::runtime::Builder::new_multi_thread()
                 .enable_all()

@@ -1,4 +1,4 @@
-import Leanharbor.Authz
+import Leangage.Authz
 
 /-!
 # Notes
@@ -15,12 +15,12 @@ none.
 
 `handle` decides what each command does and checks input and existence only. The listings are in
 key order, so that no reply depends on the order of the rows. `transition`, the function the
-engine runs, is `handle` behind the guard of `Leanharbor.Authz`.
+engine runs, is `handle` behind the guard of `Leangage.Authz`.
 -/
 
 namespace Notes.Kernel
 
-open Leanharbor.Authz
+open Leangage.Authz
 
 /-- Who is calling: an organization (the tenant) and a user in it. -/
 structure Principal where

@@ -1,5 +1,5 @@
 import Assay
-import Leanharbor.Json.Proofs
+import Leangage.Json.Proofs
 
 /-!
 Breaks the JSON writer in small ways and runs the theorems on each broken version. The build fails
@@ -11,9 +11,9 @@ JSON document, and the tokens of random JSON values, so that `write_spec` and `w
 both.
 -/
 
-open Plausible Leanharbor.Json
+open Plausible Leangage.Json
 
-deriving instance Repr for Leanharbor.Json.Value
+deriving instance Repr for Leangage.Json.Value
 
 def jsonBytes : List UInt8 :=
   [0, 1, 8, 9, 10, 12, 13, 15, 16, 26, 31, 32, 33, 34, 47, 58, 91, 92, 93, 117, 123, 125, 127, 128, 169,
@@ -152,30 +152,30 @@ instance (priority := high) jsonSampleableArray : SampleableExt (Array UInt8) :=
 
 instance (priority := high) jsonSampleableNat : SampleableExt Nat := SampleableExt.selfContained
 
-#assay Leanharbor.Json.escapeByte Leanharbor.Json.escape
-  using Leanharbor.Json.escapeByte_spec Leanharbor.Json.escape_spec Leanharbor.Json.lex_escape
-    Leanharbor.Json.escape_no_control
+#assay Leangage.Json.escapeByte Leangage.Json.escape
+  using Leangage.Json.escapeByte_spec Leangage.Json.escape_spec Leangage.Json.lex_escape
+    Leangage.Json.escape_no_control
 
-#assay Leanharbor.Json.tokBytes using Leanharbor.Json.tokBytes_spec
+#assay Leangage.Json.tokBytes using Leangage.Json.tokBytes_spec
 
-#assay Leanharbor.Json.isClose using Leanharbor.Json.isClose_spec
+#assay Leangage.Json.isClose using Leangage.Json.isClose_spec
 
-#assay Leanharbor.Json.endsValue using Leanharbor.Json.endsValue_spec
+#assay Leangage.Json.endsValue using Leangage.Json.endsValue_spec
 
-#assay Leanharbor.Json.writeFrom Leanharbor.Json.write
-  using Leanharbor.Json.writeFrom_spec Leanharbor.Json.write_spec Leanharbor.Json.write_value
+#assay Leangage.Json.writeFrom Leangage.Json.write
+  using Leangage.Json.writeFrom_spec Leangage.Json.write_spec Leangage.Json.write_value
 
-#assay Leanharbor.Json.pushEscapedByte using Leanharbor.Json.pushEscapedByte_spec
+#assay Leangage.Json.pushEscapedByte using Leangage.Json.pushEscapedByte_spec
 
-#assay Leanharbor.Json.pushEscaped using Leanharbor.Json.pushEscaped_spec
+#assay Leangage.Json.pushEscaped using Leangage.Json.pushEscaped_spec
 
-#assay Leanharbor.Json.pushDecimal using Leanharbor.Json.pushDecimal_spec
+#assay Leangage.Json.pushDecimal using Leangage.Json.pushDecimal_spec
 
-#assay Leanharbor.Json.pushTok using Leanharbor.Json.pushTok_spec
+#assay Leangage.Json.pushTok using Leangage.Json.pushTok_spec
 
-#assay Leanharbor.Json.StrTok.isClose using Leanharbor.Json.StrTok.isClose_toTok
+#assay Leangage.Json.StrTok.isClose using Leangage.Json.StrTok.isClose_toTok
 
-#assay Leanharbor.Json.StrTok.endsValue using Leanharbor.Json.StrTok.endsValue_toTok
+#assay Leangage.Json.StrTok.endsValue using Leangage.Json.StrTok.endsValue_toTok
 
-#assay Leanharbor.Json.writeArrayFrom Leanharbor.Json.writeArray
-  using Leanharbor.Json.writeArrayFrom_spec Leanharbor.Json.writeArray_spec
+#assay Leangage.Json.writeArrayFrom Leangage.Json.writeArray
+  using Leangage.Json.writeArrayFrom_spec Leangage.Json.writeArray_spec

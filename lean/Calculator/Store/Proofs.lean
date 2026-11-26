@@ -1,6 +1,6 @@
 import Calculator.Proofs
 import Calculator.Store
-import Leanharbor.Store
+import Leangage.Store
 
 /-!
 # The calculator's table holds what `apply` computes
@@ -20,7 +20,7 @@ so that leanassay can run them.
 
 namespace Calculator.Store
 
-open Calculator.Kernel Leanharbor Leanharbor.Sql
+open Calculator.Kernel Leangage Leangage.Sql
 
 /-- The number stored for a user, if any. -/
 def lookup : Memories → UInt64 → Option UInt64

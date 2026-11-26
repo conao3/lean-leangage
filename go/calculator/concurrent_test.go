@@ -8,7 +8,7 @@ import (
 
 	"github.com/conao3/leanfran-go"
 
-	"github.com/conao3/lean-leanharbor/go/calculator/kernel"
+	"github.com/conao3/lean-leangage/go/calculator/kernel"
 )
 
 // copies is how many times the concurrent tests run the shared command list, each time on

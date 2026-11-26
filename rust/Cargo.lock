@@ -610,7 +610,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "leanharbor"
+name = "leangage"
 version = "0.1.0"
 dependencies = [
  "axum",
@@ -621,15 +621,15 @@ dependencies = [
 ]
 
 [[package]]
-name = "leanharbor-calculator"
+name = "leangage-calculator"
 version = "0.1.0"
 dependencies = [
  "axum",
  "hmac 0.12.1",
  "leanfran",
- "leanharbor",
- "leanharbor-notes",
- "leanharbor-pg",
+ "leangage",
+ "leangage-notes",
+ "leangage-pg",
  "serde",
  "serde_json",
  "sha2 0.10.9",
@@ -638,13 +638,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "leanharbor-notes"
+name = "leangage-notes"
 version = "0.1.0"
 dependencies = [
  "axum",
  "leanfran",
- "leanharbor",
- "leanharbor-pg",
+ "leangage",
+ "leangage-pg",
  "serde",
  "serde_json",
  "tokio",
@@ -653,13 +653,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "leanharbor-pg"
+name = "leangage-pg"
 version = "0.1.0"
 dependencies = [
  "bytes",
  "deadpool-postgres",
  "leanfran",
- "leanharbor",
+ "leangage",
  "tokio",
  "tokio-postgres",
 ]

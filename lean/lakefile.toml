@@ -1,8 +1,8 @@
-name = "leanharbor"
-defaultTargets = ["Leanharbor", "Calculator", "Notes"]
+name = "leangage"
+defaultTargets = ["Leangage", "Calculator", "Notes"]
 
 [[lean_lib]]
-name = "Leanharbor"
+name = "Leangage"
 
 [[lean_lib]]
 name = "Calculator"

@@ -3,9 +3,9 @@
 
 use std::sync::Arc;
 
-use leanharbor::Engine;
-use leanharbor::memory::MemoryEngine;
-use leanharbor_notes::{Notes, Refusal, kernel};
+use leangage::Engine;
+use leangage::memory::MemoryEngine;
+use leangage_notes::{Notes, Refusal, kernel};
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 4)]
 async fn snapshot_stays_owned_by_one_thread() {

@@ -8,12 +8,12 @@ use std::hint::black_box;
 use std::time::Instant;
 
 use hmac::{Hmac, Mac};
-use leanharbor::http::Api;
-use leanharbor::json_format::{self, StrTok, Tok};
-use leanharbor::token::{self, Claims};
-use leanharbor::token_format;
-use leanharbor_calculator::{Calculator, kernel};
-use leanharbor_notes::{Notes, kernel as notes};
+use leangage::http::Api;
+use leangage::json_format::{self, StrTok, Tok};
+use leangage::token::{self, Claims};
+use leangage::token_format;
+use leangage_calculator::{Calculator, kernel};
+use leangage_notes::{Notes, kernel as notes};
 use sha2::Sha256;
 
 const ROUNDS: usize = 7;

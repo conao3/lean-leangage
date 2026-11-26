@@ -104,7 +104,7 @@ class Postgres:
     def __init__(self, bin: Path) -> None:
         self.bin = bin
         self.user = postgres_user()
-        self.dir = Path(tempfile.mkdtemp(prefix="leanharbor-measure-pg-", dir="/tmp"))
+        self.dir = Path(tempfile.mkdtemp(prefix="leangage-measure-pg-", dir="/tmp"))
         if self.user:
             os.chown(self.dir, self.user.pw_uid, self.user.pw_gid)
         self.data = self.dir / "data"
@@ -206,7 +206,7 @@ def postgres_engine(pg: Postgres) -> dict[str, dict[str, list[int]]]:
     for index in range(ENGINE_RUNS):
         url = pg.database(f"engine{index}")
         bench = [str(ROOT / "rust/target/release/bench")]
-        for line in run(bench, ROOT, {"LEANHARBOR_DATABASE_URL": url}).splitlines():
+        for line in run(bench, ROOT, {"LEANGAGE_DATABASE_URL": url}).splitlines():
             if (found := LINE.match(line)) and found[1] == "postgres engine":
                 runs.setdefault(found[2], []).append(int(found[3]))
     if any(len(runs.get(size, [])) != ENGINE_RUNS for size in PG_SIZES):
@@ -295,7 +295,7 @@ def main() -> None:
     run(["cargo", "build", "--release"], ROOT / "bench/rust")
     for module, package in [
         ("go", "calculator/cmd/bench"),
-        ("go", "calculator/cmd/leanharbor-calculator"),
+        ("go", "calculator/cmd/leangage-calculator"),
     ]:
         run(
             ["go", "build", "-o", str(bins / Path(package).name), f"./{package}"],
@@ -312,7 +312,7 @@ def main() -> None:
     engine(
         commands, [str(bins / "bench")], ROOT, {"memory engine": "Go, memory engine"}
     )
-    python_bench = ["uv", "run", "python", "-m", "leanharbor_calculator.bench"]
+    python_bench = ["uv", "run", "python", "-m", "leangage_calculator.bench"]
     engine(
         commands,
         python_bench,
@@ -320,28 +320,28 @@ def main() -> None:
         {"memory engine execute": "Python, memory engine"},
     )
 
-    secret = {"LEANHARBOR_SECRET": "bench-secret"}
-    rust_server = str(ROOT / "rust/target/release/leanharbor-calculator")
-    token = run([rust_server], ROOT, {**secret, "LEANHARBOR_ISSUE": "1:7"}).strip()
+    secret = {"LEANGAGE_SECRET": "bench-secret"}
+    rust_server = str(ROOT / "rust/target/release/leangage-calculator")
+    token = run([rust_server], ROOT, {**secret, "LEANGAGE_ISSUE": "1:7"}).strip()
     workers = str(os.cpu_count())
     baselines = ROOT / "bench/rust/target/release"
     servers = [
-        ("leanharbor, Rust (axum)", [rust_server], ROOT, "LEANHARBOR_LISTEN"),
+        ("leangage, Rust (axum)", [rust_server], ROOT, "LEANGAGE_LISTEN"),
         ("axum, no kernel", [str(baselines / "axum")], ROOT, "BENCH_LISTEN"),
         ("actix-web, no kernel", [str(baselines / "actix")], ROOT, "BENCH_LISTEN"),
         (
-            "leanharbor, Go (net/http)",
-            [str(bins / "leanharbor-calculator")],
+            "leangage, Go (net/http)",
+            [str(bins / "leangage-calculator")],
             ROOT,
-            "LEANHARBOR_LISTEN",
+            "LEANGAGE_LISTEN",
         ),
         ("net/http, no kernel", [str(bins / "nethttp")], ROOT, "BENCH_LISTEN"),
         ("gin, no kernel", [str(bins / "gin")], ROOT, "BENCH_LISTEN"),
         (
-            "leanharbor, Python (http.server)",
-            ["uv", "run", "leanharbor-calculator"],
+            "leangage, Python (http.server)",
+            ["uv", "run", "leangage-calculator"],
             ROOT / "python",
-            "LEANHARBOR_LISTEN",
+            "LEANGAGE_LISTEN",
         ),
         (
             f"FastAPI on uvicorn, {workers} processes, no kernel",
@@ -390,10 +390,10 @@ def main() -> None:
         pg_commands = postgres_engine(pg)
         pg_servers = [
             (
-                "leanharbor, Rust (axum), PostgreSQL engine",
+                "leangage, Rust (axum), PostgreSQL engine",
                 [rust_server],
-                "LEANHARBOR_LISTEN",
-                "LEANHARBOR_DATABASE_URL",
+                "LEANGAGE_LISTEN",
+                "LEANGAGE_DATABASE_URL",
             ),
             (
                 "axum and tokio-postgres, no kernel",

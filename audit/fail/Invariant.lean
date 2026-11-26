@@ -1,12 +1,12 @@
 import Audit.Obligations
 import Audit.ObligationKernels
 
--- expect: Invariant Even: no theorem states `Leanharbor.Obligation.Invariant counter Even` with only the standard axioms
+-- expect: Invariant Even: no theorem states `Leangage.Obligation.Invariant counter Even` with only the standard axioms
 
 open Audit.ObligationKernels
 
 theorem counter_read_only :
-    Leanharbor.Obligation.ReadOnlySound counter (fun ws : Option Nat => ws.toList) := by
+    Leangage.Obligation.ReadOnlySound counter (fun ws : Option Nat => ws.toList) := by
   intro a s c ws r hro ht
   cases c with
   | true => simp [counter] at hro

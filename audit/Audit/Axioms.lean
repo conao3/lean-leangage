@@ -1,5 +1,5 @@
 import Lean
-import Leanharbor
+import Leangage
 import Calculator
 import Notes
 
@@ -26,7 +26,7 @@ elab "#assert_standard_axioms " mods:ident+ : command => do
   if checked == 0 then throwError "no theorem found"
   logInfo m!"{checked} theorems depend only on propext, Classical.choice and Quot.sound"
 
-#assert_standard_axioms Leanharbor.Kernel Leanharbor.Obligation Leanharbor.AuthzProofs
-  Leanharbor.Sql.Proofs Leanharbor.Sql.Sound Leanharbor.Sql.Isolation Leanharbor.Store
-  Leanharbor.Token.Proofs Leanharbor.Json.Proofs Calculator.Proofs Calculator.Store.Proofs
+#assert_standard_axioms Leangage.Kernel Leangage.Obligation Leangage.AuthzProofs
+  Leangage.Sql.Proofs Leangage.Sql.Sound Leangage.Sql.Isolation Leangage.Store
+  Leangage.Token.Proofs Leangage.Json.Proofs Calculator.Proofs Calculator.Store.Proofs
   Notes.Proofs Notes.Store.Proofs

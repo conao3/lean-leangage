@@ -4,7 +4,7 @@ import Audit.Obligations
 import Calculator.Proofs
 
 /-!
-Checks that the calculator's theorems state the obligations of `Leanharbor.Obligation`, then
+Checks that the calculator's theorems state the obligations of `Leangage.Obligation`, then
 breaks the calculator kernel in small ways and runs the theorems on each broken version. The
 build fails when an obligation has no theorem or a broken version satisfies every theorem.
 -/

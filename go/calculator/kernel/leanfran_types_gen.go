@@ -11,7 +11,7 @@ import (
 
 var _lfCodecCommand leanfran.Codec[Command]
 var _lfCodecError leanfran.Codec[Error]
-var _lfCodecLeanharborJsonTok leanfran.Codec[LeanharborJsonTok]
+var _lfCodecLeangageJsonTok leanfran.Codec[LeangageJsonTok]
 var _lfCodecMemories leanfran.Codec[Memories]
 var _lfCodecMemory leanfran.Codec[Memory]
 var _lfCodecOp leanfran.Codec[Op]
@@ -25,13 +25,13 @@ var _lfCodec3 leanfran.Codec[[]uint8]
 var _lfCodec4 leanfran.Codec[*Memory]
 var _lfCodec5 leanfran.Codec[[]uint8]
 var _lfCodec6 leanfran.Codec[string]
-var _lfCodec7 leanfran.Codec[[]LeanharborJsonTok]
+var _lfCodec7 leanfran.Codec[[]LeangageJsonTok]
 var _lfCodec8 leanfran.Codec[leanfran.Pair[*Memory, Reply]]
 var _lfCodec9 leanfran.Codec[leanfran.Except[Error, leanfran.Pair[*Memory, Reply]]]
 var _lfCodec10 leanfran.Codec[leanfran.Except[Error, uint64]]
 var _lfDescCommand schema.Desc
 var _lfDescError schema.Desc
-var _lfDescLeanharborJsonTok schema.Desc
+var _lfDescLeangageJsonTok schema.Desc
 var _lfDescMemories schema.Desc
 var _lfDescMemory schema.Desc
 var _lfDescOp schema.Desc
@@ -44,7 +44,7 @@ var _lfCodecsOnce sync.Once
 func _lfBuildCodecs() {
 	_lfCodecCommand = leanfran.Ref(descCommand, toCommand, fromCommand, checkCommand)
 	_lfCodecError = leanfran.Ref(descError, toError, fromError, checkError)
-	_lfCodecLeanharborJsonTok = leanfran.Ref(descLeanharborJsonTok, toLeanharborJsonTok, fromLeanharborJsonTok, checkLeanharborJsonTok)
+	_lfCodecLeangageJsonTok = leanfran.Ref(descLeangageJsonTok, toLeangageJsonTok, fromLeangageJsonTok, checkLeangageJsonTok)
 	_lfCodecMemories = leanfran.Ref(descMemories, toMemories, fromMemories, checkMemories)
 	_lfCodecMemory = leanfran.Ref(descMemory, toMemory, fromMemory, checkMemory)
 	_lfCodecOp = leanfran.Ref(descOp, toOp, fromOp, checkOp)
@@ -58,13 +58,13 @@ func _lfBuildCodecs() {
 	_lfCodec4 = leanfran.Option(_lfCodecMemory)
 	_lfCodec5 = leanfran.Sequence("array", _lfCodec2)
 	_lfCodec6 = leanfran.String()
-	_lfCodec7 = leanfran.Sequence("list", _lfCodecLeanharborJsonTok)
+	_lfCodec7 = leanfran.Sequence("list", _lfCodecLeangageJsonTok)
 	_lfCodec8 = leanfran.Product(_lfCodec4, _lfCodecReply)
 	_lfCodec9 = leanfran.Result(_lfCodecError, _lfCodec8)
 	_lfCodec10 = leanfran.Result(_lfCodecError, _lfCodec0)
 	_lfDescCommand = schema.Desc{Name: "Command", Kind: "inductive", Variants: []schema.Variant{{Name: "set", Tag: 0, Objects: 0, ScalarBytes: 8, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "value", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "apply", Tag: 1, Objects: 0, ScalarBytes: 9, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "op", Desc: _lfCodecOp.Desc, Slot: "u8", Offset: 8, Flat: false, OmitNone: false, Bounds: nil}, {Key: "arg", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "get", Tag: 2, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}}}
 	_lfDescError = schema.Desc{Name: "Error", Kind: "enum", Cases: []string{"overflow", "underflow", "divByZero"}}
-	_lfDescLeanharborJsonTok = schema.Desc{Name: "LeanharborJsonTok", Kind: "inductive", Variants: []schema.Variant{{Name: "null", Tag: 0, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "bool", Tag: 1, Objects: 0, ScalarBytes: 1, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "b", Desc: _lfCodec1.Desc, Slot: "u8", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "num", Tag: 2, Objects: 0, ScalarBytes: 8, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "n", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "str", Tag: 3, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "s", Desc: _lfCodec3.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "key", Tag: 4, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "s", Desc: _lfCodec3.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "arrOpen", Tag: 5, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "arrClose", Tag: 6, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "objOpen", Tag: 7, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "objClose", Tag: 8, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}}}
+	_lfDescLeangageJsonTok = schema.Desc{Name: "LeangageJsonTok", Kind: "inductive", Variants: []schema.Variant{{Name: "null", Tag: 0, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "bool", Tag: 1, Objects: 0, ScalarBytes: 1, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "b", Desc: _lfCodec1.Desc, Slot: "u8", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "num", Tag: 2, Objects: 0, ScalarBytes: 8, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "n", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "str", Tag: 3, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "s", Desc: _lfCodec3.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "key", Tag: 4, Objects: 1, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "s", Desc: _lfCodec3.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "arrOpen", Tag: 5, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "arrClose", Tag: 6, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "objOpen", Tag: 7, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "objClose", Tag: 8, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}}}
 	_lfDescMemories = schema.Desc{Name: "Memories", Kind: "inductive", Variants: []schema.Variant{{Name: "empty", Tag: 0, Objects: 0, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{}}, {Name: "leaf", Tag: 1, Objects: 0, ScalarBytes: 16, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "key", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "value", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 8, Flat: false, OmitNone: false, Bounds: nil}}}, {Name: "node", Tag: 2, Objects: 2, ScalarBytes: 0, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "even", Desc: _lfCodecMemories.Desc, Slot: "obj", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "odd", Desc: _lfCodecMemories.Desc, Slot: "obj", Offset: 1, Flat: false, OmitNone: false, Bounds: nil}}}}}
 	_lfDescMemory = schema.Desc{Name: "Memory", Kind: "struct", Variants: []schema.Variant{{Name: "mk", Tag: 0, Objects: 0, ScalarBytes: 16, Trivial: false, Positional: false, Fields: []schema.Field{{Key: "user", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 0, Flat: false, OmitNone: false, Bounds: nil}, {Key: "value", Desc: _lfCodec0.Desc, Slot: "u64", Offset: 8, Flat: false, OmitNone: false, Bounds: nil}}}}}
 	_lfDescOp = schema.Desc{Name: "Op", Kind: "enum", Cases: []string{"add", "sub", "mul", "div"}}
@@ -376,53 +376,53 @@ func (v *Error) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func descLeanharborJsonTok() *schema.Desc { return &_lfDescLeanharborJsonTok }
+func descLeangageJsonTok() *schema.Desc { return &_lfDescLeangageJsonTok }
 
-func LeanfranCodecLeanharborJsonTok() leanfran.Codec[LeanharborJsonTok] {
+func LeanfranCodecLeangageJsonTok() leanfran.Codec[LeangageJsonTok] {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return _lfCodecLeanharborJsonTok
+	return _lfCodecLeangageJsonTok
 }
 
-type LeanharborJsonTok interface {
-	isLeanharborJsonTok()
+type LeangageJsonTok interface {
+	isLeangageJsonTok()
 	Validate() error
 	MarshalJSON() ([]byte, error)
 	JSONSchema(string) (map[string]any, error)
 	LeanfranDesc() *schema.Desc
 }
 
-type LeanharborJsonTokNull struct {
+type LeangageJsonTokNull struct {
 }
 
-func (LeanharborJsonTokNull) isLeanharborJsonTok() {}
+func (LeangageJsonTokNull) isLeangageJsonTok() {}
 
-func (v LeanharborJsonTokNull) LeanfranDesc() *schema.Desc {
+func (v LeangageJsonTokNull) LeanfranDesc() *schema.Desc {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborJsonTok()
+	return descLeangageJsonTok()
 }
 
-func (v LeanharborJsonTokNull) Validate() error {
+func (v LeangageJsonTokNull) Validate() error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+	return leanfran.Validate(_lfCodecLeangageJsonTok, LeangageJsonTok(v), "LeangageJsonTok")
 }
 
-func (v LeanharborJsonTokNull) MarshalJSON() ([]byte, error) {
+func (v LeangageJsonTokNull) MarshalJSON() ([]byte, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+	return leanfran.MarshalJSON(_lfCodecLeangageJsonTok, LeangageJsonTok(v), "LeangageJsonTok")
 }
 
-func (v LeanharborJsonTokNull) JSONSchema(target string) (map[string]any, error) {
+func (v LeangageJsonTokNull) JSONSchema(target string) (map[string]any, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborJsonTok(), target)
+	return schema.JSONSchema(descLeangageJsonTok(), target)
 }
 
-func (v *LeanharborJsonTokNull) UnmarshalJSON(data []byte) error {
+func (v *LeangageJsonTokNull) UnmarshalJSON(data []byte) error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborJsonTok, data, "LeanharborJsonTok")
+	out, err := leanfran.UnmarshalJSON(_lfCodecLeangageJsonTok, data, "LeangageJsonTok")
 	if err != nil {
 		return err
 	}
-	typed, ok := out.(LeanharborJsonTokNull)
+	typed, ok := out.(LeangageJsonTokNull)
 	if !ok {
 		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
 	}
@@ -430,50 +430,50 @@ func (v *LeanharborJsonTokNull) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func toLeanharborJsonTokNull(v LeanharborJsonTokNull) rt.V {
+func toLeangageJsonTokNull(v LeangageJsonTokNull) rt.V {
 	return rt.Lean_box(0)
 }
 
-func fromLeanharborJsonTokNull(_ rt.V) LeanharborJsonTokNull {
-	return LeanharborJsonTokNull{}
+func fromLeangageJsonTokNull(_ rt.V) LeangageJsonTokNull {
+	return LeangageJsonTokNull{}
 }
 
-func checkLeanharborJsonTokNull(e *leanfran.ValidationError, v LeanharborJsonTokNull) {
+func checkLeangageJsonTokNull(e *leanfran.ValidationError, v LeangageJsonTokNull) {
 }
 
-type LeanharborJsonTokBool struct {
+type LeangageJsonTokBool struct {
 	B bool
 }
 
-func (LeanharborJsonTokBool) isLeanharborJsonTok() {}
+func (LeangageJsonTokBool) isLeangageJsonTok() {}
 
-func (v LeanharborJsonTokBool) LeanfranDesc() *schema.Desc {
+func (v LeangageJsonTokBool) LeanfranDesc() *schema.Desc {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborJsonTok()
+	return descLeangageJsonTok()
 }
 
-func (v LeanharborJsonTokBool) Validate() error {
+func (v LeangageJsonTokBool) Validate() error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+	return leanfran.Validate(_lfCodecLeangageJsonTok, LeangageJsonTok(v), "LeangageJsonTok")
 }
 
-func (v LeanharborJsonTokBool) MarshalJSON() ([]byte, error) {
+func (v LeangageJsonTokBool) MarshalJSON() ([]byte, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+	return leanfran.MarshalJSON(_lfCodecLeangageJsonTok, LeangageJsonTok(v), "LeangageJsonTok")
 }
 
-func (v LeanharborJsonTokBool) JSONSchema(target string) (map[string]any, error) {
+func (v LeangageJsonTokBool) JSONSchema(target string) (map[string]any, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborJsonTok(), target)
+	return schema.JSONSchema(descLeangageJsonTok(), target)
 }
 
-func (v *LeanharborJsonTokBool) UnmarshalJSON(data []byte) error {
+func (v *LeangageJsonTokBool) UnmarshalJSON(data []byte) error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborJsonTok, data, "LeanharborJsonTok")
+	out, err := leanfran.UnmarshalJSON(_lfCodecLeangageJsonTok, data, "LeangageJsonTok")
 	if err != nil {
 		return err
 	}
-	typed, ok := out.(LeanharborJsonTokBool)
+	typed, ok := out.(LeangageJsonTokBool)
 	if !ok {
 		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
 	}
@@ -481,53 +481,53 @@ func (v *LeanharborJsonTokBool) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func toLeanharborJsonTokBool(v LeanharborJsonTokBool) rt.V {
+func toLeangageJsonTokBool(v LeangageJsonTokBool) rt.V {
 	r := rt.Lean_alloc_ctor(1, 0, 1)
 	rt.Lean_ctor_set_uint8(r, 0, rt.Bool(v.B))
 	return r
 }
 
-func fromLeanharborJsonTokBool(v rt.V) LeanharborJsonTokBool {
-	return LeanharborJsonTokBool{B: rt.Lean_ctor_get_uint8(v, 0) != 0}
+func fromLeangageJsonTokBool(v rt.V) LeangageJsonTokBool {
+	return LeangageJsonTokBool{B: rt.Lean_ctor_get_uint8(v, 0) != 0}
 }
 
-func checkLeanharborJsonTokBool(e *leanfran.ValidationError, v LeanharborJsonTokBool) {
+func checkLeangageJsonTokBool(e *leanfran.ValidationError, v LeangageJsonTokBool) {
 	leanfran.CheckAt(e, _lfCodec1, v.B, "bool", "b")
 }
 
-type LeanharborJsonTokNum struct {
+type LeangageJsonTokNum struct {
 	N uint64
 }
 
-func (LeanharborJsonTokNum) isLeanharborJsonTok() {}
+func (LeangageJsonTokNum) isLeangageJsonTok() {}
 
-func (v LeanharborJsonTokNum) LeanfranDesc() *schema.Desc {
+func (v LeangageJsonTokNum) LeanfranDesc() *schema.Desc {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborJsonTok()
+	return descLeangageJsonTok()
 }
 
-func (v LeanharborJsonTokNum) Validate() error {
+func (v LeangageJsonTokNum) Validate() error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+	return leanfran.Validate(_lfCodecLeangageJsonTok, LeangageJsonTok(v), "LeangageJsonTok")
 }
 
-func (v LeanharborJsonTokNum) MarshalJSON() ([]byte, error) {
+func (v LeangageJsonTokNum) MarshalJSON() ([]byte, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+	return leanfran.MarshalJSON(_lfCodecLeangageJsonTok, LeangageJsonTok(v), "LeangageJsonTok")
 }
 
-func (v LeanharborJsonTokNum) JSONSchema(target string) (map[string]any, error) {
+func (v LeangageJsonTokNum) JSONSchema(target string) (map[string]any, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborJsonTok(), target)
+	return schema.JSONSchema(descLeangageJsonTok(), target)
 }
 
-func (v *LeanharborJsonTokNum) UnmarshalJSON(data []byte) error {
+func (v *LeangageJsonTokNum) UnmarshalJSON(data []byte) error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborJsonTok, data, "LeanharborJsonTok")
+	out, err := leanfran.UnmarshalJSON(_lfCodecLeangageJsonTok, data, "LeangageJsonTok")
 	if err != nil {
 		return err
 	}
-	typed, ok := out.(LeanharborJsonTokNum)
+	typed, ok := out.(LeangageJsonTokNum)
 	if !ok {
 		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
 	}
@@ -535,53 +535,53 @@ func (v *LeanharborJsonTokNum) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func toLeanharborJsonTokNum(v LeanharborJsonTokNum) rt.V {
+func toLeangageJsonTokNum(v LeangageJsonTokNum) rt.V {
 	r := rt.Lean_alloc_ctor(2, 0, 8)
 	rt.Lean_ctor_set_uint64(r, 0, uint64(v.N))
 	return r
 }
 
-func fromLeanharborJsonTokNum(v rt.V) LeanharborJsonTokNum {
-	return LeanharborJsonTokNum{N: uint64(rt.Lean_ctor_get_uint64(v, 0))}
+func fromLeangageJsonTokNum(v rt.V) LeangageJsonTokNum {
+	return LeangageJsonTokNum{N: uint64(rt.Lean_ctor_get_uint64(v, 0))}
 }
 
-func checkLeanharborJsonTokNum(e *leanfran.ValidationError, v LeanharborJsonTokNum) {
+func checkLeangageJsonTokNum(e *leanfran.ValidationError, v LeangageJsonTokNum) {
 	leanfran.CheckAt(e, _lfCodec0, v.N, "num", "n")
 }
 
-type LeanharborJsonTokStr struct {
+type LeangageJsonTokStr struct {
 	S []uint8
 }
 
-func (LeanharborJsonTokStr) isLeanharborJsonTok() {}
+func (LeangageJsonTokStr) isLeangageJsonTok() {}
 
-func (v LeanharborJsonTokStr) LeanfranDesc() *schema.Desc {
+func (v LeangageJsonTokStr) LeanfranDesc() *schema.Desc {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborJsonTok()
+	return descLeangageJsonTok()
 }
 
-func (v LeanharborJsonTokStr) Validate() error {
+func (v LeangageJsonTokStr) Validate() error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+	return leanfran.Validate(_lfCodecLeangageJsonTok, LeangageJsonTok(v), "LeangageJsonTok")
 }
 
-func (v LeanharborJsonTokStr) MarshalJSON() ([]byte, error) {
+func (v LeangageJsonTokStr) MarshalJSON() ([]byte, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+	return leanfran.MarshalJSON(_lfCodecLeangageJsonTok, LeangageJsonTok(v), "LeangageJsonTok")
 }
 
-func (v LeanharborJsonTokStr) JSONSchema(target string) (map[string]any, error) {
+func (v LeangageJsonTokStr) JSONSchema(target string) (map[string]any, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborJsonTok(), target)
+	return schema.JSONSchema(descLeangageJsonTok(), target)
 }
 
-func (v *LeanharborJsonTokStr) UnmarshalJSON(data []byte) error {
+func (v *LeangageJsonTokStr) UnmarshalJSON(data []byte) error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborJsonTok, data, "LeanharborJsonTok")
+	out, err := leanfran.UnmarshalJSON(_lfCodecLeangageJsonTok, data, "LeangageJsonTok")
 	if err != nil {
 		return err
 	}
-	typed, ok := out.(LeanharborJsonTokStr)
+	typed, ok := out.(LeangageJsonTokStr)
 	if !ok {
 		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
 	}
@@ -589,53 +589,53 @@ func (v *LeanharborJsonTokStr) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func toLeanharborJsonTokStr(v LeanharborJsonTokStr) rt.V {
+func toLeangageJsonTokStr(v LeangageJsonTokStr) rt.V {
 	r := rt.Lean_alloc_ctor(3, 1, 0)
 	rt.Lean_ctor_set(r, 0, _lfCodec3.ToLean(v.S))
 	return r
 }
 
-func fromLeanharborJsonTokStr(v rt.V) LeanharborJsonTokStr {
-	return LeanharborJsonTokStr{S: _lfCodec3.FromLean(rt.Lean_ctor_get(v, 0))}
+func fromLeangageJsonTokStr(v rt.V) LeangageJsonTokStr {
+	return LeangageJsonTokStr{S: _lfCodec3.FromLean(rt.Lean_ctor_get(v, 0))}
 }
 
-func checkLeanharborJsonTokStr(e *leanfran.ValidationError, v LeanharborJsonTokStr) {
+func checkLeangageJsonTokStr(e *leanfran.ValidationError, v LeangageJsonTokStr) {
 	leanfran.CheckAt(e, _lfCodec3, v.S, "str", "s")
 }
 
-type LeanharborJsonTokKey struct {
+type LeangageJsonTokKey struct {
 	S []uint8
 }
 
-func (LeanharborJsonTokKey) isLeanharborJsonTok() {}
+func (LeangageJsonTokKey) isLeangageJsonTok() {}
 
-func (v LeanharborJsonTokKey) LeanfranDesc() *schema.Desc {
+func (v LeangageJsonTokKey) LeanfranDesc() *schema.Desc {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborJsonTok()
+	return descLeangageJsonTok()
 }
 
-func (v LeanharborJsonTokKey) Validate() error {
+func (v LeangageJsonTokKey) Validate() error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+	return leanfran.Validate(_lfCodecLeangageJsonTok, LeangageJsonTok(v), "LeangageJsonTok")
 }
 
-func (v LeanharborJsonTokKey) MarshalJSON() ([]byte, error) {
+func (v LeangageJsonTokKey) MarshalJSON() ([]byte, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+	return leanfran.MarshalJSON(_lfCodecLeangageJsonTok, LeangageJsonTok(v), "LeangageJsonTok")
 }
 
-func (v LeanharborJsonTokKey) JSONSchema(target string) (map[string]any, error) {
+func (v LeangageJsonTokKey) JSONSchema(target string) (map[string]any, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborJsonTok(), target)
+	return schema.JSONSchema(descLeangageJsonTok(), target)
 }
 
-func (v *LeanharborJsonTokKey) UnmarshalJSON(data []byte) error {
+func (v *LeangageJsonTokKey) UnmarshalJSON(data []byte) error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborJsonTok, data, "LeanharborJsonTok")
+	out, err := leanfran.UnmarshalJSON(_lfCodecLeangageJsonTok, data, "LeangageJsonTok")
 	if err != nil {
 		return err
 	}
-	typed, ok := out.(LeanharborJsonTokKey)
+	typed, ok := out.(LeangageJsonTokKey)
 	if !ok {
 		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
 	}
@@ -643,52 +643,52 @@ func (v *LeanharborJsonTokKey) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func toLeanharborJsonTokKey(v LeanharborJsonTokKey) rt.V {
+func toLeangageJsonTokKey(v LeangageJsonTokKey) rt.V {
 	r := rt.Lean_alloc_ctor(4, 1, 0)
 	rt.Lean_ctor_set(r, 0, _lfCodec3.ToLean(v.S))
 	return r
 }
 
-func fromLeanharborJsonTokKey(v rt.V) LeanharborJsonTokKey {
-	return LeanharborJsonTokKey{S: _lfCodec3.FromLean(rt.Lean_ctor_get(v, 0))}
+func fromLeangageJsonTokKey(v rt.V) LeangageJsonTokKey {
+	return LeangageJsonTokKey{S: _lfCodec3.FromLean(rt.Lean_ctor_get(v, 0))}
 }
 
-func checkLeanharborJsonTokKey(e *leanfran.ValidationError, v LeanharborJsonTokKey) {
+func checkLeangageJsonTokKey(e *leanfran.ValidationError, v LeangageJsonTokKey) {
 	leanfran.CheckAt(e, _lfCodec3, v.S, "key", "s")
 }
 
-type LeanharborJsonTokArrOpen struct {
+type LeangageJsonTokArrOpen struct {
 }
 
-func (LeanharborJsonTokArrOpen) isLeanharborJsonTok() {}
+func (LeangageJsonTokArrOpen) isLeangageJsonTok() {}
 
-func (v LeanharborJsonTokArrOpen) LeanfranDesc() *schema.Desc {
+func (v LeangageJsonTokArrOpen) LeanfranDesc() *schema.Desc {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborJsonTok()
+	return descLeangageJsonTok()
 }
 
-func (v LeanharborJsonTokArrOpen) Validate() error {
+func (v LeangageJsonTokArrOpen) Validate() error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+	return leanfran.Validate(_lfCodecLeangageJsonTok, LeangageJsonTok(v), "LeangageJsonTok")
 }
 
-func (v LeanharborJsonTokArrOpen) MarshalJSON() ([]byte, error) {
+func (v LeangageJsonTokArrOpen) MarshalJSON() ([]byte, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+	return leanfran.MarshalJSON(_lfCodecLeangageJsonTok, LeangageJsonTok(v), "LeangageJsonTok")
 }
 
-func (v LeanharborJsonTokArrOpen) JSONSchema(target string) (map[string]any, error) {
+func (v LeangageJsonTokArrOpen) JSONSchema(target string) (map[string]any, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborJsonTok(), target)
+	return schema.JSONSchema(descLeangageJsonTok(), target)
 }
 
-func (v *LeanharborJsonTokArrOpen) UnmarshalJSON(data []byte) error {
+func (v *LeangageJsonTokArrOpen) UnmarshalJSON(data []byte) error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborJsonTok, data, "LeanharborJsonTok")
+	out, err := leanfran.UnmarshalJSON(_lfCodecLeangageJsonTok, data, "LeangageJsonTok")
 	if err != nil {
 		return err
 	}
-	typed, ok := out.(LeanharborJsonTokArrOpen)
+	typed, ok := out.(LeangageJsonTokArrOpen)
 	if !ok {
 		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
 	}
@@ -696,49 +696,49 @@ func (v *LeanharborJsonTokArrOpen) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func toLeanharborJsonTokArrOpen(v LeanharborJsonTokArrOpen) rt.V {
+func toLeangageJsonTokArrOpen(v LeangageJsonTokArrOpen) rt.V {
 	return rt.Lean_box(5)
 }
 
-func fromLeanharborJsonTokArrOpen(_ rt.V) LeanharborJsonTokArrOpen {
-	return LeanharborJsonTokArrOpen{}
+func fromLeangageJsonTokArrOpen(_ rt.V) LeangageJsonTokArrOpen {
+	return LeangageJsonTokArrOpen{}
 }
 
-func checkLeanharborJsonTokArrOpen(e *leanfran.ValidationError, v LeanharborJsonTokArrOpen) {
+func checkLeangageJsonTokArrOpen(e *leanfran.ValidationError, v LeangageJsonTokArrOpen) {
 }
 
-type LeanharborJsonTokArrClose struct {
+type LeangageJsonTokArrClose struct {
 }
 
-func (LeanharborJsonTokArrClose) isLeanharborJsonTok() {}
+func (LeangageJsonTokArrClose) isLeangageJsonTok() {}
 
-func (v LeanharborJsonTokArrClose) LeanfranDesc() *schema.Desc {
+func (v LeangageJsonTokArrClose) LeanfranDesc() *schema.Desc {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborJsonTok()
+	return descLeangageJsonTok()
 }
 
-func (v LeanharborJsonTokArrClose) Validate() error {
+func (v LeangageJsonTokArrClose) Validate() error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+	return leanfran.Validate(_lfCodecLeangageJsonTok, LeangageJsonTok(v), "LeangageJsonTok")
 }
 
-func (v LeanharborJsonTokArrClose) MarshalJSON() ([]byte, error) {
+func (v LeangageJsonTokArrClose) MarshalJSON() ([]byte, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+	return leanfran.MarshalJSON(_lfCodecLeangageJsonTok, LeangageJsonTok(v), "LeangageJsonTok")
 }
 
-func (v LeanharborJsonTokArrClose) JSONSchema(target string) (map[string]any, error) {
+func (v LeangageJsonTokArrClose) JSONSchema(target string) (map[string]any, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborJsonTok(), target)
+	return schema.JSONSchema(descLeangageJsonTok(), target)
 }
 
-func (v *LeanharborJsonTokArrClose) UnmarshalJSON(data []byte) error {
+func (v *LeangageJsonTokArrClose) UnmarshalJSON(data []byte) error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborJsonTok, data, "LeanharborJsonTok")
+	out, err := leanfran.UnmarshalJSON(_lfCodecLeangageJsonTok, data, "LeangageJsonTok")
 	if err != nil {
 		return err
 	}
-	typed, ok := out.(LeanharborJsonTokArrClose)
+	typed, ok := out.(LeangageJsonTokArrClose)
 	if !ok {
 		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
 	}
@@ -746,49 +746,49 @@ func (v *LeanharborJsonTokArrClose) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func toLeanharborJsonTokArrClose(v LeanharborJsonTokArrClose) rt.V {
+func toLeangageJsonTokArrClose(v LeangageJsonTokArrClose) rt.V {
 	return rt.Lean_box(6)
 }
 
-func fromLeanharborJsonTokArrClose(_ rt.V) LeanharborJsonTokArrClose {
-	return LeanharborJsonTokArrClose{}
+func fromLeangageJsonTokArrClose(_ rt.V) LeangageJsonTokArrClose {
+	return LeangageJsonTokArrClose{}
 }
 
-func checkLeanharborJsonTokArrClose(e *leanfran.ValidationError, v LeanharborJsonTokArrClose) {
+func checkLeangageJsonTokArrClose(e *leanfran.ValidationError, v LeangageJsonTokArrClose) {
 }
 
-type LeanharborJsonTokObjOpen struct {
+type LeangageJsonTokObjOpen struct {
 }
 
-func (LeanharborJsonTokObjOpen) isLeanharborJsonTok() {}
+func (LeangageJsonTokObjOpen) isLeangageJsonTok() {}
 
-func (v LeanharborJsonTokObjOpen) LeanfranDesc() *schema.Desc {
+func (v LeangageJsonTokObjOpen) LeanfranDesc() *schema.Desc {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborJsonTok()
+	return descLeangageJsonTok()
 }
 
-func (v LeanharborJsonTokObjOpen) Validate() error {
+func (v LeangageJsonTokObjOpen) Validate() error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+	return leanfran.Validate(_lfCodecLeangageJsonTok, LeangageJsonTok(v), "LeangageJsonTok")
 }
 
-func (v LeanharborJsonTokObjOpen) MarshalJSON() ([]byte, error) {
+func (v LeangageJsonTokObjOpen) MarshalJSON() ([]byte, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+	return leanfran.MarshalJSON(_lfCodecLeangageJsonTok, LeangageJsonTok(v), "LeangageJsonTok")
 }
 
-func (v LeanharborJsonTokObjOpen) JSONSchema(target string) (map[string]any, error) {
+func (v LeangageJsonTokObjOpen) JSONSchema(target string) (map[string]any, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborJsonTok(), target)
+	return schema.JSONSchema(descLeangageJsonTok(), target)
 }
 
-func (v *LeanharborJsonTokObjOpen) UnmarshalJSON(data []byte) error {
+func (v *LeangageJsonTokObjOpen) UnmarshalJSON(data []byte) error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborJsonTok, data, "LeanharborJsonTok")
+	out, err := leanfran.UnmarshalJSON(_lfCodecLeangageJsonTok, data, "LeangageJsonTok")
 	if err != nil {
 		return err
 	}
-	typed, ok := out.(LeanharborJsonTokObjOpen)
+	typed, ok := out.(LeangageJsonTokObjOpen)
 	if !ok {
 		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
 	}
@@ -796,49 +796,49 @@ func (v *LeanharborJsonTokObjOpen) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func toLeanharborJsonTokObjOpen(v LeanharborJsonTokObjOpen) rt.V {
+func toLeangageJsonTokObjOpen(v LeangageJsonTokObjOpen) rt.V {
 	return rt.Lean_box(7)
 }
 
-func fromLeanharborJsonTokObjOpen(_ rt.V) LeanharborJsonTokObjOpen {
-	return LeanharborJsonTokObjOpen{}
+func fromLeangageJsonTokObjOpen(_ rt.V) LeangageJsonTokObjOpen {
+	return LeangageJsonTokObjOpen{}
 }
 
-func checkLeanharborJsonTokObjOpen(e *leanfran.ValidationError, v LeanharborJsonTokObjOpen) {
+func checkLeangageJsonTokObjOpen(e *leanfran.ValidationError, v LeangageJsonTokObjOpen) {
 }
 
-type LeanharborJsonTokObjClose struct {
+type LeangageJsonTokObjClose struct {
 }
 
-func (LeanharborJsonTokObjClose) isLeanharborJsonTok() {}
+func (LeangageJsonTokObjClose) isLeangageJsonTok() {}
 
-func (v LeanharborJsonTokObjClose) LeanfranDesc() *schema.Desc {
+func (v LeangageJsonTokObjClose) LeanfranDesc() *schema.Desc {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return descLeanharborJsonTok()
+	return descLeangageJsonTok()
 }
 
-func (v LeanharborJsonTokObjClose) Validate() error {
+func (v LeangageJsonTokObjClose) Validate() error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.Validate(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+	return leanfran.Validate(_lfCodecLeangageJsonTok, LeangageJsonTok(v), "LeangageJsonTok")
 }
 
-func (v LeanharborJsonTokObjClose) MarshalJSON() ([]byte, error) {
+func (v LeangageJsonTokObjClose) MarshalJSON() ([]byte, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.MarshalJSON(_lfCodecLeanharborJsonTok, LeanharborJsonTok(v), "LeanharborJsonTok")
+	return leanfran.MarshalJSON(_lfCodecLeangageJsonTok, LeangageJsonTok(v), "LeangageJsonTok")
 }
 
-func (v LeanharborJsonTokObjClose) JSONSchema(target string) (map[string]any, error) {
+func (v LeangageJsonTokObjClose) JSONSchema(target string) (map[string]any, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return schema.JSONSchema(descLeanharborJsonTok(), target)
+	return schema.JSONSchema(descLeangageJsonTok(), target)
 }
 
-func (v *LeanharborJsonTokObjClose) UnmarshalJSON(data []byte) error {
+func (v *LeangageJsonTokObjClose) UnmarshalJSON(data []byte) error {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	out, err := leanfran.UnmarshalJSON(_lfCodecLeanharborJsonTok, data, "LeanharborJsonTok")
+	out, err := leanfran.UnmarshalJSON(_lfCodecLeangageJsonTok, data, "LeangageJsonTok")
 	if err != nil {
 		return err
 	}
-	typed, ok := out.(LeanharborJsonTokObjClose)
+	typed, ok := out.(LeangageJsonTokObjClose)
 	if !ok {
 		return &leanfran.ValidationError{Issues: []leanfran.Issue{{Message: "unexpected constructor"}}}
 	}
@@ -846,166 +846,166 @@ func (v *LeanharborJsonTokObjClose) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func toLeanharborJsonTokObjClose(v LeanharborJsonTokObjClose) rt.V {
+func toLeangageJsonTokObjClose(v LeangageJsonTokObjClose) rt.V {
 	return rt.Lean_box(8)
 }
 
-func fromLeanharborJsonTokObjClose(_ rt.V) LeanharborJsonTokObjClose {
-	return LeanharborJsonTokObjClose{}
+func fromLeangageJsonTokObjClose(_ rt.V) LeangageJsonTokObjClose {
+	return LeangageJsonTokObjClose{}
 }
 
-func checkLeanharborJsonTokObjClose(e *leanfran.ValidationError, v LeanharborJsonTokObjClose) {
+func checkLeangageJsonTokObjClose(e *leanfran.ValidationError, v LeangageJsonTokObjClose) {
 }
 
-func toLeanharborJsonTok(v LeanharborJsonTok) rt.V {
+func toLeangageJsonTok(v LeangageJsonTok) rt.V {
 	switch x := v.(type) {
-	case LeanharborJsonTokNull:
-		return toLeanharborJsonTokNull(x)
-	case *LeanharborJsonTokNull:
-		return toLeanharborJsonTokNull(*x)
-	case LeanharborJsonTokBool:
-		return toLeanharborJsonTokBool(x)
-	case *LeanharborJsonTokBool:
-		return toLeanharborJsonTokBool(*x)
-	case LeanharborJsonTokNum:
-		return toLeanharborJsonTokNum(x)
-	case *LeanharborJsonTokNum:
-		return toLeanharborJsonTokNum(*x)
-	case LeanharborJsonTokStr:
-		return toLeanharborJsonTokStr(x)
-	case *LeanharborJsonTokStr:
-		return toLeanharborJsonTokStr(*x)
-	case LeanharborJsonTokKey:
-		return toLeanharborJsonTokKey(x)
-	case *LeanharborJsonTokKey:
-		return toLeanharborJsonTokKey(*x)
-	case LeanharborJsonTokArrOpen:
-		return toLeanharborJsonTokArrOpen(x)
-	case *LeanharborJsonTokArrOpen:
-		return toLeanharborJsonTokArrOpen(*x)
-	case LeanharborJsonTokArrClose:
-		return toLeanharborJsonTokArrClose(x)
-	case *LeanharborJsonTokArrClose:
-		return toLeanharborJsonTokArrClose(*x)
-	case LeanharborJsonTokObjOpen:
-		return toLeanharborJsonTokObjOpen(x)
-	case *LeanharborJsonTokObjOpen:
-		return toLeanharborJsonTokObjOpen(*x)
-	case LeanharborJsonTokObjClose:
-		return toLeanharborJsonTokObjClose(x)
-	case *LeanharborJsonTokObjClose:
-		return toLeanharborJsonTokObjClose(*x)
+	case LeangageJsonTokNull:
+		return toLeangageJsonTokNull(x)
+	case *LeangageJsonTokNull:
+		return toLeangageJsonTokNull(*x)
+	case LeangageJsonTokBool:
+		return toLeangageJsonTokBool(x)
+	case *LeangageJsonTokBool:
+		return toLeangageJsonTokBool(*x)
+	case LeangageJsonTokNum:
+		return toLeangageJsonTokNum(x)
+	case *LeangageJsonTokNum:
+		return toLeangageJsonTokNum(*x)
+	case LeangageJsonTokStr:
+		return toLeangageJsonTokStr(x)
+	case *LeangageJsonTokStr:
+		return toLeangageJsonTokStr(*x)
+	case LeangageJsonTokKey:
+		return toLeangageJsonTokKey(x)
+	case *LeangageJsonTokKey:
+		return toLeangageJsonTokKey(*x)
+	case LeangageJsonTokArrOpen:
+		return toLeangageJsonTokArrOpen(x)
+	case *LeangageJsonTokArrOpen:
+		return toLeangageJsonTokArrOpen(*x)
+	case LeangageJsonTokArrClose:
+		return toLeangageJsonTokArrClose(x)
+	case *LeangageJsonTokArrClose:
+		return toLeangageJsonTokArrClose(*x)
+	case LeangageJsonTokObjOpen:
+		return toLeangageJsonTokObjOpen(x)
+	case *LeangageJsonTokObjOpen:
+		return toLeangageJsonTokObjOpen(*x)
+	case LeangageJsonTokObjClose:
+		return toLeangageJsonTokObjClose(x)
+	case *LeangageJsonTokObjClose:
+		return toLeangageJsonTokObjClose(*x)
 	}
-	rt.Lean_internal_panic("invalid LeanharborJsonTok")
+	rt.Lean_internal_panic("invalid LeangageJsonTok")
 	return rt.V{}
 }
 
-func fromLeanharborJsonTok(v rt.V) LeanharborJsonTok {
+func fromLeangageJsonTok(v rt.V) LeangageJsonTok {
 	switch rt.Lean_obj_tag(v) {
 	case 0:
-		return fromLeanharborJsonTokNull(v)
+		return fromLeangageJsonTokNull(v)
 	case 1:
-		return fromLeanharborJsonTokBool(v)
+		return fromLeangageJsonTokBool(v)
 	case 2:
-		return fromLeanharborJsonTokNum(v)
+		return fromLeangageJsonTokNum(v)
 	case 3:
-		return fromLeanharborJsonTokStr(v)
+		return fromLeangageJsonTokStr(v)
 	case 4:
-		return fromLeanharborJsonTokKey(v)
+		return fromLeangageJsonTokKey(v)
 	case 5:
-		return fromLeanharborJsonTokArrOpen(v)
+		return fromLeangageJsonTokArrOpen(v)
 	case 6:
-		return fromLeanharborJsonTokArrClose(v)
+		return fromLeangageJsonTokArrClose(v)
 	case 7:
-		return fromLeanharborJsonTokObjOpen(v)
+		return fromLeangageJsonTokObjOpen(v)
 	case 8:
-		return fromLeanharborJsonTokObjClose(v)
+		return fromLeangageJsonTokObjClose(v)
 	}
-	rt.Lean_internal_panic("invalid LeanharborJsonTok tag")
+	rt.Lean_internal_panic("invalid LeangageJsonTok tag")
 	return nil
 }
 
-func checkLeanharborJsonTok(e *leanfran.ValidationError, v LeanharborJsonTok) {
+func checkLeangageJsonTok(e *leanfran.ValidationError, v LeangageJsonTok) {
 	switch x := v.(type) {
-	case LeanharborJsonTokNull:
-		checkLeanharborJsonTokNull(e, x)
+	case LeangageJsonTokNull:
+		checkLeangageJsonTokNull(e, x)
 		return
-	case *LeanharborJsonTokNull:
+	case *LeangageJsonTokNull:
 		if x != nil {
-			checkLeanharborJsonTokNull(e, *x)
+			checkLeangageJsonTokNull(e, *x)
 			return
 		}
-	case LeanharborJsonTokBool:
-		checkLeanharborJsonTokBool(e, x)
+	case LeangageJsonTokBool:
+		checkLeangageJsonTokBool(e, x)
 		return
-	case *LeanharborJsonTokBool:
+	case *LeangageJsonTokBool:
 		if x != nil {
-			checkLeanharborJsonTokBool(e, *x)
+			checkLeangageJsonTokBool(e, *x)
 			return
 		}
-	case LeanharborJsonTokNum:
-		checkLeanharborJsonTokNum(e, x)
+	case LeangageJsonTokNum:
+		checkLeangageJsonTokNum(e, x)
 		return
-	case *LeanharborJsonTokNum:
+	case *LeangageJsonTokNum:
 		if x != nil {
-			checkLeanharborJsonTokNum(e, *x)
+			checkLeangageJsonTokNum(e, *x)
 			return
 		}
-	case LeanharborJsonTokStr:
-		checkLeanharborJsonTokStr(e, x)
+	case LeangageJsonTokStr:
+		checkLeangageJsonTokStr(e, x)
 		return
-	case *LeanharborJsonTokStr:
+	case *LeangageJsonTokStr:
 		if x != nil {
-			checkLeanharborJsonTokStr(e, *x)
+			checkLeangageJsonTokStr(e, *x)
 			return
 		}
-	case LeanharborJsonTokKey:
-		checkLeanharborJsonTokKey(e, x)
+	case LeangageJsonTokKey:
+		checkLeangageJsonTokKey(e, x)
 		return
-	case *LeanharborJsonTokKey:
+	case *LeangageJsonTokKey:
 		if x != nil {
-			checkLeanharborJsonTokKey(e, *x)
+			checkLeangageJsonTokKey(e, *x)
 			return
 		}
-	case LeanharborJsonTokArrOpen:
-		checkLeanharborJsonTokArrOpen(e, x)
+	case LeangageJsonTokArrOpen:
+		checkLeangageJsonTokArrOpen(e, x)
 		return
-	case *LeanharborJsonTokArrOpen:
+	case *LeangageJsonTokArrOpen:
 		if x != nil {
-			checkLeanharborJsonTokArrOpen(e, *x)
+			checkLeangageJsonTokArrOpen(e, *x)
 			return
 		}
-	case LeanharborJsonTokArrClose:
-		checkLeanharborJsonTokArrClose(e, x)
+	case LeangageJsonTokArrClose:
+		checkLeangageJsonTokArrClose(e, x)
 		return
-	case *LeanharborJsonTokArrClose:
+	case *LeangageJsonTokArrClose:
 		if x != nil {
-			checkLeanharborJsonTokArrClose(e, *x)
+			checkLeangageJsonTokArrClose(e, *x)
 			return
 		}
-	case LeanharborJsonTokObjOpen:
-		checkLeanharborJsonTokObjOpen(e, x)
+	case LeangageJsonTokObjOpen:
+		checkLeangageJsonTokObjOpen(e, x)
 		return
-	case *LeanharborJsonTokObjOpen:
+	case *LeangageJsonTokObjOpen:
 		if x != nil {
-			checkLeanharborJsonTokObjOpen(e, *x)
+			checkLeangageJsonTokObjOpen(e, *x)
 			return
 		}
-	case LeanharborJsonTokObjClose:
-		checkLeanharborJsonTokObjClose(e, x)
+	case LeangageJsonTokObjClose:
+		checkLeangageJsonTokObjClose(e, x)
 		return
-	case *LeanharborJsonTokObjClose:
+	case *LeangageJsonTokObjClose:
 		if x != nil {
-			checkLeanharborJsonTokObjClose(e, *x)
+			checkLeangageJsonTokObjClose(e, *x)
 			return
 		}
 	}
-	e.Add("expected LeanharborJsonTok")
+	e.Add("expected LeangageJsonTok")
 }
 
-func UnmarshalLeanharborJsonTok(data []byte) (LeanharborJsonTok, error) {
+func UnmarshalLeangageJsonTok(data []byte) (LeangageJsonTok, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.UnmarshalJSON(_lfCodecLeanharborJsonTok, data, "LeanharborJsonTok")
+	return leanfran.UnmarshalJSON(_lfCodecLeangageJsonTok, data, "LeangageJsonTok")
 }
 
 func descMemories() *schema.Desc { return &_lfDescMemories }
@@ -1647,38 +1647,38 @@ func (api lfScopedValue) ReadExceptErrorUInt64(v leanfran.Value[leanfran.ExceptT
 	return leanfran.ReadValueIn(api.scope, _lfCodec10, v)
 }
 
-func (lfValue) NewLeanharborJsonTok(v LeanharborJsonTok) (leanfran.Value[LeanharborJsonTok], error) {
-	return lfScopedValue{}.NewLeanharborJsonTok(v)
+func (lfValue) NewLeangageJsonTok(v LeangageJsonTok) (leanfran.Value[LeangageJsonTok], error) {
+	return lfScopedValue{}.NewLeangageJsonTok(v)
 }
 
-func (api lfScopedValue) NewLeanharborJsonTok(v LeanharborJsonTok) (leanfran.Value[LeanharborJsonTok], error) {
+func (api lfScopedValue) NewLeangageJsonTok(v LeangageJsonTok) (leanfran.Value[LeangageJsonTok], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[LeanharborJsonTok](api.scope, _lfCodecLeanharborJsonTok, v, "LeanharborJsonTok")
+	return leanfran.NewValueIn[LeangageJsonTok](api.scope, _lfCodecLeangageJsonTok, v, "LeangageJsonTok")
 }
 
-func (lfValue) ReadLeanharborJsonTok(v leanfran.Value[LeanharborJsonTok]) LeanharborJsonTok {
-	return lfScopedValue{}.ReadLeanharborJsonTok(v)
+func (lfValue) ReadLeangageJsonTok(v leanfran.Value[LeangageJsonTok]) LeangageJsonTok {
+	return lfScopedValue{}.ReadLeangageJsonTok(v)
 }
 
-func (api lfScopedValue) ReadLeanharborJsonTok(v leanfran.Value[LeanharborJsonTok]) LeanharborJsonTok {
+func (api lfScopedValue) ReadLeangageJsonTok(v leanfran.Value[LeangageJsonTok]) LeangageJsonTok {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.ReadValueIn(api.scope, _lfCodecLeanharborJsonTok, v)
+	return leanfran.ReadValueIn(api.scope, _lfCodecLeangageJsonTok, v)
 }
 
-func (lfValue) NewListLeanharborJsonTok(v []LeanharborJsonTok) (leanfran.Value[leanfran.ListType[LeanharborJsonTok]], error) {
-	return lfScopedValue{}.NewListLeanharborJsonTok(v)
+func (lfValue) NewListLeangageJsonTok(v []LeangageJsonTok) (leanfran.Value[leanfran.ListType[LeangageJsonTok]], error) {
+	return lfScopedValue{}.NewListLeangageJsonTok(v)
 }
 
-func (api lfScopedValue) NewListLeanharborJsonTok(v []LeanharborJsonTok) (leanfran.Value[leanfran.ListType[LeanharborJsonTok]], error) {
+func (api lfScopedValue) NewListLeangageJsonTok(v []LeangageJsonTok) (leanfran.Value[leanfran.ListType[LeangageJsonTok]], error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
-	return leanfran.NewValueIn[leanfran.ListType[LeanharborJsonTok]](api.scope, _lfCodec7, v, "ListLeanharborJsonTok")
+	return leanfran.NewValueIn[leanfran.ListType[LeangageJsonTok]](api.scope, _lfCodec7, v, "ListLeangageJsonTok")
 }
 
-func (lfValue) ReadListLeanharborJsonTok(v leanfran.Value[leanfran.ListType[LeanharborJsonTok]]) []LeanharborJsonTok {
-	return lfScopedValue{}.ReadListLeanharborJsonTok(v)
+func (lfValue) ReadListLeangageJsonTok(v leanfran.Value[leanfran.ListType[LeangageJsonTok]]) []LeangageJsonTok {
+	return lfScopedValue{}.ReadListLeangageJsonTok(v)
 }
 
-func (api lfScopedValue) ReadListLeanharborJsonTok(v leanfran.Value[leanfran.ListType[LeanharborJsonTok]]) []LeanharborJsonTok {
+func (api lfScopedValue) ReadListLeangageJsonTok(v leanfran.Value[leanfran.ListType[LeangageJsonTok]]) []LeangageJsonTok {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	return leanfran.ReadValueIn(api.scope, _lfCodec7, v)
 }

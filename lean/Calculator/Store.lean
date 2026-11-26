@@ -1,5 +1,5 @@
 import Calculator.Kernel
-import Leanharbor.Sql
+import Leangage.Sql
 
 /-!
 # The calculator's table
@@ -13,7 +13,7 @@ The user is the key. A `UInt64` is stored as the `Int64` with the same bits.
 
 namespace Calculator.Store
 
-open Calculator.Kernel Leanharbor.Sql
+open Calculator.Kernel Leangage.Sql
 
 /-- The tables, in the order `load` receives their rows. -/
 def tables : List Tab := [⟨"memories", [⟨"user", .int, false⟩, ⟨"value", .int, false⟩], 1⟩]

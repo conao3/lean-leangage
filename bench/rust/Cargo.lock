@@ -964,7 +964,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d4345964bb142484797b161f473a503a434de77149dd8c7427788c6e13379388"
 
 [[package]]
-name = "leanharbor-bench-baselines"
+name = "leangage-bench-baselines"
 version = "0.1.0"
 dependencies = [
  "actix-web",

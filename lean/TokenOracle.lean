@@ -1,4 +1,4 @@
-import Leanharbor.Token
+import Leangage.Token
 
 /-!
 Runs the token functions natively on lines read from standard input and prints one line per input
@@ -11,7 +11,7 @@ lines:
 - `issue <tenant> <user> <exp> x<signature>`: prints `token x<join (encodePayload …) signature>`.
 -/
 
-open Leanharbor.Token
+open Leangage.Token
 
 def hexDigitValue (c : Char) : Option Nat :=
   if '0' ≤ c ∧ c ≤ '9' then some (c.toNat - '0'.toNat)

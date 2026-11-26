@@ -4,11 +4,11 @@
 use std::io::Write;
 use std::process::{Command, Stdio};
 
-use leanharbor::memory::MemoryEngine;
-use leanharbor::{Engine, Executed};
-use leanharbor_calculator::{Calculator, kernel};
-use leanharbor_pg::testing::cluster;
-use leanharbor_pg::{Config, PgEngine};
+use leangage::memory::MemoryEngine;
+use leangage::{Engine, Executed};
+use leangage_calculator::{Calculator, kernel};
+use leangage_pg::testing::cluster;
+use leangage_pg::{Config, PgEngine};
 
 const COMMANDS: &str = include_str!("../../../testdata/calculator-commands.txt");
 
@@ -38,8 +38,8 @@ fn parse(line: &str) -> (kernel::Principal, kernel::Command) {
 }
 
 fn oracle() -> String {
-    let path = std::env::var("LEANHARBOR_CALCULATOR_ORACLE")
-        .expect("LEANHARBOR_CALCULATOR_ORACLE is required");
+    let path = std::env::var("LEANGAGE_CALCULATOR_ORACLE")
+        .expect("LEANGAGE_CALCULATOR_ORACLE is required");
     let mut child = Command::new(path)
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
@@ -89,7 +89,7 @@ async fn generated_rust_agrees_with_lean() {
 }
 
 /// The rows stored and read back in PostgreSQL give every command the reply the memory engine
-/// and Lean give it: PostgreSQL runs the generated statements as the model of `Leanharbor.Sql`
+/// and Lean give it: PostgreSQL runs the generated statements as the model of `Leangage.Sql`
 /// says. The engine that remembers no snapshot reads the rows back for every command; the one
 /// that remembers them gives the same replies.
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]

@@ -1,6 +1,6 @@
 [package]
-name = "leanharbor-notes"
-description = "The notes kernel and its policy, generated from Lean, behind the leanharbor shell"
+name = "leangage-notes"
+description = "The notes kernel and its policy, generated from Lean, behind the leangage shell"
 publish = false
 version.workspace = true
 edition.workspace = true
@@ -10,8 +10,8 @@ repository.workspace = true
 [dependencies]
 axum = "0.8"
 leanfran = "=0.13.2"
-leanharbor = { path = "../leanharbor" }
-leanharbor-pg = { path = "../leanharbor-pg" }
+leangage = { path = "../leangage" }
+leangage-pg = { path = "../leangage-pg" }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 tokio = { version = "1", features = ["macros", "net", "rt-multi-thread"] }

@@ -1,4 +1,4 @@
-import Leanharbor.Kernel
+import Leangage.Kernel
 
 /-!
 Small kernels for the tests of `#obligations`. `counter` adds two on `true` and reads on `false`,
@@ -7,7 +7,7 @@ which is read-only; its snapshot stays even.
 
 namespace Audit.ObligationKernels
 
-def counter : Leanharbor.Kernel where
+def counter : Leangage.Kernel where
   Principal := Unit
   Snapshot := Nat
   Command := Bool

@@ -1,6 +1,6 @@
 import Notes.Proofs
 import Notes.Store
-import Leanharbor.Store
+import Leangage.Store
 
 /-!
 # The notes' tables hold what `apply` computes, and the guard holds on what they load
@@ -25,7 +25,7 @@ run them.
 
 namespace Notes.Store
 
-open Notes.Kernel Leanharbor Leanharbor.Sql Leanharbor.Authz
+open Notes.Kernel Leangage Leangage.Sql Leangage.Authz
 
 /-! ## Rows -/
 

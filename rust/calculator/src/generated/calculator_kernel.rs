@@ -273,7 +273,7 @@ pub(crate) unsafe fn l_Calculator_Kernel_encodeReply(mut x_1: u64) -> Obj {
 let mut x_2: Obj = rt::lean_box(0);
 let mut x_3: Obj = rt::lean_box(0);
 x_2 = l_Calculator_Kernel_replyToks(x_1);
-x_3 = l_Leanharbor_Json_write(x_2);
+x_3 = l_Leangage_Json_write(x_2);
 rt::lean_dec(x_2);
 return x_3;
 }
@@ -433,18 +433,18 @@ pub(crate) unsafe fn l_Calculator_Kernel_replyToks___closed__6() -> Obj {
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_write(mut x_1: Obj) -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_write(mut x_1: Obj) -> Obj {
 let mut x_2: Obj = rt::lean_box(0);
 let mut x_3: u8 = 0;
 let mut x_4: Obj = rt::lean_box(0);
 x_2 = rt::lean_box(0);
 x_3 = 0u8;
-x_4 = l_Leanharbor_Json_writeFrom(x_2, x_3, x_1);
+x_4 = l_Leangage_Json_writeFrom(x_2, x_3, x_1);
 return x_4;
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_writeFrom(mut x_1: Obj, mut x_2: u8, mut x_3: Obj) -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_writeFrom(mut x_1: Obj, mut x_2: u8, mut x_3: Obj) -> Obj {
 let mut x_4: Obj = rt::lean_box(0);
 let mut x_5: Obj = rt::lean_box(0);
 let mut x_6: Obj = rt::lean_box(0);
@@ -474,10 +474,10 @@ match x_2 as u32 {
 __blk = 2; continue 'body;
 }
 1 => {
-x_16 = l_Leanharbor_Json_isClose(x_5);
+x_16 = l_Leangage_Json_isClose(x_5);
 match x_16 as u32 {
 0 => {
-x_17 = l_Leanharbor_Json_writeFrom___closed__0();
+x_17 = l_Leangage_Json_writeFrom___closed__0();
 { let t_0 = x_17; x_8 = t_0; }
 __blk = 1; continue 'body;
 }
@@ -495,11 +495,11 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-x_9 = l_Leanharbor_Json_tokBytes(x_5);
+x_9 = l_Leangage_Json_tokBytes(x_5);
 rt::lean_inc(x_8);
 x_10 = l_List_appendTR___redArg(x_8, x_9);
 x_11 = l_List_reverseAux___redArg(x_10, x_1);
-x_12 = l_Leanharbor_Json_endsValue(x_5);
+x_12 = l_Leangage_Json_endsValue(x_5);
 { let t_0 = x_11; let t_1 = x_12; let t_2 = x_6; x_1 = t_0; x_2 = t_1; x_3 = t_2; }
 __blk = 0; continue 'body;
 }
@@ -584,7 +584,7 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_tokBytes(mut x_1: Obj) -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_tokBytes(mut x_1: Obj) -> Obj {
 let mut x_2: Obj = rt::lean_box(0);
 let mut x_3: u8 = 0;
 let mut x_4: Obj = rt::lean_box(0);
@@ -612,18 +612,18 @@ let mut x_25: Obj = rt::lean_box(0);
 let mut x_26: Obj = rt::lean_box(0);
 match rt::lean_obj_tag(x_1) {
 0 => {
-x_2 = l_Leanharbor_Json_tokBytes___closed__3();
+x_2 = l_Leangage_Json_tokBytes___closed__3();
 return x_2;
 }
 1 => {
 x_3 = rt::lean_ctor_get_uint8(x_1, 0 * core::mem::size_of::<usize>() as u32 + 0);
 match x_3 as u32 {
 0 => {
-x_4 = l_Leanharbor_Json_tokBytes___closed__8();
+x_4 = l_Leangage_Json_tokBytes___closed__8();
 return x_4;
 }
 1 => {
-x_5 = l_Leanharbor_Json_tokBytes___closed__11();
+x_5 = l_Leangage_Json_tokBytes___closed__11();
 return x_5;
 }
 _ => rt::lean_internal_panic_unreachable(),
@@ -632,44 +632,44 @@ _ => rt::lean_internal_panic_unreachable(),
 2 => {
 x_6 = rt::lean_ctor_get_uint64(x_1, 0 * core::mem::size_of::<usize>() as u32 + 0);
 x_7 = rt::lean_uint64_to_nat(x_6);
-x_8 = l_Leanharbor_Token_decimal(x_7);
+x_8 = l_Leangage_Token_decimal(x_7);
 rt::lean_dec(x_7);
 return x_8;
 }
 3 => {
 x_9 = rt::lean_ctor_get(x_1, 0);
 x_10 = 34u8;
-x_11 = l_Leanharbor_Json_escape(x_9);
+x_11 = l_Leangage_Json_escape(x_9);
 x_12 = rt::lean_box(x_10 as usize);
 x_13 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_13, 0, x_12); rt::lean_ctor_set(x_13, 1, x_11);
-x_14 = l_Leanharbor_Json_escapeByte___closed__12();
+x_14 = l_Leangage_Json_escapeByte___closed__12();
 x_15 = l_List_appendTR___redArg(x_13, x_14);
 return x_15;
 }
 4 => {
 x_16 = rt::lean_ctor_get(x_1, 0);
 x_17 = 34u8;
-x_18 = l_Leanharbor_Json_escape(x_16);
+x_18 = l_Leangage_Json_escape(x_16);
 x_19 = rt::lean_box(x_17 as usize);
 x_20 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_20, 0, x_19); rt::lean_ctor_set(x_20, 1, x_18);
-x_21 = l_Leanharbor_Json_tokBytes___closed__13();
+x_21 = l_Leangage_Json_tokBytes___closed__13();
 x_22 = l_List_appendTR___redArg(x_20, x_21);
 return x_22;
 }
 5 => {
-x_23 = l_Leanharbor_Json_tokBytes___closed__14();
+x_23 = l_Leangage_Json_tokBytes___closed__14();
 return x_23;
 }
 6 => {
-x_24 = l_Leanharbor_Json_tokBytes___closed__15();
+x_24 = l_Leangage_Json_tokBytes___closed__15();
 return x_24;
 }
 7 => {
-x_25 = l_Leanharbor_Json_tokBytes___closed__16();
+x_25 = l_Leangage_Json_tokBytes___closed__16();
 return x_25;
 }
 8 => {
-x_26 = l_Leanharbor_Json_tokBytes___closed__17();
+x_26 = l_Leangage_Json_tokBytes___closed__17();
 return x_26;
 }
 _ => rt::lean_internal_panic_unreachable(),
@@ -677,67 +677,67 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_tokBytes___closed__3_init() -> Obj {
+unsafe fn l_Leangage_Json_tokBytes___closed__3_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Leanharbor_Json_tokBytes___closed__2();
+x_1 = l_Leangage_Json_tokBytes___closed__2();
 x_2 = 110u8;
 x_3 = rt::lean_box(x_2 as usize);
 x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__3() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_tokBytes___closed__3() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_tokBytes___closed__3_init();
+  let v = l_Leangage_Json_tokBytes___closed__3_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_tokBytes___closed__2_init() -> Obj {
+unsafe fn l_Leangage_Json_tokBytes___closed__2_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Leanharbor_Json_tokBytes___closed__1();
+x_1 = l_Leangage_Json_tokBytes___closed__1();
 x_2 = 117u8;
 x_3 = rt::lean_box(x_2 as usize);
 x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__2() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_tokBytes___closed__2() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_tokBytes___closed__2_init();
+  let v = l_Leangage_Json_tokBytes___closed__2_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_tokBytes___closed__1_init() -> Obj {
+unsafe fn l_Leangage_Json_tokBytes___closed__1_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Leanharbor_Json_tokBytes___closed__0();
+x_1 = l_Leangage_Json_tokBytes___closed__0();
 x_2 = 108u8;
 x_3 = rt::lean_box(x_2 as usize);
 x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__1() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_tokBytes___closed__1() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_tokBytes___closed__1_init();
+  let v = l_Leangage_Json_tokBytes___closed__1_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_tokBytes___closed__0_init() -> Obj {
+unsafe fn l_Leangage_Json_tokBytes___closed__0_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
@@ -749,95 +749,95 @@ x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); r
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__0() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_tokBytes___closed__0() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_tokBytes___closed__0_init();
+  let v = l_Leangage_Json_tokBytes___closed__0_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_tokBytes___closed__8_init() -> Obj {
+unsafe fn l_Leangage_Json_tokBytes___closed__8_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Leanharbor_Json_tokBytes___closed__7();
+x_1 = l_Leangage_Json_tokBytes___closed__7();
 x_2 = 102u8;
 x_3 = rt::lean_box(x_2 as usize);
 x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__8() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_tokBytes___closed__8() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_tokBytes___closed__8_init();
+  let v = l_Leangage_Json_tokBytes___closed__8_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_tokBytes___closed__7_init() -> Obj {
+unsafe fn l_Leangage_Json_tokBytes___closed__7_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Leanharbor_Json_tokBytes___closed__6();
+x_1 = l_Leangage_Json_tokBytes___closed__6();
 x_2 = 97u8;
 x_3 = rt::lean_box(x_2 as usize);
 x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__7() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_tokBytes___closed__7() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_tokBytes___closed__7_init();
+  let v = l_Leangage_Json_tokBytes___closed__7_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_tokBytes___closed__6_init() -> Obj {
+unsafe fn l_Leangage_Json_tokBytes___closed__6_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Leanharbor_Json_tokBytes___closed__5();
+x_1 = l_Leangage_Json_tokBytes___closed__5();
 x_2 = 108u8;
 x_3 = rt::lean_box(x_2 as usize);
 x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__6() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_tokBytes___closed__6() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_tokBytes___closed__6_init();
+  let v = l_Leangage_Json_tokBytes___closed__6_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_tokBytes___closed__5_init() -> Obj {
+unsafe fn l_Leangage_Json_tokBytes___closed__5_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Leanharbor_Json_tokBytes___closed__4();
+x_1 = l_Leangage_Json_tokBytes___closed__4();
 x_2 = 115u8;
 x_3 = rt::lean_box(x_2 as usize);
 x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__5() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_tokBytes___closed__5() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_tokBytes___closed__5_init();
+  let v = l_Leangage_Json_tokBytes___closed__5_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_tokBytes___closed__4_init() -> Obj {
+unsafe fn l_Leangage_Json_tokBytes___closed__4_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
@@ -849,76 +849,76 @@ x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); r
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__4() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_tokBytes___closed__4() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_tokBytes___closed__4_init();
+  let v = l_Leangage_Json_tokBytes___closed__4_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_tokBytes___closed__11_init() -> Obj {
+unsafe fn l_Leangage_Json_tokBytes___closed__11_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Leanharbor_Json_tokBytes___closed__10();
+x_1 = l_Leangage_Json_tokBytes___closed__10();
 x_2 = 116u8;
 x_3 = rt::lean_box(x_2 as usize);
 x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__11() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_tokBytes___closed__11() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_tokBytes___closed__11_init();
+  let v = l_Leangage_Json_tokBytes___closed__11_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_tokBytes___closed__10_init() -> Obj {
+unsafe fn l_Leangage_Json_tokBytes___closed__10_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Leanharbor_Json_tokBytes___closed__9();
+x_1 = l_Leangage_Json_tokBytes___closed__9();
 x_2 = 114u8;
 x_3 = rt::lean_box(x_2 as usize);
 x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__10() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_tokBytes___closed__10() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_tokBytes___closed__10_init();
+  let v = l_Leangage_Json_tokBytes___closed__10_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_tokBytes___closed__9_init() -> Obj {
+unsafe fn l_Leangage_Json_tokBytes___closed__9_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Leanharbor_Json_tokBytes___closed__4();
+x_1 = l_Leangage_Json_tokBytes___closed__4();
 x_2 = 117u8;
 x_3 = rt::lean_box(x_2 as usize);
 x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__9() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_tokBytes___closed__9() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_tokBytes___closed__9_init();
+  let v = l_Leangage_Json_tokBytes___closed__9_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Token_decimal(mut x_1: Obj) -> Obj {
+pub(crate) unsafe fn l_Leangage_Token_decimal(mut x_1: Obj) -> Obj {
 let mut x_2: Obj = rt::lean_box(0);
 let mut x_3: u8 = 0;
 let mut x_4: Obj = rt::lean_box(0);
@@ -942,7 +942,7 @@ x_3 = rt::lean_nat_dec_lt(x_1, x_2);
 match x_3 as u32 {
 0 => {
 x_4 = rt::lean_nat_div(x_1, x_2);
-x_5 = l_Leanharbor_Token_decimal(x_4);
+x_5 = l_Leangage_Token_decimal(x_4);
 rt::lean_dec(x_4);
 x_6 = rt::lean_nat_mod(x_1, x_2);
 x_7 = rt::lean_unsigned_to_nat(48u32);
@@ -985,16 +985,16 @@ return x_4;
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_escape(mut x_1: Obj) -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_escape(mut x_1: Obj) -> Obj {
 let mut x_2: Obj = rt::lean_box(0);
 let mut x_3: Obj = rt::lean_box(0);
-x_2 = l_Leanharbor_Json_escape___closed__0();
-x_3 = l___private_Init_Data_List_Impl_0__List_flatMapTR_go___at___00Leanharbor_Json_escape_spec__0(x_1, x_2);
+x_2 = l_Leangage_Json_escape___closed__0();
+x_3 = l___private_Init_Data_List_Impl_0__List_flatMapTR_go___at___00Leangage_Json_escape_spec__0(x_1, x_2);
 return x_3;
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_escape___closed__0_init() -> Obj {
+unsafe fn l_Leangage_Json_escape___closed__0_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: Obj = rt::lean_box(0);
 x_1 = rt::lean_unsigned_to_nat(0u32);
@@ -1002,16 +1002,16 @@ x_2 = rt::lean_mk_empty_array_with_capacity(x_1);
 return x_2;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_escape___closed__0() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_escape___closed__0() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_escape___closed__0_init();
+  let v = l_Leangage_Json_escape___closed__0_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l___private_Init_Data_List_Impl_0__List_flatMapTR_go___at___00Leanharbor_Json_escape_spec__0(mut x_1: Obj, mut x_2: Obj) -> Obj {
+pub(crate) unsafe fn l___private_Init_Data_List_Impl_0__List_flatMapTR_go___at___00Leangage_Json_escape_spec__0(mut x_1: Obj, mut x_2: Obj) -> Obj {
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
 let mut x_5: Obj = rt::lean_box(0);
@@ -1031,7 +1031,7 @@ return x_3;
 x_4 = rt::lean_ctor_get(x_1, 0);
 x_5 = rt::lean_ctor_get(x_1, 1);
 x_6 = rt::lean_unbox(x_4) as u8;
-x_7 = l_Leanharbor_Json_escapeByte(x_6);
+x_7 = l_Leangage_Json_escapeByte(x_6);
 x_8 = l_List_foldl___at___00Array_appendList_spec__0___redArg(x_2, x_7);
 { let t_0 = x_5; let t_1 = x_8; x_1 = t_0; x_2 = t_1; }
 __blk = 0; continue 'body;
@@ -1045,7 +1045,7 @@ _ => rt::lean_internal_panic_unreachable(),
 
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_escapeByte(mut x_1: u8) -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_escapeByte(mut x_1: u8) -> Obj {
 let mut x_2: u8 = 0;
 let mut x_3: u8 = 0;
 let mut x_4: u8 = 0;
@@ -1138,10 +1138,10 @@ x_23 = rt::lean_uint8_to_nat(x_1);
 x_24 = rt::lean_unsigned_to_nat(16u32);
 x_25 = rt::lean_unsigned_to_nat(4u32);
 x_26 = rt::lean_nat_shiftr(x_23, x_25);
-x_27 = l_Leanharbor_Token_hexDigit(x_26);
+x_27 = l_Leangage_Token_hexDigit(x_26);
 rt::lean_dec(x_26);
 x_28 = rt::lean_nat_mod(x_23, x_24);
-x_29 = l_Leanharbor_Token_hexDigit(x_28);
+x_29 = l_Leangage_Token_hexDigit(x_28);
 rt::lean_dec(x_28);
 x_30 = rt::lean_box(0);
 x_31 = rt::lean_box(x_29 as usize);
@@ -1162,49 +1162,49 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-x_43 = l_Leanharbor_Json_escapeByte___closed__1();
+x_43 = l_Leangage_Json_escapeByte___closed__1();
 return x_43;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-x_44 = l_Leanharbor_Json_escapeByte___closed__3();
+x_44 = l_Leangage_Json_escapeByte___closed__3();
 return x_44;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-x_45 = l_Leanharbor_Json_escapeByte___closed__5();
+x_45 = l_Leangage_Json_escapeByte___closed__5();
 return x_45;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-x_46 = l_Leanharbor_Json_escapeByte___closed__7();
+x_46 = l_Leangage_Json_escapeByte___closed__7();
 return x_46;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-x_47 = l_Leanharbor_Json_escapeByte___closed__9();
+x_47 = l_Leangage_Json_escapeByte___closed__9();
 return x_47;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-x_48 = l_Leanharbor_Json_escapeByte___closed__11();
+x_48 = l_Leangage_Json_escapeByte___closed__11();
 return x_48;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-x_49 = l_Leanharbor_Json_escapeByte___closed__13();
+x_49 = l_Leangage_Json_escapeByte___closed__13();
 return x_49;
 }
 _ => rt::lean_internal_panic_unreachable(),
@@ -1216,7 +1216,7 @@ _ => rt::lean_internal_panic_unreachable(),
 
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Token_hexDigit(mut x_1: Obj) -> u8 {
+pub(crate) unsafe fn l_Leangage_Token_hexDigit(mut x_1: Obj) -> u8 {
 let mut x_2: Obj = rt::lean_box(0);
 let mut x_3: u8 = 0;
 let mut x_4: Obj = rt::lean_box(0);
@@ -1247,27 +1247,27 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_escapeByte___closed__1_init() -> Obj {
+unsafe fn l_Leangage_Json_escapeByte___closed__1_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Leanharbor_Json_escapeByte___closed__0();
+x_1 = l_Leangage_Json_escapeByte___closed__0();
 x_2 = 92u8;
 x_3 = rt::lean_box(x_2 as usize);
 x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__1() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_escapeByte___closed__1() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_escapeByte___closed__1_init();
+  let v = l_Leangage_Json_escapeByte___closed__1_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_escapeByte___closed__0_init() -> Obj {
+unsafe fn l_Leangage_Json_escapeByte___closed__0_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
@@ -1279,35 +1279,35 @@ x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); r
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__0() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_escapeByte___closed__0() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_escapeByte___closed__0_init();
+  let v = l_Leangage_Json_escapeByte___closed__0_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_escapeByte___closed__3_init() -> Obj {
+unsafe fn l_Leangage_Json_escapeByte___closed__3_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Leanharbor_Json_escapeByte___closed__2();
+x_1 = l_Leangage_Json_escapeByte___closed__2();
 x_2 = 92u8;
 x_3 = rt::lean_box(x_2 as usize);
 x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__3() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_escapeByte___closed__3() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_escapeByte___closed__3_init();
+  let v = l_Leangage_Json_escapeByte___closed__3_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_escapeByte___closed__2_init() -> Obj {
+unsafe fn l_Leangage_Json_escapeByte___closed__2_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
@@ -1319,35 +1319,35 @@ x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); r
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__2() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_escapeByte___closed__2() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_escapeByte___closed__2_init();
+  let v = l_Leangage_Json_escapeByte___closed__2_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_escapeByte___closed__5_init() -> Obj {
+unsafe fn l_Leangage_Json_escapeByte___closed__5_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Leanharbor_Json_escapeByte___closed__4();
+x_1 = l_Leangage_Json_escapeByte___closed__4();
 x_2 = 92u8;
 x_3 = rt::lean_box(x_2 as usize);
 x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__5() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_escapeByte___closed__5() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_escapeByte___closed__5_init();
+  let v = l_Leangage_Json_escapeByte___closed__5_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_escapeByte___closed__4_init() -> Obj {
+unsafe fn l_Leangage_Json_escapeByte___closed__4_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
@@ -1359,35 +1359,35 @@ x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); r
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__4() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_escapeByte___closed__4() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_escapeByte___closed__4_init();
+  let v = l_Leangage_Json_escapeByte___closed__4_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_escapeByte___closed__7_init() -> Obj {
+unsafe fn l_Leangage_Json_escapeByte___closed__7_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Leanharbor_Json_escapeByte___closed__6();
+x_1 = l_Leangage_Json_escapeByte___closed__6();
 x_2 = 92u8;
 x_3 = rt::lean_box(x_2 as usize);
 x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__7() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_escapeByte___closed__7() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_escapeByte___closed__7_init();
+  let v = l_Leangage_Json_escapeByte___closed__7_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_escapeByte___closed__6_init() -> Obj {
+unsafe fn l_Leangage_Json_escapeByte___closed__6_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
@@ -1399,35 +1399,35 @@ x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); r
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__6() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_escapeByte___closed__6() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_escapeByte___closed__6_init();
+  let v = l_Leangage_Json_escapeByte___closed__6_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_escapeByte___closed__9_init() -> Obj {
+unsafe fn l_Leangage_Json_escapeByte___closed__9_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Leanharbor_Json_escapeByte___closed__8();
+x_1 = l_Leangage_Json_escapeByte___closed__8();
 x_2 = 92u8;
 x_3 = rt::lean_box(x_2 as usize);
 x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__9() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_escapeByte___closed__9() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_escapeByte___closed__9_init();
+  let v = l_Leangage_Json_escapeByte___closed__9_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_escapeByte___closed__8_init() -> Obj {
+unsafe fn l_Leangage_Json_escapeByte___closed__8_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
@@ -1439,35 +1439,35 @@ x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); r
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__8() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_escapeByte___closed__8() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_escapeByte___closed__8_init();
+  let v = l_Leangage_Json_escapeByte___closed__8_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_escapeByte___closed__11_init() -> Obj {
+unsafe fn l_Leangage_Json_escapeByte___closed__11_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Leanharbor_Json_escapeByte___closed__10();
+x_1 = l_Leangage_Json_escapeByte___closed__10();
 x_2 = 92u8;
 x_3 = rt::lean_box(x_2 as usize);
 x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__11() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_escapeByte___closed__11() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_escapeByte___closed__11_init();
+  let v = l_Leangage_Json_escapeByte___closed__11_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_escapeByte___closed__10_init() -> Obj {
+unsafe fn l_Leangage_Json_escapeByte___closed__10_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
@@ -1479,35 +1479,35 @@ x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); r
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__10() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_escapeByte___closed__10() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_escapeByte___closed__10_init();
+  let v = l_Leangage_Json_escapeByte___closed__10_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_escapeByte___closed__13_init() -> Obj {
+unsafe fn l_Leangage_Json_escapeByte___closed__13_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Leanharbor_Json_escapeByte___closed__12();
+x_1 = l_Leangage_Json_escapeByte___closed__12();
 x_2 = 92u8;
 x_3 = rt::lean_box(x_2 as usize);
 x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__13() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_escapeByte___closed__13() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_escapeByte___closed__13_init();
+  let v = l_Leangage_Json_escapeByte___closed__13_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_escapeByte___closed__12_init() -> Obj {
+unsafe fn l_Leangage_Json_escapeByte___closed__12_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
@@ -1519,10 +1519,10 @@ x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); r
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_escapeByte___closed__12() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_escapeByte___closed__12() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_escapeByte___closed__12_init();
+  let v = l_Leangage_Json_escapeByte___closed__12_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
@@ -1558,27 +1558,27 @@ _ => rt::lean_internal_panic_unreachable(),
 
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_tokBytes___closed__13_init() -> Obj {
+unsafe fn l_Leangage_Json_tokBytes___closed__13_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: Obj = rt::lean_box(0);
-x_1 = l_Leanharbor_Json_tokBytes___closed__12();
+x_1 = l_Leangage_Json_tokBytes___closed__12();
 x_2 = 34u8;
 x_3 = rt::lean_box(x_2 as usize);
 x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_4, 0, x_3); rt::lean_ctor_set(x_4, 1, x_1);
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__13() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_tokBytes___closed__13() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_tokBytes___closed__13_init();
+  let v = l_Leangage_Json_tokBytes___closed__13_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_tokBytes___closed__12_init() -> Obj {
+unsafe fn l_Leangage_Json_tokBytes___closed__12_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
@@ -1590,15 +1590,15 @@ x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); r
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__12() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_tokBytes___closed__12() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_tokBytes___closed__12_init();
+  let v = l_Leangage_Json_tokBytes___closed__12_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_tokBytes___closed__14_init() -> Obj {
+unsafe fn l_Leangage_Json_tokBytes___closed__14_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
@@ -1610,15 +1610,15 @@ x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); r
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__14() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_tokBytes___closed__14() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_tokBytes___closed__14_init();
+  let v = l_Leangage_Json_tokBytes___closed__14_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_tokBytes___closed__15_init() -> Obj {
+unsafe fn l_Leangage_Json_tokBytes___closed__15_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
@@ -1630,15 +1630,15 @@ x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); r
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__15() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_tokBytes___closed__15() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_tokBytes___closed__15_init();
+  let v = l_Leangage_Json_tokBytes___closed__15_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_tokBytes___closed__16_init() -> Obj {
+unsafe fn l_Leangage_Json_tokBytes___closed__16_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
@@ -1650,15 +1650,15 @@ x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); r
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__16() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_tokBytes___closed__16() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_tokBytes___closed__16_init();
+  let v = l_Leangage_Json_tokBytes___closed__16_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_tokBytes___closed__17_init() -> Obj {
+unsafe fn l_Leangage_Json_tokBytes___closed__17_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
@@ -1670,15 +1670,15 @@ x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); r
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_tokBytes___closed__17() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_tokBytes___closed__17() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_tokBytes___closed__17_init();
+  let v = l_Leangage_Json_tokBytes___closed__17_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_endsValue(mut x_1: Obj) -> u8 {
+pub(crate) unsafe fn l_Leangage_Json_endsValue(mut x_1: Obj) -> u8 {
 let mut x_2: u8 = 0;
 let mut x_3: u8 = 0;
 let mut x_4: u8 = 0;
@@ -1719,7 +1719,7 @@ return x_8;
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_isClose(mut x_1: Obj) -> u8 {
+pub(crate) unsafe fn l_Leangage_Json_isClose(mut x_1: Obj) -> u8 {
 let mut x_2: u8 = 0;
 let mut x_3: u8 = 0;
 let mut x_4: u8 = 0;
@@ -1740,7 +1740,7 @@ return x_4;
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Json_writeFrom___closed__0_init() -> Obj {
+unsafe fn l_Leangage_Json_writeFrom___closed__0_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: u8 = 0;
 let mut x_3: Obj = rt::lean_box(0);
@@ -1752,10 +1752,10 @@ x_4 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); r
 return x_4;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_writeFrom___closed__0() -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_writeFrom___closed__0() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Json_writeFrom___closed__0_init();
+  let v = l_Leangage_Json_writeFrom___closed__0_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
@@ -2627,7 +2627,7 @@ x_6 = l_Calculator_Kernel_encodeReplyArray___closed__1();
 x_7 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_7, 0, x_5); rt::lean_ctor_set(x_7, 1, x_6);
 x_8 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_8, 0, x_3); rt::lean_ctor_set(x_8, 1, x_7);
 x_9 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_9, 0, x_2); rt::lean_ctor_set(x_9, 1, x_8);
-x_10 = l_Leanharbor_Json_writeArray(x_9);
+x_10 = l_Leangage_Json_writeArray(x_9);
 rt::lean_dec_ref(x_9);
 return x_10;
 }
@@ -2681,7 +2681,7 @@ pub(crate) unsafe fn l_Calculator_Kernel_encodeReplyArray___closed__1() -> Obj {
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_writeArray(mut x_1: Obj) -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_writeArray(mut x_1: Obj) -> Obj {
 let mut x_2: Obj = rt::lean_box(0);
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: u8 = 0;
@@ -2689,13 +2689,13 @@ let mut x_5: Obj = rt::lean_box(0);
 x_2 = rt::lean_unsigned_to_nat(64u32);
 x_3 = rt::lean_mk_empty_array_with_capacity(x_2);
 x_4 = 0u8;
-x_5 = l_Leanharbor_Json_writeArrayFrom(x_3, x_4, x_1);
+x_5 = l_Leangage_Json_writeArrayFrom(x_3, x_4, x_1);
 return x_5;
 }
 
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_writeArrayFrom(mut x_1: Obj, mut x_2: u8, mut x_3: Obj) -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_writeArrayFrom(mut x_1: Obj, mut x_2: u8, mut x_3: Obj) -> Obj {
 let mut x_4: Obj = rt::lean_box(0);
 let mut x_5: Obj = rt::lean_box(0);
 let mut x_7: Obj = rt::lean_box(0);
@@ -2722,7 +2722,7 @@ match x_2 as u32 {
 __blk = 1; continue 'body;
 }
 1 => {
-x_11 = l_Leanharbor_Json_StrTok_isClose(x_4);
+x_11 = l_Leangage_Json_StrTok_isClose(x_4);
 match x_11 as u32 {
 0 => {
 x_12 = 44u8;
@@ -2745,8 +2745,8 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-x_8 = l_Leanharbor_Json_pushTok(x_7, x_4);
-x_9 = l_Leanharbor_Json_StrTok_endsValue(x_4);
+x_8 = l_Leangage_Json_pushTok(x_7, x_4);
+x_9 = l_Leangage_Json_StrTok_endsValue(x_4);
 { let t_0 = x_8; let t_1 = x_9; let t_2 = x_5; x_1 = t_0; x_2 = t_1; x_3 = t_2; }
 __blk = 0; continue 'body;
 }
@@ -2755,7 +2755,7 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_pushTok(mut x_1: Obj, mut x_2: Obj) -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_pushTok(mut x_1: Obj, mut x_2: Obj) -> Obj {
 let mut x_3: u8 = 0;
 let mut x_4: Obj = rt::lean_box(0);
 let mut x_5: Obj = rt::lean_box(0);
@@ -2886,7 +2886,7 @@ _ => rt::lean_internal_panic_unreachable(),
 2 => {
 x_42 = rt::lean_ctor_get_uint64(x_2, 0 * core::mem::size_of::<usize>() as u32 + 0);
 x_43 = rt::lean_uint64_to_nat(x_42);
-x_44 = l_Leanharbor_Json_pushDecimal(x_1, x_43);
+x_44 = l_Leangage_Json_pushDecimal(x_1, x_43);
 rt::lean_dec(x_43);
 return x_44;
 }
@@ -2896,7 +2896,7 @@ x_46 = rt::lean_unsigned_to_nat(0u32);
 x_47 = 34u8;
 x_48 = rt::lean_box(x_47 as usize);
 x_49 = rt::lean_array_push(x_1, x_48);
-x_50 = l_Leanharbor_Json_pushEscaped(x_45, x_46, x_49);
+x_50 = l_Leangage_Json_pushEscaped(x_45, x_46, x_49);
 x_51 = rt::lean_box(x_47 as usize);
 x_52 = rt::lean_array_push(x_50, x_51);
 return x_52;
@@ -2907,7 +2907,7 @@ x_54 = rt::lean_unsigned_to_nat(0u32);
 x_55 = 34u8;
 x_56 = rt::lean_box(x_55 as usize);
 x_57 = rt::lean_array_push(x_1, x_56);
-x_58 = l_Leanharbor_Json_pushEscaped(x_53, x_54, x_57);
+x_58 = l_Leangage_Json_pushEscaped(x_53, x_54, x_57);
 x_59 = rt::lean_box(x_55 as usize);
 x_60 = rt::lean_array_push(x_58, x_59);
 x_61 = 58u8;
@@ -2944,7 +2944,7 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_pushDecimal(mut x_1: Obj, mut x_2: Obj) -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_pushDecimal(mut x_1: Obj, mut x_2: Obj) -> Obj {
 let mut x_3: Obj = rt::lean_box(0);
 let mut x_4: u8 = 0;
 let mut x_5: Obj = rt::lean_box(0);
@@ -2965,7 +2965,7 @@ x_4 = rt::lean_nat_dec_lt(x_2, x_3);
 match x_4 as u32 {
 0 => {
 x_5 = rt::lean_nat_div(x_2, x_3);
-x_6 = l_Leanharbor_Json_pushDecimal(x_1, x_5);
+x_6 = l_Leangage_Json_pushDecimal(x_1, x_5);
 rt::lean_dec(x_5);
 x_7 = rt::lean_nat_mod(x_2, x_3);
 x_8 = rt::lean_unsigned_to_nat(48u32);
@@ -2991,7 +2991,7 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_pushEscaped(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj) -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_pushEscaped(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj) -> Obj {
 let mut x_4: Obj = rt::lean_box(0);
 let mut x_5: u8 = 0;
 let mut x_6: Obj = rt::lean_box(0);
@@ -3013,7 +3013,7 @@ return x_3;
 x_6 = rt::lean_unsigned_to_nat(1u32);
 x_7 = rt::lean_nat_add(x_2, x_6);
 x_8 = rt::lean_string_get_byte_fast(x_1, x_2);
-x_9 = l_Leanharbor_Json_pushEscapedByte(x_3, x_8);
+x_9 = l_Leangage_Json_pushEscapedByte(x_3, x_8);
 { let t_0 = x_1; let t_1 = x_7; let t_2 = x_9; x_1 = t_0; x_2 = t_1; x_3 = t_2; }
 __blk = 0; continue 'body;
 }
@@ -3027,7 +3027,7 @@ _ => rt::lean_internal_panic_unreachable(),
 
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_pushEscapedByte(mut x_1: Obj, mut x_2: u8) -> Obj {
+pub(crate) unsafe fn l_Leangage_Json_pushEscapedByte(mut x_1: Obj, mut x_2: u8) -> Obj {
 let mut x_3: u8 = 0;
 let mut x_5: u8 = 0;
 let mut x_6: u8 = 0;
@@ -3208,12 +3208,12 @@ x_32 = rt::lean_uint8_to_nat(x_2);
 x_33 = rt::lean_unsigned_to_nat(16u32);
 x_34 = rt::lean_unsigned_to_nat(4u32);
 x_35 = rt::lean_nat_shiftr(x_32, x_34);
-x_36 = l_Leanharbor_Token_hexDigit(x_35);
+x_36 = l_Leangage_Token_hexDigit(x_35);
 rt::lean_dec(x_35);
 x_37 = rt::lean_box(x_36 as usize);
 x_38 = rt::lean_array_push(x_31, x_37);
 x_39 = rt::lean_nat_mod(x_32, x_33);
-x_40 = l_Leanharbor_Token_hexDigit(x_39);
+x_40 = l_Leangage_Token_hexDigit(x_39);
 rt::lean_dec(x_39);
 x_41 = rt::lean_box(x_40 as usize);
 x_42 = rt::lean_array_push(x_38, x_41);
@@ -3304,7 +3304,7 @@ _ => rt::lean_internal_panic_unreachable(),
 
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_StrTok_endsValue(mut x_1: Obj) -> u8 {
+pub(crate) unsafe fn l_Leangage_Json_StrTok_endsValue(mut x_1: Obj) -> u8 {
 let mut x_2: u8 = 0;
 let mut x_3: u8 = 0;
 let mut x_4: u8 = 0;
@@ -3345,7 +3345,7 @@ return x_8;
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Json_StrTok_isClose(mut x_1: Obj) -> u8 {
+pub(crate) unsafe fn l_Leangage_Json_StrTok_isClose(mut x_1: Obj) -> u8 {
 let mut x_2: u8 = 0;
 let mut x_3: u8 = 0;
 let mut x_4: u8 = 0;
@@ -3705,7 +3705,7 @@ pub(crate) unsafe fn l_Calculator_Kernel_encodeError(mut x_1: u8) -> Obj {
 let mut x_2: Obj = rt::lean_box(0);
 let mut x_3: Obj = rt::lean_box(0);
 x_2 = l_Calculator_Kernel_errorToks(x_1);
-x_3 = l_Leanharbor_Json_write(x_2);
+x_3 = l_Leangage_Json_write(x_2);
 rt::lean_dec(x_2);
 return x_3;
 }
@@ -3752,7 +3752,7 @@ x_5 = l_Calculator_Kernel_encodeReplyArray___closed__1();
 x_6 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_6, 0, x_4); rt::lean_ctor_set(x_6, 1, x_5);
 x_7 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_7, 0, x_3); rt::lean_ctor_set(x_7, 1, x_6);
 x_8 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_8, 0, x_2); rt::lean_ctor_set(x_8, 1, x_7);
-x_9 = l_Leanharbor_Json_writeArray(x_8);
+x_9 = l_Leangage_Json_writeArray(x_8);
 rt::lean_dec_ref(x_8);
 return x_9;
 }
@@ -4042,9 +4042,9 @@ unsafe impl rt::IntoLean<Snapshot> for Snapshot {
     }
 }
 
-#[doc = "Lean type `Leanharbor.Json.Tok` (module `Leanharbor.Json`)."]
+#[doc = "Lean type `Leangage.Json.Tok` (module `Leangage.Json`)."]
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
-pub enum LeanharborJsonTok {
+pub enum LeangageJsonTok {
     Null,
     Bool{ b: bool },
     Num{ n: u64 },
@@ -4055,47 +4055,47 @@ pub enum LeanharborJsonTok {
     ObjOpen,
     ObjClose,
 }
-impl rt::ToLean for LeanharborJsonTok {
+impl rt::ToLean for LeangageJsonTok {
     unsafe fn to_lean(self) -> Obj {
         match self {
-            LeanharborJsonTok::Null => rt::lean_box(0),
-            LeanharborJsonTok::Bool { b: f0 } => { let o = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 1); rt::lean_ctor_set_uint8(o, 0 * core::mem::size_of::<usize>() as u32 + 0, (f0) as u8); o },
-            LeanharborJsonTok::Num { n: f0 } => { let o = rt::lean_alloc_ctor(2, 0, 0 * core::mem::size_of::<usize>() as u32 + 8); rt::lean_ctor_set_uint64(o, 0 * core::mem::size_of::<usize>() as u32 + 0, f0); o },
-            LeanharborJsonTok::Str { s: f0 } => { let o = rt::lean_alloc_ctor(3, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(o, 0, rt::list_to_lean(f0, |v0| rt::ToLean::to_lean(v0))); o },
-            LeanharborJsonTok::Key { s: f0 } => { let o = rt::lean_alloc_ctor(4, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(o, 0, rt::list_to_lean(f0, |v0| rt::ToLean::to_lean(v0))); o },
-            LeanharborJsonTok::ArrOpen => rt::lean_box(5),
-            LeanharborJsonTok::ArrClose => rt::lean_box(6),
-            LeanharborJsonTok::ObjOpen => rt::lean_box(7),
-            LeanharborJsonTok::ObjClose => rt::lean_box(8),
+            LeangageJsonTok::Null => rt::lean_box(0),
+            LeangageJsonTok::Bool { b: f0 } => { let o = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 1); rt::lean_ctor_set_uint8(o, 0 * core::mem::size_of::<usize>() as u32 + 0, (f0) as u8); o },
+            LeangageJsonTok::Num { n: f0 } => { let o = rt::lean_alloc_ctor(2, 0, 0 * core::mem::size_of::<usize>() as u32 + 8); rt::lean_ctor_set_uint64(o, 0 * core::mem::size_of::<usize>() as u32 + 0, f0); o },
+            LeangageJsonTok::Str { s: f0 } => { let o = rt::lean_alloc_ctor(3, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(o, 0, rt::list_to_lean(f0, |v0| rt::ToLean::to_lean(v0))); o },
+            LeangageJsonTok::Key { s: f0 } => { let o = rt::lean_alloc_ctor(4, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(o, 0, rt::list_to_lean(f0, |v0| rt::ToLean::to_lean(v0))); o },
+            LeangageJsonTok::ArrOpen => rt::lean_box(5),
+            LeangageJsonTok::ArrClose => rt::lean_box(6),
+            LeangageJsonTok::ObjOpen => rt::lean_box(7),
+            LeangageJsonTok::ObjClose => rt::lean_box(8),
         }
     }
 }
-impl rt::FromLean for LeanharborJsonTok {
+impl rt::FromLean for LeangageJsonTok {
     unsafe fn from_lean(o: Obj) -> Self {
         match rt::lean_obj_tag(o) {
-            0 => LeanharborJsonTok::Null,
-            1 => LeanharborJsonTok::Bool { b: (rt::lean_ctor_get_uint8(o, 0 * core::mem::size_of::<usize>() as u32 + 0)) != 0 },
-            2 => LeanharborJsonTok::Num { n: rt::lean_ctor_get_uint64(o, 0 * core::mem::size_of::<usize>() as u32 + 0) },
-            3 => LeanharborJsonTok::Str { s: rt::list_from_lean(rt::lean_ctor_get(o, 0), |v0| <u8 as rt::FromLean>::from_lean(v0)) },
-            4 => LeanharborJsonTok::Key { s: rt::list_from_lean(rt::lean_ctor_get(o, 0), |v0| <u8 as rt::FromLean>::from_lean(v0)) },
-            5 => LeanharborJsonTok::ArrOpen,
-            6 => LeanharborJsonTok::ArrClose,
-            7 => LeanharborJsonTok::ObjOpen,
-            8 => LeanharborJsonTok::ObjClose,
+            0 => LeangageJsonTok::Null,
+            1 => LeangageJsonTok::Bool { b: (rt::lean_ctor_get_uint8(o, 0 * core::mem::size_of::<usize>() as u32 + 0)) != 0 },
+            2 => LeangageJsonTok::Num { n: rt::lean_ctor_get_uint64(o, 0 * core::mem::size_of::<usize>() as u32 + 0) },
+            3 => LeangageJsonTok::Str { s: rt::list_from_lean(rt::lean_ctor_get(o, 0), |v0| <u8 as rt::FromLean>::from_lean(v0)) },
+            4 => LeangageJsonTok::Key { s: rt::list_from_lean(rt::lean_ctor_get(o, 0), |v0| <u8 as rt::FromLean>::from_lean(v0)) },
+            5 => LeangageJsonTok::ArrOpen,
+            6 => LeangageJsonTok::ArrClose,
+            7 => LeangageJsonTok::ObjOpen,
+            8 => LeangageJsonTok::ObjClose,
             _ => unreachable!(),
         }
     }
 }
-unsafe impl rt::LeanRepr for LeanharborJsonTok {
-    type Value = LeanharborJsonTok;
-    unsafe fn to_obj(value: LeanharborJsonTok) -> Obj {
+unsafe impl rt::LeanRepr for LeangageJsonTok {
+    type Value = LeangageJsonTok;
+    unsafe fn to_obj(value: LeangageJsonTok) -> Obj {
         rt::ToLean::to_lean(value)
     }
-    unsafe fn from_obj(o: Obj) -> LeanharborJsonTok {
-        <LeanharborJsonTok as rt::FromLean>::from_lean(o)
+    unsafe fn from_obj(o: Obj) -> LeangageJsonTok {
+        <LeangageJsonTok as rt::FromLean>::from_lean(o)
     }
 }
-unsafe impl rt::IntoLean<LeanharborJsonTok> for LeanharborJsonTok {
+unsafe impl rt::IntoLean<LeangageJsonTok> for LeangageJsonTok {
     unsafe fn into_obj(self) -> Obj {
         rt::ToLean::to_lean(self)
     }
@@ -4196,13 +4196,13 @@ pub fn init() -> Snapshot {
     }
 }
 
-#[doc = "Lean: `Calculator.Kernel.errorToks : Calculator.Kernel.Error → List Leanharbor.Json.Tok` (module `Calculator.Kernel`)."]
+#[doc = "Lean: `Calculator.Kernel.errorToks : Calculator.Kernel.Error → List Leangage.Json.Tok` (module `Calculator.Kernel`)."]
 #[::leanfran::exported("Calculator.Kernel.errorToks")]
-pub fn error_toks(e: Error) -> Vec<LeanharborJsonTok> {
+pub fn error_toks(e: Error) -> Vec<LeangageJsonTok> {
     unsafe {
         let __a0: u8 = (e) as u8;
         let __r: Obj = l_Calculator_Kernel_errorToks(__a0);
-        let __v = rt::list_from_lean(__r, |v0| <LeanharborJsonTok as rt::FromLean>::from_lean(v0));
+        let __v = rt::list_from_lean(__r, |v0| <LeangageJsonTok as rt::FromLean>::from_lean(v0));
         rt::lean_dec(__r);
         __v
     }
@@ -4311,13 +4311,13 @@ pub fn tenant(actor: Principal) -> u64 {
     }
 }
 
-#[doc = "Lean: `Calculator.Kernel.replyToks : Calculator.Kernel.Reply → List Leanharbor.Json.Tok` (module `Calculator.Kernel`)."]
+#[doc = "Lean: `Calculator.Kernel.replyToks : Calculator.Kernel.Reply → List Leangage.Json.Tok` (module `Calculator.Kernel`)."]
 #[::leanfran::exported("Calculator.Kernel.replyToks")]
-pub fn reply_toks(arg0: Reply) -> Vec<LeanharborJsonTok> {
+pub fn reply_toks(arg0: Reply) -> Vec<LeangageJsonTok> {
     unsafe {
         let __a0: u64 = (arg0).v;
         let __r: Obj = l_Calculator_Kernel_replyToks(__a0);
-        let __v = rt::list_from_lean(__r, |v0| <LeanharborJsonTok as rt::FromLean>::from_lean(v0));
+        let __v = rt::list_from_lean(__r, |v0| <LeangageJsonTok as rt::FromLean>::from_lean(v0));
         rt::lean_dec(__r);
         __v
     }
@@ -4402,8 +4402,8 @@ pub mod lean {
             rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`error_toks` on handles. Lean: `Calculator.Kernel.errorToks : Calculator.Kernel.Error → List Leanharbor.Json.Tok` (module `Calculator.Kernel`)."]
-    pub fn error_toks(e: impl rt::IntoLean<Error>) -> rt::Lean<rt::List<LeanharborJsonTok>> {
+    #[doc = "`error_toks` on handles. Lean: `Calculator.Kernel.errorToks : Calculator.Kernel.Error → List Leangage.Json.Tok` (module `Calculator.Kernel`)."]
+    pub fn error_toks(e: impl rt::IntoLean<Error>) -> rt::Lean<rt::List<LeangageJsonTok>> {
         unsafe {
             let __a0: u8 = { let o = rt::IntoLean::<Error>::into_obj(e); let v = rt::lean_unbox(o) as u8; rt::lean_dec(o); v };
             let __r: Obj = l_Calculator_Kernel_errorToks(__a0);
@@ -4483,8 +4483,8 @@ pub mod lean {
             rt::lean_dec(__a0); rt::Lean::from_owned(rt::lean_box_uint64(__r))
         }
     }
-    #[doc = "`reply_toks` on handles. Lean: `Calculator.Kernel.replyToks : Calculator.Kernel.Reply → List Leanharbor.Json.Tok` (module `Calculator.Kernel`)."]
-    pub fn reply_toks(arg0: impl rt::IntoLean<Reply>) -> rt::Lean<rt::List<LeanharborJsonTok>> {
+    #[doc = "`reply_toks` on handles. Lean: `Calculator.Kernel.replyToks : Calculator.Kernel.Reply → List Leangage.Json.Tok` (module `Calculator.Kernel`)."]
+    pub fn reply_toks(arg0: impl rt::IntoLean<Reply>) -> rt::Lean<rt::List<LeangageJsonTok>> {
         unsafe {
             let __a0: u64 = { let o = rt::IntoLean::<Reply>::into_obj(arg0); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
             let __r: Obj = l_Calculator_Kernel_replyToks(__a0);
@@ -4564,8 +4564,8 @@ pub mod local {
             rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`error_toks` on handles. Lean: `Calculator.Kernel.errorToks : Calculator.Kernel.Error → List Leanharbor.Json.Tok` (module `Calculator.Kernel`)."]
-    pub fn error_toks(e: impl rt::IntoLean<Error>) -> rt::Local<rt::List<LeanharborJsonTok>> {
+    #[doc = "`error_toks` on handles. Lean: `Calculator.Kernel.errorToks : Calculator.Kernel.Error → List Leangage.Json.Tok` (module `Calculator.Kernel`)."]
+    pub fn error_toks(e: impl rt::IntoLean<Error>) -> rt::Local<rt::List<LeangageJsonTok>> {
         unsafe {
             let __a0: u8 = { let o = rt::IntoLean::<Error>::into_obj(e); let v = rt::lean_unbox(o) as u8; rt::lean_dec(o); v };
             let __r: Obj = l_Calculator_Kernel_errorToks(__a0);
@@ -4645,8 +4645,8 @@ pub mod local {
             rt::lean_dec(__a0); rt::Local::from_owned(rt::lean_box_uint64(__r))
         }
     }
-    #[doc = "`reply_toks` on handles. Lean: `Calculator.Kernel.replyToks : Calculator.Kernel.Reply → List Leanharbor.Json.Tok` (module `Calculator.Kernel`)."]
-    pub fn reply_toks(arg0: impl rt::IntoLean<Reply>) -> rt::Local<rt::List<LeanharborJsonTok>> {
+    #[doc = "`reply_toks` on handles. Lean: `Calculator.Kernel.replyToks : Calculator.Kernel.Reply → List Leangage.Json.Tok` (module `Calculator.Kernel`)."]
+    pub fn reply_toks(arg0: impl rt::IntoLean<Reply>) -> rt::Local<rt::List<LeangageJsonTok>> {
         unsafe {
             let __a0: u64 = { let o = rt::IntoLean::<Reply>::into_obj(arg0); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
             let __r: Obj = l_Calculator_Kernel_replyToks(__a0);

@@ -16,10 +16,10 @@ from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any
 
-from leanharbor import Claims, MemoryEngine, Refused, issue
-from leanharbor.pg import Config, PgEngine
-from leanharbor.pg.testing import ENGINE_ROLE, OWNER, cluster, connect
-from leanharbor_calculator import KERNEL, STORAGE, kernel
+from leangage import Claims, MemoryEngine, Refused, issue
+from leangage.pg import Config, PgEngine
+from leangage.pg.testing import ENGINE_ROLE, OWNER, cluster, connect
+from leangage_calculator import KERNEL, STORAGE, kernel
 from test_differential import COMMANDS, parse
 
 SECRET = "secret"
@@ -34,7 +34,7 @@ def line(engine: Any, actor: kernel.Principal, cmd: kernel.Command) -> str:
 
 def oracle() -> list[str]:
     return subprocess.run(
-        [os.environ["LEANHARBOR_CALCULATOR_ORACLE"]],
+        [os.environ["LEANGAGE_CALCULATOR_ORACLE"]],
         input=COMMANDS.read_text(),
         capture_output=True,
         text=True,
@@ -63,7 +63,7 @@ def others(r: Rows, mine: tuple[int, int]) -> Rows:
 
 
 # The rows stored and read back in PostgreSQL give every command the reply the memory engine and
-# Lean give it: PostgreSQL runs the generated statements as the model of `Leanharbor.Sql` says.
+# Lean give it: PostgreSQL runs the generated statements as the model of `Leangage.Sql` says.
 # The engine that remembers no snapshot reads the rows back for every command; the one that
 # remembers them gives the same replies. The command list mixes three tenants; after each
 # command, every row of the other tenants, and of the other users of its tenant, is as it was.
@@ -141,15 +141,15 @@ def free_port() -> int:
 
 
 class Server:
-    """A calculator server in a process of its own, on `LEANHARBOR_DATABASE_URL`."""
+    """A calculator server in a process of its own, on `LEANGAGE_DATABASE_URL`."""
 
     def __init__(self, argv: list[str], url: str) -> None:
         self.port = free_port()
         env = {
             **os.environ,
-            "LEANHARBOR_SECRET": SECRET,
-            "LEANHARBOR_LISTEN": f"127.0.0.1:{self.port}",
-            "LEANHARBOR_DATABASE_URL": url,
+            "LEANGAGE_SECRET": SECRET,
+            "LEANGAGE_LISTEN": f"127.0.0.1:{self.port}",
+            "LEANGAGE_DATABASE_URL": url,
         }
         self.process = subprocess.Popen(argv, env=env)
         deadline = time.monotonic() + 20
@@ -183,11 +183,11 @@ class Server:
         self.process.wait()
 
 
-PYTHON_SERVER = [sys.executable, "-m", "leanharbor_calculator"]
+PYTHON_SERVER = [sys.executable, "-m", "leangage_calculator"]
 
 
 def rust_server() -> list[str]:
-    return [os.environ["LEANHARBOR_RUST_CALCULATOR"]]
+    return [os.environ["LEANGAGE_RUST_CALCULATOR"]]
 
 
 def token(tenant: int, user: int) -> str:
@@ -195,13 +195,13 @@ def token(tenant: int, user: int) -> str:
 
 
 def run_lockdown(argv: list[str], name: str) -> None:
-    """`LEANHARBOR_LOCKDOWN` with the administrator's connection string makes the tables, and
+    """`LEANGAGE_LOCKDOWN` with the administrator's connection string makes the tables, and
     the server then runs as the engine's role."""
     env = {
         **os.environ,
-        "LEANHARBOR_SECRET": SECRET,
-        "LEANHARBOR_DATABASE_URL": cluster().admin_url(name),
-        "LEANHARBOR_LOCKDOWN": f"{OWNER}:{ENGINE_ROLE}",
+        "LEANGAGE_SECRET": SECRET,
+        "LEANGAGE_DATABASE_URL": cluster().admin_url(name),
+        "LEANGAGE_LOCKDOWN": f"{OWNER}:{ENGINE_ROLE}",
     }
     subprocess.run(argv, env=env, check=True)
 

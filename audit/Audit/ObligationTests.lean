@@ -3,7 +3,7 @@ import Audit.ObligationKernels
 
 /-!
 The check passes for `counter` with the theorems below, one of them stated without the names of
-`Leanharbor.Obligation`. The files in `audit/fail/` are `counter` without them, and `make check`
+`Leangage.Obligation`. The files in `audit/fail/` are `counter` without them, and `make check`
 requires each to fail with its message.
 -/
 
@@ -22,7 +22,7 @@ theorem counter_read_only :
     cases ht
     rfl
 
-theorem counter_even : Leanharbor.Obligation.Invariant counter Even := by
+theorem counter_even : Leangage.Obligation.Invariant counter Even := by
   refine ⟨rfl, fun a s c ws r hs ht => ?_⟩
   cases c with
   | true =>
@@ -36,8 +36,8 @@ theorem counter_even : Leanharbor.Obligation.Invariant counter Even := by
     exact hs
 
 /--
-info: ReadOnlySound: Audit.ObligationTests.counter_read_only states Leanharbor.Obligation.ReadOnlySound counter Option.toList
-Invariant Even: Audit.ObligationTests.counter_even states Leanharbor.Obligation.Invariant counter Even
+info: ReadOnlySound: Audit.ObligationTests.counter_read_only states Leangage.Obligation.ReadOnlySound counter Option.toList
+Invariant Even: Audit.ObligationTests.counter_even states Leangage.Obligation.Invariant counter Even
 -/
 #guard_msgs in
 #obligations counter invariant Even

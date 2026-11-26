@@ -11,7 +11,7 @@ Rows are mostly those of a member (a `BIGINT` and a `BOOLEAN`) or of a note (two
 receives two tables.
 -/
 
-open Plausible Leanharbor.Sql
+open Plausible Leangage.Sql
 
 instance notesStoreArbitraryInt64 : Arbitrary Int64 where
   arbitrary := Gen.elements [0, 1, 2, -1, -9223372036854775808, 9223372036854775807] (by decide)

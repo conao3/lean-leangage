@@ -1,4 +1,4 @@
-module github.com/conao3/lean-leanharbor/bench/go
+module github.com/conao3/lean-leangage/bench/go
 
 go 1.26.10
 

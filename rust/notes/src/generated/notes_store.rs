@@ -1401,54 +1401,54 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 
 
-#[doc = "Lean: `Notes.Store.memberRow : Notes.Kernel.Member → List Leanharbor.Sql.Val` (module `Notes.Store`)."]
+#[doc = "Lean: `Notes.Store.memberRow : Notes.Kernel.Member → List Leangage.Sql.Val` (module `Notes.Store`)."]
 #[::leanfran::exported("Notes.Store.memberRow")]
-pub fn member_row(m: crate::generated::notes_kernel::Member) -> Vec<::leanharbor::sql::Val> {
+pub fn member_row(m: crate::generated::notes_kernel::Member) -> Vec<::leangage::sql::Val> {
     unsafe {
         let __a0: Obj = rt::ToLean::to_lean(m);
         let __r: Obj = l_Notes_Store_memberRow(__a0);
-        rt::lean_dec(__a0); let __v = rt::list_from_lean(__r, |v0| <::leanharbor::sql::Val as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__a0); let __v = rt::list_from_lean(__r, |v0| <::leangage::sql::Val as rt::FromLean>::from_lean(v0));
         rt::lean_dec(__r);
         __v
     }
 }
 
-#[doc = "Lean: `Notes.Store.writes : List Notes.Kernel.Write → List Leanharbor.Sql.Write` (module `Notes.Store`)."]
+#[doc = "Lean: `Notes.Store.writes : List Notes.Kernel.Write → List Leangage.Sql.Write` (module `Notes.Store`)."]
 #[::leanfran::exported("Notes.Store.writes")]
-pub fn writes(ws: Vec<crate::generated::notes_kernel::Write>) -> Vec<::leanharbor::sql::Write> {
+pub fn writes(ws: Vec<crate::generated::notes_kernel::Write>) -> Vec<::leangage::sql::Write> {
     unsafe {
         let __a0: Obj = rt::list_to_lean(ws, |v0| rt::ToLean::to_lean(v0));
         let __r: Obj = l_Notes_Store_writes(__a0);
-        let __v = rt::list_from_lean(__r, |v0| <::leanharbor::sql::Write as rt::FromLean>::from_lean(v0));
+        let __v = rt::list_from_lean(__r, |v0| <::leangage::sql::Write as rt::FromLean>::from_lean(v0));
         rt::lean_dec(__r);
         __v
     }
 }
 
-#[doc = "Lean: `Notes.Store.tables : List Leanharbor.Sql.Tab` (module `Notes.Store`)."]
+#[doc = "Lean: `Notes.Store.tables : List Leangage.Sql.Tab` (module `Notes.Store`)."]
 #[::leanfran::exported("Notes.Store.tables")]
-pub fn tables() -> Vec<::leanharbor::sql::Tab> {
+pub fn tables() -> Vec<::leangage::sql::Tab> {
     unsafe {
         let __r: Obj = l_Notes_Store_tables();
-        rt::list_from_lean(__r, |v0| <::leanharbor::sql::Tab as rt::FromLean>::from_lean(v0))
+        rt::list_from_lean(__r, |v0| <::leangage::sql::Tab as rt::FromLean>::from_lean(v0))
     }
 }
 
-#[doc = "Lean: `Notes.Store.noteRow : Notes.Kernel.Note → List Leanharbor.Sql.Val` (module `Notes.Store`)."]
+#[doc = "Lean: `Notes.Store.noteRow : Notes.Kernel.Note → List Leangage.Sql.Val` (module `Notes.Store`)."]
 #[::leanfran::exported("Notes.Store.noteRow")]
-pub fn note_row(n: crate::generated::notes_kernel::Note) -> Vec<::leanharbor::sql::Val> {
+pub fn note_row(n: crate::generated::notes_kernel::Note) -> Vec<::leangage::sql::Val> {
     unsafe {
         let __a0: Obj = rt::ToLean::to_lean(n);
         let __r: Obj = l_Notes_Store_noteRow(__a0);
-        rt::lean_dec(__a0); let __v = rt::list_from_lean(__r, |v0| <::leanharbor::sql::Val as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__a0); let __v = rt::list_from_lean(__r, |v0| <::leangage::sql::Val as rt::FromLean>::from_lean(v0));
         rt::lean_dec(__r);
         __v
     }
 }
 
-#[doc = "Lean: `Notes.Store.load : List (List (List Leanharbor.Sql.Val)) → Option Notes.Kernel.Snapshot` (module `Notes.Store`)."]
+#[doc = "Lean: `Notes.Store.load : List (List (List Leangage.Sql.Val)) → Option Notes.Kernel.Snapshot` (module `Notes.Store`)."]
 #[::leanfran::exported("Notes.Store.load")]
-pub fn load(arg0: Vec<Vec<Vec<::leanharbor::sql::Val>>>) -> Option<crate::generated::notes_kernel::Snapshot> {
+pub fn load(arg0: Vec<Vec<Vec<::leangage::sql::Val>>>) -> Option<crate::generated::notes_kernel::Snapshot> {
     unsafe {
         let __a0: Obj = rt::list_to_lean(arg0, |v0| rt::list_to_lean(v0, |v1| rt::list_to_lean(v1, |v2| rt::ToLean::to_lean(v2))));
         let __r: Obj = l_Notes_Store_load(__a0);
@@ -1458,9 +1458,9 @@ pub fn load(arg0: Vec<Vec<Vec<::leanharbor::sql::Val>>>) -> Option<crate::genera
     }
 }
 
-#[doc = "Lean: `Notes.Store.memberOfRow : List Leanharbor.Sql.Val → Option Notes.Kernel.Member` (module `Notes.Store`)."]
+#[doc = "Lean: `Notes.Store.memberOfRow : List Leangage.Sql.Val → Option Notes.Kernel.Member` (module `Notes.Store`)."]
 #[::leanfran::exported("Notes.Store.memberOfRow")]
-pub fn member_of_row(arg0: Vec<::leanharbor::sql::Val>) -> Option<crate::generated::notes_kernel::Member> {
+pub fn member_of_row(arg0: Vec<::leangage::sql::Val>) -> Option<crate::generated::notes_kernel::Member> {
     unsafe {
         let __a0: Obj = rt::list_to_lean(arg0, |v0| rt::ToLean::to_lean(v0));
         let __r: Obj = l_Notes_Store_memberOfRow(__a0);
@@ -1470,9 +1470,9 @@ pub fn member_of_row(arg0: Vec<::leanharbor::sql::Val>) -> Option<crate::generat
     }
 }
 
-#[doc = "Lean: `Notes.Store.noteOfRow : List Leanharbor.Sql.Val → Option Notes.Kernel.Note` (module `Notes.Store`)."]
+#[doc = "Lean: `Notes.Store.noteOfRow : List Leangage.Sql.Val → Option Notes.Kernel.Note` (module `Notes.Store`)."]
 #[::leanfran::exported("Notes.Store.noteOfRow")]
-pub fn note_of_row(arg0: Vec<::leanharbor::sql::Val>) -> Option<crate::generated::notes_kernel::Note> {
+pub fn note_of_row(arg0: Vec<::leangage::sql::Val>) -> Option<crate::generated::notes_kernel::Note> {
     unsafe {
         let __a0: Obj = rt::list_to_lean(arg0, |v0| rt::ToLean::to_lean(v0));
         let __r: Obj = l_Notes_Store_noteOfRow(__a0);
@@ -1482,13 +1482,13 @@ pub fn note_of_row(arg0: Vec<::leanharbor::sql::Val>) -> Option<crate::generated
     }
 }
 
-#[doc = "Lean: `Notes.Store.write : Notes.Kernel.Write → Leanharbor.Sql.Write` (module `Notes.Store`)."]
+#[doc = "Lean: `Notes.Store.write : Notes.Kernel.Write → Leangage.Sql.Write` (module `Notes.Store`)."]
 #[::leanfran::exported("Notes.Store.write")]
-pub fn write(arg0: crate::generated::notes_kernel::Write) -> ::leanharbor::sql::Write {
+pub fn write(arg0: crate::generated::notes_kernel::Write) -> ::leangage::sql::Write {
     unsafe {
         let __a0: Obj = rt::ToLean::to_lean(arg0);
         let __r: Obj = l_Notes_Store_write(__a0);
-        let __v = <::leanharbor::sql::Write as rt::FromLean>::from_lean(__r);
+        let __v = <::leangage::sql::Write as rt::FromLean>::from_lean(__r);
         rt::lean_dec(__r);
         __v
     }
@@ -1498,64 +1498,64 @@ pub fn write(arg0: crate::generated::notes_kernel::Write) -> ::leanharbor::sql::
 #[allow(unused_imports, clippy::all)]
 pub mod lean {
     use super::*;
-    #[doc = "`member_row` on handles. Lean: `Notes.Store.memberRow : Notes.Kernel.Member → List Leanharbor.Sql.Val` (module `Notes.Store`)."]
-    pub fn member_row(m: impl rt::IntoLean<crate::generated::notes_kernel::Member>) -> rt::Lean<rt::List<::leanharbor::sql::Val>> {
+    #[doc = "`member_row` on handles. Lean: `Notes.Store.memberRow : Notes.Kernel.Member → List Leangage.Sql.Val` (module `Notes.Store`)."]
+    pub fn member_row(m: impl rt::IntoLean<crate::generated::notes_kernel::Member>) -> rt::Lean<rt::List<::leangage::sql::Val>> {
         unsafe {
             let __a0: Obj = rt::IntoLean::<crate::generated::notes_kernel::Member>::into_obj(m);
             let __r: Obj = l_Notes_Store_memberRow(__a0);
             rt::lean_dec(__a0); rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`writes` on handles. Lean: `Notes.Store.writes : List Notes.Kernel.Write → List Leanharbor.Sql.Write` (module `Notes.Store`)."]
-    pub fn writes(ws: impl rt::IntoLean<rt::List<crate::generated::notes_kernel::Write>>) -> rt::Lean<rt::List<::leanharbor::sql::Write>> {
+    #[doc = "`writes` on handles. Lean: `Notes.Store.writes : List Notes.Kernel.Write → List Leangage.Sql.Write` (module `Notes.Store`)."]
+    pub fn writes(ws: impl rt::IntoLean<rt::List<crate::generated::notes_kernel::Write>>) -> rt::Lean<rt::List<::leangage::sql::Write>> {
         unsafe {
             let __a0: Obj = rt::IntoLean::<rt::List<crate::generated::notes_kernel::Write>>::into_obj(ws);
             let __r: Obj = l_Notes_Store_writes(__a0);
             rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`tables` on handles. Lean: `Notes.Store.tables : List Leanharbor.Sql.Tab` (module `Notes.Store`)."]
-    pub fn tables() -> rt::Lean<rt::List<::leanharbor::sql::Tab>> {
+    #[doc = "`tables` on handles. Lean: `Notes.Store.tables : List Leangage.Sql.Tab` (module `Notes.Store`)."]
+    pub fn tables() -> rt::Lean<rt::List<::leangage::sql::Tab>> {
         unsafe {
             let __r: Obj = l_Notes_Store_tables();
             rt::lean_inc(__r);
             rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`note_row` on handles. Lean: `Notes.Store.noteRow : Notes.Kernel.Note → List Leanharbor.Sql.Val` (module `Notes.Store`)."]
-    pub fn note_row(n: impl rt::IntoLean<crate::generated::notes_kernel::Note>) -> rt::Lean<rt::List<::leanharbor::sql::Val>> {
+    #[doc = "`note_row` on handles. Lean: `Notes.Store.noteRow : Notes.Kernel.Note → List Leangage.Sql.Val` (module `Notes.Store`)."]
+    pub fn note_row(n: impl rt::IntoLean<crate::generated::notes_kernel::Note>) -> rt::Lean<rt::List<::leangage::sql::Val>> {
         unsafe {
             let __a0: Obj = rt::IntoLean::<crate::generated::notes_kernel::Note>::into_obj(n);
             let __r: Obj = l_Notes_Store_noteRow(__a0);
             rt::lean_dec(__a0); rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`load` on handles. Lean: `Notes.Store.load : List (List (List Leanharbor.Sql.Val)) → Option Notes.Kernel.Snapshot` (module `Notes.Store`)."]
-    pub fn load(arg0: impl rt::IntoLean<rt::List<rt::List<rt::List<::leanharbor::sql::Val>>>>) -> rt::Lean<Option<crate::generated::notes_kernel::Snapshot>> {
+    #[doc = "`load` on handles. Lean: `Notes.Store.load : List (List (List Leangage.Sql.Val)) → Option Notes.Kernel.Snapshot` (module `Notes.Store`)."]
+    pub fn load(arg0: impl rt::IntoLean<rt::List<rt::List<rt::List<::leangage::sql::Val>>>>) -> rt::Lean<Option<crate::generated::notes_kernel::Snapshot>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<rt::List<rt::List<::leanharbor::sql::Val>>>>::into_obj(arg0);
+            let __a0: Obj = rt::IntoLean::<rt::List<rt::List<rt::List<::leangage::sql::Val>>>>::into_obj(arg0);
             let __r: Obj = l_Notes_Store_load(__a0);
             rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`member_of_row` on handles. Lean: `Notes.Store.memberOfRow : List Leanharbor.Sql.Val → Option Notes.Kernel.Member` (module `Notes.Store`)."]
-    pub fn member_of_row(arg0: impl rt::IntoLean<rt::List<::leanharbor::sql::Val>>) -> rt::Lean<Option<crate::generated::notes_kernel::Member>> {
+    #[doc = "`member_of_row` on handles. Lean: `Notes.Store.memberOfRow : List Leangage.Sql.Val → Option Notes.Kernel.Member` (module `Notes.Store`)."]
+    pub fn member_of_row(arg0: impl rt::IntoLean<rt::List<::leangage::sql::Val>>) -> rt::Lean<Option<crate::generated::notes_kernel::Member>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<::leanharbor::sql::Val>>::into_obj(arg0);
+            let __a0: Obj = rt::IntoLean::<rt::List<::leangage::sql::Val>>::into_obj(arg0);
             let __r: Obj = l_Notes_Store_memberOfRow(__a0);
             rt::lean_dec(__a0); rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`note_of_row` on handles. Lean: `Notes.Store.noteOfRow : List Leanharbor.Sql.Val → Option Notes.Kernel.Note` (module `Notes.Store`)."]
-    pub fn note_of_row(arg0: impl rt::IntoLean<rt::List<::leanharbor::sql::Val>>) -> rt::Lean<Option<crate::generated::notes_kernel::Note>> {
+    #[doc = "`note_of_row` on handles. Lean: `Notes.Store.noteOfRow : List Leangage.Sql.Val → Option Notes.Kernel.Note` (module `Notes.Store`)."]
+    pub fn note_of_row(arg0: impl rt::IntoLean<rt::List<::leangage::sql::Val>>) -> rt::Lean<Option<crate::generated::notes_kernel::Note>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<::leanharbor::sql::Val>>::into_obj(arg0);
+            let __a0: Obj = rt::IntoLean::<rt::List<::leangage::sql::Val>>::into_obj(arg0);
             let __r: Obj = l_Notes_Store_noteOfRow(__a0);
             rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`write` on handles. Lean: `Notes.Store.write : Notes.Kernel.Write → Leanharbor.Sql.Write` (module `Notes.Store`)."]
-    pub fn write(arg0: impl rt::IntoLean<crate::generated::notes_kernel::Write>) -> rt::Lean<::leanharbor::sql::Write> {
+    #[doc = "`write` on handles. Lean: `Notes.Store.write : Notes.Kernel.Write → Leangage.Sql.Write` (module `Notes.Store`)."]
+    pub fn write(arg0: impl rt::IntoLean<crate::generated::notes_kernel::Write>) -> rt::Lean<::leangage::sql::Write> {
         unsafe {
             let __a0: Obj = rt::IntoLean::<crate::generated::notes_kernel::Write>::into_obj(arg0);
             let __r: Obj = l_Notes_Store_write(__a0);
@@ -1568,64 +1568,64 @@ pub mod lean {
 #[allow(unused_imports, clippy::all)]
 pub mod local {
     use super::*;
-    #[doc = "`member_row` on handles. Lean: `Notes.Store.memberRow : Notes.Kernel.Member → List Leanharbor.Sql.Val` (module `Notes.Store`)."]
-    pub fn member_row(m: impl rt::IntoLean<crate::generated::notes_kernel::Member>) -> rt::Local<rt::List<::leanharbor::sql::Val>> {
+    #[doc = "`member_row` on handles. Lean: `Notes.Store.memberRow : Notes.Kernel.Member → List Leangage.Sql.Val` (module `Notes.Store`)."]
+    pub fn member_row(m: impl rt::IntoLean<crate::generated::notes_kernel::Member>) -> rt::Local<rt::List<::leangage::sql::Val>> {
         unsafe {
             let __a0: Obj = rt::IntoLean::<crate::generated::notes_kernel::Member>::into_obj(m);
             let __r: Obj = l_Notes_Store_memberRow(__a0);
             rt::lean_dec(__a0); rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`writes` on handles. Lean: `Notes.Store.writes : List Notes.Kernel.Write → List Leanharbor.Sql.Write` (module `Notes.Store`)."]
-    pub fn writes(ws: impl rt::IntoLean<rt::List<crate::generated::notes_kernel::Write>>) -> rt::Local<rt::List<::leanharbor::sql::Write>> {
+    #[doc = "`writes` on handles. Lean: `Notes.Store.writes : List Notes.Kernel.Write → List Leangage.Sql.Write` (module `Notes.Store`)."]
+    pub fn writes(ws: impl rt::IntoLean<rt::List<crate::generated::notes_kernel::Write>>) -> rt::Local<rt::List<::leangage::sql::Write>> {
         unsafe {
             let __a0: Obj = rt::IntoLean::<rt::List<crate::generated::notes_kernel::Write>>::into_obj(ws);
             let __r: Obj = l_Notes_Store_writes(__a0);
             rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`tables` on handles. Lean: `Notes.Store.tables : List Leanharbor.Sql.Tab` (module `Notes.Store`)."]
-    pub fn tables() -> rt::Local<rt::List<::leanharbor::sql::Tab>> {
+    #[doc = "`tables` on handles. Lean: `Notes.Store.tables : List Leangage.Sql.Tab` (module `Notes.Store`)."]
+    pub fn tables() -> rt::Local<rt::List<::leangage::sql::Tab>> {
         unsafe {
             let __r: Obj = l_Notes_Store_tables();
             rt::lean_inc(__r);
             rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`note_row` on handles. Lean: `Notes.Store.noteRow : Notes.Kernel.Note → List Leanharbor.Sql.Val` (module `Notes.Store`)."]
-    pub fn note_row(n: impl rt::IntoLean<crate::generated::notes_kernel::Note>) -> rt::Local<rt::List<::leanharbor::sql::Val>> {
+    #[doc = "`note_row` on handles. Lean: `Notes.Store.noteRow : Notes.Kernel.Note → List Leangage.Sql.Val` (module `Notes.Store`)."]
+    pub fn note_row(n: impl rt::IntoLean<crate::generated::notes_kernel::Note>) -> rt::Local<rt::List<::leangage::sql::Val>> {
         unsafe {
             let __a0: Obj = rt::IntoLean::<crate::generated::notes_kernel::Note>::into_obj(n);
             let __r: Obj = l_Notes_Store_noteRow(__a0);
             rt::lean_dec(__a0); rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`load` on handles. Lean: `Notes.Store.load : List (List (List Leanharbor.Sql.Val)) → Option Notes.Kernel.Snapshot` (module `Notes.Store`)."]
-    pub fn load(arg0: impl rt::IntoLean<rt::List<rt::List<rt::List<::leanharbor::sql::Val>>>>) -> rt::Local<Option<crate::generated::notes_kernel::Snapshot>> {
+    #[doc = "`load` on handles. Lean: `Notes.Store.load : List (List (List Leangage.Sql.Val)) → Option Notes.Kernel.Snapshot` (module `Notes.Store`)."]
+    pub fn load(arg0: impl rt::IntoLean<rt::List<rt::List<rt::List<::leangage::sql::Val>>>>) -> rt::Local<Option<crate::generated::notes_kernel::Snapshot>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<rt::List<rt::List<::leanharbor::sql::Val>>>>::into_obj(arg0);
+            let __a0: Obj = rt::IntoLean::<rt::List<rt::List<rt::List<::leangage::sql::Val>>>>::into_obj(arg0);
             let __r: Obj = l_Notes_Store_load(__a0);
             rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`member_of_row` on handles. Lean: `Notes.Store.memberOfRow : List Leanharbor.Sql.Val → Option Notes.Kernel.Member` (module `Notes.Store`)."]
-    pub fn member_of_row(arg0: impl rt::IntoLean<rt::List<::leanharbor::sql::Val>>) -> rt::Local<Option<crate::generated::notes_kernel::Member>> {
+    #[doc = "`member_of_row` on handles. Lean: `Notes.Store.memberOfRow : List Leangage.Sql.Val → Option Notes.Kernel.Member` (module `Notes.Store`)."]
+    pub fn member_of_row(arg0: impl rt::IntoLean<rt::List<::leangage::sql::Val>>) -> rt::Local<Option<crate::generated::notes_kernel::Member>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<::leanharbor::sql::Val>>::into_obj(arg0);
+            let __a0: Obj = rt::IntoLean::<rt::List<::leangage::sql::Val>>::into_obj(arg0);
             let __r: Obj = l_Notes_Store_memberOfRow(__a0);
             rt::lean_dec(__a0); rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`note_of_row` on handles. Lean: `Notes.Store.noteOfRow : List Leanharbor.Sql.Val → Option Notes.Kernel.Note` (module `Notes.Store`)."]
-    pub fn note_of_row(arg0: impl rt::IntoLean<rt::List<::leanharbor::sql::Val>>) -> rt::Local<Option<crate::generated::notes_kernel::Note>> {
+    #[doc = "`note_of_row` on handles. Lean: `Notes.Store.noteOfRow : List Leangage.Sql.Val → Option Notes.Kernel.Note` (module `Notes.Store`)."]
+    pub fn note_of_row(arg0: impl rt::IntoLean<rt::List<::leangage::sql::Val>>) -> rt::Local<Option<crate::generated::notes_kernel::Note>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<::leanharbor::sql::Val>>::into_obj(arg0);
+            let __a0: Obj = rt::IntoLean::<rt::List<::leangage::sql::Val>>::into_obj(arg0);
             let __r: Obj = l_Notes_Store_noteOfRow(__a0);
             rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`write` on handles. Lean: `Notes.Store.write : Notes.Kernel.Write → Leanharbor.Sql.Write` (module `Notes.Store`)."]
-    pub fn write(arg0: impl rt::IntoLean<crate::generated::notes_kernel::Write>) -> rt::Local<::leanharbor::sql::Write> {
+    #[doc = "`write` on handles. Lean: `Notes.Store.write : Notes.Kernel.Write → Leangage.Sql.Write` (module `Notes.Store`)."]
+    pub fn write(arg0: impl rt::IntoLean<crate::generated::notes_kernel::Write>) -> rt::Local<::leangage::sql::Write> {
         unsafe {
             let __a0: Obj = rt::IntoLean::<crate::generated::notes_kernel::Write>::into_obj(arg0);
             let __r: Obj = l_Notes_Store_write(__a0);

@@ -8,7 +8,7 @@ import random
 import sys
 
 NAMES = ["id", "body", "note", "tag", "a", 'x"y', '""', "é", "名前", "a b", "Tag"]
-BAD_NAMES = ["", "tenant_id", "leanharbor_t", "n" * 64, "é" * 32, "a\x00b"]
+BAD_NAMES = ["", "tenant_id", "leangage_t", "n" * 64, "é" * 32, "a\x00b"]
 KINDS = ["int", "bool", "text", "bytes"]
 INTS = [0, 1, -1, 7, 2**31, -(2**63), 2**63 - 1]
 TEXTS = ["", "a", '"', "'", "é", "名前", "a\x00b", "$1", "x'); DROP TABLE t; --"]

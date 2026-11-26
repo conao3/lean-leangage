@@ -1,4 +1,4 @@
-"""The engine's contract, item by item (the numbers of the list in `leanharbor/pg/__init__.py`),
+"""The engine's contract, item by item (the numbers of the list in `leangage/pg/__init__.py`),
 against the test process's PostgreSQL with injected faults: forced serialization failures and
 deadlocks, terminated backends, COMMITs lost before or after the server ran them, a client that
 stops waiting, other engines writing the same tenant, and many concurrent clients. Each test has
@@ -12,7 +12,7 @@ from typing import Any
 
 import psycopg
 import pytest
-from leanharbor import (
+from leangage import (
     Api,
     Broken,
     Claims,
@@ -24,8 +24,8 @@ from leanharbor import (
     issue,
     serve,
 )
-from leanharbor.pg import Attempt, Config, PgEngine, Point, lockdown
-from leanharbor.pg.testing import ENGINE_ROLE, OWNER, cluster, connect
+from leangage.pg import Attempt, Config, PgEngine, Point, lockdown
+from leangage.pg.testing import ENGINE_ROLE, OWNER, cluster, connect
 from pg_common import (
     CELLS,
     NEGATIVE,
@@ -95,8 +95,8 @@ def conflict(db: Db, tenant: int) -> None:
     advances the tenant's version as an engine's commit does."""
     db.one(
         "WITH u AS (UPDATE cells SET v = v + 100 WHERE tenant_id = $1 AND id = 0 RETURNING 1), "
-        "w AS (INSERT INTO leanharbor_version (tenant_id, version) SELECT $1, 1 FROM u "
-        "ON CONFLICT (tenant_id) DO UPDATE SET version = leanharbor_version.version + 1 "
+        "w AS (INSERT INTO leangage_version (tenant_id, version) SELECT $1, 1 FROM u "
+        "ON CONFLICT (tenant_id) DO UPDATE SET version = leangage_version.version + 1 "
         "RETURNING 1) SELECT count(*) FROM w",
         [tenant],
     )
@@ -546,9 +546,9 @@ def test_roles_keep_the_engine_to_rows() -> None:
             "DROP TABLE cells",
             "TRUNCATE cells",
             "ALTER TABLE cells ADD COLUMN x BIGINT",
-            "DROP TABLE leanharbor_idempotency",
-            "DROP TABLE leanharbor_version",
-            "TRUNCATE leanharbor_version",
+            "DROP TABLE leangage_idempotency",
+            "DROP TABLE leangage_version",
+            "TRUNCATE leangage_version",
         ]:
             with pytest.raises(psycopg.errors.InsufficientPrivilege):
                 engine.execute(statement)
@@ -586,8 +586,8 @@ def test_other_engines_writes_are_read() -> None:
 
 
 ADVANCE = (
-    "INSERT INTO leanharbor_version (tenant_id, version) VALUES ($1, 1) "
-    "ON CONFLICT (tenant_id) DO UPDATE SET version = leanharbor_version.version + 1 "
+    "INSERT INTO leangage_version (tenant_id, version) VALUES ($1, 1) "
+    "ON CONFLICT (tenant_id) DO UPDATE SET version = leangage_version.version + 1 "
     "RETURNING version"
 )
 
@@ -604,7 +604,7 @@ def test_version_rows_conflict() -> None:
             for c in (first, second):
                 c.execute("BEGIN ISOLATION LEVEL SERIALIZABLE")
                 row = c.execute(
-                    "SELECT version FROM leanharbor_version WHERE tenant_id = $1",
+                    "SELECT version FROM leangage_version WHERE tenant_id = $1",
                     [tenant],
                 ).fetchone()
                 assert (0 if row is None else row[0]) == before

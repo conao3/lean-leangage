@@ -8,9 +8,9 @@ back."""
 from dataclasses import dataclass
 
 import pytest
-from leanharbor import Broken, DatabaseError, Kernel, Storage, sql
-from leanharbor.pg import Config, PgEngine
-from leanharbor.pg.testing import cluster, connect
+from leangage import Broken, DatabaseError, Kernel, Storage, sql
+from leangage.pg import Config, PgEngine
+from leangage.pg.testing import cluster, connect
 
 Row = list[sql.Val]
 

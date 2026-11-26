@@ -9,11 +9,11 @@ use std::net::TcpStream;
 use std::process::{Child, Command};
 use std::time::{Duration, Instant};
 
-use leanharbor::memory::MemoryEngine;
-use leanharbor::{Engine, Idempotency, Storage};
-use leanharbor_notes::{Notes, Refusal, kernel};
-use leanharbor_pg::testing::{ENGINE_ROLE, OWNER, cluster, connect};
-use leanharbor_pg::{Config, PgEngine};
+use leangage::memory::MemoryEngine;
+use leangage::{Engine, Idempotency, Storage};
+use leangage_notes::{Notes, Refusal, kernel};
+use leangage_pg::testing::{ENGINE_ROLE, OWNER, cluster, connect};
+use leangage_pg::{Config, PgEngine};
 
 const COMMANDS: &str = include_str!("../../../testdata/notes-commands.txt");
 const SECRET: &str = "secret";
@@ -298,10 +298,10 @@ fn free_port() -> u16 {
 
 fn start(url: &str) -> Server {
     let addr = format!("127.0.0.1:{}", free_port());
-    let child = Command::new(env!("CARGO_BIN_EXE_leanharbor-notes"))
-        .env("LEANHARBOR_SECRET", SECRET)
-        .env("LEANHARBOR_LISTEN", &addr)
-        .env("LEANHARBOR_DATABASE_URL", url)
+    let child = Command::new(env!("CARGO_BIN_EXE_leangage-notes"))
+        .env("LEANGAGE_SECRET", SECRET)
+        .env("LEANGAGE_LISTEN", &addr)
+        .env("LEANGAGE_DATABASE_URL", url)
         .spawn()
         .expect("the server starts");
     let server = Server { child, addr };
@@ -317,9 +317,9 @@ fn start(url: &str) -> Server {
 }
 
 fn token(tenant: u64, user: u64) -> String {
-    let out = Command::new(env!("CARGO_BIN_EXE_leanharbor-notes"))
-        .env("LEANHARBOR_SECRET", SECRET)
-        .env("LEANHARBOR_ISSUE", format!("{tenant}:{user}"))
+    let out = Command::new(env!("CARGO_BIN_EXE_leangage-notes"))
+        .env("LEANGAGE_SECRET", SECRET)
+        .env("LEANGAGE_ISSUE", format!("{tenant}:{user}"))
         .output()
         .expect("the server issues a token");
     String::from_utf8(out.stdout).unwrap().trim().to_owned()
@@ -343,13 +343,13 @@ fn post(server: &Server, token: &str, body: &str) -> (u16, String) {
     (status, body)
 }
 
-/// `LEANHARBOR_LOCKDOWN` with the administrator's connection string makes the tables, and
+/// `LEANGAGE_LOCKDOWN` with the administrator's connection string makes the tables, and
 /// the server then runs as the engine's role.
 fn lockdown(name: &str) {
-    let status = Command::new(env!("CARGO_BIN_EXE_leanharbor-notes"))
-        .env("LEANHARBOR_SECRET", SECRET)
-        .env("LEANHARBOR_DATABASE_URL", cluster().admin_url(name))
-        .env("LEANHARBOR_LOCKDOWN", format!("{OWNER}:{ENGINE_ROLE}"))
+    let status = Command::new(env!("CARGO_BIN_EXE_leangage-notes"))
+        .env("LEANGAGE_SECRET", SECRET)
+        .env("LEANGAGE_DATABASE_URL", cluster().admin_url(name))
+        .env("LEANGAGE_LOCKDOWN", format!("{OWNER}:{ENGINE_ROLE}"))
         .status()
         .expect("the lockdown runs");
     assert!(status.success());

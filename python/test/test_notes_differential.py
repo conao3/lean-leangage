@@ -5,8 +5,8 @@ import os
 import subprocess
 from pathlib import Path
 
-from leanharbor import MemoryEngine, Refused
-from leanharbor_notes import KERNEL, kernel, refusal_name
+from leangage import MemoryEngine, Refused
+from leangage_notes import KERNEL, kernel, refusal_name
 
 COMMANDS = Path(__file__).parents[2] / "testdata" / "notes-commands.txt"
 
@@ -64,7 +64,7 @@ def show(reply: kernel.Reply) -> str:
 def test_generated_python_agrees_with_lean() -> None:
     text = COMMANDS.read_text()
     oracle = subprocess.run(
-        [os.environ["LEANHARBOR_NOTES_ORACLE"]],
+        [os.environ["LEANGAGE_NOTES_ORACLE"]],
         input=text,
         capture_output=True,
         text=True,

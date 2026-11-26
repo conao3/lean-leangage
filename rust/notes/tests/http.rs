@@ -5,10 +5,10 @@ use std::sync::Arc;
 use axum::Router;
 use axum::body::{Body, to_bytes};
 use axum::http::{Request, StatusCode};
-use leanharbor::http::rpc_router;
-use leanharbor::memory::MemoryEngine;
-use leanharbor::token::{Claims, issue};
-use leanharbor_notes::Notes;
+use leangage::http::rpc_router;
+use leangage::memory::MemoryEngine;
+use leangage::token::{Claims, issue};
+use leangage_notes::Notes;
 use serde_json::{Value, json};
 use tower::ServiceExt;
 

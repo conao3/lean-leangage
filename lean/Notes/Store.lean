@@ -1,5 +1,5 @@
 import Notes.Kernel
-import Leanharbor.Sql
+import Leangage.Sql
 
 /-!
 # The notes' tables
@@ -15,7 +15,7 @@ the rows a `SELECT` of each table returned, in any order.
 
 namespace Notes.Store
 
-open Notes.Kernel Leanharbor.Sql
+open Notes.Kernel Leangage.Sql
 
 /-- The tables, in the order `load` receives their rows. -/
 def tables : List Tab :=
@@ -38,14 +38,14 @@ def noteOfRow : List Val → Option Note
   | _ => none
 
 /-- The row one write stores, or the key of the row it deletes. -/
-def write : Notes.Kernel.Write → Leanharbor.Sql.Write
+def write : Notes.Kernel.Write → Leangage.Sql.Write
   | .putMember m => .put 0 1 (memberRow m)
   | .delMember user => .del 0 [.int user.toInt64]
   | .putNote n => .put 1 1 (noteRow n)
   | .delNote id => .del 1 [.int id.toInt64]
 
 /-- The rows a write set stores and deletes. -/
-def writes (ws : List Notes.Kernel.Write) : List Leanharbor.Sql.Write := ws.map write
+def writes (ws : List Notes.Kernel.Write) : List Leangage.Sql.Write := ws.map write
 
 /-- The snapshot of the rows of each table; `none` when a row is not a member or a note. -/
 def load : List (List (List Val)) → Option Snapshot

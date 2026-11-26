@@ -1,5 +1,5 @@
 // Package notes is the notes: the kernel is `lean/Notes/Kernel.lean`, generated to the package
-// kernel. Its Transition is the kernel's `handle` behind the guard of `lean/Leanharbor/Authz.lean`.
+// kernel. Its Transition is the kernel's `handle` behind the guard of `lean/Leangage/Authz.lean`.
 package notes
 
 import (
@@ -8,8 +8,8 @@ import (
 
 	"github.com/conao3/leanfran-go"
 
-	"github.com/conao3/lean-leanharbor/go/leanharbor"
-	"github.com/conao3/lean-leanharbor/go/notes/kernel"
+	"github.com/conao3/lean-leangage/go/leangage"
+	"github.com/conao3/lean-leangage/go/notes/kernel"
 )
 
 // Snapshot is one tenant's state, kept as a Lean value.
@@ -19,7 +19,7 @@ type Snapshot = leanfran.Value[kernel.Snapshot]
 type WriteSet = leanfran.Value[leanfran.ListType[kernel.Write]]
 
 // Refusal is a refusal of the guarded kernel: the kernel's own, or the guard's.
-type Refusal = kernel.LeanharborAuthzGuardedNotesKernelError
+type Refusal = kernel.LeangageAuthzGuardedNotesKernelError
 
 // Notes implements the kernel contract of the notes.
 type Notes struct {
@@ -27,10 +27,10 @@ type Notes struct {
 }
 
 // Engine is the memory engine of the notes.
-type Engine = leanharbor.MemoryEngine[kernel.Principal, Snapshot, kernel.Command, WriteSet, kernel.Reply, Refusal]
+type Engine = leangage.MemoryEngine[kernel.Principal, Snapshot, kernel.Command, WriteSet, kernel.Reply, Refusal]
 
 func NewEngine() *Engine {
-	return leanharbor.NewMemoryEngine(Notes{})
+	return leangage.NewMemoryEngine(Notes{})
 }
 
 func must[T any](value T, err error) T {
@@ -50,7 +50,7 @@ func (Notes) Tenant(actor kernel.Principal) uint64 {
 
 func (Notes) Scoped(
 	region *leanfran.Region,
-	run func(leanharbor.Kernel[kernel.Principal, Snapshot, kernel.Command, WriteSet, kernel.Reply, Refusal]),
+	run func(leangage.Kernel[kernel.Principal, Snapshot, kernel.Command, WriteSet, kernel.Reply, Refusal]),
 ) {
 	region.WithValues(func(scope *leanfran.ValueScope) {
 		run(Notes{scope})
@@ -85,9 +85,9 @@ func (n Notes) Release(snap Snapshot) {
 // RefusalName is the name of a refusal.
 func RefusalName(refusal Refusal) string {
 	switch r := refusal.(type) {
-	case kernel.LeanharborAuthzGuardedNotesKernelErrorDenied:
+	case kernel.LeangageAuthzGuardedNotesKernelErrorDenied:
 		return "denied"
-	case kernel.LeanharborAuthzGuardedNotesKernelErrorApp:
+	case kernel.LeangageAuthzGuardedNotesKernelErrorApp:
 		switch r.E {
 		case kernel.ErrorNotFound():
 			return "not_found"

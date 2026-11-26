@@ -1,7 +1,7 @@
 [project]
-name = "leanharbor-bench-baselines"
+name = "leangage-bench-baselines"
 version = "0.1.0"
-description = "Servers without a kernel that the HTTP measurement compares leanharbor with"
+description = "Servers without a kernel that the HTTP measurement compares leangage with"
 requires-python = ">=3.13"
 dependencies = ["fastapi>=0.115", "flask>=3", "gunicorn>=23", "uvicorn[standard]>=0.34"]
 

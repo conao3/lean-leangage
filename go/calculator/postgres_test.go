@@ -21,16 +21,16 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"github.com/conao3/lean-leanharbor/go/calculator/kernel"
-	"github.com/conao3/lean-leanharbor/go/leanharbor"
-	"github.com/conao3/lean-leanharbor/go/leanharbor/pg"
-	"github.com/conao3/lean-leanharbor/go/leanharbor/pg/pgtest"
+	"github.com/conao3/lean-leangage/go/calculator/kernel"
+	"github.com/conao3/lean-leangage/go/leangage"
+	"github.com/conao3/lean-leangage/go/leangage/pg"
+	"github.com/conao3/lean-leangage/go/leangage/pg/pgtest"
 )
 
 const secret = "secret"
 
 // The rows stored and read back in PostgreSQL give every command the reply the memory engine
-// and Lean give it: PostgreSQL runs the generated statements as the model of `Leanharbor.Sql`
+// and Lean give it: PostgreSQL runs the generated statements as the model of `Leangage.Sql`
 // says. The engine that remembers no snapshot reads the rows back for every command; the one
 // that remembers them gives the same replies.
 func TestPostgresEngineAgreesWithMemoryEngineAndLean(t *testing.T) {
@@ -166,8 +166,8 @@ type server struct {
 // goServer is the Go calculator server, built for this test.
 func goServer(t *testing.T) string {
 	t.Helper()
-	path := filepath.Join(t.TempDir(), "leanharbor-calculator")
-	build := exec.Command("go", "build", "-o", path, "./cmd/leanharbor-calculator")
+	path := filepath.Join(t.TempDir(), "leangage-calculator")
+	build := exec.Command("go", "build", "-o", path, "./cmd/leangage-calculator")
 	if out, err := build.CombinedOutput(); err != nil {
 		t.Fatalf("go build: %v\n%s", err, out)
 	}
@@ -177,9 +177,9 @@ func goServer(t *testing.T) string {
 // rustServer is the Rust calculator server that the Makefile builds.
 func rustServer(t *testing.T) string {
 	t.Helper()
-	path, ok := os.LookupEnv("LEANHARBOR_RUST_CALCULATOR")
+	path, ok := os.LookupEnv("LEANGAGE_RUST_CALCULATOR")
 	if !ok {
-		t.Fatal("LEANHARBOR_RUST_CALCULATOR is required")
+		t.Fatal("LEANGAGE_RUST_CALCULATOR is required")
 	}
 	return path
 }
@@ -198,8 +198,8 @@ func startServer(t *testing.T, name, binary, url string) *server {
 	t.Helper()
 	addr := freeAddr(t)
 	cmd := exec.Command(binary)
-	cmd.Env = append(os.Environ(), "LEANHARBOR_SECRET="+secret, "LEANHARBOR_LISTEN="+addr,
-		"LEANHARBOR_DATABASE_URL="+url)
+	cmd.Env = append(os.Environ(), "LEANGAGE_SECRET="+secret, "LEANGAGE_LISTEN="+addr,
+		"LEANGAGE_DATABASE_URL="+url)
 	cmd.Stdout, cmd.Stderr = os.Stdout, os.Stderr
 	if err := cmd.Start(); err != nil {
 		t.Fatalf("the %s server starts: %v", name, err)
@@ -227,12 +227,12 @@ func (s *server) stop() {
 	}
 }
 
-// lockdown runs binary with LEANHARBOR_LOCKDOWN and the administrator's connection string.
+// lockdown runs binary with LEANGAGE_LOCKDOWN and the administrator's connection string.
 func lockdown(t *testing.T, binary, adminURL string) {
 	t.Helper()
 	cmd := exec.Command(binary)
-	cmd.Env = append(os.Environ(), "LEANHARBOR_SECRET="+secret, "LEANHARBOR_DATABASE_URL="+adminURL,
-		"LEANHARBOR_LOCKDOWN="+pgtest.Owner+":"+pgtest.EngineRole)
+	cmd.Env = append(os.Environ(), "LEANGAGE_SECRET="+secret, "LEANGAGE_DATABASE_URL="+adminURL,
+		"LEANGAGE_LOCKDOWN="+pgtest.Owner+":"+pgtest.EngineRole)
 	if out, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("lockdown: %v\n%s", err, out)
 	}
@@ -240,7 +240,7 @@ func lockdown(t *testing.T, binary, adminURL string) {
 
 func bearer(tenant, user uint64) string {
 	expiry := uint64(time.Now().Unix()) + 86_400
-	return leanharbor.Issue([]byte(secret), leanharbor.Claims{Tenant: tenant, User: user, Expiry: expiry})
+	return leangage.Issue([]byte(secret), leangage.Claims{Tenant: tenant, User: user, Expiry: expiry})
 }
 
 type response struct {
@@ -344,7 +344,7 @@ func expected(t *testing.T, want string) response {
 	return response{}
 }
 
-// The Rust server makes the tables (LEANHARBOR_LOCKDOWN), and the Rust and the Go servers run
+// The Rust server makes the tables (LEANGAGE_LOCKDOWN), and the Rust and the Go servers run
 // on that database together. The commands of the shared command list go to the two servers in
 // turn, so that each command reads what the other server stored, and every response is the one
 // Lean gives. Every tenth command carries an idempotency key and is sent again with that key to
@@ -402,7 +402,7 @@ func TestRustAndGoServersShareADatabase(t *testing.T) {
 	}
 	var stored int
 	admin := pgtest.Connect(t, c.AdminURL(name))
-	if err := admin.QueryRow(context.Background(), "SELECT count(*) FROM leanharbor_idempotency").Scan(&stored); err != nil {
+	if err := admin.QueryRow(context.Background(), "SELECT count(*) FROM leangage_idempotency").Scan(&stored); err != nil {
 		t.Fatal(err)
 	}
 	if replays == 0 || stored != replays {

@@ -208,7 +208,7 @@ wheels = [
 ]
 
 [[package]]
-name = "leanharbor-bench-baselines"
+name = "leangage-bench-baselines"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

@@ -12,7 +12,7 @@ import (
 
 	"github.com/conao3/leanfran-go"
 
-	"github.com/conao3/lean-leanharbor/go/notes/kernel"
+	"github.com/conao3/lean-leangage/go/notes/kernel"
 )
 
 // collect runs a garbage collection until the finalizers that count the leaked values have run.
@@ -26,9 +26,9 @@ func collect() {
 // The shared command list, run once per copy on tenants of its own with a goroutine per tenant,
 // gives every command the reply Lean gives it in order. After Close, no value has leaked.
 func TestConcurrentTenantsAgreeWithLean(t *testing.T) {
-	path, ok := os.LookupEnv("LEANHARBOR_NOTES_ORACLE")
+	path, ok := os.LookupEnv("LEANGAGE_NOTES_ORACLE")
 	if !ok {
-		t.Fatal("LEANHARBOR_NOTES_ORACLE is required")
+		t.Fatal("LEANGAGE_NOTES_ORACLE is required")
 	}
 	text, err := os.ReadFile(commandList)
 	if err != nil {

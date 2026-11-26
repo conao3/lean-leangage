@@ -1,4 +1,4 @@
-import Leanharbor.Json
+import Leangage.Json
 
 /-!
 Runs `write` natively on lines read from standard input and prints one line per input line. The
@@ -9,7 +9,7 @@ false), `u<decimal>` (a number), `sx<hex>` (a string), `kx<hex>` (a key), and `[
 It prints `json x<hex>`, the hexadecimal of what `write` writes.
 -/
 
-open Leanharbor.Json
+open Leangage.Json
 
 def hexDigitValue (c : Char) : Option Nat :=
   if '0' ≤ c ∧ c ≤ '9' then some (c.toNat - '0'.toNat)

@@ -3,7 +3,7 @@
 import time
 from typing import Any
 
-from leanharbor import (
+from leangage import (
     Api,
     Broken,
     Claims,
@@ -14,7 +14,7 @@ from leanharbor import (
     Verifier,
     issue,
 )
-from leanharbor.http import handle
+from leangage.http import handle
 
 SECRET = b"secret"
 

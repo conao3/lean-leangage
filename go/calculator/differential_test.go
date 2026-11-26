@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/conao3/lean-leanharbor/go/calculator/kernel"
+	"github.com/conao3/lean-leangage/go/calculator/kernel"
 )
 
 const commandList = "../../testdata/calculator-commands.txt"
@@ -42,9 +42,9 @@ func parse(t *testing.T, line string) (kernel.Principal, kernel.Command) {
 // Lean (`calculator-oracle`) prints for each.
 func commands(t *testing.T) (lines, want []string) {
 	t.Helper()
-	path, ok := os.LookupEnv("LEANHARBOR_CALCULATOR_ORACLE")
+	path, ok := os.LookupEnv("LEANGAGE_CALCULATOR_ORACLE")
 	if !ok {
-		t.Fatal("LEANHARBOR_CALCULATOR_ORACLE is required")
+		t.Fatal("LEANGAGE_CALCULATOR_ORACLE is required")
 	}
 	text, err := os.ReadFile(commandList)
 	if err != nil {

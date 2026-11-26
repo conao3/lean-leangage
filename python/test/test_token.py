@@ -1,5 +1,5 @@
 import pytest
-from leanharbor import Claims, TokenError, Verifier, issue, verify
+from leangage import Claims, TokenError, Verifier, issue, verify
 
 CLAIMS = Claims(tenant=12, user=3, expiry=100)
 

@@ -1,11 +1,11 @@
 //! The notes: the kernel is `lean/Notes/Kernel.lean` and its tables `lean/Notes/Store.lean`, both
 //! generated to `src/generated/`. Its `transition` is the kernel's `handle` behind the guard of
-//! `lean/Leanharbor/Authz.lean`.
+//! `lean/Leangage/Authz.lean`.
 
 #[rustfmt::skip]
 pub mod generated;
 /// The notes' tables, generated from `Notes.Store` with the kernel's types and the types of
-/// `leanharbor::sql`.
+/// `leangage::sql`.
 #[rustfmt::skip]
 #[allow(dead_code, non_snake_case, non_camel_case_types, unused_imports, unused_parens, unused_qualifications, unsafe_op_in_unsafe_fn, clippy::all)]
 #[path = "generated/notes_store.rs"]
@@ -13,16 +13,16 @@ pub mod store;
 
 use axum::http::StatusCode;
 use leanfran::{Local, Owned};
-use leanharbor::http::Api;
-use leanharbor::json_format::{self, StrTok};
-use leanharbor::{Kernel, Storage, sql};
+use leangage::http::Api;
+use leangage::json_format::{self, StrTok};
+use leangage::{Kernel, Storage, sql};
 use serde::Deserialize;
 use serde_json::{Value, json};
 
 pub use generated::notes_kernel as kernel;
 
 /// A refusal of the guarded kernel: the kernel's own (`App`), or the guard's (`Denied`).
-pub type Refusal = kernel::LeanharborAuthzGuardedNotesKernelError;
+pub type Refusal = kernel::LeangageAuthzGuardedNotesKernelError;
 
 pub struct Notes;
 
@@ -191,7 +191,7 @@ fn toks(value: &Value, out: &mut Vec<StrTok>) {
     }
 }
 
-/// The bytes of the value, written by the JSON writer generated from `Leanharbor.Json`.
+/// The bytes of the value, written by the JSON writer generated from `Leangage.Json`.
 fn body(value: Value) -> Vec<u8> {
     let mut out = Vec::new();
     toks(&value, &mut out);

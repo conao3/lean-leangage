@@ -1,5 +1,5 @@
 {
-  description = "Leanharbor: web services whose core is a kernel proved in Lean";
+  description = "Leangage: web services whose core is a kernel proved in Lean";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
@@ -38,22 +38,22 @@
             programs.ruff-format.enable = true;
             settings.global.excludes = [
               "rust/calculator/src/generated/*"
-              "python/src/leanharbor_calculator/kernel.py"
+              "python/src/leangage_calculator/kernel.py"
               "go/calculator/kernel/*"
-              "python/src/leanharbor_calculator/store.py"
+              "python/src/leangage_calculator/store.py"
               "go/calculator/store/*"
-              "rust/leanharbor/src/generated/*"
-              "python/src/leanharbor/sql.py"
-              "go/leanharbor/sql/*"
-              "python/src/leanharbor/token_format.py"
-              "go/leanharbor/token/*"
+              "rust/leangage/src/generated/*"
+              "python/src/leangage/sql.py"
+              "go/leangage/sql/*"
+              "python/src/leangage/token_format.py"
+              "go/leangage/token/*"
               "rust/notes/src/generated/*"
-              "python/src/leanharbor_notes/kernel.py"
+              "python/src/leangage_notes/kernel.py"
               "go/notes/kernel/*"
-              "python/src/leanharbor_notes/store.py"
+              "python/src/leangage_notes/store.py"
               "go/notes/store/*"
-              "python/src/leanharbor/json_format.py"
-              "go/leanharbor/jsonformat/*"
+              "python/src/leangage/json_format.py"
+              "go/leangage/jsonformat/*"
             ];
           };
           devShells.default = pkgs.mkShell {
@@ -78,7 +78,7 @@
             UV_PYTHON_DOWNLOADS = "never";
           };
           packages.default = pkgs.rustPlatform.buildRustPackage {
-            pname = "leanharbor-calculator";
+            pname = "leangage-calculator";
             version = "0.1.0";
             src = ./.;
             cargoRoot = "rust";
@@ -86,13 +86,13 @@
             cargoLock.lockFile = ./rust/Cargo.lock;
             cargoBuildFlags = [
               "--package"
-              "leanharbor-calculator"
+              "leangage-calculator"
               "--bin"
-              "leanharbor-calculator"
+              "leangage-calculator"
             ];
             doCheck = false;
             meta = {
-              mainProgram = "leanharbor-calculator";
+              mainProgram = "leangage-calculator";
               license = pkgs.lib.licenses.asl20;
             };
           };

@@ -1,11 +1,11 @@
-import Leanharbor.Obligation
-import Leanharbor.AuthzProofs
+import Leangage.Obligation
+import Leangage.AuthzProofs
 import Notes.Kernel
 
 /-!
 # What the notes kernel guarantees
 
-`transition` is `handle` behind `Leanharbor.Authz.guardViewed`, so the guard's theorems hold for
+`transition` is `handle` behind `Leangage.Authz.guardViewed`, so the guard's theorems hold for
 it by instantiation (`transition_authorized`, `transition_noninterference`, `read_only_sound`).
 The other theorems are about what the commands do and what the policy lets each user do, and
 `transition_congr`: two snapshots with unique keys that store the same row under each key answer
@@ -14,7 +14,7 @@ every command the same.
 
 namespace Notes.Kernel
 
-open Leanharbor Leanharbor.Authz
+open Leangage Leangage.Authz
 
 def policy : Policy Principal Snapshot Write Row := ⟨permits, visible, stored⟩
 

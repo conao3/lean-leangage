@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/conao3/lean-leanharbor/go/leanharbor"
+	"github.com/conao3/lean-leangage/go/leangage"
 )
 
 // Requests to `POST /rpc` get the statuses and bodies of the Rust shell.
@@ -14,9 +14,9 @@ func TestRpc(t *testing.T) {
 	secret := []byte("secret")
 	engine := NewEngine()
 	defer engine.Close()
-	handler := leanharbor.RpcHandler(engine, Calculator{}, secret)
+	handler := leangage.RpcHandler(engine, Calculator{}, secret)
 	bearer := func(user uint64) string {
-		return "Bearer " + leanharbor.Issue(secret, leanharbor.Claims{Tenant: 1, User: user, Expiry: 1 << 62})
+		return "Bearer " + leangage.Issue(secret, leangage.Claims{Tenant: 1, User: user, Expiry: 1 << 62})
 	}
 	steps := []struct {
 		user   uint64

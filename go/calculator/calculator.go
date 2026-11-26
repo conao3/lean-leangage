@@ -12,11 +12,11 @@ import (
 
 	"github.com/conao3/leanfran-go"
 
-	"github.com/conao3/lean-leanharbor/go/calculator/kernel"
-	"github.com/conao3/lean-leanharbor/go/calculator/store"
-	"github.com/conao3/lean-leanharbor/go/leanharbor"
-	"github.com/conao3/lean-leanharbor/go/leanharbor/pg"
-	"github.com/conao3/lean-leanharbor/go/leanharbor/sql"
+	"github.com/conao3/lean-leangage/go/calculator/kernel"
+	"github.com/conao3/lean-leangage/go/calculator/store"
+	"github.com/conao3/lean-leangage/go/leangage"
+	"github.com/conao3/lean-leangage/go/leangage/pg"
+	"github.com/conao3/lean-leangage/go/leangage/sql"
 )
 
 // Snapshot is one tenant's state, kept as a Lean value.
@@ -31,10 +31,10 @@ type Calculator struct {
 }
 
 // Engine is the memory engine of the calculator.
-type Engine = leanharbor.MemoryEngine[kernel.Principal, Snapshot, kernel.Command, WriteSet, kernel.Reply, kernel.Error]
+type Engine = leangage.MemoryEngine[kernel.Principal, Snapshot, kernel.Command, WriteSet, kernel.Reply, kernel.Error]
 
 func NewEngine() *Engine {
-	return leanharbor.NewMemoryEngine(Calculator{})
+	return leangage.NewMemoryEngine(Calculator{})
 }
 
 // PgEngine is the PostgreSQL engine of the calculator.
@@ -62,7 +62,7 @@ func (Calculator) Tenant(actor kernel.Principal) uint64 {
 
 func (Calculator) Scoped(
 	region *leanfran.Region,
-	run func(leanharbor.Kernel[kernel.Principal, Snapshot, kernel.Command, WriteSet, kernel.Reply, kernel.Error]),
+	run func(leangage.Kernel[kernel.Principal, Snapshot, kernel.Command, WriteSet, kernel.Reply, kernel.Error]),
 ) {
 	region.WithValues(func(scope *leanfran.ValueScope) {
 		run(Calculator{scope})

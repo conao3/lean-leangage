@@ -11,7 +11,7 @@ receives one table. The instances `#assay` derives for the calculator kernel com
 `Audit.Calculator`.
 -/
 
-open Plausible Leanharbor.Sql
+open Plausible Leangage.Sql
 
 instance storeArbitraryInt64 : Arbitrary Int64 where
   arbitrary := Gen.elements [0, 1, -1, 7, -9223372036854775808, 9223372036854775807] (by decide)

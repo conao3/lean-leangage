@@ -4,7 +4,7 @@
 #[rustfmt::skip]
 pub mod generated;
 /// The calculator's table, generated from `Calculator.Store` with the kernel's types and the
-/// types of `leanharbor::sql`.
+/// types of `leangage::sql`.
 #[rustfmt::skip]
 #[allow(dead_code, non_snake_case, non_camel_case_types, unused_imports, unused_parens, unused_qualifications, unsafe_op_in_unsafe_fn, clippy::all)]
 #[path = "generated/calculator_store.rs"]
@@ -12,8 +12,8 @@ pub mod store;
 
 use axum::http::StatusCode;
 use leanfran::{Local, Owned};
-use leanharbor::http::Api;
-use leanharbor::{Kernel, Storage, sql};
+use leangage::http::Api;
+use leangage::{Kernel, Storage, sql};
 use serde::Deserialize;
 use serde_json::Value;
 

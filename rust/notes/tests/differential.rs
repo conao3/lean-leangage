@@ -4,11 +4,11 @@
 use std::io::Write;
 use std::process::{Command, Stdio};
 
-use leanharbor::memory::MemoryEngine;
-use leanharbor::{Engine, Executed};
-use leanharbor_notes::{Notes, kernel, refusal_name};
-use leanharbor_pg::testing::cluster;
-use leanharbor_pg::{Config, PgEngine};
+use leangage::memory::MemoryEngine;
+use leangage::{Engine, Executed};
+use leangage_notes::{Notes, kernel, refusal_name};
+use leangage_pg::testing::cluster;
+use leangage_pg::{Config, PgEngine};
 
 const COMMANDS: &str = include_str!("../../../testdata/notes-commands.txt");
 
@@ -68,8 +68,7 @@ fn show(reply: &kernel::Reply) -> String {
 }
 
 fn oracle() -> String {
-    let path =
-        std::env::var("LEANHARBOR_NOTES_ORACLE").expect("LEANHARBOR_NOTES_ORACLE is required");
+    let path = std::env::var("LEANGAGE_NOTES_ORACLE").expect("LEANGAGE_NOTES_ORACLE is required");
     let mut child = Command::new(path)
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())

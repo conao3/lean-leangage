@@ -2,7 +2,7 @@ name = "audit"
 defaultTargets = ["Audit"]
 
 [[require]]
-name = "leanharbor"
+name = "leangage"
 path = "../lean"
 
 [[require]]

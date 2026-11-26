@@ -8,7 +8,7 @@ import os
 import subprocess
 from pathlib import Path
 
-from leanharbor import token_format
+from leangage import token_format
 
 CASES = Path(__file__).parents[2] / "testdata" / "token-cases.txt"
 
@@ -52,7 +52,7 @@ def run(line: str) -> str:
 def test_generated_python_token_functions_agree_with_lean() -> None:
     text_in = CASES.read_text()
     oracle = subprocess.run(
-        [os.environ["LEANHARBOR_TOKEN_ORACLE"]],
+        [os.environ["LEANGAGE_TOKEN_ORACLE"]],
         input=text_in,
         capture_output=True,
         text=True,

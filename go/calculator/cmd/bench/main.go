@@ -8,8 +8,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/conao3/lean-leanharbor/go/calculator"
-	"github.com/conao3/lean-leanharbor/go/calculator/kernel"
+	"github.com/conao3/lean-leangage/go/calculator"
+	"github.com/conao3/lean-leangage/go/calculator/kernel"
 )
 
 type request struct {

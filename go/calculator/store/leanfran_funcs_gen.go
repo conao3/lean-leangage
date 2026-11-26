@@ -3,8 +3,8 @@
 package store
 
 import (
-	lfmod0 "github.com/conao3/lean-leanharbor/go/calculator/kernel"
-	lfmod1 "github.com/conao3/lean-leanharbor/go/leanharbor/sql"
+	lfmod0 "github.com/conao3/lean-leangage/go/calculator/kernel"
+	lfmod1 "github.com/conao3/lean-leangage/go/leangage/sql"
 	"github.com/conao3/leanfran-go"
 	"github.com/conao3/leanfran-go/rt"
 )

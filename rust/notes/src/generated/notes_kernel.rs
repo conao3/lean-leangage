@@ -2790,7 +2790,7 @@ x_6 = l_Notes_Kernel_transition___closed__5();
 x_7 = l_Notes_Kernel_transition___closed__6();
 x_8 = l_Notes_Kernel_transition___closed__7();
 x_9 = l_Notes_Kernel_transition___closed__8();
-x_10 = l_Leanharbor_Authz_guardViewed___redArg(x_5, x_4, x_6, x_7, x_8, x_9, x_1, x_2, x_3);
+x_10 = l_Leangage_Authz_guardViewed___redArg(x_5, x_4, x_6, x_7, x_8, x_9, x_1, x_2, x_3);
 return x_10;
 }
 
@@ -3209,7 +3209,7 @@ return x_3;
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Authz_guardViewed___redArg(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj, mut x_5: Obj, mut x_6: Obj, mut x_7: Obj, mut x_8: Obj, mut x_9: Obj) -> Obj {
+pub(crate) unsafe fn l_Leangage_Authz_guardViewed___redArg(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj, mut x_5: Obj, mut x_6: Obj, mut x_7: Obj, mut x_8: Obj, mut x_9: Obj) -> Obj {
 let mut x_10: Obj = rt::lean_box(0);
 let mut x_11: u8 = 0;
 let mut x_12: Obj = rt::lean_box(0);
@@ -3244,7 +3244,7 @@ x_11 = rt::lean_unbox(x_10) as u8;
 match x_11 as u32 {
 0 => {
 rt::lean_dec(x_6);
-x_12 = l_Leanharbor_Authz_guard___redArg(x_1, x_2, x_3, x_4, x_7, x_8, x_9);
+x_12 = l_Leangage_Authz_guard___redArg(x_1, x_2, x_3, x_4, x_7, x_8, x_9);
 return x_12;
 }
 1 => {
@@ -3334,7 +3334,7 @@ __blk = 4; continue 'body;
 rt::lean_inc(x_35);
 x_37 = rt::lean_apply_1(x_4, x_35);
 rt::lean_inc(x_13);
-x_38 = l_List_all___at___00Leanharbor_Authz_checkReads_spec__0___redArg(x_3, x_7, x_13, x_13, x_37);
+x_38 = l_List_all___at___00Leangage_Authz_checkReads_spec__0___redArg(x_3, x_7, x_13, x_13, x_37);
 { let t_0 = x_38; x_29 = t_0; }
 __blk = 4; continue 'body;
 }
@@ -3346,7 +3346,7 @@ match x_29 as u32 {
 0 => {
 rt::lean_del_object(x_26);
 rt::lean_dec(x_24);
-x_30 = l_Leanharbor_Authz_guard___redArg___closed__0();
+x_30 = l_Leangage_Authz_guard___redArg___closed__0();
 return x_30;
 }
 1 => {
@@ -3374,7 +3374,7 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Authz_guard___redArg(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj, mut x_5: Obj, mut x_6: Obj, mut x_7: Obj) -> Obj {
+pub(crate) unsafe fn l_Leangage_Authz_guard___redArg(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj, mut x_5: Obj, mut x_6: Obj, mut x_7: Obj) -> Obj {
 let mut x_8: Obj = rt::lean_box(0);
 let mut x_9: Obj = rt::lean_box(0);
 let mut x_11: Obj = rt::lean_box(0);
@@ -3473,7 +3473,7 @@ rt::lean_inc(x_6);
 rt::lean_inc(x_5);
 rt::lean_inc_ref(x_3);
 rt::lean_inc(x_2);
-x_30 = l_Leanharbor_Authz_checkWrites___redArg(x_2, x_3, x_5, x_6, x_28);
+x_30 = l_Leangage_Authz_checkWrites___redArg(x_2, x_3, x_5, x_6, x_28);
 match x_30 as u32 {
 0 => {
 rt::lean_dec(x_6);
@@ -3490,7 +3490,7 @@ rt::lean_inc(x_6);
 x_31 = rt::lean_apply_2(x_2, x_6, x_28);
 rt::lean_inc(x_29);
 x_32 = rt::lean_apply_1(x_4, x_29);
-x_33 = l_List_all___at___00Leanharbor_Authz_checkReads_spec__0___redArg(x_3, x_5, x_6, x_31, x_32);
+x_33 = l_List_all___at___00Leangage_Authz_checkReads_spec__0___redArg(x_3, x_5, x_6, x_31, x_32);
 { let t_0 = x_33; x_23 = t_0; }
 __blk = 4; continue 'body;
 }
@@ -3502,7 +3502,7 @@ match x_23 as u32 {
 0 => {
 rt::lean_del_object(x_20);
 rt::lean_dec(x_18);
-x_24 = l_Leanharbor_Authz_guard___redArg___closed__0();
+x_24 = l_Leangage_Authz_guard___redArg___closed__0();
 return x_24;
 }
 1 => {
@@ -3530,7 +3530,7 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
-unsafe fn l_Leanharbor_Authz_guard___redArg___closed__0_init() -> Obj {
+unsafe fn l_Leangage_Authz_guard___redArg___closed__0_init() -> Obj {
 let mut x_1: Obj = rt::lean_box(0);
 let mut x_2: Obj = rt::lean_box(0);
 x_1 = rt::lean_box(1);
@@ -3538,24 +3538,24 @@ x_2 = rt::lean_alloc_ctor(0, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); r
 return x_2;
 }
 #[allow(dead_code, non_snake_case, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Authz_guard___redArg___closed__0() -> Obj {
+pub(crate) unsafe fn l_Leangage_Authz_guard___redArg___closed__0() -> Obj {
   thread_local! { static CELL: core::cell::OnceCell<Obj> = const { core::cell::OnceCell::new() }; }
   if let Some(v) = CELL.with(|c| c.get().copied()) { return v; }
-  let v = l_Leanharbor_Authz_guard___redArg___closed__0_init();
+  let v = l_Leangage_Authz_guard___redArg___closed__0_init();
   rt::lean_mark_persistent(v); CELL.with(|c| *c.get_or_init(|| v))
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Authz_checkWrites___redArg(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj, mut x_5: Obj) -> u8 {
+pub(crate) unsafe fn l_Leangage_Authz_checkWrites___redArg(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj, mut x_5: Obj) -> u8 {
 let mut x_6: Obj = rt::lean_box(0);
 let mut x_7: u8 = 0;
 x_6 = rt::lean_box(0);
-x_7 = l_Leanharbor_Authz_checkWritesFrom___redArg(x_1, x_2, x_3, x_4, x_6, x_5);
+x_7 = l_Leangage_Authz_checkWritesFrom___redArg(x_1, x_2, x_3, x_4, x_6, x_5);
 return x_7;
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Authz_checkWritesFrom___redArg(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj, mut x_5: Obj, mut x_6: Obj) -> u8 {
+pub(crate) unsafe fn l_Leangage_Authz_checkWritesFrom___redArg(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj, mut x_5: Obj, mut x_6: Obj) -> u8 {
 let mut x_7: u8 = 0;
 let mut x_8: Obj = rt::lean_box(0);
 let mut x_9: Obj = rt::lean_box(0);
@@ -3660,7 +3660,7 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_List_all___at___00Leanharbor_Authz_checkReads_spec__0___redArg(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj, mut x_5: Obj) -> u8 {
+pub(crate) unsafe fn l_List_all___at___00Leangage_Authz_checkReads_spec__0___redArg(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj, mut x_5: Obj) -> u8 {
 let mut x_6: u8 = 0;
 let mut x_7: Obj = rt::lean_box(0);
 let mut x_8: Obj = rt::lean_box(0);
@@ -3689,13 +3689,13 @@ rt::lean_dec_ref(x_5);
 rt::lean_inc(x_3);
 rt::lean_inc(x_2);
 rt::lean_inc_ref(x_1);
-x_12 = l_Leanharbor_Authz_shown___redArg(x_1, x_2, x_3, x_7);
+x_12 = l_Leangage_Authz_shown___redArg(x_1, x_2, x_3, x_7);
 match x_12 as u32 {
 0 => {
 rt::lean_inc(x_4);
 rt::lean_inc(x_2);
 rt::lean_inc_ref(x_1);
-x_13 = l_Leanharbor_Authz_shown___redArg(x_1, x_2, x_4, x_7);
+x_13 = l_Leangage_Authz_shown___redArg(x_1, x_2, x_4, x_7);
 { let t_0 = x_13; x_10 = t_0; }
 __blk = 1; continue 'body;
 }
@@ -3732,7 +3732,7 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leanharbor_Authz_shown___redArg(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj) -> u8 {
+pub(crate) unsafe fn l_Leangage_Authz_shown___redArg(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj) -> u8 {
 let mut x_5: Obj = rt::lean_box(0);
 let mut x_6: Obj = rt::lean_box(0);
 let mut x_7: Obj = rt::lean_box(0);
@@ -4107,39 +4107,39 @@ unsafe impl rt::IntoLean<Error> for Error {
     }
 }
 
-#[doc = "Lean type `Leanharbor.Authz.Guarded Notes.Kernel.Error` (module `Leanharbor.Authz`)."]
+#[doc = "Lean type `Leangage.Authz.Guarded Notes.Kernel.Error` (module `Leangage.Authz`)."]
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
-pub enum LeanharborAuthzGuardedNotesKernelError {
+pub enum LeangageAuthzGuardedNotesKernelError {
     App{ e: Error },
     Denied,
 }
-impl rt::ToLean for LeanharborAuthzGuardedNotesKernelError {
+impl rt::ToLean for LeangageAuthzGuardedNotesKernelError {
     unsafe fn to_lean(self) -> Obj {
         match self {
-            LeanharborAuthzGuardedNotesKernelError::App { e: f0 } => { let o = rt::lean_alloc_ctor(0, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(o, 0, rt::ToLean::to_lean(f0)); o },
-            LeanharborAuthzGuardedNotesKernelError::Denied => rt::lean_box(1),
+            LeangageAuthzGuardedNotesKernelError::App { e: f0 } => { let o = rt::lean_alloc_ctor(0, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(o, 0, rt::ToLean::to_lean(f0)); o },
+            LeangageAuthzGuardedNotesKernelError::Denied => rt::lean_box(1),
         }
     }
 }
-impl rt::FromLean for LeanharborAuthzGuardedNotesKernelError {
+impl rt::FromLean for LeangageAuthzGuardedNotesKernelError {
     unsafe fn from_lean(o: Obj) -> Self {
         match rt::lean_obj_tag(o) {
-            0 => LeanharborAuthzGuardedNotesKernelError::App { e: <Error as rt::FromLean>::from_lean(rt::lean_ctor_get(o, 0)) },
-            1 => LeanharborAuthzGuardedNotesKernelError::Denied,
+            0 => LeangageAuthzGuardedNotesKernelError::App { e: <Error as rt::FromLean>::from_lean(rt::lean_ctor_get(o, 0)) },
+            1 => LeangageAuthzGuardedNotesKernelError::Denied,
             _ => unreachable!(),
         }
     }
 }
-unsafe impl rt::LeanRepr for LeanharborAuthzGuardedNotesKernelError {
-    type Value = LeanharborAuthzGuardedNotesKernelError;
-    unsafe fn to_obj(value: LeanharborAuthzGuardedNotesKernelError) -> Obj {
+unsafe impl rt::LeanRepr for LeangageAuthzGuardedNotesKernelError {
+    type Value = LeangageAuthzGuardedNotesKernelError;
+    unsafe fn to_obj(value: LeangageAuthzGuardedNotesKernelError) -> Obj {
         rt::ToLean::to_lean(value)
     }
-    unsafe fn from_obj(o: Obj) -> LeanharborAuthzGuardedNotesKernelError {
-        <LeanharborAuthzGuardedNotesKernelError as rt::FromLean>::from_lean(o)
+    unsafe fn from_obj(o: Obj) -> LeangageAuthzGuardedNotesKernelError {
+        <LeangageAuthzGuardedNotesKernelError as rt::FromLean>::from_lean(o)
     }
 }
-unsafe impl rt::IntoLean<LeanharborAuthzGuardedNotesKernelError> for LeanharborAuthzGuardedNotesKernelError {
+unsafe impl rt::IntoLean<LeangageAuthzGuardedNotesKernelError> for LeangageAuthzGuardedNotesKernelError {
     unsafe fn into_obj(self) -> Obj {
         rt::ToLean::to_lean(self)
     }
@@ -4356,15 +4356,15 @@ pub fn insert_member(m: Member, arg1: Vec<Member>) -> Vec<Member> {
     }
 }
 
-#[doc = "Lean: `Notes.Kernel.transition : Notes.Kernel.Principal →\n  Notes.Kernel.Snapshot →\n    Notes.Kernel.Command →\n      Except (Leanharbor.Authz.Guarded Notes.Kernel.Error) (List Notes.Kernel.Write × Notes.Kernel.Reply)` (module `Notes.Kernel`)."]
+#[doc = "Lean: `Notes.Kernel.transition : Notes.Kernel.Principal →\n  Notes.Kernel.Snapshot →\n    Notes.Kernel.Command →\n      Except (Leangage.Authz.Guarded Notes.Kernel.Error) (List Notes.Kernel.Write × Notes.Kernel.Reply)` (module `Notes.Kernel`)."]
 #[::leanfran::exported("Notes.Kernel.transition")]
-pub fn transition(a: Principal, s: Snapshot, c: Command) -> Result<(Vec<Write>, Reply), LeanharborAuthzGuardedNotesKernelError> {
+pub fn transition(a: Principal, s: Snapshot, c: Command) -> Result<(Vec<Write>, Reply), LeangageAuthzGuardedNotesKernelError> {
     unsafe {
         let __a0: Obj = rt::ToLean::to_lean(a);
         let __a1: Obj = rt::ToLean::to_lean(s);
         let __a2: Obj = rt::ToLean::to_lean(c);
         let __r: Obj = l_Notes_Kernel_transition(__a0, __a1, __a2);
-        let __v = rt::except_from_lean(__r, |v0| <LeanharborAuthzGuardedNotesKernelError as rt::FromLean>::from_lean(v0), |v0| rt::prod_from_lean(v0, |v1| rt::list_from_lean(v1, |v2| <Write as rt::FromLean>::from_lean(v2)), |v1| <Reply as rt::FromLean>::from_lean(v1)));
+        let __v = rt::except_from_lean(__r, |v0| <LeangageAuthzGuardedNotesKernelError as rt::FromLean>::from_lean(v0), |v0| rt::prod_from_lean(v0, |v1| rt::list_from_lean(v1, |v2| <Write as rt::FromLean>::from_lean(v2)), |v1| <Reply as rt::FromLean>::from_lean(v1)));
         rt::lean_dec(__r);
         __v
     }
@@ -4579,8 +4579,8 @@ pub mod lean {
             rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`transition` on handles. Lean: `Notes.Kernel.transition : Notes.Kernel.Principal →\n  Notes.Kernel.Snapshot →\n    Notes.Kernel.Command →\n      Except (Leanharbor.Authz.Guarded Notes.Kernel.Error) (List Notes.Kernel.Write × Notes.Kernel.Reply)` (module `Notes.Kernel`)."]
-    pub fn transition(a: impl rt::IntoLean<Principal>, s: impl rt::IntoLean<Snapshot>, c: impl rt::IntoLean<Command>) -> rt::Lean<Result<(rt::List<Write>, Reply), LeanharborAuthzGuardedNotesKernelError>> {
+    #[doc = "`transition` on handles. Lean: `Notes.Kernel.transition : Notes.Kernel.Principal →\n  Notes.Kernel.Snapshot →\n    Notes.Kernel.Command →\n      Except (Leangage.Authz.Guarded Notes.Kernel.Error) (List Notes.Kernel.Write × Notes.Kernel.Reply)` (module `Notes.Kernel`)."]
+    pub fn transition(a: impl rt::IntoLean<Principal>, s: impl rt::IntoLean<Snapshot>, c: impl rt::IntoLean<Command>) -> rt::Lean<Result<(rt::List<Write>, Reply), LeangageAuthzGuardedNotesKernelError>> {
         unsafe {
             let __a0: Obj = rt::IntoLean::<Principal>::into_obj(a);
             let __a1: Obj = rt::IntoLean::<Snapshot>::into_obj(s);
@@ -4788,8 +4788,8 @@ pub mod local {
             rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`transition` on handles. Lean: `Notes.Kernel.transition : Notes.Kernel.Principal →\n  Notes.Kernel.Snapshot →\n    Notes.Kernel.Command →\n      Except (Leanharbor.Authz.Guarded Notes.Kernel.Error) (List Notes.Kernel.Write × Notes.Kernel.Reply)` (module `Notes.Kernel`)."]
-    pub fn transition(a: impl rt::IntoLean<Principal>, s: impl rt::IntoLean<Snapshot>, c: impl rt::IntoLean<Command>) -> rt::Local<Result<(rt::List<Write>, Reply), LeanharborAuthzGuardedNotesKernelError>> {
+    #[doc = "`transition` on handles. Lean: `Notes.Kernel.transition : Notes.Kernel.Principal →\n  Notes.Kernel.Snapshot →\n    Notes.Kernel.Command →\n      Except (Leangage.Authz.Guarded Notes.Kernel.Error) (List Notes.Kernel.Write × Notes.Kernel.Reply)` (module `Notes.Kernel`)."]
+    pub fn transition(a: impl rt::IntoLean<Principal>, s: impl rt::IntoLean<Snapshot>, c: impl rt::IntoLean<Command>) -> rt::Local<Result<(rt::List<Write>, Reply), LeangageAuthzGuardedNotesKernelError>> {
         unsafe {
             let __a0: Obj = rt::IntoLean::<Principal>::into_obj(a);
             let __a1: Obj = rt::IntoLean::<Snapshot>::into_obj(s);

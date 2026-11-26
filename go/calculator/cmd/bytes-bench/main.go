@@ -14,11 +14,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/conao3/lean-leanharbor/go/calculator"
-	"github.com/conao3/lean-leanharbor/go/calculator/kernel"
-	"github.com/conao3/lean-leanharbor/go/leanharbor"
-	"github.com/conao3/lean-leanharbor/go/leanharbor/jsonformat"
-	"github.com/conao3/lean-leanharbor/go/leanharbor/token"
+	"github.com/conao3/lean-leangage/go/calculator"
+	"github.com/conao3/lean-leangage/go/calculator/kernel"
+	"github.com/conao3/lean-leangage/go/leangage"
+	"github.com/conao3/lean-leangage/go/leangage/jsonformat"
+	"github.com/conao3/lean-leangage/go/leangage/token"
 )
 
 const rounds = 7
@@ -54,13 +54,13 @@ func tag(secret, payload []byte) []byte {
 	return mac.Sum(nil)
 }
 
-// verifyLists is leanharbor.Verify with Parse in place of ParseString.
-func verifyLists(secret []byte, tok string, now uint64) (leanharbor.Claims, bool) {
+// verifyLists is leangage.Verify with Parse in place of ParseString.
+func verifyLists(secret []byte, tok string, now uint64) (leangage.Claims, bool) {
 	parsed := token.Parse([]byte(tok))
 	if parsed == nil || !hmac.Equal(tag(secret, parsed.Payload), parsed.Sig) || parsed.Exp < now {
-		return leanharbor.Claims{}, false
+		return leangage.Claims{}, false
 	}
-	return leanharbor.Claims{Tenant: parsed.Tenant, User: parsed.User, Expiry: parsed.Exp}, true
+	return leangage.Claims{Tenant: parsed.Tenant, User: parsed.User, Expiry: parsed.Exp}, true
 }
 
 type note struct {
@@ -121,17 +121,17 @@ func must[T any](value T, err error) T {
 
 func main() {
 	secret := []byte("bench-secret")
-	claims := leanharbor.Claims{Tenant: 1, User: 42, Expiry: 4_102_444_800}
-	tok := leanharbor.Issue(secret, claims)
+	claims := leangage.Claims{Tenant: 1, User: 42, Expiry: 4_102_444_800}
+	tok := leangage.Issue(secret, claims)
 	if got, ok := verifyLists(secret, tok, 0); !ok || got != claims {
 		panic("a valid token over lists")
 	}
-	if got, err := leanharbor.Verify(secret, tok, 0); err != nil || got != claims {
+	if got, err := leangage.Verify(secret, tok, 0); err != nil || got != claims {
 		panic("a valid token")
 	}
 	compare("(a) token check", 100_000,
 		func() { sink, _ = verifyLists(secret, tok, 0) },
-		func() { sink, _ = leanharbor.Verify(secret, tok, 0) })
+		func() { sink, _ = leangage.Verify(secret, tok, 0) })
 	compare("    split only", 100_000,
 		func() { sink = token.Parse([]byte(tok)) },
 		func() { sink = must(token.ParseString(tok)) })

@@ -12,9 +12,9 @@ from enum import Enum
 from typing import Any
 
 import psycopg
-from leanharbor import Kernel, Refused, Storage, sql
-from leanharbor.pg import Attempt, Config, PgEngine, Point
-from leanharbor.pg.testing import ENGINE_ROLE, Cluster, cluster, connect
+from leangage import Kernel, Refused, Storage, sql
+from leangage.pg import Attempt, Config, PgEngine, Point
+from leangage.pg.testing import ENGINE_ROLE, Cluster, cluster, connect
 
 
 @dataclass(frozen=True)
@@ -169,7 +169,7 @@ class Db:
 
     def replies(self, tenant: int) -> int:
         return self.one(
-            "SELECT count(*) FROM leanharbor_idempotency WHERE tenant_id = $1", [tenant]
+            "SELECT count(*) FROM leangage_idempotency WHERE tenant_id = $1", [tenant]
         )
 
     def advisory_locks(self) -> int:

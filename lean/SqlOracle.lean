@@ -1,4 +1,4 @@
-import Leanharbor.Sql
+import Leangage.Sql
 
 /-!
 Runs the SQL compiler natively on lines read from standard input and prints one line per input
@@ -18,7 +18,7 @@ Text and bytes are hexadecimal. A value is `i<int64>`, `b0`, `b1`, `t<hex of UTF
 A compiled statement prints `none`, or `sql <text> <parameter>…`.
 -/
 
-open Leanharbor.Sql
+open Leangage.Sql
 
 def hexDigit (c : Char) : Option Nat :=
   if '0' ≤ c ∧ c ≤ '9' then some (c.toNat - '0'.toNat)

@@ -1,5 +1,5 @@
 import Lean
-import Leanharbor.Obligation
+import Leangage.Obligation
 
 /-!
 # The obligation check
@@ -9,7 +9,7 @@ Based on the obligation check of h5i's gate program in `crates/h5i-app-cli/src/c
 build instead of a program `h5i app check` writes, and it finds the theorems by searching the
 environment instead of reading their names from a manifest.
 
-`#obligations k` fails the build unless, for each statement of `Leanharbor.Obligation` about the
+`#obligations k` fails the build unless, for each statement of `Leangage.Obligation` about the
 kernel `k`, a theorem states it and depends only on `propext`, `Classical.choice` and
 `Quot.sound`. A theorem states an obligation when its type, once the arguments the kernel chooses
 are filled in by unification, is definitionally equal to the statement in Lean's kernel
@@ -93,7 +93,7 @@ def check (cands : Array (Name × Expr)) (label : MessageData) (stx : Term) (hol
     return .error m!"{label}: no theorem states `{stx}` with only the standard axioms{found}"
   return .ok (m!"{label}: " ++ MessageData.joinSep good.toList ", ")
 
-/-- `#obligations k` checks the statements of `Leanharbor.Obligation` for the kernel `k`, and
+/-- `#obligations k` checks the statements of `Leangage.Obligation` for the kernel `k`, and
 `#obligations k invariant I₁ I₂` checks `Invariant k I₁` and `Invariant k I₂` as well. -/
 syntax (name := obligations) "#obligations " ident (" invariant" (ppSpace term:max)+)? : command
 
@@ -102,9 +102,9 @@ def elabObligations : CommandElab
   | `(#obligations $k:ident $[invariant $is*]?) => do
     let cands := candidates (← getEnv)
     let stmts : Array (MessageData × Term × Nat) :=
-      #[(m!"ReadOnlySound", ← `($(mkIdent ``Leanharbor.Obligation.ReadOnlySound) $k _), 2)] ++
+      #[(m!"ReadOnlySound", ← `($(mkIdent ``Leangage.Obligation.ReadOnlySound) $k _), 2)] ++
         (← (is.getD #[]).mapM fun i => do
-          return (m!"Invariant {i}", ← `($(mkIdent ``Leanharbor.Obligation.Invariant) $k $i), 0))
+          return (m!"Invariant {i}", ← `($(mkIdent ``Leangage.Obligation.Invariant) $k $i), 0))
     let mut lines : Array MessageData := #[]
     let mut failed := false
     for (label, stx, holes) in stmts do

@@ -1,5 +1,5 @@
 import Assay
-import Leanharbor.Sql.Proofs
+import Leangage.Sql.Proofs
 
 /-!
 Breaks the SQL compiler in small ways and runs the theorems on each broken version. The build
@@ -10,7 +10,7 @@ statements are drawn on tables, keys and values those schemas have, so that `com
 accept a good share of the inputs.
 -/
 
-open Plausible Leanharbor.Sql
+open Plausible Leangage.Sql
 
 def upTo (n : Nat) (g : Gen α) : Gen (List α) := do
   let k ← Gen.choose Nat 0 n (Nat.zero_le _)
@@ -19,7 +19,7 @@ def upTo (n : Nat) (g : Gen α) : Gen (List α) := do
 def nameGen : Gen String :=
   Gen.frequency (pure "a")
     [(9, Gen.elements ["a", "b", "id", "x\"y", "é", "\"\""] (by decide)),
-     (1, Gen.elements ["", "tenant_id", "leanharbor_t", String.ofList (List.replicate 64 'n'), "a\x00"]
+     (1, Gen.elements ["", "tenant_id", "leangage_t", String.ofList (List.replicate 64 'n'), "a\x00"]
        (by decide))]
 
 def notes : List Tab :=
@@ -88,32 +88,32 @@ instance (priority := high) : SampleableExt (List Tab) := SampleableExt.selfCont
 
 instance (priority := high) : SampleableExt (List Val) := SampleableExt.selfContained
 
-#assay Leanharbor.Sql.escape Leanharbor.Sql.quote
-  using Leanharbor.Sql.lexName_quote Leanharbor.Sql.render_spec
+#assay Leangage.Sql.escape Leangage.Sql.quote
+  using Leangage.Sql.lexName_quote Leangage.Sql.render_spec
 
-#assay Leanharbor.Sql.commaSep Leanharbor.Sql.param Leanharbor.Sql.condText Leanharbor.Sql.whereText
-    Leanharbor.Sql.kindText Leanharbor.Sql.colDefText Leanharbor.Sql.placeholders Leanharbor.Sql.render
-  using Leanharbor.Sql.render_spec
+#assay Leangage.Sql.commaSep Leangage.Sql.param Leangage.Sql.condText Leangage.Sql.whereText
+    Leangage.Sql.kindText Leangage.Sql.colDefText Leangage.Sql.placeholders Leangage.Sql.render
+  using Leangage.Sql.render_spec
 
-#assay Leanharbor.Sql.nameOk Leanharbor.Sql.reserved Leanharbor.Sql.distinct Leanharbor.Sql.tabOk
-    Leanharbor.Sql.valid
-  using Leanharbor.Sql.nameOk_iff Leanharbor.Sql.reserved_iff Leanharbor.Sql.distinct_iff
-    Leanharbor.Sql.tabOk_iff Leanharbor.Sql.valid_iff
+#assay Leangage.Sql.nameOk Leangage.Sql.reserved Leangage.Sql.distinct Leangage.Sql.tabOk
+    Leangage.Sql.valid
+  using Leangage.Sql.nameOk_iff Leangage.Sql.reserved_iff Leangage.Sql.distinct_iff
+    Leangage.Sql.tabOk_iff Leangage.Sql.valid_iff
 
-#assay Leanharbor.Sql.valKind Leanharbor.Sql.typed Leanharbor.Sql.fitsAt Leanharbor.Sql.fitsFrom
-  using Leanharbor.Sql.valKind_spec Leanharbor.Sql.typed_iff Leanharbor.Sql.fitsAt_iff
-    Leanharbor.Sql.fitsFrom_iff
+#assay Leangage.Sql.valKind Leangage.Sql.typed Leangage.Sql.fitsAt Leangage.Sql.fitsFrom
+  using Leangage.Sql.valKind_spec Leangage.Sql.typed_iff Leangage.Sql.fitsAt_iff
+    Leangage.Sql.fitsFrom_iff
 
-#assay Leanharbor.Sql.names Leanharbor.Sql.colDefs Leanharbor.Sql.keyNames
-    Leanharbor.Sql.create
-  using Leanharbor.Sql.create_spec Leanharbor.Sql.tabOk_iff Leanharbor.Sql.compile_spec
+#assay Leangage.Sql.names Leangage.Sql.colDefs Leangage.Sql.keyNames
+    Leangage.Sql.create
+  using Leangage.Sql.create_spec Leangage.Sql.tabOk_iff Leangage.Sql.compile_spec
 
-#assay Leanharbor.Sql.plan using Leanharbor.Sql.plan_spec
+#assay Leangage.Sql.plan using Leangage.Sql.plan_spec
 
-#assay Leanharbor.Sql.compile
-  using Leanharbor.Sql.compile_spec Leanharbor.Sql.compile_params Leanharbor.Sql.compile_placeholders
-    Leanharbor.Sql.compile_erase
+#assay Leangage.Sql.compile
+  using Leangage.Sql.compile_spec Leangage.Sql.compile_params Leangage.Sql.compile_placeholders
+    Leangage.Sql.compile_erase
 
-#assay Leanharbor.Sql.select
-  using Leanharbor.Sql.select_spec Leanharbor.Sql.select_params Leanharbor.Sql.select_placeholders
-    Leanharbor.Sql.select_erase
+#assay Leangage.Sql.select
+  using Leangage.Sql.select_spec Leangage.Sql.select_params Leangage.Sql.select_placeholders
+    Leangage.Sql.select_erase

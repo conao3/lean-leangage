@@ -18,7 +18,7 @@ against this output.
 A body has no space; it may be empty.
 -/
 
-open Notes.Kernel Leanharbor.Authz
+open Notes.Kernel Leangage.Authz
 
 def parseFlag : String → Option Bool
   | "0" => some false

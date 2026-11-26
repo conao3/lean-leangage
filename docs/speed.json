@@ -145,7 +145,7 @@
     }
   },
   "http_replies_per_second": {
-    "leanharbor, Rust (axum)": {
+    "leangage, Rust (axum)": {
       "get, 1 connection": [
         16895.0031,
         16812.4806
@@ -199,7 +199,7 @@
         183940.9768
       ]
     },
-    "leanharbor, Go (net/http)": {
+    "leangage, Go (net/http)": {
       "get, 1 connection": [
         10603.2826,
         10132.5048
@@ -253,7 +253,7 @@
         68923.7781
       ]
     },
-    "leanharbor, Python (http.server)": {
+    "leangage, Python (http.server)": {
       "get, 1 connection": [
         5806.0487,
         5865.2079
@@ -334,7 +334,7 @@
       }
     },
     "http_replies_per_second": {
-      "leanharbor, Rust (axum), PostgreSQL engine": {
+      "leangage, Rust (axum), PostgreSQL engine": {
         "get, 1 connection": [
           3271.4845,
           2632.7799

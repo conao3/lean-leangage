@@ -1,4 +1,4 @@
-module github.com/conao3/lean-leanharbor/go
+module github.com/conao3/lean-leangage/go
 
 go 1.26
 

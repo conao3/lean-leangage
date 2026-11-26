@@ -8,7 +8,7 @@ import os
 import subprocess
 from pathlib import Path
 
-from leanharbor import json_format
+from leangage import json_format
 
 CASES = Path(__file__).parents[2] / "testdata" / "json-cases.txt"
 
@@ -79,7 +79,7 @@ def run(line: str) -> str:
 def test_generated_python_json_writer_agrees_with_lean() -> None:
     text_in = CASES.read_text()
     oracle = subprocess.run(
-        [os.environ["LEANHARBOR_JSON_ORACLE"]],
+        [os.environ["LEANGAGE_JSON_ORACLE"]],
         input=text_in,
         capture_output=True,
         text=True,

@@ -13,7 +13,7 @@ use serde_json::{Value, json};
 use tokio_postgres::error::SqlState;
 use tokio_postgres::{IsolationLevel, NoTls};
 
-/// The connections of the pool, as many as the leanharbor calculator server's.
+/// The connections of the pool, as many as the leangage calculator server's.
 const POOL_SIZE: usize = 16;
 const TENANT: i64 = 1;
 const USER: i64 = 7;

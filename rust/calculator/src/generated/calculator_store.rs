@@ -824,9 +824,9 @@ return x_8;
 }
 
 
-#[doc = "Lean: `Calculator.Store.load : List (List (List Leanharbor.Sql.Val)) → Option Calculator.Kernel.Snapshot` (module `Calculator.Store`)."]
+#[doc = "Lean: `Calculator.Store.load : List (List (List Leangage.Sql.Val)) → Option Calculator.Kernel.Snapshot` (module `Calculator.Store`)."]
 #[::leanfran::exported("Calculator.Store.load")]
-pub fn load(arg0: Vec<Vec<Vec<::leanharbor::sql::Val>>>) -> Option<crate::generated::calculator_kernel::Snapshot> {
+pub fn load(arg0: Vec<Vec<Vec<::leangage::sql::Val>>>) -> Option<crate::generated::calculator_kernel::Snapshot> {
     unsafe {
         let __a0: Obj = rt::list_to_lean(arg0, |v0| rt::list_to_lean(v0, |v1| rt::list_to_lean(v1, |v2| rt::ToLean::to_lean(v2))));
         let __r: Obj = l_Calculator_Store_load(__a0);
@@ -836,18 +836,18 @@ pub fn load(arg0: Vec<Vec<Vec<::leanharbor::sql::Val>>>) -> Option<crate::genera
     }
 }
 
-#[doc = "Lean: `Calculator.Store.tables : List Leanharbor.Sql.Tab` (module `Calculator.Store`)."]
+#[doc = "Lean: `Calculator.Store.tables : List Leangage.Sql.Tab` (module `Calculator.Store`)."]
 #[::leanfran::exported("Calculator.Store.tables")]
-pub fn tables() -> Vec<::leanharbor::sql::Tab> {
+pub fn tables() -> Vec<::leangage::sql::Tab> {
     unsafe {
         let __r: Obj = l_Calculator_Store_tables();
-        rt::list_from_lean(__r, |v0| <::leanharbor::sql::Tab as rt::FromLean>::from_lean(v0))
+        rt::list_from_lean(__r, |v0| <::leangage::sql::Tab as rt::FromLean>::from_lean(v0))
     }
 }
 
-#[doc = "Lean: `Calculator.Store.fromRow : List Leanharbor.Sql.Val → Option Calculator.Kernel.Memory` (module `Calculator.Store`)."]
+#[doc = "Lean: `Calculator.Store.fromRow : List Leangage.Sql.Val → Option Calculator.Kernel.Memory` (module `Calculator.Store`)."]
 #[::leanfran::exported("Calculator.Store.fromRow")]
-pub fn from_row(arg0: Vec<::leanharbor::sql::Val>) -> Option<crate::generated::calculator_kernel::Memory> {
+pub fn from_row(arg0: Vec<::leangage::sql::Val>) -> Option<crate::generated::calculator_kernel::Memory> {
     unsafe {
         let __a0: Obj = rt::list_to_lean(arg0, |v0| rt::ToLean::to_lean(v0));
         let __r: Obj = l_Calculator_Store_fromRow(__a0);
@@ -857,13 +857,13 @@ pub fn from_row(arg0: Vec<::leanharbor::sql::Val>) -> Option<crate::generated::c
     }
 }
 
-#[doc = "Lean: `Calculator.Store.writes : Option Calculator.Kernel.Memory → List Leanharbor.Sql.Write` (module `Calculator.Store`)."]
+#[doc = "Lean: `Calculator.Store.writes : Option Calculator.Kernel.Memory → List Leangage.Sql.Write` (module `Calculator.Store`)."]
 #[::leanfran::exported("Calculator.Store.writes")]
-pub fn writes(arg0: Option<crate::generated::calculator_kernel::Memory>) -> Vec<::leanharbor::sql::Write> {
+pub fn writes(arg0: Option<crate::generated::calculator_kernel::Memory>) -> Vec<::leangage::sql::Write> {
     unsafe {
         let __a0: Obj = rt::option_to_lean(arg0, |v0| rt::ToLean::to_lean(v0));
         let __r: Obj = l_Calculator_Store_writes(__a0);
-        rt::lean_dec(__a0); let __v = rt::list_from_lean(__r, |v0| <::leanharbor::sql::Write as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__a0); let __v = rt::list_from_lean(__r, |v0| <::leangage::sql::Write as rt::FromLean>::from_lean(v0));
         rt::lean_dec(__r);
         __v
     }
@@ -882,13 +882,13 @@ pub fn store_all(acc: crate::generated::calculator_kernel::Memories, arg1: Vec<c
     }
 }
 
-#[doc = "Lean: `Calculator.Store.toRow : Calculator.Kernel.Memory → List Leanharbor.Sql.Val` (module `Calculator.Store`)."]
+#[doc = "Lean: `Calculator.Store.toRow : Calculator.Kernel.Memory → List Leangage.Sql.Val` (module `Calculator.Store`)."]
 #[::leanfran::exported("Calculator.Store.toRow")]
-pub fn to_row(m: crate::generated::calculator_kernel::Memory) -> Vec<::leanharbor::sql::Val> {
+pub fn to_row(m: crate::generated::calculator_kernel::Memory) -> Vec<::leangage::sql::Val> {
     unsafe {
         let __a0: Obj = rt::ToLean::to_lean(m);
         let __r: Obj = l_Calculator_Store_toRow(__a0);
-        rt::lean_dec(__a0); let __v = rt::list_from_lean(__r, |v0| <::leanharbor::sql::Val as rt::FromLean>::from_lean(v0));
+        rt::lean_dec(__a0); let __v = rt::list_from_lean(__r, |v0| <::leangage::sql::Val as rt::FromLean>::from_lean(v0));
         rt::lean_dec(__r);
         __v
     }
@@ -898,32 +898,32 @@ pub fn to_row(m: crate::generated::calculator_kernel::Memory) -> Vec<::leanharbo
 #[allow(unused_imports, clippy::all)]
 pub mod lean {
     use super::*;
-    #[doc = "`load` on handles. Lean: `Calculator.Store.load : List (List (List Leanharbor.Sql.Val)) → Option Calculator.Kernel.Snapshot` (module `Calculator.Store`)."]
-    pub fn load(arg0: impl rt::IntoLean<rt::List<rt::List<rt::List<::leanharbor::sql::Val>>>>) -> rt::Lean<Option<crate::generated::calculator_kernel::Snapshot>> {
+    #[doc = "`load` on handles. Lean: `Calculator.Store.load : List (List (List Leangage.Sql.Val)) → Option Calculator.Kernel.Snapshot` (module `Calculator.Store`)."]
+    pub fn load(arg0: impl rt::IntoLean<rt::List<rt::List<rt::List<::leangage::sql::Val>>>>) -> rt::Lean<Option<crate::generated::calculator_kernel::Snapshot>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<rt::List<rt::List<::leanharbor::sql::Val>>>>::into_obj(arg0);
+            let __a0: Obj = rt::IntoLean::<rt::List<rt::List<rt::List<::leangage::sql::Val>>>>::into_obj(arg0);
             let __r: Obj = l_Calculator_Store_load(__a0);
             rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`tables` on handles. Lean: `Calculator.Store.tables : List Leanharbor.Sql.Tab` (module `Calculator.Store`)."]
-    pub fn tables() -> rt::Lean<rt::List<::leanharbor::sql::Tab>> {
+    #[doc = "`tables` on handles. Lean: `Calculator.Store.tables : List Leangage.Sql.Tab` (module `Calculator.Store`)."]
+    pub fn tables() -> rt::Lean<rt::List<::leangage::sql::Tab>> {
         unsafe {
             let __r: Obj = l_Calculator_Store_tables();
             rt::lean_inc(__r);
             rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`from_row` on handles. Lean: `Calculator.Store.fromRow : List Leanharbor.Sql.Val → Option Calculator.Kernel.Memory` (module `Calculator.Store`)."]
-    pub fn from_row(arg0: impl rt::IntoLean<rt::List<::leanharbor::sql::Val>>) -> rt::Lean<Option<crate::generated::calculator_kernel::Memory>> {
+    #[doc = "`from_row` on handles. Lean: `Calculator.Store.fromRow : List Leangage.Sql.Val → Option Calculator.Kernel.Memory` (module `Calculator.Store`)."]
+    pub fn from_row(arg0: impl rt::IntoLean<rt::List<::leangage::sql::Val>>) -> rt::Lean<Option<crate::generated::calculator_kernel::Memory>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<::leanharbor::sql::Val>>::into_obj(arg0);
+            let __a0: Obj = rt::IntoLean::<rt::List<::leangage::sql::Val>>::into_obj(arg0);
             let __r: Obj = l_Calculator_Store_fromRow(__a0);
             rt::lean_dec(__a0); rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`writes` on handles. Lean: `Calculator.Store.writes : Option Calculator.Kernel.Memory → List Leanharbor.Sql.Write` (module `Calculator.Store`)."]
-    pub fn writes(arg0: impl rt::IntoLean<Option<crate::generated::calculator_kernel::Memory>>) -> rt::Lean<rt::List<::leanharbor::sql::Write>> {
+    #[doc = "`writes` on handles. Lean: `Calculator.Store.writes : Option Calculator.Kernel.Memory → List Leangage.Sql.Write` (module `Calculator.Store`)."]
+    pub fn writes(arg0: impl rt::IntoLean<Option<crate::generated::calculator_kernel::Memory>>) -> rt::Lean<rt::List<::leangage::sql::Write>> {
         unsafe {
             let __a0: Obj = rt::IntoLean::<Option<crate::generated::calculator_kernel::Memory>>::into_obj(arg0);
             let __r: Obj = l_Calculator_Store_writes(__a0);
@@ -939,8 +939,8 @@ pub mod lean {
             rt::lean_dec(__a1); rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`to_row` on handles. Lean: `Calculator.Store.toRow : Calculator.Kernel.Memory → List Leanharbor.Sql.Val` (module `Calculator.Store`)."]
-    pub fn to_row(m: impl rt::IntoLean<crate::generated::calculator_kernel::Memory>) -> rt::Lean<rt::List<::leanharbor::sql::Val>> {
+    #[doc = "`to_row` on handles. Lean: `Calculator.Store.toRow : Calculator.Kernel.Memory → List Leangage.Sql.Val` (module `Calculator.Store`)."]
+    pub fn to_row(m: impl rt::IntoLean<crate::generated::calculator_kernel::Memory>) -> rt::Lean<rt::List<::leangage::sql::Val>> {
         unsafe {
             let __a0: Obj = rt::IntoLean::<crate::generated::calculator_kernel::Memory>::into_obj(m);
             let __r: Obj = l_Calculator_Store_toRow(__a0);
@@ -953,32 +953,32 @@ pub mod lean {
 #[allow(unused_imports, clippy::all)]
 pub mod local {
     use super::*;
-    #[doc = "`load` on handles. Lean: `Calculator.Store.load : List (List (List Leanharbor.Sql.Val)) → Option Calculator.Kernel.Snapshot` (module `Calculator.Store`)."]
-    pub fn load(arg0: impl rt::IntoLean<rt::List<rt::List<rt::List<::leanharbor::sql::Val>>>>) -> rt::Local<Option<crate::generated::calculator_kernel::Snapshot>> {
+    #[doc = "`load` on handles. Lean: `Calculator.Store.load : List (List (List Leangage.Sql.Val)) → Option Calculator.Kernel.Snapshot` (module `Calculator.Store`)."]
+    pub fn load(arg0: impl rt::IntoLean<rt::List<rt::List<rt::List<::leangage::sql::Val>>>>) -> rt::Local<Option<crate::generated::calculator_kernel::Snapshot>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<rt::List<rt::List<::leanharbor::sql::Val>>>>::into_obj(arg0);
+            let __a0: Obj = rt::IntoLean::<rt::List<rt::List<rt::List<::leangage::sql::Val>>>>::into_obj(arg0);
             let __r: Obj = l_Calculator_Store_load(__a0);
             rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`tables` on handles. Lean: `Calculator.Store.tables : List Leanharbor.Sql.Tab` (module `Calculator.Store`)."]
-    pub fn tables() -> rt::Local<rt::List<::leanharbor::sql::Tab>> {
+    #[doc = "`tables` on handles. Lean: `Calculator.Store.tables : List Leangage.Sql.Tab` (module `Calculator.Store`)."]
+    pub fn tables() -> rt::Local<rt::List<::leangage::sql::Tab>> {
         unsafe {
             let __r: Obj = l_Calculator_Store_tables();
             rt::lean_inc(__r);
             rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`from_row` on handles. Lean: `Calculator.Store.fromRow : List Leanharbor.Sql.Val → Option Calculator.Kernel.Memory` (module `Calculator.Store`)."]
-    pub fn from_row(arg0: impl rt::IntoLean<rt::List<::leanharbor::sql::Val>>) -> rt::Local<Option<crate::generated::calculator_kernel::Memory>> {
+    #[doc = "`from_row` on handles. Lean: `Calculator.Store.fromRow : List Leangage.Sql.Val → Option Calculator.Kernel.Memory` (module `Calculator.Store`)."]
+    pub fn from_row(arg0: impl rt::IntoLean<rt::List<::leangage::sql::Val>>) -> rt::Local<Option<crate::generated::calculator_kernel::Memory>> {
         unsafe {
-            let __a0: Obj = rt::IntoLean::<rt::List<::leanharbor::sql::Val>>::into_obj(arg0);
+            let __a0: Obj = rt::IntoLean::<rt::List<::leangage::sql::Val>>::into_obj(arg0);
             let __r: Obj = l_Calculator_Store_fromRow(__a0);
             rt::lean_dec(__a0); rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`writes` on handles. Lean: `Calculator.Store.writes : Option Calculator.Kernel.Memory → List Leanharbor.Sql.Write` (module `Calculator.Store`)."]
-    pub fn writes(arg0: impl rt::IntoLean<Option<crate::generated::calculator_kernel::Memory>>) -> rt::Local<rt::List<::leanharbor::sql::Write>> {
+    #[doc = "`writes` on handles. Lean: `Calculator.Store.writes : Option Calculator.Kernel.Memory → List Leangage.Sql.Write` (module `Calculator.Store`)."]
+    pub fn writes(arg0: impl rt::IntoLean<Option<crate::generated::calculator_kernel::Memory>>) -> rt::Local<rt::List<::leangage::sql::Write>> {
         unsafe {
             let __a0: Obj = rt::IntoLean::<Option<crate::generated::calculator_kernel::Memory>>::into_obj(arg0);
             let __r: Obj = l_Calculator_Store_writes(__a0);
@@ -994,8 +994,8 @@ pub mod local {
             rt::lean_dec(__a1); rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`to_row` on handles. Lean: `Calculator.Store.toRow : Calculator.Kernel.Memory → List Leanharbor.Sql.Val` (module `Calculator.Store`)."]
-    pub fn to_row(m: impl rt::IntoLean<crate::generated::calculator_kernel::Memory>) -> rt::Local<rt::List<::leanharbor::sql::Val>> {
+    #[doc = "`to_row` on handles. Lean: `Calculator.Store.toRow : Calculator.Kernel.Memory → List Leangage.Sql.Val` (module `Calculator.Store`)."]
+    pub fn to_row(m: impl rt::IntoLean<crate::generated::calculator_kernel::Memory>) -> rt::Local<rt::List<::leangage::sql::Val>> {
         unsafe {
             let __a0: Obj = rt::IntoLean::<crate::generated::calculator_kernel::Memory>::into_obj(m);
             let __r: Obj = l_Calculator_Store_toRow(__a0);

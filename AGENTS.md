@@ -1,25 +1,25 @@
 # AGENTS.md
 
-leanharbor: the contract of a kernel proved in Lean 4, and the shells that run the code
+leangage: the contract of a kernel proved in Lean 4, and the shells that run the code
 [leanfran](https://github.com/conao3/lean-leanfran) generates from it.
 
 ## Layout
 
-- `lean/`: Lake package `leanharbor`, Lean 4.35.0, core only (no Mathlib). `Leanharbor/Kernel.lean`
-  is the contract, `Leanharbor/Obligation.lean` the statements every kernel's theorems must state
-  exactly, `Leanharbor/Sql.lean` the SQL compiler that is generated,
-  `Leanharbor/Sql/Proofs.lean` its specifications and theorems, `Leanharbor/Sql/Model.lean` a
-  model of PostgreSQL and what a statement means to a tenant, `Leanharbor/Sql/Sound.lean` the
-  theorems that the compiled statements do that under the model, `Leanharbor/Sql/Isolation.lean`
-  tenant isolation, and `Leanharbor/Store.lean` the class `Row`, the storage of a kernel
-  (`Storage`) and the theorems proved once for every storage. `Leanharbor/Token.lean` is the
-  token format that is generated and `Leanharbor/Token/Proofs.lean` its theorems.
-  `Leanharbor/Json.lean` is the JSON writer that is generated and `Leanharbor/Json/Proofs.lean`
+- `lean/`: Lake package `leangage`, Lean 4.35.0, core only (no Mathlib). `Leangage/Kernel.lean`
+  is the contract, `Leangage/Obligation.lean` the statements every kernel's theorems must state
+  exactly, `Leangage/Sql.lean` the SQL compiler that is generated,
+  `Leangage/Sql/Proofs.lean` its specifications and theorems, `Leangage/Sql/Model.lean` a
+  model of PostgreSQL and what a statement means to a tenant, `Leangage/Sql/Sound.lean` the
+  theorems that the compiled statements do that under the model, `Leangage/Sql/Isolation.lean`
+  tenant isolation, and `Leangage/Store.lean` the class `Row`, the storage of a kernel
+  (`Storage`) and the theorems proved once for every storage. `Leangage/Token.lean` is the
+  token format that is generated and `Leangage/Token/Proofs.lean` its theorems.
+  `Leangage/Json.lean` is the JSON writer that is generated and `Leangage/Json/Proofs.lean`
   its specification (a printer over JSON values, a string lexer) and theorems.
   `Calculator/Kernel.lean` holds what is generated, `Calculator/Proofs.lean` the specifications
   and theorems; `Calculator/Store.lean` (generated) the calculator's table and row functions,
   `Calculator/Store/Proofs.lean` the calculator's `Storage` and its theorems.
-  `Leanharbor/Authz.lean` is the authorization guard and `Leanharbor/AuthzProofs.lean` its
+  `Leangage/Authz.lean` is the authorization guard and `Leangage/AuthzProofs.lean` its
   theorems. `Notes/` is the example with a policy, in the layout of `Calculator/`; its tables are
   `Notes/Store.lean` and `Notes/Store/Proofs.lean`.
   `CalculatorOracle.lean`, `NotesOracle.lean`, `SqlOracle.lean`, `TokenOracle.lean` and
@@ -33,46 +33,46 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   only when it is in `roots` of `audit/lakefile.toml` or imported by `Audit.lean`. `#assay`
   derives instances named after the short names of the types it samples, so two audit files whose
   types share a short name (`Snapshot`) are separate roots and do not import each other.
-- `rust/`: Cargo workspace, edition 2024. `leanharbor` is the shell, `leanharbor-pg` the engine
+- `rust/`: Cargo workspace, edition 2024. `leangage` is the shell, `leangage-pg` the engine
   that stores the snapshots in PostgreSQL, `calculator` and `notes` the examples.
-- `python/`: uv project. `leanharbor` is the shell, `leanharbor.pg` the engine that stores the
-  snapshots in PostgreSQL (driver psycopg 3), `leanharbor_calculator` and `leanharbor_notes` the
+- `python/`: uv project. `leangage` is the shell, `leangage.pg` the engine that stores the
+  snapshots in PostgreSQL (driver psycopg 3), `leangage_calculator` and `leangage_notes` the
   examples.
-- `go/`: Go module `github.com/conao3/lean-leanharbor/go`. `leanharbor` is the shell,
-  `leanharbor/pg` the engine that stores the snapshots in PostgreSQL (pgx, pinned in `go.mod`)
-  with the test server `leanharbor/pg/pgtest`, `calculator` and `notes` the examples, with the
+- `go/`: Go module `github.com/conao3/lean-leangage/go`. `leangage` is the shell,
+  `leangage/pg` the engine that stores the snapshots in PostgreSQL (pgx, pinned in `go.mod`)
+  with the test server `leangage/pg/pgtest`, `calculator` and `notes` the examples, with the
   calculator's server and benchmark under `calculator/cmd/`.
-- Each shell holds the SQL compiler generated from `Leanharbor.Sql`: `rust/leanharbor/src/generated/`
-  (`leanharbor::sql`), `python/src/leanharbor/sql.py` and `go/leanharbor/sql/`. The calculator's
+- Each shell holds the SQL compiler generated from `Leangage.Sql`: `rust/leangage/src/generated/`
+  (`leangage::sql`), `python/src/leangage/sql.py` and `go/leangage/sql/`. The calculator's
   table from `Calculator.Store` is `rust/calculator/src/generated/calculator_store.rs`,
-  `python/src/leanharbor_calculator/store.py` and `go/calculator/store/`, and the notes' tables
+  `python/src/leangage_calculator/store.py` and `go/calculator/store/`, and the notes' tables
   from `Notes.Store` are `rust/notes/src/generated/notes_store.rs`,
-  `python/src/leanharbor_notes/store.py` and `go/notes/store/`. Each shell holds
-  the token format generated from `Leanharbor.Token` (`leanharbor::token_format`,
-  `python/src/leanharbor/token_format.py`, `go/leanharbor/token/`), and its `token` module calls
+  `python/src/leangage_notes/store.py` and `go/notes/store/`. Each shell holds
+  the token format generated from `Leangage.Token` (`leangage::token_format`,
+  `python/src/leangage/token_format.py`, `go/leangage/token/`), and its `token` module calls
   `encodePayload`, `join` and `parseString` and computes and compares the HMAC and checks the
-  expiry. Each shell holds the JSON writer generated from `Leanharbor.Json`
-  (`leanharbor::json_format`, `python/src/leanharbor/json_format.py`, `go/leanharbor/jsonformat/`)
+  expiry. Each shell holds the JSON writer generated from `Leangage.Json`
+  (`leangage::json_format`, `python/src/leangage/json_format.py`, `go/leangage/jsonformat/`)
   and writes its own `{"error": ...}` bodies with it (`writeArray`; `write` in Go); the
   calculator's replies and refusals are the bytes of the generated `encodeReplyArray` and
   `encodeErrorArray`.
 - The Rust calculator's table is generated by `leanfran module generate` with
-  `--type-path Calculator.Kernel=crate::generated::calculator_kernel Leanharbor.Sql=::leanharbor::sql`,
-  so that `load` and `writes` take and return the kernel's types and those of `leanharbor::sql`;
+  `--type-path Calculator.Kernel=crate::generated::calculator_kernel Leangage.Sql=::leangage::sql`,
+  so that `load` and `writes` take and return the kernel's types and those of `leangage::sql`;
   `rust/calculator/src/lib.rs` declares it as the module `store`. The notes' tables are generated
   the same way, with `Notes.Kernel=crate::generated::notes_kernel`. A kernel stored in PostgreSQL
-  implements `leanharbor::Storage` by delegating to such a module.
+  implements `leangage::Storage` by delegating to such a module.
 - The Python calculator's table is generated by `leanfran-python module generate` with
-  `--type-module Calculator.Kernel=leanharbor_calculator.kernel Leanharbor.Sql=leanharbor.sql`, so
+  `--type-module Calculator.Kernel=leangage_calculator.kernel Leangage.Sql=leangage.sql`, so
   that `load` returns the kernel's `Snapshot` that `transition` takes and `writes` takes the
-  write set `transition` returns. `leanharbor_calculator.STORAGE` fills a `leanharbor.Storage`
+  write set `transition` returns. `leangage_calculator.STORAGE` fills a `leangage.Storage`
   with it. The Python notes' tables are generated the same way, with
-  `Notes.Kernel=leanharbor_notes.kernel`.
+  `Notes.Kernel=leangage_notes.kernel`.
 - The Go calculator's table is generated by `leanfran-go module generate` with
-  `--type-module Calculator.Kernel=github.com/conao3/lean-leanharbor/go/calculator/kernel` and
-  `--type-module Leanharbor.Sql=github.com/conao3/lean-leanharbor/go/leanharbor/sql`, so that
+  `--type-module Calculator.Kernel=github.com/conao3/lean-leangage/go/calculator/kernel` and
+  `--type-module Leangage.Sql=github.com/conao3/lean-leangage/go/leangage/sql`, so that
   the package `store` takes and returns the types of the packages `kernel` and `sql`. The
-  calculator implements `leanharbor.Storage` with it.
+  calculator implements `leangage.Storage` with it.
 
 ## Lean and the host languages
 
@@ -82,13 +82,13 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
 - The shells own input and output: HTTP, tokens, JSON, the engine. They call generated
   functions and make no decision about a command themselves. The PostgreSQL engines send only the
   text of the generated `render` for a kernel's tables, with the values as parameters; their own
-  statements are the constants of `rust/leanharbor-pg/src/lib.rs`,
-  `python/src/leanharbor/pg/__init__.py` and `go/leanharbor/pg/pg.go` (transaction control,
-  advisory locks, `leanharbor_idempotency`, `leanharbor_version`; the last three of the same text
+  statements are the constants of `rust/leangage-pg/src/lib.rs`,
+  `python/src/leangage/pg/__init__.py` and `go/leangage/pg/pg.go` (transaction control,
+  advisory locks, `leangage_idempotency`, `leangage_version`; the last three of the same text
   in the three, and the transaction control of the same text in Rust and Go, so that the servers
   share a database; a change to one is made to the others) and the role statements of
   `lockdown`. A transaction that writes a tenant's rows advances the tenant's row of
-  `leanharbor_version` in the same transaction. The Python engine
+  `leangage_version` in the same transaction. The Python engine
   runs statements through psycopg's `RawCursor`, which sends the text unchanged, and the
   constants without parameters with `prepare=False`, so that COMMIT stays a simple query.
 - The contract uses `Except` for refusals. The memory engines keep each tenant's snapshot as a Lean
@@ -110,8 +110,8 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   `pg.Engine.Close`), and give the write set to `Apply`, which takes it; `Writes` reads it. The
   concurrent tests of `go/calculator` and `go/notes` and `TestPostgresEngineLeaksNoValue` count
   the leaks with `leanfran.TrackLeakedValues`.
-- Generated files (`rust/*/src/generated/`, `python/src/leanharbor_*/kernel.py`,
-  `python/src/leanharbor_calculator/store.py`, `go/*/kernel/`, `go/calculator/store/`, and the SQL
+- Generated files (`rust/*/src/generated/`, `python/src/leangage_*/kernel.py`,
+  `python/src/leangage_calculator/store.py`, `go/*/kernel/`, `go/calculator/store/`, and the SQL
   compiler and the token format in each shell) are committed and never edited.
   Run `make generate` after changing `lean/`.
 - A function the shells call on every request takes `String`s and writes into an `Array UInt8`
@@ -119,7 +119,7 @@ leanharbor: the contract of a kernel proved in Lean 4, and the shells that run t
   theorem states it equal to the definition over `List UInt8` (`parseString_spec`,
   `writeArray_spec`), whose theorems then hold for it, and the differential tests run both.
   `bench-bytes` in the Makefile times the two side by side.
-- Authorization is the guard of `Leanharbor.Authz`: a kernel's `handle` decides a command with no
+- Authorization is the guard of `Leangage.Authz`: a kernel's `handle` decides a command with no
   authorization of its own, and the generated `transition` is `handle` behind `guardViewed` with
   the kernel's policy. The shells call `transition` only.
 - When a function is added to a generated module, add a theorem about it and list it in the
@@ -150,29 +150,29 @@ All commands run inside `nix develop`.
   draws `docs/speed-*.svg` and prints the tables to paste into the README. `bench/` holds the
   servers without a kernel that the HTTP measurement compares with (`axum_postgres` for the
   PostgreSQL engine); `make check` does not build them.
-- The PostgreSQL tests (`rust/leanharbor-pg/tests/`, `tests/postgres.rs` and
+- The PostgreSQL tests (`rust/leangage-pg/tests/`, `tests/postgres.rs` and
   `tests/differential.rs` of `rust/calculator` and `rust/notes`; `python/test/test_pg_*.py`;
-  `go/leanharbor/pg/*_test.go`, `go/calculator/postgres_test.go`) start one server per test
-  process with `leanharbor_pg::testing::cluster`, `leanharbor.pg.testing.cluster` or
+  `go/leangage/pg/*_test.go`, `go/calculator/postgres_test.go`) start one server per test
+  process with `leangage_pg::testing::cluster`, `leangage.pg.testing.cluster` or
   `pgtest.Start` (`initdb` and `pg_ctl` from the devShell, a Unix socket under `/tmp`) and give
   each test a database of its own; a test that cannot start the server fails. Queries of
   `pg_locks` and `pg_stat_activity` in a test filter on the test's database, since tests run in
   parallel on one server.
-- The differential tests read the oracles' paths from `LEANHARBOR_CALCULATOR_ORACLE`,
-  `LEANHARBOR_NOTES_ORACLE`, `LEANHARBOR_SQL_ORACLE`, `LEANHARBOR_TOKEN_ORACLE` and
-  `LEANHARBOR_JSON_ORACLE`; the Makefile sets them. The Python and the Go tests run the Rust
-  calculator server from `LEANHARBOR_RUST_CALCULATOR`, which `make python` and `make go` build and
+- The differential tests read the oracles' paths from `LEANGAGE_CALCULATOR_ORACLE`,
+  `LEANGAGE_NOTES_ORACLE`, `LEANGAGE_SQL_ORACLE`, `LEANGAGE_TOKEN_ORACLE` and
+  `LEANGAGE_JSON_ORACLE`; the Makefile sets them. The Python and the Go tests run the Rust
+  calculator server from `LEANGAGE_RUST_CALCULATOR`, which `make python` and `make go` build and
   set. `tools/gen-commands.py` and `tools/gen-notes-commands.py` write the command lists.
   `testdata/sql-statements.txt` comes from `python3 tools/gen-statements.py 3000`,
   `testdata/token-cases.txt` from `python3 tools/gen-tokens.py 3000` and
   `testdata/json-cases.txt` from `python3 tools/gen-json.py 3000`; their line formats are
   described in `lean/SqlOracle.lean`, `lean/TokenOracle.lean` and `lean/JsonOracle.lean`.
 - A spec in a proofs module calls no generated function, so that `#assay` does not break it along
-  with the function (`kindOf` in `Leanharbor.Sql.Proofs` beside the generated `valKind`).
-- The servers read `LEANHARBOR_SECRET` and `LEANHARBOR_LISTEN`; `LEANHARBOR_ISSUE=<org>:<user>`
+  with the function (`kindOf` in `Leangage.Sql.Proofs` beside the generated `valKind`).
+- The servers read `LEANGAGE_SECRET` and `LEANGAGE_LISTEN`; `LEANGAGE_ISSUE=<org>:<user>`
   prints a one-day token and exits. The Rust, the Python and the Go calculator servers and the
-  Rust notes server store the snapshots in PostgreSQL when `LEANHARBOR_DATABASE_URL` is set; with
-  `LEANHARBOR_LOCKDOWN=<owner>:<engine role>` and an administrator's connection string they create
+  Rust notes server store the snapshots in PostgreSQL when `LEANGAGE_DATABASE_URL` is set; with
+  `LEANGAGE_LOCKDOWN=<owner>:<engine role>` and an administrator's connection string they create
   the tables for those roles and exit.
 
 ## Conventions
