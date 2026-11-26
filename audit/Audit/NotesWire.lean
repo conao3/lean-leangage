@@ -103,6 +103,14 @@ instance (priority := high) notesWireArbitraryString : Arbitrary String where
 
 instance (priority := high) notesWireSampleableString : SampleableExt String := SampleableExt.selfContained
 
+instance (priority := high) notesWireArbitraryGuarded : Arbitrary (Authz.Guarded Error) where
+  arbitrary := Gen.elements [.denied, .app .notFound, .app .badText] (by decide)
+
+instance : Shrinkable (Authz.Guarded Error) := ⟨fun _ => []⟩
+
+instance (priority := high) notesWireSampleableGuarded : SampleableExt (Authz.Guarded Error) :=
+  SampleableExt.selfContained
+
 deriving instance DecidableEq for Principal, Command, Call
 
 #assay Notes.Wire.textOf using Notes.Wire.textOf_bytesOf
