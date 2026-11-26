@@ -1,26 +1,22 @@
-"""The generated Python JSON reader, the functions on requests and responses and the calculator's
-functions on the wire against those run natively by Lean (`request-oracle`).
+"""The tokens `leangage.json_text.lexemes` reads, the functions on requests and responses and the
+calculator's functions on the wire against those run natively by Lean (`request-oracle`).
 
-The line format is described in `lean/RequestOracle.lean`. A text to read that is UTF-8 is also
-read by `readString`, which must read what `read` reads, and its acceptance is compared with that
-of `json.loads`.
+The line format is described in `lean/RequestOracle.lean`.
 """
 
-import json
 import os
-import re
 import subprocess
 from pathlib import Path
 
 from leanfran import Err, Ok
-from leangage import http_format, json_read
+from leangage import http_format, json_items
+from leangage.http import body_of
+from leangage.json_text import lexemes
 from leangage_calculator import kernel, wire
 
 CASES = Path(__file__).parents[2] / "testdata" / "request-cases.txt"
 
-SURROGATE_ESCAPE = re.compile(r"\\u[dD][89a-fA-F]")
 BODIES = {
-    "notutf8": http_format.Body_notUtf8(),
     "toolarge": http_format.Body_tooLarge(),
     "unreadable": http_format.Body_unreadable(),
 }
@@ -49,27 +45,27 @@ def show(value: bytes | list[int]) -> str:
     return "x" + bytes(value).hex()
 
 
-def show_item(item: json_read.Item) -> str:
+def show_item(item: json_items.Item) -> str:
     match item:
-        case json_read.Item_null():
+        case json_items.Item_null():
             return "n"
-        case json_read.Item_bool(b=b):
+        case json_items.Item_bool(b=b):
             return "t" if b else "f"
-        case json_read.Item_num(n=n):
+        case json_items.Item_num(n=n):
             return f"u{n}"
-        case json_read.Item_number():
+        case json_items.Item_number():
             return "#"
-        case json_read.Item_str(s=s):
+        case json_items.Item_str(s=s):
             return "s" + show(s)
-        case json_read.Item_key(s=s):
+        case json_items.Item_key(s=s):
             return "k" + show(s)
-        case json_read.Item_arrOpen():
+        case json_items.Item_arrOpen():
             return "["
-        case json_read.Item_arrClose():
+        case json_items.Item_arrClose():
             return "]"
-        case json_read.Item_objOpen():
+        case json_items.Item_objOpen():
             return "{"
-        case json_read.Item_objClose():
+        case json_items.Item_objClose():
             return "}"
     raise ValueError(item)
 
@@ -107,46 +103,21 @@ def show_auth(result: Ok | Err) -> str:
     return f"ok {b.tenant} {b.user} {b.exp} {show(b.payload)} {show(b.sig)}"
 
 
-def accepted_by_json(text: str) -> bool:
-    def refuse(name: str) -> None:
-        raise ValueError(name)
-
-    try:
-        json.loads(text, parse_constant=refuse, parse_float=str, parse_int=str)
-    except (ValueError, RecursionError):
-        return False
-    return True
-
-
-class Counts:
-    utf8 = 0
-    compared = 0
-
-
-def run(line: str, counts: Counts) -> str:
+def run(line: str) -> str:
     match line.split(" "):
-        case ["read", b]:
-            raw = data(b)
-            items = json_read.read(list(raw))
-            try:
-                text = raw.decode()
-            except UnicodeDecodeError:
-                text = None
-            if text is not None:
-                counts.utf8 += 1
-                assert json_read.readString(text) == items, line
-                if not SURROGATE_ESCAPE.search(text) and text.count("[") < 200:
-                    counts.compared += 1
-                    assert (items is not None) == accepted_by_json(text), line
-            if items is None:
+        case ["items", b]:
+            tokens = lexemes(data(b))
+            if tokens is None:
                 return "none"
-            return " ".join(["items"] + [show_item(i) for i in items])
+            return " ".join(
+                ["items"] + [show_item(i) for i in json_items.items(tokens)]
+            )
         case ["auth", "-"]:
             return show_auth(http_format.authenticate(None))
         case ["auth", h]:
             return show_auth(http_format.authenticate(data(h).decode()))
         case ["request", tenant, user, exp, now, b]:
-            body = BODIES.get(b) or http_format.Body_text(s=data(b).decode())
+            body = BODIES.get(b) or body_of(data(b))
             result = wire.request(int(tenant), int(user), int(exp), int(now), body)
             if isinstance(result, Err):
                 return show_response("err", result.error)
@@ -176,8 +147,5 @@ def test_generated_python_request_functions_agree_with_lean() -> None:
         text=True,
         check=True,
     ).stdout
-    counts = Counts()
-    ours = [run(line, counts) for line in text_in.splitlines()]
-    assert counts.utf8 > 800
-    assert counts.compared > 700
+    ours = [run(line) for line in text_in.splitlines()]
     assert ours == oracle.splitlines()

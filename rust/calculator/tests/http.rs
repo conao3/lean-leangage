@@ -301,7 +301,14 @@ async fn a_deep_body_is_refused() {
     );
     let mut nested = vec![b'['; 500_000];
     nested.extend(vec![b']'; 500_000]);
-    let (status, body) = post(&router, Some(good), None, nested).await;
+    let (status, body) = post(&router, Some(good.clone()), None, nested).await;
+    assert_eq!(
+        (status.as_u16(), body.as_str()),
+        (400, r#"{"error":"body is not JSON"}"#)
+    );
+    let mut shallow = vec![b'['; 100];
+    shallow.extend(vec![b']'; 100]);
+    let (status, body) = post(&router, Some(good), None, shallow).await;
     assert_eq!(
         (status.as_u16(), body.as_str()),
         (400, r#"{"error":"not a calculator command"}"#)

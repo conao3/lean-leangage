@@ -7,7 +7,6 @@ package pg_test
 // has a database of its own.
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"maps"
@@ -25,6 +24,7 @@ import (
 
 	"github.com/conao3/lean-leangage/go/leangage"
 	"github.com/conao3/lean-leangage/go/leangage/httpformat"
+	"github.com/conao3/lean-leangage/go/leangage/jsonitems"
 	"github.com/conao3/lean-leangage/go/leangage/pg"
 	"github.com/conao3/lean-leangage/go/leangage/pg/pgtest"
 )
@@ -395,12 +395,16 @@ func TestAdvisoryLockIsHeldAroundTheTransaction(t *testing.T) {
 type cellsApi struct{}
 
 func (cellsApi) Request(tenant, user, _, _ uint64, body httpformat.Body) (actor, cmd, *httpformat.Response) {
-	var a struct{ Cell, Delta int64 }
-	text, ok := body.(httpformat.BodyText)
-	if err := json.Unmarshal([]byte(text.S), &a); !ok || err != nil {
+	read, ok := body.(httpformat.BodyJson)
+	if !ok || len(read.Lexemes) != 6 {
 		return actor{}, nil, &httpformat.Response{Status: 400}
 	}
-	return actor{tenant, user}, add{a.Cell, a.Delta}, nil
+	number := func(i int) int64 {
+		text, _ := read.Lexemes[i].(jsonitems.LexemeNumber)
+		n, _ := strconv.ParseInt(text.Text, 10, 64)
+		return n
+	}
+	return actor{tenant, user}, add{number(2), number(4)}, nil
 }
 
 func (cellsApi) Respond(r int64, refusal *refused) httpformat.Response {

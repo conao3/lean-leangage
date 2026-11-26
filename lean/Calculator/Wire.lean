@@ -1,12 +1,11 @@
 import Calculator.Kernel
 import Leangage.Http
-import Leangage.Json.Read
 
 /-!
 # The calculator on the wire
 
 What the calculator's servers do with a request once its token's tag is checked, and with the
-engine's result. `request` reads the body into the command and the principal the engine runs, or
+engine's result. `request` reads the items of the body into the command and the principal the engine runs, or
 gives the answer to a request the engine does not see. `respond` gives the answer to an accepted
 and to a refused command. `fingerprint` is the bytes that identify a command under an idempotency
 key, and `scope` the name that separates the keys of the users of a tenant.
@@ -14,17 +13,11 @@ key, and `scope` the name that separates the keys of the users of a tenant.
 A command is a JSON object: `{"cmd":"set","value":6}`, `{"cmd":"apply","op":"mul","arg":7}` with
 the operations `add`, `sub`, `mul` and `div`, and `{"cmd":"get"}`. Its members may come in any
 order; an object with another member, or with a member twice, is not a command.
-
-`decode` reads a body with the JSON reader (`decodeText`). For a body that is a command written
-without a space, with its members in the order above, `spelled` gives the command from a
-comparison of the leading bytes and the digits of the number, and `decode` does not run the
-reader. `Calculator.Wire.Proofs` proves that `spelled` accepts exactly those bodies and that
-`decode` is `decodeText` on every body.
 -/
 
 namespace Calculator.Wire
 
-open Calculator.Kernel Leangage Leangage.Json.Read
+open Calculator.Kernel Leangage Leangage.Json.Items
 
 /-- What the engine runs. -/
 structure Call where
@@ -33,8 +26,6 @@ structure Call where
 
 /-- Why a body is not a command. -/
 inductive Refusal where
-  /-- The body is not a JSON text. -/
-  | notJson
   | notCommand
   /-- A JSON object without the member `cmd`. -/
   | missingCmd
@@ -101,38 +92,8 @@ def decodeItems : List Item → Except Refusal Command
     | none => .error .notCommand
   | _ => .error .notCommand
 
-/-- The number that the bytes of `s` from `i` to its last byte spell in decimal, when the last
-byte is `}`. -/
-def closedNumber (s : String) (i : Nat) : Option UInt64 :=
-  let n := s.utf8ByteSize
-  if Token.byteAt s (n - 1) = 125 then Token.numberAt s i (n - 1) else none
-
-/-- The command of a body that is a command written without a space and with its members in the
-order `cmd`, `value` or `cmd`, `op`, `arg`. -/
-def spelled (s : String) : Option Command :=
-  if s.startsWith "{\"cmd\":\"apply\",\"op\":\"add\",\"arg\":" then (closedNumber s 32).map (.apply .add)
-  else if s.startsWith "{\"cmd\":\"apply\",\"op\":\"sub\",\"arg\":" then (closedNumber s 32).map (.apply .sub)
-  else if s.startsWith "{\"cmd\":\"apply\",\"op\":\"mul\",\"arg\":" then (closedNumber s 32).map (.apply .mul)
-  else if s.startsWith "{\"cmd\":\"apply\",\"op\":\"div\",\"arg\":" then (closedNumber s 32).map (.apply .div)
-  else if s.startsWith "{\"cmd\":\"set\",\"value\":" then (closedNumber s 21).map .set
-  else if s = "{\"cmd\":\"get\"}" then some .get
-  else none
-
-/-- The command that the JSON text of a body spells. -/
-def decodeText (body : String) : Except Refusal Command :=
-  match readString body with
-  | none => .error .notJson
-  | some items => decodeItems items
-
-/-- The command that a body spells. -/
-def decode (body : String) : Except Refusal Command :=
-  match spelled body with
-  | some cmd => .ok cmd
-  | none => decodeText body
-
 /-- What a refused body is answered with. -/
 def refusalMessage : Refusal → String
-  | .notJson => "body is not JSON"
   | .notCommand => "not a calculator command"
   | .missingCmd => "missing field `cmd`"
   | .badValue => "`value` must be an integer below 2^64"
@@ -143,8 +104,8 @@ expiry `exp`, at the time `now`; or the answer to the request. -/
 def request (tenant user exp now : UInt64) (body : Http.Body) : Except Http.Response Call :=
   match Http.admit exp now body with
   | .error r => .error r
-  | .ok text =>
-    match decode text with
+  | .ok items =>
+    match decodeItems items with
     | .error e => .error (Http.refuse 400 (refusalMessage e))
     | .ok cmd => .ok ⟨⟨tenant, user⟩, cmd⟩
 

@@ -3,19 +3,21 @@
 //! the snapshots in PostgreSQL. `sql` is the SQL compiler generated from
 //! `lean/Leangage/Sql.lean`, `token_format` the functions that write and split tokens,
 //! generated from `lean/Leangage/Token.lean`, `json_format` the JSON writer, generated from
-//! `lean/Leangage/Json.lean`, `json_read` the JSON reader, generated from
-//! `lean/Leangage/Json/Read.lean`, and `http_format` the functions that decide the answers a
+//! `lean/Leangage/Json.lean`, `json_items` the tokens of a JSON text and the function that reads a number token,
+//! generated from `lean/Leangage/Json/Items.lean`, `json_text` the conversion of a body into
+//! those tokens with serde_json, and `http_format` the functions that decide the answers a
 //! server gives by itself, generated from `lean/Leangage/Http.lean`.
 
 #[rustfmt::skip]
 pub mod generated;
 pub mod http;
+pub mod json_text;
 pub mod memory;
 pub mod token;
 
 pub use generated::leangage_http as http_format;
 pub use generated::leangage_json as json_format;
-pub use generated::leangage_json_read as json_read;
+pub use generated::leangage_json_items as json_items;
 pub use generated::leangage_sql as sql;
 pub use generated::leangage_token as token_format;
 

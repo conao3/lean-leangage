@@ -1,29 +1,37 @@
 """Writes the lines that the Lean request oracle and the Rust, Python and Go servers all answer.
 
 Deterministic: the same seed and count give the same file. The line format is described in
-`lean/RequestOracle.lean`. The texts to read are JSON texts with every spelling of a number, a
-string and the space between tokens, and the same texts with a byte removed, inserted or
-replaced; the headers are bearer tokens and headers close to one; the bodies are the calculator's
-commands with their members in any order, the same commands written without a space with their
-members in the order of `cmd`, `value` or `cmd`, `op`, `arg`, and bodies close to one.
+`lean/RequestOracle.lean`. The texts are JSON texts with every spelling of a number, a string and
+the space between tokens, and the same texts with a byte removed, inserted or replaced; the
+headers are bearer tokens and headers close to one; the bodies are the calculator's commands with
+their members in any order, the same commands written without a space with their members in the
+order of `cmd`, `value` or `cmd`, `op`, `arg`, and bodies close to one. `library_body` and
+`library_text` write the texts on which a JSON library could differ from the grammar: a member
+twice, members in another order, the space between tokens, numbers at 2^64, data after the value,
+arrays nested 100 deep, `NaN` and `Infinity`, member names in upper case, UTF-16 and a byte order
+mark.
+
+Every text is one that serde_json, `encoding/json` and Python's `json` read alike: no escape
+of a surrogate outside a pair, no exponent of 3 digits, no nesting above 100. The tests of each
+server's conversion hold the texts on which the three differ.
 """
 
 import json
 import random
+import re
 import sys
 
 NUMBERS = [0, 1, 9, 10, 99, 100, 10**19 - 1, 10**19, 2**63, 2**64 - 1]
 SPELLINGS = [
     "-0", "-1", "0.0", "6.0", "1.5", "-2.25", "1e3", "1E3", "1e+3", "1e-3", "0e0", "12.5e10",
     "18446744073709551616", "99999999999999999999", "100000000000000000000",
-    "123456789012345678901234567890", "-18446744073709551615", "1e400", "0.000000000000000000001",
+    "123456789012345678901234567890", "-18446744073709551615", "1e30", "0.000000000000000000001",
 ]  # fmt: skip
 BROKEN = [
     "", " ", "01", "00", "-", "-a", "1.", ".5", "1e", "1e+", "+1", "0x10", "1.e3", "--1", "1.2.3",
     "tru", "truee", "nul", "nulll", "fals", "True", "NaN", "Infinity", "[1,]", "[,1]", "[1 2]",
     "[", "]", "{", "}", "{,}", '{"a"}', '{"a":}', '{"a":1,}', '{"a" 1}', '{1:2}', '{"a":1 "b":2}',
-    '"abc', '"a\nb"', '"\\x41"', '"\\u12"', '"\\u12g4"', '"\\ud800"', '"\\udc00"',
-    '"\\ud800\\u0041"', '"\\ud800x"', '"\\udbff\\udbff"', "[1]]", "{}{}", "1 2", '{"a":1}}',
+    '"abc', '"a\nb"', '"\\x41"', '"\\u12"', '"\\u12g4"', "[1]]", "{}{}", "1 2", '{"a":1}}',
     "﻿1", "'a'", "[1,2", '{"a":[}', "\x00", '"\x1f"', "/**/1", "[1,\n]", '"\\"',
 ]  # fmt: skip
 ESCAPES = [
@@ -51,6 +59,10 @@ PLAIN = [
 SPACE = ["", "", "", " ", "\n", "\t", "\r", "  ", " \n "]
 OPS = ["add", "sub", "mul", "div"]
 COMPACT = random.Random(4219)
+LIBRARY = random.Random(5830)
+PAIR = re.compile(rb"\\u[dD][89abAB][0-9a-fA-F]{2}\\u[dD][c-fC-F][0-9a-fA-F]{2}")
+SURROGATE = re.compile(rb"\\u[dD][89a-fA-F]")
+EXPONENT = re.compile(rb"[eE][+-]?[0-9]{3}")
 REFUSALS = ["overflow", "underflow", "division_by_zero"]
 FAILURES = [
     "bad_signature", "conflict", "stopped", "retries_exhausted", "database", "commit_unknown",
@@ -134,14 +146,82 @@ def edited(rng: random.Random, data: bytes) -> bytes:
             return data + c
 
 
+def shared(text: bytes) -> bool:
+    """Whether the three libraries read or refuse the text alike."""
+    return not SURROGATE.search(PAIR.sub(b"", text)) and not EXPONENT.search(text)
+
+
+def library_text(rng: random.Random) -> bytes:
+    deep = b"[" * 100 + rng.choice([b"", b"1", b'"a"', b"{}"]) + b"]" * 100
+    return rng.choice(
+        [
+            b'{"a":1,"a":2}',
+            b'{"a":1,"b":2,"a":null}',
+            b'{"a":{"a":1,"a":1}}',
+            b'{"":1,"":2}',
+            b'{"b":1,"a":2}',
+            b"18446744073709551615",
+            b"18446744073709551616",
+            b"[18446744073709551615,18446744073709551616]",
+            b"01",
+            b"-0",
+            b"1.0",
+            b"1e2",
+            b"1E2",
+            b"[0,-0,0.0,0e0]",
+            b"00",
+            b"-01",
+            b"{}{}",
+            b"{} {}",
+            b"[] 1",
+            b"1 2",
+            b"[]]",
+            b"null,",
+            b'"a""b"',
+            deep,
+            deep[:-1],
+            deep + b"]",
+            b'{"a":' * 100 + b"1" + b"}" * 100,
+            b"NaN",
+            b"Infinity",
+            b"-Infinity",
+            b"[NaN]",
+            b'{"a":Infinity}',
+            b"nan",
+            b'{"CMD":"get"}',
+            b'{"Cmd":"get","cmd":"get"}',
+            b'{"A":1,"a":2}',
+            '{"cmd":"get"}'.encode("utf-16"),
+            '{"cmd":"get"}'.encode("utf-16-le"),
+            '{"cmd":"get"}'.encode("utf-16-be"),
+            "1".encode("utf-16-le"),
+            b"\xef\xbb\xbf{}",
+            b"\xef\xbb\xbf1",
+            b' \t\r\n{ \t\r\n"a" \t\r\n: \t\r\n1 \t\r\n} \t\r\n',
+            b"\x0c1",
+            b"\xc2\xa01",
+            b"[1,\x0b2]",
+        ]
+    )
+
+
 def read_line(rng: random.Random) -> str:
+    if LIBRARY.randrange(8) == 0:
+        return f"items {hexed(library_text(LIBRARY))}"
+    while True:
+        text = read_text(rng)
+        if shared(text):
+            return f"items {hexed(text)}"
+
+
+def read_text(rng: random.Random) -> bytes:
     match rng.randrange(10):
         case 0:
             text = rng.choice(BROKEN).encode()
         case 1:
             text = rng.choice(SPACE).encode() + scalar(rng) + rng.choice(SPACE).encode()
         case 2:
-            depth = rng.choice([1, 2, 50, 300])
+            depth = rng.choice([1, 2, 50, 100])
             text = b"[" * depth + scalar(rng) + b"]" * (depth - rng.randrange(2))
         case 3 | 4 | 5:
             text = edited(rng, value(rng, 3))
@@ -149,7 +229,7 @@ def read_line(rng: random.Random) -> str:
             text = (
                 rng.choice(SPACE).encode() + value(rng, 3) + rng.choice(SPACE).encode()
             )
-    return f"read {hexed(text)}"
+    return text
 
 
 def field(rng: random.Random) -> str:
@@ -285,6 +365,102 @@ def command_body(rng: random.Random) -> str:
     return text
 
 
+def library_body(rng: random.Random) -> bytes:
+    op = rng.choice(OPS)
+    n = rng.choice(
+        ["18446744073709551616", "18446744073709551615", "01", "-0", "1.0", "1e2", "1E2", "00", "0", "100", "NaN",
+         "Infinity", "-Infinity"]
+    )  # fmt: skip
+    commands = [
+        {"cmd": "set", "value": 6},
+        {"cmd": "apply", "op": op, "arg": 7},
+        {"cmd": "get"},
+    ]
+    command = rng.choice(commands)
+    compact = json.dumps(command, separators=(",", ":"))
+    match rng.randrange(10):
+        case 0:
+            text = rng.choice(
+                [
+                    '{"cmd":"get","cmd":"get"}',
+                    '{"cmd":"set","value":1,"value":2}',
+                    '{"cmd":"set","value":1,"value":1}',
+                    '{"cmd":"set","cmd":"apply","value":1}',
+                    '{"cmd":"set","cmd":"set","value":1}',
+                    f'{{"cmd":"apply","op":"{op}","op":"{op}","arg":1}}',
+                    f'{{"cmd":"apply","op":"{op}","arg":1,"arg":2}}',
+                    '{"cmd":"get","cmd":"set"}',
+                ]
+            )
+        case 1:
+            text = rng.choice(
+                [
+                    '{"value":6,"cmd":"set"}',
+                    f'{{"arg":7,"op":"{op}","cmd":"apply"}}',
+                    f'{{"op":"{op}","arg":7,"cmd":"apply"}}',
+                    f'{{"op":"{op}","cmd":"apply","arg":7}}',
+                    f'{{"arg":7,"cmd":"apply","op":"{op}"}}',
+                    f'{{"cmd":"apply","arg":7,"op":"{op}"}}',
+                ]
+            )
+        case 2:
+            text = rng.choice(
+                [
+                    json.dumps(command),
+                    json.dumps(command, indent=2),
+                    json.dumps(command, indent="\t"),
+                    json.dumps(command, indent=1).replace("\n", "\r\n"),
+                    " \t\r\n" + compact + " \t\r\n",
+                    compact.replace(":", " \t\r\n: \t\r\n"),
+                    "\x0c" + compact,
+                    compact + "\x0b",
+                    "\u00a0" + compact,
+                    compact.replace(",", ",\u2028"),
+                ]
+            )
+        case 3 | 4:
+            text = rng.choice([f'{{"cmd":"set","value":{n}}}', f'{{"cmd":"apply","op":"{op}","arg":{n}}}'])  # fmt: skip
+        case 5:
+            text = compact + rng.choice(
+                ["{}", " 1", "]", ",", compact, " null", "\x00", '""']
+            )
+        case 6:
+            text = rng.choice(
+                [
+                    "[" * 100 + compact + "]" * 100,
+                    "[" * 100 + "]" * 100,
+                    '{"cmd":' * 100 + '"get"' + "}" * 100,
+                    '{"cmd":"set","value":' + "[" * 99 + "6" + "]" * 99 + "}",
+                    '{"cmd":"get","x":' + "[" * 99 + "]" * 99 + "}",
+                ]
+            )
+        case 7:
+            text = rng.choice(
+                [
+                    '{"CMD":"get"}',
+                    '{"Cmd":"get"}',
+                    '{"cmd":"GET"}',
+                    '{"cmd":"Get"}',
+                    '{"cmd":"set","Value":6}',
+                    '{"cmd":"set","VALUE":6}',
+                    '{"cmd":"get","CMD":"get"}',
+                    '{"cmd":"set","value":6,"Value":7}',
+                    f'{{"cmd":"apply","OP":"{op}","arg":7}}',
+                    f'{{"cmd":"apply","op":"{op.upper()}","arg":7}}',
+                    f'{{"cmd":"apply","op":"{op}","Arg":7}}',
+                ]
+            )
+        case 8:
+            return compact.encode(
+                rng.choice(["utf-16", "utf-16-le", "utf-16-be", "utf-32"])
+            )
+        case _:
+            return rng.choice(
+                [b"\xef\xbb\xbf" + compact.encode(), compact.encode() + b"\xef\xbb\xbf"]
+            )
+    return text.encode()
+
+
 def request_line(rng: random.Random) -> str:
     exp = rng.choice([0, 1, 100, 2**64 - 1, rng.randrange(1000)])
     now = rng.choice(
@@ -292,11 +468,13 @@ def request_line(rng: random.Random) -> str:
     )
     match rng.randrange(16):
         case 0:
-            body = rng.choice(["notutf8", "toolarge", "unreadable"])
+            body = rng.choice(["xff", "toolarge", "unreadable"])
         case _:
             body = hexed(command_body(rng).encode())
             if COMPACT.randrange(4) == 0:
                 body = hexed(compact_body(COMPACT).encode())
+            if LIBRARY.randrange(5) == 0:
+                body = hexed(library_body(LIBRARY))
     return f"request {number(rng)} {number(rng)} {exp} {now} {body}"
 
 

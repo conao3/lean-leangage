@@ -3,15 +3,19 @@
 //! with bodies of 200 bytes. Each line times the functions over lists (`parse`, `encode_reply`,
 //! `write`) and the functions over strings and arrays (`authenticate`, `encode_reply_array`,
 //! `write_array`) in alternating rounds. (d) times the reading of one request body into a
-//! command and (e) the answer to an accepted command, each written by hand with serde_json and
-//! as the generated `wire::request` and `wire::respond` that the calculator server calls.
+//! command, written without a space and as Python's `json.dumps` writes it, and (e) the answer
+//! to an accepted command, each written by hand with serde_json and as the calculator server
+//! does it: `body_of`, which reads the body with serde_json into tokens, with the generated
+//! `wire::request`, and the generated `wire::respond`. (d) also times `body_of` alone and prints the calls
+//! per second.
 
 use std::hint::black_box;
 use std::time::Instant;
 
 use hmac::{Hmac, Mac};
 use leangage::Storage;
-use leangage::http_format::{self, Body};
+use leangage::http::body_of;
+use leangage::http_format;
 use leangage::json_format::{self, StrTok, Tok};
 use leangage::token::{self, Claims};
 use leangage::token_format;
@@ -35,14 +39,15 @@ fn show(rounds: &mut [f64]) -> String {
     format!("{:>9.0} ns (median {:>9.0})", rounds[0], rounds[ROUNDS / 2])
 }
 
-/// Prints the minimum and the median of the rounds of the two, named `names`.
+/// Prints the minimum and the median of the rounds of the two, named `names`, and returns the
+/// medians.
 fn compare(
     label: &str,
     names: (&str, &str),
     iterations: u32,
     mut lists: impl FnMut(),
     mut arrays: impl FnMut(),
-) {
+) -> (f64, f64) {
     let mut old = Vec::new();
     let mut new = Vec::new();
     for _ in 0..ROUNDS {
@@ -56,6 +61,7 @@ fn compare(
         names.1,
         show(&mut new)
     );
+    (old[ROUNDS / 2], new[ROUNDS / 2])
 }
 
 fn tag(secret: &[u8], payload: &[u8]) -> Hmac<Sha256> {
@@ -263,38 +269,55 @@ fn main() {
     }
     println!("    Notes::encode_reply {}", show(&mut server));
 
-    let body = r#"{"cmd":"apply","op":"mul","arg":7}"#;
     let command = kernel::Command::Apply {
-        op: kernel::Op::Mul,
-        arg: 7,
+        op: kernel::Op::Add,
+        arg: 1,
     };
-    assert_eq!(decode_by_hand(body.as_bytes()), Some(command.clone()));
-    assert_eq!(
-        wire::request(1, 42, 1, 0, Body::Text { s: body.to_owned() })
-            .ok()
-            .map(|call| call.cmd),
-        Some(command)
-    );
-    compare(
-        "(d) request body",
-        ("by hand", "generated"),
-        100_000,
-        || {
-            black_box(decode_by_hand(black_box(body).as_bytes()));
-        },
-        || {
-            black_box(wire::request(
-                1,
-                42,
-                1,
-                0,
-                Body::Text {
-                    s: black_box(body).to_owned(),
-                },
-            ))
-            .ok();
-        },
-    );
+    for (label, body) in [
+        ("(d) request body", r#"{"cmd":"apply","op":"add","arg":1}"#),
+        (
+            "(d) body with spaces",
+            r#"{"cmd": "apply", "op": "add", "arg": 1}"#,
+        ),
+    ] {
+        assert_eq!(decode_by_hand(body.as_bytes()), Some(command.clone()));
+        assert_eq!(
+            wire::request(1, 42, 1, 0, body_of(body.as_bytes()))
+                .ok()
+                .map(|call| call.cmd),
+            Some(command.clone())
+        );
+        let (by_hand, generated) = compare(
+            label,
+            ("by hand", "library and generated"),
+            100_000,
+            || {
+                black_box(decode_by_hand(black_box(body).as_bytes()));
+            },
+            || {
+                black_box(wire::request(
+                    1,
+                    42,
+                    1,
+                    0,
+                    body_of(black_box(body).as_bytes()),
+                ))
+                .ok();
+            },
+        );
+        let mut library = Vec::new();
+        for _ in 0..ROUNDS {
+            library.push(per_op(100_000, &mut || {
+                black_box(body_of(black_box(body).as_bytes()));
+            }));
+        }
+        println!("    body_of only        {}", show(&mut library));
+        println!(
+            "    calls/s: by hand {:.0}, library and generated {:.0}",
+            1e9 / by_hand,
+            1e9 / generated
+        );
+    }
     assert_eq!(wire::respond(Ok(reply.clone())).body, br#"{"value":6}"#);
     compare(
         "(e) answer",

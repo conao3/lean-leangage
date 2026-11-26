@@ -1,4 +1,5 @@
 import Leangage.Http
+import Oracle.JsonText
 import Notes.Wire
 
 /-!
@@ -17,9 +18,9 @@ command is `add_member <user> <admin>`, `remove_member <user>`, `put_note <id> <
 | `respond ok <reply>`, `respond err <name>` | `resp <status> x<body>` of `Notes.Wire.respond` |
 | `fingerprint <command>` | `bytes x<hex>` |
 | `scope <user>` | `text x<hex>` |
-| `stored <text>` | for `Notes.Wire.decodeReply`: `reply <reply>` or `none` |
+| `stored x<hex>` | for `Notes.Wire.decodeReply`: `reply <reply>` or `none` |
 
-A body is `x<hex>` (text), `notutf8`, `toolarge` or `unreadable`. The names of the refusals are
+A body is `x<hex>` (its bytes), `toolarge` or `unreadable`. The names of the refusals are
 `denied`, `not_found` and `bad_text`.
 -/
 
@@ -117,10 +118,12 @@ def showReply : Reply → String
   | .members ms => " ".intercalate ("members" :: ms.map showMember)
 
 def body : String → Option Http.Body
-  | "notutf8" => some .notUtf8
   | "toolarge" => some .tooLarge
   | "unreadable" => some .unreadable
-  | s => (text s).map .text
+  | s => do
+    match Oracle.JsonText.lexemes (← bytes s) with
+    | some lexemes => return .json lexemes
+    | none => return .notJson
 
 def refusal : String → Option (Authz.Guarded Error)
   | "denied" => some .denied
@@ -144,7 +147,7 @@ def run (line : String) : Option String :=
   | ["scope", user] => do
     return "text " ++ showText (Notes.Wire.scope ⟨0, ← number user⟩)
   | ["stored", b] => do
-    match Notes.Wire.decodeReply (← text b) with
+    match Notes.Wire.decodeReply (Oracle.JsonText.lexemes (← bytes b)) with
     | some r => return s!"reply {showReply r}"
     | none => return "none"
   | _ => none

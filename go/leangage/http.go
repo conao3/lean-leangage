@@ -5,7 +5,6 @@ import (
 	"io"
 	"net/http"
 	"time"
-	"unicode/utf8"
 
 	"github.com/conao3/lean-leangage/go/leangage/httpformat"
 )
@@ -59,10 +58,18 @@ func bodyOf(w http.ResponseWriter, r *http.Request) httpformat.Body {
 		return httpformat.BodyTooLarge{}
 	case err != nil:
 		return httpformat.BodyUnreadable{}
-	case !utf8.Valid(body):
-		return httpformat.BodyNotUtf8{}
 	}
-	return httpformat.BodyText{S: string(body)}
+	return BodyOf(body)
+}
+
+// BodyOf is the bytes of a body as the generated functions take them: its tokens, or that it is
+// not a JSON text.
+func BodyOf(body []byte) httpformat.Body {
+	lexemes, ok := Lexemes(body)
+	if !ok {
+		return httpformat.BodyNotJson{}
+	}
+	return httpformat.BodyJson{Lexemes: lexemes}
 }
 
 // failure is the failure a generated answer is made of.

@@ -4,7 +4,6 @@ deadlocks, terminated backends, COMMITs lost before or after the server ran them
 stops waiting, other engines writing the same tenant, and many concurrent clients. Each test has
 a database of its own."""
 
-import json
 import socket
 import threading
 import time
@@ -26,6 +25,7 @@ from leangage import (
     RetriesExhausted,
     http_format,
     issue,
+    json_items,
     serve,
 )
 from leangage.pg import Attempt, Config, PgEngine, Point, lockdown
@@ -358,8 +358,12 @@ class Call:
 
 def cells_api() -> Api:
     def request(tenant: int, user: int, expiry: int, now: int, body: Any) -> Any:
-        fields = json.loads(body.s)
-        return Ok(value=Call(Actor(tenant, user), Add(fields["cell"], fields["delta"])))
+        cell, delta = (
+            int(token.text)
+            for token in body.lexemes
+            if isinstance(token, json_items.Lexeme_number)
+        )
+        return Ok(value=Call(Actor(tenant, user), Add(cell, delta)))
 
     def respond(decision: Any) -> http_format.Response:
         if isinstance(decision, Ok):

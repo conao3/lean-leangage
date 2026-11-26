@@ -4,9 +4,11 @@
 bytes of a notes list of 20 notes with bodies of 200 bytes. Each line times the functions over
 lists (`parse`, `encodeReply`, `write`) and the functions over strings and arrays
 (`authenticate`, `encodeReplyArray`, `writeArray`) in alternating rounds. (d) times the reading
-of one request body into a command and (e) the answer to an accepted command, each written by
-hand with `json` and as the generated `wire.request` and `wire.respond` that the calculator
-server calls.
+of one request body into a command, written by hand with `json` and as the calculator server
+does it: `json` and `leangage.json_text.lexemes` for the tokens, then the generated
+`wire.request`. It prints calls per second (higher is better) for a body without spaces and for
+the same body as `json.dumps` writes it, and the time of each stage of the server's path. (e)
+times the answer to an accepted command, written by hand and as the generated `wire.respond`.
 """
 
 import hashlib
@@ -16,7 +18,9 @@ import time
 from collections.abc import Callable
 
 from leanfran import Ok
-from leangage import http_format, json_format, token, token_format
+from leangage import http_format, json_format, json_items, token, token_format
+from leangage.http import body_of
+from leangage.json_text import lexemes
 
 from leangage_calculator import kernel, wire
 
@@ -82,6 +86,25 @@ def decode_by_hand(body: bytes) -> kernel.Command | None:
         case "get" if not rest:
             return kernel.Command_get()
     return None
+
+
+def request_rate(form: str, request: bytes, command: kernel.Command) -> None:
+    """Calls per second of the reading of one body, by hand and as the server does it."""
+    assert (
+        decode_by_hand(request)
+        == command
+        == wire.request(1, 42, 1, 0, body_of(request)).value.cmd
+    )
+    by_hand, generated = [], []
+    for _ in range(ROUNDS):
+        by_hand.append(per_op(2_000, lambda: decode_by_hand(request)))
+        generated.append(
+            per_op(2_000, lambda: wire.request(1, 42, 1, 0, body_of(request)))
+        )
+    print(
+        f"(d) request body, {form:<8} by hand {1e9 / min(by_hand):>9.0f} calls/s  "
+        f"library and generated {1e9 / min(generated):>9.0f} calls/s"
+    )
 
 
 NOTES = [(i, 7, i % 2 == 0, "n" * 200) for i in range(20)]
@@ -178,19 +201,26 @@ def main() -> None:
         lambda: bytes(json_format.writeArray(notes_str_toks())),
     )
 
-    request = b'{"cmd":"apply","op":"mul","arg":7}'
     command = kernel.Command_apply(op=kernel.Op.mul, arg=7)
-    text = http_format.Body_text(s=request.decode())
-    assert (
-        decode_by_hand(request) == command == wire.request(1, 42, 1, 0, text).value.cmd
-    )
-    compare(
-        "(d) request body",
-        500,
-        lambda: decode_by_hand(request),
-        lambda: wire.request(1, 42, 1, 0, http_format.Body_text(s=request.decode())),
-        ("by hand", "generated"),
-    )
+    fields = {"cmd": "apply", "op": "mul", "arg": 7}
+    request = json.dumps(fields).encode()
+    request_rate("compact", json.dumps(fields, separators=(",", ":")).encode(), command)
+    request_rate("spaced", request, command)
+    text = request.decode()
+    tokens = lexemes(request)
+    assert tokens is not None
+    body = http_format.Body_json(lexemes=tokens)
+    stages: list[tuple[str, Callable[[], object]]] = [
+        ("json.loads", lambda: json.loads(text)),
+        ("lexemes", lambda: lexemes(request)),
+        ("Body_json", lambda: http_format.Body_json(lexemes=tokens)),
+        ("items", lambda: json_items.items.lean(tokens)),
+        ("request", lambda: wire.request(1, 42, 1, 0, body)),
+        ("request.lean", lambda: wire.request.lean(1, 42, 1, 0, body)),
+    ]
+    for name, stage in stages:
+        rounds = [per_op(2_000, stage) for _ in range(ROUNDS)]
+        print(f"    {name:<23} {show(rounds)}")
     assert bytes(wire.respond(Ok(value=reply)).body) == b'{"value":6}'
     compare(
         "(e) answer",

@@ -1,43 +1,18 @@
-import Leangage.Json
+import Leangage.Json.Items
 
 /-!
-# JSON input
+# A JSON reader for the oracles
 
-`read` reads the bytes of a JSON text (RFC 8259) into a list of `Item`s, the tokens of
-`Leangage.Json.Tok` and one more for a number that is not the decimal of a `UInt64`. It is one
-loop over the bytes: `step` takes the state and a byte to the next state, and `finish` gives the
-items when the bytes ended a document. The state holds the place in the grammar (`At`), what is
-read of the string or the number the loop is in, the open arrays and objects, innermost first,
-and the items read so far, last first. Nothing recurses on the nesting of the text, so a deep text
-grows the state and not the call stack.
-
-A number written as decimal digits without a sign, a fraction or an exponent and below 2^64 is
-read as `num`; every other number of the grammar is read as `number`. A string is read as its
-bytes: an escape as the UTF-8 of its character, a `\u` pair of surrogates as the UTF-8 of the
-character the pair encodes, every other byte of 0x20 and above as itself. A `\u` escape of a
-surrogate outside such a pair is refused.
-
-`readString`, which the servers' functions call, runs the same loop over the bytes of a `String`
-by index. `Leangage.Json.Read.Proofs` proves it equal to `read` of the bytes of the string.
+`lexemes` reads the bytes of a JSON text (RFC 8259) into the tokens a server's JSON library hands
+over, so that the oracles give the expected answer to a body from its text. It is one loop over
+the bytes: `step` takes the state and a byte to the next state, and `finish` gives the items when
+the bytes ended a document. Nothing recurses on the nesting of the text. A `\u` escape of a
+surrogate outside a pair is refused. Only the oracle executables import this module.
 -/
 
-namespace Leangage.Json.Read
+namespace Oracle.JsonText
 
-/-- One token of a JSON text as it is read. -/
-inductive Item where
-  | null
-  | bool (b : Bool)
-  | num (n : UInt64)
-  /-- A number that is not the decimal of a `UInt64`: signed, with a fraction or an exponent, or
-  2^64 and above. -/
-  | number
-  | str (s : List UInt8)
-  | key (s : List UInt8)
-  | arrOpen
-  | arrClose
-  | objOpen
-  | objClose
-deriving DecidableEq, Repr
+open Leangage.Json.Items
 
 /-- The place in the grammar after the bytes read so far. -/
 inductive At where
@@ -322,13 +297,23 @@ def finish (st : State) : Option (List Item) :=
 def read (l : List UInt8) : Option (List Item) :=
   finish (l.foldl step start)
 
-/-- The state after the bytes of `s` from `i` on. -/
-def stepFrom (s : String) (i : Nat) (st : State) : State :=
-  if h : i < s.utf8ByteSize then stepFrom s (i + 1) (step st (s.getUTF8Byte ⟨i⟩ h)) else st
-termination_by s.utf8ByteSize - i
+/-- The token of an item whose strings are UTF-8. -/
+def lexeme : Item → Option Lexeme
+  | .null => some .null
+  | .bool b => some (.bool b)
+  | .num n => some (.number (toString n.toNat))
+  | .number => some (.number "-")
+  | .str s => (String.fromUTF8? (ByteArray.mk s.toArray)).map .str
+  | .key s => (String.fromUTF8? (ByteArray.mk s.toArray)).map .key
+  | .arrOpen => some .arrOpen
+  | .arrClose => some .arrClose
+  | .objOpen => some .objOpen
+  | .objClose => some .objClose
 
-/-- `read` of the bytes of `s`. -/
-def readString (s : String) : Option (List Item) :=
-  finish (stepFrom s 0 start)
+/-- The tokens of a JSON text, or `none` for bytes that are not one or not UTF-8. -/
+def lexemes (l : List UInt8) : Option (List Lexeme) :=
+  match read l with
+  | some items => items.mapM lexeme
+  | none => none
 
-end Leangage.Json.Read
+end Oracle.JsonText

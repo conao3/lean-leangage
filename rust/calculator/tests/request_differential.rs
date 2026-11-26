@@ -1,17 +1,17 @@
-//! The generated Rust JSON reader, the functions on requests and responses and the calculator's
-//! functions on the wire against those run natively by Lean (`request-oracle`), on the shared
-//! lines. The line format is described in `lean/RequestOracle.lean`. A text to read that is
-//! UTF-8 is also read by `read_string`, which must read what `read` reads, and its acceptance is
-//! compared with serde_json's. A fingerprint is compared with the `Debug` form of the command and
+//! The tokens `json_text::lexemes` reads with serde_json, the generated functions on requests and
+//! responses and the calculator's functions on the wire against those run natively by Lean
+//! (`request-oracle`), on the shared lines. The line format is described in
+//! `lean/RequestOracle.lean`. A fingerprint is compared with the `Debug` form of the command and
 //! a scope with `u<user>`, the bytes the rows of `leangage_idempotency` hold.
 
 use std::io::Write as _;
 use std::process::{Command, Stdio};
 
+use leangage::http::body_of;
 use leangage::http_format::{self, Body, Failure, Response};
-use leangage::json_read::{self, Item};
+use leangage::json_items::{self, Item};
+use leangage::json_text;
 use leangage_calculator::{kernel, wire};
-use serde::de::IgnoredAny;
 
 const CASES: &str = include_str!("../../../testdata/request-cases.txt");
 
@@ -96,10 +96,9 @@ fn show_command(cmd: &kernel::Command) -> String {
 
 fn body(word: &str) -> Body {
     match word {
-        "notutf8" => Body::NotUtf8,
         "toolarge" => Body::TooLarge,
         "unreadable" => Body::Unreadable,
-        _ => Body::Text { s: text(word) },
+        _ => body_of(&bytes(word)),
     }
 }
 
@@ -130,41 +129,22 @@ fn show_auth(result: Result<http_format::Bearer, Response>) -> String {
     }
 }
 
-/// Whether the text is one the reader refuses although it is in the grammar of RFC 8259: it
-/// holds the escape of a surrogate.
-fn has_surrogate_escape(text: &str) -> bool {
-    let lower = text.to_ascii_lowercase();
-    [
-        "\\ud8", "\\ud9", "\\uda", "\\udb", "\\udc", "\\udd", "\\ude", "\\udf",
-    ]
-    .iter()
-    .any(|escape| lower.contains(escape))
-}
-
+#[derive(Default)]
 struct Counts {
-    utf8: usize,
-    compared: usize,
+    texts: usize,
+    read: usize,
 }
 
 fn run(line: &str, counts: &mut Counts) -> String {
     let words: Vec<&str> = line.split(' ').collect();
     match words.as_slice() {
-        ["read", b] => {
-            let input = bytes(b);
-            let items = json_read::read(input.clone());
-            if let Ok(text) = std::str::from_utf8(&input) {
-                counts.utf8 += 1;
-                assert_eq!(json_read::read_string(text), items, "read_string of {line}");
-                if !has_surrogate_escape(text) {
-                    counts.compared += 1;
-                    let serde = serde_json::from_str::<IgnoredAny>(text).is_ok();
-                    assert_eq!(items.is_some(), serde, "serde_json on {line}");
-                }
-            }
-            match items {
-                Some(items) => {
+        ["items", b] => {
+            counts.texts += 1;
+            match json_text::lexemes(&bytes(b)) {
+                Some(lexemes) => {
+                    counts.read += 1;
                     let mut out = vec!["items".to_owned()];
-                    out.extend(items.iter().map(show_item));
+                    out.extend(json_items::items(lexemes).iter().map(show_item));
                     out.join(" ")
                 }
                 None => "none".to_owned(),
@@ -239,16 +219,21 @@ fn oracle() -> String {
 
 #[test]
 fn generated_rust_request_functions_agree_with_lean() {
-    let mut counts = Counts {
-        utf8: 0,
-        compared: 0,
-    };
+    let mut counts = Counts::default();
     let ours: Vec<String> = CASES.lines().map(|line| run(line, &mut counts)).collect();
     let theirs = oracle();
     assert_eq!(ours.len(), theirs.lines().count());
-    assert!(counts.utf8 > 800, "{} texts are UTF-8", counts.utf8);
-    assert!(counts.compared > 700, "{} texts compared", counts.compared);
-    for (i, (a, b)) in ours.iter().zip(theirs.lines()).enumerate() {
-        assert_eq!(a, b, "line {}: {}", i + 1, CASES.lines().nth(i).unwrap());
-    }
+    assert!(counts.texts > 1000, "{} texts", counts.texts);
+    assert!(counts.read > 300, "{} texts read", counts.read);
+    let wrong: Vec<String> = ours
+        .iter()
+        .zip(theirs.lines())
+        .enumerate()
+        .filter(|(_, (a, b))| a != b)
+        .map(|(i, (a, b))| {
+            let short = |s: &str| s.chars().take(60).collect::<String>();
+            format!("line {}: ours {} theirs {}", i + 1, short(a), short(b))
+        })
+        .collect();
+    assert!(wrong.is_empty(), "{}", wrong.join("\n"));
 }

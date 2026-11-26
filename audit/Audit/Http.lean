@@ -34,6 +34,6 @@ instance (priority := high) httpSampleableString : SampleableExt String := Sampl
     Leangage.Http.authenticate_bearer
 
 #assay Leangage.Http.admit
-  using Leangage.Http.admit_expired Leangage.Http.admit_text Leangage.Http.admit_not_text
+  using Leangage.Http.admit_expired Leangage.Http.admit_json Leangage.Http.admit_not_json
 
 #assay Leangage.Http.failed using Leangage.Http.failed_spec

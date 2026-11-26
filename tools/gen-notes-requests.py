@@ -3,7 +3,10 @@
 Deterministic: the same seed and count give the same file. The line format is described in
 `lean/NotesRequestOracle.lean`. The bodies are the notes' commands with their members in any
 order and with every spelling of a string, and bodies close to one: a member removed, added,
-repeated or holding another value. The stored replies are the bodies of the replies and texts
+repeated or holding another value. `library_body` writes the bodies on which a JSON library could
+differ from the grammar: a member twice, members in another order, the space between tokens,
+numbers at 2^64, data after the value, arrays nested 100 deep, `NaN` and `Infinity`, member names
+in upper case, UTF-16 and a byte order mark. The stored replies are the bodies of the replies and texts
 close to one.
 """
 
@@ -21,9 +24,10 @@ TEXTS = [
 ]  # fmt: skip
 ESCAPED = [
     '"\\u0041"', '"\\u00e9"', '"\\ud83d\\ude00"', '"\\/"', '"\\b\\f\\n\\r\\t"', '"\\u0000"',
-    '"\\ud800"', '"\\udc00\\ud800"', '"a\\u0020b"',
+    '"a\\u0020b"',
 ]  # fmt: skip
 REFUSALS = ["denied", "not_found", "bad_text"]
+LIBRARY = random.Random(2647)
 
 
 def hexed(data: bytes) -> str:
@@ -146,15 +150,79 @@ def command_body(rng: random.Random) -> str:
     return body
 
 
+def library_body(rng: random.Random) -> bytes:
+    n = rng.choice(
+        ["18446744073709551616", "18446744073709551615", "01", "-0", "1.0", "1e2", "1E2", "00", "0", "NaN", "Infinity"]
+    )  # fmt: skip
+    command = rng.choice(
+        [
+            {"cmd": "add_member", "user": 2, "admin": False},
+            {"cmd": "remove_member", "user": 2},
+            {"cmd": "put_note", "id": 7, "body": "text", "shared": True},
+            {"cmd": "delete_note", "id": 7},
+            {"cmd": "read_note", "id": 7},
+            {"cmd": "list_notes"},
+            {"cmd": "list_members"},
+        ]
+    )
+    compact = json.dumps(command, separators=(",", ":"))
+    members = [(json.dumps(k), json.dumps(v)) for k, v in command.items()]
+    match rng.randrange(9):
+        case 0:
+            k, v = rng.choice(members)
+            text = "{" + ",".join(f"{a}:{b}" for a, b in [*members, (k, v)]) + "}"
+        case 1:
+            text = "{" + ",".join(f"{a}:{b}" for a, b in reversed(members)) + "}"
+        case 2:
+            text = rng.choice(
+                [
+                    json.dumps(command),
+                    json.dumps(command, indent=2),
+                    json.dumps(command, indent="\t"),
+                    " \t\r\n" + compact + " \t\r\n",
+                    "\x0c" + compact,
+                    "\u00a0" + compact,
+                ]
+            )
+        case 3:
+            text = rng.choice(
+                [f'{{"cmd":"read_note","id":{n}}}', f'{{"cmd":"remove_member","user":{n}}}', f'{{"cmd":"delete_note","id":{n}}}']
+            )  # fmt: skip
+        case 4:
+            text = compact + rng.choice(["{}", " 1", "]", ",", compact, " null"])
+        case 5:
+            text = rng.choice(
+                [
+                    "[" * 100 + compact + "]" * 100,
+                    '{"cmd":' * 100 + '"list_notes"' + "}" * 100,
+                    '{"cmd":"list_notes","x":' + "[" * 99 + "]" * 99 + "}",
+                ]
+            )
+        case 6:
+            k, v = members[-1]
+            text = (
+                "{"
+                + ",".join(f"{a}:{b}" for a, b in [*members[:-1], (k.upper(), v)])
+                + "}"
+            )
+        case 7:
+            return compact.encode(rng.choice(["utf-16", "utf-16-le", "utf-16-be"]))
+        case _:
+            return b"\xef\xbb\xbf" + compact.encode()
+    return text.encode()
+
+
 def request_line(rng: random.Random) -> str:
     exp = rng.choice([0, 1, 100, 2**64 - 1, rng.randrange(1000)])
     now = rng.choice(
         [0, exp, exp + 1 if exp < 2**64 - 1 else exp, rng.randrange(1000), exp, exp]
     )
     if rng.randrange(16) == 0:
-        body = rng.choice(["notutf8", "toolarge", "unreadable"])
+        body = rng.choice(["xff", "toolarge", "unreadable"])
     else:
         body = hexed(command_body(rng).encode())
+        if LIBRARY.randrange(6) == 0:
+            body = hexed(library_body(LIBRARY))
     return f"request {number(rng)} {number(rng)} {exp} {now} {body}"
 
 

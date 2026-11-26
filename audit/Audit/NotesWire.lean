@@ -7,12 +7,12 @@ Breaks the notes' functions on the wire in small ways and runs the theorems on e
 version. The build fails when a broken version satisfies every theorem.
 
 The members are the fields of a command, in their order, reversed and rotated, and the same with
-a member removed, added, repeated or holding another value. The bodies are the spellings of the
-commands and texts close to one. The numbers and the texts are few, so that two commands are
+a member removed, added, repeated or holding another value. The bodies are the tokens of the
+spellings of the commands and of the replies, and lists of tokens close to one. The numbers and the texts are few, so that two commands are
 often the same.
 -/
 
-open Plausible Notes.Kernel Notes.Wire Leangage Leangage.Json.Read
+open Plausible Notes.Kernel Notes.Wire Leangage Leangage.Json.Items
 
 instance (priority := high) notesWireArbitraryUInt64 : Arbitrary UInt64 where
   arbitrary := Gen.elements [0, 1, 2, 9, 10, 99, 100, 18446744073709551615] (by decide)
@@ -88,20 +88,54 @@ instance (priority := high) notesWireShrinkableItems : Shrinkable (List Item) :=
 
 instance (priority := high) notesWireSampleableItems : SampleableExt (List Item) := SampleableExt.selfContained
 
-def bodyText : Gen String := do
-  let c ← commandGen
-  let text := (String.fromUTF8? (ByteArray.mk (encodeCommand c).print.toArray)).getD ""
+def flag (b : Bool) : Lexeme := .bool b
+
+def lexemesOf : Command → List Lexeme
+  | .addMember user admin =>
+    [.objOpen, .key "cmd", .str "add_member", .key "user", .number (toString user.toNat), .key "admin",
+      flag admin, .objClose]
+  | .removeMember user =>
+    [.objOpen, .key "cmd", .str "remove_member", .key "user", .number (toString user.toNat), .objClose]
+  | .putNote id body shared =>
+    [.objOpen, .key "cmd", .str "put_note", .key "id", .number (toString id.toNat), .key "body", .str body,
+      .key "shared", flag shared, .objClose]
+  | .deleteNote id => [.objOpen, .key "cmd", .str "delete_note", .key "id", .number (toString id.toNat), .objClose]
+  | .readNote id => [.objOpen, .key "cmd", .str "read_note", .key "id", .number (toString id.toNat), .objClose]
+  | .listNotes => [.objOpen, .key "cmd", .str "list_notes", .objClose]
+  | .listMembers => [.objOpen, .key "cmd", .str "list_members", .objClose]
+
+def noteLexemes (n : UInt64) (body : String) (b : Bool) : List Lexeme :=
+  [.objOpen, .key "body", .str body, .key "id", .number (toString n.toNat), .key "owner",
+    .number (toString n.toNat), .key "shared", flag b, .objClose]
+
+def bodyLexemes : Gen (List Lexeme) := do
+  let ls := lexemesOf (← commandGen)
+  let n ← (Arbitrary.arbitrary : Gen UInt64)
+  let b ← Gen.chooseAny Bool
+  let text ← noteText
+  let note := noteLexemes n text b
+  let member : List Lexeme :=
+    [.objOpen, .key "admin", flag b, .key "user", .number (toString n.toNat), .objClose]
   Gen.elements
-    [text, text, text, " " ++ text ++ "\n", text ++ " x", text.dropEnd 1 |>.toString, "{}", "[]", "",
-      "{\"cmd\":\"list_notes\",\"cmd\":\"list_notes\"}", "{\"cmd\":\"read_note\",\"id\":6.0}",
-      "{\"id\":1,\"cmd\":\"delete_note\"}", "{\"cmd\":\"list_notes\",\"id\":1}", "7", "{", "draft",
-      "say \"hi\""]
+    [ls, ls, ls, ls.drop 1, ls.dropLast, ls ++ ls, .arrOpen :: ls, [], [.objOpen, .objClose],
+      [.objOpen, .key "cmd", .str "list_notes", .key "cmd", .str "list_notes", .objClose],
+      [.objOpen, .key "cmd", .str "read_note", .key "id", .number "6.0", .objClose],
+      [.objOpen, .key "id", .number "1", .key "cmd", .str "delete_note", .objClose],
+      [.objOpen, .key "done", .bool true, .objClose], [.objOpen, .key "done", .bool false, .objClose],
+      [.objOpen, .key "note"] ++ note ++ [.objClose],
+      [.objOpen, .key "notes", .arrOpen] ++ note ++ note ++ [.arrClose, .objClose],
+      [.objOpen, .key "notes", .arrOpen, .arrClose, .objClose],
+      [.objOpen, .key "members", .arrOpen] ++ member ++ [.arrClose, .objClose],
+      [.objOpen, .key "members", .arrOpen] ++ note ++ [.arrClose, .objClose]]
     (by simp)
 
-instance (priority := high) notesWireArbitraryString : Arbitrary String where
-  arbitrary := bodyText
+instance (priority := high) notesWireArbitraryLexemes : Arbitrary (List Lexeme) where
+  arbitrary := bodyLexemes
 
-instance (priority := high) notesWireSampleableString : SampleableExt String := SampleableExt.selfContained
+instance (priority := high) notesWireShrinkableLexemes : Shrinkable (List Lexeme) := ⟨fun _ => []⟩
+
+instance (priority := high) notesWireSampleableLexemes : SampleableExt (List Lexeme) :=
+  SampleableExt.selfContained
 
 instance (priority := high) notesWireArbitraryGuarded : Arbitrary (Authz.Guarded Error) where
   arbitrary := Gen.elements [.denied, .app .notFound, .app .badText] (by decide)
@@ -122,12 +156,10 @@ deriving instance DecidableEq for Principal, Command, Call
 #assay Notes.Wire.scalar Notes.Wire.members Notes.Wire.decodeItems
   using Notes.Wire.decodeItems_object Notes.Wire.decodeItems_fields Notes.Wire.scalar_spec
 
-#assay Notes.Wire.decode using Notes.Wire.decode_notJson_iff
-
 #assay Notes.Wire.refusalMessage using Notes.Wire.refusalMessage_spec
 
 #assay Notes.Wire.request
-  using Notes.Wire.request_expired Notes.Wire.request_text Notes.Wire.request_not_text
+  using Notes.Wire.request_expired Notes.Wire.request_json Notes.Wire.request_not_json
     Notes.Wire.request_actor_run
 
 #assay Notes.Wire.noteToks Notes.Wire.memberToks Notes.Wire.replyToks Notes.Wire.encodeReply
@@ -136,6 +168,8 @@ deriving instance DecidableEq for Principal, Command, Call
 
 #assay Notes.Wire.noteOf Notes.Wire.notesItems Notes.Wire.membersItems Notes.Wire.decodeReplyItems
   using Notes.Wire.decodeReplyItems_value Notes.Wire.noteOf_note
+
+#assay Notes.Wire.decodeReply using Notes.Wire.decodeReply_spec Notes.Wire.decodeReply_none
 
 #assay Notes.Wire.pushFlag Notes.Wire.fingerprint
   using Notes.Wire.fingerprint_spec Notes.Wire.fingerprint_injective

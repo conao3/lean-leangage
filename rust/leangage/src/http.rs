@@ -22,6 +22,7 @@ use axum::response::{IntoResponse, Response};
 use axum::routing::post;
 
 use crate::http_format::{self, Body, Failure};
+use crate::json_text;
 use crate::{Engine, EngineError, Idempotency, Kernel, token};
 
 /// A kernel's functions on the wire, implemented by delegating to functions generated from Lean.
@@ -69,9 +70,9 @@ pub fn failure(error: &EngineError) -> Failure {
 
 /// The body as the generated functions take it.
 pub fn body_of(bytes: &[u8]) -> Body {
-    match std::str::from_utf8(bytes) {
-        Ok(text) => Body::Text { s: text.to_owned() },
-        Err(_) => Body::NotUtf8,
+    match json_text::lexemes(bytes) {
+        Some(lexemes) => Body::Json { lexemes },
+        None => Body::NotJson,
     }
 }
 

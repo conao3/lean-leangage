@@ -11,7 +11,7 @@ GENERATED := rust/calculator/src/generated python/src/leangage_calculator/kernel
 	rust/leangage/src/generated python/src/leangage/sql.py go/leangage/sql \
 	python/src/leangage/token_format.py go/leangage/token \
 	python/src/leangage/json_format.py go/leangage/jsonformat \
-	python/src/leangage/json_read.py go/leangage/jsonread \
+	python/src/leangage/json_items.py go/leangage/jsonitems \
 	python/src/leangage/http_format.py go/leangage/httpformat \
 	python/src/leangage_calculator/wire.py go/calculator/wire \
 	rust/notes/src/generated python/src/leangage_notes/kernel.py go/notes/kernel \
@@ -56,27 +56,28 @@ generate: lean
 	leanfran-go module generate --module-name Calculator.Kernel --search-path lean/.lake/build/lib/lean --output-dir go/calculator/kernel --output text
 	leanfran-python module generate --module-name Calculator.Store --search-path lean/.lake/build/lib/lean --type-module Calculator.Kernel=leangage_calculator.kernel Leangage.Sql=leangage.sql --output-file python/src/leangage_calculator/store.py --output text
 	leanfran-go module generate --module-name Calculator.Store --search-path lean/.lake/build/lib/lean --type-module Calculator.Kernel=github.com/conao3/lean-leangage/go/calculator/kernel --type-module Leangage.Sql=github.com/conao3/lean-leangage/go/leangage/sql --output-dir go/calculator/store --output text
-	leanfran project generate --lake-dir lean --output-dir rust/leangage/src/generated --modules Leangage.Sql Leangage.Token Leangage.Json Leangage.Json.Read Leangage.Http --output text
+	leanfran project generate --lake-dir lean --output-dir rust/leangage/src/generated --modules Leangage.Sql Leangage.Token Leangage.Json Leangage.Json.Items Leangage.Http --output text
+	leanfran module generate --module-name Leangage.Http --search-path lean/.lake/build/lib/lean --type-path Leangage.Json.Items=crate::generated::leangage_json_items --output-file rust/leangage/src/generated/leangage_http.rs --output text
 	leanfran-python module generate --module-name Leangage.Sql --search-path lean/.lake/build/lib/lean --output-file python/src/leangage/sql.py --output text
 	leanfran-go module generate --module-name Leangage.Sql --search-path lean/.lake/build/lib/lean --output-dir go/leangage/sql --output text
 	leanfran-python module generate --module-name Leangage.Token --search-path lean/.lake/build/lib/lean --output-file python/src/leangage/token_format.py --output text
 	leanfran-go module generate --module-name Leangage.Token --search-path lean/.lake/build/lib/lean --output-dir go/leangage/token --output text
 	leanfran-python module generate --module-name Leangage.Json --search-path lean/.lake/build/lib/lean --output-file python/src/leangage/json_format.py --output text
 	leanfran-go module generate --module-name Leangage.Json --search-path lean/.lake/build/lib/lean --package jsonformat --output-dir go/leangage/jsonformat --output text
-	leanfran-python module generate --module-name Leangage.Json.Read --search-path lean/.lake/build/lib/lean --output-file python/src/leangage/json_read.py --output text
-	leanfran-go module generate --module-name Leangage.Json.Read --search-path lean/.lake/build/lib/lean --package jsonread --output-dir go/leangage/jsonread --output text
-	leanfran-python module generate --module-name Leangage.Http --search-path lean/.lake/build/lib/lean --output-file python/src/leangage/http_format.py --output text
-	leanfran-go module generate --module-name Leangage.Http --search-path lean/.lake/build/lib/lean --package httpformat --output-dir go/leangage/httpformat --output text
-	leanfran module generate --module-name Calculator.Wire --search-path lean/.lake/build/lib/lean --type-path Calculator.Kernel=crate::generated::calculator_kernel Leangage.Http=::leangage::http_format Leangage.Json.Read=::leangage::json_read --output-file rust/calculator/src/generated/calculator_wire.rs --output text
-	leanfran-python module generate --module-name Calculator.Wire --search-path lean/.lake/build/lib/lean --type-module Calculator.Kernel=leangage_calculator.kernel Leangage.Http=leangage.http_format Leangage.Json.Read=leangage.json_read --output-file python/src/leangage_calculator/wire.py --output text
-	leanfran-go module generate --module-name Calculator.Wire --search-path lean/.lake/build/lib/lean --type-module Calculator.Kernel=github.com/conao3/lean-leangage/go/calculator/kernel --type-module Leangage.Http=github.com/conao3/lean-leangage/go/leangage/httpformat --type-module Leangage.Json.Read=github.com/conao3/lean-leangage/go/leangage/jsonread --output-dir go/calculator/wire --output text
+	leanfran-python module generate --module-name Leangage.Json.Items --search-path lean/.lake/build/lib/lean --output-file python/src/leangage/json_items.py --output text
+	leanfran-go module generate --module-name Leangage.Json.Items --search-path lean/.lake/build/lib/lean --package jsonitems --output-dir go/leangage/jsonitems --output text
+	leanfran-python module generate --module-name Leangage.Http --search-path lean/.lake/build/lib/lean --type-module Leangage.Json.Items=leangage.json_items --output-file python/src/leangage/http_format.py --output text
+	leanfran-go module generate --module-name Leangage.Http --search-path lean/.lake/build/lib/lean --type-module Leangage.Json.Items=github.com/conao3/lean-leangage/go/leangage/jsonitems --package httpformat --output-dir go/leangage/httpformat --output text
+	leanfran module generate --module-name Calculator.Wire --search-path lean/.lake/build/lib/lean --type-path Calculator.Kernel=crate::generated::calculator_kernel Leangage.Http=::leangage::http_format Leangage.Json.Items=::leangage::json_items --output-file rust/calculator/src/generated/calculator_wire.rs --output text
+	leanfran-python module generate --module-name Calculator.Wire --search-path lean/.lake/build/lib/lean --type-module Calculator.Kernel=leangage_calculator.kernel Leangage.Http=leangage.http_format Leangage.Json.Items=leangage.json_items --output-file python/src/leangage_calculator/wire.py --output text
+	leanfran-go module generate --module-name Calculator.Wire --search-path lean/.lake/build/lib/lean --type-module Calculator.Kernel=github.com/conao3/lean-leangage/go/calculator/kernel --type-module Leangage.Http=github.com/conao3/lean-leangage/go/leangage/httpformat --type-module Leangage.Json.Items=github.com/conao3/lean-leangage/go/leangage/jsonitems --output-dir go/calculator/wire --output text
 	leanfran project generate --lake-dir lean --output-dir rust/notes/src/generated --modules Notes.Kernel --output text
 	leanfran-python module generate --module-name Notes.Kernel --search-path lean/.lake/build/lib/lean --output-file python/src/leangage_notes/kernel.py --output text
 	leanfran-go module generate --module-name Notes.Kernel --search-path lean/.lake/build/lib/lean --output-dir go/notes/kernel --output text
 	leanfran module generate --module-name Notes.Store --search-path lean/.lake/build/lib/lean --type-path Notes.Kernel=crate::generated::notes_kernel Leangage.Sql=::leangage::sql --output-file rust/notes/src/generated/notes_store.rs --output text
 	leanfran-python module generate --module-name Notes.Store --search-path lean/.lake/build/lib/lean --type-module Notes.Kernel=leangage_notes.kernel Leangage.Sql=leangage.sql --output-file python/src/leangage_notes/store.py --output text
 	leanfran-go module generate --module-name Notes.Store --search-path lean/.lake/build/lib/lean --output-dir go/notes/store --output text
-	leanfran module generate --module-name Notes.Wire --search-path lean/.lake/build/lib/lean --type-path Notes.Kernel=crate::generated::notes_kernel Leangage.Authz=crate::authz Leangage.Http=::leangage::http_format Leangage.Json.Read=::leangage::json_read Leangage.Json=::leangage::json_format --output-file rust/notes/src/generated/notes_wire.rs --output text
+	leanfran module generate --module-name Notes.Wire --search-path lean/.lake/build/lib/lean --type-path Notes.Kernel=crate::generated::notes_kernel Leangage.Authz=crate::authz Leangage.Http=::leangage::http_format Leangage.Json.Items=::leangage::json_items Leangage.Json=::leangage::json_format --output-file rust/notes/src/generated/notes_wire.rs --output text
 
 .PHONY: generated-check
 generated-check: generate

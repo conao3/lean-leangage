@@ -101,7 +101,7 @@ def test_statuses_and_bodies() -> None:
 
 
 def test_a_deep_body_is_refused() -> None:
-    """A body of nothing but `[` is answered, and the reader does not recurse on it."""
+    """A body of nothing but `[` is answered, and so is one nested 10,000 deep."""
     good = bearer(SECRET, int(time.time()) + 600)
     engine = MemoryEngine(KERNEL)
     assert post(engine, good, b"[" * 20_000) == (400, b'{"error":"body is not JSON"}')

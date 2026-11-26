@@ -616,6 +616,8 @@ dependencies = [
  "axum",
  "hmac 0.12.1",
  "leanfran",
+ "serde",
+ "serde_json",
  "sha2 0.10.9",
 ]
 

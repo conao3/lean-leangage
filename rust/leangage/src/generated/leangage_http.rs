@@ -1076,13 +1076,14 @@ let mut x_4: u8 = 0;
 let mut x_5: Obj = rt::lean_box(0);
 let mut x_7: Obj = rt::lean_box(0);
 let mut x_8: u8 = 0;
-let mut x_10: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
 let mut x_11: Obj = rt::lean_box(0);
-let mut x_12: u8 = 0;
-let mut x_13: Obj = rt::lean_box(0);
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_13: u8 = 0;
 let mut x_14: Obj = rt::lean_box(0);
 let mut x_15: Obj = rt::lean_box(0);
 let mut x_16: Obj = rt::lean_box(0);
+let mut x_17: Obj = rt::lean_box(0);
 let mut __blk: u32 = 0;
 'body: loop { match __blk {
 0 => {
@@ -1092,65 +1093,711 @@ match x_4 as u32 {
 match rt::lean_obj_tag(x_3) {
 0 => {
 x_5 = rt::lean_ctor_get(x_3, 0);
-x_12 = (!rt::lean_is_exclusive(x_3)) as u8;
-match x_12 as u32 {
+x_13 = (!rt::lean_is_exclusive(x_3)) as u8;
+match x_13 as u32 {
 0 => {
-{ let t_0 = x_3; let t_1 = x_12; x_7 = t_0; x_8 = t_1; }
+{ let t_0 = x_3; let t_1 = x_13; x_7 = t_0; x_8 = t_1; }
 __blk = 1; continue 'body;
 }
 1 => {
 rt::lean_inc(x_5);
 rt::lean_dec(x_3);
-{ let t_0 = rt::lean_box(0); let t_1 = x_12; x_7 = t_0; x_8 = t_1; }
+{ let t_0 = rt::lean_box(0); let t_1 = x_13; x_7 = t_0; x_8 = t_1; }
 __blk = 1; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
-x_13 = l_Leangage_Http_admit___closed__2();
-return x_13;
-}
-2 => {
-x_14 = l_Leangage_Http_admit___closed__5();
+x_14 = l_Leangage_Http_admit___closed__2();
 return x_14;
 }
-3 => {
-x_15 = l_Leangage_Http_admit___closed__8();
+2 => {
+x_15 = l_Leangage_Http_admit___closed__5();
 return x_15;
 }
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-1 => {
-rt::lean_dec(x_3);
-x_16 = l_Leangage_Http_admit___closed__11();
+3 => {
+x_16 = l_Leangage_Http_admit___closed__8();
 return x_16;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 1 => {
+rt::lean_dec(x_3);
+x_17 = l_Leangage_Http_admit___closed__11();
+return x_17;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_9 = l_Leangage_Json_Items_items(x_5);
 match x_8 as u32 {
 0 => {
 rt::lean_ctor_set_tag(x_7, 1);
-{ let t_0 = x_7; x_10 = t_0; }
+rt::lean_ctor_set(x_7, 0, x_9);
+{ let t_0 = x_7; x_11 = t_0; }
 __blk = 2; continue 'body;
 }
 1 => {
-x_11 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_11, 0, x_5);
-{ let t_0 = x_11; x_10 = t_0; }
+x_12 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_12, 0, x_9);
+{ let t_0 = x_12; x_11 = t_0; }
 __blk = 2; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
 2 => {
-return x_10;
+return x_11;
 }
 _ => rt::lean_internal_panic_unreachable(),
 } }
 }
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leangage_Json_Items_items(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+x_2 = rt::lean_box(0);
+x_3 = l_List_mapTR_loop___at___00Leangage_Json_Items_items_spec__0(x_1, x_2);
+return x_3;
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_List_mapTR_loop___at___00Leangage_Json_Items_items_spec__0(mut x_1: Obj, mut x_2: Obj) -> Obj {
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: u8 = 0;
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_13: Obj = rt::lean_box(0);
+let mut x_14: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+match rt::lean_obj_tag(x_1) {
+0 => {
+x_3 = l_List_reverse___redArg(x_2);
+return x_3;
+}
+1 => {
+x_4 = rt::lean_ctor_get(x_1, 0);
+x_5 = rt::lean_ctor_get(x_1, 1);
+x_14 = (!rt::lean_is_exclusive(x_1)) as u8;
+match x_14 as u32 {
+0 => {
+{ let t_0 = x_1; let t_1 = x_14; x_7 = t_0; x_8 = t_1; }
+__blk = 1; continue 'body;
+}
+1 => {
+rt::lean_inc(x_5);
+rt::lean_inc(x_4);
+rt::lean_dec(x_1);
+{ let t_0 = rt::lean_box(0); let t_1 = x_14; x_7 = t_0; x_8 = t_1; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_9 = l_Leangage_Json_Items_item(x_4);
+match x_8 as u32 {
+0 => {
+rt::lean_ctor_set(x_7, 1, x_2);
+rt::lean_ctor_set(x_7, 0, x_9);
+{ let t_0 = x_7; x_11 = t_0; }
+__blk = 2; continue 'body;
+}
+1 => {
+x_13 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_13, 0, x_9); rt::lean_ctor_set(x_13, 1, x_2);
+{ let t_0 = x_13; x_11 = t_0; }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+{ let t_0 = x_5; let t_1 = x_11; x_1 = t_0; x_2 = t_1; }
+__blk = 0; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_List_reverse___redArg(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+x_2 = rt::lean_box(0);
+x_3 = l_List_reverseAux___redArg(x_1, x_2);
+return x_3;
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_List_reverseAux___redArg(mut x_1: Obj, mut x_2: Obj) -> Obj {
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: u8 = 0;
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_12: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+match rt::lean_obj_tag(x_1) {
+0 => {
+return x_2;
+}
+1 => {
+x_3 = rt::lean_ctor_get(x_1, 0);
+x_4 = rt::lean_ctor_get(x_1, 1);
+x_12 = (!rt::lean_is_exclusive(x_1)) as u8;
+match x_12 as u32 {
+0 => {
+{ let t_0 = x_1; let t_1 = x_12; x_6 = t_0; x_7 = t_1; }
+__blk = 1; continue 'body;
+}
+1 => {
+rt::lean_inc(x_4);
+rt::lean_inc(x_3);
+rt::lean_dec(x_1);
+{ let t_0 = rt::lean_box(0); let t_1 = x_12; x_6 = t_0; x_7 = t_1; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+match x_7 as u32 {
+0 => {
+rt::lean_ctor_set(x_6, 1, x_2);
+{ let t_0 = x_6; x_9 = t_0; }
+__blk = 2; continue 'body;
+}
+1 => {
+x_11 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_11, 0, x_3); rt::lean_ctor_set(x_11, 1, x_2);
+{ let t_0 = x_11; x_9 = t_0; }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+{ let t_0 = x_4; let t_1 = x_9; x_1 = t_0; x_2 = t_1; }
+__blk = 0; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leangage_Json_Items_item(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: u8 = 0;
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: u8 = 0;
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: u8 = 0;
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_13: Obj = rt::lean_box(0);
+let mut x_15: Obj = rt::lean_box(0);
+let mut x_16: u8 = 0;
+let mut x_17: Obj = rt::lean_box(0);
+let mut x_18: Obj = rt::lean_box(0);
+let mut x_19: Obj = rt::lean_box(0);
+let mut x_21: Obj = rt::lean_box(0);
+let mut x_22: Obj = rt::lean_box(0);
+let mut x_23: u8 = 0;
+let mut x_24: Obj = rt::lean_box(0);
+let mut x_26: Obj = rt::lean_box(0);
+let mut x_27: u8 = 0;
+let mut x_28: Obj = rt::lean_box(0);
+let mut x_29: Obj = rt::lean_box(0);
+let mut x_30: Obj = rt::lean_box(0);
+let mut x_32: Obj = rt::lean_box(0);
+let mut x_33: Obj = rt::lean_box(0);
+let mut x_34: u8 = 0;
+let mut x_35: Obj = rt::lean_box(0);
+let mut x_36: Obj = rt::lean_box(0);
+let mut x_37: Obj = rt::lean_box(0);
+let mut x_38: Obj = rt::lean_box(0);
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+match rt::lean_obj_tag(x_1) {
+0 => {
+x_2 = rt::lean_box(0);
+return x_2;
+}
+1 => {
+x_3 = rt::lean_ctor_get_uint8(x_1, 0 * core::mem::size_of::<usize>() as u32 + 0);
+x_10 = (!rt::lean_is_exclusive(x_1)) as u8;
+match x_10 as u32 {
+0 => {
+{ let t_0 = x_1; let t_1 = x_10; x_5 = t_0; x_6 = t_1; }
+__blk = 1; continue 'body;
+}
+1 => {
+rt::lean_dec(x_1);
+{ let t_0 = rt::lean_box(0); let t_1 = x_10; x_5 = t_0; x_6 = t_1; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+x_11 = rt::lean_ctor_get(x_1, 0);
+rt::lean_inc_ref(x_11);
+rt::lean_dec_ref(x_1);
+x_12 = l_Leangage_Json_Items_numberItem(x_11);
+rt::lean_dec_ref(x_11);
+return x_12;
+}
+3 => {
+x_13 = rt::lean_ctor_get(x_1, 0);
+x_23 = (!rt::lean_is_exclusive(x_1)) as u8;
+match x_23 as u32 {
+0 => {
+{ let t_0 = x_1; let t_1 = x_23; x_15 = t_0; x_16 = t_1; }
+__blk = 3; continue 'body;
+}
+1 => {
+rt::lean_inc(x_13);
+rt::lean_dec(x_1);
+{ let t_0 = rt::lean_box(0); let t_1 = x_23; x_15 = t_0; x_16 = t_1; }
+__blk = 3; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+4 => {
+x_24 = rt::lean_ctor_get(x_1, 0);
+x_34 = (!rt::lean_is_exclusive(x_1)) as u8;
+match x_34 as u32 {
+0 => {
+{ let t_0 = x_1; let t_1 = x_34; x_26 = t_0; x_27 = t_1; }
+__blk = 5; continue 'body;
+}
+1 => {
+rt::lean_inc(x_24);
+rt::lean_dec(x_1);
+{ let t_0 = rt::lean_box(0); let t_1 = x_34; x_26 = t_0; x_27 = t_1; }
+__blk = 5; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+5 => {
+x_35 = rt::lean_box(6);
+return x_35;
+}
+6 => {
+x_36 = rt::lean_box(7);
+return x_36;
+}
+7 => {
+x_37 = rt::lean_box(8);
+return x_37;
+}
+8 => {
+x_38 = rt::lean_box(9);
+return x_38;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+match x_6 as u32 {
+0 => {
+{ let t_0 = x_5; x_8 = t_0; }
+__blk = 2; continue 'body;
+}
+1 => {
+x_9 = rt::lean_alloc_ctor(1, 0, 0 * core::mem::size_of::<usize>() as u32 + 1);
+rt::lean_ctor_set_uint8(x_9, 0 * core::mem::size_of::<usize>() as u32 + 0, x_3);
+{ let t_0 = x_9; x_8 = t_0; }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+2 => {
+return x_8;
+}
+3 => {
+x_17 = rt::lean_string_to_utf8(x_13);
+x_18 = rt::lean_byte_array_data(x_17);
+x_19 = rt::lean_array_to_list(x_18);
+match x_16 as u32 {
+0 => {
+rt::lean_ctor_set_tag(x_15, 4);
+rt::lean_ctor_set(x_15, 0, x_19);
+{ let t_0 = x_15; x_21 = t_0; }
+__blk = 4; continue 'body;
+}
+1 => {
+x_22 = rt::lean_alloc_ctor(4, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_22, 0, x_19);
+{ let t_0 = x_22; x_21 = t_0; }
+__blk = 4; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+4 => {
+return x_21;
+}
+5 => {
+x_28 = rt::lean_string_to_utf8(x_24);
+x_29 = rt::lean_byte_array_data(x_28);
+x_30 = rt::lean_array_to_list(x_29);
+match x_27 as u32 {
+0 => {
+rt::lean_ctor_set_tag(x_26, 5);
+rt::lean_ctor_set(x_26, 0, x_30);
+{ let t_0 = x_26; x_32 = t_0; }
+__blk = 6; continue 'body;
+}
+1 => {
+x_33 = rt::lean_alloc_ctor(5, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_33, 0, x_30);
+{ let t_0 = x_33; x_32 = t_0; }
+__blk = 6; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+6 => {
+return x_32;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leangage_Json_Items_numberItem(mut x_1: Obj) -> Obj {
+let mut x_2: Obj = rt::lean_box(0);
+let mut x_3: Obj = rt::lean_box(0);
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: u64 = 0;
+x_2 = rt::lean_unsigned_to_nat(0u32);
+x_3 = rt::lean_string_utf8_byte_size(x_1);
+x_4 = l_Leangage_Token_numberAt(x_1, x_2, x_3);
+match rt::lean_obj_tag(x_4) {
+0 => {
+x_5 = rt::lean_box(3);
+return x_5;
+}
+1 => {
+x_6 = rt::lean_ctor_get(x_4, 0);
+rt::lean_inc(x_6);
+rt::lean_dec_ref(x_4);
+x_7 = rt::lean_alloc_ctor(2, 0, 0 * core::mem::size_of::<usize>() as u32 + 8);
+x_8 = rt::lean_unbox_uint64(x_6);
+rt::lean_dec(x_6);
+rt::lean_ctor_set_uint64(x_7, 0 * core::mem::size_of::<usize>() as u32 + 0, x_8);
+return x_7;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leangage_Token_numberAt(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj) -> Obj {
+let mut x_4: Obj = rt::lean_box(0);
+let mut x_5: Obj = rt::lean_box(0);
+let mut x_6: u8 = 0;
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: u64 = 0;
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_12: u8 = 0;
+let mut x_13: Obj = rt::lean_box(0);
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: Obj = rt::lean_box(0);
+x_4 = rt::lean_nat_sub(x_3, x_2);
+x_5 = rt::lean_unsigned_to_nat(20u32);
+x_6 = rt::lean_nat_dec_le(x_4, x_5);
+rt::lean_dec(x_4);
+match x_6 as u32 {
+0 => {
+rt::lean_dec(x_3);
+rt::lean_dec(x_2);
+x_7 = rt::lean_box(0);
+return x_7;
+}
+1 => {
+x_8 = rt::lean_unsigned_to_nat(0u32);
+rt::lean_inc(x_2);
+x_9 = l_Leangage_Token_digitsFrom(x_1, x_2, x_3, x_8);
+x_10 = rt::lean_uint64_of_nat(x_9);
+rt::lean_dec(x_9);
+x_11 = rt::lean_uint64_to_nat(x_10);
+x_12 = l_Leangage_Token_isDecimal(x_11, x_1, x_2, x_3);
+match x_12 as u32 {
+0 => {
+x_13 = rt::lean_box(0);
+return x_13;
+}
+1 => {
+x_14 = rt::lean_box_uint64(x_10);
+x_15 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_15, 0, x_14);
+return x_15;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leangage_Token_digitsFrom(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj) -> Obj {
+let mut x_5: u8 = 0;
+let mut x_6: Obj = rt::lean_box(0);
+let mut x_7: u8 = 0;
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: Obj = rt::lean_box(0);
+let mut x_10: Obj = rt::lean_box(0);
+let mut x_11: Obj = rt::lean_box(0);
+let mut x_13: u8 = 0;
+let mut x_14: Obj = rt::lean_box(0);
+let mut x_15: Obj = rt::lean_box(0);
+let mut x_16: Obj = rt::lean_box(0);
+let mut x_17: Obj = rt::lean_box(0);
+let mut x_18: Obj = rt::lean_box(0);
+let mut x_19: u8 = 0;
+let mut x_20: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+x_5 = rt::lean_nat_dec_lt(x_2, x_3);
+match x_5 as u32 {
+0 => {
+rt::lean_dec(x_2);
+return x_4;
+}
+1 => {
+x_6 = rt::lean_string_utf8_byte_size(x_1);
+x_7 = rt::lean_nat_dec_lt(x_2, x_6);
+match x_7 as u32 {
+0 => {
+rt::lean_dec(x_2);
+return x_4;
+}
+1 => {
+x_8 = rt::lean_unsigned_to_nat(1u32);
+x_9 = rt::lean_nat_add(x_2, x_8);
+x_10 = rt::lean_unsigned_to_nat(10u32);
+x_11 = rt::lean_nat_mul(x_4, x_10);
+rt::lean_dec(x_4);
+match x_7 as u32 {
+0 => {
+rt::lean_dec(x_2);
+x_19 = 0u8;
+{ let t_0 = x_19; x_13 = t_0; }
+__blk = 1; continue 'body;
+}
+1 => {
+x_20 = rt::lean_string_get_byte_fast(x_1, x_2);
+{ let t_0 = x_20; x_13 = t_0; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_14 = rt::lean_uint8_to_nat(x_13);
+x_15 = rt::lean_unsigned_to_nat(48u32);
+x_16 = rt::lean_nat_sub(x_14, x_15);
+x_17 = rt::lean_nat_add(x_11, x_16);
+rt::lean_dec(x_16);
+rt::lean_dec(x_11);
+{ let t_0 = x_1; let t_1 = x_9; let t_2 = x_3; let t_3 = x_17; x_1 = t_0; x_2 = t_1; x_3 = t_2; x_4 = t_3; }
+__blk = 0; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+
+
+#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
+pub(crate) unsafe fn l_Leangage_Token_isDecimal(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj) -> u8 {
+let mut x_6: u8 = 0;
+let mut x_7: Obj = rt::lean_box(0);
+let mut x_8: Obj = rt::lean_box(0);
+let mut x_9: u8 = 0;
+let mut x_10: u8 = 0;
+let mut x_11: u8 = 0;
+let mut x_12: Obj = rt::lean_box(0);
+let mut x_13: u8 = 0;
+let mut x_15: u8 = 0;
+let mut x_16: Obj = rt::lean_box(0);
+let mut x_17: Obj = rt::lean_box(0);
+let mut x_18: Obj = rt::lean_box(0);
+let mut x_19: u8 = 0;
+let mut x_20: u8 = 0;
+let mut x_21: Obj = rt::lean_box(0);
+let mut x_22: Obj = rt::lean_box(0);
+let mut x_23: Obj = rt::lean_box(0);
+let mut x_24: u8 = 0;
+let mut x_25: Obj = rt::lean_box(0);
+let mut x_26: Obj = rt::lean_box(0);
+let mut x_27: Obj = rt::lean_box(0);
+let mut x_28: u8 = 0;
+let mut x_29: u8 = 0;
+let mut x_30: u8 = 0;
+let mut x_31: Obj = rt::lean_box(0);
+let mut x_32: Obj = rt::lean_box(0);
+let mut x_33: u8 = 0;
+let mut x_34: Obj = rt::lean_box(0);
+let mut x_35: u8 = 0;
+let mut x_36: u8 = 0;
+let mut x_37: u8 = 0;
+let mut x_38: u8 = 0;
+let mut __blk: u32 = 0;
+'body: loop { match __blk {
+0 => {
+x_11 = rt::lean_nat_dec_le(x_4, x_3);
+match x_11 as u32 {
+0 => {
+x_12 = rt::lean_unsigned_to_nat(10u32);
+x_13 = rt::lean_nat_dec_lt(x_1, x_12);
+match x_13 as u32 {
+0 => {
+x_25 = rt::lean_unsigned_to_nat(1u32);
+x_26 = rt::lean_nat_sub(x_4, x_25);
+x_27 = rt::lean_string_utf8_byte_size(x_2);
+x_28 = rt::lean_nat_dec_lt(x_26, x_27);
+match x_28 as u32 {
+0 => {
+rt::lean_dec(x_26);
+x_29 = 0u8;
+{ let t_0 = x_29; x_15 = t_0; }
+__blk = 2; continue 'body;
+}
+1 => {
+x_30 = rt::lean_string_get_byte_fast(x_2, x_26);
+{ let t_0 = x_30; x_15 = t_0; }
+__blk = 2; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_31 = rt::lean_unsigned_to_nat(1u32);
+x_32 = rt::lean_nat_add(x_3, x_31);
+x_33 = rt::lean_nat_dec_eq(x_4, x_32);
+rt::lean_dec(x_32);
+rt::lean_dec(x_4);
+match x_33 as u32 {
+0 => {
+rt::lean_dec(x_3);
+rt::lean_dec(x_1);
+return x_11;
+}
+1 => {
+x_34 = rt::lean_string_utf8_byte_size(x_2);
+x_35 = rt::lean_nat_dec_lt(x_3, x_34);
+match x_35 as u32 {
+0 => {
+rt::lean_dec(x_3);
+x_36 = 0u8;
+{ let t_0 = x_36; x_6 = t_0; }
+__blk = 1; continue 'body;
+}
+1 => {
+x_37 = rt::lean_string_get_byte_fast(x_2, x_3);
+{ let t_0 = x_37; x_6 = t_0; }
+__blk = 1; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+rt::lean_dec(x_4);
+rt::lean_dec(x_3);
+rt::lean_dec(x_1);
+x_38 = 0u8;
+return x_38;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+1 => {
+x_7 = rt::lean_unsigned_to_nat(48u32);
+x_8 = rt::lean_nat_add(x_1, x_7);
+rt::lean_dec(x_1);
+x_9 = rt::lean_uint8_of_nat(x_8);
+rt::lean_dec(x_8);
+x_10 = rt::lean_uint8_dec_eq(x_6, x_9);
+return x_10;
+}
+2 => {
+x_16 = rt::lean_nat_mod(x_1, x_12);
+x_17 = rt::lean_unsigned_to_nat(48u32);
+x_18 = rt::lean_nat_add(x_16, x_17);
+rt::lean_dec(x_16);
+x_19 = rt::lean_uint8_of_nat(x_18);
+rt::lean_dec(x_18);
+x_20 = rt::lean_uint8_dec_eq(x_15, x_19);
+match x_20 as u32 {
+0 => {
+rt::lean_dec(x_4);
+rt::lean_dec(x_3);
+rt::lean_dec(x_1);
+return x_13;
+}
+1 => {
+x_21 = rt::lean_nat_div(x_1, x_12);
+rt::lean_dec(x_1);
+x_22 = rt::lean_unsigned_to_nat(1u32);
+x_23 = rt::lean_nat_sub(x_4, x_22);
+rt::lean_dec(x_4);
+{ let t_0 = x_21; let t_1 = x_2; let t_2 = x_3; let t_3 = x_23; x_1 = t_0; x_2 = t_1; x_3 = t_2; x_4 = t_3; }
+__blk = 0; continue 'body;
+}
+_ => rt::lean_internal_panic_unreachable(),
+}
+}
+_ => rt::lean_internal_panic_unreachable(),
+} }
+}
+
+
+
 
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, clippy::all)]
@@ -1501,7 +2148,6 @@ pub(crate) unsafe fn l_String_dropPrefix_x3f___at___00Leangage_Http_bearerToken_
 }
 
 
-
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_String_Slice_pos_x21(mut x_1: Obj, mut x_2: Obj) -> Obj {
 let mut x_3: u8 = 0;
@@ -1609,8 +2255,6 @@ _ => rt::lean_internal_panic_unreachable(),
 _ => rt::lean_internal_panic_unreachable(),
 }
 }
-
-
 
 
 
@@ -1977,77 +2621,6 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 2 => {
 { let t_0 = x_5; let t_1 = x_12; x_1 = t_0; x_2 = t_1; }
-__blk = 0; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-} }
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_List_reverse___redArg(mut x_1: Obj) -> Obj {
-let mut x_2: Obj = rt::lean_box(0);
-let mut x_3: Obj = rt::lean_box(0);
-x_2 = rt::lean_box(0);
-x_3 = l_List_reverseAux___redArg(x_1, x_2);
-return x_3;
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_List_reverseAux___redArg(mut x_1: Obj, mut x_2: Obj) -> Obj {
-let mut x_3: Obj = rt::lean_box(0);
-let mut x_4: Obj = rt::lean_box(0);
-let mut x_6: Obj = rt::lean_box(0);
-let mut x_7: u8 = 0;
-let mut x_9: Obj = rt::lean_box(0);
-let mut x_10: Obj = rt::lean_box(0);
-let mut x_11: Obj = rt::lean_box(0);
-let mut x_12: u8 = 0;
-let mut __blk: u32 = 0;
-'body: loop { match __blk {
-0 => {
-match rt::lean_obj_tag(x_1) {
-0 => {
-return x_2;
-}
-1 => {
-x_3 = rt::lean_ctor_get(x_1, 0);
-x_4 = rt::lean_ctor_get(x_1, 1);
-x_12 = (!rt::lean_is_exclusive(x_1)) as u8;
-match x_12 as u32 {
-0 => {
-{ let t_0 = x_1; let t_1 = x_12; x_6 = t_0; x_7 = t_1; }
-__blk = 1; continue 'body;
-}
-1 => {
-rt::lean_inc(x_4);
-rt::lean_inc(x_3);
-rt::lean_dec(x_1);
-{ let t_0 = rt::lean_box(0); let t_1 = x_12; x_6 = t_0; x_7 = t_1; }
-__blk = 1; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-1 => {
-match x_7 as u32 {
-0 => {
-rt::lean_ctor_set(x_6, 1, x_2);
-{ let t_0 = x_6; x_9 = t_0; }
-__blk = 2; continue 'body;
-}
-1 => {
-x_11 = rt::lean_alloc_ctor(1, 2, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_11, 0, x_3); rt::lean_ctor_set(x_11, 1, x_2);
-{ let t_0 = x_11; x_9 = t_0; }
-__blk = 2; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-2 => {
-{ let t_0 = x_4; let t_1 = x_9; x_1 = t_0; x_2 = t_1; }
 __blk = 0; continue 'body;
 }
 _ => rt::lean_internal_panic_unreachable(),
@@ -3127,282 +3700,6 @@ _ => rt::lean_internal_panic_unreachable(),
 }
 
 #[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leangage_Token_numberAt(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj) -> Obj {
-let mut x_4: Obj = rt::lean_box(0);
-let mut x_5: Obj = rt::lean_box(0);
-let mut x_6: u8 = 0;
-let mut x_7: Obj = rt::lean_box(0);
-let mut x_8: Obj = rt::lean_box(0);
-let mut x_9: Obj = rt::lean_box(0);
-let mut x_10: u64 = 0;
-let mut x_11: Obj = rt::lean_box(0);
-let mut x_12: u8 = 0;
-let mut x_13: Obj = rt::lean_box(0);
-let mut x_14: Obj = rt::lean_box(0);
-let mut x_15: Obj = rt::lean_box(0);
-x_4 = rt::lean_nat_sub(x_3, x_2);
-x_5 = rt::lean_unsigned_to_nat(20u32);
-x_6 = rt::lean_nat_dec_le(x_4, x_5);
-rt::lean_dec(x_4);
-match x_6 as u32 {
-0 => {
-rt::lean_dec(x_3);
-rt::lean_dec(x_2);
-x_7 = rt::lean_box(0);
-return x_7;
-}
-1 => {
-x_8 = rt::lean_unsigned_to_nat(0u32);
-rt::lean_inc(x_2);
-x_9 = l_Leangage_Token_digitsFrom(x_1, x_2, x_3, x_8);
-x_10 = rt::lean_uint64_of_nat(x_9);
-rt::lean_dec(x_9);
-x_11 = rt::lean_uint64_to_nat(x_10);
-x_12 = l_Leangage_Token_isDecimal(x_11, x_1, x_2, x_3);
-match x_12 as u32 {
-0 => {
-x_13 = rt::lean_box(0);
-return x_13;
-}
-1 => {
-x_14 = rt::lean_box_uint64(x_10);
-x_15 = rt::lean_alloc_ctor(1, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(x_15, 0, x_14);
-return x_15;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leangage_Token_digitsFrom(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj) -> Obj {
-let mut x_5: u8 = 0;
-let mut x_6: Obj = rt::lean_box(0);
-let mut x_7: u8 = 0;
-let mut x_8: Obj = rt::lean_box(0);
-let mut x_9: Obj = rt::lean_box(0);
-let mut x_10: Obj = rt::lean_box(0);
-let mut x_11: Obj = rt::lean_box(0);
-let mut x_13: u8 = 0;
-let mut x_14: Obj = rt::lean_box(0);
-let mut x_15: Obj = rt::lean_box(0);
-let mut x_16: Obj = rt::lean_box(0);
-let mut x_17: Obj = rt::lean_box(0);
-let mut x_18: Obj = rt::lean_box(0);
-let mut x_19: u8 = 0;
-let mut x_20: u8 = 0;
-let mut __blk: u32 = 0;
-'body: loop { match __blk {
-0 => {
-x_5 = rt::lean_nat_dec_lt(x_2, x_3);
-match x_5 as u32 {
-0 => {
-rt::lean_dec(x_2);
-return x_4;
-}
-1 => {
-x_6 = rt::lean_string_utf8_byte_size(x_1);
-x_7 = rt::lean_nat_dec_lt(x_2, x_6);
-match x_7 as u32 {
-0 => {
-rt::lean_dec(x_2);
-return x_4;
-}
-1 => {
-x_8 = rt::lean_unsigned_to_nat(1u32);
-x_9 = rt::lean_nat_add(x_2, x_8);
-x_10 = rt::lean_unsigned_to_nat(10u32);
-x_11 = rt::lean_nat_mul(x_4, x_10);
-rt::lean_dec(x_4);
-match x_7 as u32 {
-0 => {
-rt::lean_dec(x_2);
-x_19 = 0u8;
-{ let t_0 = x_19; x_13 = t_0; }
-__blk = 1; continue 'body;
-}
-1 => {
-x_20 = rt::lean_string_get_byte_fast(x_1, x_2);
-{ let t_0 = x_20; x_13 = t_0; }
-__blk = 1; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-1 => {
-x_14 = rt::lean_uint8_to_nat(x_13);
-x_15 = rt::lean_unsigned_to_nat(48u32);
-x_16 = rt::lean_nat_sub(x_14, x_15);
-x_17 = rt::lean_nat_add(x_11, x_16);
-rt::lean_dec(x_16);
-rt::lean_dec(x_11);
-{ let t_0 = x_1; let t_1 = x_9; let t_2 = x_3; let t_3 = x_17; x_1 = t_0; x_2 = t_1; x_3 = t_2; x_4 = t_3; }
-__blk = 0; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-} }
-}
-
-
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
-pub(crate) unsafe fn l_Leangage_Token_isDecimal(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj) -> u8 {
-let mut x_6: u8 = 0;
-let mut x_7: Obj = rt::lean_box(0);
-let mut x_8: Obj = rt::lean_box(0);
-let mut x_9: u8 = 0;
-let mut x_10: u8 = 0;
-let mut x_11: u8 = 0;
-let mut x_12: Obj = rt::lean_box(0);
-let mut x_13: u8 = 0;
-let mut x_15: u8 = 0;
-let mut x_16: Obj = rt::lean_box(0);
-let mut x_17: Obj = rt::lean_box(0);
-let mut x_18: Obj = rt::lean_box(0);
-let mut x_19: u8 = 0;
-let mut x_20: u8 = 0;
-let mut x_21: Obj = rt::lean_box(0);
-let mut x_22: Obj = rt::lean_box(0);
-let mut x_23: Obj = rt::lean_box(0);
-let mut x_24: u8 = 0;
-let mut x_25: Obj = rt::lean_box(0);
-let mut x_26: Obj = rt::lean_box(0);
-let mut x_27: Obj = rt::lean_box(0);
-let mut x_28: u8 = 0;
-let mut x_29: u8 = 0;
-let mut x_30: u8 = 0;
-let mut x_31: Obj = rt::lean_box(0);
-let mut x_32: Obj = rt::lean_box(0);
-let mut x_33: u8 = 0;
-let mut x_34: Obj = rt::lean_box(0);
-let mut x_35: u8 = 0;
-let mut x_36: u8 = 0;
-let mut x_37: u8 = 0;
-let mut x_38: u8 = 0;
-let mut __blk: u32 = 0;
-'body: loop { match __blk {
-0 => {
-x_11 = rt::lean_nat_dec_le(x_4, x_3);
-match x_11 as u32 {
-0 => {
-x_12 = rt::lean_unsigned_to_nat(10u32);
-x_13 = rt::lean_nat_dec_lt(x_1, x_12);
-match x_13 as u32 {
-0 => {
-x_25 = rt::lean_unsigned_to_nat(1u32);
-x_26 = rt::lean_nat_sub(x_4, x_25);
-x_27 = rt::lean_string_utf8_byte_size(x_2);
-x_28 = rt::lean_nat_dec_lt(x_26, x_27);
-match x_28 as u32 {
-0 => {
-rt::lean_dec(x_26);
-x_29 = 0u8;
-{ let t_0 = x_29; x_15 = t_0; }
-__blk = 2; continue 'body;
-}
-1 => {
-x_30 = rt::lean_string_get_byte_fast(x_2, x_26);
-{ let t_0 = x_30; x_15 = t_0; }
-__blk = 2; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-1 => {
-x_31 = rt::lean_unsigned_to_nat(1u32);
-x_32 = rt::lean_nat_add(x_3, x_31);
-x_33 = rt::lean_nat_dec_eq(x_4, x_32);
-rt::lean_dec(x_32);
-rt::lean_dec(x_4);
-match x_33 as u32 {
-0 => {
-rt::lean_dec(x_3);
-rt::lean_dec(x_1);
-return x_11;
-}
-1 => {
-x_34 = rt::lean_string_utf8_byte_size(x_2);
-x_35 = rt::lean_nat_dec_lt(x_3, x_34);
-match x_35 as u32 {
-0 => {
-rt::lean_dec(x_3);
-x_36 = 0u8;
-{ let t_0 = x_36; x_6 = t_0; }
-__blk = 1; continue 'body;
-}
-1 => {
-x_37 = rt::lean_string_get_byte_fast(x_2, x_3);
-{ let t_0 = x_37; x_6 = t_0; }
-__blk = 1; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-1 => {
-rt::lean_dec(x_4);
-rt::lean_dec(x_3);
-rt::lean_dec(x_1);
-x_38 = 0u8;
-return x_38;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-1 => {
-x_7 = rt::lean_unsigned_to_nat(48u32);
-x_8 = rt::lean_nat_add(x_1, x_7);
-rt::lean_dec(x_1);
-x_9 = rt::lean_uint8_of_nat(x_8);
-rt::lean_dec(x_8);
-x_10 = rt::lean_uint8_dec_eq(x_6, x_9);
-return x_10;
-}
-2 => {
-x_16 = rt::lean_nat_mod(x_1, x_12);
-x_17 = rt::lean_unsigned_to_nat(48u32);
-x_18 = rt::lean_nat_add(x_16, x_17);
-rt::lean_dec(x_16);
-x_19 = rt::lean_uint8_of_nat(x_18);
-rt::lean_dec(x_18);
-x_20 = rt::lean_uint8_dec_eq(x_15, x_19);
-match x_20 as u32 {
-0 => {
-rt::lean_dec(x_4);
-rt::lean_dec(x_3);
-rt::lean_dec(x_1);
-return x_13;
-}
-1 => {
-x_21 = rt::lean_nat_div(x_1, x_12);
-rt::lean_dec(x_1);
-x_22 = rt::lean_unsigned_to_nat(1u32);
-x_23 = rt::lean_nat_sub(x_4, x_22);
-rt::lean_dec(x_4);
-{ let t_0 = x_21; let t_1 = x_2; let t_2 = x_3; let t_3 = x_23; x_1 = t_0; x_2 = t_1; x_3 = t_2; x_4 = t_3; }
-__blk = 0; continue 'body;
-}
-_ => rt::lean_internal_panic_unreachable(),
-}
-}
-_ => rt::lean_internal_panic_unreachable(),
-} }
-}
-
-#[allow(dead_code, non_snake_case, unused_mut, unused_assignments, unused_variables, unreachable_code, unused_unsafe, clippy::all)]
 pub(crate) unsafe fn l_Leangage_Token_unhexAt(mut x_1: Obj, mut x_2: Obj, mut x_3: Obj, mut x_4: Obj) -> Obj {
 let mut x_6: u8 = 0;
 let mut x_7: u8 = 0;
@@ -3883,16 +4180,16 @@ unsafe impl rt::IntoLean<Response> for Response {
 #[doc = "Lean type `Leangage.Http.Body` (module `Leangage.Http`)."]
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum Body {
-    Text{ s: String },
-    NotUtf8,
+    Json{ lexemes: Vec<crate::generated::leangage_json_items::Lexeme> },
+    NotJson,
     TooLarge,
     Unreadable,
 }
 impl rt::ToLean for Body {
     unsafe fn to_lean(self) -> Obj {
         match self {
-            Body::Text { s: f0 } => { let o = rt::lean_alloc_ctor(0, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(o, 0, rt::ToLean::to_lean(f0)); o },
-            Body::NotUtf8 => rt::lean_box(1),
+            Body::Json { lexemes: f0 } => { let o = rt::lean_alloc_ctor(0, 1, 0 * core::mem::size_of::<usize>() as u32 + 0); rt::lean_ctor_set(o, 0, rt::list_to_lean(f0, |v0| rt::ToLean::to_lean(v0))); o },
+            Body::NotJson => rt::lean_box(1),
             Body::TooLarge => rt::lean_box(2),
             Body::Unreadable => rt::lean_box(3),
         }
@@ -3901,8 +4198,8 @@ impl rt::ToLean for Body {
 impl rt::FromLean for Body {
     unsafe fn from_lean(o: Obj) -> Self {
         match rt::lean_obj_tag(o) {
-            0 => Body::Text { s: <String as rt::FromLean>::from_lean(rt::lean_ctor_get(o, 0)) },
-            1 => Body::NotUtf8,
+            0 => Body::Json { lexemes: rt::list_from_lean(rt::lean_ctor_get(o, 0), |v0| <crate::generated::leangage_json_items::Lexeme as rt::FromLean>::from_lean(v0)) },
+            1 => Body::NotJson,
             2 => Body::TooLarge,
             3 => Body::Unreadable,
             _ => unreachable!(),
@@ -3964,15 +4261,15 @@ pub fn failed(arg0: Failure) -> Response {
     }
 }
 
-#[doc = "Lean: `Leangage.Http.admit : UInt64 → UInt64 → Leangage.Http.Body → Except Leangage.Http.Response String` (module `Leangage.Http`)."]
+#[doc = "Lean: `Leangage.Http.admit : UInt64 → UInt64 → Leangage.Http.Body → Except Leangage.Http.Response (List Leangage.Json.Items.Item)` (module `Leangage.Http`)."]
 #[::leanfran::exported("Leangage.Http.admit")]
-pub fn admit(exp: u64, now: u64, body: Body) -> Result<String, Response> {
+pub fn admit(exp: u64, now: u64, body: Body) -> Result<Vec<crate::generated::leangage_json_items::Item>, Response> {
     unsafe {
         let __a0: u64 = exp;
         let __a1: u64 = now;
         let __a2: Obj = rt::ToLean::to_lean(body);
         let __r: Obj = l_Leangage_Http_admit(__a0, __a1, __a2);
-        let __v = rt::except_from_lean(__r, |v0| <Response as rt::FromLean>::from_lean(v0), |v0| <String as rt::FromLean>::from_lean(v0));
+        let __v = rt::except_from_lean(__r, |v0| <Response as rt::FromLean>::from_lean(v0), |v0| rt::list_from_lean(v0, |v1| <crate::generated::leangage_json_items::Item as rt::FromLean>::from_lean(v1)));
         rt::lean_dec(__r);
         __v
     }
@@ -4027,8 +4324,8 @@ pub mod lean {
             rt::Lean::from_owned(__r)
         }
     }
-    #[doc = "`admit` on handles. Lean: `Leangage.Http.admit : UInt64 → UInt64 → Leangage.Http.Body → Except Leangage.Http.Response String` (module `Leangage.Http`)."]
-    pub fn admit(exp: impl rt::IntoLean<u64>, now: impl rt::IntoLean<u64>, body: impl rt::IntoLean<Body>) -> rt::Lean<Result<String, Response>> {
+    #[doc = "`admit` on handles. Lean: `Leangage.Http.admit : UInt64 → UInt64 → Leangage.Http.Body → Except Leangage.Http.Response (List Leangage.Json.Items.Item)` (module `Leangage.Http`)."]
+    pub fn admit(exp: impl rt::IntoLean<u64>, now: impl rt::IntoLean<u64>, body: impl rt::IntoLean<Body>) -> rt::Lean<Result<rt::List<crate::generated::leangage_json_items::Item>, Response>> {
         unsafe {
             let __a0: u64 = { let o = rt::IntoLean::<u64>::into_obj(exp); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
             let __a1: u64 = { let o = rt::IntoLean::<u64>::into_obj(now); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
@@ -4076,8 +4373,8 @@ pub mod local {
             rt::Local::from_owned(__r)
         }
     }
-    #[doc = "`admit` on handles. Lean: `Leangage.Http.admit : UInt64 → UInt64 → Leangage.Http.Body → Except Leangage.Http.Response String` (module `Leangage.Http`)."]
-    pub fn admit(exp: impl rt::IntoLean<u64>, now: impl rt::IntoLean<u64>, body: impl rt::IntoLean<Body>) -> rt::Local<Result<String, Response>> {
+    #[doc = "`admit` on handles. Lean: `Leangage.Http.admit : UInt64 → UInt64 → Leangage.Http.Body → Except Leangage.Http.Response (List Leangage.Json.Items.Item)` (module `Leangage.Http`)."]
+    pub fn admit(exp: impl rt::IntoLean<u64>, now: impl rt::IntoLean<u64>, body: impl rt::IntoLean<Body>) -> rt::Local<Result<rt::List<crate::generated::leangage_json_items::Item>, Response>> {
         unsafe {
             let __a0: u64 = { let o = rt::IntoLean::<u64>::into_obj(exp); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };
             let __a1: u64 = { let o = rt::IntoLean::<u64>::into_obj(now); let v = rt::lean_unbox_uint64(o); rt::lean_dec(o); v };

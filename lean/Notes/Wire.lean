@@ -1,12 +1,11 @@
 import Notes.Kernel
 import Leangage.Http
-import Leangage.Json.Read
 
 /-!
 # The notes on the wire
 
 What the notes' server does with a request once its token's tag is checked, and with the engine's
-result. `request` reads the body into the command and the principal the engine runs, or gives the
+result. `request` reads the items of the body into the command and the principal the engine runs, or gives the
 answer to a request the engine does not see. `respond` gives the answer to an accepted and to a
 refused command. `fingerprint` is the bytes that identify a command under an idempotency key, and
 `scope` the name that separates the keys of the users of an organization. `encodeReply` is the
@@ -26,7 +25,7 @@ member `{"admin":false,"user":2}`.
 
 namespace Notes.Wire
 
-open Notes.Kernel Leangage Leangage.Json.Read
+open Notes.Kernel Leangage Leangage.Json.Items
 open Leangage.Authz (Guarded)
 
 /-- What the engine runs. -/
@@ -36,8 +35,6 @@ structure Call where
 
 /-- Why a body is not a command. -/
 inductive Refusal where
-  /-- The body is not a JSON text. -/
-  | notJson
   | notCommand
   /-- A JSON object without the member `cmd`. -/
   | missingCmd
@@ -113,15 +110,8 @@ def decodeItems : List Item → Except Refusal Command
     | none => .error .notCommand
   | _ => .error .notCommand
 
-/-- The command that a body spells. -/
-def decode (body : String) : Except Refusal Command :=
-  match readString body with
-  | none => .error .notJson
-  | some items => decodeItems items
-
 /-- What a refused body is answered with. -/
 def refusalMessage : Refusal → String
-  | .notJson => "body is not JSON"
   | .notCommand => "not a notes command"
   | .missingCmd => "missing field `cmd`"
 
@@ -130,8 +120,8 @@ expiry `exp`, at the time `now`; or the answer to the request. -/
 def request (tenant user exp now : UInt64) (body : Http.Body) : Except Http.Response Call :=
   match Http.admit exp now body with
   | .error r => .error r
-  | .ok text =>
-    match decode text with
+  | .ok items =>
+    match decodeItems items with
     | .error e => .error (Http.refuse 400 (refusalMessage e))
     | .ok cmd => .ok ⟨⟨tenant, user⟩, cmd⟩
 
@@ -216,11 +206,12 @@ def decodeReplyItems : List Item → Option Reply
     else none
   | _ => none
 
-/-- The reply whose bytes `encodeReply` writes are the UTF-8 of the text. -/
-def decodeReply (stored : String) : Option Reply :=
-  match readString stored with
+/-- The reply that the tokens of a stored reply spell, the tokens being those a JSON library reads
+from the bytes `encodeReply` wrote; `none` stands for bytes the library refuses. -/
+def decodeReply (stored : Option (List Lexeme)) : Option Reply :=
+  match stored with
   | none => none
-  | some items => decodeReplyItems items
+  | some lexemes => decodeReplyItems (items lexemes)
 
 /-- `acc` followed by `true` or `false` and ` }`. -/
 def pushFlag (acc : Array UInt8) (b : Bool) : Array UInt8 :=

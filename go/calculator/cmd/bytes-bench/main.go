@@ -2,9 +2,10 @@
 // one token (split and HMAC), (b) the bytes of one calculator reply and (c) the bytes of a notes
 // list of 20 notes with bodies of 200 bytes. Each line times the functions over lists (Parse,
 // EncodeReply, Write) and the functions over strings and arrays (Authenticate, EncodeReplyArray,
-// WriteArray) in alternating rounds. (d) times the reading of one request body into a command
-// and (e) the answer to an accepted command, each written by hand with encoding/json and as the
-// generated wire.Request and wire.Respond that the calculator server calls.
+// WriteArray) in alternating rounds. (d) times the reading of one request body into a command,
+// written without a space and with a space after each colon and comma, and (e) the answer to an accepted command, each written by hand with encoding/json and as the
+// calculator server does it: the tokens of leangage.BodyOf given to the generated wire.Request, and
+// the generated wire.Respond.
 package main
 
 import (
@@ -210,15 +211,26 @@ func main() {
 		func() { sink = must(jsonformat.Write(notesToks())) },
 		func() { sink = must(jsonformat.WriteArray(notesStrToks())) })
 
-	request := `{"cmd":"apply","op":"mul","arg":7}`
 	command := kernel.CommandApply{Op: kernel.OpMul(), Arg: 7}
-	if decodeByHand([]byte(request)) != kernel.Command(command) ||
-		must(wire.Request(1, 42, 1, 0, httpformat.BodyText{S: request})).Cmd != kernel.Command(command) {
-		panic("the request body")
+	bodies := []struct{ label, text string }{
+		{"(d) request body", `{"cmd":"apply","op":"mul","arg":7}`},
+		{"    with spaces", `{"cmd": "apply", "op": "mul", "arg": 7}`},
 	}
-	compareAs("(d) request body", "by hand", "generated", 100_000,
-		func() { sink = decodeByHand([]byte(request)) },
-		func() { sink = must(wire.Request(1, 42, 1, 0, httpformat.BodyText{S: request})) })
+	for _, body := range bodies {
+		request := []byte(body.text)
+		if decodeByHand(request) != kernel.Command(command) ||
+			must(wire.Request(1, 42, 1, 0, leangage.BodyOf(request))).Cmd != kernel.Command(command) {
+			panic("the request body")
+		}
+		compareAs(body.label, "by hand", "generated", 100_000,
+			func() { sink = decodeByHand(request) },
+			func() { sink = must(wire.Request(1, 42, 1, 0, leangage.BodyOf(request))) })
+		var parse []float64
+		for range rounds {
+			parse = append(parse, perOp(100_000, func() { sink = leangage.BodyOf(request) }))
+		}
+		fmt.Printf("    tokens only             %s\n", show(parse))
+	}
 	accepted := leanfran.Except[kernel.Error, kernel.Reply]{Ok: reply}
 	if string(wire.Respond(accepted).Body) != `{"value":6}` {
 		panic("the answer")

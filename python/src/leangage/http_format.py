@@ -20,6 +20,8 @@ from leanfran.runtime import (  # noqa: F401
     lean_array_get_size,
     lean_array_mk,
     lean_array_push,
+    lean_array_to_list,
+    lean_byte_array_data,
     lean_mk_empty_array_with_capacity,
     lean_nat_add,
     lean_nat_dec_eq,
@@ -37,6 +39,7 @@ from leanfran.runtime import (  # noqa: F401
     lean_string_memcmp,
     lean_string_mk,
     lean_string_of_usize,
+    lean_string_to_utf8,
     lean_string_utf8_byte_size,
     lean_string_utf8_extract_fast,
     lean_system_platform_nbits,
@@ -720,53 +723,509 @@ def l_Leangage_Http_admit(x_1, x_2, x_3):
                 __t = lean_obj_tag(x_3)
                 if __t == 0:
                     x_5 = x_3.objs[0]
-                    x_12 = lean_is_shared(x_3)
-                    __t = x_12
+                    x_13 = lean_is_shared(x_3)
+                    __t = x_13
                     if __t == 0:
-                        x_7, x_8 = x_3, x_12
+                        x_7, x_8 = x_3, x_13
                         __blk = 1
                         continue
                     elif __t == 1:
                         lean_inc(x_5)
                         lean_dec(x_3)
-                        x_7, x_8 = 0, x_12
+                        x_7, x_8 = 0, x_13
                         __blk = 1
                         continue
                     else:
                         lean_internal_panic_unreachable()
                 elif __t == 1:
-                    x_13 = l_Leangage_Http_admit___closed__2()
-                    return x_13
-                elif __t == 2:
-                    x_14 = l_Leangage_Http_admit___closed__5()
+                    x_14 = l_Leangage_Http_admit___closed__2()
                     return x_14
-                elif __t == 3:
-                    x_15 = l_Leangage_Http_admit___closed__8()
+                elif __t == 2:
+                    x_15 = l_Leangage_Http_admit___closed__5()
                     return x_15
+                elif __t == 3:
+                    x_16 = l_Leangage_Http_admit___closed__8()
+                    return x_16
                 else:
                     lean_internal_panic_unreachable()
             elif __t == 1:
                 lean_dec(x_3)
-                x_16 = l_Leangage_Http_admit___closed__11()
-                return x_16
+                x_17 = l_Leangage_Http_admit___closed__11()
+                return x_17
             else:
                 lean_internal_panic_unreachable()
         elif __blk == 1:
+            x_9 = l_Leangage_Json_Items_items(x_5)
             __t = x_8
             if __t == 0:
                 x_7.tag = 1
-                x_10 = x_7
+                x_7.objs[0] = x_9
+                x_11 = x_7
                 __blk = 2
                 continue
             elif __t == 1:
-                x_11 = Ctor(1, [x_5])
-                x_10 = x_11
+                x_12 = Ctor(1, [x_9])
+                x_11 = x_12
                 __blk = 2
                 continue
             else:
                 lean_internal_panic_unreachable()
         elif __blk == 2:
+            return x_11
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leangage_Json_Items_items(x_1):
+    x_2 = 0
+    x_3 = l_List_mapTR_loop___at___00Leangage_Json_Items_items_spec__0(x_1, x_2)
+    return x_3
+
+def l_List_mapTR_loop___at___00Leangage_Json_Items_items_spec__0(x_1, x_2):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_1)
+            if __t == 0:
+                x_3 = l_List_reverse___redArg(x_2)
+                return x_3
+            elif __t == 1:
+                x_4 = x_1.objs[0]
+                x_5 = x_1.objs[1]
+                x_14 = lean_is_shared(x_1)
+                __t = x_14
+                if __t == 0:
+                    x_7, x_8 = x_1, x_14
+                    __blk = 1
+                    continue
+                elif __t == 1:
+                    lean_inc(x_5)
+                    lean_inc(x_4)
+                    lean_dec(x_1)
+                    x_7, x_8 = 0, x_14
+                    __blk = 1
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_9 = l_Leangage_Json_Items_item(x_4)
+            __t = x_8
+            if __t == 0:
+                x_7.objs[1] = x_2
+                x_7.objs[0] = x_9
+                x_11 = x_7
+                __blk = 2
+                continue
+            elif __t == 1:
+                x_13 = Ctor(1, [x_9, x_2])
+                x_11 = x_13
+                __blk = 2
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 2:
+            x_1, x_2 = x_5, x_11
+            __blk = 0
+            continue
+        else:
+            lean_internal_panic_unreachable()
+
+def l_List_reverse___redArg(x_1):
+    x_2 = 0
+    x_3 = l_List_reverseAux___redArg(x_1, x_2)
+    return x_3
+
+def l_List_reverseAux___redArg(x_1, x_2):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_1)
+            if __t == 0:
+                return x_2
+            elif __t == 1:
+                x_3 = x_1.objs[0]
+                x_4 = x_1.objs[1]
+                x_12 = lean_is_shared(x_1)
+                __t = x_12
+                if __t == 0:
+                    x_6, x_7 = x_1, x_12
+                    __blk = 1
+                    continue
+                elif __t == 1:
+                    lean_inc(x_4)
+                    lean_inc(x_3)
+                    lean_dec(x_1)
+                    x_6, x_7 = 0, x_12
+                    __blk = 1
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            __t = x_7
+            if __t == 0:
+                x_6.objs[1] = x_2
+                x_9 = x_6
+                __blk = 2
+                continue
+            elif __t == 1:
+                x_11 = Ctor(1, [x_3, x_2])
+                x_9 = x_11
+                __blk = 2
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 2:
+            x_1, x_2 = x_4, x_9
+            __blk = 0
+            continue
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leangage_Json_Items_item(x_1):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            __t = lean_obj_tag(x_1)
+            if __t == 0:
+                x_2 = 0
+                return x_2
+            elif __t == 1:
+                x_3 = x_1.sc[0]
+                x_10 = lean_is_shared(x_1)
+                __t = x_10
+                if __t == 0:
+                    x_5, x_6 = x_1, x_10
+                    __blk = 1
+                    continue
+                elif __t == 1:
+                    lean_dec(x_1)
+                    x_5, x_6 = 0, x_10
+                    __blk = 1
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 2:
+                x_11 = x_1.objs[0]
+                lean_inc(x_11)
+                lean_dec(x_1)
+                x_12 = l_Leangage_Json_Items_numberItem(x_11)
+                lean_dec(x_11)
+                return x_12
+            elif __t == 3:
+                x_13 = x_1.objs[0]
+                x_23 = lean_is_shared(x_1)
+                __t = x_23
+                if __t == 0:
+                    x_15, x_16 = x_1, x_23
+                    __blk = 3
+                    continue
+                elif __t == 1:
+                    lean_inc(x_13)
+                    lean_dec(x_1)
+                    x_15, x_16 = 0, x_23
+                    __blk = 3
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 4:
+                x_24 = x_1.objs[0]
+                x_34 = lean_is_shared(x_1)
+                __t = x_34
+                if __t == 0:
+                    x_26, x_27 = x_1, x_34
+                    __blk = 5
+                    continue
+                elif __t == 1:
+                    lean_inc(x_24)
+                    lean_dec(x_1)
+                    x_26, x_27 = 0, x_34
+                    __blk = 5
+                    continue
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 5:
+                x_35 = 6
+                return x_35
+            elif __t == 6:
+                x_36 = 7
+                return x_36
+            elif __t == 7:
+                x_37 = 8
+                return x_37
+            elif __t == 8:
+                x_38 = 9
+                return x_38
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            __t = x_6
+            if __t == 0:
+                x_8 = x_5
+                __blk = 2
+                continue
+            elif __t == 1:
+                x_9 = Ctor(1, [])
+                x_9.sc[0] = x_3
+                x_8 = x_9
+                __blk = 2
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 2:
+            return x_8
+        elif __blk == 3:
+            x_17 = lean_string_to_utf8(x_13)
+            x_18 = lean_byte_array_data(x_17)
+            x_19 = lean_array_to_list(x_18)
+            __t = x_16
+            if __t == 0:
+                x_15.tag = 4
+                x_15.objs[0] = x_19
+                x_21 = x_15
+                __blk = 4
+                continue
+            elif __t == 1:
+                x_22 = Ctor(4, [x_19])
+                x_21 = x_22
+                __blk = 4
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 4:
+            return x_21
+        elif __blk == 5:
+            x_28 = lean_string_to_utf8(x_24)
+            x_29 = lean_byte_array_data(x_28)
+            x_30 = lean_array_to_list(x_29)
+            __t = x_27
+            if __t == 0:
+                x_26.tag = 5
+                x_26.objs[0] = x_30
+                x_32 = x_26
+                __blk = 6
+                continue
+            elif __t == 1:
+                x_33 = Ctor(5, [x_30])
+                x_32 = x_33
+                __blk = 6
+                continue
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 6:
+            return x_32
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leangage_Json_Items_numberItem(x_1):
+    x_2 = 0
+    x_3 = lean_string_utf8_byte_size(x_1)
+    x_4 = l_Leangage_Token_numberAt(x_1, x_2, x_3)
+    __t = lean_obj_tag(x_4)
+    if __t == 0:
+        x_5 = 3
+        return x_5
+    elif __t == 1:
+        x_6 = x_4.objs[0]
+        lean_inc(x_6)
+        lean_dec(x_4)
+        x_7 = Ctor(2, [])
+        x_8 = x_6
+        lean_dec(x_6)
+        x_7.sc[0] = x_8
+        return x_7
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Leangage_Token_numberAt(x_1, x_2, x_3):
+    x_4 = lean_nat_sub(x_3, x_2)
+    x_5 = 20
+    x_6 = lean_nat_dec_le(x_4, x_5)
+    lean_dec(x_4)
+    __t = x_6
+    if __t == 0:
+        lean_dec(x_3)
+        lean_dec(x_2)
+        x_7 = 0
+        return x_7
+    elif __t == 1:
+        x_8 = 0
+        lean_inc(x_2)
+        x_9 = l_Leangage_Token_digitsFrom(x_1, x_2, x_3, x_8)
+        x_10 = lean_uint64_of_nat(x_9)
+        lean_dec(x_9)
+        x_11 = lean_uint64_to_nat(x_10)
+        x_12 = l_Leangage_Token_isDecimal(x_11, x_1, x_2, x_3)
+        __t = x_12
+        if __t == 0:
+            x_13 = 0
+            return x_13
+        elif __t == 1:
+            x_14 = x_10
+            x_15 = Ctor(1, [x_14])
+            return x_15
+        else:
+            lean_internal_panic_unreachable()
+    else:
+        lean_internal_panic_unreachable()
+
+def l_Leangage_Token_digitsFrom(x_1, x_2, x_3, x_4):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_5 = lean_nat_dec_lt(x_2, x_3)
+            __t = x_5
+            if __t == 0:
+                lean_dec(x_2)
+                return x_4
+            elif __t == 1:
+                x_6 = lean_string_utf8_byte_size(x_1)
+                x_7 = lean_nat_dec_lt(x_2, x_6)
+                __t = x_7
+                if __t == 0:
+                    lean_dec(x_2)
+                    return x_4
+                elif __t == 1:
+                    x_8 = 1
+                    x_9 = lean_nat_add(x_2, x_8)
+                    x_10 = 10
+                    x_11 = lean_nat_mul(x_4, x_10)
+                    lean_dec(x_4)
+                    __t = x_7
+                    if __t == 0:
+                        lean_dec(x_2)
+                        x_19 = 0
+                        x_13 = x_19
+                        __blk = 1
+                        continue
+                    elif __t == 1:
+                        x_20 = lean_string_get_byte_fast(x_1, x_2)
+                        x_13 = x_20
+                        __blk = 1
+                        continue
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_14 = lean_uint8_to_nat(x_13)
+            x_15 = 48
+            x_16 = lean_nat_sub(x_14, x_15)
+            x_17 = lean_nat_add(x_11, x_16)
+            lean_dec(x_16)
+            lean_dec(x_11)
+            x_1, x_2, x_3, x_4 = x_1, x_9, x_3, x_17
+            __blk = 0
+            continue
+        else:
+            lean_internal_panic_unreachable()
+
+def l_Leangage_Token_isDecimal(x_1, x_2, x_3, x_4):
+    __blk = 0
+    while True:
+        if __blk == 0:
+            x_11 = lean_nat_dec_le(x_4, x_3)
+            __t = x_11
+            if __t == 0:
+                x_12 = 10
+                x_13 = lean_nat_dec_lt(x_1, x_12)
+                __t = x_13
+                if __t == 0:
+                    x_25 = 1
+                    x_26 = lean_nat_sub(x_4, x_25)
+                    x_27 = lean_string_utf8_byte_size(x_2)
+                    x_28 = lean_nat_dec_lt(x_26, x_27)
+                    __t = x_28
+                    if __t == 0:
+                        lean_dec(x_26)
+                        x_29 = 0
+                        x_15 = x_29
+                        __blk = 2
+                        continue
+                    elif __t == 1:
+                        x_30 = lean_string_get_byte_fast(x_2, x_26)
+                        x_15 = x_30
+                        __blk = 2
+                        continue
+                    else:
+                        lean_internal_panic_unreachable()
+                elif __t == 1:
+                    x_31 = 1
+                    x_32 = lean_nat_add(x_3, x_31)
+                    x_33 = lean_nat_dec_eq(x_4, x_32)
+                    lean_dec(x_32)
+                    lean_dec(x_4)
+                    __t = x_33
+                    if __t == 0:
+                        lean_dec(x_3)
+                        lean_dec(x_1)
+                        return x_11
+                    elif __t == 1:
+                        x_34 = lean_string_utf8_byte_size(x_2)
+                        x_35 = lean_nat_dec_lt(x_3, x_34)
+                        __t = x_35
+                        if __t == 0:
+                            lean_dec(x_3)
+                            x_36 = 0
+                            x_6 = x_36
+                            __blk = 1
+                            continue
+                        elif __t == 1:
+                            x_37 = lean_string_get_byte_fast(x_2, x_3)
+                            x_6 = x_37
+                            __blk = 1
+                            continue
+                        else:
+                            lean_internal_panic_unreachable()
+                    else:
+                        lean_internal_panic_unreachable()
+                else:
+                    lean_internal_panic_unreachable()
+            elif __t == 1:
+                lean_dec(x_4)
+                lean_dec(x_3)
+                lean_dec(x_1)
+                x_38 = 0
+                return x_38
+            else:
+                lean_internal_panic_unreachable()
+        elif __blk == 1:
+            x_7 = 48
+            x_8 = lean_nat_add(x_1, x_7)
+            lean_dec(x_1)
+            x_9 = lean_uint8_of_nat(x_8)
+            lean_dec(x_8)
+            x_10 = lean_uint8_dec_eq(x_6, x_9)
             return x_10
+        elif __blk == 2:
+            x_16 = lean_nat_mod(x_1, x_12)
+            x_17 = 48
+            x_18 = lean_nat_add(x_16, x_17)
+            lean_dec(x_16)
+            x_19 = lean_uint8_of_nat(x_18)
+            lean_dec(x_18)
+            x_20 = lean_uint8_dec_eq(x_15, x_19)
+            __t = x_20
+            if __t == 0:
+                lean_dec(x_4)
+                lean_dec(x_3)
+                lean_dec(x_1)
+                return x_13
+            elif __t == 1:
+                x_21 = lean_nat_div(x_1, x_12)
+                lean_dec(x_1)
+                x_22 = 1
+                x_23 = lean_nat_sub(x_4, x_22)
+                lean_dec(x_4)
+                x_1, x_2, x_3, x_4 = x_21, x_2, x_3, x_23
+                __blk = 0
+                continue
+            else:
+                lean_internal_panic_unreachable()
         else:
             lean_internal_panic_unreachable()
 
@@ -1323,59 +1782,6 @@ def l_List_mapTR_loop___at___00__private_Init_Data_Repr_0__Nat_reprArray_spec__0
                 lean_internal_panic_unreachable()
         elif __blk == 2:
             x_1, x_2 = x_5, x_12
-            __blk = 0
-            continue
-        else:
-            lean_internal_panic_unreachable()
-
-def l_List_reverse___redArg(x_1):
-    x_2 = 0
-    x_3 = l_List_reverseAux___redArg(x_1, x_2)
-    return x_3
-
-def l_List_reverseAux___redArg(x_1, x_2):
-    __blk = 0
-    while True:
-        if __blk == 0:
-            __t = lean_obj_tag(x_1)
-            if __t == 0:
-                return x_2
-            elif __t == 1:
-                x_3 = x_1.objs[0]
-                x_4 = x_1.objs[1]
-                x_12 = lean_is_shared(x_1)
-                __t = x_12
-                if __t == 0:
-                    x_6, x_7 = x_1, x_12
-                    __blk = 1
-                    continue
-                elif __t == 1:
-                    lean_inc(x_4)
-                    lean_inc(x_3)
-                    lean_dec(x_1)
-                    x_6, x_7 = 0, x_12
-                    __blk = 1
-                    continue
-                else:
-                    lean_internal_panic_unreachable()
-            else:
-                lean_internal_panic_unreachable()
-        elif __blk == 1:
-            __t = x_7
-            if __t == 0:
-                x_6.objs[1] = x_2
-                x_9 = x_6
-                __blk = 2
-                continue
-            elif __t == 1:
-                x_11 = Ctor(1, [x_3, x_2])
-                x_9 = x_11
-                __blk = 2
-                continue
-            else:
-                lean_internal_panic_unreachable()
-        elif __blk == 2:
-            x_1, x_2 = x_4, x_9
             __blk = 0
             continue
         else:
@@ -2122,196 +2528,6 @@ def l_Leangage_Token_dotFrom(x_1, x_2):
         else:
             lean_internal_panic_unreachable()
 
-def l_Leangage_Token_numberAt(x_1, x_2, x_3):
-    x_4 = lean_nat_sub(x_3, x_2)
-    x_5 = 20
-    x_6 = lean_nat_dec_le(x_4, x_5)
-    lean_dec(x_4)
-    __t = x_6
-    if __t == 0:
-        lean_dec(x_3)
-        lean_dec(x_2)
-        x_7 = 0
-        return x_7
-    elif __t == 1:
-        x_8 = 0
-        lean_inc(x_2)
-        x_9 = l_Leangage_Token_digitsFrom(x_1, x_2, x_3, x_8)
-        x_10 = lean_uint64_of_nat(x_9)
-        lean_dec(x_9)
-        x_11 = lean_uint64_to_nat(x_10)
-        x_12 = l_Leangage_Token_isDecimal(x_11, x_1, x_2, x_3)
-        __t = x_12
-        if __t == 0:
-            x_13 = 0
-            return x_13
-        elif __t == 1:
-            x_14 = x_10
-            x_15 = Ctor(1, [x_14])
-            return x_15
-        else:
-            lean_internal_panic_unreachable()
-    else:
-        lean_internal_panic_unreachable()
-
-def l_Leangage_Token_digitsFrom(x_1, x_2, x_3, x_4):
-    __blk = 0
-    while True:
-        if __blk == 0:
-            x_5 = lean_nat_dec_lt(x_2, x_3)
-            __t = x_5
-            if __t == 0:
-                lean_dec(x_2)
-                return x_4
-            elif __t == 1:
-                x_6 = lean_string_utf8_byte_size(x_1)
-                x_7 = lean_nat_dec_lt(x_2, x_6)
-                __t = x_7
-                if __t == 0:
-                    lean_dec(x_2)
-                    return x_4
-                elif __t == 1:
-                    x_8 = 1
-                    x_9 = lean_nat_add(x_2, x_8)
-                    x_10 = 10
-                    x_11 = lean_nat_mul(x_4, x_10)
-                    lean_dec(x_4)
-                    __t = x_7
-                    if __t == 0:
-                        lean_dec(x_2)
-                        x_19 = 0
-                        x_13 = x_19
-                        __blk = 1
-                        continue
-                    elif __t == 1:
-                        x_20 = lean_string_get_byte_fast(x_1, x_2)
-                        x_13 = x_20
-                        __blk = 1
-                        continue
-                    else:
-                        lean_internal_panic_unreachable()
-                else:
-                    lean_internal_panic_unreachable()
-            else:
-                lean_internal_panic_unreachable()
-        elif __blk == 1:
-            x_14 = lean_uint8_to_nat(x_13)
-            x_15 = 48
-            x_16 = lean_nat_sub(x_14, x_15)
-            x_17 = lean_nat_add(x_11, x_16)
-            lean_dec(x_16)
-            lean_dec(x_11)
-            x_1, x_2, x_3, x_4 = x_1, x_9, x_3, x_17
-            __blk = 0
-            continue
-        else:
-            lean_internal_panic_unreachable()
-
-def l_Leangage_Token_isDecimal(x_1, x_2, x_3, x_4):
-    __blk = 0
-    while True:
-        if __blk == 0:
-            x_11 = lean_nat_dec_le(x_4, x_3)
-            __t = x_11
-            if __t == 0:
-                x_12 = 10
-                x_13 = lean_nat_dec_lt(x_1, x_12)
-                __t = x_13
-                if __t == 0:
-                    x_25 = 1
-                    x_26 = lean_nat_sub(x_4, x_25)
-                    x_27 = lean_string_utf8_byte_size(x_2)
-                    x_28 = lean_nat_dec_lt(x_26, x_27)
-                    __t = x_28
-                    if __t == 0:
-                        lean_dec(x_26)
-                        x_29 = 0
-                        x_15 = x_29
-                        __blk = 2
-                        continue
-                    elif __t == 1:
-                        x_30 = lean_string_get_byte_fast(x_2, x_26)
-                        x_15 = x_30
-                        __blk = 2
-                        continue
-                    else:
-                        lean_internal_panic_unreachable()
-                elif __t == 1:
-                    x_31 = 1
-                    x_32 = lean_nat_add(x_3, x_31)
-                    x_33 = lean_nat_dec_eq(x_4, x_32)
-                    lean_dec(x_32)
-                    lean_dec(x_4)
-                    __t = x_33
-                    if __t == 0:
-                        lean_dec(x_3)
-                        lean_dec(x_1)
-                        return x_11
-                    elif __t == 1:
-                        x_34 = lean_string_utf8_byte_size(x_2)
-                        x_35 = lean_nat_dec_lt(x_3, x_34)
-                        __t = x_35
-                        if __t == 0:
-                            lean_dec(x_3)
-                            x_36 = 0
-                            x_6 = x_36
-                            __blk = 1
-                            continue
-                        elif __t == 1:
-                            x_37 = lean_string_get_byte_fast(x_2, x_3)
-                            x_6 = x_37
-                            __blk = 1
-                            continue
-                        else:
-                            lean_internal_panic_unreachable()
-                    else:
-                        lean_internal_panic_unreachable()
-                else:
-                    lean_internal_panic_unreachable()
-            elif __t == 1:
-                lean_dec(x_4)
-                lean_dec(x_3)
-                lean_dec(x_1)
-                x_38 = 0
-                return x_38
-            else:
-                lean_internal_panic_unreachable()
-        elif __blk == 1:
-            x_7 = 48
-            x_8 = lean_nat_add(x_1, x_7)
-            lean_dec(x_1)
-            x_9 = lean_uint8_of_nat(x_8)
-            lean_dec(x_8)
-            x_10 = lean_uint8_dec_eq(x_6, x_9)
-            return x_10
-        elif __blk == 2:
-            x_16 = lean_nat_mod(x_1, x_12)
-            x_17 = 48
-            x_18 = lean_nat_add(x_16, x_17)
-            lean_dec(x_16)
-            x_19 = lean_uint8_of_nat(x_18)
-            lean_dec(x_18)
-            x_20 = lean_uint8_dec_eq(x_15, x_19)
-            __t = x_20
-            if __t == 0:
-                lean_dec(x_4)
-                lean_dec(x_3)
-                lean_dec(x_1)
-                return x_13
-            elif __t == 1:
-                x_21 = lean_nat_div(x_1, x_12)
-                lean_dec(x_1)
-                x_22 = 1
-                x_23 = lean_nat_sub(x_4, x_22)
-                lean_dec(x_4)
-                x_1, x_2, x_3, x_4 = x_21, x_2, x_3, x_23
-                __blk = 0
-                continue
-            else:
-                lean_internal_panic_unreachable()
-        else:
-            lean_internal_panic_unreachable()
-
 def l_Leangage_Token_unhexAt(x_1, x_2, x_3, x_4):
     __blk = 0
     while True:
@@ -2602,6 +2818,7 @@ from annotated_types import Ge, Gt, Le, Lt, MaxLen, MinLen  # noqa: E402
 from leanfran import marshal as _m  # noqa: E402
 from leanfran.marshal import Err, Lean, Local, Ok  # noqa: E402
 from leanfran.types import Char, Int8, Int16, Int32, Int64, Nat, UInt8, UInt16, UInt32, UInt64  # noqa: E402
+import leangage.json_items as _ext0  # noqa: E402
 
 
 class Failure(_m.LeanEnum):
@@ -2627,14 +2844,16 @@ class Response(_m.LeanModel):
 Response.__lean__ = _m.StructInfo(Response, _m.CtorInfo("mk", 0, 1, False, [_m.FieldInfo("status", _m.Scalar(8), _m.UIntD(16)), _m.FieldInfo("body", _m.Obj(0), _m.ArrayD(_m.UIntD(8)))], [], False), trivial=False)
 
 
+
+
 class Body(_m.LeanInductive):
     "Lean `Leangage.Http.Body`."
 
-class Body_text(_m.LeanModel, Body):
-    s: "str"
+class Body_json(_m.LeanModel, Body):
+    lexemes: "list[_ext0.Lexeme]"
 
 
-class Body_notUtf8(_m.LeanModel, Body):
+class Body_notJson(_m.LeanModel, Body):
     pass
 
 
@@ -2646,7 +2865,9 @@ class Body_unreadable(_m.LeanModel, Body):
     pass
 
 
-_m.register_inductive(Body, [(Body_text, _m.CtorInfo("text", 0, 1, False, [_m.FieldInfo("s", _m.Obj(0), _m.STRING)], [], False)), (Body_notUtf8, _m.CtorInfo("notUtf8", 1, 0, True, [], [], False)), (Body_tooLarge, _m.CtorInfo("tooLarge", 2, 0, True, [], [], False)), (Body_unreadable, _m.CtorInfo("unreadable", 3, 0, True, [], [], False))])
+_m.register_inductive(Body, [(Body_json, _m.CtorInfo("json", 0, 1, False, [_m.FieldInfo("lexemes", _m.Obj(0), _m.ListD(_m.NamedD(globals(), "_ext0.Lexeme")))], [], False)), (Body_notJson, _m.CtorInfo("notJson", 1, 0, True, [], [], False)), (Body_tooLarge, _m.CtorInfo("tooLarge", 2, 0, True, [], [], False)), (Body_unreadable, _m.CtorInfo("unreadable", 3, 0, True, [], [], False))])
+
+
 
 
 class Bearer(_m.LeanModel):
@@ -2669,8 +2890,8 @@ _D4 = _m.UIntD(64)
 _D5 = _m.LeanType(_D4, "UInt64")
 _D6 = _m.NamedD(globals(), "Body")
 _D7 = _m.LeanType(_D6, "Body")
-_D8 = _m.ExceptD(globals(), _m.NamedD(globals(), "Response"), _m.STRING, "Response", "str")
-_D9 = _m.LeanType(_D8, "Ok[str] | Err[Response]")
+_D8 = _m.ExceptD(globals(), _m.NamedD(globals(), "Response"), _m.ListD(_m.NamedD(globals(), "_ext0.Item")), "Response", "list[_ext0.Item]")
+_D9 = _m.LeanType(_D8, "Ok[list[_ext0.Item]] | Err[Response]")
 _D10 = _m.STRING
 _D11 = _m.LeanType(_D10, "str")
 _D12 = _m.OptionD(_m.STRING)
@@ -2702,7 +2923,7 @@ def _pub_failed__local(arg0: "Failure | Lean[Failure] | Local[Failure]") -> "Loc
 
 
 _m.attach(globals(), ["failed"], _pub_failed, "Leangage.Http.failed", _pub_failed__lean, {"arg0": _D1}, _D3, _pub_failed__local)
-def _pub_admit(exp: "UInt64", now: "UInt64", body: "Body") -> "Ok[str] | Err[Response]":
+def _pub_admit(exp: "UInt64", now: "UInt64", body: "Body") -> "Ok[list[_ext0.Item]] | Err[Response]":
     "Lean `Leangage.Http.admit`."
     __a0 = _m.to_lean(_D4, exp, "exp")
     __a1 = _m.to_lean(_D4, now, "now")
@@ -2710,7 +2931,7 @@ def _pub_admit(exp: "UInt64", now: "UInt64", body: "Body") -> "Ok[str] | Err[Res
     return _m.to_py(_D8, l_Leangage_Http_admit(__a0, __a1, __a2))
 
 
-def _pub_admit__lean(exp: "UInt64 | Lean[UInt64]", now: "UInt64 | Lean[UInt64]", body: "Body | Lean[Body]") -> "Lean[Ok[str] | Err[Response]]":
+def _pub_admit__lean(exp: "UInt64 | Lean[UInt64]", now: "UInt64 | Lean[UInt64]", body: "Body | Lean[Body]") -> "Lean[Ok[list[_ext0.Item]] | Err[Response]]":
     "Lean `Leangage.Http.admit`, on handles."
     __a0 = _m.lean_arg(_D5, exp, "exp")
     __a1 = _m.lean_arg(_D5, now, "now")
@@ -2719,7 +2940,7 @@ def _pub_admit__lean(exp: "UInt64 | Lean[UInt64]", now: "UInt64 | Lean[UInt64]",
     return _m.handle(_D9, l_Leangage_Http_admit(__a0, __a1, __a2))
 
 
-def _pub_admit__local(exp: "UInt64 | Lean[UInt64] | Local[UInt64]", now: "UInt64 | Lean[UInt64] | Local[UInt64]", body: "Body | Lean[Body] | Local[Body]") -> "Local[Ok[str] | Err[Response]]":
+def _pub_admit__local(exp: "UInt64 | Lean[UInt64] | Local[UInt64]", now: "UInt64 | Lean[UInt64] | Local[UInt64]", body: "Body | Lean[Body] | Local[Body]") -> "Local[Ok[list[_ext0.Item]] | Err[Response]]":
     "Lean `Leangage.Http.admit`, on local handles."
     __a0 = _m.local_arg(_D5, exp, "exp", True)
     __a1 = _m.local_arg(_D5, now, "now", True)

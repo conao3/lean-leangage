@@ -1,37 +1,40 @@
 import Notes.Wire
 import Leangage.Http.Proofs
-import Leangage.Json.Read.Proofs
+import Leangage.Json.Items.Proofs
 
 /-!
 # What the notes' functions on the wire guarantee
 
-- `decode_encode`: a body whose bytes are `Value.print` of `encodeCommand c`, the JSON value that
-  spells the command `c`, decodes to `c`. So every command has a spelling the server accepts.
-- `decode_ok_iff`, `decodeItems_ok_iff`, `decodeMembers_ok_iff`: a body decodes to `c` exactly
-  when it reads as the items of an object with as many members as `c` has fields (`fields c`,
-  the members of `encodeCommand c`) and with each field among them. The members may come in any
-  order; an object with another member, a member twice or a member whose value is an array or an
-  object is refused. The body of `put_note` is the text whose UTF-8 is the bytes of the string
-  read (`textOf_bytesOf`, `textOf_some`).
-- `decode_notJson_iff`: `notJson` is the refusal of the bodies `readString` refuses, and of no
-  other. `decodeMembers_missingCmd_iff`: `missingCmd` is the refusal of the objects without a
-  member `cmd`. `decodeMembers_notCommand_iff`: `notCommand` is the refusal of the objects with a
+The server's JSON library is trusted to hand over the tokens of the text of a body and of a
+stored reply (`Leangage.Json.Items.Proofs`); the theorems start from the items of those tokens.
+
+- `decodeItems_encode`: the items of `encodeCommand c`, the JSON value that spells the command
+  `c`, decode to `c`. So every command has a spelling the server accepts.
+- `decodeItems_ok_iff`, `decodeMembers_ok_iff`: items decode to `c` exactly when they are the
+  items of an object with as many members as `c` has fields (`fields c`, the members of
+  `encodeCommand c`) and with each field among them. The members may come in any order; an
+  object with another member, a member twice or a member whose value is an array or an object is
+  refused. The body of `put_note` is the text whose UTF-8 is the bytes of the string
+  (`textOf_bytesOf`, `textOf_some`).
+- `decodeMembers_missingCmd_iff`: `missingCmd` is the refusal of the objects without a member
+  `cmd`. `decodeMembers_notCommand_iff`: `notCommand` is the refusal of the objects with a
   member `cmd` whose members are the fields of no command. `refusalMessage_spec` gives the
   message of each refusal.
-- `request_expired`, `request_text`, `request_not_text`: a request whose token has expired is
-  answered 401 `token expired` whatever its body; otherwise a body of text gives the command it
-  decodes to for the principal of the token's organization and user (`request_actor`), or 400
-  with the message of the refusal, and a body that is not text is answered 400 or 413.
-  `request_encode` states the accepted case for the spelling of a command, and
-  `request_refusal` that every answer of `request` has the status 400, 401 or 413 and a body
+- `request_expired`, `request_json`, `request_not_json`: a request whose token has expired is
+  answered 401 `token expired` whatever its body; otherwise the tokens of a body give the command
+  their items decode to for the principal of the token's organization and user
+  (`request_actor`), or 400 with the message of the refusal, and a body without tokens is
+  answered 400 or 413. `request_encode` states the accepted case for the spelling of a command,
+  and `request_refusal` that every answer of `request` has the status 400, 401 or 413 and a body
   `{"error": message}`.
 - `respond_ok`, `encodeReply_spec`: an accepted command is answered 200 with `Value.print` of
   `replyValue`. `respond_error`: a refused one is answered with `refusalStatus` (403 for the
   guard's refusal, 404 for `notFound`, 422 for `badText`) and `{"error": name}` with
   `refusalName`.
-- `decodeReply_encodeReply`, `decodeReply_print`, `decodeReplyItems_value`: the bytes
-  `encodeReply` writes for a reply, which an engine stores under an idempotency key, are read
-  back by `decodeReply` as that reply.
+- `decodeReply_value`, `decodeReply_spec`, `decodeReplyItems_value`: `encodeReply` writes `Value.print` of
+  `replyValue r` for a reply, which an engine stores under an idempotency key, and `decodeReply`
+  reads tokens whose items are those of that value back as `r`. `decodeReply_none`: stored bytes
+  the JSON library refuses are no reply.
 - `fingerprint_spec`: the fingerprint of a command is the text `fingerprintText` gives, such as
   `PutNote { id: 7, body: "text", shared: true }` with the body escaped as in a JSON string.
   `fingerprint_injective`: different commands have different fingerprints, so an idempotency key
@@ -45,7 +48,7 @@ namespace Notes.Wire
 open Notes.Kernel Leangage
 open Leangage.Authz (Guarded)
 open Leangage.Json (Value ascii)
-open Leangage.Json.Read (Item readString readString_print)
+open Leangage.Json.Items (Item Lexeme items)
 open Leangage.Token (bytesOf)
 
 /-! ## Text -/
@@ -273,10 +276,10 @@ theorem decodeMembers_ok_iff (ms : List (List UInt8 × Item)) (c : Command) :
           name_shared, List.length_cons, List.length_nil] at hk hl <;>
       simp [decodeMembers, hk, hl, textOf_bytesOf]
 
-/-- A JSON text that spells a command decodes to it. -/
-theorem decode_encode {s : String} (c : Command) (h : bytesOf s = (encodeCommand c).print) :
-    decode s = .ok c := by
-  rw [decode, readString_print h, encodeCommand_items]
+/-- The items of the JSON value that spells a command decode to it. -/
+theorem decodeItems_encode (c : Command) :
+    decodeItems ((encodeCommand c).toks.map Item.ofTok) = .ok c := by
+  rw [encodeCommand_items]
   cases c <;> simp [objectItems, fields, decodeItems, members, scalar, decodeMembers, name_cmd,
     name_add_member, name_remove_member, name_put_note, name_delete_note, name_read_note, name_list_notes,
     name_list_members, name_user, name_admin, name_id, name_body, name_shared,
@@ -352,39 +355,6 @@ theorem decodeItems_ok_iff (items : List Item) (c : Command) :
     simp only [decodeItems, objectItems, members_flat ms hs [], List.reverse_nil, List.nil_append]
     exact (decodeMembers_ok_iff ms c).mpr ⟨hl, hm⟩
 
-/-- A body is decoded to the command `c` exactly when it reads as the items of an object whose
-members are the fields of `c` in some order. -/
-theorem decode_ok_iff (body : String) (c : Command) :
-    decode body = .ok c ↔
-      ∃ ms, readString body = some (objectItems ms) ∧ ms.length = (fields c).length ∧
-        ∀ m ∈ fields c, m ∈ ms := by
-  unfold decode
-  cases h : readString body with
-  | none => simp
-  | some items =>
-    simp only [decodeItems_ok_iff, Option.some.injEq]
-
-theorem decodeMembers_ne_notJson (ms : List (List UInt8 × Item)) :
-    decodeMembers ms ≠ .error .notJson := by
-  unfold decodeMembers
-  repeat' split
-  all_goals simp
-
-/-- A body that is not a JSON text is refused as that. -/
-theorem decode_notJson_iff (body : String) :
-    decode body = .error .notJson ↔ readString body = none := by
-  unfold decode
-  cases h : readString body with
-  | none => simp
-  | some items =>
-    simp only [reduceCtorEq, iff_false]
-    unfold decodeItems
-    split
-    · split
-      · exact decodeMembers_ne_notJson _
-      · simp
-    · simp
-
 /-- An object without the member `cmd` is refused as that, and no other. -/
 theorem decodeMembers_missingCmd_iff (ms : List (List UInt8 × Item)) :
     decodeMembers ms = .error .missingCmd ↔ ms.lookup (ascii ['c', 'm', 'd']) = none := by
@@ -408,7 +378,6 @@ theorem decodeMembers_notCommand_iff (ms : List (List UInt8 × Item)) :
   | ok c => simp
   | error e =>
     cases e with
-    | notJson => exact absurd h (decodeMembers_ne_notJson ms)
     | notCommand => simp
     | missingCmd => simp
 
@@ -427,7 +396,6 @@ theorem decodeItems_fields (c : Command) : decodeItems (objectItems (fields c)) 
 theorem refusalMessage_spec (e : Refusal) :
     (refusalMessage e).toList =
       match e with
-      | .notJson => "body is not JSON".toList
       | .notCommand => "not a notes command".toList
       | .missingCmd => "missing field `cmd`".toList := by
   cases e <;> rfl
@@ -439,31 +407,35 @@ theorem request_expired {exp now : UInt64} (h : exp < now) (tenant user : UInt64
     request tenant user exp now body = .error (Http.refuse 401 "token expired") := by
   simp [request, Http.admit_expired h]
 
-/-- A request with a token that has not expired and a body of text: the command the body
-decodes to, for the principal the token claims, or 400 with the message of the refusal. -/
-theorem request_text {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64) (s : String) :
-    request tenant user exp now (.text s) =
-      match decode s with
+/-- A request with a token that has not expired and a body the JSON library read: the command
+the items of its tokens decode to, for the principal the token claims, or 400 with the message of
+the refusal. -/
+theorem request_json {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64)
+    (lexemes : List Lexeme) :
+    request tenant user exp now (.json lexemes) =
+      match decodeItems (items lexemes) with
       | .ok cmd => .ok ⟨⟨tenant, user⟩, cmd⟩
       | .error e => .error (Http.refuse 400 (refusalMessage e)) := by
-  simp only [request, Http.admit_text h]
-  cases decode s <;> rfl
+  simp only [request, Http.admit_json h]
+  cases decodeItems (items lexemes) <;> rfl
 
-/-- A request with a token that has not expired and a body that is not text. -/
-theorem request_not_text {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64) :
-    request tenant user exp now .notUtf8 = .error (Http.refuse 400 "body is not JSON") ∧
+/-- A request with a token that has not expired and a body without tokens. -/
+theorem request_not_json {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64) :
+    request tenant user exp now .notJson = .error (Http.refuse 400 "body is not JSON") ∧
       request tenant user exp now .tooLarge = .error (Http.refuse 413 "request body too large") ∧
       request tenant user exp now .unreadable =
         .error (Http.refuse 400 "request body cannot be read") := by
-  obtain ⟨h1, h2, h3⟩ := Http.admit_not_text h
+  obtain ⟨h1, h2, h3⟩ := Http.admit_not_json h
   simp [request, h1, h2, h3]
 
-/-- A request with a token that has not expired and a body that spells the command `c` gives
-the engine `c` for the principal of the token's organization and user. -/
-theorem request_encode {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64) {s : String}
-    (c : Command) (hs : bytesOf s = (encodeCommand c).print) :
-    request tenant user exp now (.text s) = .ok ⟨⟨tenant, user⟩, c⟩ := by
-  rw [request_text h, decode_encode c hs]
+/-- A request with a token that has not expired and a body whose tokens are those of the JSON
+value that spells the command `c` gives the engine `c` for the principal of the token's organization and
+user. -/
+theorem request_encode {exp now : UInt64} (h : ¬exp < now) (tenant user : UInt64)
+    {lexemes : List Lexeme} (c : Command)
+    (hs : items lexemes = (encodeCommand c).toks.map Item.ofTok) :
+    request tenant user exp now (.json lexemes) = .ok ⟨⟨tenant, user⟩, c⟩ := by
+  rw [request_json h, hs, decodeItems_encode c]
 
 theorem request_actor_run (tenant user exp now : UInt64) (body : Http.Body) :
     match request tenant user exp now body with
@@ -496,24 +468,24 @@ theorem request_refusal {tenant user exp now : UInt64} {body : Http.Body} {r : H
     cases h
     exact ⟨by simp [Http.refuse_status], _, Http.refuse_body _ _⟩
   · cases body with
-    | text s =>
-      rw [request_text he] at h
-      cases hd : decode s with
+    | json lexemes =>
+      rw [request_json he] at h
+      cases hd : decodeItems (items lexemes) with
       | ok cmd => simp [hd] at h
       | error e =>
         simp only [hd, Except.error.injEq] at h
         subst h
         exact ⟨by simp [Http.refuse_status], _, Http.refuse_body _ _⟩
-    | notUtf8 =>
-      rw [(request_not_text he tenant user).1] at h
+    | notJson =>
+      rw [(request_not_json he tenant user).1] at h
       cases h
       exact ⟨by simp [Http.refuse_status], _, Http.refuse_body _ _⟩
     | tooLarge =>
-      rw [(request_not_text he tenant user).2.1] at h
+      rw [(request_not_json he tenant user).2.1] at h
       cases h
       exact ⟨by simp [Http.refuse_status], _, Http.refuse_body _ _⟩
     | unreadable =>
-      rw [(request_not_text he tenant user).2.2] at h
+      rw [(request_not_json he tenant user).2.2] at h
       cases h
       exact ⟨by simp [Http.refuse_status], _, Http.refuse_body _ _⟩
 
@@ -645,15 +617,20 @@ theorem decodeReplyItems_value (r : Reply) :
     have := membersItems_elems ms []
     simp_all [replyValue, Value.toks, Json.membersToks, Item.ofTok, decodeReplyItems, name_members]
 
-/-- A text whose bytes are the JSON value of a reply is read back as the reply. -/
-theorem decodeReply_print {s : String} (r : Reply) (h : bytesOf s = (replyValue r).print) :
-    decodeReply s = some r := by
-  simp only [decodeReply, readString_print h, decodeReplyItems_value]
+/-- Tokens whose items are those of the JSON value of a reply are read back as the reply. The
+bytes `encodeReply` writes are `Value.print` of that value (`encodeReply_spec`), and the JSON
+library that reads the stored bytes is trusted to hand over such tokens for them. -/
+theorem decodeReply_value {lexemes : List Lexeme} (r : Reply)
+    (h : items lexemes = (replyValue r).toks.map Item.ofTok) :
+    decodeReply (some lexemes) = some r := by
+  simp only [decodeReply, h, decodeReplyItems_value]
 
-/-- The bytes `encodeReply` writes for a reply are read back as the reply. -/
-theorem decodeReply_encodeReply {s : String} (r : Reply) (h : bytesOf s = (encodeReply r).toList) :
-    decodeReply s = some r :=
-  decodeReply_print r (h.trans (encodeReply_spec r))
+/-- The reply of the tokens of a stored reply is the reply of their items. -/
+theorem decodeReply_spec (lexemes : List Lexeme) :
+    decodeReply (some lexemes) = decodeReplyItems (lexemes.map Leangage.Json.Items.item) := rfl
+
+/-- Stored bytes the JSON library refuses are read back as no reply. -/
+theorem decodeReply_none : decodeReply none = none := rfl
 
 /-! ## Idempotency keys -/
 
@@ -724,12 +701,12 @@ theorem prefix_unique (p : UInt8 → Bool) :
 
 /-- A number in decimal followed by a byte that is not a digit: the number and what follows are
 read off the bytes. -/
-theorem digits_sep {n m : Nat} {c c' : UInt8} {r r' : List UInt8} (hc : Json.Read.isDigit c = false)
-    (hc' : Json.Read.isDigit c' = false) (h : Json.digits n ++ c :: r = Json.digits m ++ c' :: r') :
+theorem digits_sep {n m : Nat} {c c' : UInt8} {r r' : List UInt8} (hc : Json.Items.isDigit c = false)
+    (hc' : Json.Items.isDigit c' = false) (h : Json.digits n ++ c :: r = Json.digits m ++ c' :: r') :
     n = m ∧ c :: r = c' :: r' := by
-  have hd : ∀ k, ∀ x ∈ Json.digits k, Json.Read.isDigit x = true := fun k => by
+  have hd : ∀ k, ∀ x ∈ Json.digits k, Json.Items.isDigit x = true := fun k => by
     rw [← Json.decimal_spec]
-    exact Json.Read.decimal_isDigit k
+    exact Json.Items.decimal_isDigit k
   obtain ⟨h1, h2⟩ := prefix_unique _ (hd n) (hd m) hc hc' h
   exact ⟨digits_injective h1, h2⟩
 

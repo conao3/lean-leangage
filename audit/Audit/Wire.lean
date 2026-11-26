@@ -7,11 +7,11 @@ Breaks the calculator's functions on the wire in small ways and runs the theorem
 version. The build fails when a broken version satisfies every theorem.
 
 The members are the fields of a command, in their order, reversed and rotated, and the same with
-a member removed, added, repeated or holding another value. The bodies are the spellings of the
-commands and texts close to one. The numbers are few, so that two commands are often the same.
+a member removed, added, repeated or holding another value. The bodies are the tokens of the
+spellings of the commands and lists of tokens close to one. The numbers are few, so that two commands are often the same.
 -/
 
-open Plausible Calculator.Kernel Calculator.Wire Leangage Leangage.Json.Read
+open Plausible Calculator.Kernel Calculator.Wire Leangage Leangage.Json.Items
 
 instance (priority := high) wireArbitraryUInt64 : Arbitrary UInt64 where
   arbitrary := Gen.elements [0, 1, 2, 9, 10, 99, 100, 18446744073709551615] (by decide)
@@ -86,19 +86,31 @@ instance (priority := high) wireArbitraryBytes : Arbitrary (List UInt8) where
 
 instance (priority := high) wireSampleableBytes : SampleableExt (List UInt8) := SampleableExt.selfContained
 
-def bodyText : Gen String := do
-  let c ← commandGen
-  let text := (String.fromUTF8? (ByteArray.mk (encodeCommand c).print.toArray)).getD ""
+def lexemesOf : Command → List Lexeme
+  | .set n => [.objOpen, .key "cmd", .str "set", .key "value", .number (toString n.toNat), .objClose]
+  | .apply op n =>
+    [.objOpen, .key "cmd", .str "apply", .key "op", .str (String.ofList (opName op)), .key "arg",
+      .number (toString n.toNat), .objClose]
+  | .get => [.objOpen, .key "cmd", .str "get", .objClose]
+
+def bodyLexemes : Gen (List Lexeme) := do
+  let ls := lexemesOf (← commandGen)
   Gen.elements
-    [text, text, text, " " ++ text ++ "\n", text ++ " x", text.dropEnd 1 |>.toString, "{}", "[]", "",
-      "{\"cmd\":\"get\",\"cmd\":\"get\"}", "{\"cmd\":\"set\",\"value\":6.0}",
-      "{\"value\":1,\"cmd\":\"set\"}", "{\"cmd\":\"apply\",\"arg\":-1,\"op\":\"add\"}", "7", "{"]
+    [ls, ls, ls, ls.drop 1, ls.dropLast, ls ++ ls, .arrOpen :: ls, [], [.objOpen, .objClose],
+      [.objOpen, .key "cmd", .str "get", .key "cmd", .str "get", .objClose],
+      [.objOpen, .key "cmd", .str "set", .key "value", .number "6.0", .objClose],
+      [.objOpen, .key "value", .number "1", .key "cmd", .str "set", .objClose],
+      [.objOpen, .key "cmd", .str "apply", .key "arg", .number "-1", .key "op", .str "add", .objClose],
+      [.number "7"]]
     (by simp)
 
-instance (priority := high) wireArbitraryString : Arbitrary String where
-  arbitrary := bodyText
+instance (priority := high) wireArbitraryLexemes : Arbitrary (List Lexeme) where
+  arbitrary := bodyLexemes
 
-instance (priority := high) wireSampleableString : SampleableExt String := SampleableExt.selfContained
+instance (priority := high) wireShrinkableLexemes : Shrinkable (List Lexeme) := ⟨fun _ => []⟩
+
+instance (priority := high) wireSampleableLexemes : SampleableExt (List Lexeme) :=
+  SampleableExt.selfContained
 
 deriving instance DecidableEq for Principal, Command, Call
 
@@ -113,21 +125,11 @@ deriving instance DecidableEq for Principal, Command, Call
 
 #assay Calculator.Wire.opNamed using Calculator.Wire.opNamed_spec
 
-#assay Calculator.Wire.closedNumber
-  using Calculator.Wire.closedNumber_spec Calculator.Wire.closedNumber_built
-
-#assay Calculator.Wire.spelled using Calculator.Wire.spelled_spec Calculator.Wire.spelled_print
-
-#assay Calculator.Wire.decodeText using Calculator.Wire.decodeText_notJson_iff
-
-#assay Calculator.Wire.decode
-  using Calculator.Wire.decode_notJson_iff Calculator.Wire.decode_text
-
 #assay Calculator.Wire.refusalMessage using Calculator.Wire.refusalMessage_spec
 
 #assay Calculator.Wire.request
-  using Calculator.Wire.request_expired Calculator.Wire.request_text
-    Calculator.Wire.request_not_text Calculator.Wire.request_actor_run
+  using Calculator.Wire.request_expired Calculator.Wire.request_json
+    Calculator.Wire.request_not_json Calculator.Wire.request_actor_run
 
 #assay Calculator.Wire.respond using Calculator.Wire.respond_ok Calculator.Wire.respond_error
 

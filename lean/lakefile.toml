@@ -10,6 +10,9 @@ name = "Calculator"
 [[lean_lib]]
 name = "Notes"
 
+[[lean_lib]]
+name = "Oracle"
+
 [[lean_exe]]
 name = "calculator-oracle"
 root = "CalculatorOracle"

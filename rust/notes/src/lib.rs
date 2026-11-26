@@ -94,7 +94,7 @@ impl Storage for Notes {
     }
 
     fn decode_reply(bytes: &[u8]) -> Option<kernel::Reply> {
-        wire::decode_reply(std::str::from_utf8(bytes).ok()?)
+        wire::decode_reply(leangage::json_text::lexemes(bytes))
     }
 }
 

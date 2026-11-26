@@ -1,0 +1,105 @@
+package leangage
+
+import (
+	"encoding/hex"
+	"fmt"
+	"strconv"
+	"strings"
+	"testing"
+
+	"github.com/conao3/lean-leangage/go/leangage/jsonitems"
+)
+
+func showLibraryItems(t *testing.T, body []byte) string {
+	t.Helper()
+	lexemes, ok := Lexemes(body)
+	if !ok {
+		return "none"
+	}
+	items, err := jsonitems.Items(lexemes)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var words []string
+	for _, item := range items {
+		switch item := item.(type) {
+		case jsonitems.ItemNull:
+			words = append(words, "n")
+		case jsonitems.ItemBool:
+			words = append(words, map[bool]string{true: "t", false: "f"}[item.B])
+		case jsonitems.ItemNum:
+			words = append(words, "u"+strconv.FormatUint(item.N, 10))
+		case jsonitems.ItemNumber:
+			words = append(words, "#")
+		case jsonitems.ItemStr:
+			words = append(words, "sx"+hex.EncodeToString(item.S))
+		case jsonitems.ItemKey:
+			words = append(words, "kx"+hex.EncodeToString(item.S))
+		case jsonitems.ItemArrOpen:
+			words = append(words, "[")
+		case jsonitems.ItemArrClose:
+			words = append(words, "]")
+		case jsonitems.ItemObjOpen:
+			words = append(words, "{")
+		case jsonitems.ItemObjClose:
+			words = append(words, "}")
+		default:
+			t.Fatalf("bad item %#v", item)
+		}
+	}
+	return strings.Join(words, " ")
+}
+
+func nested(depth int) (string, string) {
+	return strings.Repeat("[", depth) + strings.Repeat("]", depth),
+		strings.TrimSuffix(strings.Repeat("[ ", depth)+strings.Repeat("] ", depth), " ")
+}
+
+// What encoding/json and Lexemes do with the texts on which the JSON libraries of the servers'
+// languages differ, and with those at the edges of the grammar. The items are written as in
+// `lean/RequestOracle.lean`, and `none` is a refused body. encoding/json reads the escape of a
+// surrogate outside a pair as U+FFFD, and refuses arrays nested deeper than 10,000.
+func TestEncodingJsonOnEdgeCases(t *testing.T) {
+	deep200, items200 := nested(200)
+	deep2000, items2000 := nested(2000)
+	deep10000, items10000 := nested(10000)
+	deep10001, _ := nested(10001)
+	cases := []struct{ name, body, want string }{
+		{"lone high surrogate", `"\ud800"`, "sxefbfbd"},
+		{"lone low surrogate", `"\udc00"`, "sxefbfbd"},
+		{"surrogate pair", `"😀"`, "sxf09f9880"},
+		{"depth 200", deep200, items200},
+		{"depth 2000", deep2000, items2000},
+		{"depth 10000", deep10000, items10000},
+		{"depth 10001", deep10001, "none"},
+		{"NaN", `NaN`, "none"},
+		{"Infinity", `Infinity`, "none"},
+		{"-Infinity", `-Infinity`, "none"},
+		{"1e400", `1e400`, "#"},
+		{"-0", `-0`, "#"},
+		{"1.0", `1.0`, "#"},
+		{"1e2", `1e2`, "#"},
+		{"2^64-1", `18446744073709551615`, "u18446744073709551615"},
+		{"2^64", `18446744073709551616`, "#"},
+		{"leading zero", `01`, "none"},
+		{"two objects", `{} {}`, "none"},
+		{"two numbers", `1 2`, "none"},
+		{"one more close", `[]]`, "none"},
+		{"member twice", `{"a":1,"a":2}`, "{ kx61 u1 kx61 u2 }"},
+		{"upper-case key", `{"CMD":"get"}`, "{ kx434d44 sx676574 }"},
+		{"byte order mark", "\xef\xbb\xbf{}", "none"},
+		{"UTF-16", "{\x00}\x00", "none"},
+		{"byte that is not UTF-8 in a string", "\"\xff\"", "none"},
+		{"control character in a string", "\"\x01\"", "none"},
+		{"empty", ``, "none"},
+		{"spaces only", " \n", "none"},
+	}
+	for _, c := range cases {
+		if got := showLibraryItems(t, []byte(c.body)); got != c.want {
+			if len(got) > 80 {
+				got = fmt.Sprintf("%s… (%d bytes)", got[:80], len(got))
+			}
+			t.Errorf("%s: got %s", c.name, got)
+		}
+	}
+}

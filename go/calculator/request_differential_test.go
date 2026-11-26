@@ -3,28 +3,24 @@ package calculator
 import (
 	"bytes"
 	"encoding/hex"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
 	"os/exec"
-	"regexp"
 	"strconv"
 	"strings"
 	"testing"
-	"unicode/utf8"
 
 	"github.com/conao3/leanfran-go"
 
 	"github.com/conao3/lean-leangage/go/calculator/kernel"
 	"github.com/conao3/lean-leangage/go/calculator/wire"
+	"github.com/conao3/lean-leangage/go/leangage"
 	"github.com/conao3/lean-leangage/go/leangage/httpformat"
-	"github.com/conao3/lean-leangage/go/leangage/jsonread"
+	"github.com/conao3/lean-leangage/go/leangage/jsonitems"
 )
 
 const requestCases = "../../testdata/request-cases.txt"
-
-var surrogateEscape = regexp.MustCompile(`\\u[dD][89a-fA-F]`)
 
 func requestBytes(t *testing.T, word string) []byte {
 	t.Helper()
@@ -46,41 +42,47 @@ func requestNumber(t *testing.T, word string) uint64 {
 	return n
 }
 
-func showItem(item jsonread.Item) string {
+func showItem(item jsonitems.Item) string {
 	switch item := item.(type) {
-	case jsonread.ItemNull:
+	case jsonitems.ItemNull:
 		return "n"
-	case jsonread.ItemBool:
+	case jsonitems.ItemBool:
 		if item.B {
 			return "t"
 		}
 		return "f"
-	case jsonread.ItemNum:
+	case jsonitems.ItemNum:
 		return "u" + strconv.FormatUint(item.N, 10)
-	case jsonread.ItemNumber:
+	case jsonitems.ItemNumber:
 		return "#"
-	case jsonread.ItemStr:
+	case jsonitems.ItemStr:
 		return "s" + showRequestBytes(item.S)
-	case jsonread.ItemKey:
+	case jsonitems.ItemKey:
 		return "k" + showRequestBytes(item.S)
-	case jsonread.ItemArrOpen:
+	case jsonitems.ItemArrOpen:
 		return "["
-	case jsonread.ItemArrClose:
+	case jsonitems.ItemArrClose:
 		return "]"
-	case jsonread.ItemObjOpen:
+	case jsonitems.ItemObjOpen:
 		return "{"
-	case jsonread.ItemObjClose:
+	case jsonitems.ItemObjClose:
 		return "}"
 	}
 	panic(fmt.Sprintf("bad item %#v", item))
 }
 
-func showItems(items *[]jsonread.Item) string {
-	if items == nil {
+func showItems(t *testing.T, input []byte) string {
+	t.Helper()
+	lexemes, ok := leangage.Lexemes(input)
+	if !ok {
 		return "none"
 	}
+	items, err := jsonitems.Items(lexemes)
+	if err != nil {
+		t.Fatal(err)
+	}
 	words := []string{"items"}
-	for _, item := range *items {
+	for _, item := range items {
 		words = append(words, showItem(item))
 	}
 	return strings.Join(words, " ")
@@ -141,29 +143,12 @@ func showAuth(bearer httpformat.Bearer, err error) string {
 		showRequestBytes(bearer.Payload), showRequestBytes(bearer.Sig))
 }
 
-type requestCounts struct{ utf8, compared int }
-
-func runRequestLine(t *testing.T, line string, counts *requestCounts) string {
+func runRequestLine(t *testing.T, line string) string {
 	t.Helper()
 	words := strings.Split(line, " ")
 	switch {
-	case len(words) == 2 && words[0] == "read":
-		input := requestBytes(t, words[1])
-		items := jsonread.Read(input)
-		if utf8.Valid(input) {
-			counts.utf8++
-			fromString, err := jsonread.ReadString(string(input))
-			if err != nil || showItems(fromString) != showItems(items) {
-				t.Fatalf("ReadString of %s: %s, %v", line, showItems(fromString), err)
-			}
-			if !surrogateEscape.Match(input) {
-				counts.compared++
-				if (items != nil) != json.Valid(input) {
-					t.Fatalf("encoding/json on %s: %v", line, json.Valid(input))
-				}
-			}
-		}
-		return showItems(items)
+	case len(words) == 2 && words[0] == "items":
+		return showItems(t, requestBytes(t, words[1]))
 	case len(words) == 2 && words[0] == "auth" && words[1] == "-":
 		return showAuth(httpformat.Authenticate(nil))
 	case len(words) == 2 && words[0] == "auth":
@@ -172,14 +157,12 @@ func runRequestLine(t *testing.T, line string, counts *requestCounts) string {
 	case len(words) == 6 && words[0] == "request":
 		var body httpformat.Body
 		switch words[5] {
-		case "notutf8":
-			body = httpformat.BodyNotUtf8{}
 		case "toolarge":
 			body = httpformat.BodyTooLarge{}
 		case "unreadable":
 			body = httpformat.BodyUnreadable{}
 		default:
-			body = httpformat.BodyText{S: string(requestBytes(t, words[5]))}
+			body = leangage.BodyOf(requestBytes(t, words[5]))
 		}
 		call, err := wire.Request(requestNumber(t, words[1]), requestNumber(t, words[2]),
 			requestNumber(t, words[3]), requestNumber(t, words[4]), body)
@@ -224,11 +207,9 @@ func runRequestLine(t *testing.T, line string, counts *requestCounts) string {
 	return ""
 }
 
-// The generated Go JSON reader, the functions on requests and responses and the calculator's
+// The tokens encoding/json reads, the functions on requests and responses and the calculator's
 // functions on the wire against those run natively by Lean (`request-oracle`), on the shared
-// lines. The line format is described in `lean/RequestOracle.lean`. A text to read that is UTF-8
-// is also read by ReadString, which must read what Read reads, and its acceptance is compared
-// with that of encoding/json.
+// lines. The line format is described in `lean/RequestOracle.lean`.
 func TestGeneratedGoRequestFunctionsAgreeWithLean(t *testing.T) {
 	path, ok := os.LookupEnv("LEANGAGE_REQUEST_ORACLE")
 	if !ok {
@@ -249,13 +230,23 @@ func TestGeneratedGoRequestFunctionsAgreeWithLean(t *testing.T) {
 	if len(lines) != len(want) {
 		t.Fatalf("%d lines, %d answers", len(lines), len(want))
 	}
-	var counts requestCounts
 	for i, line := range lines {
-		if got := runRequestLine(t, line, &counts); got != want[i] {
-			t.Fatalf("line %d: %s\n got %s\nwant %s", i+1, line, got, want[i])
+		if got := runRequestLine(t, line); got != want[i] {
+			t.Errorf("line %d: %s\n got %s\nwant %s", i+1, line, got, want[i])
 		}
 	}
-	if counts.utf8 <= 800 || counts.compared <= 700 {
-		t.Fatalf("%d texts are UTF-8, %d compared", counts.utf8, counts.compared)
+}
+
+// A member whose name differs from `cmd` in case is another member: the tokens keep the name as
+// it is written.
+func TestUpperCaseMemberNameIsNotCmd(t *testing.T) {
+	_, err := wire.Request(1, 1, 1, 0, leangage.BodyOf([]byte(`{"CMD":"get"}`)))
+	answer, ok := refused(err)
+	if !ok || answer.Status != 400 || string(answer.Body) != "{\"error\":\"missing field `cmd`\"}" {
+		t.Fatalf("got %v %s", err, answer.Body)
+	}
+	call, err := wire.Request(1, 1, 1, 0, leangage.BodyOf([]byte(`{"cmd":"get"}`)))
+	if err != nil || call.Cmd != kernel.Command(kernel.CommandGet{}) {
+		t.Fatalf("got %v %v", call, err)
 	}
 }

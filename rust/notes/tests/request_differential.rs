@@ -8,7 +8,9 @@
 use std::io::Write as _;
 use std::process::{Command, Stdio};
 
+use leangage::http::body_of;
 use leangage::http_format::{Body, Response};
+use leangage::json_text;
 use leangage_notes::{Refusal, kernel, wire};
 use serde_json::{Value, json};
 
@@ -169,10 +171,9 @@ fn reply_value(reply: &kernel::Reply) -> Value {
 
 fn body(word: &str) -> Body {
     match word {
-        "notutf8" => Body::NotUtf8,
         "toolarge" => Body::TooLarge,
         "unreadable" => Body::Unreadable,
-        _ => Body::Text { s: text(word) },
+        _ => body_of(&bytes(word)),
     }
 }
 
@@ -215,8 +216,11 @@ fn run(line: &str, counts: &mut Counts) -> String {
                 serde_json::to_vec(&reply_value(&reply)).expect("JSON"),
                 "serde_json on {line}"
             );
-            let stored = String::from_utf8(answer.body.clone()).expect("a reply is UTF-8");
-            assert_eq!(wire::decode_reply(stored), Some(reply), "read back: {line}");
+            assert_eq!(
+                wire::decode_reply(json_text::lexemes(&answer.body)),
+                Some(reply),
+                "read back: {line}"
+            );
             counts.replies += 1;
             show_response("resp", &answer)
         }
@@ -250,7 +254,7 @@ fn run(line: &str, counts: &mut Counts) -> String {
             assert_eq!(scope, format!("u{user}"), "the stored form");
             format!("text {}", show(scope.as_bytes()))
         }
-        ["stored", b] => match wire::decode_reply(text(b)) {
+        ["stored", b] => match wire::decode_reply(json_text::lexemes(&bytes(b))) {
             Some(reply) => {
                 counts.stored += 1;
                 format!("reply {}", show_reply(&reply))
@@ -286,7 +290,15 @@ fn generated_rust_notes_wire_functions_agree_with_lean() {
     assert!(counts.accepted > 500, "{} bodies accepted", counts.accepted);
     assert!(counts.replies > 300, "{} replies written", counts.replies);
     assert!(counts.stored > 100, "{} stored replies read", counts.stored);
-    for (i, (a, b)) in ours.iter().zip(theirs.lines()).enumerate() {
-        assert_eq!(a, b, "line {}: {}", i + 1, CASES.lines().nth(i).unwrap());
-    }
+    let wrong: Vec<String> = ours
+        .iter()
+        .zip(theirs.lines())
+        .enumerate()
+        .filter(|(_, (a, b))| a != b)
+        .map(|(i, (a, b))| {
+            let short = |s: &str| s.chars().take(60).collect::<String>();
+            format!("line {}: ours {} theirs {}", i + 1, short(a), short(b))
+        })
+        .collect();
+    assert!(wrong.is_empty(), "{}", wrong.join("\n"));
 }

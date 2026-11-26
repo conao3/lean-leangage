@@ -59,7 +59,8 @@ func TestRpc(t *testing.T) {
 		{7, "", `{"cmd":"apply","op":"add","arg":1.5}`, 400, "{\"error\":\"`arg` must be an integer below 2^64\"}"},
 		{7, "", "\xff", 400, `{"error":"body is not JSON"}`},
 		{7, "", strings.Repeat("[", 2<<20), 400, `{"error":"body is not JSON"}`},
-		{7, "", strings.Repeat("[", 500_000) + strings.Repeat("]", 500_000), 400, `{"error":"not a calculator command"}`},
+		{7, "", strings.Repeat("[", 10_000) + strings.Repeat("]", 10_000), 400, `{"error":"not a calculator command"}`},
+		{7, "", strings.Repeat("[", 10_001) + strings.Repeat("]", 10_001), 400, `{"error":"body is not JSON"}`},
 		{7, "", strings.Repeat("[", 2<<20+1), 413, `{"error":"request body too large"}`},
 		{7, "", `{"cmd":"get"}`, 200, `{"value":1}`},
 	}

@@ -11,22 +11,26 @@ import (
 	"github.com/conao3/leanfran-go"
 
 	"github.com/conao3/lean-leangage/go/leangage/httpformat"
+	"github.com/conao3/lean-leangage/go/leangage/jsonitems"
 )
 
-// counterApi reads a body that is a number in decimal, written by hand.
+// counterApi reads a body that is one number in decimal, written by hand.
 type counterApi struct{}
 
 func (counterApi) Request(tenant, user, expiry, now uint64, body httpformat.Body) (who, int, *httpformat.Response) {
-	text, err := httpformat.Admit(expiry, now, body)
+	_, err := httpformat.Admit(expiry, now, body)
 	if answer, ok := errors.AsType[*leanfran.ExceptError[httpformat.Response]](err); ok {
 		return who{}, 0, &answer.Value
 	}
-	cmd, err := strconv.Atoi(text)
-	if err != nil {
-		answer, _ := httpformat.Refuse(400, err.Error())
-		return who{}, 0, &answer
+	if read, ok := body.(httpformat.BodyJson); ok && len(read.Lexemes) == 1 {
+		if number, ok := read.Lexemes[0].(jsonitems.LexemeNumber); ok {
+			if cmd, err := strconv.Atoi(number.Text); err == nil {
+				return who{tenant, user}, cmd, nil
+			}
+		}
 	}
-	return who{tenant, user}, cmd, nil
+	answer, _ := httpformat.Refuse(400, "not a number")
+	return who{}, 0, &answer
 }
 
 func (counterApi) Respond(reply int, refusal *string) httpformat.Response {
@@ -81,7 +85,7 @@ func TestRpcStatuses(t *testing.T) {
 		{"Bearer " + Issue(secret, Claims{Tenant: 1, User: 1, Expiry: 1}), "", "\xff", 401, `{"error":"token expired"}`},
 		{"Bearer " + token, "", "\xff", 400, `{"error":"body is not JSON"}`},
 		{"Bearer " + token, "", strings.Repeat("1", 2<<20+1), 413, `{"error":"request body too large"}`},
-		{"Bearer " + token, "", `"one"`, 400, `{"error":"strconv.Atoi: parsing \"\\\"one\\\"\": invalid syntax"}`},
+		{"Bearer " + token, "", `"one"`, 400, `{"error":"not a number"}`},
 		{"Bearer " + token, "", "5", 200, "5"},
 		{"Bearer " + token, "a", "2", 200, "7"},
 		{"Bearer " + token, "a", "2", 200, "7"},

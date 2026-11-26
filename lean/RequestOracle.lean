@@ -1,5 +1,5 @@
 import Leangage.Http
-import Leangage.Json.Read
+import Oracle.JsonText
 import Calculator.Wire
 
 /-!
@@ -12,7 +12,7 @@ Bytes are written `x<hex>`, and a text as the `x<hex>` of its UTF-8. A command i
 
 | line | prints |
 |---|---|
-| `read x<hex>` | `items` and the items `read` returns, or `none` |
+| `items x<hex>` | `items` and the items of the JSON text, or `none` for bytes that are not one |
 | `auth -`, `auth x<hex>` | for `authenticate` without and with a header: `ok <tenant> <user> <exp> x<payload> x<tag>` or `err <status> x<body>` |
 | `request <tenant> <user> <exp> <now> <body>` | for `Calculator.Wire.request`: `ok <org> <user> <command>` or `err <status> x<body>` |
 | `respond ok <v>`, `respond err <name>` | `resp <status> x<body>` of `Calculator.Wire.respond` |
@@ -22,12 +22,12 @@ Bytes are written `x<hex>`, and a text as the `x<hex>` of its UTF-8. A command i
 
 An item is `n` (null), `t` and `f` (true and false), `u<decimal>` (a number below 2^64 in decimal
 digits), `#` (another number), `sx<hex>` (a string), `kx<hex>` (a key), `[`, `]`, `{` or `}`.
-A body is `x<hex>` (text), `notutf8`, `toolarge` or `unreadable`. The names of the refusals are
+A body is `x<hex>` (its bytes), `toolarge` or `unreadable`. The names of the refusals are
 `overflow`, `underflow` and `division_by_zero`, and those of the failures `bad_signature`,
 `conflict`, `stopped`, `retries_exhausted`, `database`, `commit_unknown` and `broken`.
 -/
 
-open Leangage Leangage.Json.Read Calculator.Kernel
+open Leangage Leangage.Json.Items Calculator.Kernel
 
 def hexDigitValue (c : Char) : Option Nat :=
   if '0' ≤ c ∧ c ≤ '9' then some (c.toNat - '0'.toNat)
@@ -100,10 +100,12 @@ def showCommand : Command → String
   | .get => "get"
 
 def body : String → Option Http.Body
-  | "notutf8" => some .notUtf8
   | "toolarge" => some .tooLarge
   | "unreadable" => some .unreadable
-  | s => (text s).map .text
+  | s => do
+    match Oracle.JsonText.lexemes (← bytes s) with
+    | some lexemes => return .json lexemes
+    | none => return .notJson
 
 def refusal : String → Option Error
   | "overflow" => some .overflow
@@ -127,9 +129,9 @@ def showAuth : Except Http.Response Http.Bearer → String
 
 def run (line : String) : Option String :=
   match line.splitOn " " with
-  | ["read", b] => do
-    match read (← bytes b) with
-    | some items => return " ".intercalate ("items" :: items.map showItem)
+  | ["items", b] => do
+    match Oracle.JsonText.lexemes (← bytes b) with
+    | some lexemes => return " ".intercalate ("items" :: (items lexemes).map showItem)
     | none => return "none"
   | ["auth", "-"] => some (showAuth (Http.authenticate none))
   | ["auth", h] => do return showAuth (Http.authenticate (some (← text h)))

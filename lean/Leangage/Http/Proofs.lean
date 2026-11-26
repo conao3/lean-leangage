@@ -18,10 +18,10 @@ import Leangage.Json.Proofs
   the tenant, the user and the expiry returned. So the bytes a server checks the tag over are
   every byte of the token before its last dot, and they fix the claims.
   `authenticate_issued`: the header of an issued token gives back what was signed.
-- `admit_expired`, `admit_text`, `admit_not_text`: a token whose expiry is before `now` is
-  answered 401 `token expired`, whatever the body; otherwise a body that is text is passed on, and
-  one that is not is answered 400 `body is not JSON`, 413 `request body too large` or 400
-  `request body cannot be read`.
+- `admit_expired`, `admit_json`, `admit_not_json`: a token whose expiry is before `now` is
+  answered 401 `token expired`, whatever the body; otherwise the items of the tokens of a body
+  are passed on, and a body without tokens is answered 400 `body is not JSON`, 413
+  `request body too large` or 400 `request body cannot be read`.
 - `failed_spec`: the status and the message of each failure.
 -/
 
@@ -139,14 +139,14 @@ theorem admit_expired {exp now : UInt64} (h : exp < now) (body : Body) :
     admit exp now body = .error (refuse 401 "token expired") := by
   simp [admit, h]
 
-/-- The text of a body passes with a token that has not expired. -/
-theorem admit_text {exp now : UInt64} (h : ¬exp < now) (s : String) :
-    admit exp now (.text s) = .ok s := by
+/-- The items of the tokens of a body pass with a token that has not expired. -/
+theorem admit_json {exp now : UInt64} (h : ¬exp < now) (lexemes : List Json.Items.Lexeme) :
+    admit exp now (.json lexemes) = .ok (Json.Items.items lexemes) := by
   simp [admit, h]
 
-/-- A body that is not text, with a token that has not expired. -/
-theorem admit_not_text {exp now : UInt64} (h : ¬exp < now) :
-    admit exp now .notUtf8 = .error (refuse 400 "body is not JSON") ∧
+/-- A body without tokens, with a token that has not expired. -/
+theorem admit_not_json {exp now : UInt64} (h : ¬exp < now) :
+    admit exp now .notJson = .error (refuse 400 "body is not JSON") ∧
       admit exp now .tooLarge = .error (refuse 413 "request body too large") ∧
       admit exp now .unreadable = .error (refuse 400 "request body cannot be read") := by
   simp [admit, h]

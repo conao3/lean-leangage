@@ -1,12 +1,13 @@
 import Leangage.Token
 import Leangage.Json
+import Leangage.Json.Items
 
 /-!
 # Requests and responses
 
 What a server decides about a request apart from the kernel's command: who the bearer token of
-the `Authorization` header claims to be, whether the token has expired, what a body that cannot
-be read as text is answered with, and the status and the body of each answer that is not the
+the `Authorization` header claims to be, whether the token has expired, what a body that is not a
+JSON text is answered with, and the status and the body of each answer that is not the
 kernel's. A server calls `authenticate` with the header, checks the HMAC tag of the result
 itself, and answers a failure of its own with `failed`. A kernel's `request` starts with
 `admit`.
@@ -22,9 +23,10 @@ deriving DecidableEq, Repr
 
 /-- The body of a request as the server read it. -/
 inductive Body where
-  | text (s : String)
-  /-- The bytes are not UTF-8. -/
-  | notUtf8
+  /-- The tokens of the JSON text of the body, in the order of the document. -/
+  | json (lexemes : List Json.Items.Lexeme)
+  /-- The JSON library refused the bytes. -/
+  | notJson
   /-- The body is longer than the server reads. -/
   | tooLarge
   /-- The connection failed while the server read the body. -/
@@ -74,13 +76,13 @@ def authenticate (header : Option String) : Except Response Bearer :=
       | none => .error (refuse 401 "malformed token")
       | some p => .ok ⟨p.tenant, p.user, p.exp, p.payload, p.sig⟩
 
-/-- The text of the body of a request whose token expires at `exp`, at the time `now`. -/
-def admit (exp now : UInt64) (body : Body) : Except Response String :=
+/-- The items of the body of a request whose token expires at `exp`, at the time `now`. -/
+def admit (exp now : UInt64) (body : Body) : Except Response (List Json.Items.Item) :=
   if exp < now then .error (refuse 401 "token expired")
   else
     match body with
-    | .text s => .ok s
-    | .notUtf8 => .error (refuse 400 "body is not JSON")
+    | .json lexemes => .ok (Json.Items.items lexemes)
+    | .notJson => .error (refuse 400 "body is not JSON")
     | .tooLarge => .error (refuse 413 "request body too large")
     | .unreadable => .error (refuse 400 "request body cannot be read")
 
