@@ -120,8 +120,9 @@ $ curl -s -H "Authorization: Bearer $TOKEN" -d '{"cmd":"apply","op":"div","arg":
 
 The Python server ([`python/src/leangage_calculator`](python/src/leangage_calculator)) runs
 the same Lean modules, generated to Python, and the Go server
-([`go/calculator`](go/calculator)) runs them generated to Go. Every request gets the same status
-and body from the 3 servers, and a token issued by one is accepted by the others:
+([`go/calculator`](go/calculator)) runs them generated to Go. A command, a body that is not one
+and a token that is refused get the same status and body from the 3 servers, and a token issued
+by one is accepted by the others:
 
 ```console
 $ cd python && LEANGAGE_LISTEN=127.0.0.1:8081 uv run leangage-calculator &
@@ -630,7 +631,7 @@ Checked by `make check`, not proved:
   generated function (`authenticate`, `failed`, `request`, `respond`, `fingerprint`, `scope`) or
   holds a JSON library, a status code (a constant of the HTTP library or a number from 100 to
   599) or the JSON writer.
-- **Each server answers a request as the others do.** `rust/calculator/tests/http.rs`,
+- **The servers give the answers of the generated functions.** `rust/calculator/tests/http.rs`,
   `python/test/test_http.py` and `go/calculator/http_test.go` send requests without a header,
   with another scheme, with a malformed, a forged and an expired token, with bodies that are not
   JSON, not UTF-8 or not a command, and with a reused idempotency key, and require the status

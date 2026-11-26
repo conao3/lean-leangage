@@ -10,9 +10,9 @@ reads the token as a `String` and returns arrays.
 
 A token is `v1.<tenant>.<user>.<expiry>.<hex signature>`. The signature covers the payload, which
 is every byte before the last dot. `encodePayload` writes the payload, `join` appends the
-signature in lowercase hexadecimal, and `parse` splits a token into its fields. The servers call
-`parseString`, which splits the bytes of a string as `parse` does, compute and compare the
-signature and check the expiry.
+signature in lowercase hexadecimal, and `parse` splits a token into its fields.
+`Leangage.Http.authenticate` calls `parseString`, which splits the bytes of a string as `parse`
+does, and the servers compute and compare the signature.
 -/
 
 namespace Leangage.Token
