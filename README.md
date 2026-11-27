@@ -38,6 +38,11 @@ the function to your language. leangage gives you 3 things around it:
 
 The same kernel runs today from Rust, from Python and from Go.
 
+The server libraries are the crates [`leangage`](https://crates.io/crates/leangage) and
+[`leangage-pg`](https://crates.io/crates/leangage-pg), the PyPI package
+[`leangage`](https://pypi.org/project/leangage/) and the Go module
+`github.com/conao3/lean-leangage/go`.
+
 The design follows [h5i-app](https://github.com/h5i-dev/h5i/blob/main/crates/h5i-app/README.md),
 which does this for Rust by translating Rust to Lean. leangage goes the other way: Lean is the
 source, and you get the host language by generation.
