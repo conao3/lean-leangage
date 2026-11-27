@@ -36,31 +36,6 @@
             };
             programs.ruff-check.enable = true;
             programs.ruff-format.enable = true;
-            settings.global.excludes = [
-              "rust/calculator/src/generated/*"
-              "python/src/leangage_calculator/kernel.py"
-              "go/calculator/kernel/*"
-              "python/src/leangage_calculator/store.py"
-              "go/calculator/store/*"
-              "rust/leangage/src/generated/*"
-              "python/src/leangage/sql.py"
-              "go/leangage/sql/*"
-              "python/src/leangage/token_format.py"
-              "go/leangage/token/*"
-              "rust/notes/src/generated/*"
-              "python/src/leangage_notes/kernel.py"
-              "go/notes/kernel/*"
-              "python/src/leangage_notes/store.py"
-              "go/notes/store/*"
-              "python/src/leangage/json_format.py"
-              "go/leangage/jsonformat/*"
-              "python/src/leangage/json_lexemes.py"
-              "go/leangage/jsonlexemes/*"
-              "python/src/leangage/http_format.py"
-              "go/leangage/httpformat/*"
-              "python/src/leangage_calculator/wire.py"
-              "go/calculator/wire/*"
-            ];
           };
           devShells.default = pkgs.mkShell {
             packages = [
@@ -90,6 +65,13 @@
             cargoRoot = "rust";
             buildAndTestSubdir = "rust";
             cargoLock.lockFile = ./rust/Cargo.lock;
+            nativeBuildInputs = [
+              pkgs.lean4
+              leanfran.rust-compiler
+            ];
+            preBuild = ''
+              make generate-rust
+            '';
             cargoBuildFlags = [
               "--package"
               "leangage-calculator"

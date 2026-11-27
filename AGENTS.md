@@ -182,8 +182,13 @@ leangage: the contract of a kernel proved in Lean 4, and the servers that run th
   `python/src/leangage_calculator/store.py`, `python/src/leangage_calculator/wire.py`,
   `go/*/kernel/`, `go/calculator/store/`, `go/calculator/wire/`, and the SQL compiler, the token
   format, the JSON writer, the functions of `Leangage.Json.Lexemes` and the functions of `Leangage.Http` in each server
-  library) are committed and never edited.
-  Run `make generate` after changing `lean/`.
+  library) are ignored by git and never edited.
+  `make generate` writes them from `lean/`, and `make generate-rust`, `make generate-python` and
+  `make generate-go` write those of one language. The `rust`, `python`, `go`, `bench` and
+  `bench-bytes` targets write them first, and `nix build` writes the Rust ones in its build.
+- A machine without Lean and the leanfran compilers takes the generated files from the branch
+  `generated`: `make generated-branch` pushes to it a commit that holds the tree of `HEAD` and
+  the generated files.
 - A function the servers call on every request takes `String`s and writes into an `Array UInt8`
   with loops over indices (`parseString`, `writeArray`), so a call converts no list of bytes. Its
   theorem states it equal to the definition over `List UInt8` (`parseString_spec`,
@@ -227,9 +232,9 @@ leangage: the contract of a kernel proved in Lean 4, and the servers that run th
 All commands run inside `nix develop`.
 
 - `make check`: `nix fmt -- --ci`, `lake -d lean build --wfail`, `lake -d audit build --wfail`,
-  regeneration with `git diff --exit-code`, `tools/check-handlers.py`,
+  generation and the check that git ignores every generated file, `tools/check-handlers.py`,
   `cargo clippy -- -D warnings`, `cargo test`, `uv run pytest`, `go vet`, `go test -race`.
-- `make generate`, `make format`, `make bench`.
+- `make generate`, `make generated-branch`, `make format`, `make bench`.
 - `docs/speed.md` and the README's Speed section show rates (higher is better) with a chart for
   each table, and every cell has a value. The README holds the Rust and the Go table over HTTP
   of `docs/speed.md`, with their charts, and the ratios of its list. `python3 tools/measure.py` runs every measurement and writes

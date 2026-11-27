@@ -76,6 +76,7 @@ The 3 servers run the same Lean modules, generated to Rust, to Python and to Go.
 `nix develop`, from the root of the repository (wait until a server listens before its `curl`):
 
 ```console
+$ make generate
 $ export LEANGAGE_SECRET=dev-secret
 $ TOKEN=$(cd rust && LEANGAGE_ISSUE=1:7 cargo run --release -q --bin leangage-calculator)
 $ cd rust && LEANGAGE_LISTEN=127.0.0.1:8080 cargo run --release -q --bin leangage-calculator &
@@ -289,7 +290,9 @@ nix develop --command make bench   # commands per second through the kernel; too
 nix run                            # the Rust calculator server
 ```
 
-`make generate` rewrites the generated Rust, Python and Go from `lean/`.
+`make generate` writes the generated Rust, Python and Go from `lean/`. Git ignores them, so a
+clone holds them after `make generate`, `make check` or `make bench`; the branch `generated`
+holds them for a machine without Lean and the leanfran compilers.
 
 ## License
 
