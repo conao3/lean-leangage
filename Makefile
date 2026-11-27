@@ -20,7 +20,7 @@ GENERATED := rust/calculator/src/generated rust/leangage/src/generated rust/note
 all: check
 
 .PHONY: check
-check: format-check lean audit generated-check handlers rust python go
+check: format-check lean audit generated-check handlers test
 
 .PHONY: format
 format:
@@ -97,19 +97,22 @@ generated-check: generate
 handlers:
 	python3 tools/check-handlers.py
 
-.PHONY: rust
-rust: generate-rust
+.PHONY: test
+test: test-rust test-python test-go
+
+.PHONY: test-rust
+test-rust: generate-rust
 	cd rust && cargo clippy --all-targets -- -D warnings
 	cd rust && LEANGAGE_CALCULATOR_ORACLE=$(ORACLE) LEANGAGE_SQL_ORACLE=$(SQL_ORACLE) LEANGAGE_TOKEN_ORACLE=$(TOKEN_ORACLE) LEANGAGE_NOTES_ORACLE=$(NOTES_ORACLE) LEANGAGE_JSON_ORACLE=$(JSON_ORACLE) LEANGAGE_REQUEST_ORACLE=$(REQUEST_ORACLE) LEANGAGE_NOTES_REQUEST_ORACLE=$(NOTES_REQUEST_ORACLE) cargo test
 
-.PHONY: python
-python: generate-rust generate-python
+.PHONY: test-python
+test-python: generate-rust generate-python
 	cd rust && cargo build --quiet --bin leangage-calculator
 	cd python && uv sync --quiet
 	cd python && LEANGAGE_RUST_CALCULATOR=$(RUST_CALCULATOR) LEANGAGE_CALCULATOR_ORACLE=$(ORACLE) LEANGAGE_SQL_ORACLE=$(SQL_ORACLE) LEANGAGE_TOKEN_ORACLE=$(TOKEN_ORACLE) LEANGAGE_NOTES_ORACLE=$(NOTES_ORACLE) LEANGAGE_JSON_ORACLE=$(JSON_ORACLE) LEANGAGE_REQUEST_ORACLE=$(REQUEST_ORACLE) uv run pytest -q
 
-.PHONY: go
-go: generate-rust generate-go
+.PHONY: test-go
+test-go: generate-rust generate-go
 	cd rust && cargo build --quiet --bin leangage-calculator
 	cd go && go vet ./...
 	cd go && LEANGAGE_CALCULATOR_ORACLE=$(ORACLE) LEANGAGE_SQL_ORACLE=$(SQL_ORACLE) LEANGAGE_TOKEN_ORACLE=$(TOKEN_ORACLE) LEANGAGE_NOTES_ORACLE=$(NOTES_ORACLE) LEANGAGE_JSON_ORACLE=$(JSON_ORACLE) LEANGAGE_REQUEST_ORACLE=$(REQUEST_ORACLE) LEANGAGE_RUST_CALCULATOR=$(RUST_CALCULATOR) go test -race -count=1 ./...

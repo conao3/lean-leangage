@@ -9,10 +9,25 @@ permissions:
   contents: read
 
 jobs:
-  check:
+  lean:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: cachix/install-nix-action@v32.0.0
-      - run: nix develop --command make check
+      - run: nix develop --command make format-check audit generated-check handlers
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [rust, python, go]
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: cachix/install-nix-action@v32.0.0
+      - run: nix develop --command make test-${{ matrix.language }}
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: cachix/install-nix-action@v32.0.0
       - run: nix build

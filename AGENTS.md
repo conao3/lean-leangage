@@ -237,6 +237,9 @@ All commands run inside `nix develop`.
   generation, the check that git ignores every generated file and that a second generation writes
   the same bytes, `tools/check-handlers.py`,
   `cargo clippy -- -D warnings`, `cargo test`, `uv run pytest`, `go vet`, `go test -race`.
+- `make test-rust`, `make test-python`, `make test-go`: generation and the tests of one language
+  (`make test` runs the 3). CI runs them as 3 jobs next to the job of
+  `make format-check audit generated-check handlers` and the job of `nix build`.
 - `make generate`, `make format`, `make bench`.
 - `docs/speed.md` and the README's Speed section show rates (higher is better) with a chart for
   each table, and every cell has a value. The README holds the Rust and the Go table over HTTP
@@ -260,7 +263,7 @@ All commands run inside `nix develop`.
   `LEANGAGE_NOTES_ORACLE`, `LEANGAGE_SQL_ORACLE`, `LEANGAGE_TOKEN_ORACLE`,
   `LEANGAGE_JSON_ORACLE`, `LEANGAGE_REQUEST_ORACLE` and `LEANGAGE_NOTES_REQUEST_ORACLE`; the
   Makefile sets them. The Python and the Go tests run the Rust
-  calculator server from `LEANGAGE_RUST_CALCULATOR`, which `make python` and `make go` build and
+  calculator server from `LEANGAGE_RUST_CALCULATOR`, which `make test-python` and `make test-go` build and
   set. `tools/gen-commands.py` and `tools/gen-notes-commands.py` write the command lists.
   `testdata/sql-statements.txt` comes from `python3 tools/gen-statements.py 3000`,
   `testdata/token-cases.txt` from `python3 tools/gen-tokens.py 3000`,

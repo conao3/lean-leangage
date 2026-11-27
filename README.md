@@ -286,6 +286,7 @@ Each directory, its generated files and the tests' needs: [docs/layout.md](docs/
 
 ```sh
 nix develop --command make check   # format, proofs, audit, generation, call sites, Rust, Python and Go tests
+nix develop --command make test-go # generation and the tests of one language: test-rust, test-python, test-go
 nix develop --command make bench   # commands per second through the kernel; tools/measure.py measures HTTP
 nix run                            # the Rust calculator server
 ```
