@@ -10,8 +10,8 @@ dependencies = [
     "psycopg[binary]>=3.2",
 ]
 
-[project.scripts]
-leangage-calculator = "leangage_calculator.__main__:main"
+[project.urls]
+Repository = "https://github.com/conao3/lean-leangage"
 
 [dependency-groups]
 dev = ["pytest>=8", "pytest-icdiff>=0.9"]
@@ -24,7 +24,7 @@ build-backend = "hatchling.build"
 artifacts = ["src/*/gen/*.py"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/leangage", "src/leangage_calculator", "src/leangage_notes"]
+packages = ["src/leangage"]
 
 [tool.pytest.ini_options]
 testpaths = ["test"]

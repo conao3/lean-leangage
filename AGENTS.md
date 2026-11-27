@@ -241,6 +241,16 @@ All commands run inside `nix develop`.
   `make format-check handlers` and the job of `nix build`; `make audit` runs on the developer's
   machine, in `make check`.
 - `make generate`, `make format`, `make bench`.
+- A release is one run of `release.yml`:
+  `gh workflow run release.yml --ref master -f version_bump=patch`. The run writes the next
+  version with `tools/bump-version.sh` (`rust/Cargo.toml`, the dependency of `leangage-pg` on
+  `leangage`, `rust/Cargo.lock`, `flake.nix`, `python/pyproject.toml`, `python/uv.lock`),
+  generates the Rust and the Python code, pushes the commit with the tag `v<version>`, publishes
+  the crates `leangage` and `leangage-pg` to crates.io and the package `leangage` to PyPI, and
+  creates the GitHub Release. Tags are pushed by the run alone. The crates name `src/gen/` in
+  `include`, and `cargo publish` gets `--allow-dirty` for those ignored files after a check that
+  nothing else differs from the commit. The wheel holds the package `leangage`; the calculator
+  and the notes stay in the repository, as the crates with `publish = false` do.
 - `docs/speed.md` and the README's Speed section show rates (higher is better) with a chart for
   each table, and every cell has a value. The README holds the Rust and the Go table over HTTP
   of `docs/speed.md`, with their charts, and the ratios of its list. `python3 tools/measure.py` runs `make generate` and every measurement and writes

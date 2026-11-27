@@ -1,6 +1,8 @@
 [package]
 name = "leangage-pg"
 description = "The engine that stores a Lean-proved kernel's snapshots in PostgreSQL"
+readme = "README.md"
+include = ["src/**/*.rs", "README.md"]
 version.workspace = true
 edition.workspace = true
 license.workspace = true
@@ -10,6 +12,6 @@ repository.workspace = true
 bytes = "1"
 deadpool-postgres = { version = "0.14", features = ["rt_tokio_1"] }
 leanfran = "=0.13.2"
-leangage = { path = "../leangage" }
+leangage = { path = "../leangage", version = "0.1.0" }
 tokio = { version = "1", features = ["macros", "net", "rt-multi-thread", "time", "io-util", "sync"] }
 tokio-postgres = "0.7"

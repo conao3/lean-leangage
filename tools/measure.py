@@ -349,7 +349,7 @@ def main() -> None:
         ("gin, no kernel", [str(bins / "gin")], ROOT, "BENCH_LISTEN"),
         (
             "leangage, Python (http.server)",
-            ["uv", "run", "leangage-calculator"],
+            ["uv", "run", "python", "-m", "leangage_calculator"],
             ROOT / "python",
             "LEANGAGE_LISTEN",
         ),

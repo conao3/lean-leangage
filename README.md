@@ -80,7 +80,7 @@ $ make generate
 $ export LEANGAGE_SECRET=dev-secret
 $ TOKEN=$(cd rust && LEANGAGE_ISSUE=1:7 cargo run --release -q --bin leangage-calculator)
 $ cd rust && LEANGAGE_LISTEN=127.0.0.1:8080 cargo run --release -q --bin leangage-calculator &
-$ cd python && LEANGAGE_LISTEN=127.0.0.1:8081 uv run leangage-calculator &
+$ cd python && LEANGAGE_LISTEN=127.0.0.1:8081 uv run python -m leangage_calculator &
 $ cd go && LEANGAGE_LISTEN=127.0.0.1:8082 go run ./calculator/cmd/leangage-calculator &
 $ curl -s -H "Authorization: Bearer $TOKEN" -d '{"cmd":"set","value":6}' 127.0.0.1:8080/rpc
 {"value":6}
@@ -289,6 +289,13 @@ nix develop --command make check   # format, proofs, audit, generation, call sit
 nix develop --command make test-go # generation and the tests of one language: test-rust, test-python, test-go
 nix develop --command make bench   # commands per second through the kernel; tools/measure.py measures HTTP
 nix run                            # the Rust calculator server
+```
+
+A release is one run of the workflow, which pushes the tag and publishes `leangage` and
+`leangage-pg` to crates.io and `leangage` to PyPI:
+
+```sh
+gh workflow run release.yml --ref master -f version_bump=patch
 ```
 
 `make generate` writes the generated Rust, Python and Go from `lean/` into directories named

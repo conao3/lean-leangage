@@ -1,6 +1,8 @@
 [package]
 name = "leangage"
 description = "The trusted server that runs a Lean-proved kernel behind HTTP"
+readme = "README.md"
+include = ["src/**/*.rs", "README.md"]
 version.workspace = true
 edition.workspace = true
 license.workspace = true
