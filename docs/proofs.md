@@ -494,8 +494,10 @@ Checked by `make check`, not proved:
 - **The Rust notes server answers the guard's refusals with 403.** `rust/notes/tests/http.rs`
   sends denied writes, a read of a note the caller may not see (404), a bad body (422) and a
   command with another member (400).
-- **The code that runs is generated from the proved source.** The build regenerates the 3
-  targets and fails on a difference from the committed files.
+- **The code that runs is generated from the proved source.** Git holds no generated file:
+  `make check` and `nix build` write the 3 targets from `lean/` before they compile them.
+  `make check` fails when a generated file is tracked, and when a second generation writes
+  other bytes than the first.
 - **No extra axioms.** Every theorem depends only on `propext`, `Classical.choice` and
   `Quot.sound`.
 

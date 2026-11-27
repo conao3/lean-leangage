@@ -232,7 +232,8 @@ leangage: the contract of a kernel proved in Lean 4, and the servers that run th
 All commands run inside `nix develop`.
 
 - `make check`: `nix fmt -- --ci`, `lake -d lean build --wfail`, `lake -d audit build --wfail`,
-  generation and the check that git ignores every generated file, `tools/check-handlers.py`,
+  generation, the check that git ignores every generated file and that a second generation writes
+  the same bytes, `tools/check-handlers.py`,
   `cargo clippy -- -D warnings`, `cargo test`, `uv run pytest`, `go vet`, `go test -race`.
 - `make generate`, `make generated-branch`, `make format`, `make bench`.
 - `docs/speed.md` and the README's Speed section show rates (higher is better) with a chart for
