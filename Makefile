@@ -6,6 +6,7 @@ JSON_ORACLE := $(CURDIR)/langs/lean/.lake/build/bin/json-oracle
 REQUEST_ORACLE := $(CURDIR)/samples/lean/.lake/build/bin/request-oracle
 NOTES_REQUEST_ORACLE := $(CURDIR)/samples/lean/.lake/build/bin/notes-request-oracle
 RUST_CALCULATOR := $(CURDIR)/samples/rust/target/debug/leangage-calculator
+LEANFRAN ?= leanfran
 LIB_PATH := langs/lean/.lake/build/lib/lean
 SAMPLES_PATH := samples/lean/.lake/build/lib/lean $(LIB_PATH)
 LIB_ORACLES := LEANGAGE_SQL_ORACLE=$(SQL_ORACLE) LEANGAGE_TOKEN_ORACLE=$(TOKEN_ORACLE) LEANGAGE_JSON_ORACLE=$(JSON_ORACLE)
@@ -45,34 +46,7 @@ audit: lean
 
 .PHONY: generate
 generate: lean
-	leanfran project generate --lake-dir samples/lean --output-dir samples/rust/calculator/src/gen --modules Calculator.Kernel --output text
-	leanfran module generate --module-name Calculator.Store --search-path $(SAMPLES_PATH) --type-path Calculator.Kernel=crate::generated::calculator_kernel Leangage.Sql=::leangage::sql --output-file samples/rust/calculator/src/gen/calculator_store.rs --output text
-	leanfran project generate --lake-dir langs/lean --output-dir langs/rust/leangage/src/gen --modules Leangage.Sql Leangage.Token Leangage.Json Leangage.Json.Lexemes Leangage.Http --output text
-	leanfran module generate --module-name Leangage.Http --search-path $(LIB_PATH) --type-path Leangage.Json.Lexemes=crate::generated::leangage_json_lexemes --output-file langs/rust/leangage/src/gen/leangage_http.rs --output text
-	leanfran module generate --module-name Calculator.Wire --search-path $(SAMPLES_PATH) --type-path Calculator.Kernel=crate::generated::calculator_kernel Leangage.Http=::leangage::http_format Leangage.Json.Lexemes=::leangage::json_lexemes --output-file samples/rust/calculator/src/gen/calculator_wire.rs --output text
-	leanfran project generate --lake-dir samples/lean --output-dir samples/rust/notes/src/gen --modules Notes.Kernel --output text
-	leanfran module generate --module-name Notes.Store --search-path $(SAMPLES_PATH) --type-path Notes.Kernel=crate::generated::notes_kernel Leangage.Sql=::leangage::sql --output-file samples/rust/notes/src/gen/notes_store.rs --output text
-	leanfran module generate --module-name Notes.Wire --search-path $(SAMPLES_PATH) --type-path Notes.Kernel=crate::generated::notes_kernel Leangage.Authz=crate::authz Leangage.Http=::leangage::http_format Leangage.Json.Lexemes=::leangage::json_lexemes Leangage.Json=::leangage::json_format --output-file samples/rust/notes/src/gen/notes_wire.rs --output text
-	leanfran-python module generate --module-name Calculator.Kernel --search-path $(SAMPLES_PATH) --output-file samples/python/calculator/leangage_calculator/gen/kernel.py --output text
-	leanfran-python module generate --module-name Calculator.Store --search-path $(SAMPLES_PATH) --type-module Calculator.Kernel=leangage_calculator.gen.kernel Leangage.Sql=leangage.gen.sql --output-file samples/python/calculator/leangage_calculator/gen/store.py --output text
-	leanfran-python module generate --module-name Leangage.Sql --search-path $(LIB_PATH) --output-file langs/python/src/leangage/gen/sql.py --output text
-	leanfran-python module generate --module-name Leangage.Token --search-path $(LIB_PATH) --output-file langs/python/src/leangage/gen/token_format.py --output text
-	leanfran-python module generate --module-name Leangage.Json --search-path $(LIB_PATH) --output-file langs/python/src/leangage/gen/json_format.py --output text
-	leanfran-python module generate --module-name Leangage.Json.Lexemes --search-path $(LIB_PATH) --output-file langs/python/src/leangage/gen/json_lexemes.py --output text
-	leanfran-python module generate --module-name Leangage.Http --search-path $(LIB_PATH) --type-module Leangage.Json.Lexemes=leangage.gen.json_lexemes --output-file langs/python/src/leangage/gen/http_format.py --output text
-	leanfran-python module generate --module-name Calculator.Wire --search-path $(SAMPLES_PATH) --type-module Calculator.Kernel=leangage_calculator.gen.kernel Leangage.Http=leangage.gen.http_format Leangage.Json.Lexemes=leangage.gen.json_lexemes --output-file samples/python/calculator/leangage_calculator/gen/wire.py --output text
-	leanfran-python module generate --module-name Notes.Kernel --search-path $(SAMPLES_PATH) --output-file samples/python/notes/leangage_notes/gen/kernel.py --output text
-	leanfran-python module generate --module-name Notes.Store --search-path $(SAMPLES_PATH) --type-module Notes.Kernel=leangage_notes.gen.kernel Leangage.Sql=leangage.gen.sql --output-file samples/python/notes/leangage_notes/gen/store.py --output text
-	leanfran-go module generate --module-name Calculator.Kernel --search-path $(SAMPLES_PATH) --output-dir samples/go/calculator/gen/kernel --output text
-	leanfran-go module generate --module-name Calculator.Store --search-path $(SAMPLES_PATH) --type-module Calculator.Kernel=github.com/conao3/lean-leangage/samples/go/calculator/gen/kernel --type-module Leangage.Sql=github.com/conao3/lean-leangage/langs/go/leangage/gen/sql --output-dir samples/go/calculator/gen/store --output text
-	leanfran-go module generate --module-name Leangage.Sql --search-path $(LIB_PATH) --output-dir langs/go/leangage/gen/sql --output text
-	leanfran-go module generate --module-name Leangage.Token --search-path $(LIB_PATH) --output-dir langs/go/leangage/gen/token --output text
-	leanfran-go module generate --module-name Leangage.Json --search-path $(LIB_PATH) --package jsonformat --output-dir langs/go/leangage/gen/jsonformat --output text
-	leanfran-go module generate --module-name Leangage.Json.Lexemes --search-path $(LIB_PATH) --package jsonlexemes --output-dir langs/go/leangage/gen/jsonlexemes --output text
-	leanfran-go module generate --module-name Leangage.Http --search-path $(LIB_PATH) --type-module Leangage.Json.Lexemes=github.com/conao3/lean-leangage/langs/go/leangage/gen/jsonlexemes --package httpformat --output-dir langs/go/leangage/gen/httpformat --output text
-	leanfran-go module generate --module-name Calculator.Wire --search-path $(SAMPLES_PATH) --type-module Calculator.Kernel=github.com/conao3/lean-leangage/samples/go/calculator/gen/kernel --type-module Leangage.Http=github.com/conao3/lean-leangage/langs/go/leangage/gen/httpformat --type-module Leangage.Json.Lexemes=github.com/conao3/lean-leangage/langs/go/leangage/gen/jsonlexemes --output-dir samples/go/calculator/gen/wire --output text
-	leanfran-go module generate --module-name Notes.Kernel --search-path $(SAMPLES_PATH) --output-dir samples/go/notes/gen/kernel --output text
-	leanfran-go module generate --module-name Notes.Store --search-path $(SAMPLES_PATH) --output-dir samples/go/notes/gen/store --output text
+	$(LEANFRAN) generate
 
 .PHONY: generated-check
 generated-check: generate

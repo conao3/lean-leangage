@@ -3,110 +3,112 @@
 package store
 
 import (
+	lfmod0 "github.com/conao3/lean-leangage/langs/go/leangage/gen/sql"
+	lfmod1 "github.com/conao3/lean-leangage/samples/go/notes/gen/kernel"
 	"github.com/conao3/leanfran-go"
 	"github.com/conao3/leanfran-go/rt"
 )
 
-func Load(a0 [][][]LeangageSqlVal) (*NotesKernelSnapshot, error) {
+func Load(a0 [][][]lfmod0.Val) (*lfmod1.Snapshot, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodec3, a0, "arg0")
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[*lfmod1.Snapshot](), err
+	}
+	v0 := _lfCodec3.ToLean(a0)
+	_lfResult := l_Notes_Store_load(v0)
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec5.FromLean(_lfResult), nil
+}
+
+func MemberOfRow(a0 []lfmod0.Val) (*lfmod1.Member, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodec1, a0, "arg0")
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[*lfmod1.Member](), err
+	}
+	v0 := _lfCodec1.ToLean(a0)
+	defer rt.Lean_dec(v0)
+	_lfResult := l_Notes_Store_memberOfRow(v0)
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec7.FromLean(_lfResult), nil
+}
+
+func MemberRow(a0 lfmod1.Member) []lfmod0.Val {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	v0 := _lfCodec6.ToLean(a0)
+	defer rt.Lean_dec(v0)
+	_lfResult := l_Notes_Store_memberRow(v0)
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec1.FromLean(_lfResult)
+}
+
+func NoteOfRow(a0 []lfmod0.Val) (*lfmod1.Note, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodec1, a0, "arg0")
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[*lfmod1.Note](), err
+	}
+	v0 := _lfCodec1.ToLean(a0)
+	_lfResult := l_Notes_Store_noteOfRow(v0)
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec9.FromLean(_lfResult), nil
+}
+
+func NoteRow(a0 lfmod1.Note) ([]lfmod0.Val, error) {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	var _lfValidation leanfran.ValidationError
+	leanfran.CheckAt(&_lfValidation, _lfCodec8, a0, "n")
+	if len(_lfValidation.Issues) != 0 {
+		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
+		return leanfran.Zero[[]lfmod0.Val](), err
+	}
+	v0 := _lfCodec8.ToLean(a0)
+	defer rt.Lean_dec(v0)
+	_lfResult := l_Notes_Store_noteRow(v0)
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec1.FromLean(_lfResult), nil
+}
+
+func Tables() []lfmod0.Tab {
+	_lfCodecsOnce.Do(_lfBuildCodecs)
+	_lfResult := l_Notes_Store_tables()
+	defer rt.Lean_dec(_lfResult)
+	return _lfCodec11.FromLean(_lfResult)
+}
+
+func Write(a0 lfmod1.Write) (lfmod0.Write, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	var _lfValidation leanfran.ValidationError
 	leanfran.CheckAt(&_lfValidation, _lfCodec12, a0, "arg0")
 	if len(_lfValidation.Issues) != 0 {
 		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
-		return leanfran.Zero[*NotesKernelSnapshot](), err
+		return leanfran.Zero[lfmod0.Write](), err
 	}
 	v0 := _lfCodec12.ToLean(a0)
-	_lfResult := l_Notes_Store_load(v0)
+	_lfResult := l_Notes_Store_write(v0)
 	defer rt.Lean_dec(_lfResult)
 	return _lfCodec13.FromLean(_lfResult), nil
 }
 
-func MemberOfRow(a0 []LeangageSqlVal) (*NotesKernelMember, error) {
+func Writes(a0 []lfmod1.Write) ([]lfmod0.Write, error) {
 	_lfCodecsOnce.Do(_lfBuildCodecs)
 	var _lfValidation leanfran.ValidationError
-	leanfran.CheckAt(&_lfValidation, _lfCodec7, a0, "arg0")
+	leanfran.CheckAt(&_lfValidation, _lfCodec14, a0, "ws")
 	if len(_lfValidation.Issues) != 0 {
 		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
-		return leanfran.Zero[*NotesKernelMember](), err
+		return leanfran.Zero[[]lfmod0.Write](), err
 	}
-	v0 := _lfCodec7.ToLean(a0)
-	defer rt.Lean_dec(v0)
-	_lfResult := l_Notes_Store_memberOfRow(v0)
-	defer rt.Lean_dec(_lfResult)
-	return _lfCodec14.FromLean(_lfResult), nil
-}
-
-func MemberRow(a0 NotesKernelMember) []LeangageSqlVal {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	v0 := _lfCodecNotesKernelMember.ToLean(a0)
-	defer rt.Lean_dec(v0)
-	_lfResult := l_Notes_Store_memberRow(v0)
-	defer rt.Lean_dec(_lfResult)
-	return _lfCodec7.FromLean(_lfResult)
-}
-
-func NoteOfRow(a0 []LeangageSqlVal) (*NotesKernelNote, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	var _lfValidation leanfran.ValidationError
-	leanfran.CheckAt(&_lfValidation, _lfCodec7, a0, "arg0")
-	if len(_lfValidation.Issues) != 0 {
-		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
-		return leanfran.Zero[*NotesKernelNote](), err
-	}
-	v0 := _lfCodec7.ToLean(a0)
-	_lfResult := l_Notes_Store_noteOfRow(v0)
-	defer rt.Lean_dec(_lfResult)
-	return _lfCodec15.FromLean(_lfResult), nil
-}
-
-func NoteRow(a0 NotesKernelNote) ([]LeangageSqlVal, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	var _lfValidation leanfran.ValidationError
-	leanfran.CheckAt(&_lfValidation, _lfCodecNotesKernelNote, a0, "n")
-	if len(_lfValidation.Issues) != 0 {
-		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
-		return leanfran.Zero[[]LeangageSqlVal](), err
-	}
-	v0 := _lfCodecNotesKernelNote.ToLean(a0)
-	defer rt.Lean_dec(v0)
-	_lfResult := l_Notes_Store_noteRow(v0)
-	defer rt.Lean_dec(_lfResult)
-	return _lfCodec7.FromLean(_lfResult), nil
-}
-
-func Tables() []LeangageSqlTab {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	_lfResult := l_Notes_Store_tables()
-	defer rt.Lean_dec(_lfResult)
-	return _lfCodec16.FromLean(_lfResult)
-}
-
-func Write(a0 NotesKernelWrite) (LeangageSqlWrite, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	var _lfValidation leanfran.ValidationError
-	leanfran.CheckAt(&_lfValidation, _lfCodecNotesKernelWrite, a0, "arg0")
-	if len(_lfValidation.Issues) != 0 {
-		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
-		return leanfran.Zero[LeangageSqlWrite](), err
-	}
-	v0 := _lfCodecNotesKernelWrite.ToLean(a0)
-	_lfResult := l_Notes_Store_write(v0)
-	defer rt.Lean_dec(_lfResult)
-	return _lfCodecLeangageSqlWrite.FromLean(_lfResult), nil
-}
-
-func Writes(a0 []NotesKernelWrite) ([]LeangageSqlWrite, error) {
-	_lfCodecsOnce.Do(_lfBuildCodecs)
-	var _lfValidation leanfran.ValidationError
-	leanfran.CheckAt(&_lfValidation, _lfCodec17, a0, "ws")
-	if len(_lfValidation.Issues) != 0 {
-		err := &leanfran.ValidationError{Issues: _lfValidation.Issues}
-		return leanfran.Zero[[]LeangageSqlWrite](), err
-	}
-	v0 := _lfCodec17.ToLean(a0)
+	v0 := _lfCodec14.ToLean(a0)
 	_lfResult := l_Notes_Store_writes(v0)
 	defer rt.Lean_dec(_lfResult)
-	return _lfCodec18.FromLean(_lfResult), nil
+	return _lfCodec15.FromLean(_lfResult), nil
 }
 
 var Handle lfHandle
@@ -121,107 +123,107 @@ func (lfHandle) In(scope *leanfran.ValueScope) lfScopedHandle {
 	return lfScopedHandle{scope: scope}
 }
 
-func (lfHandle) Load(a0 leanfran.ValueInput[leanfran.ListType[leanfran.ListType[leanfran.ListType[LeangageSqlVal]]]]) leanfran.Value[leanfran.OptionType[NotesKernelSnapshot]] {
+func (lfHandle) Load(a0 leanfran.ValueInput[leanfran.ListType[leanfran.ListType[leanfran.ListType[lfmod0.Val]]]]) leanfran.Value[leanfran.OptionType[lfmod1.Snapshot]] {
 	return lfScopedHandle{}.Load(a0)
 }
 
-func (api lfScopedHandle) Load(a0 leanfran.ValueInput[leanfran.ListType[leanfran.ListType[leanfran.ListType[LeangageSqlVal]]]]) leanfran.Value[leanfran.OptionType[NotesKernelSnapshot]] {
+func (api lfScopedHandle) Load(a0 leanfran.ValueInput[leanfran.ListType[leanfran.ListType[leanfran.ListType[lfmod0.Val]]]]) leanfran.Value[leanfran.OptionType[lfmod1.Snapshot]] {
 	inputs := [1]leanfran.ValueUse{a0.Use()}
 	op := leanfran.BeginValueOperation(api.scope, inputs[:])
 	defer op.End()
 	op.Acquire(inputs[:])
 	raw := l_Notes_Store_load(inputs[0].Lean())
-	return leanfran.WrapValueIn[leanfran.OptionType[NotesKernelSnapshot]](op, raw)
+	return leanfran.WrapValueIn[leanfran.OptionType[lfmod1.Snapshot]](op, raw)
 }
 
-func (lfHandle) MemberOfRow(a0 leanfran.ValueInput[leanfran.ListType[LeangageSqlVal]]) leanfran.Value[leanfran.OptionType[NotesKernelMember]] {
+func (lfHandle) MemberOfRow(a0 leanfran.ValueInput[leanfran.ListType[lfmod0.Val]]) leanfran.Value[leanfran.OptionType[lfmod1.Member]] {
 	return lfScopedHandle{}.MemberOfRow(a0)
 }
 
-func (api lfScopedHandle) MemberOfRow(a0 leanfran.ValueInput[leanfran.ListType[LeangageSqlVal]]) leanfran.Value[leanfran.OptionType[NotesKernelMember]] {
+func (api lfScopedHandle) MemberOfRow(a0 leanfran.ValueInput[leanfran.ListType[lfmod0.Val]]) leanfran.Value[leanfran.OptionType[lfmod1.Member]] {
 	inputs := [1]leanfran.ValueUse{a0.Use()}
 	op := leanfran.BeginValueOperation(api.scope, inputs[:])
 	defer op.End()
 	op.Acquire(inputs[:])
 	defer rt.Lean_dec(inputs[0].Lean())
 	raw := l_Notes_Store_memberOfRow(inputs[0].Lean())
-	return leanfran.WrapValueIn[leanfran.OptionType[NotesKernelMember]](op, raw)
+	return leanfran.WrapValueIn[leanfran.OptionType[lfmod1.Member]](op, raw)
 }
 
-func (lfHandle) MemberRow(a0 leanfran.ValueInput[NotesKernelMember]) leanfran.Value[leanfran.ListType[LeangageSqlVal]] {
+func (lfHandle) MemberRow(a0 leanfran.ValueInput[lfmod1.Member]) leanfran.Value[leanfran.ListType[lfmod0.Val]] {
 	return lfScopedHandle{}.MemberRow(a0)
 }
 
-func (api lfScopedHandle) MemberRow(a0 leanfran.ValueInput[NotesKernelMember]) leanfran.Value[leanfran.ListType[LeangageSqlVal]] {
+func (api lfScopedHandle) MemberRow(a0 leanfran.ValueInput[lfmod1.Member]) leanfran.Value[leanfran.ListType[lfmod0.Val]] {
 	inputs := [1]leanfran.ValueUse{a0.Use()}
 	op := leanfran.BeginValueOperation(api.scope, inputs[:])
 	defer op.End()
 	op.Acquire(inputs[:])
 	defer rt.Lean_dec(inputs[0].Lean())
 	raw := l_Notes_Store_memberRow(inputs[0].Lean())
-	return leanfran.WrapValueIn[leanfran.ListType[LeangageSqlVal]](op, raw)
+	return leanfran.WrapValueIn[leanfran.ListType[lfmod0.Val]](op, raw)
 }
 
-func (lfHandle) NoteOfRow(a0 leanfran.ValueInput[leanfran.ListType[LeangageSqlVal]]) leanfran.Value[leanfran.OptionType[NotesKernelNote]] {
+func (lfHandle) NoteOfRow(a0 leanfran.ValueInput[leanfran.ListType[lfmod0.Val]]) leanfran.Value[leanfran.OptionType[lfmod1.Note]] {
 	return lfScopedHandle{}.NoteOfRow(a0)
 }
 
-func (api lfScopedHandle) NoteOfRow(a0 leanfran.ValueInput[leanfran.ListType[LeangageSqlVal]]) leanfran.Value[leanfran.OptionType[NotesKernelNote]] {
+func (api lfScopedHandle) NoteOfRow(a0 leanfran.ValueInput[leanfran.ListType[lfmod0.Val]]) leanfran.Value[leanfran.OptionType[lfmod1.Note]] {
 	inputs := [1]leanfran.ValueUse{a0.Use()}
 	op := leanfran.BeginValueOperation(api.scope, inputs[:])
 	defer op.End()
 	op.Acquire(inputs[:])
 	raw := l_Notes_Store_noteOfRow(inputs[0].Lean())
-	return leanfran.WrapValueIn[leanfran.OptionType[NotesKernelNote]](op, raw)
+	return leanfran.WrapValueIn[leanfran.OptionType[lfmod1.Note]](op, raw)
 }
 
-func (lfHandle) NoteRow(a0 leanfran.ValueInput[NotesKernelNote]) leanfran.Value[leanfran.ListType[LeangageSqlVal]] {
+func (lfHandle) NoteRow(a0 leanfran.ValueInput[lfmod1.Note]) leanfran.Value[leanfran.ListType[lfmod0.Val]] {
 	return lfScopedHandle{}.NoteRow(a0)
 }
 
-func (api lfScopedHandle) NoteRow(a0 leanfran.ValueInput[NotesKernelNote]) leanfran.Value[leanfran.ListType[LeangageSqlVal]] {
+func (api lfScopedHandle) NoteRow(a0 leanfran.ValueInput[lfmod1.Note]) leanfran.Value[leanfran.ListType[lfmod0.Val]] {
 	inputs := [1]leanfran.ValueUse{a0.Use()}
 	op := leanfran.BeginValueOperation(api.scope, inputs[:])
 	defer op.End()
 	op.Acquire(inputs[:])
 	defer rt.Lean_dec(inputs[0].Lean())
 	raw := l_Notes_Store_noteRow(inputs[0].Lean())
-	return leanfran.WrapValueIn[leanfran.ListType[LeangageSqlVal]](op, raw)
+	return leanfran.WrapValueIn[leanfran.ListType[lfmod0.Val]](op, raw)
 }
 
-func (lfHandle) Tables() leanfran.Value[leanfran.ListType[LeangageSqlTab]] {
+func (lfHandle) Tables() leanfran.Value[leanfran.ListType[lfmod0.Tab]] {
 	return lfScopedHandle{}.Tables()
 }
 
-func (api lfScopedHandle) Tables() leanfran.Value[leanfran.ListType[LeangageSqlTab]] {
+func (api lfScopedHandle) Tables() leanfran.Value[leanfran.ListType[lfmod0.Tab]] {
 	op := leanfran.BeginValueOperation(api.scope, nil)
 	defer op.End()
 	raw := l_Notes_Store_tables()
-	return leanfran.WrapValueIn[leanfran.ListType[LeangageSqlTab]](op, raw)
+	return leanfran.WrapValueIn[leanfran.ListType[lfmod0.Tab]](op, raw)
 }
 
-func (lfHandle) Write(a0 leanfran.ValueInput[NotesKernelWrite]) leanfran.Value[LeangageSqlWrite] {
+func (lfHandle) Write(a0 leanfran.ValueInput[lfmod1.Write]) leanfran.Value[lfmod0.Write] {
 	return lfScopedHandle{}.Write(a0)
 }
 
-func (api lfScopedHandle) Write(a0 leanfran.ValueInput[NotesKernelWrite]) leanfran.Value[LeangageSqlWrite] {
+func (api lfScopedHandle) Write(a0 leanfran.ValueInput[lfmod1.Write]) leanfran.Value[lfmod0.Write] {
 	inputs := [1]leanfran.ValueUse{a0.Use()}
 	op := leanfran.BeginValueOperation(api.scope, inputs[:])
 	defer op.End()
 	op.Acquire(inputs[:])
 	raw := l_Notes_Store_write(inputs[0].Lean())
-	return leanfran.WrapValueIn[LeangageSqlWrite](op, raw)
+	return leanfran.WrapValueIn[lfmod0.Write](op, raw)
 }
 
-func (lfHandle) Writes(a0 leanfran.ValueInput[leanfran.ListType[NotesKernelWrite]]) leanfran.Value[leanfran.ListType[LeangageSqlWrite]] {
+func (lfHandle) Writes(a0 leanfran.ValueInput[leanfran.ListType[lfmod1.Write]]) leanfran.Value[leanfran.ListType[lfmod0.Write]] {
 	return lfScopedHandle{}.Writes(a0)
 }
 
-func (api lfScopedHandle) Writes(a0 leanfran.ValueInput[leanfran.ListType[NotesKernelWrite]]) leanfran.Value[leanfran.ListType[LeangageSqlWrite]] {
+func (api lfScopedHandle) Writes(a0 leanfran.ValueInput[leanfran.ListType[lfmod1.Write]]) leanfran.Value[leanfran.ListType[lfmod0.Write]] {
 	inputs := [1]leanfran.ValueUse{a0.Use()}
 	op := leanfran.BeginValueOperation(api.scope, inputs[:])
 	defer op.End()
 	op.Acquire(inputs[:])
 	raw := l_Notes_Store_writes(inputs[0].Lean())
-	return leanfran.WrapValueIn[leanfran.ListType[LeangageSqlWrite]](op, raw)
+	return leanfran.WrapValueIn[leanfran.ListType[lfmod0.Write]](op, raw)
 }

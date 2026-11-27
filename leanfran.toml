@@ -1,0 +1,108 @@
+[[generate]]
+lang = "rust"
+lake-dir = "langs/lean"
+out-dir = "langs/rust/leangage/src/gen"
+path = "crate::generated"
+modules = ["Leangage.Sql", "Leangage.Token", "Leangage.Json", "Leangage.Json.Lexemes", "Leangage.Http"]
+
+[[generate]]
+lang = "rust"
+lake-dir = "samples/lean"
+out-dir = "samples/rust/calculator/src/gen"
+path = "crate::generated"
+modules = ["Calculator.Kernel", "Calculator.Store", "Calculator.Wire"]
+
+[generate.bind]
+"Leangage.Sql" = "::leangage::sql"
+"Leangage.Http" = "::leangage::http_format"
+"Leangage.Json.Lexemes" = "::leangage::json_lexemes"
+
+[[generate]]
+lang = "rust"
+lake-dir = "samples/lean"
+out-dir = "samples/rust/notes/src/gen"
+path = "crate::generated"
+modules = ["Notes.Kernel", "Notes.Store", "Notes.Wire"]
+
+[generate.bind]
+"Leangage.Sql" = "::leangage::sql"
+"Leangage.Http" = "::leangage::http_format"
+"Leangage.Json" = "::leangage::json_format"
+"Leangage.Json.Lexemes" = "::leangage::json_lexemes"
+
+[[generate]]
+lang = "python"
+lake-dir = "langs/lean"
+out-dir = "langs/python/src/leangage/gen"
+path = "leangage.gen"
+modules = [
+  { name = "Leangage.Sql", as = "sql" },
+  { name = "Leangage.Token", as = "token_format" },
+  { name = "Leangage.Json", as = "json_format" },
+  { name = "Leangage.Json.Lexemes", as = "json_lexemes" },
+  { name = "Leangage.Http", as = "http_format" },
+]
+
+[[generate]]
+lang = "python"
+lake-dir = "samples/lean"
+out-dir = "samples/python/calculator/leangage_calculator/gen"
+path = "leangage_calculator.gen"
+modules = [
+  { name = "Calculator.Kernel", as = "kernel" },
+  { name = "Calculator.Store", as = "store" },
+  { name = "Calculator.Wire", as = "wire" },
+]
+
+[generate.bind]
+"Leangage.Sql" = "leangage.gen.sql"
+"Leangage.Http" = "leangage.gen.http_format"
+"Leangage.Json.Lexemes" = "leangage.gen.json_lexemes"
+
+[[generate]]
+lang = "python"
+lake-dir = "samples/lean"
+out-dir = "samples/python/notes/leangage_notes/gen"
+path = "leangage_notes.gen"
+modules = [
+  { name = "Notes.Kernel", as = "kernel" },
+  { name = "Notes.Store", as = "store" },
+]
+
+[generate.bind]
+"Leangage.Sql" = "leangage.gen.sql"
+
+[[generate]]
+lang = "go"
+lake-dir = "langs/lean"
+out-dir = "langs/go/leangage/gen"
+path = "github.com/conao3/lean-leangage/langs/go/leangage/gen"
+modules = [
+  "Leangage.Sql",
+  "Leangage.Token",
+  { name = "Leangage.Json", as = "jsonformat" },
+  { name = "Leangage.Json.Lexemes", as = "jsonlexemes" },
+  { name = "Leangage.Http", as = "httpformat" },
+]
+
+[[generate]]
+lang = "go"
+lake-dir = "samples/lean"
+out-dir = "samples/go/calculator/gen"
+path = "github.com/conao3/lean-leangage/samples/go/calculator/gen"
+modules = ["Calculator.Kernel", "Calculator.Store", "Calculator.Wire"]
+
+[generate.bind]
+"Leangage.Sql" = "github.com/conao3/lean-leangage/langs/go/leangage/gen/sql"
+"Leangage.Http" = "github.com/conao3/lean-leangage/langs/go/leangage/gen/httpformat"
+"Leangage.Json.Lexemes" = "github.com/conao3/lean-leangage/langs/go/leangage/gen/jsonlexemes"
+
+[[generate]]
+lang = "go"
+lake-dir = "samples/lean"
+out-dir = "samples/go/notes/gen"
+path = "github.com/conao3/lean-leangage/samples/go/notes/gen"
+modules = ["Notes.Kernel", "Notes.Store"]
+
+[generate.bind]
+"Leangage.Sql" = "github.com/conao3/lean-leangage/langs/go/leangage/gen/sql"
