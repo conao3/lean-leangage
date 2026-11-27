@@ -188,7 +188,9 @@ leangage: the contract of a kernel proved in Lean 4, and the servers that run th
   `bench-bytes` targets write them first, and `nix build` writes the Rust ones in its build.
 - Outside `nix develop`, `make generate` needs `lake` (Lean 4.35.0) and the 3 leanfran compilers
   on `PATH`. `tools/leanfran-compilers.sh <directory>` builds the compilers there from the
-  commit of lean-leanfran that `flake.nix` names and links them under `<directory>/bin`.
+  commit of lean-leanfran that `flake.nix` names and links them under `<directory>/bin`. With
+  elan, the default toolchain is that of `lean/lean-toolchain`
+  (`elan default "$(cat lean/lean-toolchain)"`), since `make` calls `lake` from the root.
 - A function the servers call on every request takes `String`s and writes into an `Array UInt8`
   with loops over indices (`parseString`, `writeArray`), so a call converts no list of bytes. Its
   theorem states it equal to the definition over `List UInt8` (`parseString_spec`,
