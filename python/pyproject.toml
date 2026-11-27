@@ -1,6 +1,6 @@
 [project]
 name = "leangage"
-version = "0.1.0"
+version = "0.1.1"
 description = "The trusted server that runs a Lean-proved kernel behind HTTP"
 readme = "README.md"
 license = "Apache-2.0"

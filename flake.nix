@@ -60,7 +60,7 @@
           };
           packages.default = pkgs.rustPlatform.buildRustPackage {
             pname = "leangage-calculator";
-            version = "0.1.0";
+            version = "0.1.1";
             src = ./.;
             cargoRoot = "rust";
             buildAndTestSubdir = "rust";
