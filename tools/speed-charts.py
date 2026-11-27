@@ -1,4 +1,4 @@
-"""Draws the charts of `docs/speed.json` and prints the tables of the README's Speed section.
+"""Draws the charts of `docs/speed.json` and prints the tables of `docs/speed.md`.
 
 Every number is a rate (higher is better): commands per second are the inverse of the median
 time of the runs, replies per second the mean of the runs.

@@ -62,6 +62,9 @@ leangage: the contract of a kernel proved in Lean 4, and the servers that run th
   `leangage/pg` the engine that stores the snapshots in PostgreSQL (pgx, pinned in `go.mod`)
   with the test server `leangage/pg/pgtest`, `calculator` and `notes` the examples, with the
   calculator's server and benchmark under `calculator/cmd/`.
+- `docs/`: the files the README's sections link to, the measured runs (`speed.json`) and the
+  charts drawn from them (`speed-*.svg`). Their links to the rest of the repository start with
+  `../`.
 - Each server library holds the SQL compiler generated from `Leangage.Sql`: `rust/leangage/src/generated/`
   (`leangage::sql`), `python/src/leangage/sql.py` and `go/leangage/sql/`. The calculator's
   table from `Calculator.Store` is `rust/calculator/src/generated/calculator_store.rs`,
@@ -211,8 +214,13 @@ leangage: the contract of a kernel proved in Lean 4, and the servers that run th
   Theorems whose hypothesis fixes the result of the function (`transition a s c = .ok …`) cannot
   be run by leanassay; state the runnable form with `match` (`get_after_run`) and derive the
   other from it.
-- The README states what is proved, what is checked and what is trusted. Keep its numbers equal
-  to what `make check` and `make bench` print.
+- The README is the introduction, of about 300 lines: one kernel, the 3 quickstarts, the path of
+  a request, and a summary of each topic that ends with a link to its file under `docs/`
+  (`calculator.md`, `postgresql.md`, `notes.md`, `proofs.md`, `speed.md`, `layout.md`). A theorem,
+  a check, a trusted part, a measurement and a directory are described in the `docs/` file, and
+  the README changes when its summary does.
+- `docs/proofs.md` states what is proved, what is checked and what is trusted, and the README's
+  table summarizes it. Keep the numbers of both equal to what `make check` and `make bench` print.
 
 ## Commands
 
@@ -222,13 +230,14 @@ All commands run inside `nix develop`.
   regeneration with `git diff --exit-code`, `tools/check-handlers.py`,
   `cargo clippy -- -D warnings`, `cargo test`, `uv run pytest`, `go vet`, `go test -race`.
 - `make generate`, `make format`, `make bench`.
-- The README's Speed section shows rates (higher is better) with a chart for each table, and
-  every cell has a value. `python3 tools/measure.py` runs every measurement and writes
+- `docs/speed.md` and the README's Speed section show rates (higher is better) with a chart for
+  each table, and every cell has a value. The README holds the Rust and the Go table over HTTP
+  of `docs/speed.md`, with their charts, and the ratios of its list. `python3 tools/measure.py` runs every measurement and writes
   `docs/speed.json`; it needs PostgreSQL's `initdb`, `pg_ctl` and `psql` on `PATH` or in
   `/usr/lib/postgresql/<version>/bin`, starts a server with the default settings in a temporary
   directory for the PostgreSQL measurements only (as root, as the user `postgres`), and stops with
   an error before measuring anything when PostgreSQL is missing. `python3 tools/speed-charts.py`
-  draws `docs/speed-*.svg` and prints the tables to paste into the README. `bench/` holds the
+  draws `docs/speed-*.svg` and prints the tables to paste into `docs/speed.md`. `bench/` holds the
   servers without a kernel that the HTTP measurement compares with (`axum_postgres` for the
   PostgreSQL engine); `make check` does not build them.
 - The PostgreSQL tests (`rust/leangage-pg/tests/`, `tests/postgres.rs` and
