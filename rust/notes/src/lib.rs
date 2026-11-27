@@ -1,21 +1,22 @@
 //! The notes: the kernel is `lean/Notes/Kernel.lean`, its tables `lean/Notes/Store.lean` and its
-//! requests and responses `lean/Notes/Wire.lean`, all generated to `src/generated/`. Its
+//! requests and responses `lean/Notes/Wire.lean`, all generated to `src/gen/`. Its
 //! `transition` is the kernel's `handle` behind the guard of `lean/Leangage/Authz.lean`. [`Api`]
 //! passes each call on to `wire`.
 
 #[rustfmt::skip]
+#[path = "gen/mod.rs"]
 pub mod generated;
 /// The notes' tables, generated from `Notes.Store` with the kernel's types and the types of
 /// `leangage::sql`.
 #[rustfmt::skip]
 #[allow(dead_code, non_snake_case, non_camel_case_types, unused_imports, unused_parens, unused_qualifications, unsafe_op_in_unsafe_fn, clippy::all)]
-#[path = "generated/notes_store.rs"]
+#[path = "gen/notes_store.rs"]
 pub mod store;
 /// The notes' requests and responses, generated from `Notes.Wire` with the kernel's types and
 /// the types the server library generates from `Leangage.Http` and `Leangage.Json`.
 #[rustfmt::skip]
 #[allow(dead_code, non_snake_case, non_camel_case_types, unused_imports, unused_parens, unused_qualifications, unsafe_op_in_unsafe_fn, clippy::all)]
-#[path = "generated/notes_wire.rs"]
+#[path = "gen/notes_wire.rs"]
 pub mod wire;
 /// The name `wire` gives the refusal of the guarded kernel.
 pub mod authz {

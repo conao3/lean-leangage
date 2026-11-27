@@ -5,9 +5,10 @@ generated to `kernel.py`, `store.py` and `wire.py`. `API` is the functions of `w
 from typing import Any, NamedTuple
 
 from leanfran import Err, Local, Ok
-from leangage import Api, Kernel, Refused, Storage, http_format
+from leangage import Api, Kernel, Refused, Storage
+from leangage.gen import http_format
 
-from leangage_calculator import kernel, store, wire
+from leangage_calculator.gen import kernel, store, wire
 
 
 def _transition(

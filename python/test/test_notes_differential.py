@@ -6,7 +6,8 @@ import subprocess
 from pathlib import Path
 
 from leangage import MemoryEngine, Refused
-from leangage_notes import KERNEL, kernel, refusal_name
+from leangage_notes import KERNEL, refusal_name
+from leangage_notes.gen import kernel
 
 COMMANDS = Path(__file__).parents[2] / "testdata" / "notes-commands.txt"
 

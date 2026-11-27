@@ -60,7 +60,6 @@ from psycopg.pq import TransactionStatus
 from psycopg.types.numeric import Int8Dumper
 from psycopg.types.string import StrDumper
 
-from leangage import sql
 from leangage.engine import (
     Broken,
     CommitUnknown,
@@ -71,6 +70,7 @@ from leangage.engine import (
     RetriesExhausted,
     Storage,
 )
+from leangage.gen import sql
 
 __all__ = [
     "Attempt",

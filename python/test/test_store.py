@@ -1,9 +1,9 @@
 """The generated tables of the calculator and of the notes: they import, and they name the tables
 and load the rows that Lean declares, as the kernels' own types."""
 
-from leangage_calculator import store as calculator_store
-from leangage_notes import kernel as notes_kernel
-from leangage_notes import store as notes_store
+from leangage_calculator.gen import store as calculator_store
+from leangage_notes.gen import kernel as notes_kernel
+from leangage_notes.gen import store as notes_store
 
 
 def test_tables() -> None:

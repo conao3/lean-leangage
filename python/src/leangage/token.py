@@ -1,8 +1,8 @@
 """Bearer tokens: `v1.<tenant>.<user>.<expiry unix seconds>.<hex hmac-sha256>`.
 
 The tag signs every byte before the last dot. The bytes are written by functions generated from
-`lean/Leangage/Token.lean` (`leangage.token_format`), and the `Authorization` header is read by
-`leangage.http_format.authenticate`, generated from `lean/Leangage/Http.lean`. This module
+`lean/Leangage/Token.lean` (`leangage.gen.token_format`), and the `Authorization` header is read by
+`leangage.gen.http_format.authenticate`, generated from `lean/Leangage/Http.lean`. This module
 computes and compares the tag.
 """
 
@@ -12,7 +12,7 @@ from dataclasses import dataclass
 
 from leanfran import Err
 
-from leangage import http_format, token_format
+from leangage.gen import http_format, token_format
 
 
 @dataclass(frozen=True)

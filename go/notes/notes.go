@@ -9,7 +9,7 @@ import (
 	"github.com/conao3/leanfran-go"
 
 	"github.com/conao3/lean-leangage/go/leangage"
-	"github.com/conao3/lean-leangage/go/notes/kernel"
+	"github.com/conao3/lean-leangage/go/notes/gen/kernel"
 )
 
 // Snapshot is one tenant's state, kept as a Lean value.

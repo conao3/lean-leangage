@@ -21,7 +21,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"github.com/conao3/lean-leangage/go/calculator/kernel"
+	"github.com/conao3/lean-leangage/go/calculator/gen/kernel"
 	"github.com/conao3/lean-leangage/go/leangage"
 	"github.com/conao3/lean-leangage/go/leangage/pg"
 	"github.com/conao3/lean-leangage/go/leangage/pg/pgtest"

@@ -9,13 +9,13 @@ import (
 
 	"github.com/conao3/leanfran-go"
 
-	"github.com/conao3/lean-leangage/go/calculator/kernel"
-	"github.com/conao3/lean-leangage/go/calculator/store"
-	"github.com/conao3/lean-leangage/go/calculator/wire"
+	"github.com/conao3/lean-leangage/go/calculator/gen/kernel"
+	"github.com/conao3/lean-leangage/go/calculator/gen/store"
+	"github.com/conao3/lean-leangage/go/calculator/gen/wire"
 	"github.com/conao3/lean-leangage/go/leangage"
-	"github.com/conao3/lean-leangage/go/leangage/httpformat"
+	"github.com/conao3/lean-leangage/go/leangage/gen/httpformat"
+	"github.com/conao3/lean-leangage/go/leangage/gen/sql"
 	"github.com/conao3/lean-leangage/go/leangage/pg"
-	"github.com/conao3/lean-leangage/go/leangage/sql"
 )
 
 // Snapshot is one tenant's state, kept as a Lean value.

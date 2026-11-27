@@ -8,7 +8,7 @@ import (
 
 	"github.com/conao3/leanfran-go"
 
-	"github.com/conao3/lean-leangage/go/leangage/sql"
+	"github.com/conao3/lean-leangage/go/leangage/gen/sql"
 )
 
 // Kernel is the contract of `Leangage.Kernel`, implemented by delegating to functions

@@ -6,7 +6,7 @@ Each case is a name, the bytes of a body and the tokens in the format of
 """
 
 import pytest
-from leangage import json_lexemes
+from leangage.gen import json_lexemes
 from leangage.json_text import tokens
 from test_request_differential import show_token
 

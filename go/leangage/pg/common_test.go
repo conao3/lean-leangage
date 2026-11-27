@@ -20,9 +20,9 @@ import (
 	"github.com/conao3/leanfran-go"
 
 	"github.com/conao3/lean-leangage/go/leangage"
+	"github.com/conao3/lean-leangage/go/leangage/gen/sql"
 	"github.com/conao3/lean-leangage/go/leangage/pg"
 	"github.com/conao3/lean-leangage/go/leangage/pg/pgtest"
-	"github.com/conao3/lean-leangage/go/leangage/sql"
 )
 
 var ctx = context.Background()

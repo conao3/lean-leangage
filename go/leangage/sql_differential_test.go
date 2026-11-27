@@ -11,7 +11,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/conao3/lean-leangage/go/leangage/sql"
+	"github.com/conao3/lean-leangage/go/leangage/gen/sql"
 	"github.com/conao3/leanfran-go"
 )
 

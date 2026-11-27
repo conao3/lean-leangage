@@ -24,8 +24,8 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
+	"github.com/conao3/lean-leangage/go/leangage/gen/sql"
 	"github.com/conao3/lean-leangage/go/leangage/pg"
-	"github.com/conao3/lean-leangage/go/leangage/sql"
 )
 
 // Owner is the role that owns the tables.

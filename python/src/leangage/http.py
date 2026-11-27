@@ -1,10 +1,10 @@
 """`POST /rpc`: one kernel command per request.
 
 `handle` passes the request to generated functions and returns what they return. It gives the
-`Authorization` header to `Verifier.admit`, which calls `leangage.http_format.authenticate` and
+`Authorization` header to `Verifier.admit`, which calls `leangage.gen.http_format.authenticate` and
 checks the tag; it gives the claims, the time and the body to `Api.request`; it runs the command
 on the engine; and it gives the kernel's decision to `Api.respond` and a failure of the engine to
-`leangage.http_format.failed`. The status and the body of every answer come from those
+`leangage.gen.http_format.failed`. The status and the body of every answer come from those
 functions, which are generated from `lean/Leangage/Http.lean` and from the kernel's module beside
 it (`lean/Calculator/Wire.lean`).
 """
@@ -16,7 +16,6 @@ from typing import Any
 
 from leanfran import Err, Ok
 
-from leangage import http_format
 from leangage.engine import (
     Broken,
     CommitUnknown,
@@ -27,6 +26,7 @@ from leangage.engine import (
     Refused,
     RetriesExhausted,
 )
+from leangage.gen import http_format
 from leangage.json_text import tokens
 from leangage.token import Claims, Verifier
 

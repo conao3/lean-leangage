@@ -23,11 +23,10 @@ from leangage import (
     IdempotencyConflict,
     Refused,
     RetriesExhausted,
-    http_format,
     issue,
-    json_lexemes,
     serve,
 )
+from leangage.gen import http_format, json_lexemes
 from leangage.pg import Attempt, Config, PgEngine, Point, lockdown
 from leangage.pg.testing import ENGINE_ROLE, OWNER, cluster, connect
 from pg_common import (

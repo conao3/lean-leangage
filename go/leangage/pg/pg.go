@@ -61,7 +61,7 @@ import (
 	"github.com/conao3/leanfran-go"
 
 	"github.com/conao3/lean-leangage/go/leangage"
-	"github.com/conao3/lean-leangage/go/leangage/sql"
+	"github.com/conao3/lean-leangage/go/leangage/gen/sql"
 )
 
 // The replies of the commands run under an idempotency key, per tenant, scope and key.

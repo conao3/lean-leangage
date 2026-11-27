@@ -10,7 +10,7 @@ import (
 	"testing"
 	"unicode/utf8"
 
-	"github.com/conao3/lean-leangage/go/leangage/jsonformat"
+	"github.com/conao3/lean-leangage/go/leangage/gen/jsonformat"
 )
 
 // The line format is described in `lean/JsonOracle.lean`.

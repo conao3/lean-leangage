@@ -21,11 +21,13 @@ import time
 from collections.abc import Callable
 
 from leanfran import Ok
-from leangage import MemoryEngine, http_format, json_format, token, token_format
+from leangage import MemoryEngine, token
+from leangage.gen import http_format, json_format, token_format
 from leangage.http import body_of, handle
 from leangage.json_text import tokens
 
-from leangage_calculator import API, KERNEL, kernel, wire
+from leangage_calculator import API, KERNEL
+from leangage_calculator.gen import kernel, wire
 
 ROUNDS = 5
 

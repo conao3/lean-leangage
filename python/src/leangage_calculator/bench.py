@@ -4,7 +4,8 @@ import time
 
 from leangage import MemoryEngine, Refused
 
-from leangage_calculator import KERNEL, kernel
+from leangage_calculator import KERNEL
+from leangage_calculator.gen import kernel
 
 
 def commands(users: int, count: int) -> list[tuple[kernel.Principal, kernel.Command]]:

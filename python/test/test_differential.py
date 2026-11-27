@@ -5,7 +5,8 @@ import subprocess
 from pathlib import Path
 
 from leangage import MemoryEngine, Refused
-from leangage_calculator import KERNEL, kernel
+from leangage_calculator import KERNEL
+from leangage_calculator.gen import kernel
 
 COMMANDS = Path(__file__).parents[2] / "testdata" / "calculator-commands.txt"
 

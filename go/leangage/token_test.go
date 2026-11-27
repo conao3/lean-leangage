@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/conao3/lean-leangage/go/leangage/httpformat"
+	"github.com/conao3/lean-leangage/go/leangage/gen/httpformat"
 )
 
 var claims = Claims{Tenant: 12, User: 3, Expiry: 100}

@@ -8,7 +8,7 @@ import os
 import subprocess
 from pathlib import Path
 
-from leangage import token_format
+from leangage.gen import token_format
 
 CASES = Path(__file__).parents[2] / "testdata" / "token-cases.txt"
 

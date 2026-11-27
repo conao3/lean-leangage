@@ -23,8 +23,8 @@ import (
 	"github.com/jackc/pgx/v5/pgconn"
 
 	"github.com/conao3/lean-leangage/go/leangage"
-	"github.com/conao3/lean-leangage/go/leangage/httpformat"
-	"github.com/conao3/lean-leangage/go/leangage/jsonlexemes"
+	"github.com/conao3/lean-leangage/go/leangage/gen/httpformat"
+	"github.com/conao3/lean-leangage/go/leangage/gen/jsonlexemes"
 	"github.com/conao3/lean-leangage/go/leangage/pg"
 	"github.com/conao3/lean-leangage/go/leangage/pg/pgtest"
 )

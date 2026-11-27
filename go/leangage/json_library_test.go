@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/conao3/lean-leangage/go/leangage/jsonlexemes"
+	"github.com/conao3/lean-leangage/go/leangage/gen/jsonlexemes"
 )
 
 func showLibraryTokens(t *testing.T, body []byte) string {

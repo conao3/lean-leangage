@@ -8,7 +8,8 @@ back."""
 from dataclasses import dataclass
 
 import pytest
-from leangage import Broken, DatabaseError, Kernel, Storage, sql
+from leangage import Broken, DatabaseError, Kernel, Storage
+from leangage.gen import sql
 from leangage.pg import Config, PgEngine
 from leangage.pg.testing import cluster, connect
 

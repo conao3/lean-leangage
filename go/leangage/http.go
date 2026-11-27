@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/conao3/lean-leangage/go/leangage/httpformat"
+	"github.com/conao3/lean-leangage/go/leangage/gen/httpformat"
 )
 
 // Api is a kernel's functions on the wire, implemented by delegating to functions generated

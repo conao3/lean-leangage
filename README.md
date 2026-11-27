@@ -291,8 +291,9 @@ nix develop --command make bench   # commands per second through the kernel; too
 nix run                            # the Rust calculator server
 ```
 
-`make generate` writes the generated Rust, Python and Go from `lean/`. Git ignores them, so a
-clone holds them after `make generate`, `make check` or `make bench`.
+`make generate` writes the generated Rust, Python and Go from `lean/` into directories named
+`gen`. Git ignores them, so a clone holds them after `make generate`, a test target or
+`make bench`.
 
 ## License
 

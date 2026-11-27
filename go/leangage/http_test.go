@@ -10,8 +10,8 @@ import (
 
 	"github.com/conao3/leanfran-go"
 
-	"github.com/conao3/lean-leangage/go/leangage/httpformat"
-	"github.com/conao3/lean-leangage/go/leangage/jsonlexemes"
+	"github.com/conao3/lean-leangage/go/leangage/gen/httpformat"
+	"github.com/conao3/lean-leangage/go/leangage/gen/jsonlexemes"
 )
 
 // counterApi reads a body that is one number in decimal, written by hand.

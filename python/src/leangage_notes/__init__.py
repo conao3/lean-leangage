@@ -6,7 +6,7 @@ Its `transition` is the kernel's `handle` behind the guard of `lean/Leangage/Aut
 from leanfran import Err, Local
 from leangage import Kernel, Refused
 
-from leangage_notes import kernel
+from leangage_notes.gen import kernel
 
 Guarded = kernel.Leangage_Authz_Guarded_Notes_Kernel_Error
 

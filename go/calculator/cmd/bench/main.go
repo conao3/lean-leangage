@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/conao3/lean-leangage/go/calculator"
-	"github.com/conao3/lean-leangage/go/calculator/kernel"
+	"github.com/conao3/lean-leangage/go/calculator/gen/kernel"
 )
 
 type request struct {

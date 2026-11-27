@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/conao3/lean-leangage/go/calculator/kernel"
+	"github.com/conao3/lean-leangage/go/calculator/gen/kernel"
 )
 
 const commandList = "../../testdata/calculator-commands.txt"

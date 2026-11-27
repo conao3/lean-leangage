@@ -1,20 +1,21 @@
 //! The calculator: the kernel is `lean/Calculator/Kernel.lean`, its table
 //! `lean/Calculator/Store.lean` and its requests and responses `lean/Calculator/Wire.lean`, all
-//! generated to `src/generated/`. [`Api`] passes each call on to `wire`.
+//! generated to `src/gen/`. [`Api`] passes each call on to `wire`.
 
 #[rustfmt::skip]
+#[path = "gen/mod.rs"]
 pub mod generated;
 /// The calculator's table, generated from `Calculator.Store` with the kernel's types and the
 /// types of `leangage::sql`.
 #[rustfmt::skip]
 #[allow(dead_code, non_snake_case, non_camel_case_types, unused_imports, unused_parens, unused_qualifications, unsafe_op_in_unsafe_fn, clippy::all)]
-#[path = "generated/calculator_store.rs"]
+#[path = "gen/calculator_store.rs"]
 pub mod store;
 /// The calculator's requests and responses, generated from `Calculator.Wire` with the kernel's
 /// types and the types of `leangage::http_format`.
 #[rustfmt::skip]
 #[allow(dead_code, non_snake_case, non_camel_case_types, unused_imports, unused_parens, unused_qualifications, unsafe_op_in_unsafe_fn, clippy::all)]
-#[path = "generated/calculator_wire.rs"]
+#[path = "gen/calculator_wire.rs"]
 pub mod wire;
 
 use leanfran::{Local, Owned};

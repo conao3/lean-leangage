@@ -9,10 +9,10 @@ import subprocess
 from pathlib import Path
 
 from leanfran import Err, Ok
-from leangage import http_format, json_lexemes
+from leangage.gen import http_format, json_lexemes
 from leangage.http import body_of
 from leangage.json_text import tokens
-from leangage_calculator import kernel, wire
+from leangage_calculator.gen import kernel, wire
 
 CASES = Path(__file__).parents[2] / "testdata" / "request-cases.txt"
 

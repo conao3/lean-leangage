@@ -11,7 +11,7 @@ import (
 	"testing"
 	"unicode/utf8"
 
-	"github.com/conao3/lean-leangage/go/leangage/token"
+	"github.com/conao3/lean-leangage/go/leangage/gen/token"
 )
 
 // The line format is described in `lean/TokenOracle.lean`.

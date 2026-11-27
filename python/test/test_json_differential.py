@@ -8,7 +8,7 @@ import os
 import subprocess
 from pathlib import Path
 
-from leangage import json_format
+from leangage.gen import json_format
 
 CASES = Path(__file__).parents[2] / "testdata" / "json-cases.txt"
 

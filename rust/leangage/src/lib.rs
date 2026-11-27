@@ -10,6 +10,7 @@
 //! itself, generated from `lean/Leangage/Http.lean`.
 
 #[rustfmt::skip]
+#[path = "gen/mod.rs"]
 pub mod generated;
 pub mod http;
 pub mod json_text;

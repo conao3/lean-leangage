@@ -7,7 +7,7 @@ import os
 import subprocess
 from pathlib import Path
 
-from leangage import sql
+from leangage.gen import sql
 
 STATEMENTS = Path(__file__).parents[2] / "testdata" / "sql-statements.txt"
 

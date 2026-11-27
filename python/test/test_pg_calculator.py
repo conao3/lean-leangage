@@ -19,7 +19,8 @@ from typing import Any
 from leangage import Claims, MemoryEngine, Refused, issue
 from leangage.pg import Config, PgEngine
 from leangage.pg.testing import ENGINE_ROLE, OWNER, cluster, connect
-from leangage_calculator import KERNEL, STORAGE, kernel
+from leangage_calculator import KERNEL, STORAGE
+from leangage_calculator.gen import kernel
 from test_differential import COMMANDS, parse
 
 SECRET = "secret"

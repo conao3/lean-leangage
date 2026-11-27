@@ -12,7 +12,8 @@ from enum import Enum
 from typing import Any
 
 import psycopg
-from leangage import Kernel, Refused, Storage, sql
+from leangage import Kernel, Refused, Storage
+from leangage.gen import sql
 from leangage.pg import Attempt, Config, PgEngine, Point
 from leangage.pg.testing import ENGINE_ROLE, Cluster, cluster, connect
 
