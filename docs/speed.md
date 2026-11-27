@@ -60,13 +60,14 @@ token check, the engine and the generated kernel cost.
 | Flask on gunicorn, 4 processes, no kernel | 3,340 | 2,980 | 7,600 | 7,520 |
 
 - The Rust server runs on axum and gives 95% of the replies of axum without a kernel to `get` on
-  one connection and 94% on 64, and 97% and 94% to `apply`. The 2 runs of a cell differ by up to
-  14%.
+  one connection and 94% on 64, and 97% and 94% to `apply`.
 - The Go server runs on `net/http` and gives 91% of the replies of `net/http` without a kernel to
-  `get` on one connection and 74% on 64, and 91% and 73% to `apply`.
+  `get` on one connection and 74% on 64, and 92% and 73% to `apply`.
 - The Python server is one process on `http.server`, with one lock around the engine. On one
   connection it gives 79% of the replies of FastAPI to `get` and 71% to `apply`. On 64
   connections it gives fewer than on one, while FastAPI and Flask spread the connections over 4 processes.
+- The 2 runs of a cell differ by up to 6% in the Rust table, 14% in the Go table and 12% in the
+  Python table.
 - Every body is read by the JSON library of the server's language, and every request is decided
   and every reply is made by the generated functions. Reading the body
   `{"cmd":"apply","op":"mul","arg":7}` and deciding the request takes about 0.4 µs in Rust, 1.4 µs

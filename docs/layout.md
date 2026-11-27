@@ -17,3 +17,10 @@
 | [`bench/`](../bench) | servers without a kernel (axum, actix-web, `net/http`, gin, FastAPI, Flask, and axum with tokio-postgres) for the HTTP comparison |
 | [`docs/`](.) | the files the README's sections link to, the measured runs (`speed.json`) and the charts drawn from them |
 | [`testdata/`](../testdata) | the command lists (`tools/gen-commands.py`, `tools/gen-notes-commands.py`), the statement list (`tools/gen-statements.py`), the token list (`tools/gen-tokens.py`), the JSON token lists (`tools/gen-json.py`) and the request lines (`tools/gen-requests.py`, `tools/gen-notes-requests.py`) of the differential tests |
+
+## Generation and tests
+
+`make generate` rewrites the generated Rust, Python and Go from `lean/`. The PostgreSQL tests
+start a server of their own with `initdb` and `pg_ctl` from the devShell, in a directory under
+`/tmp` that is removed when the test process exits. `make python` and `make go` build the Rust
+calculator server, which the Python and the Go tests run next to their own on a shared database.

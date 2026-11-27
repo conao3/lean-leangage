@@ -81,11 +81,15 @@ and the administrator's connection string: it creates the tables, gives them to 
 without the right to log in if it doesn't exist), lets the engine's role (which must exist and
 may not be a superuser) read and write their rows but not alter, drop or truncate them, grants it
 `USAGE` and `CREATE` on the schema (PostgreSQL checks `CREATE` before it finds that a table of
-`CREATE TABLE IF NOT EXISTS` exists, and the engine runs those statements at start), and exits:
+`CREATE TABLE IF NOT EXISTS` exists, and the engine runs those statements at start), and exits.
+The database must exist too:
 
 ```console
 $ export LEANGAGE_SECRET=dev-secret
 $ TOKEN=$(cd rust && LEANGAGE_ISSUE=1:7 cargo run --release -q --bin leangage-calculator)
+$ psql -h /run/postgresql -U postgres -c 'CREATE DATABASE calc' -c 'CREATE ROLE leangage_engine LOGIN'
+CREATE DATABASE
+CREATE ROLE
 $ (cd rust && LEANGAGE_DATABASE_URL='host=/run/postgresql user=postgres dbname=calc' \
     LEANGAGE_LOCKDOWN=leangage_owner:leangage_engine cargo run --release -q --bin leangage-calculator)
 $ cd rust && LEANGAGE_DATABASE_URL='host=/run/postgresql user=leangage_engine dbname=calc' \

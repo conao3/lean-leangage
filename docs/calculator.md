@@ -17,8 +17,7 @@ def transition (actor : Principal) (snap : Snapshot) (cmd : Command) :
 A tenant's numbers are a binary trie on the user id, lowest bit first. A command visits at most
 64 nodes, and about log₂ n in a tenant whose n user ids are 0 to n − 1. `memoryOf` reads a number and `apply` stores one with `store`.
 
-[`lean/Calculator/Proofs.lean`](../lean/Calculator/Proofs.lean) proves, for every principal, snapshot
-and command:
+Among the theorems of [`lean/Calculator/Proofs.lean`](../lean/Calculator/Proofs.lean):
 
 | Theorem | Statement |
 |---|---|
