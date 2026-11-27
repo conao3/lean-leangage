@@ -44,10 +44,7 @@ audit: lean
 	done
 
 .PHONY: generate
-generate: generate-rust generate-python generate-go
-
-.PHONY: generate-rust
-generate-rust: lean
+generate: lean
 	leanfran project generate --lake-dir samples/lean --output-dir samples/rust/calculator/src/gen --modules Calculator.Kernel --output text
 	leanfran module generate --module-name Calculator.Store --search-path $(SAMPLES_PATH) --type-path Calculator.Kernel=crate::generated::calculator_kernel Leangage.Sql=::leangage::sql --output-file samples/rust/calculator/src/gen/calculator_store.rs --output text
 	leanfran project generate --lake-dir langs/lean --output-dir langs/rust/leangage/src/gen --modules Leangage.Sql Leangage.Token Leangage.Json Leangage.Json.Lexemes Leangage.Http --output text
@@ -56,9 +53,6 @@ generate-rust: lean
 	leanfran project generate --lake-dir samples/lean --output-dir samples/rust/notes/src/gen --modules Notes.Kernel --output text
 	leanfran module generate --module-name Notes.Store --search-path $(SAMPLES_PATH) --type-path Notes.Kernel=crate::generated::notes_kernel Leangage.Sql=::leangage::sql --output-file samples/rust/notes/src/gen/notes_store.rs --output text
 	leanfran module generate --module-name Notes.Wire --search-path $(SAMPLES_PATH) --type-path Notes.Kernel=crate::generated::notes_kernel Leangage.Authz=crate::authz Leangage.Http=::leangage::http_format Leangage.Json.Lexemes=::leangage::json_lexemes Leangage.Json=::leangage::json_format --output-file samples/rust/notes/src/gen/notes_wire.rs --output text
-
-.PHONY: generate-python
-generate-python: lean
 	leanfran-python module generate --module-name Calculator.Kernel --search-path $(SAMPLES_PATH) --output-file samples/python/calculator/leangage_calculator/gen/kernel.py --output text
 	leanfran-python module generate --module-name Calculator.Store --search-path $(SAMPLES_PATH) --type-module Calculator.Kernel=leangage_calculator.gen.kernel Leangage.Sql=leangage.gen.sql --output-file samples/python/calculator/leangage_calculator/gen/store.py --output text
 	leanfran-python module generate --module-name Leangage.Sql --search-path $(LIB_PATH) --output-file langs/python/src/leangage/gen/sql.py --output text
@@ -69,9 +63,6 @@ generate-python: lean
 	leanfran-python module generate --module-name Calculator.Wire --search-path $(SAMPLES_PATH) --type-module Calculator.Kernel=leangage_calculator.gen.kernel Leangage.Http=leangage.gen.http_format Leangage.Json.Lexemes=leangage.gen.json_lexemes --output-file samples/python/calculator/leangage_calculator/gen/wire.py --output text
 	leanfran-python module generate --module-name Notes.Kernel --search-path $(SAMPLES_PATH) --output-file samples/python/notes/leangage_notes/gen/kernel.py --output text
 	leanfran-python module generate --module-name Notes.Store --search-path $(SAMPLES_PATH) --type-module Notes.Kernel=leangage_notes.gen.kernel Leangage.Sql=leangage.gen.sql --output-file samples/python/notes/leangage_notes/gen/store.py --output text
-
-.PHONY: generate-go
-generate-go: lean
 	leanfran-go module generate --module-name Calculator.Kernel --search-path $(SAMPLES_PATH) --output-dir samples/go/calculator/gen/kernel --output text
 	leanfran-go module generate --module-name Calculator.Store --search-path $(SAMPLES_PATH) --type-module Calculator.Kernel=github.com/conao3/lean-leangage/samples/go/calculator/gen/kernel --type-module Leangage.Sql=github.com/conao3/lean-leangage/langs/go/leangage/gen/sql --output-dir samples/go/calculator/gen/store --output text
 	leanfran-go module generate --module-name Leangage.Sql --search-path $(LIB_PATH) --output-dir langs/go/leangage/gen/sql --output text
@@ -84,7 +75,7 @@ generate-go: lean
 	leanfran-go module generate --module-name Notes.Store --search-path $(SAMPLES_PATH) --output-dir samples/go/notes/gen/store --output text
 
 .PHONY: generated-check
-generated-check: generate-go
+generated-check: generate
 	git diff --exit-code -- langs/go/leangage/gen samples/go/calculator/gen samples/go/notes/gen
 	test -z "$$(git ls-files --others --exclude-standard -- langs/go/leangage/gen samples/go/calculator/gen samples/go/notes/gen)"
 
@@ -96,14 +87,14 @@ handlers:
 test: test-rust test-python test-go
 
 .PHONY: test-rust
-test-rust: generate-rust
+test-rust: generate
 	cd langs/rust && cargo clippy --all-targets -- -D warnings
 	cd langs/rust && $(LIB_ORACLES) cargo test
 	cd samples/rust && cargo clippy --all-targets -- -D warnings
 	cd samples/rust && $(SAMPLES_ORACLES) cargo test
 
 .PHONY: test-python
-test-python: generate-rust generate-python
+test-python: generate
 	cd samples/rust && cargo build --quiet --bin leangage-calculator
 	cd langs/python && uv sync --quiet
 	cd langs/python && $(LIB_ORACLES) uv run pytest -q
@@ -111,7 +102,7 @@ test-python: generate-rust generate-python
 	cd samples/python && LEANGAGE_RUST_CALCULATOR=$(RUST_CALCULATOR) $(SAMPLES_ORACLES) uv run pytest -q
 
 .PHONY: test-go
-test-go: generate-rust generate-go
+test-go: generate
 	cd samples/rust && cargo build --quiet --bin leangage-calculator
 	cd langs/go && go vet ./...
 	cd langs/go && $(LIB_ORACLES) go test -race -count=1 ./...

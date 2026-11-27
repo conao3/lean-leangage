@@ -192,13 +192,12 @@ leangage: the contract of a kernel proved in Lean 4, and the servers that run th
   `samples/rust/*/src/gen/`, `langs/python/src/*/gen/`, `samples/python/*/*/gen/`,
   `langs/go/*/gen/`, `samples/go/*/gen/`) and are never edited. Git ignores those of Rust and
   Python with the line `gen/` of `.gitignore` and holds those of Go (`!/langs/go/*/gen/`,
-  `!/samples/go/*/gen/`), which `go get` fetches: a commit that changes what `make generate-go`
-  writes carries the new `langs/go/*/gen/` and `samples/go/*/gen/`, and `make generated-check`
-  fails when the committed files differ from what it writes. `make generate` writes them from
-  `langs/lean/` and `samples/lean/`, and `make generate-rust`, `make generate-python` and
-  `make generate-go` write those of one language. The `test-rust`, `test-python`, `test-go`,
-  `bench` and `bench-bytes` targets write them first, and `nix build` writes the Rust ones in
-  its build.
+  `!/samples/go/*/gen/`), which `go get` fetches: a commit that changes what `make generate`
+  writes for Go carries the new `langs/go/*/gen/` and `samples/go/*/gen/`, and
+  `make generated-check` fails when the committed files differ from what it writes.
+  `make generate` writes all of them from `langs/lean/` and `samples/lean/`. The `test-rust`,
+  `test-python`, `test-go`, `generated-check`, `bench` and `bench-bytes` targets run it first,
+  and `nix build` runs it in its build.
 - Outside `nix develop`, `make generate` needs `lake` (Lean 4.35.0) and the 3 leanfran compilers
   on `PATH`. `tools/leanfran-compilers.sh <directory>` builds the compilers there from the
   commit of lean-leanfran that `flake.nix` names and links them under `<directory>/bin`. With

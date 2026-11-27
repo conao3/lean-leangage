@@ -66,11 +66,14 @@
             buildAndTestSubdir = "samples/rust";
             cargoLock.lockFile = ./samples/rust/Cargo.lock;
             nativeBuildInputs = [
+              pkgs.go
               pkgs.lean4
               leanfran.rust-compiler
+              leanfran.python
+              leanfran.go
             ];
             preBuild = ''
-              make generate-rust
+              make generate
             '';
             cargoBuildFlags = [
               "--package"

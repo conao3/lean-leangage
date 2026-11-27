@@ -66,8 +66,8 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           read -ra files <<< "$VERSION_FILES"
           git commit -m "Bump version to $VERSION" -- "${files[@]}"
-      - name: Generate the Rust and the Python code
-        run: nix develop --command make generate-rust generate-python
+      - name: Generate the code
+        run: nix develop --command make generate
       - name: Verify the committed Go code
         run: nix develop --command make generated-check
       - name: Verify crates
@@ -140,9 +140,9 @@ jobs:
           ref: v${{ needs.check.outputs.version }}
           persist-credentials: false
       - uses: cachix/install-nix-action@v32.0.0
-      - name: Generate the Rust code
+      - name: Generate the code
         run: |
-          nix develop --command make generate-rust
+          nix develop --command make generate
           if [[ -n "$(git status --porcelain)" ]]; then
             echo "::error::The working tree differs from the tag."
             exit 1
@@ -179,8 +179,8 @@ jobs:
           ref: refs/tags/v${{ needs.check.outputs.version }}
           persist-credentials: false
       - uses: cachix/install-nix-action@v32.0.0
-      - name: Generate the Python code
-        run: nix develop --command make generate-python
+      - name: Generate the code
+        run: nix develop --command make generate
       - name: Build package
         run: nix develop --command uv --directory langs/python build
       - uses: pypa/gh-action-pypi-publish@v1.14.3
