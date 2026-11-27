@@ -1,12 +1,12 @@
 """Runs every speed measurement on this machine and writes `docs/speed.json`.
 
-Needs the generated code (`make generate`, or the branch `generated` on a machine without Lean
-and the leanfran compilers), cargo, go, uv and curl on PATH, and PostgreSQL's `initdb`, `pg_ctl`
-and `psql` on PATH or in `/usr/lib/postgresql/<version>/bin`; installs `oha` with cargo when it
-is missing. Each measurement runs alone. The PostgreSQL server runs, with its default settings,
-only during the PostgreSQL measurements, in a temporary directory, on a Unix socket; as root, its
-programs run as the user `postgres`. `tools/speed-charts.py` turns the result into charts and
-tables.
+Writes the generated code first (`make generate`), so it needs make, lake and the leanfran
+compilers on PATH (`tools/leanfran-compilers.sh` builds the compilers outside `nix develop`).
+Needs cargo, go, uv and curl on PATH, and PostgreSQL's `initdb`, `pg_ctl` and `psql` on PATH or
+in `/usr/lib/postgresql/<version>/bin`; installs `oha` with cargo when it is missing. Each
+measurement runs alone. The PostgreSQL server runs, with its default settings, only during the
+PostgreSQL measurements, in a temporary directory, on a Unix socket; as root, its programs run
+as the user `postgres`. `tools/speed-charts.py` turns the result into charts and tables.
 """
 
 import glob
@@ -22,11 +22,7 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-GENERATED = [
-    "rust/leangage/src/generated",
-    "python/src/leangage/sql.py",
-    "go/leangage/sql",
-]
+GENERATORS = ["lake", "leanfran", "leanfran-python", "leanfran-go"]
 ENGINE_RUNS = 3
 HTTP_RUNS = 2
 SECONDS = 8
@@ -293,14 +289,15 @@ def http(
 
 
 def main() -> None:
-    missing = [path for path in GENERATED if not (ROOT / path).exists()]
-    if missing:
-        raise SystemExit(
-            f"the generated code is missing ({', '.join(missing)}): run `make generate` inside "
-            "`nix develop`, or check out the branch `generated`"
-        )
     pg_bin = postgres_bin()
     postgres_user()
+    missing = [name for name in GENERATORS if shutil.which(name) is None]
+    if missing:
+        raise SystemExit(
+            f"{', '.join(missing)} not on PATH: `make generate` needs lake and the leanfran "
+            "compilers, which `tools/leanfran-compilers.sh` builds"
+        )
+    run(["make", "generate"], ROOT)
     if shutil.which("oha") is None:
         run(["cargo", "install", "oha"], ROOT)
     bins = Path(tempfile.mkdtemp())

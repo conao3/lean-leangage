@@ -93,10 +93,6 @@ generated-check: generate
 	test -z "$$(git ls-files --others --exclude-standard -- $(GENERATED))"
 	sums=$$(mktemp) && find $(GENERATED) -type f | LC_ALL=C sort | xargs sha256sum > $$sums && $(MAKE) generate > /dev/null && find $(GENERATED) -type f | LC_ALL=C sort | xargs sha256sum | diff $$sums -; status=$$?; rm -f $$sums; exit $$status
 
-.PHONY: generated-branch
-generated-branch: generate
-	tools/generated-branch.sh $(GENERATED)
-
 .PHONY: handlers
 handlers:
 	python3 tools/check-handlers.py

@@ -186,9 +186,9 @@ leangage: the contract of a kernel proved in Lean 4, and the servers that run th
   `make generate` writes them from `lean/`, and `make generate-rust`, `make generate-python` and
   `make generate-go` write those of one language. The `rust`, `python`, `go`, `bench` and
   `bench-bytes` targets write them first, and `nix build` writes the Rust ones in its build.
-- A machine without Lean and the leanfran compilers takes the generated files from the branch
-  `generated`: `make generated-branch` pushes to it a commit that holds the tree of `HEAD` and
-  the generated files.
+- Outside `nix develop`, `make generate` needs `lake` (Lean 4.35.0) and the 3 leanfran compilers
+  on `PATH`. `tools/leanfran-compilers.sh <directory>` builds the compilers there from the
+  commit of lean-leanfran that `flake.nix` names and links them under `<directory>/bin`.
 - A function the servers call on every request takes `String`s and writes into an `Array UInt8`
   with loops over indices (`parseString`, `writeArray`), so a call converts no list of bytes. Its
   theorem states it equal to the definition over `List UInt8` (`parseString_spec`,
@@ -235,10 +235,10 @@ All commands run inside `nix develop`.
   generation, the check that git ignores every generated file and that a second generation writes
   the same bytes, `tools/check-handlers.py`,
   `cargo clippy -- -D warnings`, `cargo test`, `uv run pytest`, `go vet`, `go test -race`.
-- `make generate`, `make generated-branch`, `make format`, `make bench`.
+- `make generate`, `make format`, `make bench`.
 - `docs/speed.md` and the README's Speed section show rates (higher is better) with a chart for
   each table, and every cell has a value. The README holds the Rust and the Go table over HTTP
-  of `docs/speed.md`, with their charts, and the ratios of its list. `python3 tools/measure.py` runs every measurement and writes
+  of `docs/speed.md`, with their charts, and the ratios of its list. `python3 tools/measure.py` runs `make generate` and every measurement and writes
   `docs/speed.json`; it needs PostgreSQL's `initdb`, `pg_ctl` and `psql` on `PATH` or in
   `/usr/lib/postgresql/<version>/bin`, starts a server with the default settings in a temporary
   directory for the PostgreSQL measurements only (as root, as the user `postgres`), and stops with
