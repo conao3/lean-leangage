@@ -292,8 +292,8 @@ nix run                            # the Rust calculator server
 ```
 
 `make generate` writes the generated Rust, Python and Go from `lean/` into directories named
-`gen`. Git ignores them, so a clone holds them after `make generate`, a test target or
-`make bench`.
+`gen`. Git holds the Go ones, which `go get` fetches, and ignores the Rust and Python ones: a
+clone holds those after `make generate`, a test target or `make bench`.
 
 ## License
 

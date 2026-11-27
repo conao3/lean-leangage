@@ -21,8 +21,9 @@
 ## Generation and tests
 
 `make generate` writes the generated Rust, Python and Go from `lean/` into directories named
-`gen`, which git ignores. The PostgreSQL tests start a server of their own with `initdb`
-and `pg_ctl` from the devShell, in a directory under `/tmp` that is removed when the test process
-exits. `make test-rust`, `make test-python` and `make test-go` each generate and test one
-language, and `make test` runs the 3. `make test-python` and `make test-go` build the Rust
-calculator server, which the Python and the Go tests run next to their own on a shared database.
+`gen`. Git holds those of Go and ignores those of Rust and Python. The PostgreSQL tests start a
+server of their own with `initdb` and `pg_ctl` from the devShell, in a directory under `/tmp`
+that is removed when the test process exits. `make test-rust`, `make test-python` and
+`make test-go` each generate and test one language, and `make test` runs the 3.
+`make test-python` and `make test-go` build the Rust calculator server, which the Python and the
+Go tests run next to their own on a shared database.

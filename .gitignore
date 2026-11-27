@@ -7,3 +7,4 @@ __pycache__
 /bench/rust/target
 /bench/python/.venv
 gen/
+!/go/*/gen/

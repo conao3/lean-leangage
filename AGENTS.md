@@ -179,8 +179,9 @@ leangage: the contract of a kernel proved in Lean 4, and the servers that run th
   concurrent tests of `go/calculator` and `go/notes` and `TestPostgresEngineLeaksNoValue` count
   the leaks with `leanfran.TrackLeakedValues`.
 - Generated files live in directories named `gen` (`rust/*/src/gen/`,
-  `python/src/*/gen/`, `go/*/gen/`), which git ignores with the line `gen/` of
-  `.gitignore`, and are never edited.
+  `python/src/*/gen/`, `go/*/gen/`) and are never edited. Git ignores those of Rust and Python
+  with the line `gen/` of `.gitignore` and holds those of Go (`!/go/*/gen/`), which `go get`
+  fetches: a commit that changes what `make generate-go` writes carries the new `go/*/gen/`.
   `make generate` writes them from `lean/`, and `make generate-rust`, `make generate-python` and
   `make generate-go` write those of one language. The `test-rust`, `test-python`, `test-go`,
   `bench` and `bench-bytes` targets write them first, and `nix build` writes the Rust ones in

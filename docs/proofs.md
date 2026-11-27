@@ -494,9 +494,9 @@ Checked by `make check`, not proved:
 - **The Rust notes server answers the guard's refusals with 403.** `rust/notes/tests/http.rs`
   sends denied writes, a read of a note the caller may not see (404), a bad body (422) and a
   command with another member (400).
-- **The code that runs is generated from the proved source.** Git holds no generated file:
-  `make check`, the test targets and `nix build` write the 3 targets from `lean/` before they
-  compile them.
+- **The code that runs is generated from the proved source.** `make check`, the test targets and
+  `nix build` write the 3 targets from `lean/` before they compile them. Git holds the generated
+  Go, which `go get` fetches, and no generated Rust or Python.
 - **No extra axioms.** Every theorem depends only on `propext`, `Classical.choice` and
   `Quot.sound`.
 
@@ -508,6 +508,7 @@ is written by hand, and every row holds for each of them:
 | | Trusted |
 |---|---|
 | Translation | leanfran's Rust, Python and Go backends and their runtimes, rustc, CPython, the Go compiler, Lean's kernel |
+| Committed Go | that the generated Go git holds under `go/*/gen/` is what `make generate-go` writes from `lean/` at that commit: the test targets write it again before they compile it |
 | Engine | the memory engine: one command at a time per process, under one lock (Rust, Python), or per tenant, under the tenant's lock and in its `leanfran.Region` (Go); replies stored per idempotency key. The PostgreSQL engines: the 8 items of their contract, PostgreSQL's `SERIALIZABLE` (its commits equal a serial order) and its deferrable read-only snapshot, the conversion of values to parameters and of columns back to values, the stored form of the calculator's replies (`Storage::encode_reply` and `decode_reply`, `Storage.encode_reply`: 8 bytes), and for the notes the reading of the bytes of a stored reply as UTF-8 before `decodeReply` gets the text, and that the engine's role isn't a superuser and doesn't own the tables. In Rust, tokio-postgres and deadpool-postgres, and each value a parameter of the type PostgreSQL inferred. In Python, psycopg and the libpq it bundles, the engine's pool, each value a parameter of the type of its kind, and that the generated Python computes what Lean computes when several threads call it at once, as the PostgreSQL engine does and the memory engine, under its lock, doesn't. In Go, pgx and pgxpool, which take the `PG*` environment variables as the defaults of the connection string, each value a parameter of the type PostgreSQL inferred, and that the generated Go computes what Lean computes when several goroutines call it at once, as the PostgreSQL engine does for its requests and the memory engine for different tenants, each in a `leanfran.Region` of its own |
 | Authentication | HMAC-SHA256 and the constant-time comparison of tags, which each server computes over the payload `authenticate` returns; the secret and its storage; the system clock, whose time each server gives `request`; that a server answers a tag that does not match with `failed` of `badSignature`; the table of accepted headers (a header whose token was accepted once is recognised by its exact bytes and gets the claims read then, without a second reading; its expiry is checked by `request` on every request) |
 | Wire format | that each handler turns the outcome of its engine into the argument of `respond` and `failed` as the names say (`rust/leangage/src/http.rs`, `python/src/leangage/http.py`, `go/leangage/http.go`) |
