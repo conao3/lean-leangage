@@ -296,8 +296,8 @@ nix develop --command make bench   # commands per second through the kernel; too
 nix run                            # the Rust calculator server
 ```
 
-A release is one run of the workflow, which pushes the tag and publishes `leangage` and
-`leangage-pg` to crates.io and `leangage` to PyPI:
+A release is one run of the workflow, which pushes the tags `v<version>` and `go/v<version>`
+and publishes `leangage` and `leangage-pg` to crates.io and `leangage` to PyPI:
 
 ```sh
 gh workflow run release.yml --ref master -f version_bump=patch

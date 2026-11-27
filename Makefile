@@ -11,7 +11,7 @@ RUST_CALCULATOR := $(CURDIR)/rust/target/debug/leangage-calculator
 all: check
 
 .PHONY: check
-check: format-check audit handlers test
+check: format-check audit generated-check handlers test
 
 .PHONY: format
 format:
@@ -77,6 +77,11 @@ generate-go: lean
 	leanfran-go module generate --module-name Calculator.Wire --search-path lean/.lake/build/lib/lean --type-module Calculator.Kernel=github.com/conao3/lean-leangage/go/calculator/gen/kernel --type-module Leangage.Http=github.com/conao3/lean-leangage/go/leangage/gen/httpformat --type-module Leangage.Json.Lexemes=github.com/conao3/lean-leangage/go/leangage/gen/jsonlexemes --output-dir go/calculator/gen/wire --output text
 	leanfran-go module generate --module-name Notes.Kernel --search-path lean/.lake/build/lib/lean --output-dir go/notes/gen/kernel --output text
 	leanfran-go module generate --module-name Notes.Store --search-path lean/.lake/build/lib/lean --output-dir go/notes/gen/store --output text
+
+.PHONY: generated-check
+generated-check: generate-go
+	git diff --exit-code -- go/calculator/gen go/leangage/gen go/notes/gen
+	test -z "$$(git ls-files --others --exclude-standard -- go/calculator/gen go/leangage/gen go/notes/gen)"
 
 .PHONY: handlers
 handlers:

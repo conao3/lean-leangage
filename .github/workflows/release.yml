@@ -49,11 +49,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           version=$(nix develop --command uv --directory python version --bump "$BUMP" --dry-run --short)
-          existing=$(gh api "repos/$GITHUB_REPOSITORY/git/matching-refs/tags/v$version" --jq "[.[] | select(.ref == \"refs/tags/v$version\")] | length")
-          if [[ "$existing" != 0 ]]; then
-            echo "::error::Tag v$version already exists."
-            exit 1
-          fi
+          for tag in "v$version" "go/v$version"; do
+            existing=$(gh api "repos/$GITHUB_REPOSITORY/git/matching-refs/tags/$tag" --jq "[.[] | select(.ref == \"refs/tags/$tag\")] | length")
+            if [[ "$existing" != 0 ]]; then
+              echo "::error::Tag $tag already exists."
+              exit 1
+            fi
+          done
           echo "version=$version" >> "$GITHUB_OUTPUT"
       - name: Commit version bump
         env:
@@ -66,6 +68,8 @@ jobs:
           git commit -m "Bump version to $VERSION" -- "${files[@]}"
       - name: Generate the Rust and the Python code
         run: nix develop --command make generate-rust generate-python
+      - name: Verify the committed Go code
+        run: nix develop --command make generated-check
       - name: Verify crates
         run: |
           if [[ -n "$(git status --porcelain)" ]]; then
@@ -119,7 +123,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git tag -a "v$VERSION" -m "$PACKAGE v$VERSION" "$commit"
-          git push --atomic origin "$commit:refs/heads/$DEFAULT_BRANCH" "refs/tags/v$VERSION"
+          git tag -a "go/v$VERSION" -m "$PACKAGE v$VERSION" "$commit"
+          git push --atomic origin "$commit:refs/heads/$DEFAULT_BRANCH" "refs/tags/v$VERSION" "refs/tags/go/v$VERSION"
 
   publish-crates:
     name: Publish to crates.io

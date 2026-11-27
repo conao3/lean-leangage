@@ -181,7 +181,8 @@ leangage: the contract of a kernel proved in Lean 4, and the servers that run th
 - Generated files live in directories named `gen` (`rust/*/src/gen/`,
   `python/src/*/gen/`, `go/*/gen/`) and are never edited. Git ignores those of Rust and Python
   with the line `gen/` of `.gitignore` and holds those of Go (`!/go/*/gen/`), which `go get`
-  fetches: a commit that changes what `make generate-go` writes carries the new `go/*/gen/`.
+  fetches: a commit that changes what `make generate-go` writes carries the new `go/*/gen/`,
+  and `make generated-check` fails when the committed files differ from what it writes.
   `make generate` writes them from `lean/`, and `make generate-rust`, `make generate-python` and
   `make generate-go` write those of one language. The `test-rust`, `test-python`, `test-go`,
   `bench` and `bench-bytes` targets write them first, and `nix build` writes the Rust ones in
@@ -238,16 +239,17 @@ All commands run inside `nix develop`.
   `cargo clippy -- -D warnings`, `cargo test`, `uv run pytest`, `go vet`, `go test -race`.
 - `make test-rust`, `make test-python`, `make test-go`: generation and the tests of one language
   (`make test` runs the 3). CI runs them as 3 jobs next to the job of
-  `make format-check handlers` and the job of `nix build`; `make audit` runs on the developer's
+  `make format-check generated-check handlers` and the job of `nix build`; `make audit` runs on the developer's
   machine, in `make check`.
 - `make generate`, `make format`, `make bench`.
 - A release is one run of `release.yml`:
   `gh workflow run release.yml --ref master -f version_bump=patch`. The run writes the next
   version with `tools/bump-version.sh` (`rust/Cargo.toml`, the dependency of `leangage-pg` on
   `leangage`, `rust/Cargo.lock`, `flake.nix`, `python/pyproject.toml`, `python/uv.lock`),
-  generates the Rust and the Python code, pushes the commit with the tag `v<version>`, publishes
-  the crates `leangage` and `leangage-pg` to crates.io and the package `leangage` to PyPI, and
-  creates the GitHub Release. Tags are pushed by the run alone. The crates name `src/gen/` in
+  generates the Rust and the Python code, runs `make generated-check`, pushes the commit with the
+  tags `v<version>` and `go/v<version>` (the version of the Go module), publishes the crates
+  `leangage` and `leangage-pg` to crates.io and the package `leangage` to PyPI, and creates the
+  GitHub Release. Tags are pushed by the run alone. The crates name `src/gen/` in
   `include`, and `cargo publish` gets `--allow-dirty` for those ignored files after a check that
   nothing else differs from the commit. The wheel holds the package `leangage`; the calculator
   and the notes stay in the repository, as the crates with `publish = false` do.
