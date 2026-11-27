@@ -3,7 +3,11 @@ defaultTargets = ["Audit"]
 
 [[require]]
 name = "leangage"
-path = "../lean"
+path = "../langs/lean"
+
+[[require]]
+name = "leangage-samples"
+path = "../samples/lean"
 
 [[require]]
 name = "assay"

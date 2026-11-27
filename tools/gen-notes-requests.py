@@ -1,7 +1,7 @@
 """Writes the lines that the Lean notes request oracle and the Rust notes server both answer.
 
 Deterministic: the same seed and count give the same file. The line format is described in
-`lean/NotesRequestOracle.lean`. The bodies are the notes' commands with their members in any
+`samples/lean/NotesRequestOracle.lean`. The bodies are the notes' commands with their members in any
 order and with every spelling of a string, and bodies close to one: a member removed, added,
 repeated or holding another value. `library_body` writes the bodies on which a JSON library could
 differ from the grammar: a member twice, members in another order, the space between tokens,

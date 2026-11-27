@@ -1,8 +1,8 @@
 """Writes the token lists that the Lean JSON oracle and the Rust, Python and Go servers all write.
 
 Deterministic: the same seed and count give the same file. The line format is described in
-`lean/JsonOracle.lean`. Strings hold control bytes, quotes, backslashes, bytes of UTF-8 and bytes
-that are not UTF-8; half of the lists are JSON documents and the other half any tokens.
+`langs/lean/JsonOracle.lean`. Strings hold control bytes, quotes, backslashes, bytes of UTF-8 and
+bytes that are not UTF-8; half of the lists are JSON documents and the other half any tokens.
 """
 
 import random

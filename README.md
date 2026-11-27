@@ -7,10 +7,10 @@
 <p align="center">
   <a href="https://github.com/conao3/lean-leangage/actions/workflows/ci.yml"><img src="https://github.com/conao3/lean-leangage/actions/workflows/ci.yml/badge.svg?branch=master" alt="CI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/conao3/lean-leangage" alt="License: Apache-2.0"></a>
-  <a href="lean/lean-toolchain"><img src="https://img.shields.io/badge/Lean-v4.35.0-blue" alt="Lean v4.35.0"></a>
-  <a href="rust/Cargo.toml"><img src="https://img.shields.io/badge/Rust-edition%202024-orange" alt="Rust edition 2024"></a>
-  <a href="python/pyproject.toml"><img src="https://img.shields.io/badge/Python-%E2%89%A53.13-3776AB" alt="Python 3.13 or later"></a>
-  <a href="go/go.mod"><img src="https://img.shields.io/badge/Go-1.27-00ADD8" alt="Go 1.27"></a>
+  <a href="langs/lean/lean-toolchain"><img src="https://img.shields.io/badge/Lean-v4.35.0-blue" alt="Lean v4.35.0"></a>
+  <a href="langs/rust/Cargo.toml"><img src="https://img.shields.io/badge/Rust-edition%202024-orange" alt="Rust edition 2024"></a>
+  <a href="langs/python/pyproject.toml"><img src="https://img.shields.io/badge/Python-%E2%89%A53.13-3776AB" alt="Python 3.13 or later"></a>
+  <a href="langs/go/go.mod"><img src="https://img.shields.io/badge/Go-1.27-00ADD8" alt="Go 1.27"></a>
   <a href="https://github.com/conao3/lean-leangage/stargazers"><img src="https://img.shields.io/github/stars/conao3/lean-leangage?style=flat" alt="GitHub stars"></a>
 </p>
 
@@ -41,7 +41,7 @@ The same kernel runs today from Rust, from Python and from Go.
 The server libraries are the crates [`leangage`](https://crates.io/crates/leangage) and
 [`leangage-pg`](https://crates.io/crates/leangage-pg), the PyPI package
 [`leangage`](https://pypi.org/project/leangage/) and the Go module
-`github.com/conao3/lean-leangage/go`.
+`github.com/conao3/lean-leangage/langs/go`.
 
 The design follows [h5i-app](https://github.com/h5i-dev/h5i/blob/main/crates/h5i-app/README.md),
 which does this for Rust by translating Rust to Lean. leangage goes the other way: Lean is the
@@ -52,7 +52,8 @@ source, and you get the host language by generation.
 A kernel is one pure function. A tenant is one organization's data, a snapshot is the state of
 one tenant, and a principal is the caller: an organization and a user. The kernel takes a
 principal, a snapshot and a command, and returns what to store and what to reply, or a refusal.
-[`lean/Calculator/Kernel.lean`](lean/Calculator/Kernel.lean) keeps one number per user:
+[`samples/lean/Calculator/Kernel.lean`](samples/lean/Calculator/Kernel.lean) keeps one number per
+user:
 
 ```lean
 def transition (actor : Principal) (snap : Snapshot) (cmd : Command) :
@@ -69,11 +70,11 @@ def transition (actor : Principal) (snap : Snapshot) (cmd : Command) :
 `compute` is `+`, `-`, `*` and `/` on 64-bit numbers. It refuses a result that doesn't fit 64 bits
 (`overflow`), a subtraction below zero (`underflow`) and a division by zero (`division_by_zero`).
 
-Among the theorems of [`lean/Calculator/Proofs.lean`](lean/Calculator/Proofs.lean): the reply is
-`specStep` (arithmetic on unbounded naturals) of the caller's number, and the command is refused
-exactly when `specStep` refuses (`transition_spec`); after an accepted command, `get` by the same
-user returns that command's reply (`get_after`); a command leaves every other user's number as
-it was (`others_unchanged`).
+Among the theorems of [`samples/lean/Calculator/Proofs.lean`](samples/lean/Calculator/Proofs.lean):
+the reply is `specStep` (arithmetic on unbounded naturals) of the caller's number, and the command
+is refused exactly when `specStep` refuses (`transition_spec`); after an accepted command, `get` by
+the same user returns that command's reply (`get_after`); a command leaves every other user's number
+as it was (`others_unchanged`).
 
 ### Run it
 
@@ -83,10 +84,10 @@ The 3 servers run the same Lean modules, generated to Rust, to Python and to Go.
 ```console
 $ make generate
 $ export LEANGAGE_SECRET=dev-secret
-$ TOKEN=$(cd rust && LEANGAGE_ISSUE=1:7 cargo run --release -q --bin leangage-calculator)
-$ cd rust && LEANGAGE_LISTEN=127.0.0.1:8080 cargo run --release -q --bin leangage-calculator &
-$ cd python && LEANGAGE_LISTEN=127.0.0.1:8081 uv run python -m leangage_calculator &
-$ cd go && LEANGAGE_LISTEN=127.0.0.1:8082 go run ./calculator/cmd/leangage-calculator &
+$ TOKEN=$(cd samples/rust && LEANGAGE_ISSUE=1:7 cargo run --release -q --bin leangage-calculator)
+$ cd samples/rust && LEANGAGE_LISTEN=127.0.0.1:8080 cargo run --release -q --bin leangage-calculator &
+$ cd samples/python && LEANGAGE_LISTEN=127.0.0.1:8081 uv run python -m leangage_calculator &
+$ cd samples/go && LEANGAGE_LISTEN=127.0.0.1:8082 go run ./calculator/cmd/leangage-calculator &
 $ curl -s -H "Authorization: Bearer $TOKEN" -d '{"cmd":"set","value":6}' 127.0.0.1:8080/rpc
 {"value":6}
 $ curl -s -H "Authorization: Bearer $TOKEN" -d '{"cmd":"apply","op":"mul","arg":7}' 127.0.0.1:8080/rpc
@@ -135,8 +136,8 @@ status code or calls a JSON library. The functions, their theorems and the trie 
 
 A kernel declares its tables as a `List Tab`, and functions that write each row type to a row,
 read it back and turn a write set into row writes.
-[`lean/Calculator/Store.lean`](lean/Calculator/Store.lean) stores the calculator's numbers in one
-table keyed by the user:
+[`samples/lean/Calculator/Store.lean`](samples/lean/Calculator/Store.lean) stores the calculator's
+numbers in one table keyed by the user:
 
 ```lean
 def tables : List Tab := [⟨"memories", [⟨"user", .int, false⟩, ⟨"value", .int, false⟩], 1⟩]
@@ -151,8 +152,8 @@ read-only command without an idempotency key in a `SERIALIZABLE READ ONLY DEFERR
 attempt that ends in a serialization failure is retried.
 
 Lean proves the compiler against a model of PostgreSQL
-([`lean/Leangage/Sql/Model.lean`](lean/Leangage/Sql/Model.lean)). For a schema that `valid`
-accepts and tables as `create` made them, a compiled statement runs and changes the tenant's
+([`langs/lean/Leangage/Sql/Model.lean`](langs/lean/Leangage/Sql/Model.lean)). For a schema that
+`valid` accepts and tables as `create` made them, a compiled statement runs and changes the tenant's
 rows as the model's `exec` says (`compile_sound`), and statements compiled for one tenant leave
 every other tenant's rows as they were (`tenant_isolation`). That PostgreSQL does what the model
 says is trusted, and tests on a real server check it.
@@ -164,9 +165,9 @@ server with `LEANGAGE_LOCKDOWN=<owner>:<engine role>`, which creates the tables 
 and exits. With the secret and the bearer token of [Run it](#run-it):
 
 ```console
-$ (cd rust && LEANGAGE_DATABASE_URL='host=/run/postgresql user=postgres dbname=calc' \
+$ (cd samples/rust && LEANGAGE_DATABASE_URL='host=/run/postgresql user=postgres dbname=calc' \
     LEANGAGE_LOCKDOWN=leangage_owner:leangage_engine cargo run --release -q --bin leangage-calculator)
-$ cd rust && LEANGAGE_DATABASE_URL='host=/run/postgresql user=leangage_engine dbname=calc' \
+$ cd samples/rust && LEANGAGE_DATABASE_URL='host=/run/postgresql user=leangage_engine dbname=calc' \
     LEANGAGE_LISTEN=127.0.0.1:8083 cargo run --release -q --bin leangage-calculator &
 $ curl -s -H "Authorization: Bearer $TOKEN" -d '{"cmd":"apply","op":"add","arg":1}' 127.0.0.1:8083/rpc
 {"value":1}
@@ -181,14 +182,14 @@ The 3 engines, their contract and the obligations of a `Leangage.Storage`:
 
 ## The notes
 
-[`lean/Notes/Kernel.lean`](lean/Notes/Kernel.lean) keeps notes in an organization with members
-and admins, after h5i's notes example. A note is visible to everyone if it is shared, otherwise to
-its owner and admins; the owner or an admin edits and deletes it.
+[`samples/lean/Notes/Kernel.lean`](samples/lean/Notes/Kernel.lean) keeps notes in an organization
+with members and admins, after h5i's notes example. A note is visible to everyone if it is shared,
+otherwise to its owner and admins; the owner or an admin edits and deletes it.
 
 The kernel's `handle` decides what each command does and holds no authorization. The policy is
 the Bool functions `permits`, `visible` and `stored`, and `view`, the rows of a snapshot the
 caller may see; `disclosed` gives the rows a reply shows. The function the engine runs is `handle`
-behind the guard of [`lean/Leangage/Authz.lean`](lean/Leangage/Authz.lean):
+behind the guard of [`langs/lean/Leangage/Authz.lean`](langs/lean/Leangage/Authz.lean):
 
 ```lean
 def transition (a : Principal) (s : Snapshot) (c : Command) :
@@ -198,8 +199,9 @@ def transition (a : Principal) (s : Snapshot) (c : Command) :
 
 The guard checks each write, and each row the reply discloses, against the policy. One refused
 write or row refuses the whole command with `denied`, and nothing is stored. A read-only command
-runs on the caller's view. [`lean/Leangage/AuthzProofs.lean`](lean/Leangage/AuthzProofs.lean)
-proves, once for every kernel and policy:
+runs on the caller's view.
+[`langs/lean/Leangage/AuthzProofs.lean`](langs/lean/Leangage/AuthzProofs.lean) proves, once for
+every kernel and policy:
 
 - `guard_authorized`: a command that `guard` accepts is the kernel's own result, each write is
   permitted in the state the writes before it leave, and each disclosed row is stored and
@@ -215,9 +217,9 @@ proves, once for every kernel and policy:
 With the same secret, user 1 is an admin and user 2 is no member:
 
 ```console
-$ A=$(cd rust && LEANGAGE_ISSUE=1:1 cargo run --release -q --bin leangage-notes)
-$ B=$(cd rust && LEANGAGE_ISSUE=1:2 cargo run --release -q --bin leangage-notes)
-$ cd rust && LEANGAGE_LISTEN=127.0.0.1:8086 cargo run --release -q --bin leangage-notes &
+$ A=$(cd samples/rust && LEANGAGE_ISSUE=1:1 cargo run --release -q --bin leangage-notes)
+$ B=$(cd samples/rust && LEANGAGE_ISSUE=1:2 cargo run --release -q --bin leangage-notes)
+$ cd samples/rust && LEANGAGE_LISTEN=127.0.0.1:8086 cargo run --release -q --bin leangage-notes &
 $ curl -s -H "Authorization: Bearer $A" -d '{"cmd":"add_member","user":1,"admin":true}' 127.0.0.1:8086/rpc
 {"done":true}
 $ curl -s -H "Authorization: Bearer $A" -d '{"cmd":"put_note","id":7,"body":"draft","shared":false}' 127.0.0.1:8086/rpc
@@ -226,9 +228,9 @@ $ curl -s -H "Authorization: Bearer $B" -d '{"cmd":"put_note","id":7,"body":"min
 {"error":"denied"}
 ```
 
-Only Rust has a notes server ([`rust/notes`](rust/notes)). The notes kernel is generated to
-Python and Go too, and runs there in the differential tests. The notes' theorems, requests and
-responses: [docs/notes.md](docs/notes.md).
+Only Rust has a notes server ([`samples/rust/notes`](samples/rust/notes)). The notes kernel is
+generated to Python and Go too, and runs there in the differential tests. The notes' theorems,
+requests and responses: [docs/notes.md](docs/notes.md).
 
 ## What is proved, and what is trusted
 
@@ -275,11 +277,15 @@ The kernel alone, Python, PostgreSQL and the method: [docs/speed.md](docs/speed.
 
 | Path | Contents |
 |---|---|
-| [`lean/`](lean) | the Lean source: `Leangage` (the contract, the guard, the SQL compiler, the format of the bearer token, the JSON writer, the functions on requests, and their proofs), `Calculator`, `Notes`, and the native programs the differential tests compare with |
+| [`langs/lean/`](langs/lean) | the Lean library `Leangage` (the contract, the guard, the SQL compiler, the format of the bearer token, the JSON writer, the functions on requests, and their proofs) and the native programs the differential tests of the libraries compare with |
+| [`langs/rust/`](langs/rust) | the server library `leangage` and the PostgreSQL engine `leangage-pg` |
+| [`langs/python/`](langs/python) | the server library `leangage` with the PostgreSQL engine `leangage.pg` |
+| [`langs/go/`](langs/go) | the server library `leangage` with the PostgreSQL engine `leangage/pg` |
+| [`samples/lean/`](samples/lean) | `Calculator`, `Notes`, and the native programs the differential tests of the samples compare with |
+| [`samples/rust/`](samples/rust) | the `calculator` and the `notes` server |
+| [`samples/python/`](samples/python) | the calculator server, the notes kernel and tables |
+| [`samples/go/`](samples/go) | the calculator server, the notes kernel and tables |
 | [`audit/`](audit) | the leanassay audits, the axiom check and the obligation check |
-| [`rust/`](rust) | the server library `leangage`, the PostgreSQL engine `leangage-pg`, the `calculator` and the `notes` server |
-| [`python/`](python) | the server library `leangage` with the PostgreSQL engine `leangage.pg`, the calculator server, the notes kernel and tables |
-| [`go/`](go) | the server library `leangage` with the PostgreSQL engine `leangage/pg`, the calculator server, the notes kernel and tables |
 | [`bench/`](bench) | the servers without a kernel for the HTTP comparison |
 | [`tools/`](tools) | the generators of the test lists, the measurement scripts and `check-handlers.py` |
 | [`testdata/`](testdata) | the lists of commands, SQL statements, bearer tokens, JSON token lists and requests of the differential tests |
@@ -296,16 +302,17 @@ nix develop --command make bench   # commands per second through the kernel; too
 nix run                            # the Rust calculator server
 ```
 
-A release is one run of the workflow, which pushes the tags `v<version>` and `go/v<version>`
-and publishes `leangage` and `leangage-pg` to crates.io and `leangage` to PyPI:
+A release is one run of the workflow, which pushes the tags `v<version>` and
+`langs/go/v<version>` and publishes `leangage` and `leangage-pg` to crates.io and `leangage` to
+PyPI:
 
 ```sh
 gh workflow run release.yml --ref master -f version_bump=patch
 ```
 
-`make generate` writes the generated Rust, Python and Go from `lean/` into directories named
-`gen`. Git holds the Go ones, which `go get` fetches, and ignores the Rust and Python ones: a
-clone holds those after `make generate`, a test target or `make bench`.
+`make generate` writes the generated Rust, Python and Go from `langs/lean/` and `samples/lean/`
+into directories named `gen`. Git holds the Go ones, which `go get` fetches, and ignores the Rust
+and Python ones: a clone holds those after `make generate`, a test target or `make bench`.
 
 ## License
 

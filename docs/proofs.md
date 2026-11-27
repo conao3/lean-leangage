@@ -363,23 +363,23 @@ Checked by `make check`, not proved:
   JSON library and their conversion file and give the tokens to the generated functions, and
   the tests print the tokens of a text through the generated `unpack`; the oracle reads
   them with a JSON reader written in Lean
-  ([`lean/Oracle/JsonText.lean`](../lean/Oracle/JsonText.lean)), which only the oracles import, and
-  packs them with `pack`. So the lists compare what each library hands over with that reader.
-  3,000 notes request lines (1,766 requests, 594 of them accepted and 1,172 answered 400, 401 or
-  413: the members of a command in any order, a member missing, added, repeated or renamed,
+  ([`langs/lean/Oracle/JsonText.lean`](../langs/lean/Oracle/JsonText.lean)), which only the oracles
+  import, and packs them with `pack`. So the lists compare what each library hands over with that
+  reader. 3,000 notes request lines (1,766 requests, 594 of them accepted and 1,172 answered 400,
+  401 or 413: the members of a command in any order, a member missing, added, repeated or renamed,
   values of other kinds, bodies with every escape, expired tokens; 504 responses; 385
   fingerprints; 125 scopes; 220 stored replies, of which `decodeReply` reads 153) give the same
   commands, statuses and bytes in Rust as in the functions compiled natively by
-  Lean (`rust/notes/tests/request_differential.rs`). There, the body of each of the 380 accepted
-  replies is what serde_json writes for the same value and is read back by `decode_reply`, and
-  the fingerprint of each of the 265 commands without a body is the `Debug` form of the command.
+  Lean (`samples/rust/notes/tests/request_differential.rs`). There, the body of each of the 380
+  accepted replies is what serde_json writes for the same value and is read back by `decode_reply`,
+  and the fingerprint of each of the 265 commands without a body is the `Debug` form of the command.
   The Go and the Python table functions of the notes are generated and compiled, a
   Python test imports them and runs their `load` on a few rows, and no differential test runs
   them.
 - **Where the JSON libraries differ.** The lists hold the texts on which serde_json,
   `encoding/json/jsontext` and `json` agree. A test of each language
-  (`rust/leangage/tests/json_library.rs`, `go/leangage/json_library_test.go`,
-  `python/test/test_json_library.py`) states what its library and conversion file do with the
+  (`langs/rust/leangage/tests/json_library.rs`, `langs/go/leangage/json_library_test.go`,
+  `langs/python/test/test_json_library.py`) states what its library and conversion file do with the
   others:
 
   | Text | Rust (serde_json) | Go (`encoding/json/jsontext`) | Python (`json`) |
@@ -403,19 +403,20 @@ Checked by `make check`, not proved:
   `respond`, `fingerprint`, `scope`, and `encode_reply` and `decode_reply` for the notes) or
   holds a JSON library, a status code (a constant of the HTTP library or a number from 100 to
   599) or the JSON writer. It reads the 3 conversion files, the one place of each language that
-  calls the JSON library (`rust/leangage/src/json_text.rs`, 157 lines;
-  `go/leangage/json_text.go`, 117 lines; `python/src/leangage/json_text.py`, 86 lines), and fails
-  when one lacks the library's reading calls or holds a status code, a lookup of a member by its
-  name, a comparison with a text or a type of the library that holds a whole value.
-- **The servers give the answers of the generated functions.** `rust/calculator/tests/http.rs`,
-  `python/test/test_http.py` and `go/calculator/http_test.go` send requests without a header,
-  with another scheme, with a malformed, a forged and an expired token, with bodies that are not
-  JSON, not UTF-8 or not a command, and with a reused idempotency key, and require the status
-  and the body of each answer. A token that is both forged and expired is answered
-  `bad token signature`. A body of nothing but `[`, 2 MiB of it in Rust and Go and 20,000 bytes
-  in Python, is answered 400 `body is not JSON`, and one of as many `[` as `]` is answered 400: as no
-  command where the library reads it (100 deep in Rust, 10,000 in Go and Python), as no JSON
-  where it refuses the depth (500,000 in Rust, 10,001 in Go).
+  calls the JSON library (`langs/rust/leangage/src/json_text.rs`, 157 lines;
+  `langs/go/leangage/json_text.go`, 117 lines; `langs/python/src/leangage/json_text.py`, 86 lines),
+  and fails when one lacks the library's reading calls or holds a status code, a lookup of a member
+  by its name, a comparison with a text or a type of the library that holds a whole value.
+- **The servers give the answers of the generated functions.**
+  `samples/rust/calculator/tests/http.rs`, `samples/python/calculator/test/test_http.py` and
+  `samples/go/calculator/http_test.go` send requests without a header, with another scheme, with a
+  malformed, a forged and an expired token, with bodies that are not JSON, not UTF-8 or not a
+  command, and with a reused idempotency key, and require the status and the body of each answer. A
+  token that is both forged and expired is answered `bad token signature`. A body of nothing but
+  `[`, 2 MiB of it in Rust and Go and 20,000 bytes in Python, is answered 400 `body is not JSON`,
+  and one of as many `[` as `]` is answered 400: as no command where the library reads it (100 deep
+  in Rust, 10,000 in Go and Python), as no JSON where it refuses the depth (500,000 in Rust, 10,001
+  in Go).
 - **PostgreSQL stores and reads the rows as the model says.** The same 5,000 calculator commands
   run through the Rust PostgreSQL engine, on a server that the tests start in a temporary
   directory, give the same output as through the memory engine and as in Lean: once on an engine
@@ -423,51 +424,52 @@ Checked by `make check`, not proved:
   remembers them; the notes commands and the Python and the Go engines run the same way, and the
   values below are read back by engines that remember no snapshot. Along the
   same commands, which mix 3 tenants, each command leaves every row but its own user's as it
-  was (`rust/calculator/tests/postgres.rs`). Values of every kind, `NULL` included, at the bounds
-  of 64 bits, text with quotes and characters outside ASCII and bytes 0 to 255, in a table and
-  columns whose names hold `"`, read back as written; a text holding NUL, which PostgreSQL can't
-  store, fails the command (`rust/leangage-pg/tests/values.rs`). A calculator server started
+  was (`samples/rust/calculator/tests/postgres.rs`). Values of every kind, `NULL` included, at the
+  bounds of 64 bits, text with quotes and characters outside ASCII and bytes 0 to 255, in a table
+  and columns whose names hold `"`, read back as written; a text holding NUL, which PostgreSQL can't
+  store, fails the command (`langs/rust/leangage-pg/tests/values.rs`). A calculator server started
   again on the same database answers from the rows the first one stored. The same holds for the
   Python engine and the generated Python table functions behind it
-  (`python/test/test_pg_calculator.py`, `python/test/test_pg_values.py`). There, tenants of 2^63
-  and more are stored under the `Int64` with the same bits, and the 15 principals of the command
-  list each run their commands from a thread of their own, with and without the advisory lock and
-  the remembered snapshots, and get the replies Lean gives. The Rust and the Python calculator servers run on one database at
-  once: the 5,000 commands go to them in turn and get the replies Lean gives, and a reply stored
-  under an idempotency key by either server is replayed by the other and refused with another
-  command. The same holds for the Go engine and the generated Go table functions behind it
-  (`go/calculator/postgres_test.go`, `go/leangage/pg/values_test.go`, which reads the values
-  back before and after a row is replaced, and stores empty bytes from a `nil` slice and from an
-  empty one as empty bytes and not as `NULL`). The Rust and the Go calculator servers run on one
-  database whose tables the Rust server's `LEANGAGE_LOCKDOWN` made: the 5,000 commands go to
-  them in turn and get the replies Lean gives; every tenth carries an idempotency key and is sent
-  again with that key to the other server, which answers alike (from the stored reply for the 424
-  accepted ones) and refuses the key with another command; at the end both answer `get` alike for
-  every user. No test runs the Python and the Go servers on one database. Each of the 3
-  engines, in the test's process, shares a database with the Rust server in a process of its own:
-  after each write of the server, the engine's next command, read-only or not, reads the value it
-  wrote, and after 200 additions from the engine and 200 from the server at once, both read the sum
-  (`engine_reads_what_a_server_process_wrote` in `rust/calculator/tests/postgres.rs`,
-  `test_engine_reads_what_the_rust_server_wrote`, `TestEngineReadsWhatTheRustServerWrote`). The
-  3,000 notes commands run through the Rust PostgreSQL engine give the same output
-  as through the memory engine and as in Lean, listings and denials included
-  (`rust/notes/tests/differential.rs`). Along them, which mix 2 tenants, each of the 1,826
-  refused commands (1,383 denied by the guard) and of the 849 accepted read-only commands leaves
-  every row of both tables as it was, and every other command leaves the other tenant's rows as
-  they were (`rust/notes/tests/postgres.rs`). A body holding NUL is refused on both engines and
-  writes no row. The stored form of each of the 1,174 replies of the list reads back as the reply,
-  and a repeated keyed request gets the stored reply. A notes server started again on the same
-  database answers from the rows the first one stored.
+  (`samples/python/calculator/test/test_pg_calculator.py`, `langs/python/test/test_pg_values.py`).
+  There, tenants of 2^63 and more are stored under the `Int64` with the same bits, and the 15
+  principals of the command list each run their commands from a thread of their own, with and
+  without the advisory lock and the remembered snapshots, and get the replies Lean gives. The Rust
+  and the Python calculator servers run on one database at once: the 5,000 commands go to them in
+  turn and get the replies Lean gives, and a reply stored under an idempotency key by either server
+  is replayed by the other and refused with another command. The same holds for the Go engine and
+  the generated Go table functions behind it (`samples/go/calculator/postgres_test.go`,
+  `langs/go/leangage/pg/values_test.go`, which reads the values back before and after a row is
+  replaced, and stores empty bytes from a `nil` slice and from an empty one as empty bytes and not
+  as `NULL`). The Rust and the Go calculator servers run on one database whose tables the Rust
+  server's `LEANGAGE_LOCKDOWN` made: the 5,000 commands go to them in turn and get the replies Lean
+  gives; every tenth carries an idempotency key and is sent again with that key to the other server,
+  which answers alike (from the stored reply for the 424 accepted ones) and refuses the key with
+  another command; at the end both answer `get` alike for every user. No test runs the Python and
+  the Go servers on one database. Each of the 3 engines, in the test's process, shares a database
+  with the Rust server in a process of its own: after each write of the server, the engine's next
+  command, read-only or not, reads the value it wrote, and after 200 additions from the engine and
+  200 from the server at once, both read the sum (`engine_reads_what_a_server_process_wrote` in
+  `samples/rust/calculator/tests/postgres.rs`, `test_engine_reads_what_the_rust_server_wrote`,
+  `TestEngineReadsWhatTheRustServerWrote`). The 3,000 notes commands run through the Rust PostgreSQL
+  engine give the same output as through the memory engine and as in Lean, listings and denials
+  included (`samples/rust/notes/tests/differential.rs`). Along them, which mix 2 tenants, each of
+  the 1,826 refused commands (1,383 denied by the guard) and of the 849 accepted read-only commands
+  leaves every row of both tables as it was, and every other command leaves the other tenant's rows
+  as they were (`samples/rust/notes/tests/postgres.rs`). A body holding NUL is refused on both
+  engines and writes no row. The stored form of each of the 1,174 replies of the list reads back as
+  the reply, and a repeated keyed request gets the stored reply. A notes server started again on the
+  same database answers from the rows the first one stored.
 - **The PostgreSQL engines keep their contract.**
-  [`rust/leangage-pg/tests/contract.rs`](../rust/leangage-pg/tests/contract.rs) runs a small
-  kernel written in Rust through the Rust engine,
-  [`python/test/test_pg_contract.py`](../python/test/test_pg_contract.py) one written in Python
-  through the Python engine, and [`go/leangage/pg/contract_test.go`](../go/leangage/pg/contract_test.go)
-  one written in Go through the Go engine, each with a hook the engine calls at 3 points of
-  each attempt and a proxy that loses a COMMIT. Each Python test has the name of the Rust test
-  with `test_` in front, and each Go test that name in camel case with `Test` in front
-  (`TestSerializationFailuresRetryInANewTransaction`); each checks the same, except where the last
-  2 columns say:
+  [`langs/rust/leangage-pg/tests/contract.rs`](../langs/rust/leangage-pg/tests/contract.rs) runs a
+  small kernel written in Rust through the Rust engine,
+  [`langs/python/test/test_pg_contract.py`](../langs/python/test/test_pg_contract.py) one written in
+  Python through the Python engine, and
+  [`langs/go/leangage/pg/contract_test.go`](../langs/go/leangage/pg/contract_test.go) one written in
+  Go through the Go engine, each with a hook the engine calls at 3 points of each attempt and a
+  proxy that loses a COMMIT. Each Python test has the name of the Rust test with `test_` in front,
+  and each Go test that name in camel case with `Test` in front
+  (`TestSerializationFailuresRetryInANewTransaction`); each checks the same, except where the last 2
+  columns say:
 
   | Item of the contract | Tests | Python | Go |
   |---|---|---|---|
@@ -491,14 +493,14 @@ Checked by `make check`, not proved:
   serializable conflicts (53200), which the engines retry. The Rust engine connects without TLS;
   the Python and the Go engines use TLS as the connection string's `sslmode` says (the default of
   libpq and of pgx is `prefer`).
-- **The Rust notes server answers the guard's refusals with 403.** `rust/notes/tests/http.rs`
-  sends denied writes, a read of a note the caller may not see (404), a bad body (422) and a
-  command with another member (400).
+- **The Rust notes server answers the guard's refusals with 403.**
+  `samples/rust/notes/tests/http.rs` sends denied writes, a read of a note the caller may not see
+  (404), a bad body (422) and a command with another member (400).
 - **The code that runs is generated from the proved source.** `make check`, the test targets and
-  `nix build` write the 3 targets from `lean/` before they compile them. Git holds the generated
-  Go, which `go get` fetches, and no generated Rust or Python: `make generated-check` writes the
-  Go again and fails on a difference from the committed files, in CI and before a release tags
-  the commit.
+  `nix build` write the 3 targets from `langs/lean/` and `samples/lean/` before they compile
+  them. Git holds the generated Go, which `go get` fetches, and no generated Rust or Python:
+  `make generated-check` writes the Go again and fails on a difference from the committed files,
+  in CI and before a release tags the commit.
 - **No extra axioms.** Every theorem depends only on `propext`, `Classical.choice` and
   `Quot.sound`.
 
@@ -512,12 +514,12 @@ is written by hand, and every row holds for each of them:
 | Translation | leanfran's Rust, Python and Go backends and their runtimes, rustc, CPython, the Go compiler, Lean's kernel |
 | Engine | the memory engine: one command at a time per process, under one lock (Rust, Python), or per tenant, under the tenant's lock and in its `leanfran.Region` (Go); replies stored per idempotency key. The PostgreSQL engines: the 8 items of their contract, PostgreSQL's `SERIALIZABLE` (its commits equal a serial order) and its deferrable read-only snapshot, the conversion of values to parameters and of columns back to values, the stored form of the calculator's replies (`Storage::encode_reply` and `decode_reply`, `Storage.encode_reply`: 8 bytes), and for the notes the reading of the bytes of a stored reply as UTF-8 before `decodeReply` gets the text, and that the engine's role isn't a superuser and doesn't own the tables. In Rust, tokio-postgres and deadpool-postgres, and each value a parameter of the type PostgreSQL inferred. In Python, psycopg and the libpq it bundles, the engine's pool, each value a parameter of the type of its kind, and that the generated Python computes what Lean computes when several threads call it at once, as the PostgreSQL engine does and the memory engine, under its lock, doesn't. In Go, pgx and pgxpool, which take the `PG*` environment variables as the defaults of the connection string, each value a parameter of the type PostgreSQL inferred, and that the generated Go computes what Lean computes when several goroutines call it at once, as the PostgreSQL engine does for its requests and the memory engine for different tenants, each in a `leanfran.Region` of its own |
 | Authentication | HMAC-SHA256 and the constant-time comparison of tags, which each server computes over the payload `authenticate` returns; the secret and its storage; the system clock, whose time each server gives `request`; that a server answers a tag that does not match with `failed` of `badSignature`; the table of accepted headers (a header whose token was accepted once is recognised by its exact bytes and gets the claims read then, without a second reading; its expiry is checked by `request` on every request) |
-| Wire format | that each handler turns the outcome of its engine into the argument of `respond` and `failed` as the names say (`rust/leangage/src/http.rs`, `python/src/leangage/http.py`, `go/leangage/http.go`) |
-| JSON input | serde_json (Rust), `encoding/json/jsontext` (Go) and `json` (Python), and the conversion file of each server library (`rust/leangage/src/json_text.rs`, `go/leangage/json_text.go`, `python/src/leangage/json_text.py`): that the tokens handed to `request` and `decodeReply` are those of the text of the body and of the stored reply, in its order, with every member of an object, a number as the text of its token (in Rust, where serde_json reads the number, the decimal of a token that is a `u64` and a text with a sign or an exponent for every other number) and a string and a key as their text, packed in one text as `pack` packs them (the kinds, a line feed, and the texts of the numbers, the strings and the keys, each but the last after the count of its characters and a colon); for the text that spells a command `c`, `pack (lexemesOf c)`, and for the text `encodeReply` writes for a reply `r`, `pack ((replyToks r).map Lexeme.ofStrTok)`, the tokens it writes with a number as its decimal; that bytes that are no JSON text give no tokens. serde_json's `arbitrary_precision` feature stays off: with it a number reaches the conversion as an object with a private member name, which a body can spell too. What is proved starts at those tokens. The texts on which the 3 libraries differ are listed above |
+| Wire format | that each handler turns the outcome of its engine into the argument of `respond` and `failed` as the names say (`langs/rust/leangage/src/http.rs`, `langs/python/src/leangage/http.py`, `langs/go/leangage/http.go`) |
+| JSON input | serde_json (Rust), `encoding/json/jsontext` (Go) and `json` (Python), and the conversion file of each server library (`langs/rust/leangage/src/json_text.rs`, `langs/go/leangage/json_text.go`, `langs/python/src/leangage/json_text.py`): that the tokens handed to `request` and `decodeReply` are those of the text of the body and of the stored reply, in its order, with every member of an object, a number as the text of its token (in Rust, where serde_json reads the number, the decimal of a token that is a `u64` and a text with a sign or an exponent for every other number) and a string and a key as their text, packed in one text as `pack` packs them (the kinds, a line feed, and the texts of the numbers, the strings and the keys, each but the last after the count of its characters and a colon); for the text that spells a command `c`, `pack (lexemesOf c)`, and for the text `encodeReply` writes for a reply `r`, `pack ((replyToks r).map Lexeme.ofStrTok)`, the tokens it writes with a number as its decimal; that bytes that are no JSON text give no tokens. serde_json's `arbitrary_precision` feature stays off: with it a number reaches the conversion as an object with a private member name, which a body can spell too. What is proved starts at those tokens. The texts on which the 3 libraries differ are listed above |
 | HTTP | axum, hyper and tokio (Rust); `http.server` (Python); `net/http` (Go); reading the `Authorization` and the `Idempotency-Key` header as text (a header with a byte outside visible ASCII counts as absent in Rust and Go); in Go, deciding whether the body is longer than 2 MiB or could not be read, before `request` gets it; in Rust, axum's own answer (413) to a body longer than 2 MiB, which no handler sees; in Python, that the server reads a body of any length; sending the status and the bytes a generated function returned, with `Content-Type: application/json` |
 | Call site | that a server runs the notes' `transition`. `handle`, the kernel without the guard, is generated and public too, and the guard's theorems say nothing about a caller of `handle`. For the request path of the calculator and of the notes, `tools/check-handlers.py` checks the calls |
 | SQL | that PostgreSQL reads the text as `lexName_quote`'s lexer reads a quoted name; that PostgreSQL, sent `render q` with its parameters, fails or does to the tables what `run` says, and that a `SELECT` returns the rows `selected` says in some order (`ORDER BY` isn't modeled); that values compare as Lean values do (text character by character, bytes byte by byte); that the tables were made by `create` of the same schema, since `CREATE TABLE IF NOT EXISTS` keeps a table of that name as it is; that no text holds NUL, which the model stores and PostgreSQL refuses (for the notes, `accepted_no_nul` proves it of every body an accepted command writes) |
-| Storage | that the PostgreSQL engines do what `Storage.Stored` says: each creates `tables` in a database without them, runs each command on the snapshot `load` builds of the rows of the compiled `SELECT` of each table or on the snapshot it remembers, and runs the statements compiled from `writes` of the accepted write set for the principal's tenant (`Kernel.tenant`, as the `Int64` with the same bits). An engine runs a command on a snapshot it remembers only while the tenant's row of `leangage_version` holds the version the engine read when it remembered it, and `Stored.cached` takes the database then to be one that `Stored` relates to that snapshot: the version is the same only if no transaction wrote the tenant's rows since. That holds when every transaction that writes a tenant's rows advances the tenant's version in the same transaction, as the 3 engines do, the version only grows, and `SERIALIZABLE` lets no 2 transactions advance it from the same value. For a row that exists, PostgreSQL's documentation says that a transaction whose `UPDATE` finds the row updated by a concurrent transaction that committed is rolled back ([Repeatable Read](https://www.postgresql.org/docs/18/transaction-iso.html#XACT-REPEATABLE-READ), which `SERIALIZABLE` extends, failing with 40001: [Serializable](https://www.postgresql.org/docs/18/transaction-iso.html#XACT-SERIALIZABLE)); it says nothing of `INSERT … ON CONFLICT DO UPDATE` at these levels ([INSERT](https://www.postgresql.org/docs/18/sql-insert.html#SQL-ON-CONFLICT)), so that the upsert fails the same way, for a row that exists and for one a concurrent transaction inserted, rests on `version_rows_conflict`; a writer that doesn't advance it, such as an engine built before `leangage_version` or an edit of the rows by hand, and tables dropped and made again while an engine runs, leave a remembered snapshot standing for rows that are no longer there. The code that does it is `rust/leangage-pg/src/lib.rs`, `python/src/leangage/pg/__init__.py` and `go/leangage/pg/pg.go`, and the `Storage` of the calculator in Rust, in Python and in Go and of the notes in Rust, which delegate to the generated functions; the differential tests and the contract tests check it |
+| Storage | that the PostgreSQL engines do what `Storage.Stored` says: each creates `tables` in a database without them, runs each command on the snapshot `load` builds of the rows of the compiled `SELECT` of each table or on the snapshot it remembers, and runs the statements compiled from `writes` of the accepted write set for the principal's tenant (`Kernel.tenant`, as the `Int64` with the same bits). An engine runs a command on a snapshot it remembers only while the tenant's row of `leangage_version` holds the version the engine read when it remembered it, and `Stored.cached` takes the database then to be one that `Stored` relates to that snapshot: the version is the same only if no transaction wrote the tenant's rows since. That holds when every transaction that writes a tenant's rows advances the tenant's version in the same transaction, as the 3 engines do, the version only grows, and `SERIALIZABLE` lets no 2 transactions advance it from the same value. For a row that exists, PostgreSQL's documentation says that a transaction whose `UPDATE` finds the row updated by a concurrent transaction that committed is rolled back ([Repeatable Read](https://www.postgresql.org/docs/18/transaction-iso.html#XACT-REPEATABLE-READ), which `SERIALIZABLE` extends, failing with 40001: [Serializable](https://www.postgresql.org/docs/18/transaction-iso.html#XACT-SERIALIZABLE)); it says nothing of `INSERT … ON CONFLICT DO UPDATE` at these levels ([INSERT](https://www.postgresql.org/docs/18/sql-insert.html#SQL-ON-CONFLICT)), so that the upsert fails the same way, for a row that exists and for one a concurrent transaction inserted, rests on `version_rows_conflict`; a writer that doesn't advance it, such as an engine built before `leangage_version` or an edit of the rows by hand, and tables dropped and made again while an engine runs, leave a remembered snapshot standing for rows that are no longer there. The code that does it is `langs/rust/leangage-pg/src/lib.rs`, `langs/python/src/leangage/pg/__init__.py` and `langs/go/leangage/pg/pg.go`, and the `Storage` of the calculator in Rust, in Python and in Go and of the notes in Rust, which delegate to the generated functions; the differential tests and the contract tests check it |
 | Specification | that `specStep` and the statements above say what a calculator and the notes should do; that the write list a kernel gives `ReadOnlySound` (`fun w => w.toList` for the calculator) holds every write of its write set; that `Valid`, `Accepts`, `sqlOf`, `renderSpec`, `exec`, `view`, `Sel` and `Lists` say what the SQL compiler should do; that `TenantIsolation`, `Storage`, `Loaded` and `Stored` say what storing a kernel should mean; that the calculator's `lookup` and `enc` and the notes' `enc` and `encTable` say which rows a snapshot stands for, and that `SameRows` says when 2 snapshots differ only in the order of their rows; that `v1.<tenant>.<user>.<expiry>.<hex>` with the signature over the bytes before the last dot is the token a client should send; that `Value.print` and `printToks` print JSON as RFC 8259 defines it, and `lexStr` reads a string as RFC 8259 does for the escapes `write` uses; that `replyValue` and `errorValue` are the bodies a client should read; that `encodeCommand` is the spelling of a command a client should send, and that the statuses and messages of `Leangage.Http`, `Calculator.Wire` and `Notes.Wire` are the ones a client should get; that the grammar `read` is written to accept is that of RFC 8259 |
 | Policy | that `permits`, `visible`, `stored`, `view`, `disclosed` and `readOnly` of the notes say who should see and change what: the guard enforces them as written |
 

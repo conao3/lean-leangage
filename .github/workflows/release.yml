@@ -17,7 +17,7 @@ concurrency:
 env:
   PACKAGE: leangage
   CRATES: leangage leangage-pg
-  VERSION_FILES: rust/Cargo.toml rust/leangage-pg/Cargo.toml rust/Cargo.lock flake.nix python/pyproject.toml python/uv.lock
+  VERSION_FILES: langs/rust/Cargo.toml langs/rust/leangage-pg/Cargo.toml langs/rust/Cargo.lock samples/rust/Cargo.toml samples/rust/Cargo.lock flake.nix langs/python/pyproject.toml langs/python/uv.lock samples/python/pyproject.toml samples/python/uv.lock
   DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
 defaults:
   run:
@@ -48,8 +48,8 @@ jobs:
           BUMP: ${{ inputs.version_bump }}
           GH_TOKEN: ${{ github.token }}
         run: |
-          version=$(nix develop --command uv --directory python version --bump "$BUMP" --dry-run --short)
-          for tag in "v$version" "go/v$version"; do
+          version=$(nix develop --command uv --directory langs/python version --bump "$BUMP" --dry-run --short)
+          for tag in "v$version" "langs/go/v$version"; do
             existing=$(gh api "repos/$GITHUB_REPOSITORY/git/matching-refs/tags/$tag" --jq "[.[] | select(.ref == \"refs/tags/$tag\")] | length")
             if [[ "$existing" != 0 ]]; then
               echo "::error::Tag $tag already exists."
@@ -77,11 +77,11 @@ jobs:
             exit 1
           fi
           read -ra crates <<< "$CRATES"
-          nix develop --command cargo publish --manifest-path rust/Cargo.toml --locked --allow-dirty --dry-run "${crates[@]/#/--package=}"
+          nix develop --command cargo publish --manifest-path langs/rust/Cargo.toml --locked --allow-dirty --dry-run "${crates[@]/#/--package=}"
       - name: Verify package
         run: |
-          nix develop --command uv --directory python build
-          nix develop --command uv publish --dry-run --trusted-publishing never python/dist/*
+          nix develop --command uv --directory langs/python build
+          nix develop --command uv publish --dry-run --trusted-publishing never langs/python/dist/*
       - name: Bundle the version commit
         run: git bundle create "$RUNNER_TEMP/release.bundle" "$GITHUB_SHA..HEAD"
       - uses: actions/upload-artifact@v7.0.2
@@ -123,8 +123,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git tag -a "v$VERSION" -m "$PACKAGE v$VERSION" "$commit"
-          git tag -a "go/v$VERSION" -m "$PACKAGE v$VERSION" "$commit"
-          git push --atomic origin "$commit:refs/heads/$DEFAULT_BRANCH" "refs/tags/v$VERSION" "refs/tags/go/v$VERSION"
+          git tag -a "langs/go/v$VERSION" -m "$PACKAGE v$VERSION" "$commit"
+          git push --atomic origin "$commit:refs/heads/$DEFAULT_BRANCH" "refs/tags/v$VERSION" "refs/tags/langs/go/v$VERSION"
 
   publish-crates:
     name: Publish to crates.io
@@ -158,7 +158,7 @@ jobs:
             if curl -sf -A "$PACKAGE-release/1" "https://crates.io/api/v1/crates/$crate/$VERSION" > /dev/null; then
               echo "$crate $VERSION is already published"
             else
-              nix develop --command cargo publish --manifest-path rust/Cargo.toml -p "$crate" --locked --allow-dirty
+              nix develop --command cargo publish --manifest-path langs/rust/Cargo.toml -p "$crate" --locked --allow-dirty
             fi
           done
 
@@ -182,10 +182,10 @@ jobs:
       - name: Generate the Python code
         run: nix develop --command make generate-python
       - name: Build package
-        run: nix develop --command uv --directory python build
+        run: nix develop --command uv --directory langs/python build
       - uses: pypa/gh-action-pypi-publish@v1.14.3
         with:
-          packages-dir: python/dist
+          packages-dir: langs/python/dist
           skip-existing: true
 
   github-release:

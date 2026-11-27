@@ -1,0 +1,20 @@
+name = "leangage"
+defaultTargets = ["Leangage"]
+
+[[lean_lib]]
+name = "Leangage"
+
+[[lean_lib]]
+name = "Oracle"
+
+[[lean_exe]]
+name = "sql-oracle"
+root = "SqlOracle"
+
+[[lean_exe]]
+name = "token-oracle"
+root = "TokenOracle"
+
+[[lean_exe]]
+name = "json-oracle"
+root = "JsonOracle"

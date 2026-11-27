@@ -1,6 +1,7 @@
 # The calculator
 
-[`lean/Calculator/Kernel.lean`](../lean/Calculator/Kernel.lean) keeps one number per user:
+[`samples/lean/Calculator/Kernel.lean`](../samples/lean/Calculator/Kernel.lean) keeps one number per
+user:
 
 ```lean
 def transition (actor : Principal) (snap : Snapshot) (cmd : Command) :
@@ -17,7 +18,8 @@ def transition (actor : Principal) (snap : Snapshot) (cmd : Command) :
 A tenant's numbers are a binary trie on the user id, lowest bit first. A command visits at most
 64 nodes, and about log₂ n in a tenant whose n user ids are 0 to n − 1. `memoryOf` reads a number and `apply` stores one with `store`.
 
-Among the theorems of [`lean/Calculator/Proofs.lean`](../lean/Calculator/Proofs.lean):
+Among the theorems of
+[`samples/lean/Calculator/Proofs.lean`](../samples/lean/Calculator/Proofs.lean):
 
 | Theorem | Statement |
 |---|---|
@@ -28,19 +30,20 @@ Among the theorems of [`lean/Calculator/Proofs.lean`](../lean/Calculator/Proofs.
 | `read_only_sound` | `get` returns no writes (the obligation `ReadOnlySound`) |
 | `memoryOf_store` | after `store k v`, `memoryOf` returns `v` for `k` and what it returned before for every other id |
 
-[`lean/Calculator/Wire.lean`](../lean/Calculator/Wire.lean) is what a server does with a request
-around that kernel, and [`lean/Leangage/Http.lean`](../lean/Leangage/Http.lean) the part of it
-that is the same for every kernel. A handler reads the JSON text of the body with the JSON library
-of its language and passes the header and the tokens of the body through 3 generated functions:
+[`samples/lean/Calculator/Wire.lean`](../samples/lean/Calculator/Wire.lean) is what a server does
+with a request around that kernel, and
+[`langs/lean/Leangage/Http.lean`](../langs/lean/Leangage/Http.lean) the part of it that is the same
+for every kernel. A handler reads the JSON text of the body with the JSON library of its language
+and passes the header and the tokens of the body through 3 generated functions:
 
 1. `authenticate` reads the `Authorization` header into the claims of its token, the bytes the
    tag signs and the tag, or gives the answer (401). The handler computes the HMAC-SHA256 of those
    bytes and compares it with the tag.
 2. `request` takes the claims, the time and the body: the tokens the JSON library read, in the
    order of the text, or the fact that it read none
-   ([`lean/Leangage/Json/Lexemes.lean`](../lean/Leangage/Json/Lexemes.lean)). The tokens come packed
-   in one text: a character for the kind of each token, a line feed, and the texts of the
-   numbers, the strings and the keys, each but the last after the count of its characters and a
+   ([`langs/lean/Leangage/Json/Lexemes.lean`](../langs/lean/Leangage/Json/Lexemes.lean)). The tokens
+   come packed in one text: a character for the kind of each token, a line feed, and the texts of
+   the numbers, the strings and the keys, each but the last after the count of its characters and a
    colon. It refuses an expired
    token, decides from the tokens (member names and strings compared as text; `numberOf`
    decides which number tokens are a number below 2^64 in decimal digits) and gives the command
@@ -48,9 +51,10 @@ of its language and passes the header and the tokens of the body through 3 gener
 3. `respond` gives the status and the body for the kernel's reply or refusal, and `failed` for a
    failure of the engine.
 
-[`lean/Calculator/Wire/Proofs.lean`](../lean/Calculator/Wire/Proofs.lean),
-[`lean/Leangage/Http/Proofs.lean`](../lean/Leangage/Http/Proofs.lean) and
-[`lean/Leangage/Json/Lexemes/Proofs.lean`](../lean/Leangage/Json/Lexemes/Proofs.lean) prove:
+[`samples/lean/Calculator/Wire/Proofs.lean`](../samples/lean/Calculator/Wire/Proofs.lean),
+[`langs/lean/Leangage/Http/Proofs.lean`](../langs/lean/Leangage/Http/Proofs.lean) and
+[`langs/lean/Leangage/Json/Lexemes/Proofs.lean`](../langs/lean/Leangage/Json/Lexemes/Proofs.lean)
+prove:
 
 | Theorem | Statement |
 |---|---|
@@ -66,12 +70,12 @@ of its language and passes the header and the tokens of the body through 3 gener
 | `fingerprint_injective`, `scope_injective` | different commands have different fingerprints under an idempotency key, and the keys of different users are kept apart |
 
 The Rust server is the generated kernel and those functions behind an ordinary axum router
-([`rust/calculator`](../rust/calculator)):
+([`samples/rust/calculator`](../samples/rust/calculator)):
 
 ```console
 $ export LEANGAGE_SECRET=dev-secret
-$ TOKEN=$(cd rust && LEANGAGE_ISSUE=1:7 cargo run --release -q --bin leangage-calculator)
-$ cd rust && LEANGAGE_LISTEN=127.0.0.1:8080 cargo run --release -q --bin leangage-calculator &
+$ TOKEN=$(cd samples/rust && LEANGAGE_ISSUE=1:7 cargo run --release -q --bin leangage-calculator)
+$ cd samples/rust && LEANGAGE_LISTEN=127.0.0.1:8080 cargo run --release -q --bin leangage-calculator &
 $ curl -s -H "Authorization: Bearer $TOKEN" -d '{"cmd":"set","value":6}' 127.0.0.1:8080/rpc
 {"value":6}
 $ curl -s -H "Authorization: Bearer $TOKEN" -d '{"cmd":"apply","op":"mul","arg":7}' 127.0.0.1:8080/rpc
@@ -82,17 +86,18 @@ $ curl -s -H "Authorization: Bearer $TOKEN" -d '{"cmd":"apply","op":"div","arg":
 {"error":"division_by_zero"}
 ```
 
-The Python server ([`python/src/leangage_calculator`](../python/src/leangage_calculator)) runs
-the same Lean modules, generated to Python, and the Go server
-([`go/calculator`](../go/calculator)) runs them generated to Go. A command, a body that is not one
-and a token that is refused get the same status and body from the 3 servers, and a token issued
-by one is accepted by the others:
+The Python server
+([`samples/python/calculator/leangage_calculator`](../samples/python/calculator/leangage_calculator))
+runs the same Lean modules, generated to Python, and the Go server
+([`samples/go/calculator`](../samples/go/calculator)) runs them generated to Go. A command, a body
+that is not one and a token that is refused get the same status and body from the 3 servers, and a
+token issued by one is accepted by the others:
 
 ```console
-$ cd python && LEANGAGE_LISTEN=127.0.0.1:8081 uv run leangage-calculator &
+$ cd samples/python && LEANGAGE_LISTEN=127.0.0.1:8081 uv run python -m leangage_calculator &
 $ curl -s -H "Authorization: Bearer $TOKEN" -d '{"cmd":"set","value":6}' 127.0.0.1:8081/rpc
 {"value":6}
-$ cd go && LEANGAGE_LISTEN=127.0.0.1:8082 go run ./calculator/cmd/leangage-calculator &
+$ cd samples/go && LEANGAGE_LISTEN=127.0.0.1:8082 go run ./calculator/cmd/leangage-calculator &
 $ curl -s -H "Authorization: Bearer $TOKEN" -d '{"cmd":"set","value":6}' 127.0.0.1:8082/rpc
 {"value":6}
 ```

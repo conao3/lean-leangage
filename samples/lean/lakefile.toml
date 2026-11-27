@@ -1,0 +1,28 @@
+name = "leangage-samples"
+defaultTargets = ["Calculator", "Notes"]
+
+[[require]]
+name = "leangage"
+path = "../../langs/lean"
+
+[[lean_lib]]
+name = "Calculator"
+
+[[lean_lib]]
+name = "Notes"
+
+[[lean_exe]]
+name = "calculator-oracle"
+root = "CalculatorOracle"
+
+[[lean_exe]]
+name = "notes-oracle"
+root = "NotesOracle"
+
+[[lean_exe]]
+name = "request-oracle"
+root = "RequestOracle"
+
+[[lean_exe]]
+name = "notes-request-oracle"
+root = "NotesRequestOracle"

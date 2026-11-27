@@ -1,0 +1,20 @@
+[package]
+name = "leangage-notes"
+description = "The notes kernel and its policy, generated from Lean, behind the leangage server"
+publish = false
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+axum = "0.8"
+leanfran = "=0.13.2"
+leangage = { path = "../../../langs/rust/leangage" }
+leangage-pg = { path = "../../../langs/rust/leangage-pg" }
+tokio = { version = "1", features = ["macros", "net", "rt-multi-thread"] }
+
+[dev-dependencies]
+serde_json = "1"
+tokio-postgres = "0.7"
+tower = { version = "0.5", features = ["util"] }

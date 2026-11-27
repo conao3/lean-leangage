@@ -91,7 +91,7 @@ to the snapshot and Lean updates it in place.
 
 The Rust memory engine keeps the snapshots under one lock and runs each command on the thread
 that calls it: an `Owned` moves between threads with its lock, and lends the snapshot to one
-command at a time. A test (`rust/calculator/tests/in_place.rs`) sends commands from several
+command at a time. A test (`samples/rust/calculator/tests/in_place.rs`) sends commands from several
 threads, some of them refused, and checks that the snapshot is still the kind of Lean object
 that is updated in place.
 
@@ -108,10 +108,10 @@ tenant's snapshot in a `leanfran.Value` of that region: the commands of one tena
 time and those of different tenants in parallel, and a lock held only to look a tenant up guards
 the table of tenants. The kernel's calls for a command run in `region.WithValues` through
 `kernel.Handle.In(scope)`, and `apply` receives the snapshot with `Take()`. A test
-(`go/calculator/in_place_test.go`) sends commands from several goroutines, some of them refused,
-and checks that the snapshot still has one reference (`IsExclusive`). Another
-(`go/calculator/concurrent_test.go`, and the same for the notes) runs the shared command list on
-24 tenants at once (16 for the notes) and checks every reply against Lean's, then closes the
+(`samples/go/calculator/in_place_test.go`) sends commands from several goroutines, some of them
+refused, and checks that the snapshot still has one reference (`IsExclusive`). Another
+(`samples/go/calculator/concurrent_test.go`, and the same for the notes) runs the shared command
+list on 24 tenants at once (16 for the notes) and checks every reply against Lean's, then closes the
 engine and checks with `leanfran.TrackLeakedValues` that no value was dropped while it held a
 Lean reference.
 
@@ -124,11 +124,12 @@ the file system of its data directory are in `versions` of [`docs/speed.json`](s
 Every commit that writes waits for PostgreSQL to flush its log.
 
 Commands per second through the engine's `execute`, one command at a time on one connection, by
-the benchmark of [`rust/calculator`](../rust/calculator) with `LEANGAGE_DATABASE_URL`. Every
-command runs in one `SERIALIZABLE` transaction. The engine remembers the tenant's snapshot with
-its version, reads the version row, and reads the rows of the tenant only when another writer
-moved the version, so the rate doesn't fall with the number of users. Each cell is the inverse of the median time of 3 runs, each on a new
-database. The memory engine's row is the one of the table above.
+the benchmark of [`samples/rust/calculator`](../samples/rust/calculator) with
+`LEANGAGE_DATABASE_URL`. Every command runs in one `SERIALIZABLE` transaction. The engine remembers
+the tenant's snapshot with its version, reads the version row, and reads the rows of the tenant only
+when another writer moved the version, so the rate doesn't fall with the number of users. Each cell
+is the inverse of the median time of 3 runs, each on a new database. The memory engine's row is the
+one of the table above.
 
 ![Commands per second through the PostgreSQL engine](speed-postgres.svg)
 

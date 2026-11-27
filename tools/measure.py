@@ -184,8 +184,10 @@ def versions() -> dict[str, str]:
         "uv": ["uv", "--version"],
         "oha": ["oha", "--version"],
     }
-    found = {name: run(cmd, ROOT / "go").strip() for name, cmd in tools.items()}
-    found["python"] = run(["uv", "run", "python", "--version"], ROOT / "python").strip()
+    found = {name: run(cmd, ROOT / "samples/go").strip() for name, cmd in tools.items()}
+    found["python"] = run(
+        ["uv", "run", "python", "--version"], ROOT / "samples/python"
+    ).strip()
     return found
 
 
@@ -208,7 +210,7 @@ def postgres_engine(pg: Postgres) -> dict[str, dict[str, list[int]]]:
     runs: dict[str, list[int]] = {}
     for index in range(ENGINE_RUNS):
         url = pg.database(f"engine{index}")
-        bench = [str(ROOT / "rust/target/release/bench")]
+        bench = [str(ROOT / "samples/rust/target/release/bench")]
         for line in run(bench, ROOT, {"LEANGAGE_DATABASE_URL": url}).splitlines():
             if (found := LINE.match(line)) and found[1] == "postgres engine":
                 runs.setdefault(found[2], []).append(int(found[3]))
@@ -301,11 +303,11 @@ def main() -> None:
     if shutil.which("oha") is None:
         run(["cargo", "install", "oha"], ROOT)
     bins = Path(tempfile.mkdtemp())
-    run(["cargo", "build", "--release"], ROOT / "rust")
+    run(["cargo", "build", "--release"], ROOT / "samples/rust")
     run(["cargo", "build", "--release"], ROOT / "bench/rust")
     for module, package in [
-        ("go", "calculator/cmd/bench"),
-        ("go", "calculator/cmd/leangage-calculator"),
+        ("samples/go", "calculator/cmd/bench"),
+        ("samples/go", "calculator/cmd/leangage-calculator"),
     ]:
         run(
             ["go", "build", "-o", str(bins / Path(package).name), f"./{package}"],
@@ -314,11 +316,11 @@ def main() -> None:
     for name in ["nethttp", "gin"]:
         run(["go", "mod", "tidy"], ROOT / "bench/go")
         run(["go", "build", "-o", str(bins / name), f"./cmd/{name}"], ROOT / "bench/go")
-    run(["uv", "sync", "--quiet"], ROOT / "python")
+    run(["uv", "sync", "--quiet"], ROOT / "samples/python")
     run(["uv", "sync", "--quiet"], ROOT / "bench/python")
 
     commands: dict[str, dict[str, list[int]]] = {}
-    engine(commands, [str(ROOT / "rust/target/release/bench")], ROOT, RUST_ROWS)
+    engine(commands, [str(ROOT / "samples/rust/target/release/bench")], ROOT, RUST_ROWS)
     engine(
         commands, [str(bins / "bench")], ROOT, {"memory engine": "Go, memory engine"}
     )
@@ -326,12 +328,12 @@ def main() -> None:
     engine(
         commands,
         python_bench,
-        ROOT / "python",
+        ROOT / "samples/python",
         {"memory engine execute": "Python, memory engine"},
     )
 
     secret = {"LEANGAGE_SECRET": "bench-secret"}
-    rust_server = str(ROOT / "rust/target/release/leangage-calculator")
+    rust_server = str(ROOT / "samples/rust/target/release/leangage-calculator")
     token = run([rust_server], ROOT, {**secret, "LEANGAGE_ISSUE": "1:7"}).strip()
     workers = str(os.cpu_count())
     baselines = ROOT / "bench/rust/target/release"
@@ -350,7 +352,7 @@ def main() -> None:
         (
             "leangage, Python (http.server)",
             ["uv", "run", "python", "-m", "leangage_calculator"],
-            ROOT / "python",
+            ROOT / "samples/python",
             "LEANGAGE_LISTEN",
         ),
         (

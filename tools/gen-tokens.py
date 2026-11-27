@@ -1,7 +1,7 @@
 """Writes the token list that the Lean token oracle and the Rust, Python and Go servers all run.
 
 Deterministic: the same seed and count give the same file. The line format is described in
-`lean/TokenOracle.lean`.
+`langs/lean/TokenOracle.lean`.
 """
 
 import random

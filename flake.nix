@@ -62,9 +62,9 @@
             pname = "leangage-calculator";
             version = "0.1.1";
             src = ./.;
-            cargoRoot = "rust";
-            buildAndTestSubdir = "rust";
-            cargoLock.lockFile = ./rust/Cargo.lock;
+            cargoRoot = "samples/rust";
+            buildAndTestSubdir = "samples/rust";
+            cargoLock.lockFile = ./samples/rust/Cargo.lock;
             nativeBuildInputs = [
               pkgs.lean4
               leanfran.rust-compiler

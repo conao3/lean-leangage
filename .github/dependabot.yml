@@ -1,21 +1,42 @@
 version: 2
 updates:
   - package-ecosystem: cargo
-    directory: /rust
+    directory: /langs/rust
+    schedule:
+      interval: weekly
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+  - package-ecosystem: cargo
+    directory: /samples/rust
     schedule:
       interval: weekly
     groups:
       minor-and-patch:
         update-types: [minor, patch]
   - package-ecosystem: uv
-    directory: /python
+    directory: /langs/python
+    schedule:
+      interval: weekly
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+  - package-ecosystem: uv
+    directory: /samples/python
     schedule:
       interval: weekly
     groups:
       minor-and-patch:
         update-types: [minor, patch]
   - package-ecosystem: gomod
-    directory: /go
+    directory: /langs/go
+    schedule:
+      interval: weekly
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+  - package-ecosystem: gomod
+    directory: /samples/go
     schedule:
       interval: weekly
     groups:

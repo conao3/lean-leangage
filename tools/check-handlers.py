@@ -2,10 +2,10 @@
 the generated functions.
 
 For each file of the path it requires the calls of the functions generated from
-`lean/Leangage/Http.lean`, `lean/Calculator/Wire.lean` and `lean/Notes/Wire.lean`, and refuses a
-JSON library, a status code written in the file (a constant of the HTTP library or a number from
-100 to 599) and the JSON writer called by hand. A test passes whichever code a handler runs; this check reads the
-handlers.
+`langs/lean/Leangage/Http.lean`, `samples/lean/Calculator/Wire.lean` and
+`samples/lean/Notes/Wire.lean`, and refuses a JSON library, a status code written in the file (a
+constant of the HTTP library or a number from 100 to 599) and the JSON writer called by hand. A test
+passes whichever code a handler runs; this check reads the handlers.
 
 The JSON text of a body is read by the JSON library of each language in one file per language
 (`CONVERSIONS`), which hands the tokens to the generated functions. For those files the check
@@ -77,7 +77,7 @@ GO_TEXT = [
 # The file, what it must call, what it must not hold, and where the checked text ends.
 FILES = [
     (
-        "rust/leangage/src/http.rs",
+        "langs/rust/leangage/src/http.rs",
         [
             "verifier.admit(", "A::request(", "A::respond(", "A::fingerprint(", "A::scope(", "http_format::failed(",
             "json_text::tokens(",
@@ -86,19 +86,19 @@ FILES = [
         None,
     ),
     (
-        "rust/leangage/src/token.rs",
+        "langs/rust/leangage/src/token.rs",
         ["http_format::authenticate(", "http_format::failed(Failure::BadSignature)"],
         RUST,
         "#[cfg(test)]",
     ),
     (
-        "rust/calculator/src/lib.rs",
+        "samples/rust/calculator/src/lib.rs",
         ["wire::request(", "wire::respond(", "wire::fingerprint(", "wire::scope("],
         RUST,
         None,
     ),
     (
-        "rust/notes/src/lib.rs",
+        "samples/rust/notes/src/lib.rs",
         [
             "wire::request(", "wire::respond(", "wire::fingerprint(", "wire::scope(", "wire::encode_reply(",
             "wire::decode_reply(", "json_text::tokens(",
@@ -107,7 +107,7 @@ FILES = [
         None,
     ),
     (
-        "python/src/leangage/http.py",
+        "langs/python/src/leangage/http.py",
         [
             "verifier.admit(", "api.request(", "api.respond(", "api.fingerprint(", "api.scope(", "http_format.failed(",
             "tokens(data)",
@@ -116,13 +116,13 @@ FILES = [
         None,
     ),
     (
-        "python/src/leangage/token.py",
+        "langs/python/src/leangage/token.py",
         ["http_format.authenticate(", "http_format.failed(http_format.Failure.badSignature)"],
         PYTHON,
         None,
     ),
     (
-        "python/src/leangage_calculator/__init__.py",
+        "samples/python/calculator/leangage_calculator/__init__.py",
         [
             "wire.request.lean(", "wire.answerOf.lean(", "wire.actorOf.lean(", "wire.cmdOf.lean(",
             "respond=wire.respond", "wire.fingerprint.lean(", "wire.scope.lean(",
@@ -131,7 +131,7 @@ FILES = [
         None,
     ),
     (
-        "go/leangage/http.go",
+        "langs/go/leangage/http.go",
         [
             "verifier.Admit(", "api.Request(", "api.Respond(", "api.Fingerprint(", "api.Scope(", "httpformat.Failed(",
             "Tokens(",
@@ -140,25 +140,25 @@ FILES = [
         None,
     ),
     (
-        "go/leangage/token.go",
+        "langs/go/leangage/token.go",
         ["httpformat.Authenticate(", "httpformat.Failed(httpformat.FailureBadSignature())"],
         GO,
         None,
     ),
     (
-        "go/calculator/calculator.go",
+        "samples/go/calculator/calculator.go",
         ["wire.Request(", "wire.Respond(", "wire.Fingerprint(", "wire.Scope("],
         GO,
         None,
     ),
     (
-        "rust/leangage/src/json_text.rs",
+        "langs/rust/leangage/src/json_text.rs",
         ["serde_json::Deserializer::from_slice(", "deserializer.end()", "deserialize_any("],
         RUST_TEXT,
         None,
     ),
     (
-        "python/src/leangage/json_text.py",
+        "langs/python/src/leangage/json_text.py",
         [
             "DECODER = json.JSONDecoder(", "DECODER.decode(",
             "object_pairs_hook=", "parse_int=", "parse_float=", "parse_constant=",
@@ -167,7 +167,7 @@ FILES = [
         None,
     ),
     (
-        "go/leangage/json_text.go",
+        "langs/go/leangage/json_text.go",
         [
             "jsontext.NewDecoder(", "decoder.ReadToken()", "decoder.ReadValue()",
             "jsontext.AllowDuplicateNames(true)", "utf8.Valid(",

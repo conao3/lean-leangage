@@ -1,15 +1,16 @@
 # The notes
 
-[`lean/Notes/Kernel.lean`](../lean/Notes/Kernel.lean) keeps notes in an organization with members
-and admins, after h5i's notes example. A note is visible to everyone if it is shared, otherwise to
-its owner and admins; the owner or an admin edits and deletes it, and its owner never changes.
-Admins add and remove members, and anyone may add the first member of an organization with none.
+[`samples/lean/Notes/Kernel.lean`](../samples/lean/Notes/Kernel.lean) keeps notes in an organization
+with members and admins, after h5i's notes example. A note is visible to everyone if it is shared,
+otherwise to its owner and admins; the owner or an admin edits and deletes it, and its owner never
+changes. Admins add and remove members, and anyone may add the first member of an organization with
+none.
 
 `handle` decides what each command does and checks input and existence only. It lists notes and
 members in key order, so that no reply depends on the order in which a snapshot holds its rows.
 The policy is the Bool functions `permits`, `visible` and `stored`, and `view`, the rows of a
 snapshot the caller may see. The function the engine runs is `handle` behind the guard of
-[`lean/Leangage/Authz.lean`](../lean/Leangage/Authz.lean):
+[`langs/lean/Leangage/Authz.lean`](../langs/lean/Leangage/Authz.lean):
 
 ```lean
 def transition (a : Principal) (s : Snapshot) (c : Command) :
@@ -22,8 +23,8 @@ discloses against the state before or after the command. One refused write or ro
 whole command with `denied`, and nothing is stored. A read-only command runs on the caller's view,
 the rows the policy lets the caller see.
 
-[`lean/Leangage/AuthzProofs.lean`](../lean/Leangage/AuthzProofs.lean) proves, for every kernel
-(`transition` and `apply`), policy, disclosure, `readOnly` and `view`:
+[`langs/lean/Leangage/AuthzProofs.lean`](../langs/lean/Leangage/AuthzProofs.lean) proves, for every
+kernel (`transition` and `apply`), policy, disclosure, `readOnly` and `view`:
 
 | Theorem | Statement |
 |---|---|
@@ -33,7 +34,7 @@ the rows the policy lets the caller see.
 | `guard_viewed_noninterference` | 2 states with the same view give a read-only command the same result, refusals included |
 | `read_only_sound_of_viewed` | a kernel behind `guardViewed` meets `ReadOnlySound`, the read-only obligation of the kernel contract |
 
-[`lean/Notes/Proofs.lean`](../lean/Notes/Proofs.lean) applies them to the notes
+[`samples/lean/Notes/Proofs.lean`](../samples/lean/Notes/Proofs.lean) applies them to the notes
 (`transition_authorized`, `transition_noninterference`, `read_only_sound`) and proves, for every
 principal, snapshot and command:
 
@@ -56,11 +57,12 @@ principal, snapshot and command:
 | `bad_text` | a body is refused exactly when it is empty, longer than 4096 bytes in UTF-8, or holds NUL |
 | `not_found` | removing a member or deleting a note that isn't stored is refused with `notFound` |
 
-[`lean/Notes/Wire.lean`](../lean/Notes/Wire.lean) is what the notes server does with a request, in
-the form of `Calculator.Wire`: `request` reads the tokens of the body into a command, `respond` gives the
-status and the body of the answer, `fingerprint` and `scope` name a command and a user under an
-idempotency key, and `encodeReply` and `decodeReply` write and read the reply an engine stores
-under such a key. [`lean/Notes/Wire/Proofs.lean`](../lean/Notes/Wire/Proofs.lean) proves:
+[`samples/lean/Notes/Wire.lean`](../samples/lean/Notes/Wire.lean) is what the notes server does with
+a request, in the form of `Calculator.Wire`: `request` reads the tokens of the body into a command,
+`respond` gives the status and the body of the answer, `fingerprint` and `scope` name a command and
+a user under an idempotency key, and `encodeReply` and `decodeReply` write and read the reply an
+engine stores under such a key.
+[`samples/lean/Notes/Wire/Proofs.lean`](../samples/lean/Notes/Wire/Proofs.lean) proves:
 
 | Theorem | Statement |
 |---|---|
@@ -72,15 +74,15 @@ under such a key. [`lean/Notes/Wire/Proofs.lean`](../lean/Notes/Wire/Proofs.lean
 | `decodeReply_encode` | the tokens `encodeReply` writes for a reply, a number as its decimal, packed as a conversion packs them (`pack ((replyToks r).map Lexeme.ofStrTok)`), are read back as that reply |
 | `fingerprint_injective`, `scope_injective` | different commands have different fingerprints, and 2 principals have the same scope exactly when they have the same user |
 
-The Rust server ([`rust/notes`](../rust/notes)) passes each request to those functions, as the
-calculator's servers do with theirs. It keeps the snapshots in its memory, or in PostgreSQL when
-`LEANGAGE_DATABASE_URL` is set, as the calculator does:
+The Rust server ([`samples/rust/notes`](../samples/rust/notes)) passes each request to those
+functions, as the calculator's servers do with theirs. It keeps the snapshots in its memory, or in
+PostgreSQL when `LEANGAGE_DATABASE_URL` is set, as the calculator does:
 
 ```console
 $ export LEANGAGE_SECRET=dev-secret
-$ A=$(cd rust && LEANGAGE_ISSUE=1:1 cargo run --release -q --bin leangage-notes)
-$ B=$(cd rust && LEANGAGE_ISSUE=1:2 cargo run --release -q --bin leangage-notes)
-$ cd rust && LEANGAGE_LISTEN=127.0.0.1:8080 cargo run --release -q --bin leangage-notes &
+$ A=$(cd samples/rust && LEANGAGE_ISSUE=1:1 cargo run --release -q --bin leangage-notes)
+$ B=$(cd samples/rust && LEANGAGE_ISSUE=1:2 cargo run --release -q --bin leangage-notes)
+$ cd samples/rust && LEANGAGE_LISTEN=127.0.0.1:8080 cargo run --release -q --bin leangage-notes &
 $ curl -s -H "Authorization: Bearer $A" -d '{"cmd":"add_member","user":1,"admin":true}' 127.0.0.1:8080/rpc
 {"done":true}
 $ curl -s -H "Authorization: Bearer $A" -d '{"cmd":"put_note","id":7,"body":"draft","shared":false}' 127.0.0.1:8080/rpc
@@ -96,6 +98,6 @@ $ curl -s -H "Authorization: Bearer $B" -d '{"cmd":"read_note","id":7}' 127.0.0.
 ```
 
 The kernel and the tables are generated to Python
-([`python/src/leangage_notes`](../python/src/leangage_notes)) and Go ([`go/notes`](../go/notes)) too.
-The kernel runs behind their memory engines in the differential tests; neither has a notes
-server, and `Notes.Wire` is generated to Rust only.
+([`samples/python/notes/leangage_notes`](../samples/python/notes/leangage_notes)) and Go
+([`samples/go/notes`](../samples/go/notes)) too. The kernel runs behind their memory engines in the
+differential tests; neither has a notes server, and `Notes.Wire` is generated to Rust only.

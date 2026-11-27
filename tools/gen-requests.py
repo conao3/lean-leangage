@@ -1,10 +1,10 @@
 """Writes the lines that the Lean request oracle and the Rust, Python and Go servers all answer.
 
 Deterministic: the same seed and count give the same file. The line format is described in
-`lean/RequestOracle.lean`. The texts are JSON texts with every spelling of a number, a string and
-the space between tokens, and the same texts with a byte removed, inserted or replaced; the
-headers are bearer tokens and headers close to one; the bodies are the calculator's commands with
-their members in any order, the same commands written without a space with their members in the
+`samples/lean/RequestOracle.lean`. The texts are JSON texts with every spelling of a number, a
+string and the space between tokens, and the same texts with a byte removed, inserted or replaced;
+the headers are bearer tokens and headers close to one; the bodies are the calculator's commands
+with their members in any order, the same commands written without a space with their members in the
 order of `cmd`, `value` or `cmd`, `op`, `arg`, and bodies close to one. `library_body` and
 `library_text` write the texts on which a JSON library could differ from the grammar: a member
 twice, members in another order, the space between tokens, numbers at 2^64, data after the value,

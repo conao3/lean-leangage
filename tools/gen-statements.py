@@ -1,7 +1,7 @@
 """Writes the statement list that the Lean SQL oracle and the Rust, Python and Go servers all run.
 
 Deterministic: the same seed and count give the same file. The line format is described in
-`lean/SqlOracle.lean`.
+`langs/lean/SqlOracle.lean`.
 """
 
 import random

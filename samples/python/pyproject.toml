@@ -1,0 +1,30 @@
+[project]
+name = "leangage-samples"
+version = "0.1.1"
+description = "The calculator and the notes, generated from Lean, behind the leangage server"
+license = "Apache-2.0"
+requires-python = ">=3.13"
+classifiers = ["Private :: Do Not Upload"]
+dependencies = [
+    "leanfran==0.13.2",
+    "leangage",
+]
+
+[tool.uv.sources]
+leangage = { path = "../../langs/python", editable = true }
+
+[dependency-groups]
+dev = ["pytest>=8", "pytest-icdiff>=0.9"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+dev-mode-dirs = ["calculator", "notes"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["calculator/leangage_calculator", "notes/leangage_notes"]
+
+[tool.pytest.ini_options]
+testpaths = ["calculator/test", "notes/test"]
