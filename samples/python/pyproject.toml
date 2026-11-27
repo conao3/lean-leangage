@@ -1,6 +1,6 @@
 [project]
 name = "leangage-samples"
-version = "0.1.1"
+version = "0.1.2"
 description = "The calculator and the notes, generated from Lean, behind the leangage server"
 license = "Apache-2.0"
 requires-python = ">=3.13"

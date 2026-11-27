@@ -52,7 +52,7 @@ wheels = [
 
 [[package]]
 name = "leangage"
-version = "0.1.1"
+version = "0.1.2"
 source = { editable = "../../langs/python" }
 dependencies = [
     { name = "leanfran" },
@@ -73,7 +73,7 @@ dev = [
 
 [[package]]
 name = "leangage-samples"
-version = "0.1.1"
+version = "0.1.2"
 source = { editable = "." }
 dependencies = [
     { name = "leanfran" },
