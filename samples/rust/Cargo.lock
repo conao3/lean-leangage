@@ -626,7 +626,7 @@ name = "leangage-calculator"
 version = "0.1.2"
 dependencies = [
  "axum",
- "hmac 0.12.1",
+ "hmac 0.13.0",
  "leanfran",
  "leangage",
  "leangage-notes",
