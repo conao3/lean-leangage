@@ -12,7 +12,7 @@ axum = "0.8"
 leanfran = "=0.14.0"
 leangage = { path = "../../../langs/rust/leangage" }
 leangage-notes = { path = "../notes" }
-hmac = "0.12"
+hmac = "0.13"
 sha2 = "0.10"
 leangage-pg = { path = "../../../langs/rust/leangage-pg" }
 serde = { version = "1", features = ["derive"] }
