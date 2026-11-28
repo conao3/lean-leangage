@@ -4,7 +4,7 @@ go 1.27
 
 require (
 	github.com/conao3/lean-leangage/langs/go v0.0.0-00010101000000-000000000000
-	github.com/conao3/leanfran-go v0.13.2
+	github.com/conao3/leanfran-go v0.14.0
 	github.com/jackc/pgx/v5 v5.13.0
 )
 

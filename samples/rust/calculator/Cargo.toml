@@ -9,7 +9,7 @@ repository.workspace = true
 
 [dependencies]
 axum = "0.8"
-leanfran = "=0.13.2"
+leanfran = "=0.14.0"
 leangage = { path = "../../../langs/rust/leangage" }
 leangage-notes = { path = "../notes" }
 hmac = "0.12"

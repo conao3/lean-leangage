@@ -310,8 +310,9 @@ PyPI:
 gh workflow run release.yml --ref master -f version_bump=patch
 ```
 
-`make generate` writes the generated Rust, Python and Go from `langs/lean/` and `samples/lean/`
-into directories named `gen`. Git holds the Go ones, which `go get` fetches, and ignores the Rust
+`make generate` runs `leanfran generate`, which writes the generated Rust, Python and Go from
+`langs/lean/` and `samples/lean/` into the directories named `gen` that
+[`leanfran.toml`](leanfran.toml) lists. Git holds the Go ones, which `go get` fetches, and ignores the Rust
 and Python ones: a clone holds those after `make generate`, a test target or `make bench`.
 
 ## License

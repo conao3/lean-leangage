@@ -8,7 +8,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     leanfran = {
-      url = "github:conao3/lean-leanfran/346658a7ae3a3aa0b976952465de1a525fdefe4d";
+      url = "github:conao3/lean-leanfran/420a7dce66dda3cbfd03b884d453cb8de63a0fc6";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -52,9 +52,7 @@
               pkgs.rustc
               pkgs.rustfmt
               pkgs.uv
-              leanfran.rust-compiler
-              leanfran.python
-              leanfran.go
+              leanfran.leanfran
             ];
             UV_PYTHON_DOWNLOADS = "never";
           };
@@ -68,9 +66,7 @@
             nativeBuildInputs = [
               pkgs.go
               pkgs.lean4
-              leanfran.rust-compiler
-              leanfran.python
-              leanfran.go
+              leanfran.leanfran
             ];
             preBuild = ''
               make generate

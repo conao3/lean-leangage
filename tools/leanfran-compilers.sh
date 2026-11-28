@@ -17,7 +17,5 @@ cd "$1"
 git -C src init --quiet
 git -C src fetch --quiet --depth 1 https://github.com/conao3/lean-leanfran.git "$revision"
 git -C src checkout --quiet FETCH_HEAD
-for pair in Rust:leanfran Python:leanfran-python Go:leanfran-go; do
-  (cd "src/langs/${pair%%:*}" && lake build "${pair##*:}")
-  ln -sf "$PWD/src/langs/${pair%%:*}/.lake/build/bin/${pair##*:}" "bin/${pair##*:}"
-done
+(cd src && lake build leanfran)
+ln -sf "$PWD/src/.lake/build/bin/leanfran" bin/leanfran

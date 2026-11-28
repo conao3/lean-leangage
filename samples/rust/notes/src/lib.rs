@@ -6,22 +6,6 @@
 #[rustfmt::skip]
 #[path = "gen/mod.rs"]
 pub mod generated;
-/// The notes' tables, generated from `Notes.Store` with the kernel's types and the types of
-/// `leangage::sql`.
-#[rustfmt::skip]
-#[allow(dead_code, non_snake_case, non_camel_case_types, unused_imports, unused_parens, unused_qualifications, unsafe_op_in_unsafe_fn, clippy::all)]
-#[path = "gen/notes_store.rs"]
-pub mod store;
-/// The notes' requests and responses, generated from `Notes.Wire` with the kernel's types and
-/// the types the server library generates from `Leangage.Http` and `Leangage.Json`.
-#[rustfmt::skip]
-#[allow(dead_code, non_snake_case, non_camel_case_types, unused_imports, unused_parens, unused_qualifications, unsafe_op_in_unsafe_fn, clippy::all)]
-#[path = "gen/notes_wire.rs"]
-pub mod wire;
-/// The name `wire` gives the refusal of the guarded kernel.
-pub mod authz {
-    pub use crate::Refusal as GuardedNotesKernelError;
-}
 
 use leanfran::{Local, Owned};
 use leangage::http::Api;
@@ -29,6 +13,8 @@ use leangage::http_format::{Body, Response};
 use leangage::{Kernel, Storage, sql};
 
 pub use generated::notes_kernel as kernel;
+pub use generated::notes_store as store;
+pub use generated::notes_wire as wire;
 
 /// A refusal of the guarded kernel: the kernel's own (`App`), or the guard's (`Denied`).
 pub type Refusal = kernel::LeangageAuthzGuardedNotesKernelError;

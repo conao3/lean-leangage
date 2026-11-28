@@ -1,7 +1,7 @@
 """Runs every speed measurement on this machine and writes `docs/speed.json`.
 
-Writes the generated code first (`make generate`), so it needs make, lake and the leanfran
-compilers on PATH (`tools/leanfran-compilers.sh` builds the compilers outside `nix develop`).
+Writes the generated code first (`make generate`), so it needs make, lake and the executable
+`leanfran` on PATH (`tools/leanfran-compilers.sh` builds it outside `nix develop`).
 Needs cargo, go, uv and curl on PATH, and PostgreSQL's `initdb`, `pg_ctl` and `psql` on PATH or
 in `/usr/lib/postgresql/<version>/bin`; installs `oha` with cargo when it is missing. Each
 measurement runs alone. The PostgreSQL server runs, with its default settings, only during the
@@ -22,7 +22,7 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-GENERATORS = ["lake", "leanfran", "leanfran-python", "leanfran-go"]
+GENERATORS = ["lake", "leanfran"]
 ENGINE_RUNS = 3
 HTTP_RUNS = 2
 SECONDS = 8
@@ -296,8 +296,8 @@ def main() -> None:
     missing = [name for name in GENERATORS if shutil.which(name) is None]
     if missing:
         raise SystemExit(
-            f"{', '.join(missing)} not on PATH: `make generate` needs lake and the leanfran "
-            "compilers, which `tools/leanfran-compilers.sh` builds"
+            f"{', '.join(missing)} not on PATH: `make generate` needs lake and the executable "
+            "`leanfran`, which `tools/leanfran-compilers.sh` builds"
         )
     run(["make", "generate"], ROOT)
     if shutil.which("oha") is None:

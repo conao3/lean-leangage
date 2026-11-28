@@ -29,8 +29,9 @@ mode, and the `replace` of `samples/go/go.mod` points the module
 
 ## Generation and tests
 
-`make generate` writes the generated Rust, Python and Go from `langs/lean/` and `samples/lean/`
-into directories named `gen`. Git holds those of Go and ignores those of Rust and Python. The
+`make generate` runs `leanfran generate`, which writes the generated Rust, Python and Go from
+`langs/lean/` and `samples/lean/` into directories named `gen`, one for each `[[generate]]` table
+of [`leanfran.toml`](../leanfran.toml). Git holds those of Go and ignores those of Rust and Python. The
 PostgreSQL tests start a server of their own with `initdb` and `pg_ctl` from the devShell, in a
 directory under `/tmp` that is removed when the test process exits. `make test-rust`,
 `make test-python` and `make test-go` each generate and test one language, the library under

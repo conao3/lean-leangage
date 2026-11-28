@@ -1,5 +1,5 @@
-github.com/conao3/leanfran-go v0.13.2 h1:0odwdHR7ioefoW0HM6s/P5kYsng5C0hgyfDMI0CqTfk=
-github.com/conao3/leanfran-go v0.13.2/go.mod h1:sHy7wrXg2tZUr3c9n7ESGV2Sfm1/mybsIp5UC1+wbIw=
+github.com/conao3/leanfran-go v0.14.0 h1:O0GzPmMcdURjdJxG1KEJpzSk8XcFBdWlGaUxSUhKN1s=
+github.com/conao3/leanfran-go v0.14.0/go.mod h1:sHy7wrXg2tZUr3c9n7ESGV2Sfm1/mybsIp5UC1+wbIw=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

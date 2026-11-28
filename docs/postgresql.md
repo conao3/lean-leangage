@@ -52,7 +52,7 @@ top of [`langs/rust/leangage-pg/src/lib.rs`](../langs/rust/leangage-pg/src/lib.r
 The Python engine ([`langs/python/src/leangage/pg`](../langs/python/src/leangage/pg)) takes a
 `leangage.Storage`, which the calculator fills with the generated `tables`, `load` and `writes`
 of `store.py`. `store.py` is generated with the classes of the generated kernel and SQL compiler
-(`--type-module`), so the snapshot `load` builds is the one `transition` takes, and the writes
+(the table of `leangage_calculator.gen` in [`leanfran.toml`](../leanfran.toml)), so the snapshot `load` builds is the one `transition` takes, and the writes
 `transition` returns are the ones `writes` takes. The engine keeps the same contract, at the top of
 [`langs/python/src/leangage/pg/__init__.py`](../langs/python/src/leangage/pg/__init__.py), with the
 same statements for the advisory locks, `leangage_idempotency` and `leangage_version` and the same
@@ -65,7 +65,7 @@ sends the text of `render` unchanged, and reads each column back by the OID of i
 The Go engine ([`langs/go/leangage/pg`](../langs/go/leangage/pg), on pgx) takes a kernel with an
 implementation of `leangage.Storage`, which the calculator implements with the generated
 `Tables`, `Load` and `Writes` of the package `store`, generated with the types of the packages
-`kernel` and `sql` (`--type-module`). The engine keeps the same contract, at the top of
+`kernel` and `sql` (the table of `samples/go/calculator/gen` in `leanfran.toml`). The engine keeps the same contract, at the top of
 [`langs/go/leangage/pg/pg.go`](../langs/go/leangage/pg/pg.go), with the statements of the Rust
 engine for the transaction control, the advisory locks, `leangage_idempotency` and
 `leangage_version`, and the same `Lockdown`; it keeps each remembered snapshot in a
